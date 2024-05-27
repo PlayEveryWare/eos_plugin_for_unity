@@ -90,7 +90,7 @@ namespace Epic.OnlineServices.Auth
 
 		/// <summary>
 		/// Register to receive login status updates.
-		/// must call RemoveNotifyLoginStatusChanged to remove the notification
+		/// If the returned NotificationId is valid, you must call EOS_Auth_RemoveNotifyLoginStatusChanged when you no longer wish to have your NotificationHandler called.
 		/// </summary>
 		/// <param name="options">structure containing the api version of AddNotifyLoginStatusChanged to use</param>
 		/// <param name="clientData">arbitrary data that is passed back to you in the callback</param>

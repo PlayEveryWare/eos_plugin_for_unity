@@ -28,7 +28,7 @@ namespace Epic.OnlineServices.AntiCheatClient
 		/// <summary>
 		/// Deprecated - use PeerProductUserId instead
 		/// </summary>
-		public Utf8String AccountId_DEPRECATED { get; set; }
+		internal Utf8String AccountId_DEPRECATED { get; set; }
 
 		/// <summary>
 		/// Optional IP address for the remote user. May be null if not available.

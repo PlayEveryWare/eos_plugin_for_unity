@@ -1138,7 +1138,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             var dataSegment = new ArraySegment<byte>(packet);
 
             //TODO: verify that this still works
-            Result result = P2PHandle.ReceivePacket(ref receivePacketOptions, out remoteUserId, out SocketId socketId, out channel, dataSegment, out uint bytesWritten);
+            remoteUserId = null;
+            SocketId socketId = default;
+            Result result = P2PHandle.ReceivePacket(ref receivePacketOptions, ref remoteUserId, ref socketId, out channel, dataSegment, out uint bytesWritten);
             socketName = socketId.SocketName;
             // No packets to be received?
             if (result == Result.NotFound)

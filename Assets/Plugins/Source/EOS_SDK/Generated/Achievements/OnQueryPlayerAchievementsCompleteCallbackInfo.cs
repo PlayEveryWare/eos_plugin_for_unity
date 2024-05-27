@@ -19,9 +19,14 @@ namespace Epic.OnlineServices.Achievements
 		public object ClientData { get; set; }
 
 		/// <summary>
-		/// The Product User ID of the user who initiated this request.
+		/// The Product User ID whose achievements were retrieved.
 		/// </summary>
-		public ProductUserId UserId { get; set; }
+		public ProductUserId TargetUserId { get; set; }
+
+		/// <summary>
+		/// The Product User ID of the user who initiated this request. For a Dedicated Server this should be null.
+		/// </summary>
+		public ProductUserId LocalUserId { get; set; }
 
 		public Result? GetResultCode()
 		{
@@ -32,7 +37,8 @@ namespace Epic.OnlineServices.Achievements
 		{
 			ResultCode = other.ResultCode;
 			ClientData = other.ClientData;
-			UserId = other.UserId;
+			TargetUserId = other.TargetUserId;
+			LocalUserId = other.LocalUserId;
 		}
 	}
 
@@ -41,7 +47,8 @@ namespace Epic.OnlineServices.Achievements
 	{
 		private Result m_ResultCode;
 		private System.IntPtr m_ClientData;
-		private System.IntPtr m_UserId;
+		private System.IntPtr m_TargetUserId;
+		private System.IntPtr m_LocalUserId;
 
 		public Result ResultCode
 		{
@@ -79,18 +86,33 @@ namespace Epic.OnlineServices.Achievements
 			}
 		}
 
-		public ProductUserId UserId
+		public ProductUserId TargetUserId
 		{
 			get
 			{
 				ProductUserId value;
-				Helper.Get(m_UserId, out value);
+				Helper.Get(m_TargetUserId, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.Set(value, ref m_UserId);
+				Helper.Set(value, ref m_TargetUserId);
+			}
+		}
+
+		public ProductUserId LocalUserId
+		{
+			get
+			{
+				ProductUserId value;
+				Helper.Get(m_LocalUserId, out value);
+				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
@@ -98,7 +120,8 @@ namespace Epic.OnlineServices.Achievements
 		{
 			ResultCode = other.ResultCode;
 			ClientData = other.ClientData;
-			UserId = other.UserId;
+			TargetUserId = other.TargetUserId;
+			LocalUserId = other.LocalUserId;
 		}
 
 		public void Set(ref OnQueryPlayerAchievementsCompleteCallbackInfo? other)
@@ -107,14 +130,16 @@ namespace Epic.OnlineServices.Achievements
 			{
 				ResultCode = other.Value.ResultCode;
 				ClientData = other.Value.ClientData;
-				UserId = other.Value.UserId;
+				TargetUserId = other.Value.TargetUserId;
+				LocalUserId = other.Value.LocalUserId;
 			}
 		}
 
 		public void Dispose()
 		{
 			Helper.Dispose(ref m_ClientData);
-			Helper.Dispose(ref m_UserId);
+			Helper.Dispose(ref m_TargetUserId);
+			Helper.Dispose(ref m_LocalUserId);
 		}
 
 		public void Get(out OnQueryPlayerAchievementsCompleteCallbackInfo output)

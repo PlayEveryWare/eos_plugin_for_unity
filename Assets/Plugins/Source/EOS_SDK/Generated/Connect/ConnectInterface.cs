@@ -119,6 +119,11 @@ namespace Epic.OnlineServices.Connect
 		public const int LoginApiLatest = 2;
 
 		/// <summary>
+		/// The most recent version of the <see cref="Logout" /> API.
+		/// </summary>
+		public const int LogoutApiLatest = 1;
+
+		/// <summary>
 		/// The most recent version of the <see cref="OnAuthExpirationCallback" /> API.
 		/// </summary>
 		public const int OnauthexpirationcallbackApiLatest = 1;
@@ -172,7 +177,7 @@ namespace Epic.OnlineServices.Connect
 		/// Register to receive upcoming authentication expiration notifications.
 		/// Notification is approximately 10 minutes prior to expiration.
 		/// Call <see cref="Login" /> again with valid third party credentials to refresh access.
-		/// must call RemoveNotifyAuthExpiration to remove the notification.
+		/// If the returned NotificationId is valid, you must call EOS_Connect_RemoveNotifyAuthExpiration when you no longer wish to have your NotificationHandler called.
 		/// </summary>
 		/// <param name="options">structure containing the API version of the callback to use.</param>
 		/// <param name="clientData">arbitrary data that is passed back to you in the callback.</param>
@@ -201,7 +206,7 @@ namespace Epic.OnlineServices.Connect
 
 		/// <summary>
 		/// Register to receive user login status updates.
-		/// must call RemoveNotifyLoginStatusChanged to remove the notification.
+		/// If the returned NotificationId is valid, you must call EOS_Connect_RemoveNotifyLoginStatusChanged when you no longer wish to have your NotificationHandler called.
 		/// </summary>
 		/// <param name="options">structure containing the API version of the callback to use.</param>
 		/// <param name="clientData">arbitrary data that is passed back to you in the callback.</param>
@@ -649,6 +654,28 @@ namespace Epic.OnlineServices.Connect
 		}
 
 		/// <summary>
+		/// Logout a currently logged in user.
+		/// NOTE: Access tokens for Product User IDs cannot be revoked. This operation really just cleans up state for the Product User ID and locally discards any associated access token.
+		/// </summary>
+		/// <param name="options">Structure containing the input parameters for the operation</param>
+		/// <param name="clientData">Arbitrary data that is passed back to the caller in the CompletionDelegate.</param>
+		/// <param name="completionDelegate">A callback that is fired when the operation completes, either successfully or in error.</param>
+		public void Logout(ref LogoutOptions options, object clientData, OnLogoutCallback completionDelegate)
+		{
+			LogoutOptionsInternal optionsInternal = new LogoutOptionsInternal();
+			optionsInternal.Set(ref options);
+
+			var clientDataAddress = System.IntPtr.Zero;
+
+			var completionDelegateInternal = new OnLogoutCallbackInternal(OnLogoutCallbackInternalImplementation);
+			Helper.AddCallback(out clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
+
+			Bindings.EOS_Connect_Logout(InnerHandle, ref optionsInternal, clientDataAddress, completionDelegateInternal);
+
+			Helper.Dispose(ref optionsInternal);
+		}
+
+		/// <summary>
 		/// Retrieve the equivalent Product User IDs from a list of external account IDs from supported account providers.
 		/// The values will be cached and retrievable through <see cref="GetExternalAccountMapping" />.
 		/// A common use case is to query other users who are connected through the same account system as the local user.
@@ -938,6 +965,17 @@ namespace Epic.OnlineServices.Connect
 			OnLoginStatusChangedCallback callback;
 			LoginStatusChangedCallbackInfo callbackInfo;
 			if (Helper.TryGetCallback(ref data, out callback, out callbackInfo))
+			{
+				callback(ref callbackInfo);
+			}
+		}
+
+		[MonoPInvokeCallback(typeof(OnLogoutCallbackInternal))]
+		internal static void OnLogoutCallbackInternalImplementation(ref LogoutCallbackInfoInternal data)
+		{
+			OnLogoutCallback callback;
+			LogoutCallbackInfo callbackInfo;
+			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
 			{
 				callback(ref callbackInfo);
 			}

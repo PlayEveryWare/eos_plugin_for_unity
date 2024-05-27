@@ -81,7 +81,7 @@ namespace Epic.OnlineServices.RTC
 		/// <seealso cref="RemoveNotifyDisconnected" />
 		/// </summary>
 		/// <param name="clientData">Arbitrary data that is passed back in the CompletionDelegate</param>
-		/// <param name="completionDelegate">The callback to be fired when a presence change occurs</param>
+		/// <param name="completionDelegate">The callback to be fired when a participant is disconnected from the room</param>
 		/// <returns>
 		/// Notification ID representing the registered callback if successful, an invalid NotificationId if not
 		/// </returns>
@@ -126,7 +126,7 @@ namespace Epic.OnlineServices.RTC
 		/// <seealso cref="RemoveNotifyParticipantStatusChanged" />
 		/// </summary>
 		/// <param name="clientData">Arbitrary data that is passed back in the CompletionDelegate</param>
-		/// <param name="completionDelegate">The callback to be fired when a presence change occurs</param>
+		/// <param name="completionDelegate">The callback to be fired when a participant changes status</param>
 		/// <returns>
 		/// Notification ID representing the registered callback if successful, an invalid NotificationId if not
 		/// </returns>
@@ -220,6 +220,23 @@ namespace Epic.OnlineServices.RTC
 			var funcResult = Bindings.EOS_RTC_GetAudioInterface(InnerHandle);
 
 			RTCAudio.RTCAudioInterface funcResultReturn;
+			Helper.Get(funcResult, out funcResultReturn);
+			return funcResultReturn;
+		}
+
+		/// <summary>
+		/// Get a handle to the Data interface
+		/// eos_rtc_data.h
+		/// eos_rtc_data_types.h
+		/// </summary>
+		/// <returns>
+		/// <see cref="RTCData.RTCDataInterface" /> handle
+		/// </returns>
+		public RTCData.RTCDataInterface GetDataInterface()
+		{
+			var funcResult = Bindings.EOS_RTC_GetDataInterface(InnerHandle);
+
+			RTCData.RTCDataInterface funcResultReturn;
 			Helper.Get(funcResult, out funcResultReturn);
 			return funcResultReturn;
 		}

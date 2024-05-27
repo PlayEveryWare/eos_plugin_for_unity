@@ -11,20 +11,6 @@ namespace Epic.OnlineServices
 		public const ulong InvalidNotificationid = ((ulong)0);
 
 		/// <summary>
-		/// A macro to identify an unknown integrated platform.
-		/// </summary>
-		public static readonly Utf8String IptUnknown = (string)null;
-
-		public const int OptEpic = 100;
-
-		public const int OptSteam = 4000;
-
-		/// <summary>
-		/// This type is used to distinguish between different online platforms.
-		/// </summary>
-		public const int OptUnknown = 0;
-
-		/// <summary>
 		/// The most recent version of the <see cref="PageQuery" /> structs.
 		/// </summary>
 		public const int PagequeryApiLatest = 1;

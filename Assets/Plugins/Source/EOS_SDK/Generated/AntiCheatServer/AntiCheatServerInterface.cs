@@ -32,6 +32,11 @@ namespace Epic.OnlineServices.AntiCheatServer
 
 		public const int GetprotectmessageoutputlengthApiLatest = 1;
 
+		/// <summary>
+		/// Maximum size of an individual message provided through <see cref="OnMessageToClientCallback" />.
+		/// </summary>
+		public const int OnmessagetoclientcallbackMaxMessageSize = 512;
+
 		public const int ProtectmessageApiLatest = 1;
 
 		public const int ReceivemessagefromclientApiLatest = 1;

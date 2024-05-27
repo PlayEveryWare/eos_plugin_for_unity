@@ -184,7 +184,11 @@ namespace PlayEveryWare.EpicOnlineServices.Build
         /// </summary>
         protected virtual void CheckPlatformBinaries()
         {
+            // Note: This compile conditional exists because it only makes sense
+            // to look for visual studio installations if running on windows.
+#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
             BuildUtility.FindVSInstallations();
+#endif
 
             Debug.Log("Checking for platform-specific prerequisites.");
 

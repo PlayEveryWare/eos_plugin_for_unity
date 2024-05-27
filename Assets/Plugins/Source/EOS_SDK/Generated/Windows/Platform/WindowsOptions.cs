@@ -85,6 +85,18 @@ namespace Epic.OnlineServices.Platform
 		/// Pointer to EOS_<Platform>_SystemSpecificOptions. This structure will be located in <Platform>/eos_<Platform>.h
 		/// </summary>
 		public System.IntPtr SystemSpecificOptions { get; set; }
+
+		/// <summary>
+		/// Number of seconds for a task to wait for the network to become available before timing out with an <see cref="Result.TimedOut" /> error.
+		/// This timeout period applies when the network status is not <see cref="NetworkStatus.Online" />. Tasks that need the network will queue for up to
+		/// this timeout until <see cref="PlatformInterface.SetNetworkStatus" /> is used to set the network status to online.
+		/// 
+		/// Pass a null pointer to use the default.
+		/// Otherwise, pass a pointer to a <see cref="{{{double" />}}} containing the number of seconds for tasks that are waiting for network to time out.
+		/// <seealso cref="PlatformInterface.SetNetworkStatus" />
+		/// <seealso cref="NetworkStatus" />
+		/// </summary>
+		public double? TaskNetworkTimeoutSeconds { get; set; }
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
@@ -106,6 +118,7 @@ namespace Epic.OnlineServices.Platform
 		private System.IntPtr m_RTCOptions;
 		private System.IntPtr m_IntegratedPlatformOptionsContainerHandle;
 		private System.IntPtr m_SystemSpecificOptions;
+		private System.IntPtr m_TaskNetworkTimeoutSeconds;
 
 		public System.IntPtr Reserved
 		{
@@ -227,6 +240,14 @@ namespace Epic.OnlineServices.Platform
 			}
 		}
 
+		public double? TaskNetworkTimeoutSeconds
+		{
+			set
+			{
+				Helper.Set(value, ref m_TaskNetworkTimeoutSeconds);
+			}
+		}
+
 		public void Set(ref WindowsOptions other)
 		{
 			m_ApiVersion = PlatformInterface.OptionsApiLatest;
@@ -245,6 +266,7 @@ namespace Epic.OnlineServices.Platform
 			RTCOptions = other.RTCOptions;
 			IntegratedPlatformOptionsContainerHandle = other.IntegratedPlatformOptionsContainerHandle;
 			SystemSpecificOptions = other.SystemSpecificOptions;
+			TaskNetworkTimeoutSeconds = other.TaskNetworkTimeoutSeconds;
 		}
 
 		public void Set(ref WindowsOptions? other)
@@ -267,6 +289,7 @@ namespace Epic.OnlineServices.Platform
 				RTCOptions = other.Value.RTCOptions;
 				IntegratedPlatformOptionsContainerHandle = other.Value.IntegratedPlatformOptionsContainerHandle;
 				SystemSpecificOptions = other.Value.SystemSpecificOptions;
+				TaskNetworkTimeoutSeconds = other.Value.TaskNetworkTimeoutSeconds;
 			}
 		}
 
@@ -284,6 +307,7 @@ namespace Epic.OnlineServices.Platform
 			Helper.Dispose(ref m_RTCOptions);
 			Helper.Dispose(ref m_IntegratedPlatformOptionsContainerHandle);
 			Helper.Dispose(ref m_SystemSpecificOptions);
+			Helper.Dispose(ref m_TaskNetworkTimeoutSeconds);
 		}
 	}
 }

@@ -200,7 +200,7 @@ namespace Epic.OnlineServices.Sessions
 
 		/// <summary>
 		/// Register to receive notifications when a user accepts a session join game via the social overlay.
-		/// must call RemoveNotifyJoinSessionAccepted to remove the notification
+		/// If the returned NotificationId is valid, you must call EOS_Sessions_RemoveNotifyJoinSessionAccepted when you no longer wish to have your NotificationHandler called
 		/// </summary>
 		/// <param name="options">Structure containing information about the request.</param>
 		/// <param name="clientData">Arbitrary data that is passed back to you in the CompletionDelegate.</param>
@@ -230,7 +230,7 @@ namespace Epic.OnlineServices.Sessions
 		/// <summary>
 		/// Register to receive notifications about leave session requests performed by local user via the overlay.
 		/// When user requests to leave the session in the social overlay, the SDK does not automatically leave the session, it is up to the game to perform any necessary cleanup and call the <see cref="DestroySession" /> method using the SessionName sent in the notification function.
-		/// must call EOS_Sessions_RemoveNotifyLeaveSessionRequested to remove the notification.
+		/// If the returned NotificationId is valid, you must call EOS_Sessions_RemoveNotifyLeaveSessionRequested when you no longer wish to have your NotificationHandler called.
 		/// </summary>
 		/// <param name="options">Structure containing information about the request.</param>
 		/// <param name="clientData">Arbitrary data that is passed back to you in the CompletionDelegate.</param>
@@ -262,7 +262,7 @@ namespace Epic.OnlineServices.Sessions
 		/// This is only needed when a configured integrated platform has <see cref="IntegratedPlatform.IntegratedPlatformManagementFlags.DisableSDKManagedSessions" /> set. The EOS SDK will
 		/// then use the state of <see cref="IntegratedPlatform.IntegratedPlatformManagementFlags.PreferEOSIdentity" /> and <see cref="IntegratedPlatform.IntegratedPlatformManagementFlags.PreferIntegratedIdentity" /> to determine when the NotificationFn is
 		/// called.
-		/// must call EOS_Sessions_RemoveNotifySendSessionNativeInviteRequested to remove the notification.
+		/// If the returned NotificationId is valid, you must call EOS_Sessions_RemoveNotifySendSessionNativeInviteRequested when you no longer wish to have your NotificationHandler called.
 		/// <seealso cref="IntegratedPlatform.IntegratedPlatformManagementFlags.DisableSDKManagedSessions" />
 		/// <seealso cref="IntegratedPlatform.IntegratedPlatformManagementFlags.PreferEOSIdentity" />
 		/// <seealso cref="IntegratedPlatform.IntegratedPlatformManagementFlags.PreferIntegratedIdentity" />
@@ -294,7 +294,7 @@ namespace Epic.OnlineServices.Sessions
 
 		/// <summary>
 		/// Register to receive notifications when a user accepts a session invite via the social overlay.
-		/// must call RemoveNotifySessionInviteAccepted to remove the notification
+		/// If the returned NotificationId is valid, you must call EOS_Sessions_RemoveNotifySessionInviteAccepted when you no longer wish to have your NotificationHandler called.
 		/// </summary>
 		/// <param name="options">Structure containing information about the request.</param>
 		/// <param name="clientData">Arbitrary data that is passed back to you in the CompletionDelegate.</param>
@@ -323,7 +323,7 @@ namespace Epic.OnlineServices.Sessions
 
 		/// <summary>
 		/// Register to receive session invites.
-		/// must call RemoveNotifySessionInviteReceived to remove the notification
+		/// If the returned NotificationId is valid, you must call EOS_Sessions_RemoveNotifySessionInviteReceived when you no longer wish to have your NotificationHandler called.
 		/// </summary>
 		/// <param name="options">Structure containing information about the session invite notification</param>
 		/// <param name="clientData">Arbitrary data that is passed back to you in the CompletionDelegate</param>
@@ -352,7 +352,7 @@ namespace Epic.OnlineServices.Sessions
 
 		/// <summary>
 		/// Register to receive notifications when a user rejects a session invite.
-		/// must call RemoveNotifySessionInviteRejected to remove the notification
+		/// If the returned NotificationId is valid, you must call EOS_Sessions_RemoveNotifySessionInviteRejected when you no longer wish to have your NotificationHandler called.
 		/// </summary>
 		/// <param name="options">Structure containing information about the request.</param>
 		/// <param name="clientData">Arbitrary data that is passed back to you in the CompletionDelegate.</param>

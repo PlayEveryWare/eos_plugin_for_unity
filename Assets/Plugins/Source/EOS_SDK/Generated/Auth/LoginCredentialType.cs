@@ -27,7 +27,7 @@ namespace Epic.OnlineServices.Auth
 		/// <summary>
 		/// Used by standalone applications distributed outside the supported game platforms such as Epic Games Store or Steam, and on Nintendo Switch.
 		/// 
-		/// Persistent Auth is used in conjuction with the <see cref="AccountPortal" /> login method for automatic login of the local user across multiple runs of the application.
+		/// Persistent Auth is used in conjunction with the <see cref="AccountPortal" /> login method for automatic login of the local user across multiple runs of the application.
 		/// 
 		/// Standalone applications implement the login sequence as follows:
 		/// 1. Application calls <see cref="AuthInterface.Login" /> with <see cref="PersistentAuth" />, using a previously stored Epic refresh token for an automatic user login.

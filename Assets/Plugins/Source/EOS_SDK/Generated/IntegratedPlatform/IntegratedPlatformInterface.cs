@@ -30,11 +30,6 @@ namespace Epic.OnlineServices.IntegratedPlatform
 		/// </summary>
 		public const int FinalizedeferreduserlogoutApiLatest = 1;
 
-		/// <summary>
-		/// A macro to identify the Steam integrated platform.
-		/// </summary>
-		public static readonly Utf8String IptSteam = "STEAM";
-
 		public const int OptionsApiLatest = 1;
 
 		/// <summary>
@@ -47,7 +42,9 @@ namespace Epic.OnlineServices.IntegratedPlatform
 		/// </summary>
 		public const int SetuserprelogoutcallbackApiLatest = 1;
 
-		public const int SteamOptionsApiLatest = 2;
+		public const int SteamMaxSteamapiinterfaceversionsarraySize = 4096;
+
+		public const int SteamOptionsApiLatest = 3;
 
 		/// <summary>
 		/// Register to receive notifications when the login state of Integrated Platform users change.

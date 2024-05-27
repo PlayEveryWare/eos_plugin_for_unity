@@ -13,15 +13,22 @@ namespace Epic.OnlineServices.Version
 
 		public const int MinorVersion = 16;
 
-		public const int PatchVersion = 1;
+		public const int PatchVersion = 2;
 
 		public static readonly Utf8String ProductIdentifier = "Epic Online Services SDK";
 
 		public static readonly Utf8String ProductName = "Epic Online Services SDK";
 
 		/// <summary>
-		/// Get the version of the EOSSDK binary
+		/// Get the version of the compiled EOSSDK binary
+		/// MAJOR.MINOR.PATCH-CHANGELIST#-PLATFORMSDKVERSION
+		/// 
+		/// It is the version available at runtime
+		/// It should match the version of the headers being used
 		/// </summary>
+		/// <returns>
+		/// the version of the compiled EOSSDK binary
+		/// </returns>
 		public static Utf8String GetVersion()
 		{
 			var funcResult = Bindings.EOS_GetVersion();

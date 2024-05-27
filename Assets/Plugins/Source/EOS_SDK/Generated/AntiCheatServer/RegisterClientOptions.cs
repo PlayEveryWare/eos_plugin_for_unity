@@ -28,7 +28,7 @@ namespace Epic.OnlineServices.AntiCheatServer
 		/// have the same string) and consistent (if the same user connects to this game session
 		/// twice, the same string will be used) in the scope of a single protected game session.
 		/// </summary>
-		public Utf8String AccountId_DEPRECATED { get; set; }
+		internal Utf8String AccountId_DEPRECATED { get; set; }
 
 		/// <summary>
 		/// Optional IP address for the remote user. May be null if not available.

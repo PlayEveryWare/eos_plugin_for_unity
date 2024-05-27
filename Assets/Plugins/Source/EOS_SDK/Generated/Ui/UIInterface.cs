@@ -154,7 +154,7 @@ namespace Epic.OnlineServices.UI
 		/// <summary>
 		/// Register to receive notifications when the overlay display settings are updated.
 		/// Newly registered handlers will always be called the next tick with the current state.
-		/// must call RemoveNotifyDisplaySettingsUpdated to remove the notification.
+		/// If the returned NotificationId is valid, you must call EOS_UI_RemoveNotifyDisplaySettingsUpdated when you no longer wish to have your NotificationHandler called.
 		/// </summary>
 		/// <param name="options">Structure containing information about the request.</param>
 		/// <param name="clientData">Arbitrary data that is passed back to you in the NotificationFn.</param>
@@ -184,7 +184,7 @@ namespace Epic.OnlineServices.UI
 		/// <summary>
 		/// Register to receive notifications from the memory monitor.
 		/// Newly registered handlers will always be called the next tick with the current state.
-		/// must call EOS_UI_RemoveNotifyMemoryMonitor to remove the notification.
+		/// If the returned NotificationId is valid, you must call EOS_UI_RemoveNotifyMemoryMonitor when you no longer wish to have your NotificationHandler called.
 		/// </summary>
 		/// <param name="options">Structure containing information about the request.</param>
 		/// <param name="clientData">Arbitrary data that is passed back to you in the NotificationFn.</param>
@@ -520,6 +520,8 @@ namespace Epic.OnlineServices.UI
 		/// 
 		/// On PC the EOS Overlay automatically listens to gamepad input and routes it to the overlay when appropriate. If this button is configured, the user may open the overlay using either this button or the toggle friends key.
 		/// On console platforms, the game must be calling <see cref="ReportInputState" /> to route gamepad input to the EOS Overlay.
+		/// 
+		/// Note: If you do not have a button mapped, it'll suppress the part of the toast notification that prompts the user to press it.
 		/// <seealso cref="IsValidButtonCombination" />
 		/// <seealso cref="ReportInputState" />
 		/// </summary>

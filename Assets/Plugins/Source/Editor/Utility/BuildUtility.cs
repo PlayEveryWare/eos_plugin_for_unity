@@ -32,6 +32,7 @@ namespace PlayEveryWare.EpicOnlineServices.Build
     using System.Diagnostics;
     using System.IO;
     using System.Linq;
+    using System.Runtime.InteropServices;
     using System.Text;
     using System.Text.RegularExpressions;
     using UnityEditor;
@@ -127,7 +128,11 @@ namespace PlayEveryWare.EpicOnlineServices.Build
 
         static BuildUtility()
         {
+            // Note: This conditional is here because it only makes sense to 
+            // look for visual studio installations if running on Windows.
+#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
             FindVSInstallations();
+#endif
         }
 
         /// <summary>
@@ -446,12 +451,6 @@ namespace PlayEveryWare.EpicOnlineServices.Build
         /// <exception cref="BuildFailedException">Thrown if building fails.</exception>
         private static bool BuildFromMakefile(string makefileFilePath, string binaryOutput)
         {
-            if (!CheckWSLInstalled())
-            {
-                Debug.LogError("Windows Subsystem for Linux is not installed. On Windows, WSL is required in order to properly compile native libraries that are required for running the EOS Plugin on the Linux platform. Please install WSL and rebuild.");
-                //throw new BuildFailedException("Failed to run Makefile. Please see log for further details.");
-            }
-
             // Check for required packages and install if missing
             const string checkAndInstallPackagesCmd = "bash -c \"which clang || sudo apt-get update && sudo apt-get install -y clang; " +
                                                       "which make || sudo apt-get install -y make;\"";
@@ -461,9 +460,17 @@ namespace PlayEveryWare.EpicOnlineServices.Build
             // Command to run the makefile
             string makeCmd = $"bash -c \"cd \"{makeFilePath}\" && make\"";
 
+#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
+            if (!CheckWSLInstalled())
+            {
+                Debug.LogError("Windows Subsystem for Linux is not installed. On Windows, WSL is required in order to properly compile native libraries that are required for running the EOS Plugin on the Linux platform. Please install WSL and rebuild.");
+                throw new BuildFailedException("Failed to run Makefile. Please see log for further details.");
+            }
+#endif
+
             // Execute commands
-            RunWSLCommand(checkAndInstallPackagesCmd);
-            RunWSLCommand(makeCmd);
+            RunBashCommand(checkAndInstallPackagesCmd);
+            RunBashCommand(makeCmd);
 
             // TODO: Properly implement check here. False is returned to bring attention to this needing to be implemented.
             return false;
@@ -498,21 +505,47 @@ namespace PlayEveryWare.EpicOnlineServices.Build
         /// Runs a command in Windows Subsystem for Linux.
         /// </summary>
         /// <param name="command">The command to run in WSL</param>
-        private static void RunWSLCommand(string command)
+        private static void RunBashCommand(string command)
         {
-            ProcessStartInfo startInfo = new()
+            ProcessStartInfo startInfo = new();
+
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                FileName = "wsl.exe",
-                Arguments = command,
-                UseShellExecute = false,
-                RedirectStandardOutput = true,
-                CreateNoWindow = true
-            };
+                startInfo.FileName = "wsl.exe";
+                startInfo.Arguments = command;
+            }
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+            {
+                startInfo.FileName = "/bin/bash";
+                startInfo.Arguments = $"-c \"{command}\"";
+            }
+            else
+            {
+                Debug.LogError("Unsupported OS");
+                return;
+            }
+
+            startInfo.UseShellExecute = false;
+            startInfo.RedirectStandardOutput = true;
+            startInfo.RedirectStandardError = true;
+            startInfo.CreateNoWindow = true;
 
             using Process process = Process.Start(startInfo);
             using StreamReader reader = process.StandardOutput;
             string result = reader.ReadToEnd();
-            Debug.Log(result);
+            string error = process.StandardError.ReadToEnd();
+
+            process.WaitForExit();
+
+            if (!string.IsNullOrEmpty(result))
+            {
+                Debug.Log(result);
+            }
+
+            if (!string.IsNullOrEmpty(error))
+            {
+                Debug.LogError(error);
+            }
         }
 
         /// <summary>
