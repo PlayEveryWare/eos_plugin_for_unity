@@ -8,6 +8,13 @@ using System.Text;
 
 namespace Epic.OnlineServices
 {
+	//
+	// In earlier versions of .NET and some versions of unity, IntPtr is not equatable and therefore cannot be used as a key
+	// for dictionaries without causing memory allocations when comparing two IntPtr.
+	// We therefore have to fall back on using an long int representation of pointers.
+	//
+	using PointerType = System.UInt64;
+
 	internal class AllocationException : Exception
 	{
 		public AllocationException(string message)
@@ -96,8 +103,8 @@ namespace Epic.OnlineServices
 			}
 		}
 
-		private static Dictionary<IntPtr, Allocation> s_Allocations = new Dictionary<IntPtr, Allocation>();
-		private static Dictionary<IntPtr, PinnedBuffer> s_PinnedBuffers = new Dictionary<IntPtr, PinnedBuffer>();
+		private static Dictionary<PointerType, Allocation> s_Allocations = new Dictionary<PointerType, Allocation>();
+		private static Dictionary<PointerType, PinnedBuffer> s_PinnedBuffers = new Dictionary<PointerType, PinnedBuffer>();
 		private static Dictionary<IntPtr, DelegateHolder> s_Callbacks = new Dictionary<IntPtr, DelegateHolder>();
 		private static Dictionary<string, DelegateHolder> s_StaticCallbacks = new Dictionary<string, DelegateHolder>();
 		private static long s_LastClientDataId = 0;
@@ -137,7 +144,7 @@ namespace Epic.OnlineServices
 		internal static void Dispose<TDisposable>(ref TDisposable disposable)
 			where TDisposable : IDisposable
 		{
-			if (disposable != null)
+			if (typeof(TDisposable).IsValueType || disposable != null)
 			{
 				disposable.Dispose();
 			}
@@ -358,7 +365,7 @@ namespace Epic.OnlineServices
 					item = (T)(object)(str);
 				}
 				else
-                {
+				{
 					GetAllocation(itemAddress, out item);
 				}
 				items.Add(item);
@@ -398,7 +405,7 @@ namespace Epic.OnlineServices
 
 			lock (s_Allocations)
 			{
-				s_Allocations.Add(address, new Allocation(size, null));
+				s_Allocations.Add((PointerType) address, new Allocation(size, null));
 			}
 
 			return address;
@@ -421,7 +428,7 @@ namespace Epic.OnlineServices
 
 			lock (s_Allocations)
 			{
-				s_Allocations.Add(address, new Allocation(size, cache));
+				s_Allocations.Add((PointerType) address, new Allocation(size, cache));
 			}
 
 			return address;
@@ -439,7 +446,7 @@ namespace Epic.OnlineServices
 
 			lock (s_Allocations)
 			{
-				s_Allocations.Add(address, new Allocation(size, cache, isArrayItemAllocated));
+				s_Allocations.Add((PointerType) address, new Allocation(size, cache, isArrayItemAllocated));
 			}
 
 			return address;
@@ -509,12 +516,12 @@ namespace Epic.OnlineServices
 			Allocation allocation;
 			lock (s_Allocations)
 			{
-				if (!s_Allocations.TryGetValue(address, out allocation))
+				if (!s_Allocations.TryGetValue((PointerType) address, out allocation))
 				{
 					return;
 				}
 
-				s_Allocations.Remove(address);
+				s_Allocations.Remove((PointerType) address);
 			}
 
 			// If the allocation is an array, dispose and release its items as needbe.
@@ -574,7 +581,7 @@ namespace Epic.OnlineServices
 			lock (s_Allocations)
 			{
 				Allocation allocation;
-				if (s_Allocations.TryGetValue(address, out allocation))
+				if (s_Allocations.TryGetValue((PointerType) address, out allocation))
 				{
 					cache = allocation.Cache;
 					return true;
@@ -592,7 +599,7 @@ namespace Epic.OnlineServices
 			}
 
 			GCHandle handle = GCHandle.Alloc(buffer, GCHandleType.Pinned);
-			IntPtr address = Marshal.UnsafeAddrOfPinnedArrayElement(buffer, offset);
+			PointerType address = (PointerType) Marshal.UnsafeAddrOfPinnedArrayElement(buffer, offset);
 
 			lock (s_PinnedBuffers)
 			{
@@ -609,7 +616,7 @@ namespace Epic.OnlineServices
 					s_PinnedBuffers.Add(address, new PinnedBuffer(handle));
 				}
 
-				return address;
+				return (IntPtr) address;
 			}
 		}
 
@@ -643,7 +650,8 @@ namespace Epic.OnlineServices
 			lock (s_PinnedBuffers)
 			{
 				PinnedBuffer pinnedBuffer;
-				if (s_PinnedBuffers.TryGetValue(address, out pinnedBuffer))
+				PointerType addressKey = (PointerType) address;
+				if (s_PinnedBuffers.TryGetValue(addressKey, out pinnedBuffer))
 				{
 					// Deref the allocation.
 					pinnedBuffer.RefCount--;
@@ -651,7 +659,7 @@ namespace Epic.OnlineServices
 					// If the reference count is zero, remove the allocation from the list of tracked allocations.
 					if (pinnedBuffer.RefCount == 0)
 					{
-						s_PinnedBuffers.Remove(address);
+						s_PinnedBuffers.Remove(addressKey);
 
 						// We only call free on the handle when the last reference has been dropped.
 						// Otherwise, the buffer is immediately unpinned despite the fact that there are still references to it.
@@ -660,7 +668,7 @@ namespace Epic.OnlineServices
 					else
 					{
 						// Copy back the structure with the decreased reference count.
-						s_PinnedBuffers[address] = pinnedBuffer;
+						s_PinnedBuffers[addressKey] = pinnedBuffer;
 					}
 				}
 			}

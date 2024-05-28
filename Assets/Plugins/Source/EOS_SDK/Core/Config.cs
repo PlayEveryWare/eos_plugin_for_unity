@@ -46,9 +46,20 @@ using System.Runtime.InteropServices;
 
 namespace Epic.OnlineServices
 {
+	// The partial attribute (added by PlayEveryWare) is the least intrusive
+	// means by which the following class can be expanded to support additional
+	// platforms. By making the class partial, supplementary partial
+	// class definition files can be added to the codebase that will expand
+	// platform support.
 	public static partial class Config
 	{
-#if EOS_PLATFORM_WINDOWS_32 || EOS_PLATFORM_WINDOWS_64 || EOS_PLATFORM_OSX || EOS_PLATFORM_LINUX || EOS_PLATFORM_IOS || EOS_PLATFORM_ANDROID
+	// This conditional (added by PlayEveryWare) is here (in conjunction with 
+	// the class it is contained within being marked as "partial") so that 
+	// other platforms can be supported by adding to this code-base another 
+	// part of the partial class that sets the LibraryName differently 
+	// depending on the presence of other scripting defines that indicate 
+	// available functionality on other platforms.
+	#if EOS_PLATFORM_WINDOWS_32 || EOS_PLATFORM_WINDOWS_64 || EOS_PLATFORM_OSX || EOS_PLATFORM_LINUX || EOS_PLATFORM_IOS || EOS_PLATFORM_ANDROID
 		public const string LibraryName =
 		#if EOS_PLATFORM_WINDOWS_32 && EOS_UNITY
 			"EOSSDK-Win32-Shipping"
@@ -81,10 +92,10 @@ namespace Epic.OnlineServices
 		#else
 			#error Unable to determine the name of the EOSSDK library. Ensure you have set the correct EOS compilation symbol for the current platform, such as EOS_PLATFORM_WINDOWS_32 or EOS_PLATFORM_WINDOWS_64, so that the correct EOSSDK library can be targeted.
 			"EOSSDK-UnknownPlatform-Shipping"
-
 		#endif
 		;
-#endif
+	#endif		
+
 		public const CallingConvention LibraryCallingConvention =
 		#if EOS_PLATFORM_WINDOWS_32
 			CallingConvention.StdCall

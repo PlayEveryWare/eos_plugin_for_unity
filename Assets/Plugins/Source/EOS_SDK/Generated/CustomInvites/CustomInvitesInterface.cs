@@ -116,7 +116,7 @@ namespace Epic.OnlineServices.CustomInvites
 		/// <summary>
 		/// Register to receive notifications when a Custom Invite for any logged in local user is accepted via the Social Overlay
 		/// Invites accepted in this way still need to have FinalizeInvite called on them after you have finished processing the invite accept (e.g. after joining the game)
-		/// must call EOS_CustomInvites_RemoveNotifyCustomInviteAccepted to remove the notification
+		/// If the returned NotificationId is valid, you must call EOS_CustomInvites_RemoveNotifyCustomInviteAccepted when you no longer wish to have your NotificationHandler called.
 		/// </summary>
 		/// <param name="options">Structure containing information about the request.</param>
 		/// <param name="clientData">Arbitrary data that is passed back to you in the CompletionDelegate.</param>
@@ -145,7 +145,7 @@ namespace Epic.OnlineServices.CustomInvites
 
 		/// <summary>
 		/// Register to receive notifications when a Custom Invite for any logged in local user is received
-		/// must call EOS_CustomInvites_RemoveNotifyCustomInviteReceived to remove the notification
+		/// If the returned NotificationId is valid, you must call EOS_CustomInvites_RemoveNotifyCustomInviteReceived when you no longer wish to have your NotificationHandler called.
 		/// </summary>
 		/// <param name="options">Structure containing information about the request.</param>
 		/// <param name="clientData">Arbitrary data that is passed back to you in the CompletionDelegate.</param>
@@ -175,7 +175,7 @@ namespace Epic.OnlineServices.CustomInvites
 		/// <summary>
 		/// Register to receive notifications when a Custom Invite for any logged in local user is rejected via the Social Overlay
 		/// Invites rejected in this way do not need to have FinalizeInvite called on them, it is called automatically internally by the SDK.
-		/// must call EOS_CustomInvites_RemoveNotifyCustomInviteRejected to remove the notification
+		/// If the returned NotificationId is valid, you must call EOS_CustomInvites_RemoveNotifyCustomInviteRejected when you no longer wish to have your NotificationHandler called.
 		/// </summary>
 		/// <param name="options">Structure containing information about the request.</param>
 		/// <param name="clientData">Arbitrary data that is passed back to you in the CompletionDelegate.</param>
@@ -204,7 +204,7 @@ namespace Epic.OnlineServices.CustomInvites
 
 		/// <summary>
 		/// Register to receive notifications when a Request to Join for any logged in local user is accepted via the Social Overlay
-		/// must call EOS_CustomInvites_RemoveNotifyRequestToJoinAccepted to remove the notification
+		/// If the returned NotificationId is valid, you must call EOS_CustomInvites_RemoveNotifyRequestToJoinAccepted when you no longer wish to have your NotificationHandler called.
 		/// </summary>
 		/// <param name="options">Structure containing information about the request.</param>
 		/// <param name="clientData">Arbitrary data that is passed back to you in the CompletionDelegate.</param>
@@ -233,7 +233,7 @@ namespace Epic.OnlineServices.CustomInvites
 
 		/// <summary>
 		/// Register to receive notifications when a request to join is received for a local user
-		/// must call EOS_CustomInvites_RemoveNotifyRequestToJoinReceived to remove the notification
+		/// If the returned NotificationId is valid, you must call EOS_CustomInvites_RemoveNotifyRequestToJoinReceived when you no longer wish to have your NotificationHandler called.
 		/// </summary>
 		/// <param name="options">Structure containing information about the request.</param>
 		/// <param name="clientData">Arbitrary data that is passed back to you in the CompletionDelegate.</param>
@@ -262,7 +262,7 @@ namespace Epic.OnlineServices.CustomInvites
 
 		/// <summary>
 		/// Register to receive notifications when a Request to Join for any logged in local user is rejected via the Social Overlay
-		/// must call EOS_CustomInvites_RemoveNotifyRequestToJoinRejected to remove the notification
+		/// If the returned NotificationId is valid, you must call EOS_CustomInvites_RemoveNotifyRequestToJoinRejected when you no longer wish to have your NotificationHandler called.
 		/// </summary>
 		/// <param name="options">Structure containing information about the request.</param>
 		/// <param name="clientData">Arbitrary data that is passed back to you in the CompletionDelegate.</param>
@@ -292,7 +292,7 @@ namespace Epic.OnlineServices.CustomInvites
 		/// <summary>
 		/// Register to receive notifications when a request to join is responded to by a target user. Note that there is no guarantee a response will be received for every request to join.
 		/// A player is free to ignore a Request to Join until it expires at which point it will be deleted without sending a response.
-		/// must call EOS_CustomInvites_RemoveNotifyRequestToJoinResponseReceived to remove the notification
+		/// If the returned NotificationId is valid, you must call EOS_CustomInvites_RemoveNotifyRequestToJoinResponseReceived when you no longer wish to have your NotificationHandler called.
 		/// </summary>
 		/// <param name="options">Structure containing information about the request.</param>
 		/// <param name="clientData">Arbitrary data that is passed back to you in the CompletionDelegate.</param>
@@ -324,7 +324,7 @@ namespace Epic.OnlineServices.CustomInvites
 		/// This is only needed when a configured integrated platform has <see cref="IntegratedPlatform.IntegratedPlatformManagementFlags.DisableSDKManagedSessions" /> set. The EOS SDK will
 		/// then use the state of <see cref="IntegratedPlatform.IntegratedPlatformManagementFlags.PreferEOSIdentity" /> and <see cref="IntegratedPlatform.IntegratedPlatformManagementFlags.PreferIntegratedIdentity" /> to determine when the NotificationFn is
 		/// called.
-		/// must call EOS_CustomInvites_RemoveNotifySendCustomNativeInviteRequested to remove the notification.
+		/// If the returned NotificationId is valid, you must call EOS_CustomInvites_RemoveNotifySendCustomNativeInviteRequested when you no longer wish to have your NotificationHandler called.
 		/// <seealso cref="IntegratedPlatform.IntegratedPlatformManagementFlags.DisableSDKManagedSessions" />
 		/// <seealso cref="IntegratedPlatform.IntegratedPlatformManagementFlags.PreferEOSIdentity" />
 		/// <seealso cref="IntegratedPlatform.IntegratedPlatformManagementFlags.PreferIntegratedIdentity" />

@@ -8,7 +8,7 @@ namespace Epic.OnlineServices.Auth
 		/// <summary>
 		/// The most recent version of the <see cref="IOSCredentialsSystemAuthCredentialsOptions" /> structure.
 		/// </summary>
-		public const int IosCredentialssystemauthcredentialsoptionsApiLatest = 1;
+		public const int IosCredentialssystemauthcredentialsoptionsApiLatest = 2;
 
 		public void Login(ref IOSLoginOptions options, object clientData, OnLoginCallback completionDelegate)
 		{
@@ -23,6 +23,20 @@ namespace Epic.OnlineServices.Auth
 			IOSBindings.EOS_Auth_Login(InnerHandle, ref optionsInternal, clientDataAddress, completionDelegateInternal);
 
 			Helper.Dispose(ref optionsInternal);
+		}
+
+		[MonoPInvokeCallback(typeof(IOSCreateBackgroundSnapshotViewInternal))]
+		internal static System.IntPtr IOSCreateBackgroundSnapshotViewInternalImplementation(System.IntPtr context)
+		{
+			IOSCreateBackgroundSnapshotView callback;
+			if (Helper.TryGetStaticCallback("IOSCreateBackgroundSnapshotViewInternalImplementation", out callback))
+			{
+				var funcResult = callback(context);
+
+				return funcResult;
+			}
+
+			return Helper.GetDefault<System.IntPtr>();
 		}
 	}
 }

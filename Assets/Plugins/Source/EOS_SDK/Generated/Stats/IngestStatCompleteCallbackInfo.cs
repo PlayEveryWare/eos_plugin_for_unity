@@ -5,6 +5,11 @@ namespace Epic.OnlineServices.Stats
 {
 	/// <summary>
 	/// Data containing the result information for an ingest stat request.
+	/// 
+	/// NOTE: A result code of <see cref="Result.Success" /> indicates the ingest request
+	/// reached the server successfully, but does not guarantee successful processing.
+	/// For example, if an incorrect StatName value is provided in the ingest call,
+	/// processing may still fail.
 	/// </summary>
 	public struct IngestStatCompleteCallbackInfo : ICallbackInfo
 	{

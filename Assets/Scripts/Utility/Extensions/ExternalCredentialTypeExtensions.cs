@@ -52,9 +52,21 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 case ExternalCredentialType.PsnIdToken:
                 case ExternalCredentialType.XblXstsToken:
                 case ExternalCredentialType.Epic:
+                case ExternalCredentialType.ViveportUserToken:
                     return false;
                 default:
-                    throw new ArgumentOutOfRangeException(nameof(externalCredentialType), externalCredentialType, null);
+                    // Note: This compile conditional is here so that in the
+                    // editor an exception is thrown so the user can resolve the
+                    // problem. If not in editor mode, then assume that the 
+                    // credential given is not supported.
+#if UNITY_EDITOR
+                    throw new ArgumentOutOfRangeException(
+                        nameof(externalCredentialType),
+                        externalCredentialType, 
+                        $"ExternalCredentialType \"{Enum.GetName(typeof(ExternalCredentialType), externalCredentialType)}\" is not recognized.");
+#else
+                    return false;
+#endif
             }
         }
     }

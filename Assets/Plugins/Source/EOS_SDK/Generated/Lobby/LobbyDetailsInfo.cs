@@ -67,7 +67,7 @@ namespace Epic.OnlineServices.Lobby
 
 		/// <summary>
 		/// Array of platform IDs indicating the player platforms allowed to register with the session. Platform IDs are
-		/// found in the EOS header file, e.g. <see cref="Common.OptEpic" />. For some platforms, the value will be in the EOS Platform specific
+		/// found in the EOS header file, e.g. <see cref="Types.OnlinePlatform.OptEpic" />. For some platforms, the value will be in the EOS Platform specific
 		/// header file. If null, the lobby will be unrestricted.
 		/// </summary>
 		public uint[] AllowedPlatformIds { get; set; }

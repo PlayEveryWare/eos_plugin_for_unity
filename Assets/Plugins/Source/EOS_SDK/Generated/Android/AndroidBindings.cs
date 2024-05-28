@@ -62,7 +62,7 @@ using System.Runtime.InteropServices;
 
 namespace Epic.OnlineServices
 {
-	public static class AndroidBindings
+	public static partial class AndroidBindings
 	{
 #if EOS_DYNAMIC_BINDINGS_NAME_TYPE1
 		private const string EOS_InitializeName = "EOS_Initialize";

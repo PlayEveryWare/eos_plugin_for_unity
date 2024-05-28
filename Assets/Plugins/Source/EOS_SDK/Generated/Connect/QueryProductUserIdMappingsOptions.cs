@@ -17,7 +17,7 @@ namespace Epic.OnlineServices.Connect
 		/// <summary>
 		/// Deprecated - all external mappings are included in this call, it is no longer necessary to specify this value.
 		/// </summary>
-		public ExternalAccountType AccountIdType_DEPRECATED { get; set; }
+		internal ExternalAccountType AccountIdType_DEPRECATED { get; set; }
 
 		/// <summary>
 		/// An array of Product User IDs to query for the given external account representation.

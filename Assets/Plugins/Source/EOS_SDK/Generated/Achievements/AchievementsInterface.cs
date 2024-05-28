@@ -144,7 +144,7 @@ namespace Epic.OnlineServices.Achievements
 		/// DEPRECATED! Use <see cref="AddNotifyAchievementsUnlockedV2" /> instead.
 		/// 
 		/// Register to receive achievement unlocked notifications.
-		/// must call EOS_Achievements_RemoveNotifyAchievementsUnlocked to remove the notification
+		/// If the returned NotificationId is valid, you must call EOS_Achievements_RemoveNotifyAchievementsUnlocked when you no longer wish to have your NotificationHandler called.
 		/// <seealso cref="RemoveNotifyAchievementsUnlocked" />
 		/// </summary>
 		/// <param name="options">Structure containing information about the achievement unlocked notification</param>
@@ -174,7 +174,7 @@ namespace Epic.OnlineServices.Achievements
 
 		/// <summary>
 		/// Register to receive achievement unlocked notifications.
-		/// must call EOS_Achievements_RemoveNotifyAchievementsUnlocked to remove the notification
+		/// If the returned NotificationId is valid, you must call EOS_Achievements_RemoveNotifyAchievementsUnlocked when you no longer wish to have your NotificationHandler called.
 		/// <seealso cref="RemoveNotifyAchievementsUnlocked" />
 		/// </summary>
 		/// <param name="options">Structure containing information about the achievement unlocked notification</param>

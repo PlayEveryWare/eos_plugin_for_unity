@@ -46,7 +46,7 @@ namespace Epic.OnlineServices.Ecom
 		/// Deprecated.
 		/// <see cref="CatalogItem.TechnicalDetailsText" /> is still valid.
 		/// </summary>
-		public Utf8String TechnicalDetailsText_DEPRECATED { get; set; }
+		internal Utf8String TechnicalDetailsText_DEPRECATED { get; set; }
 
 		/// <summary>
 		/// The Currency Code for this offer
@@ -62,12 +62,12 @@ namespace Epic.OnlineServices.Ecom
 		/// <summary>
 		/// The original price of this offer as a 32-bit number is deprecated.
 		/// </summary>
-		public uint OriginalPrice_DEPRECATED { get; set; }
+		internal uint OriginalPrice_DEPRECATED { get; set; }
 
 		/// <summary>
 		/// The current price including discounts of this offer as a 32-bit number is deprecated..
 		/// </summary>
-		public uint CurrentPrice_DEPRECATED { get; set; }
+		internal uint CurrentPrice_DEPRECATED { get; set; }
 
 		/// <summary>
 		/// A value from 0 to 100 define the percentage of the OrignalPrice that the CurrentPrice represents
@@ -83,7 +83,7 @@ namespace Epic.OnlineServices.Ecom
 		/// The number of times that the requesting account has purchased this offer.
 		/// This value is deprecated and the backend no longer returns this value.
 		/// </summary>
-		public uint PurchasedCount_DEPRECATED { get; set; }
+		internal uint PurchasedCount_DEPRECATED { get; set; }
 
 		/// <summary>
 		/// The maximum number of times that the offer can be purchased.

@@ -74,7 +74,7 @@ namespace Epic.OnlineServices.KWS
 		/// This interface is not available for general access at this time.
 		/// 
 		/// Register to receive notifications about KWS permissions changes for any logged in local users
-		/// must call EOS_KWS_RemoveNotifyPermissionsUpdateReceived to remove the notification
+		/// If the returned NotificationId is valid, you must call EOS_KWS_RemoveNotifyPermissionsUpdateReceived when you no longer wish to have your NotificationHandler called.
 		/// </summary>
 		/// <param name="options">Structure containing information about the request.</param>
 		/// <param name="clientData">Arbitrary data that is passed back to you in the CompletionDelegate.</param>

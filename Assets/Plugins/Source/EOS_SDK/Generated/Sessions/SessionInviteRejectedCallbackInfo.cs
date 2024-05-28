@@ -9,7 +9,7 @@ namespace Epic.OnlineServices.Sessions
 	public struct SessionInviteRejectedCallbackInfo : ICallbackInfo
 	{
 		/// <summary>
-		/// Context that was passed into EOS_Lobby_AddNotifySessionInviteRejected
+		/// Context that was passed into <see cref="SessionsInterface.AddNotifySessionInviteRejected" />
 		/// </summary>
 		public object ClientData { get; set; }
 

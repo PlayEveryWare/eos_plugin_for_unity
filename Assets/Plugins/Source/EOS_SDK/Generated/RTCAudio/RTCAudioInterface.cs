@@ -195,11 +195,12 @@ namespace Epic.OnlineServices.RTCAudio
 		/// 
 		/// If the returned NotificationId is valid, you must call <see cref="RemoveNotifyAudioBeforeRender" /> when you no longer wish to
 		/// have your CompletionDelegate called.
+		/// The CompletionDelegate may be called from a thread other than the one from which the SDK is ticking.
 		/// <seealso cref="Common.InvalidNotificationid" />
 		/// <seealso cref="RemoveNotifyAudioBeforeRender" />
 		/// </summary>
 		/// <param name="clientData">Arbitrary data that is passed back in the CompletionDelegate</param>
-		/// <param name="completionDelegate">The callback to be fired when a presence change occurs</param>
+		/// <param name="completionDelegate">The callback to be fired when remote audio buffers are about to be rendered</param>
 		/// <returns>
 		/// Notification ID representing the registered callback if successful, an invalid NotificationId if not
 		/// </returns>
@@ -229,11 +230,12 @@ namespace Epic.OnlineServices.RTCAudio
 		/// 
 		/// If the returned NotificationId is valid, you must call <see cref="RemoveNotifyAudioBeforeSend" /> when you no longer wish to
 		/// have your CompletionDelegate called.
+		/// The CompletionDelegate may be called from a thread other than the one from which the SDK is ticking.
 		/// <seealso cref="Common.InvalidNotificationid" />
 		/// <seealso cref="RemoveNotifyAudioBeforeSend" />
 		/// </summary>
 		/// <param name="clientData">Arbitrary data that is passed back in the CompletionDelegate</param>
-		/// <param name="completionDelegate">The callback to be fired when a presence change occurs</param>
+		/// <param name="completionDelegate">The callback to be fired when local audio buffers are about to be encoded and sent</param>
 		/// <returns>
 		/// Notification ID representing the registered callback if successful, an invalid NotificationId if not
 		/// </returns>
@@ -363,15 +365,19 @@ namespace Epic.OnlineServices.RTCAudio
 		}
 
 		/// <summary>
-		/// Register to receive notifications when a room participant audio status is updated (f.e when speaking flag changes).
+		/// Register to receive notifications when a room participant audio status is updated (f.e when mute state changes or speaking flag changes).
+		/// 
+		/// The notification is raised when the participant's audio status is updated. In order not to miss any participant status changes, applications need to add the notification before joining a room.
 		/// 
 		/// If the returned NotificationId is valid, you must call <see cref="RemoveNotifyParticipantUpdated" /> when you no longer wish
 		/// to have your CompletionDelegate called.
 		/// <seealso cref="Common.InvalidNotificationid" />
 		/// <seealso cref="RemoveNotifyParticipantUpdated" />
+		/// <seealso cref="ParticipantUpdatedCallbackInfo" />
+		/// <seealso cref="RTCAudioStatus" />
 		/// </summary>
 		/// <param name="clientData">Arbitrary data that is passed back in the CompletionDelegate</param>
-		/// <param name="completionDelegate">The callback to be fired when a presence change occurs</param>
+		/// <param name="completionDelegate">The callback to be fired when a participant changes audio status</param>
 		/// <returns>
 		/// Notification ID representing the registered callback if successful, an invalid NotificationId if not
 		/// </returns>

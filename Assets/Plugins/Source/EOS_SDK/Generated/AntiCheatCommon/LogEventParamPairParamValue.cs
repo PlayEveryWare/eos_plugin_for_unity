@@ -14,6 +14,7 @@ namespace Epic.OnlineServices.AntiCheatCommon
 		private long? m_Int64;
 		private Vec3f m_Vec3f;
 		private Quat m_Quat;
+		private float? m_Float;
 
 		/// <summary>
 		/// Parameter type
@@ -154,6 +155,21 @@ namespace Epic.OnlineServices.AntiCheatCommon
 			}
 		}
 
+		public float? Float
+		{
+			get
+			{
+				float? value;
+				Helper.Get(m_Float, out value, m_ParamValueType, AntiCheatCommonEventParamType.Float);
+				return value;
+			}
+
+			set
+			{
+				Helper.Set<float?, AntiCheatCommon.AntiCheatCommonEventParamType>(value, ref m_Float, AntiCheatCommonEventParamType.Float, ref m_ParamValueType);
+			}
+		}
+
 		public static implicit operator LogEventParamPairParamValue(System.IntPtr value)
 		{
 			return new LogEventParamPairParamValue() { ClientHandle = value };
@@ -199,6 +215,11 @@ namespace Epic.OnlineServices.AntiCheatCommon
 			return new LogEventParamPairParamValue() { Quat = value };
 		}
 
+		public static implicit operator LogEventParamPairParamValue(float value)
+		{
+			return new LogEventParamPairParamValue() { Float = value };
+		}
+
 		internal void Set(ref LogEventParamPairParamValueInternal other)
 		{
 			ClientHandle = other.ClientHandle;
@@ -209,6 +230,7 @@ namespace Epic.OnlineServices.AntiCheatCommon
 			Int64 = other.Int64;
 			Vec3f = other.Vec3f;
 			Quat = other.Quat;
+			Float = other.Float;
 		}
 	}
 
@@ -233,6 +255,8 @@ namespace Epic.OnlineServices.AntiCheatCommon
 		private Vec3fInternal m_Vec3f;
 		[System.Runtime.InteropServices.FieldOffset(8)]
 		private QuatInternal m_Quat;
+		[System.Runtime.InteropServices.FieldOffset(8)]
+		private float m_Float;
 
 		public System.IntPtr? ClientHandle
 		{
@@ -354,6 +378,21 @@ namespace Epic.OnlineServices.AntiCheatCommon
 			}
 		}
 
+		public float? Float
+		{
+			get
+			{
+				float? value;
+				Helper.Get(m_Float, out value, m_ParamValueType, AntiCheatCommonEventParamType.Float);
+				return value;
+			}
+
+			set
+			{
+				Helper.Set<float, AntiCheatCommon.AntiCheatCommonEventParamType>(value, ref m_Float, AntiCheatCommonEventParamType.Float, ref m_ParamValueType, this);
+			}
+		}
+
 		public void Set(ref LogEventParamPairParamValue other)
 		{
 			ClientHandle = other.ClientHandle;
@@ -364,6 +403,7 @@ namespace Epic.OnlineServices.AntiCheatCommon
 			Int64 = other.Int64;
 			Vec3f = other.Vec3f;
 			Quat = other.Quat;
+			Float = other.Float;
 		}
 
 		public void Set(ref LogEventParamPairParamValue? other)
@@ -378,6 +418,7 @@ namespace Epic.OnlineServices.AntiCheatCommon
 				Int64 = other.Value.Int64;
 				Vec3f = other.Value.Vec3f;
 				Quat = other.Value.Quat;
+				Float = other.Value.Float;
 			}
 		}
 

@@ -9,11 +9,11 @@ namespace Epic.OnlineServices.RTCAudio
 	public enum RTCAudioInputStatus : int
 	{
 		/// <summary>
-		/// The device is not in used right now (e.g: you are alone in the room). In such cases, the hardware resources are not allocated.
+		/// The device is not in use right now (e.g., you are alone in the room). In such cases, the hardware resources are not allocated.
 		/// </summary>
 		Idle = 0,
 		/// <summary>
-		/// The device is being used and capturing audio
+		/// The device is being used and capturing audio.
 		/// </summary>
 		Recording = 1,
 		/// <summary>
@@ -22,12 +22,12 @@ namespace Epic.OnlineServices.RTCAudio
 		/// </summary>
 		RecordingSilent = 2,
 		/// <summary>
-		/// The SDK is in a recording state, but actually capturing silence because the device is disconnected (e.g: the microphone is not plugged in).
+		/// The SDK is in a recording state, but actually capturing silence because the device is disconnected (e.g., the microphone is not plugged in).
 		/// This only applies to certain platforms.
 		/// </summary>
 		RecordingDisconnected = 3,
 		/// <summary>
-		/// Something failed while trying to use the device
+		/// Something failed while trying to use the device.
 		/// </summary>
 		Failed = 4
 	}

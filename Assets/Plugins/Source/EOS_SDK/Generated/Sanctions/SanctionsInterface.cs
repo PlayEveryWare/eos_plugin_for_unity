@@ -19,6 +19,11 @@ namespace Epic.OnlineServices.Sanctions
 		public const int CopyplayersanctionbyindexApiLatest = 1;
 
 		/// <summary>
+		/// The most recent version of the <see cref="CreatePlayerSanctionAppeal" /> struct.
+		/// </summary>
+		public const int CreateplayersanctionappealApiLatest = 1;
+
+		/// <summary>
 		/// The most recent version of the <see cref="GetPlayerSanctionCount" /> API.
 		/// </summary>
 		public const int GetplayersanctioncountApiLatest = 1;
@@ -68,6 +73,28 @@ namespace Epic.OnlineServices.Sanctions
 		}
 
 		/// <summary>
+		/// Create a sanction appeal on behalf of a local user.
+		/// Note that for creating the sanction appeal you'll need the sanction reference id, which is available through CopyPlayerSanctionByIndex.
+		/// </summary>
+		/// <param name="options">Structure containing the player sanction appeal information.</param>
+		/// <param name="clientData">Optional client data provided by the user of the SDK.</param>
+		/// <param name="completionDelegate">This function is called when the send operation completes.</param>
+		public void CreatePlayerSanctionAppeal(ref CreatePlayerSanctionAppealOptions options, object clientData, CreatePlayerSanctionAppealCallback completionDelegate)
+		{
+			CreatePlayerSanctionAppealOptionsInternal optionsInternal = new CreatePlayerSanctionAppealOptionsInternal();
+			optionsInternal.Set(ref options);
+
+			var clientDataAddress = System.IntPtr.Zero;
+
+			var completionDelegateInternal = new CreatePlayerSanctionAppealCallbackInternal(CreatePlayerSanctionAppealCallbackInternalImplementation);
+			Helper.AddCallback(out clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
+
+			Bindings.EOS_Sanctions_CreatePlayerSanctionAppeal(InnerHandle, ref optionsInternal, clientDataAddress, completionDelegateInternal);
+
+			Helper.Dispose(ref optionsInternal);
+		}
+
+		/// <summary>
 		/// Fetch the number of player sanctions that have been retrieved for a given player.
 		/// You must call QueryActivePlayerSanctions first to retrieve the data from the service backend.
 		/// <seealso cref="QueryActivePlayerSanctions" />
@@ -111,6 +138,17 @@ namespace Epic.OnlineServices.Sanctions
 			Bindings.EOS_Sanctions_QueryActivePlayerSanctions(InnerHandle, ref optionsInternal, clientDataAddress, completionDelegateInternal);
 
 			Helper.Dispose(ref optionsInternal);
+		}
+
+		[MonoPInvokeCallback(typeof(CreatePlayerSanctionAppealCallbackInternal))]
+		internal static void CreatePlayerSanctionAppealCallbackInternalImplementation(ref CreatePlayerSanctionAppealCallbackInfoInternal data)
+		{
+			CreatePlayerSanctionAppealCallback callback;
+			CreatePlayerSanctionAppealCallbackInfo callbackInfo;
+			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
+			{
+				callback(ref callbackInfo);
+			}
 		}
 
 		[MonoPInvokeCallback(typeof(OnQueryActivePlayerSanctionsCallbackInternal))]

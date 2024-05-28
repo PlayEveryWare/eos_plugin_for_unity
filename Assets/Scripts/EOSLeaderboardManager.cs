@@ -445,10 +445,21 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             QueryUserScoresCallback?.Invoke(Result.Success);
         }
 
-        /// <summary>Call to ingest the stat values into EOS Stat interface.</summary>
+        /// <summary>Call to ingest the stat values into EOS Stat interface. This calls out to <see cref="IngestStat(string, int, OnIngestStatCompleteCallback)"/> with an empty callback passed to it.</summary>
         /// <param name="statName">Name of the stat</param>
         /// <param name="amount">The amount to ingest for specified stat</param>
         public void IngestStat(string statName, int amount)
+        {
+            // Create an empty callback to pass to the function
+            OnIngestStatCompleteCallback callback = (ref IngestStatCompleteCallbackInfo emptyCallback) => { };
+            IngestStat(statName, amount, callback);
+        }
+
+        /// <summary>Call to ingest the stat values into EOS Stat interface.</summary>
+        /// <param name="statName">Name of the stat</param>
+        /// <param name="amount">The amount to ingest for specified stat</param>
+        /// <param name="ingestStatCallback">Callback to run after the stat is ingested, containing information about the success of the method.</param>
+        public void IngestStat(string statName, int amount, OnIngestStatCompleteCallback ingestStatCallback)
         {
             IngestData[] stats =
             {
@@ -466,7 +477,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 Stats = stats
             };
 
-            StatsHandle.IngestStat(ref options, null, StatsIngestCallbackFn);
+            OnIngestStatCompleteCallback combinedCallback = (ref IngestStatCompleteCallbackInfo callbackForCombined) => 
+            {
+                StatsIngestCallbackFn(ref callbackForCombined);
+                ingestStatCallback(ref callbackForCombined);
+            };
+
+            StatsHandle.IngestStat(ref options, null, combinedCallback);
         }
 
         private void StatsIngestCallbackFn(ref IngestStatCompleteCallbackInfo data)

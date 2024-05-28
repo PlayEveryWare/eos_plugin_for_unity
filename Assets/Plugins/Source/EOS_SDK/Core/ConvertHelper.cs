@@ -55,7 +55,7 @@ namespace Epic.OnlineServices
 				return;
 			}
 
-			to = Encoding.ASCII.GetString(from.Take(GetAnsiStringLength(from)).ToArray());
+			to = Encoding.ASCII.GetString(from, 0, GetAnsiStringLength(from));
 		}
 
 		/// <summary>
@@ -71,7 +71,9 @@ namespace Epic.OnlineServices
 				from = "";
 			}
 
-			to = Encoding.ASCII.GetBytes(new string(from.Take(fromLength).ToArray()).PadRight(fromLength, '\0'));
+			to = new byte[fromLength];
+			ASCIIEncoding.ASCII.GetBytes(from, 0, from.Length, to, 0);
+			to[from.Length] = 0;  //  Null terminator at the end'\0'
 		}
 
 		/// <summary>

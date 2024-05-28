@@ -72,6 +72,10 @@ namespace Epic.OnlineServices.UI
 		/// <summary>
 		/// Controller left thumbstick as a button.
 		/// </summary>
-		LeftThumbstick = (1 << 14)
+		LeftThumbstick = (1 << 14),
+		/// <summary>
+		/// Controller right thumbstick as a button.
+		/// </summary>
+		RightThumbstick = (1 << 15)
 	}
 }
