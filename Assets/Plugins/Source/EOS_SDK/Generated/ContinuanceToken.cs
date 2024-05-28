@@ -38,6 +38,20 @@ namespace Epic.OnlineServices
 			int inOutBufferLength = 1024;
 			System.IntPtr outBufferAddress = Helper.AddAllocation(inOutBufferLength);
 
+			// PEW: Start modify
+			// NOTES:
+			// 
+			// The changes below are implemented temporarily by PEW to correct
+			// an issue where the inOutBufferLength is not properly determined.
+			// 
+			// Until this is resolved from Epic - these changes will need to
+			// be maintained after the import of a new version of the EOS SDK.
+
+			// Call the EOS_ContinuanceToken_ToString function will a null buffer address to determine the correct buffer length.
+			// Discard the result of this call because it is not relevant. 
+			_ = Bindings.EOS_ContinuanceToken_ToString(InnerHandle, System.IntPtr.Zero, ref inOutBufferLength);
+			// PEW: End modify
+			
 			var funcResult = Bindings.EOS_ContinuanceToken_ToString(InnerHandle, outBufferAddress, ref inOutBufferLength);
 
 			Helper.Get(outBufferAddress, out outBuffer);
