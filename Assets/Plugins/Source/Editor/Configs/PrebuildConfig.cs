@@ -34,6 +34,14 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Config
         /// </summary>
         public bool useAppVersionAsProductVersion;
 
+        /// <summary>
+        /// If enabled, the EOSBootstrapper will be included in the build.
+        /// If disabled, then the EOSBootstrapper will not be included or configured for the build.
+        /// Use this if you only want to enable EAC, and not the rest of the features of the plugin.
+        /// This is true by default. If this is set to false, many functions of the plugin, such as the overlay, will not be included in the build.
+        /// </summary>
+        public bool useEOSBootstrapper = true;
+
         static PrebuildConfig()
         {
             RegisterFactory(() => new PrebuildConfig());
