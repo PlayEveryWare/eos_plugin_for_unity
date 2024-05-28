@@ -73,12 +73,13 @@ namespace PlayEveryWare.EpicOnlineServices
     using LoginCallbackInfo = Epic.OnlineServices.Auth.LoginCallbackInfo;
     using LoginOptions = Epic.OnlineServices.Auth.LoginOptions;
     using LoginStatusChangedCallbackInfo = Epic.OnlineServices.Auth.LoginStatusChangedCallbackInfo;
-#endif
+
     using Utility;
     using JsonUtility = PlayEveryWare.EpicOnlineServices.Utility.JsonUtility;
     using LogoutCallbackInfo = Epic.OnlineServices.Auth.LogoutCallbackInfo;
     using LogoutOptions = Epic.OnlineServices.Auth.LogoutOptions;
     using OnLogoutCallback = Epic.OnlineServices.Auth.OnLogoutCallback;
+#endif
 
     /// <summary>
     /// One of the responsibilities of this class is to manage the lifetime of
