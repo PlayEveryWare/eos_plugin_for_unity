@@ -72,8 +72,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Steam
             if (ioFailure || response.m_eResult != EResult.k_EResultOK)
             {
                 Debug.LogError("Error occured when requesting Encrypted App Ticket");
-                appTicketEvent?.Invoke(null);
+
+                // First set the appTicketEvent we're calling to its own variable, set the appTicketEvent to null, then invoke the variable we set aside
+                // This way if the callback for the function would add to the appTicketEvent, it isn't immediately set to null
+                // This pattern is applied to the other calls to raise appTicketEvent
+                Action<string> appTicketEventLetIOFailureOrNotOkay = appTicketEvent;
                 appTicketEvent = null;
+                appTicketEventLetIOFailureOrNotOkay?.Invoke(null);
                 return;
             }
 
@@ -91,8 +96,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Steam
             if (!success)
             {
                 Debug.LogError("Failed to retrieve Encrypted App Ticket");
-                appTicketEvent?.Invoke(null);
+
+                // See above in regards to raising appTicketEvent
+                Action<string> appTicketEventLetNotSuccess = appTicketEvent;
                 appTicketEvent = null;
+                appTicketEventLetNotSuccess?.Invoke(null);
+
                 return;
             }
 
@@ -101,8 +110,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Steam
             //convert to hex string
             encryptedAppTicket = System.BitConverter.ToString(buffer).Replace("-", "");
 
-            appTicketEvent?.Invoke(encryptedAppTicket);
+            // See above in regards to raising appTicketEvent
+            Action<string> appTicketEventLetSuccess = appTicketEvent;
             appTicketEvent = null;
+            appTicketEventLetSuccess?.Invoke(encryptedAppTicket);
         }
 
         private void OnApplicationQuit()
