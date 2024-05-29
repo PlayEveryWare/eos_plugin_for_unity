@@ -79,6 +79,16 @@ namespace PlayEveryWare.EpicOnlineServices.Build
 
         private static async void ConfigureAndInstallBootstrapper(BuildReport report)
         {
+            // Firstly determine if we want to inclue the EOS Bootstrapper at all.
+            // It can be configured in the plugin menu to not be used.
+            PrebuildConfig prebuildConfig = await Config.GetAsync<PrebuildConfig>();
+
+            if (!prebuildConfig.useEOSBootstrapper)
+            {
+                Debug.Log($"Bootstrapper tool sdout: The plugin has been configured in the Plugin Configuration window not to use the EOS Bootstrapper. Exiting without including it.");
+                return;
+            }
+
             /*
              * NOTE:
              *
