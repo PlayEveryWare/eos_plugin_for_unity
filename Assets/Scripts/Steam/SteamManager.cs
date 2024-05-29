@@ -358,6 +358,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Steam
 
             appTicketEvent += callback;
             var call = SteamUser.RequestEncryptedAppTicket(null, 0);
+            appTicketCallResult = new CallResult<EncryptedAppTicketResponse_t>();
             appTicketCallResult.Set(call, RequestAppTicketResponse);
 #endif
         }
@@ -411,15 +412,29 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Steam
 #if DISABLESTEAMWORKS
             onLoginCallback?.Invoke(new Epic.OnlineServices.Connect.LoginCallbackInfo() { ResultCode = Epic.OnlineServices.Result.UnexpectedError });
 #else
+            // If this method is called and the login fails, we need to clean out the cached encryptedAppTicket.
+            EOSManager.OnConnectLoginCallback cacheInvalidationOnFailureCallback = (Epic.OnlineServices.Connect.LoginCallbackInfo callbackInfo) => 
+            {
+                // First, determine if this is a failure. If it is, then clear out the cache.
+                if (callbackInfo.ResultCode != Epic.OnlineServices.Result.Success)
+                {
+                    Debug.LogWarning($"SteamManager will clear the cached {nameof(this.encryptedAppTicket)} after failed Connect login attempt using this Steam App Ticket.");
+                    this.encryptedAppTicket = null;
+                }
+
+                // Then call the original callback we were provided.
+                onLoginCallback?.Invoke(callbackInfo);
+            };
+
             RequestAppTicket((string token) => {
                 if (token == null)
                 {
                     Debug.LogError("Connect Login failed: Unable to get Steam app ticket");
-                    onLoginCallback?.Invoke(new Epic.OnlineServices.Connect.LoginCallbackInfo() { ResultCode = Epic.OnlineServices.Result.UnexpectedError });
+                    cacheInvalidationOnFailureCallback?.Invoke(new Epic.OnlineServices.Connect.LoginCallbackInfo() { ResultCode = Epic.OnlineServices.Result.UnexpectedError });
                 }
                 else
                 {
-                    EOSManager.Instance.StartConnectLoginWithOptions(Epic.OnlineServices.ExternalCredentialType.SteamAppTicket, token, onloginCallback: onLoginCallback);
+                    EOSManager.Instance.StartConnectLoginWithOptions(Epic.OnlineServices.ExternalCredentialType.SteamAppTicket, token, onloginCallback: cacheInvalidationOnFailureCallback);
                 }
             });
 #endif
