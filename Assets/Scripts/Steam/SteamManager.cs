@@ -438,7 +438,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Steam
                         if (callbackInfo.ResultCode != Epic.OnlineServices.Result.Success)
                         {
                             Debug.Log($"Connect Login failed: SteamManager successfully retrieved an app ticket from Steam, but the provided app ticket was invalid for logging in to Epic Online Services. The cached app ticket in `{nameof(encryptedAppTicket)}` will now be invalidated.");
-                            this.encryptedAppTicket = null;
+                            encryptedAppTicket = null;
                         }
 
                         // Then call the original callback we were provided, if we have one
