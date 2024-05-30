@@ -73,9 +73,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Steam
             {
                 Debug.LogError("Error occured when requesting Encrypted App Ticket");
 
-                // First set the appTicketEvent we're calling to its own variable, set the appTicketEvent to null, then invoke the variable we set aside
-                // This way if the callback for the function would add to the appTicketEvent, it isn't immediately set to null
-                // This pattern is applied to the other calls to raise appTicketEvent
+                // First set the appTicketEvent we're calling to its own variable, set the appTicketEvent to null, then invoke the variable we set aside.
+                // This way if the callback for the function would add to the appTicketEvent, it isn't immediately set to null.
+                // This pattern is applied to the other calls that raise appTicketEvent inside this function.
                 Action<string> appTicketEventLetIOFailureOrNotOkay = appTicketEvent;
                 appTicketEvent = null;
                 appTicketEventLetIOFailureOrNotOkay?.Invoke(null);
