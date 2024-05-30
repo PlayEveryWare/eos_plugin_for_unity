@@ -423,28 +423,28 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Steam
 #if DISABLESTEAMWORKS
             onLoginCallback?.Invoke(new Epic.OnlineServices.Connect.LoginCallbackInfo() { ResultCode = Epic.OnlineServices.Result.UnexpectedError });
 #else
-            // If this method is called and the login fails, we need to clean out the cached encryptedAppTicket.
-            EOSManager.OnConnectLoginCallback cacheInvalidationOnFailureCallback = (Epic.OnlineServices.Connect.LoginCallbackInfo callbackInfo) => 
-            {
-                // First, determine if this is a failure. If it is, then clear out the cache.
-                if (callbackInfo.ResultCode != Epic.OnlineServices.Result.Success)
-                {
-                    Debug.LogWarning($"SteamManager will clear the cached {nameof(this.encryptedAppTicket)} after failed Connect login attempt using this Steam App Ticket.");
-                    this.encryptedAppTicket = null;
-                }
-
-                // Then call the original callback we were provided.
-                onLoginCallback?.Invoke(callbackInfo);
-            };
-
             RequestAppTicket((string token) => {
                 if (token == null)
                 {
                     Debug.LogError("Connect Login failed: Unable to get Steam app ticket");
-                    cacheInvalidationOnFailureCallback?.Invoke(new Epic.OnlineServices.Connect.LoginCallbackInfo() { ResultCode = Epic.OnlineServices.Result.UnexpectedError });
+                    onLoginCallback?.Invoke(new Epic.OnlineServices.Connect.LoginCallbackInfo() { ResultCode = Epic.OnlineServices.Result.UnexpectedError });
                 }
                 else
                 {
+                    // At this point, we're certain that a token was received from RequestAppTicket
+                    // Now add to the callback a step wherein, if it fails from this point, the cached encryptedAppTicket will be invalidated
+                    EOSManager.OnConnectLoginCallback cacheInvalidationOnFailureCallback = (Epic.OnlineServices.Connect.LoginCallbackInfo callbackInfo) =>
+                    {
+                        if (callbackInfo.ResultCode != Epic.OnlineServices.Result.Success)
+                        {
+                            Debug.Log($"Connect Login failed: SteamManager successfully retrieved an app ticket from Steam, but the provided app ticket was invalid for logging in to Epic Online Services. The cached app ticket in `{nameof(encryptedAppTicket)}` will now be invalidated.");
+                            this.encryptedAppTicket = null;
+                        }
+
+                        // Then call the original callback we were provided, if we have one
+                        onLoginCallback?.Invoke(callbackInfo);
+                    };
+
                     EOSManager.Instance.StartConnectLoginWithOptions(Epic.OnlineServices.ExternalCredentialType.SteamAppTicket, token, onloginCallback: cacheInvalidationOnFailureCallback);
                 }
             });
