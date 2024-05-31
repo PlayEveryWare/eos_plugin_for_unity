@@ -85,6 +85,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
             configEditors ??= new List<IConfigEditor>
                 {
                     new PrebuildConfigEditor(),
+                    new EOSBootstrapperConfigEditor(),
                     new ToolsConfigEditor(),
                     new AndroidBuildConfigEditor(),
                     new LibraryBuildConfigEditor(),

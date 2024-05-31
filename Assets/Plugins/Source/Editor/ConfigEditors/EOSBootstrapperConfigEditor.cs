@@ -1,4 +1,4 @@
-/*
+﻿/*
 * Copyright (c) 2021 PlayEveryWare
 * 
 * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -20,25 +20,20 @@
 * SOFTWARE.
 */
 
-namespace PlayEveryWare.EpicOnlineServices.Editor.Config
+namespace PlayEveryWare.EpicOnlineServices.Editor
 {
-    using System;
+    using Config;
+    using Utility;
 
-    [Serializable]
-    public class PrebuildConfig : EditorConfig
+    public class EOSBootstrapperConfigEditor : ConfigEditor<EOSBootstrapperConfig>
     {
-        /// <summary>
-        /// Indicates that the application version should be set to the same as
-        /// the value in
-        /// the EOS Configuration for version.
-        /// </summary>
-        public bool useAppVersionAsProductVersion;
+        public EOSBootstrapperConfigEditor() : base("EOS Bootstrapper") { }
 
-        static PrebuildConfig()
+        public override void RenderContents()
         {
-            RegisterFactory(() => new PrebuildConfig());
+            GUIEditorUtility.AssigningBoolField("Use EOS Bootstrapper",
+                ref config.useEOSBootstrapper,
+                tooltip: "This is true by default, which will include the EOSBootstrapper.exe in a Windows build. If false, then the EOSBootstrapper.exe is not included in the build, and therefore no Epic Games Overlay functionality will be available. If you only want to use Easy Anti Cheat, or know you don't require the Overlay at all, you can disable this setting.");
         }
-
-        protected PrebuildConfig() : base("eos_plugin_version_config.json") { }
     }
 }

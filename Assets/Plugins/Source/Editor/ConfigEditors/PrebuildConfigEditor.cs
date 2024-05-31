@@ -33,10 +33,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
         {
             GUIEditorUtility.AssigningBoolField("Use Unity App Version for the EOS product version",
                 ref config.useAppVersionAsProductVersion);
-
-            GUIEditorUtility.AssigningBoolField("Use EOS Bootstrapper", 
-                ref config.useEOSBootstrapper,
-                tooltip: "If false, then the EOSBootstrapper.exe is not included in the build, and therefore no Epic Games Overlay will be available. If you only want to use Easy Anti Cheat you can disable this setting. This currently only relates to Windows builds, as that is the only platform that uses the EOSBootstrapper.");
         }
     }
 }

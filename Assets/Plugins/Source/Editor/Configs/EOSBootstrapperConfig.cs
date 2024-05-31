@@ -1,4 +1,4 @@
-/*
+﻿/*
 * Copyright (c) 2021 PlayEveryWare
 * 
 * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -24,21 +24,25 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Config
 {
     using System;
 
+    /// <summary>
+    /// Represents configuration settings pertaining to the EOS Bootstrapper.
+    /// </summary>
     [Serializable]
-    public class PrebuildConfig : EditorConfig
+    public class EOSBootstrapperConfig : EditorConfig
     {
         /// <summary>
-        /// Indicates that the application version should be set to the same as
-        /// the value in
-        /// the EOS Configuration for version.
+        /// If enabled, the EOSBootstrapper will be included in the build.
+        /// If disabled, then the EOSBootstrapper will not be included or configured for the build.
+        /// Use this if you only want to enable EAC, and not the rest of the features of the plugin.
+        /// This is true by default. If this is set to false, many functions of the plugin, such as the overlay, will not be included in the build.
         /// </summary>
-        public bool useAppVersionAsProductVersion;
+        public bool useEOSBootstrapper = true;
 
-        static PrebuildConfig()
+        static EOSBootstrapperConfig()
         {
-            RegisterFactory(() => new PrebuildConfig());
+            RegisterFactory(() => new EOSBootstrapperConfig());
         }
 
-        protected PrebuildConfig() : base("eos_plugin_version_config.json") { }
+        protected EOSBootstrapperConfig() : base("eos_bootstrapper_config.json") { }
     }
 }
