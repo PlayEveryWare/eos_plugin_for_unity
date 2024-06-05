@@ -46,6 +46,7 @@ using System.Runtime.InteropServices;
 
 namespace Epic.OnlineServices
 {
+	// PEW: Start Modify
 	// The partial attribute (added by PlayEveryWare) is the least intrusive
 	// means by which the following class can be expanded to support additional
 	// platforms. By making the class partial, supplementary partial
@@ -92,10 +93,11 @@ namespace Epic.OnlineServices
 		#else
 			#error Unable to determine the name of the EOSSDK library. Ensure you have set the correct EOS compilation symbol for the current platform, such as EOS_PLATFORM_WINDOWS_32 or EOS_PLATFORM_WINDOWS_64, so that the correct EOSSDK library can be targeted.
 			"EOSSDK-UnknownPlatform-Shipping"
+
 		#endif
 		;
-	#endif		
-
+	#endif
+	// PEW: End modify
 		public const CallingConvention LibraryCallingConvention =
 		#if EOS_PLATFORM_WINDOWS_32
 			CallingConvention.StdCall
