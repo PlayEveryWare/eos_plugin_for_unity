@@ -7,7 +7,7 @@
 // newer than a 4.11.* version, regardless of the changelist that it was built with)
 #define EOS_MAJOR_VERSION	1
 #define EOS_MINOR_VERSION	16
-#define EOS_PATCH_VERSION	2
+#define EOS_PATCH_VERSION	3
  
 // Macros for encoding strings
 #define EOS_VERSION_STRINGIFY_2(x) #x
