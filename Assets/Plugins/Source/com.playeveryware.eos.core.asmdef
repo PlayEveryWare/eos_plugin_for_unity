@@ -1,5 +1,5 @@
 {
-    "name": "com.playeveryware.eos.core",
+    "name": "com.playeveryware.eos",
     "rootNamespace": "",
     "references": [
         "GUID:be1f6e9efffcfce41aeb5c2f4c27cf75"

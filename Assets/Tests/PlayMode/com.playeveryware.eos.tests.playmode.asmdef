@@ -5,7 +5,7 @@
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",
         "com.playeveryware.eos-Editor",
-        "com.playeveryware.eos.core"
+        "com.playeveryware.eos"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
