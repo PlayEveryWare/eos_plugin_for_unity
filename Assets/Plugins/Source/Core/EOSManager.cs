@@ -610,7 +610,16 @@ namespace PlayEveryWare.EpicOnlineServices
                     loadedEOSConfig.sandboxID = epicArgs.epicSandboxID;
                 }
 
-                if (loadedEOSConfig.sandboxDeploymentOverrides != null)
+                // First try to load a specifically overridden epicDeploymentID
+                // If that is available, then use the provided argument
+                // If it is not available, then look up the deployment id using the sandbox overrides
+
+                if (!string.IsNullOrWhiteSpace(epicArgs.epicDeploymentID))
+                {
+                    Debug.Log("Deployment ID override specified: " + epicArgs.epicDeploymentID);
+                    loadedEOSConfig.deploymentID = epicArgs.epicDeploymentID;
+                }
+                else if (loadedEOSConfig.sandboxDeploymentOverrides != null)
                 {
                     //check if a deployment id override exists for sandbox id
                     foreach (var deploymentOverride in loadedEOSConfig.sandboxDeploymentOverrides)
@@ -621,12 +630,6 @@ namespace PlayEveryWare.EpicOnlineServices
                             loadedEOSConfig.deploymentID = deploymentOverride.deploymentID;
                         }
                     }
-                }
-
-                if (!string.IsNullOrWhiteSpace(epicArgs.epicDeploymentID))
-                {
-                    Debug.Log("Deployment ID override specified: " + epicArgs.epicDeploymentID);
-                    loadedEOSConfig.deploymentID = epicArgs.epicDeploymentID;
                 }
 
                 Result initResult = InitializePlatformInterface(loadedEOSConfig);
@@ -934,6 +937,10 @@ namespace PlayEveryWare.EpicOnlineServices
                         ConfigureEpicArgument(argument, ref epicLauncherArgs.epicSandboxID);
                     }
                     else if (argument.StartsWith("-eosdeploymentid="))
+                    {
+                        ConfigureEpicArgument(argument, ref epicLauncherArgs.epicDeploymentID);
+                    }
+                    else if (argument.StartsWith("-epicdeploymentid="))
                     {
                         ConfigureEpicArgument(argument, ref epicLauncherArgs.epicDeploymentID);
                     }
