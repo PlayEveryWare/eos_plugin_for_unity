@@ -330,11 +330,26 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             EventSystem.current.sendNavigationEvents = shouldHandle;
 #endif
 #endif
-            Debug.Log($"Input {(shouldHandle ? "enabled" : "disabled")} due to EOS Overlay.");
 
+#if ENABLE_DEBUG_INPUT
+            LogInputChanged(shouldHandle);
+#endif
             return shouldHandle;
+
         }
 
+#if ENABLE_DEBUG_INPUT
+        static bool previousShouldHandle = false;
+        static void LogInputChanged(bool shouldHandle)
+        {
+            bool result = previousShouldHandle != shouldHandle ? true : false;
+            if (result)
+            {
+                Debug.LogWarning($"Input {(shouldHandle ? "enabled" : "disabled")} for main app");
+            }
+            previousShouldHandle = shouldHandle;
+        }
+#endif
         /// <summary>
         /// Determines whether a GameObject needs to be set as selected.
         /// </summary>
