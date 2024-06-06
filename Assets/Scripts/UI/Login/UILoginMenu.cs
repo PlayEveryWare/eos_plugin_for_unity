@@ -319,27 +319,20 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// <returns>True if input should be handled, false if not.</returns>
         private static bool ShouldInputBeHandled()
         {
-            // TODO: Clarify why this is only evaluated for PS4 and PS5
-#if UNITY_PS4 || UNITY_PS5
-            // TODO: Simplify this conditional - it's sort of confusing to read despite doing exactly what we want
-            if (null == EventSystem.current || EventSystem.current.sendNavigationEvents == !EOSManager.Instance.IsOverlayOpenWithExclusiveInput())
-            {
-                return true;
-            }
-
             bool shouldHandle = !EOSManager.Instance.IsOverlayOpenWithExclusiveInput();
-                
-            Debug.Log($"Input {(shouldHandle ? "enabled" : "disabled")} due to EOS Overlay.");
+
 #if ENABLE_INPUT_SYSTEM
             EventSystem.current.currentInputModule.enabled = shouldHandle;
+            EventSystem.current.sendNavigationEvents = shouldHandle;
 #else
+            // TODO: Clarify why this is only evaluated for PS4 and PS5
+#if UNITY_PS4 || UNITY_PS5
             EventSystem.current.sendNavigationEvents = shouldHandle;
 #endif
+#endif
+            Debug.Log($"Input {(shouldHandle ? "enabled" : "disabled")} due to EOS Overlay.");
 
             return shouldHandle;
-#else
-            return true;
-#endif
         }
 
         /// <summary>
