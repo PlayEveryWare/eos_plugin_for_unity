@@ -23,7 +23,10 @@
 namespace PlayEveryWare.EpicOnlineServices.Utility
 {
     using System;
+    using System.Collections.Generic;
     using System.IO;
+    using System.Linq;
+    using System.Threading;
     using System.Threading.Tasks;
     using UnityEngine;
 
@@ -32,6 +35,34 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
     /// </summary>
     public static class FileUtility
     {
+        /// <summary>
+        /// Interval with which to update progress, in milliseconds
+        /// </summary>
+        private const int DefaultUpdateIntervalMS = 1500;
+
+        #region Data Structures 
+
+        /// <summary>
+        /// Stores information regarding a file copy operation.
+        /// </summary>
+        public struct CopyFileOperation
+        {
+            /// <summary>
+            /// The fully-qualified path of the source file.
+            /// </summary>
+            public string From;
+
+            /// <summary>
+            /// The fully-qualified path to copy the file to. The path does not
+            /// have to exist, and in fact might not.
+            /// </summary>
+            public string To;
+
+            /// <summary>
+            /// The number of bytes in the file to copy.
+            /// </summary>
+            public long Bytes;
+        }
         /// <summary>
         /// Contains information about the progress of a copy file operation.
         /// </summary>
@@ -58,6 +89,8 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
             public long TotalBytesToCopy;
         }
 
+        #endregion
+
         /// <summary>
         /// Generates a unique and new temporary directory inside the Temporary Cache Path as determined by Unity,
         /// and returns the fully-qualified path to the newly created directory.
@@ -82,6 +115,170 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         }
 
         /// <summary>
+        /// Get a list of the directories that are represented by the filepaths
+        /// provided. The list is unique, and is ordered by smallest path first,
+        /// so that the list can be utilized to create each directory in-order
+        /// if that is useful
+        /// </summary>
+        /// <param name="filepaths">
+        /// The filepaths to get the directories for.
+        /// </param>
+        /// <param name="inOrder">
+        /// If true, return the list of directories by order shortest path
+        /// first.
+        /// </param>
+        /// <returns></returns>
+        private static IEnumerable<string> GetDirectories(
+            IEnumerable<string> filepaths, bool inOrder = true)
+        {
+            // For each filepath, determine the immediate parent directory of
+            // the file. Make a unique set of these by utilizing a HashSet.
+            ISet<string> directoriesToCreate = new HashSet<string>();
+            foreach (var path in filepaths)
+            {
+                string parent = Path.GetDirectoryName(path);
+
+                if (null != parent)
+                    directoriesToCreate.Add(parent);
+                
+            }
+
+            // Return the list of directories to create in ascending order of
+            // string length.
+            return inOrder ? directoriesToCreate.OrderBy(s => s.Length) : 
+                directoriesToCreate;
+        }
+
+        /// <summary>
+        /// Deconstructs a filepath to return the path of each directory in the
+        /// path.
+        /// </summary>
+        /// <param name="filePath">
+        /// The filepath to get the directories of.
+        /// </param>
+        /// <returns>A list of directories for the path.</returns>
+        private static List<string> GetDirectories(string filePath)
+        {
+            // Get the directory name from the file path.
+            string directoryPath = Path.GetDirectoryName(filePath);
+
+            // To store the directories along the path.
+            List<string> directories = new() { filePath };
+
+            // If the directory path is empty or null, then stop.
+            if (string.IsNullOrEmpty(directoryPath))
+            {
+                return directories;
+            }
+
+            // Split the directory path into individual directories.
+            string[] parts = directoryPath.Split(
+                Path.DirectorySeparatorChar, 
+                Path.AltDirectorySeparatorChar, 
+                StringSplitOptions.RemoveEmptyEntries
+                );
+
+            // If there are no parts to process, then stop
+            if (parts.Length == 0)
+                return directories;
+
+            // Reconstruct each directory step-by-step to maintain full path.
+            string currentPath = parts[0];
+            foreach (string part in parts[1..])
+            {
+                currentPath = Path.Combine(currentPath, part);
+                directories.Add(currentPath);
+            }
+
+            return directories;
+        }
+
+        /// <summary>
+        /// Run a list of file copy operations. If the destination directory
+        /// indicated does not exist, it will be created. It is expected that
+        /// the source file indicated exists. Default behavior is to overwrite
+        /// destination files.
+        ///
+        /// Before the file copy operations begin, the copy file operations are
+        /// inspected for missing destination directories - and the directory
+        /// structure required is created in its entirety before file copy
+        /// operations commence.
+        /// 
+        /// If a progress interface is provided, the file copy operations will
+        /// be randomized so as to average out the number of bytes copied at
+        /// each interval. Otherwise the files will be copied in the order they
+        /// are in the provided operations parameter.
+        /// </summary>
+        /// <param name="operations">File copy operations to perform.</param>
+        /// <param name="updateIntervalMS">
+        /// The interval in milliseconds with which to report progress.
+        /// </param>
+        /// <param name="progress">Progress reporter.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        /// <returns>Task</returns>
+        public static async Task ExecuteCopyFileOperationsAsync(
+            List<CopyFileOperation> operations,
+            IProgress<CopyFileProgressInfo> progress = null,
+            CancellationToken cancellationToken = default,
+            Int32 updateIntervalMS = DefaultUpdateIntervalMS)
+        {
+            // Create struct to track and report on progress
+            CopyFileProgressInfo progressInfo = new()
+            {
+                TotalBytesToCopy = operations.Sum(o => o.Bytes),
+                TotalFilesToCopy = operations.Count()
+            };
+
+            if (null != progress)
+            {
+                // Create timer to periodically report on the progress based on
+                // the interval (at some future point it may be appropriate to
+                // make that interval a parameter)
+                await using Timer progressTimer = new(state =>
+                {
+                    progress?.Report(progressInfo);
+                }, null, 0, updateIntervalMS);
+            }
+
+            // Get directories represented by the set of file copy operations
+            var directoriesToCreate = GetDirectories(
+                operations.Select(o => o.To)
+                );
+
+            // Create each directory
+            foreach (var directory in directoriesToCreate)
+            {
+                Directory.CreateDirectory(directory);
+            }
+            
+            // Execute each file copy operation.
+            foreach (var copyOperation in operations)
+            {
+                // Make sure to throw an exception if a cancellation was
+                // requested of the token.
+                cancellationToken.ThrowIfCancellationRequested();
+
+                // Run the file copy asynchronously, passing on the cancellation
+                // token.
+                await Task.Run(() => File.Copy(
+                        copyOperation.From,
+                        copyOperation.To, true),
+                    cancellationToken);
+
+                // If there is no progress, we don't need to update the info
+                // and we can continue.
+                if (null == progress)
+                    continue;
+
+                // Increment the number of files copied.
+                progressInfo.FilesCopied++;
+
+                // Update the number of bytes that have been copied.
+                progressInfo.BytesCopied += copyOperation.Bytes;
+            }
+        }
+
+        /// <summary>
         /// Returns the root of the Unity project.
         /// </summary>
         /// <returns>Fully-qualified file path to the root of the Unity project.</returns>
@@ -91,7 +288,6 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         }
 
 #if UNITY_EDITOR
-        
         #region Line Ending Manipulations
 
         public static void ConvertDosToUnixLineEndings(string filename)

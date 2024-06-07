@@ -31,17 +31,11 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
     using Editor.Build;
     using Extensions;
     using System.Linq;
-    using Editor.Utility;
     using System.Threading;
     using System.Threading.Tasks;
 
     public class PackageFileUtility
     {
-        /// <summary>
-        /// Interval with which to update progress UI when there are progresses to report.
-        /// </summary>
-        private const double UpdateProgressIntervalInSeconds = 1.5;
-
         /// <summary>
         /// Generates a unique and new temporary directory inside the Temporary Cache Path as determined by Unity,
         /// and returns the fully-qualified path to the newly created directory.
@@ -226,7 +220,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
             string destination,
             List<FileInfoMatchingResult> matchingResults,
             out List<string> directoriesToCreate,
-            out List<(string from, string to, long size)> filesToCopy)
+            out List<FileUtility.CopyFileOperation> filesToCopy)
         {
             filesToCopy = new();
             directoriesToCreate = new();
@@ -254,7 +248,12 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
 
                 if (file.originalSrcDestPair.copy_identical || !src.AreContentsSemanticallyEqual(new FileInfo(destPath)))
                 {
-                    filesToCopy.Add((src.FullName, destPath, src.Length));
+                    filesToCopy.Add(new()
+                    {
+                        From = src.FullName,
+                        To = destPath,
+                        Bytes = src.Length
+                    });
                 }
             }
 
@@ -262,62 +261,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
             directoriesToCreate = directoriesToCreate.Distinct().OrderBy(d => d.Length).ToList();
         }
 
-        public struct CreatePackageProgressInfo
-        {
-            public int FilesCopied;
-            public int TotalFilesToCopy;
-            public long SizeOfFilesCopied;
-            public long TotalSizeOfFilesToCopy;
-        }
-
-        /// <summary>
-        /// Run the copy operations, reporting the progress.
-        /// </summary>
-        /// <param name="operations">File copy operations to perform.</param>
-        /// <param name="progress">Progress reporter.</param>
-        /// <param name="cancellationToken">Cancellation token.</param>
-        /// <returns>Task</returns>
-        private static async Task RunCopyOperations(
-            List<(string from, string to, long size)> operations,
-            IProgress<FileUtility.CopyFileProgressInfo> progress,
-            CancellationToken cancellationToken)
-        {
-            // Create struct to track and report on progress
-            FileUtility.CopyFileProgressInfo progressInfo = new()
-            {
-                TotalBytesToCopy = operations.Sum(op => op.size),
-                TotalFilesToCopy = operations.Count()
-            };
-
-            // Used to measure how long it's been since the progress has been reported.
-            DateTime progressLastUpdated = DateTime.Now;
-
-            // Execute each file copy operation.
-            foreach ((string from, string to, long size) in operations)
-            {
-                // Make sure to throw an exception if a cancellation was requested of the token.
-                cancellationToken.ThrowIfCancellationRequested();
-
-                // Run the file copy asynchronously, passing on the cancellation token.
-                await Task.Run(() => File.Copy(from, to, true), cancellationToken);
-
-                // Increment the number of files copied.
-                progressInfo.FilesCopied++;
-
-                // Update the number of bytes that have been copied.
-                progressInfo.BytesCopied += size;
-
-                if (null == progress ||
-                    (DateTime.Now - progressLastUpdated).TotalSeconds < UpdateProgressIntervalInSeconds)
-                {
-                    continue;
-                }
-
-                progressLastUpdated = DateTime.Now;
-                
-                progress.Report(progressInfo);
-            }
-        }
+        
 
         /// <summary>
         /// Copies files to a directory to create a UPM package. Directory structure to create is inferred.
@@ -344,20 +288,20 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
 
             Directory.CreateDirectory(destination);
 
-            GetFileSystemOperations(destination, matchingResults, out List<string> directoriesToCreate, out List<(string from, string to, long size)> copyOperations);
+            GetFileSystemOperations(destination, matchingResults, out List<string> directoriesToCreate, out List<FileUtility.CopyFileOperation> copyOperations);
 
             // Create the directory structure
-            foreach (string directory in directoriesToCreate)
-            {
-                var dInfo = Directory.CreateDirectory(directory);
-                if (!dInfo.Exists)
-                {
-                    Debug.LogWarning($"Could not create directory \"{directory}\".");
-                }
-            }
+            //foreach (string directory in directoriesToCreate)
+            //{
+            //    var dInfo = Directory.CreateDirectory(directory);
+            //    if (!dInfo.Exists)
+            //    {
+            //        Debug.LogWarning($"Could not create directory \"{directory}\".");
+            //    }
+            //}
 
             // Copy the files
-            await RunCopyOperations(copyOperations, progress, cancellationToken);
+            await FileUtility.ExecuteCopyFileOperationsAsync(copyOperations, progress, cancellationToken);
 
             // Execute callback
             postProcessCallback?.Invoke(destination);
