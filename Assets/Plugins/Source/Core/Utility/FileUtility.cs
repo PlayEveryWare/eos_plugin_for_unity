@@ -33,6 +33,32 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
     public static class FileUtility
     {
         /// <summary>
+        /// Contains information about the progress of a copy file operation.
+        /// </summary>
+        public struct CopyFileProgressInfo
+        {
+            /// <summary>
+            /// The number of files that have been copied.
+            /// </summary>
+            public int FilesCopied;
+
+            /// <summary>
+            /// The total number of files being copied.
+            /// </summary>
+            public int TotalFilesToCopy;
+
+            /// <summary>
+            /// The size in bytes of the files that have been copied.
+            /// </summary>
+            public long BytesCopied;
+
+            /// <summary>
+            /// The total size in bytes of all the files being copied.
+            /// </summary>
+            public long TotalBytesToCopy;
+        }
+
+        /// <summary>
         /// Generates a unique and new temporary directory inside the Temporary Cache Path as determined by Unity,
         /// and returns the fully-qualified path to the newly created directory.
         /// </summary>

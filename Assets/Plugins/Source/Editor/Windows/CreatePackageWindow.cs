@@ -262,14 +262,14 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
             _createPackageCancellationTokenSource = new();
             _operationInProgress = true;
 
-            var progressHandler = new Progress<UnityPackageCreationUtility.CreatePackageProgressInfo>(value =>
+            var progressHandler = new Progress<FileUtility.CopyFileProgressInfo>(value =>
             {
                 var fileCountStrSize = value.TotalFilesToCopy.ToString().Length;
                 string filesCopiedStrFormat = "{0," + fileCountStrSize + "}";
                 var filesCopiedCountStr = String.Format(filesCopiedStrFormat, value.FilesCopied);
                 var filesToCopyCountStr = String.Format(filesCopiedStrFormat, value.TotalFilesToCopy);
 
-                _progress = value.SizeOfFilesCopied / (float)value.TotalSizeOfFilesToCopy;
+                _progress = value.BytesCopied / (float)value.TotalBytesToCopy;
                 _progressText = $"{filesCopiedCountStr} out of {filesToCopyCountStr} files copied";
                 Repaint();
             });

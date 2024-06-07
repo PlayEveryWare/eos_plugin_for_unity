@@ -262,6 +262,14 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
             directoriesToCreate = directoriesToCreate.Distinct().OrderBy(d => d.Length).ToList();
         }
 
+        public struct CreatePackageProgressInfo
+        {
+            public int FilesCopied;
+            public int TotalFilesToCopy;
+            public long SizeOfFilesCopied;
+            public long TotalSizeOfFilesToCopy;
+        }
+
         /// <summary>
         /// Run the copy operations, reporting the progress.
         /// </summary>
@@ -271,20 +279,18 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         /// <returns>Task</returns>
         private static async Task RunCopyOperations(
             List<(string from, string to, long size)> operations,
-            IProgress<UnityPackageCreationUtility.CreatePackageProgressInfo> progress,
+            IProgress<FileUtility.CopyFileProgressInfo> progress,
             CancellationToken cancellationToken)
         {
-            // Determine the total size of files that need to be copied.
-            long sizeOfFilesToCopy = operations.Sum(op => op.size);
+            // Create struct to track and report on progress
+            FileUtility.CopyFileProgressInfo progressInfo = new()
+            {
+                TotalBytesToCopy = operations.Sum(op => op.size),
+                TotalFilesToCopy = operations.Count()
+            };
 
             // Used to measure how long it's been since the progress has been reported.
             DateTime progressLastUpdated = DateTime.Now;
-
-            // Used to keep track of how many files have been copied.
-            int filesCopied = 0;
-
-            // Keeps track of how many bytes have been copied.
-            long sizeOfCopiedFiles = 0L;
 
             // Execute each file copy operation.
             foreach ((string from, string to, long size) in operations)
@@ -296,10 +302,10 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
                 await Task.Run(() => File.Copy(from, to, true), cancellationToken);
 
                 // Increment the number of files copied.
-                filesCopied++;
+                progressInfo.FilesCopied++;
 
                 // Update the number of bytes that have been copied.
-                sizeOfCopiedFiles += size;
+                progressInfo.BytesCopied += size;
 
                 if (null == progress ||
                     (DateTime.Now - progressLastUpdated).TotalSeconds < UpdateProgressIntervalInSeconds)
@@ -308,13 +314,8 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
                 }
 
                 progressLastUpdated = DateTime.Now;
-                progress.Report(new UnityPackageCreationUtility.CreatePackageProgressInfo()
-                {
-                    FilesCopied = filesCopied,
-                    TotalFilesToCopy = operations.Count,
-                    SizeOfFilesCopied = sizeOfCopiedFiles,
-                    TotalSizeOfFilesToCopy = sizeOfFilesToCopy
-                });
+                
+                progress.Report(progressInfo);
             }
         }
 
@@ -330,7 +331,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         public static async Task CopyFilesToDirectory(
             string destination,
             List<FileInfoMatchingResult> matchingResults,
-            IProgress<UnityPackageCreationUtility.CreatePackageProgressInfo> progress = null,
+            IProgress<FileUtility.CopyFileProgressInfo> progress = null,
             CancellationToken cancellationToken = default,
             Action<string> postProcessCallback = null)
         {
