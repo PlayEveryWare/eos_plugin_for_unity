@@ -214,16 +214,13 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         /// </summary>
         /// <param name="destination">The destination at which to create the package.</param>
         /// <param name="matchingResults">The matching results, determined by evaluating the package description json file.</param>
-        /// <param name="directoriesToCreate">The directories to create before copy files.</param>
         /// <param name="filesToCopy">The file copy operations that need to take place to create the package.</param>
         private static void GetFileSystemOperations(
             string destination,
             List<FileInfoMatchingResult> matchingResults,
-            out List<string> directoriesToCreate,
             out List<FileUtility.CopyFileOperation> filesToCopy)
         {
             filesToCopy = new();
-            directoriesToCreate = new();
 
             foreach (var file in matchingResults)
             {
@@ -231,18 +228,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
                 string dest = file.GetDestination();
 
                 string finalDestinationPath = Path.Combine(destination, dest);
-                string finalDestinationParent = Path.GetDirectoryName(finalDestinationPath);
                 bool isDestinationADirectory = dest.EndsWith("/") || dest.Length == 0;
-
-                if (!string.IsNullOrEmpty(finalDestinationParent) && !Directory.Exists(finalDestinationParent))
-                {
-                    directoriesToCreate.Add(finalDestinationParent);
-                }
-
-                if (!Directory.Exists(finalDestinationPath) && isDestinationADirectory)
-                {
-                    directoriesToCreate.Add(finalDestinationPath);
-                }
 
                 string destPath = isDestinationADirectory ? Path.Combine(finalDestinationPath, src.Name) : finalDestinationPath;
 
@@ -256,12 +242,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
                     });
                 }
             }
-
-            // Order the directories by length of path, and make the list unique.
-            directoriesToCreate = directoriesToCreate.Distinct().OrderBy(d => d.Length).ToList();
         }
-
-        
 
         /// <summary>
         /// Copies files to a directory to create a UPM package. Directory structure to create is inferred.
@@ -288,21 +269,14 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
 
             Directory.CreateDirectory(destination);
 
-            GetFileSystemOperations(destination, matchingResults, out List<string> directoriesToCreate, out List<FileUtility.CopyFileOperation> copyOperations);
-
-            // Create the directory structure
-            //foreach (string directory in directoriesToCreate)
-            //{
-            //    var dInfo = Directory.CreateDirectory(directory);
-            //    if (!dInfo.Exists)
-            //    {
-            //        Debug.LogWarning($"Could not create directory \"{directory}\".");
-            //    }
-            //}
+            GetFileSystemOperations(
+                destination, 
+                matchingResults,
+                out List<FileUtility.CopyFileOperation> copyOperations);
 
             // Copy the files
-            await FileUtility.ExecuteCopyFileOperationsAsync(copyOperations, progress, cancellationToken);
-
+            await FileUtility.ExecuteCopyFileOperationsAsync(copyOperations, cancellationToken, progress);
+            
             // Execute callback
             postProcessCallback?.Invoke(destination);
         }

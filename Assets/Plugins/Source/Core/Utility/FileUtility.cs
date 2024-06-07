@@ -22,6 +22,7 @@
 
 namespace PlayEveryWare.EpicOnlineServices.Utility
 {
+    using Extensions;
     using System;
     using System.Collections.Generic;
     using System.IO;
@@ -150,50 +151,6 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         }
 
         /// <summary>
-        /// Deconstructs a filepath to return the path of each directory in the
-        /// path.
-        /// </summary>
-        /// <param name="filePath">
-        /// The filepath to get the directories of.
-        /// </param>
-        /// <returns>A list of directories for the path.</returns>
-        private static List<string> GetDirectories(string filePath)
-        {
-            // Get the directory name from the file path.
-            string directoryPath = Path.GetDirectoryName(filePath);
-
-            // To store the directories along the path.
-            List<string> directories = new() { filePath };
-
-            // If the directory path is empty or null, then stop.
-            if (string.IsNullOrEmpty(directoryPath))
-            {
-                return directories;
-            }
-
-            // Split the directory path into individual directories.
-            string[] parts = directoryPath.Split(
-                Path.DirectorySeparatorChar, 
-                Path.AltDirectorySeparatorChar, 
-                StringSplitOptions.RemoveEmptyEntries
-                );
-
-            // If there are no parts to process, then stop
-            if (parts.Length == 0)
-                return directories;
-
-            // Reconstruct each directory step-by-step to maintain full path.
-            string currentPath = parts[0];
-            foreach (string part in parts[1..])
-            {
-                currentPath = Path.Combine(currentPath, part);
-                directories.Add(currentPath);
-            }
-
-            return directories;
-        }
-
-        /// <summary>
         /// Run a list of file copy operations. If the destination directory
         /// indicated does not exist, it will be created. It is expected that
         /// the source file indicated exists. Default behavior is to overwrite
@@ -218,19 +175,27 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         /// <returns>Task</returns>
         public static async Task ExecuteCopyFileOperationsAsync(
             List<CopyFileOperation> operations,
-            IProgress<CopyFileProgressInfo> progress = null,
             CancellationToken cancellationToken = default,
-            Int32 updateIntervalMS = DefaultUpdateIntervalMS)
+            IProgress<CopyFileProgressInfo> progress = null,
+            int updateIntervalMS = DefaultUpdateIntervalMS)
         {
-            // Create struct to track and report on progress
-            CopyFileProgressInfo progressInfo = new()
+            // Create each directory
+            foreach (var directory in GetDirectories(operations.Select(o => o.To)))
             {
-                TotalBytesToCopy = operations.Sum(o => o.Bytes),
-                TotalFilesToCopy = operations.Count()
-            };
+                Directory.CreateDirectory(directory);
+            }
 
+            // If the progress is defined, then do extra work to track the
+            // progress.
             if (null != progress)
             {
+                // Create struct to track and report on progress
+                CopyFileProgressInfo progressInfo = new()
+                {
+                    TotalBytesToCopy = operations.Sum(o => o.Bytes),
+                    TotalFilesToCopy = operations.Count()
+                };
+
                 // Create timer to periodically report on the progress based on
                 // the interval (at some future point it may be appropriate to
                 // make that interval a parameter)
@@ -238,35 +203,48 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
                 {
                     progress?.Report(progressInfo);
                 }, null, 0, updateIntervalMS);
+
+                // Get a list out of the operations, and shuffle it
+                IList<CopyFileOperation> operationsList = operations.ToList();
+                operationsList.Shuffle();
+
+                // Copy the files asynchronously with the provided
+                // cancellation token, and progress stuff.
+                await CopyFilesAsync(
+                    operationsList, 
+                    cancellationToken, 
+                    progressInfo, 
+                    progress);
             }
-
-            // Get directories represented by the set of file copy operations
-            var directoriesToCreate = GetDirectories(
-                operations.Select(o => o.To)
-                );
-
-            // Create each directory
-            foreach (var directory in directoriesToCreate)
+            else
             {
-                Directory.CreateDirectory(directory);
+                await CopyFilesAsync(operations, cancellationToken);
             }
-            
-            // Execute each file copy operation.
+        }
+
+        private static async Task CopyFilesAsync(
+            IEnumerable<CopyFileOperation> operations,
+            CancellationToken cancellationToken = default,
+            CopyFileProgressInfo progressInfo = default,
+            IProgress<CopyFileProgressInfo> progress = null
+            )
+        {   
             foreach (var copyOperation in operations)
             {
                 // Make sure to throw an exception if a cancellation was
                 // requested of the token.
                 cancellationToken.ThrowIfCancellationRequested();
 
-                // Run the file copy asynchronously, passing on the cancellation
-                // token.
+                // Run the file copy asynchronously, passing on the
+                // cancellation token.
                 await Task.Run(() => File.Copy(
-                        copyOperation.From,
-                        copyOperation.To, true),
+                    copyOperation.From, 
+                    copyOperation.To, 
+                    true), 
                     cancellationToken);
 
-                // If there is no progress, we don't need to update the info
-                // and we can continue.
+                // If there is no progress reporter, then skip updating the
+                // update info.
                 if (null == progress)
                     continue;
 
@@ -275,6 +253,9 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
 
                 // Update the number of bytes that have been copied.
                 progressInfo.BytesCopied += copyOperation.Bytes;
+
+                // Report progress if a progress reporter is provided.
+                progress?.Report(progressInfo);
             }
         }
 
