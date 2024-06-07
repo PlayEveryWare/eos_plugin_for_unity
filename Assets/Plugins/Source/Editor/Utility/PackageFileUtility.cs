@@ -232,6 +232,11 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
 
                 string destPath = isDestinationADirectory ? Path.Combine(finalDestinationPath, src.Name) : finalDestinationPath;
 
+                if (file.originalSrcDestPair.copy_identical)
+                {
+                    Debug.LogWarning("ASDF");
+                }
+
                 if (file.originalSrcDestPair.copy_identical || !src.AreContentsSemanticallyEqual(new FileInfo(destPath)))
                 {
                     filesToCopy.Add(new()
@@ -275,7 +280,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
                 out List<FileUtility.CopyFileOperation> copyOperations);
 
             // Copy the files
-            await FileUtility.ExecuteCopyFileOperationsAsync(copyOperations, cancellationToken, progress);
+            await FileUtility.CopyFilesAsync(copyOperations, cancellationToken, progress);
             
             // Execute callback
             postProcessCallback?.Invoke(destination);

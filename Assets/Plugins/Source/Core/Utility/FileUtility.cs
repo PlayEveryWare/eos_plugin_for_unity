@@ -129,8 +129,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         /// first.
         /// </param>
         /// <returns></returns>
-        private static IEnumerable<string> GetDirectories(
-            IEnumerable<string> filepaths, bool inOrder = true)
+        private static IEnumerable<string> GetDirectories(IEnumerable<string> filepaths, bool inOrder = true)
         {
             // For each filepath, determine the immediate parent directory of
             // the file. Make a unique set of these by utilizing a HashSet.
@@ -139,15 +138,21 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
             {
                 string parent = Path.GetDirectoryName(path);
 
-                if (null != parent)
-                    directoriesToCreate.Add(parent);
+                // skip if no parent
+                if (null == parent) continue;
+                
+                directoriesToCreate.Add(parent);
                 
             }
 
             // Return the list of directories to create in ascending order of
             // string length.
-            return inOrder ? directoriesToCreate.OrderBy(s => s.Length) : 
-                directoriesToCreate;
+            if (inOrder)
+            {
+                return directoriesToCreate.OrderBy(s => s.Length);
+            }
+
+            return directoriesToCreate;
         }
 
         /// <summary>
@@ -173,11 +178,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         /// <param name="progress">Progress reporter.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <returns>Task</returns>
-        public static async Task ExecuteCopyFileOperationsAsync(
-            List<CopyFileOperation> operations,
-            CancellationToken cancellationToken = default,
-            IProgress<CopyFileProgressInfo> progress = null,
-            int updateIntervalMS = DefaultUpdateIntervalMS)
+        public static async Task CopyFilesAsync(IList<CopyFileOperation> operations, CancellationToken cancellationToken = default, IProgress<CopyFileProgressInfo> progress = null, int updateIntervalMS = DefaultUpdateIntervalMS)
         {
             // Create each directory
             foreach (var directory in GetDirectories(operations.Select(o => o.To)))
@@ -210,43 +211,31 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
 
                 // Copy the files asynchronously with the provided
                 // cancellation token, and progress stuff.
-                await CopyFilesAsync(
-                    operationsList, 
-                    cancellationToken, 
-                    progressInfo, 
-                    progress);
+                await CopyFilesAsyncInternal(operationsList, cancellationToken, progress, progressInfo);
             }
             else
             {
-                await CopyFilesAsync(operations, cancellationToken);
+                await CopyFilesAsyncInternal(operations, cancellationToken);
             }
         }
 
-        private static async Task CopyFilesAsync(
-            IEnumerable<CopyFileOperation> operations,
-            CancellationToken cancellationToken = default,
-            CopyFileProgressInfo progressInfo = default,
-            IProgress<CopyFileProgressInfo> progress = null
-            )
+        /// <summary>
+        /// Performs the core file copy operations.
+        /// </summary>
+        /// <param name="operations">File copy operations to perform.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        /// <param name="progress">Progress reporter.</param>
+        /// <param name="progressInfo">Progress information.</param>
+        /// <returns>Task</returns>
+        private static async Task CopyFilesAsyncInternal(IEnumerable<CopyFileOperation> operations, CancellationToken cancellationToken = default, IProgress<CopyFileProgressInfo> progress = null, CopyFileProgressInfo progressInfo = default)
         {   
             foreach (var copyOperation in operations)
             {
-                // Make sure to throw an exception if a cancellation was
-                // requested of the token.
-                cancellationToken.ThrowIfCancellationRequested();
-
-                // Run the file copy asynchronously, passing on the
-                // cancellation token.
-                await Task.Run(() => File.Copy(
-                    copyOperation.From, 
-                    copyOperation.To, 
-                    true), 
-                    cancellationToken);
+                await CopyFileAsync(copyOperation, cancellationToken);
 
                 // If there is no progress reporter, then skip updating the
                 // update info.
-                if (null == progress)
-                    continue;
+                if (null == progress) continue;
 
                 // Increment the number of files copied.
                 progressInfo.FilesCopied++;
@@ -257,6 +246,23 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
                 // Report progress if a progress reporter is provided.
                 progress?.Report(progressInfo);
             }
+        }
+
+        /// <summary>
+        /// Copies a single file asynchronously.
+        /// </summary>
+        /// <param name="op">The file copy operation.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        /// <returns>Task</returns>
+        private static async Task CopyFileAsync(CopyFileOperation op, CancellationToken cancellationToken)
+        {
+            // Make sure to throw an exception if a cancellation was
+            // requested of the token.
+            cancellationToken.ThrowIfCancellationRequested();
+
+            // Run the file copy asynchronously, passing on the
+            // cancellation token.
+            await Task.Run(() => File.Copy(op.From, op.To,true), cancellationToken);
         }
 
         /// <summary>
