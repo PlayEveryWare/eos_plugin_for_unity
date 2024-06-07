@@ -76,11 +76,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
         /// </summary>
         public static CoroutineExecutor executorInstance;
         
-        private static PackageDescription ReadPackageDescription(string pathToJSONPackageDescription)
-        {
-            return JsonUtility.FromJsonFile<PackageDescription>(pathToJSONPackageDescription);
-        }
-
         public static async Task CreatePackage(PackageType packageType, IProgress<FileUtility.CopyFileProgressInfo> progress = null, CancellationToken cancellationToken = default)
         {
             var packagingConfig = await Config.GetAsync<PackagingConfig>();
@@ -122,8 +117,8 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
                 return;
             }
 
-            PackageDescription packageDescription = ReadPackageDescription(json_file);
-            
+            PackageDescription packageDescription = JsonUtility.FromJsonFile<PackageDescription>(json_file);
+
             var filesToCopy = PackageFileUtility.FindPackageFiles(
                 FileUtility.GetProjectPath(),
                 packageDescription

@@ -232,11 +232,6 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
 
                 string destPath = isDestinationADirectory ? Path.Combine(finalDestinationPath, src.Name) : finalDestinationPath;
 
-                if (file.originalSrcDestPair.copy_identical)
-                {
-                    Debug.LogWarning("ASDF");
-                }
-
                 if (file.originalSrcDestPair.copy_identical || !src.AreContentsSemanticallyEqual(new FileInfo(destPath)))
                 {
                     filesToCopy.Add(new()
