@@ -64,6 +64,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
             /// </summary>
             public long Bytes;
         }
+
         /// <summary>
         /// Contains information about the progress of a copy file operation.
         /// </summary>
@@ -93,26 +94,80 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         #endregion
 
         /// <summary>
-        /// Generates a unique and new temporary directory inside the Temporary Cache Path as determined by Unity,
-        /// and returns the fully-qualified path to the newly created directory.
+        /// Generates a unique and new temporary directory inside the Temporary
+        /// Cache Path as determined by Unity, and returns the fully-qualified
+        /// path to the newly created directory. The directory name will be
+        /// "Temp-" appended with a GUID.
         /// </summary>
-        /// <returns>Fully-qualified file path to the newly generated directory.</returns>
-        public static string GenerateTempDirectory()
+        /// <param name="path">
+        /// Fully-qualified path to the newly generated directory if one was
+        /// created, otherwise path is set to default System.String value.
+        /// </param>
+        /// <returns>
+        /// True if the temporary directory was created, false otherwise.
+        /// </returns>
+        public static bool TryGetTempDirectory(out string path)
         {
-            // Generate a temporary directory path.
-            string tempDirectory = Path.Combine(Application.temporaryCachePath, $"/Output-{Guid.NewGuid()}/");
-
-            // If (by some crazy miracle) the directory path already exists, keep generating until there is a new one.
-            while (Directory.Exists(tempDirectory))
+            path = default;
+            
+            // Nested local function to reduce repetitive code.
+            string GenerateTempPath()
             {
-                tempDirectory = Path.Combine(Application.temporaryCachePath, $"/Output-{Guid.NewGuid()}/");
+                return Path.Combine(
+                    Application.temporaryCachePath,
+                    $"Temp-{Guid.NewGuid()}");
             }
 
-            // Create the directory.
-            Directory.CreateDirectory(tempDirectory);
+            // Generate a temporary directory path.
+            string tempPath = GenerateTempPath();
+
+            // If (by some crazy miracle) the directory path already exists,
+            // try once more.
+            if (Directory.Exists(tempPath))
+            {
+                Debug.LogWarning(
+                    $"The temporary directory created collided with " +
+                    $"an existing temporary directory of the same name. This " +
+                    $"is very unlikely.");
+
+                tempPath = GenerateTempPath();
+
+                if (Directory.Exists(tempPath))
+                {
+                    Debug.LogError(
+                        $"When generating a temporary directory, the " +
+                        $"temporary directory generated collided twice with " +
+                        $"already existing directories of the same name. " +
+                        $"This is very unlikely.");
+
+                    return false;
+                }
+            }
+
+            try
+            {
+                // Create the directory.
+                var dInfo = Directory.CreateDirectory(tempPath);
+
+                // Make sure the directory exists.
+                if (!dInfo.Exists)
+                {
+                    Debug.LogError(
+                        $"Could not generate temporary directory.");
+                    return false;
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.LogError(
+                    $"Could not generate temporary directory: " +
+                    $"{e.Message}");
+                return false;
+            }
 
             // return the fully-qualified path to the newly created directory.
-            return Path.GetFullPath(tempDirectory);
+            path = Path.GetFullPath(tempPath);
+            return true;
         }
 
         /// <summary>
@@ -340,7 +395,6 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         /// <returns>Task</returns>
         public static async Task<string> ReadAllTextAsync(string path)
         {
-            
             return await File.ReadAllTextAsync(path);
         }
 
