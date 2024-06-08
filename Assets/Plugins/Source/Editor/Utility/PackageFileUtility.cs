@@ -232,7 +232,13 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
 
                 string destPath = isDestinationADirectory ? Path.Combine(finalDestinationPath, src.Name) : finalDestinationPath;
 
-                if (file.originalSrcDestPair.copy_identical || !src.AreContentsSemanticallyEqual(new FileInfo(destPath)))
+                FileInfo destInfo = new(destPath);
+
+                // The file needs to be copied in the following circumstances:
+                // 1. The file doesn't exist at the destination
+                // 2. The field member copy_identical is true
+                // 3. If the file contents are not semantically equal
+                if (!destInfo.Exists || file.originalSrcDestPair.copy_identical || !src.AreContentsSemanticallyEqual(destInfo))
                 {
                     filesToCopy.Add(new()
                     {
@@ -273,6 +279,15 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
                 destination, 
                 matchingResults,
                 out List<FileUtility.CopyFileOperation> copyOperations);
+
+            if (0 == copyOperations.Count)
+            {
+                Debug.LogWarning("There were no files that need to be moved to create the package (nothing seems to have changed).");
+            }
+            else
+            {
+                Debug.Log($"There are a total of {copyOperations.Count} files that need to be copied to update the package.");
+            }
 
             // Copy the files
             await FileUtility.CopyFilesAsync(copyOperations, cancellationToken, progress);

@@ -76,11 +76,14 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
         /// </summary>
         public static CoroutineExecutor executorInstance;
         
-        public static async Task CreatePackage(PackageType packageType, IProgress<FileUtility.CopyFileProgressInfo> progress = null, CancellationToken cancellationToken = default)
+        public static async Task CreatePackage(PackageType packageType, bool clean = false, IProgress<FileUtility.CopyFileProgressInfo> progress = null, CancellationToken cancellationToken = default)
         {
             var packagingConfig = await Config.GetAsync<PackagingConfig>();
 
-            FileUtility.CleanDirectory(packagingConfig.pathToOutput, true);
+            if (clean)
+            {
+	            FileUtility.CleanDirectory(packagingConfig.pathToOutput, true);
+            }
 
             switch (packageType)
             {

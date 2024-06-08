@@ -295,7 +295,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
                     }
                 }
 
-                await UPMUtility.CreatePackage(type, progressHandler, _createPackageCancellationTokenSource.Token);
+                await UPMUtility.CreatePackage(type, false, progressHandler, _createPackageCancellationTokenSource.Token);
 
                 if (EditorUtility.DisplayDialog("Package Created", "Package was successfully created",
                         "Open Output Path", "Close"))

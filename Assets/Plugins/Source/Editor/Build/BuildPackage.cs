@@ -195,19 +195,21 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
 
             // Create package
             // TODO: Join build systems - note the duplicate existence of the PackageType enum.
+            // TODO: Make clean a parameter
+            bool shouldClean = false;
 
             switch (packageType)
             {
                 case PackageType.UPMTarBall:
                     UnityPackageCreationUtility
-                        .CreatePackage(UnityPackageCreationUtility.PackageType.UPMTarball, null).Wait();
+                        .CreatePackage(UnityPackageCreationUtility.PackageType.UPMTarball, shouldClean, null).Wait();
                     break;
                 case PackageType.DotUnity:
-                    UnityPackageCreationUtility.CreatePackage(UnityPackageCreationUtility.PackageType.DotUnity, null).Wait();
+                    UnityPackageCreationUtility.CreatePackage(UnityPackageCreationUtility.PackageType.DotUnity, shouldClean, null).Wait();
                     break;
                 case PackageType.UPMDirectory:
                 default:
-                    UnityPackageCreationUtility.CreatePackage(UnityPackageCreationUtility.PackageType.UPM, null).Wait();
+                    UnityPackageCreationUtility.CreatePackage(UnityPackageCreationUtility.PackageType.UPM, shouldClean, null).Wait();
                     break;
 
             }
