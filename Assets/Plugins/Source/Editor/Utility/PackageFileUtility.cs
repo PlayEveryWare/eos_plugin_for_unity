@@ -234,6 +234,12 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
 
                 FileInfo destInfo = new(destPath);
 
+                // When generating a upm package, all directories that contain a 
+                // tilde character at the end of the name are ignored by Unity's
+                // Asset pipeline, so we skip them.
+                if (file.originalSrcDestPair.dest.Contains('~') && ".meta" == src.Extension)
+                    continue;
+
                 // The file needs to be copied in the following circumstances:
                 // 1. The file doesn't exist at the destination
                 // 2. The field member copy_identical is true
