@@ -27,6 +27,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
+    using System.Text;
     using System.Threading;
     using System.Threading.Tasks;
     using UnityEngine;
@@ -68,7 +69,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         /// <summary>
         /// Contains information about the progress of a copy file operation.
         /// </summary>
-        public struct CopyFileProgressInfo
+        public class CopyFileProgressInfo
         {
             /// <summary>
             /// The number of files that have been copied.
@@ -283,24 +284,32 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         /// <param name="progressInfo">Progress information.</param>
         /// <returns>Task</returns>
         private static async Task CopyFilesAsyncInternal(IEnumerable<CopyFileOperation> operations, CancellationToken cancellationToken = default, IProgress<CopyFileProgressInfo> progress = null, CopyFileProgressInfo progressInfo = default)
-        {   
-            foreach (var copyOperation in operations)
+        {
+            var tasks = operations.Select(async copyOperation =>
             {
                 await CopyFileAsync(copyOperation, cancellationToken);
 
                 // If there is no progress reporter, then skip updating the
                 // update info.
-                if (null == progress) continue;
+                if (null != progress)
+                {
+                    // lock the progressInfo, since multiple threads will be 
+                    // updating it at once
+                    lock (progressInfo)
+                    {
+                        // Increment the number of files copied.
+                        progressInfo.FilesCopied++;
 
-                // Increment the number of files copied.
-                progressInfo.FilesCopied++;
+                        // Update the number of bytes that have been copied.
+                        progressInfo.BytesCopied += copyOperation.Bytes;
 
-                // Update the number of bytes that have been copied.
-                progressInfo.BytesCopied += copyOperation.Bytes;
+                        // Report progress if a progress reporter is provided.
+                        progress?.Report(progressInfo);
+                    }
+                }
+            }).ToList();
 
-                // Report progress if a progress reporter is provided.
-                progress?.Report(progressInfo);
-            }
+            await Task.WhenAll(tasks);
         }
 
         /// <summary>
@@ -311,13 +320,47 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         /// <returns>Task</returns>
         private static async Task CopyFileAsync(CopyFileOperation op, CancellationToken cancellationToken)
         {
-            // Make sure to throw an exception if a cancellation was
-            // requested of the token.
-            cancellationToken.ThrowIfCancellationRequested();
+            // Maximum number of times the operation is retried if it fails.
+            const int maxRetries = 3;
 
-            // Run the file copy asynchronously, passing on the
-            // cancellation token.
-            await Task.Run(() => File.Copy(op.From, op.To,true), cancellationToken);
+            // This is the initial delay before the operation is retried.
+            const int delayMilliseconds = 200; 
+
+            for (int attempt = 0; attempt < maxRetries; attempt++)
+            {
+                try
+                {
+                    // Make sure to throw an exception if a cancellation was
+                    // requested of the token.
+                    cancellationToken.ThrowIfCancellationRequested();
+
+                    // Run the file copy asynchronously, passing on the
+                    // cancellation token.
+                    await Task.Run(() => File.Copy(op.From, op.To, true), cancellationToken);
+
+                    // if the task completes, then break out of the retry loop
+                    break;
+                }
+                catch (IOException ex) when (attempt < maxRetries - 1)
+                {
+                    // exponentially increase the delay to maximize the chance
+                    // it will succeed without waiting too long.
+                    var delay = delayMilliseconds * (int)Math.Pow(2, attempt);
+                    
+                    // Construct detailed message regarding the nature of the problem.
+                    StringBuilder sb = new();
+                    sb.AppendLine($"Exception occurred during the following copy operation:");
+                    sb.AppendLine($"From: \"{op.From}\"");
+                    sb.AppendLine($"  To: \"{op.To}\"");
+                    sb.AppendLine($"Exception message: \"{ex.Message}\"");
+                    sb.AppendLine($"Retrying in {delay}ms.");
+                    Debug.LogWarning(sb.ToString());
+
+                    // Only retry if there are remaining attempts.
+                    await Task.Delay(delay, cancellationToken);
+                }
+                
+            }
         }
 
         /// <summary>
