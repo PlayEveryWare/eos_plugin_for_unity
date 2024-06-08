@@ -184,7 +184,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         /// first.
         /// </param>
         /// <returns></returns>
-        private static IEnumerable<string> GetDirectories(IEnumerable<string> filepaths, bool inOrder = true)
+        public static IEnumerable<string> GetDirectories(IEnumerable<string> filepaths, bool inOrder = true)
         {
             // For each filepath, determine the immediate parent directory of
             // the file. Make a unique set of these by utilizing a HashSet.

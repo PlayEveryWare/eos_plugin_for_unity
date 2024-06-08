@@ -217,13 +217,19 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         /// <param name="filesToCopy">The file copy operations that need to take place to create the package.</param>
         private static void GetFileSystemOperations(
             string destination,
-            List<FileInfoMatchingResult> matchingResults,
+            IEnumerable<FileInfoMatchingResult> matchingResults,
             out List<FileUtility.CopyFileOperation> filesToCopy)
         {
             filesToCopy = new();
 
-            foreach (var file in matchingResults)
+            // Use a stack so that we can add more items to the collection as
+            // we go along.
+            Stack<FileInfoMatchingResult> matchingResultsStack = new(matchingResults);
+
+            while (matchingResultsStack.Count > 0)
             {
+                var file = matchingResultsStack.Pop();
+
                 FileInfo src = file.fileInfo;
                 string dest = file.GetDestination();
 
@@ -234,11 +240,29 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
 
                 FileInfo destInfo = new(destPath);
 
-                // When generating a upm package, all directories that contain a 
-                // tilde character at the end of the name are ignored by Unity's
-                // Asset pipeline, so we skip them.
-                if (file.originalSrcDestPair.dest.Contains('~') && ".meta" == src.Extension)
-                    continue;
+                if (file.originalSrcDestPair.dest.Contains('~'))
+                {
+                    // When generating a upm package, all directories that contain a 
+                    // tilde character at the end of the name are ignored by Unity's
+                    // Asset pipeline, so we skip copying meta files for those.
+                    if (".meta" == src.Extension)
+                        continue;
+                }
+                else
+                {
+                    // If the destination path does not contain a tilde, and
+                    // the source file does _not_ have a .meta extension, then
+                    // AND if the current file has a sibling that _does_ have a
+                    // .meta extension, and we should copy that file additionally.
+                    if (".meta" != src.Extension && File.Exists($"{src.FullName}.meta"))
+                    {
+                        FileInfoMatchingResult metaFile = file;
+                        metaFile.fileInfo = new FileInfo($"{src.FullName}.meta");
+                        metaFile.originalSrcDestPair = file.originalSrcDestPair;
+                        //metaFile.relativePath = $"{file.relativePath}.meta";
+                        matchingResultsStack.Push(metaFile);
+                    }
+                }
 
                 // The file needs to be copied in the following circumstances:
                 // 1. The file doesn't exist at the destination
@@ -272,13 +296,6 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
             CancellationToken cancellationToken = default,
             Action<string> postProcessCallback = null)
         {
-            // TODO: A major improvement to this system would be to automatically include .meta files, and gracefully
-            //       handle instances where the meta file *should* exist, but does not - gracefully in this context
-            //       would mean that if the .meta file exists, it should just be copied over; whereas if there is a
-            //       file entry copied over that does not have a corresponding meta file in the source, it indicates
-            //       that a meta file entry is MISSING from the source, and that should stop the creation of a package.
-
-
             Directory.CreateDirectory(destination);
 
             GetFileSystemOperations(
