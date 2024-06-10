@@ -339,15 +339,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         }
 
 #if ENABLE_DEBUG_INPUT
-        static bool previousShouldHandle = false;
-        static void LogInputChanged(bool shouldHandle)
+        private static bool previousShouldHandle = false;
+        private static void LogInputChanged(bool shouldHandle)
         {
-            bool result = previousShouldHandle != shouldHandle ? true : false;
-            if (result)
+            if (previousShouldHandle != shouldHandle)
             {
                 Debug.LogWarning($"Input {(shouldHandle ? "enabled" : "disabled")} for main app");
+                previousShouldHandle = shouldHandle;
             }
-            previousShouldHandle = shouldHandle;
         }
 #endif
         /// <summary>
