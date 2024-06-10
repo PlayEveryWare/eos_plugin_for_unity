@@ -208,7 +208,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
             GUILayout.Label(pathToZipFile);
             GUILayout.EndHorizontal();
 
-            if (GUILayout.Button("Install") && PackageFileUtility.TryGetTempDirectory(out string tmpDir))
+            if (GUILayout.Button("Install") && FileUtility.TryGetTempDirectory(out string tmpDir))
             {
                 try
                 {

@@ -36,6 +36,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
     using System.IO;
     using System.Threading;
     using System.Threading.Tasks;
+    using UnityEditorInternal;
     using Utility;
     using Config = EpicOnlineServices.Config;
 
@@ -58,8 +59,16 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
         private CancellationTokenSource _createPackageCancellationTokenSource;
         
         private bool _operationInProgress;
-        private float _progress;
+
+        #region Progress Bar Stuff
+        
+        private float _actualProgress;
+        private float _displayedProgress;
         private string _progressText;
+        private object _progressLock = new object();
+        private Thread _progressUpdateThread;
+
+        #endregion
 
         [MenuItem("Tools/EOS Plugin/Create Package")]
         public static void ShowWindow()
@@ -203,19 +212,38 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
                     labelSize.x,
                     labelSize.y);
 
-                EditorGUI.ProgressBar(progressBarRect, _progress, "");
+                lock (_progressLock)
+                {
+                    _displayedProgress = Mathf.Lerp(_displayedProgress, _actualProgress, Time.deltaTime * 2);
+                }
+
+                EditorGUI.ProgressBar(progressBarRect, _displayedProgress, "");
 
                 GUI.Label(labelRect, _progressText, customLabelStyle);
 
                 GUILayout.Space(20f);
                 if (GUILayout.Button("Cancel"))
                 {
-                    FileUtility.CleanDirectory(_packagingConfig.pathToOutput);
-                    _progress = 0.0f;
+                    _actualProgress = 0.0f;
                     _progressText = "";
                     _createPackageCancellationTokenSource?.Cancel();
+                    FileUtility.CleanDirectory(_packagingConfig.pathToOutput);
                 }
                 GUILayout.EndVertical();
+            }
+        }
+
+        private void UpdateProgressBar(CancellationToken cancellationToken)
+        {
+            const int smoothingFactor = 500;
+            while (!cancellationToken.IsCancellationRequested)
+            {
+                Thread.Sleep(smoothingFactor);
+
+                if (cancellationToken.IsCancellationRequested)
+                {
+                    break;
+                }
             }
         }
 
@@ -262,15 +290,30 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
             _createPackageCancellationTokenSource = new();
             _operationInProgress = true;
 
-            var progressHandler = new Progress<UnityPackageCreationUtility.CreatePackageProgressInfo>(value =>
+            var progressHandler = new Progress<FileUtility.CopyFileProgressInfo>(value =>
             {
                 var fileCountStrSize = value.TotalFilesToCopy.ToString().Length;
                 string filesCopiedStrFormat = "{0," + fileCountStrSize + "}";
                 var filesCopiedCountStr = String.Format(filesCopiedStrFormat, value.FilesCopied);
                 var filesToCopyCountStr = String.Format(filesCopiedStrFormat, value.TotalFilesToCopy);
 
-                _progress = value.SizeOfFilesCopied / (float)value.TotalSizeOfFilesToCopy;
-                _progressText = $"{filesCopiedCountStr} out of {filesToCopyCountStr} files copied";
+                lock (_progressLock)
+                {
+                    // Ternary statement here to prevent a divide by zero problem
+                    // ever happening, despite how odd it would be in this case.
+                    float newActualProgress = (0.0f >= value.TotalBytesToCopy)
+                        ? value.BytesCopied / (float)value.TotalBytesToCopy
+                        : 0;
+
+                    // Just to guarantee that the progress is increasing
+                    if (newActualProgress > _actualProgress)
+                    {
+                        _actualProgress = newActualProgress;
+                    }
+
+                    _progressText = $"{filesCopiedCountStr} out of {filesToCopyCountStr} files copied";
+                }
+                
                 Repaint();
             });
 
@@ -311,7 +354,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
             {
                 _operationInProgress = false;
                 _progressText = "";
-                _progress = 0f;
+                _actualProgress = 0f;
                 _createPackageCancellationTokenSource?.Dispose();
                 _createPackageCancellationTokenSource = null;
             }

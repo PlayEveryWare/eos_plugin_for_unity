@@ -31,69 +31,11 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
     using Editor.Build;
     using Extensions;
     using System.Linq;
-    using Editor.Utility;
     using System.Threading;
     using System.Threading.Tasks;
 
     public class PackageFileUtility
     {
-        /// <summary>
-        /// Interval with which to update progress UI when there are progresses to report.
-        /// </summary>
-        private const double UpdateProgressIntervalInSeconds = 1.5;
-
-        /// <summary>
-        /// Generates a unique and new temporary directory inside the Temporary Cache Path as determined by Unity,
-        /// and returns the fully-qualified path to the newly created directory.
-        /// </summary>
-        /// <returns>Fully-qualified file path to the newly generated directory.</returns>
-        public static bool TryGetTempDirectory(out string path)
-        {
-            // Generate a temporary directory path.
-            string tempPath = Path.Combine(Application.temporaryCachePath, $"Output-{Guid.NewGuid()}/");
-
-            // If (by some crazy miracle) the directory path already exists, keep generating until there is a new one.
-            if (Directory.Exists(tempPath))
-            {
-                Debug.LogWarning(
-                    $"The temporary directory created collided with an existing temporary directory of the same name. This is very unlikely.");
-                tempPath = Path.Combine(Application.temporaryCachePath, $"Output-{Guid.NewGuid()}/");
-
-                if (Directory.Exists(tempPath))
-                {
-                    Debug.LogError(
-                        $"When generating a temporary directory, the temporary directory generated collided twice with already existing directories of the same name. This is very unlikely.");
-                    path = null;
-                    return false;
-                }
-            }
-
-            try
-            {
-                // Create the directory.
-                var dInfo = Directory.CreateDirectory(tempPath);
-
-                // Make sure the directory exists.
-                if (!dInfo.Exists)
-                {
-                    Debug.LogError($"Could not generate temporary directory.");
-                    path = null;
-                    return false;
-                }
-            }
-            catch (Exception e)
-            {
-                Debug.LogError($"Could not generate temporary directory: {e.Message}");
-                path = null;
-                return false;
-            }
-
-            // return the fully-qualified path to the newly created directory.
-            path = Path.GetFullPath(tempPath);
-            return true;
-        }
-
-
         /// <summary>
         /// Generates a list of FileInfoMatchingResults that represent the contents of the package to create.
         /// </summary>
@@ -220,16 +162,13 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         /// </summary>
         /// <param name="destination">The destination at which to create the package.</param>
         /// <param name="matchingResults">The matching results, determined by evaluating the package description json file.</param>
-        /// <param name="directoriesToCreate">The directories to create before copy files.</param>
         /// <param name="filesToCopy">The file copy operations that need to take place to create the package.</param>
         private static void GetFileSystemOperations(
             string destination,
             List<FileInfoMatchingResult> matchingResults,
-            out List<string> directoriesToCreate,
-            out List<(string from, string to, long size)> filesToCopy)
+            out List<FileUtility.CopyFileOperation> filesToCopy)
         {
             filesToCopy = new();
-            directoriesToCreate = new();
 
             foreach (var file in matchingResults)
             {
@@ -237,84 +176,19 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
                 string dest = file.GetDestination();
 
                 string finalDestinationPath = Path.Combine(destination, dest);
-                string finalDestinationParent = Path.GetDirectoryName(finalDestinationPath);
                 bool isDestinationADirectory = dest.EndsWith("/") || dest.Length == 0;
-
-                if (!string.IsNullOrEmpty(finalDestinationParent) && !Directory.Exists(finalDestinationParent))
-                {
-                    directoriesToCreate.Add(finalDestinationParent);
-                }
-
-                if (!Directory.Exists(finalDestinationPath) && isDestinationADirectory)
-                {
-                    directoriesToCreate.Add(finalDestinationPath);
-                }
 
                 string destPath = isDestinationADirectory ? Path.Combine(finalDestinationPath, src.Name) : finalDestinationPath;
 
                 if (file.originalSrcDestPair.copy_identical || !src.AreContentsSemanticallyEqual(new FileInfo(destPath)))
                 {
-                    filesToCopy.Add((src.FullName, destPath, src.Length));
+                    filesToCopy.Add(new()
+                    {
+                        SourcePath = src.FullName,
+                        DestinationPath = destPath,
+                        Bytes = src.Length
+                    });
                 }
-            }
-
-            // Order the directories by length of path, and make the list unique.
-            directoriesToCreate = directoriesToCreate.Distinct().OrderBy(d => d.Length).ToList();
-        }
-
-        /// <summary>
-        /// Run the copy operations, reporting the progress.
-        /// </summary>
-        /// <param name="operations">File copy operations to perform.</param>
-        /// <param name="progress">Progress reporter.</param>
-        /// <param name="cancellationToken">Cancellation token.</param>
-        /// <returns>Task</returns>
-        private static async Task RunCopyOperations(
-            List<(string from, string to, long size)> operations,
-            IProgress<UnityPackageCreationUtility.CreatePackageProgressInfo> progress,
-            CancellationToken cancellationToken)
-        {
-            // Determine the total size of files that need to be copied.
-            long sizeOfFilesToCopy = operations.Sum(op => op.size);
-
-            // Used to measure how long it's been since the progress has been reported.
-            DateTime progressLastUpdated = DateTime.Now;
-
-            // Used to keep track of how many files have been copied.
-            int filesCopied = 0;
-
-            // Keeps track of how many bytes have been copied.
-            long sizeOfCopiedFiles = 0L;
-
-            // Execute each file copy operation.
-            foreach ((string from, string to, long size) in operations)
-            {
-                // Make sure to throw an exception if a cancellation was requested of the token.
-                cancellationToken.ThrowIfCancellationRequested();
-
-                // Run the file copy asynchronously, passing on the cancellation token.
-                await Task.Run(() => File.Copy(from, to, true), cancellationToken);
-
-                // Increment the number of files copied.
-                filesCopied++;
-
-                // Update the number of bytes that have been copied.
-                sizeOfCopiedFiles += size;
-
-                if (null == progress ||
-                    (DateTime.Now - progressLastUpdated).TotalSeconds < UpdateProgressIntervalInSeconds)
-                {
-                    continue;
-                }
-
-                progressLastUpdated = DateTime.Now;
-                progress.Report(new UnityPackageCreationUtility.CreatePackageProgressInfo()
-                {
-                    FilesCopied = filesCopied,
-                    TotalFilesToCopy = operations.Count,
-                    SizeOfFilesCopied = sizeOfCopiedFiles,
-                    TotalSizeOfFilesToCopy = sizeOfFilesToCopy
-                });
             }
         }
 
@@ -330,7 +204,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         public static async Task CopyFilesToDirectory(
             string destination,
             List<FileInfoMatchingResult> matchingResults,
-            IProgress<UnityPackageCreationUtility.CreatePackageProgressInfo> progress = null,
+            IProgress<FileUtility.CopyFileProgressInfo> progress = null,
             CancellationToken cancellationToken = default,
             Action<string> postProcessCallback = null)
         {
@@ -343,21 +217,14 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
 
             Directory.CreateDirectory(destination);
 
-            GetFileSystemOperations(destination, matchingResults, out List<string> directoriesToCreate, out List<(string from, string to, long size)> copyOperations);
-
-            // Create the directory structure
-            foreach (string directory in directoriesToCreate)
-            {
-                var dInfo = Directory.CreateDirectory(directory);
-                if (!dInfo.Exists)
-                {
-                    Debug.LogWarning($"Could not create directory \"{directory}\".");
-                }
-            }
+            GetFileSystemOperations(
+                destination, 
+                matchingResults,
+                out List<FileUtility.CopyFileOperation> copyOperations);
 
             // Copy the files
-            await RunCopyOperations(copyOperations, progress, cancellationToken);
-
+            await FileUtility.CopyFilesAsync(copyOperations, cancellationToken, progress);
+            
             // Execute callback
             postProcessCallback?.Invoke(destination);
         }
