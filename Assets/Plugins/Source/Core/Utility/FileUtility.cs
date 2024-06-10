@@ -22,16 +22,81 @@
 
 namespace PlayEveryWare.EpicOnlineServices.Utility
 {
+    using Extensions;
     using System;
+    using System.Collections.Generic;
     using System.IO;
+    using System.Threading;
     using System.Threading.Tasks;
     using UnityEngine;
+
+    // This compile conditional exists to ensure that the Linq namespace is
+    // not utilized during runtime operations.
+#if UNITY_EDITOR
+    using System.Linq;
+#endif
 
     /// <summary>
     /// Utility class used for a variety of File tasks.
     /// </summary>
     public static class FileUtility
     {
+        /// <summary>
+        /// Interval with which to update progress, in milliseconds
+        /// </summary>
+        private const int DefaultUpdateIntervalMS = 1500;
+
+        #region Data Structures 
+
+        /// <summary>
+        /// Stores information regarding a file copy operation.
+        /// </summary>
+        public struct CopyFileOperation
+        {
+            /// <summary>
+            /// The fully-qualified path of the source file.
+            /// </summary>
+            public string SourcePath;
+
+            /// <summary>
+            /// The fully-qualified path to copy the file to. The path does not
+            /// have to exist, and in fact might not.
+            /// </summary>
+            public string DestinationPath;
+
+            /// <summary>
+            /// The number of bytes in the file to copy.
+            /// </summary>
+            public long Bytes;
+        }
+        /// <summary>
+        /// Contains information about the progress of a copy file operation.
+        /// </summary>
+        public struct CopyFileProgressInfo
+        {
+            /// <summary>
+            /// The number of files that have been copied.
+            /// </summary>
+            public int FilesCopied;
+
+            /// <summary>
+            /// The total number of files being copied.
+            /// </summary>
+            public int TotalFilesToCopy;
+
+            /// <summary>
+            /// The size in bytes of the files that have been copied.
+            /// </summary>
+            public long BytesCopied;
+
+            /// <summary>
+            /// The total size in bytes of all the files being copied.
+            /// </summary>
+            public long TotalBytesToCopy;
+        }
+
+        #endregion
+
         /// <summary>
         /// Generates a unique and new temporary directory inside the Temporary
         /// Cache Path as determined by Unity, and returns the fully-qualified
@@ -109,6 +174,163 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
             return true;
         }
 
+        // This compile conditional exists because the following functions 
+        // make use of the System.Linq namespace which is undesirable to use
+        // during runtime. Since these functions are currently only ever 
+        // utilized in areas of the code that run in the editor, it is
+        // appropriate to use compile conditionals to include / exclude them.
+#if UNITY_EDITOR
+        /// <summary>
+        /// Get a list of the directories that are represented by the filepaths
+        /// provided. The list is unique, and is ordered by smallest path first,
+        /// so that the list can be utilized to create each directory in-order
+        /// if that is useful
+        /// </summary>
+        /// <param name="filepaths">
+        /// The filepaths to get the directories for.
+        /// </param>
+        /// <param name="creationOrder">
+        /// If true, return the list of directories in such an order that they
+        /// do not rely on the existence of directories further down the list.
+        /// </param>
+        /// <returns></returns>
+        private static IEnumerable<string> GetDirectories(IEnumerable<string> filepaths, bool creationOrder = true)
+        {
+            // For each filepath, determine the immediate parent directory of
+            // the file. Make a unique set of these by utilizing a HashSet.
+            ISet<string> directoriesToCreate = new HashSet<string>();
+            foreach (var path in filepaths)
+            {
+                string parent = Path.GetDirectoryName(path);
+
+                // skip if no parent
+                if (null == parent) continue;
+                
+                directoriesToCreate.Add(parent);
+                
+            }
+
+            // Return the list of directories to create in ascending order of
+            // string length.
+            if (creationOrder)
+            {
+                return directoriesToCreate.OrderBy(s => s.Length);
+            }
+
+            return directoriesToCreate;
+        }
+
+        /// <summary>
+        /// Run a list of file copy operations. If the destination directory
+        /// indicated does not exist, it will be created. It is expected that
+        /// the source file indicated exists. Default behavior is to overwrite
+        /// destination files.
+        ///
+        /// Before the file copy operations begin, the copy file operations are
+        /// inspected for missing destination directories - and the directory
+        /// structure required is created in its entirety before file copy
+        /// operations commence.
+        /// 
+        /// If a progress interface is provided, the file copy operations will
+        /// be randomized so as to average out the number of bytes copied at
+        /// each interval. Otherwise the files will be copied in the order they
+        /// are in the provided operations parameter.
+        /// </summary>
+        /// <param name="operations">File copy operations to perform.</param>
+        /// <param name="updateIntervalMS">
+        /// The interval in milliseconds with which to report progress.
+        /// </param>
+        /// <param name="progress">Progress reporter.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        /// <returns>Task</returns>
+        public static async Task CopyFilesAsync(IList<CopyFileOperation> operations, CancellationToken cancellationToken = default, IProgress<CopyFileProgressInfo> progress = null, int updateIntervalMS = DefaultUpdateIntervalMS)
+        {
+            // Create each directory
+            foreach (var directory in GetDirectories(operations.Select(o => o.DestinationPath)))
+            {
+                Directory.CreateDirectory(directory);
+            }
+
+            // If the progress is defined, then do extra work to track the
+            // progress.
+            if (null != progress)
+            {
+                // Create struct to track and report on progress
+                CopyFileProgressInfo progressInfo = new()
+                {
+                    TotalBytesToCopy = operations.Sum(o => o.Bytes),
+                    TotalFilesToCopy = operations.Count()
+                };
+
+                // Create timer to periodically report on the progress based on
+                // the interval (at some future point it may be appropriate to
+                // make that interval a parameter)
+                await using Timer progressTimer = new(state =>
+                {
+                    progress?.Report(progressInfo);
+                }, null, 0, updateIntervalMS);
+
+                // Get a list out of the operations, and shuffle it
+                IList<CopyFileOperation> operationsList = operations.ToList();
+                operationsList.Shuffle();
+
+                // Copy the files asynchronously with the provided
+                // cancellation token, and progress stuff.
+                await CopyFilesAsyncInternal(operationsList, cancellationToken, progress, progressInfo);
+            }
+            else
+            {
+                await CopyFilesAsyncInternal(operations, cancellationToken);
+            }
+        }
+#endif
+
+        /// <summary>
+        /// Performs the core file copy operations.
+        /// </summary>
+        /// <param name="operations">File copy operations to perform.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        /// <param name="progress">Progress reporter.</param>
+        /// <param name="progressInfo">Progress information.</param>
+        /// <returns>Task</returns>
+        private static async Task CopyFilesAsyncInternal(IEnumerable<CopyFileOperation> operations, CancellationToken cancellationToken = default, IProgress<CopyFileProgressInfo> progress = null, CopyFileProgressInfo progressInfo = default)
+        {   
+            foreach (var copyOperation in operations)
+            {
+                await CopyFileAsync(copyOperation, cancellationToken);
+
+                // If there is no progress reporter, then skip updating the
+                // update info.
+                if (null == progress) continue;
+
+                // Increment the number of files copied.
+                progressInfo.FilesCopied++;
+
+                // Update the number of bytes that have been copied.
+                progressInfo.BytesCopied += copyOperation.Bytes;
+
+                // Report progress if a progress reporter is provided.
+                progress?.Report(progressInfo);
+            }
+        }
+
+        /// <summary>
+        /// Copies a single file asynchronously.
+        /// </summary>
+        /// <param name="op">The file copy operation.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        /// <returns>Task</returns>
+        private static async Task CopyFileAsync(CopyFileOperation op, CancellationToken cancellationToken)
+        {
+            // Make sure to throw an exception if a cancellation was
+            // requested of the token.
+            cancellationToken.ThrowIfCancellationRequested();
+
+            // Run the file copy asynchronously, passing on the
+            // cancellation token.
+            await Task.Run(() => File.Copy(op.SourcePath, op.DestinationPath,true), cancellationToken);
+        }
+
         /// <summary>
         /// Returns the root of the Unity project.
         /// </summary>
@@ -119,7 +341,6 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         }
 
 #if UNITY_EDITOR
-        
         #region Line Ending Manipulations
 
         public static void ConvertDosToUnixLineEndings(string filename)

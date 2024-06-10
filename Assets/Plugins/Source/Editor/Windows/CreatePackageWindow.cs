@@ -290,10 +290,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
             _createPackageCancellationTokenSource = new();
             _operationInProgress = true;
 
-            _progressUpdateThread = new Thread(() => UpdateProgressBar(_createPackageCancellationTokenSource.Token));
-            _progressUpdateThread.Start();
-
-            var progressHandler = new Progress<UnityPackageCreationUtility.CreatePackageProgressInfo>(value =>
+            var progressHandler = new Progress<FileUtility.CopyFileProgressInfo>(value =>
             {
                 var fileCountStrSize = value.TotalFilesToCopy.ToString().Length;
                 string filesCopiedStrFormat = "{0," + fileCountStrSize + "}";
@@ -302,7 +299,11 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 
                 lock (_progressLock)
                 {
-                    float newActualProgress = value.SizeOfFilesCopied / (float)value.TotalSizeOfFilesToCopy;
+                    // Ternary statement here to prevent a divide by zero problem
+                    // ever happening, despite how odd it would be in this case.
+                    float newActualProgress = (0.0f >= value.TotalBytesToCopy)
+                        ? value.BytesCopied / (float)value.TotalBytesToCopy
+                        : 0;
 
                     // Just to guarantee that the progress is increasing
                     if (newActualProgress > _actualProgress)
