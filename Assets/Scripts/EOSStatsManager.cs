@@ -20,44 +20,31 @@
  * SOFTWARE.
  */
 
-//#define ENABLE_DEBUG_EOSACHIEVEMENTMANAGER
+//#define ENABLE_DEBUG_EOSSTATSMANAGER;
 
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Networking;
-using System.Net.Http;
-using System.Collections.Concurrent;
-using Epic.OnlineServices.Achievements;
-using Epic.OnlineServices.Platform;
-using Epic.OnlineServices.UserInfo;
 using Epic.OnlineServices.Stats;
 using System;
 using Epic.OnlineServices;
 using System.Diagnostics;
-using Epic.OnlineServices.Auth;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
-    using Epic.OnlineServices.Connect;
-
     /// <summary>
-    /// Class <c>EOSAchievementManager</c> is a simplified wrapper for EOS [Stats Interface](https://dev.epicgames.com/docs/services/en-US/Interfaces/Achievements/index.html).
+    /// Class <c>EOSStatsManager</c> is a simplified wrapper for EOS [Stats Interface](https://dev.epicgames.com/docs/services/en-US/Interfaces/Stats/index.html).
     /// </summary>
-
-    public class EOSStatsManager : IEOSSubManager, IEOSOnConnectLogin
+    public class EOSStatsManager : EOSOnConnectLogin, IEOSSubManager
     {
         /// <summary>
         /// Cache of the map between the product user id and the stats for that user.
         /// </summary>
         private Dictionary<ProductUserId, List<Stat>> _productUserIdToStatsCache = new();
 
-        public void OnConnectLogin(LoginCallbackInfo loginCallbackInfo)
+        protected override void PostSuccessfulLogin()
         {
-            ProductUserId productUserId = loginCallbackInfo.LocalUserId;
-            QueryStatsForProductUserId(productUserId, (ref OnQueryStatsCompleteCallbackInfo statsQueryData) =>
+            QueryStatsForProductUserId(_productUserId, (ref OnQueryStatsCompleteCallbackInfo statsQueryData) =>
             {
-                CacheStatsForProductUserId(productUserId);
+                CacheStatsForProductUserId(_productUserId);
             });
         }
 
