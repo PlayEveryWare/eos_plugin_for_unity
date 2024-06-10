@@ -1,0 +1,7 @@
+{
+    "packagePresetList": [
+         {"name":"Public","packageIdentifierPath":"etc/PackageTemplate/package.json","platformList":["Shared","Android","Linux","Mac","iOS","Windows","Steam"]},
+         {"name":"Standalone","packageIdentifierPath":"etc/PackageTemplate/package_standalone.json","platformList":["Shared","Linux","Mac","Windows"]},
+         {"name":"Mobile","packageIdentifierPath":"etc/PackageTemplate/package_mobile.json","platformList":["Shared","Android","iOS"]}
+    ]
+}
