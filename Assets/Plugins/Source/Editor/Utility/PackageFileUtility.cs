@@ -37,58 +37,6 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
     public class PackageFileUtility
     {
         /// <summary>
-        /// Generates a unique and new temporary directory inside the Temporary Cache Path as determined by Unity,
-        /// and returns the fully-qualified path to the newly created directory.
-        /// </summary>
-        /// <returns>Fully-qualified file path to the newly generated directory.</returns>
-        public static bool TryGetTempDirectory(out string path)
-        {
-            // Generate a temporary directory path.
-            string tempPath = Path.Combine(Application.temporaryCachePath, $"Output-{Guid.NewGuid()}/");
-
-            // If (by some crazy miracle) the directory path already exists, keep generating until there is a new one.
-            if (Directory.Exists(tempPath))
-            {
-                Debug.LogWarning(
-                    $"The temporary directory created collided with an existing temporary directory of the same name. This is very unlikely.");
-                tempPath = Path.Combine(Application.temporaryCachePath, $"Output-{Guid.NewGuid()}/");
-
-                if (Directory.Exists(tempPath))
-                {
-                    Debug.LogError(
-                        $"When generating a temporary directory, the temporary directory generated collided twice with already existing directories of the same name. This is very unlikely.");
-                    path = null;
-                    return false;
-                }
-            }
-
-            try
-            {
-                // Create the directory.
-                var dInfo = Directory.CreateDirectory(tempPath);
-
-                // Make sure the directory exists.
-                if (!dInfo.Exists)
-                {
-                    Debug.LogError($"Could not generate temporary directory.");
-                    path = null;
-                    return false;
-                }
-            }
-            catch (Exception e)
-            {
-                Debug.LogError($"Could not generate temporary directory: {e.Message}");
-                path = null;
-                return false;
-            }
-
-            // return the fully-qualified path to the newly created directory.
-            path = Path.GetFullPath(tempPath);
-            return true;
-        }
-
-
-        /// <summary>
         /// Generates a list of FileInfoMatchingResults that represent the contents of the package to create.
         /// </summary>
         /// <param name="root">Where to search for the files to create the package out of.</param>
@@ -272,8 +220,8 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
                 {
                     filesToCopy.Add(new()
                     {
-                        From = src.FullName,
-                        To = destPath,
+                        SourcePath = src.FullName,
+                        DestinationPath = destPath,
                         Bytes = src.Length
                     });
                 }
