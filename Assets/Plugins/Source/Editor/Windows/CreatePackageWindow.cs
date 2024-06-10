@@ -269,7 +269,9 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
                 var filesCopiedCountStr = String.Format(filesCopiedStrFormat, value.FilesCopied);
                 var filesToCopyCountStr = String.Format(filesCopiedStrFormat, value.TotalFilesToCopy);
 
-                _progress = value.BytesCopied / (float)value.TotalBytesToCopy;
+                // Ternary statement here to prevent a divide by zero problem
+                // ever happening, despite how odd it would be in this case.
+                _progress = (0.0f >= value.TotalBytesToCopy) ? value.BytesCopied / (float)value.TotalBytesToCopy : 0;
                 _progressText = $"{filesCopiedCountStr} out of {filesToCopyCountStr} files copied";
                 Repaint();
             });

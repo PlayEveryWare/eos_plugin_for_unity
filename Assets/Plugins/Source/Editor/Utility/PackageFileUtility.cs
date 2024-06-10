@@ -236,8 +236,8 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
                 {
                     filesToCopy.Add(new()
                     {
-                        From = src.FullName,
-                        To = destPath,
+                        SourcePath = src.FullName,
+                        DestinationPath = destPath,
                         Bytes = src.Length
                     });
                 }

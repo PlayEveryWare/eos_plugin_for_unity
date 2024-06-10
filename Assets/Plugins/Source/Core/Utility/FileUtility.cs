@@ -26,10 +26,15 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
     using System;
     using System.Collections.Generic;
     using System.IO;
-    using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
     using UnityEngine;
+
+    // This compile conditional exists to ensure that the Linq namespace is
+    // not utilized during runtime operations.
+#if UNITY_EDITOR
+    using System.Linq;
+#endif
 
     /// <summary>
     /// Utility class used for a variety of File tasks.
@@ -51,13 +56,13 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
             /// <summary>
             /// The fully-qualified path of the source file.
             /// </summary>
-            public string From;
+            public string SourcePath;
 
             /// <summary>
             /// The fully-qualified path to copy the file to. The path does not
             /// have to exist, and in fact might not.
             /// </summary>
-            public string To;
+            public string DestinationPath;
 
             /// <summary>
             /// The number of bytes in the file to copy.
@@ -115,6 +120,12 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
             return Path.GetFullPath(tempDirectory);
         }
 
+        // This compile conditional exists because the following functions 
+        // make use of the System.Linq namespace which is undesirable to use
+        // during runtime. Since these functions are currently only ever 
+        // utilized in areas of the code that run in the editor, it is
+        // appropriate to use compile conditionals to include / exclude them.
+#if UNITY_EDITOR
         /// <summary>
         /// Get a list of the directories that are represented by the filepaths
         /// provided. The list is unique, and is ordered by smallest path first,
@@ -124,12 +135,12 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         /// <param name="filepaths">
         /// The filepaths to get the directories for.
         /// </param>
-        /// <param name="inOrder">
-        /// If true, return the list of directories by order shortest path
-        /// first.
+        /// <param name="creationOrder">
+        /// If true, return the list of directories in such an order that they
+        /// do not rely on the existence of directories further down the list.
         /// </param>
         /// <returns></returns>
-        private static IEnumerable<string> GetDirectories(IEnumerable<string> filepaths, bool inOrder = true)
+        private static IEnumerable<string> GetDirectories(IEnumerable<string> filepaths, bool creationOrder = true)
         {
             // For each filepath, determine the immediate parent directory of
             // the file. Make a unique set of these by utilizing a HashSet.
@@ -147,7 +158,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
 
             // Return the list of directories to create in ascending order of
             // string length.
-            if (inOrder)
+            if (creationOrder)
             {
                 return directoriesToCreate.OrderBy(s => s.Length);
             }
@@ -181,7 +192,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         public static async Task CopyFilesAsync(IList<CopyFileOperation> operations, CancellationToken cancellationToken = default, IProgress<CopyFileProgressInfo> progress = null, int updateIntervalMS = DefaultUpdateIntervalMS)
         {
             // Create each directory
-            foreach (var directory in GetDirectories(operations.Select(o => o.To)))
+            foreach (var directory in GetDirectories(operations.Select(o => o.DestinationPath)))
             {
                 Directory.CreateDirectory(directory);
             }
@@ -218,6 +229,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
                 await CopyFilesAsyncInternal(operations, cancellationToken);
             }
         }
+#endif
 
         /// <summary>
         /// Performs the core file copy operations.
@@ -262,7 +274,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
 
             // Run the file copy asynchronously, passing on the
             // cancellation token.
-            await Task.Run(() => File.Copy(op.From, op.To,true), cancellationToken);
+            await Task.Run(() => File.Copy(op.SourcePath, op.DestinationPath,true), cancellationToken);
         }
 
         /// <summary>
