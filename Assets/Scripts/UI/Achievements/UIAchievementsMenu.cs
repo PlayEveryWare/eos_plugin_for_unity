@@ -60,6 +60,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public GameObject UIFirstSelected;
 
         private EOSAchievementManager achievementManager;
+        private EOSStatsManager _statsManager;
 
         private List<UIAchievementButton> achievementListItems;
 
@@ -79,7 +80,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             achievementListItems = new List<UIAchievementButton>();
 
             HideMenu();
+
             achievementManager = EOSManager.Instance.GetOrCreateManager<EOSAchievementManager>();
+            _statsManager = EOSManager.Instance.GetOrCreateManager<EOSStatsManager>();
         }
 
         private void OnEnable()
@@ -95,6 +98,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         private void OnDestroy()
         {
             EOSManager.Instance.RemoveManager<EOSAchievementManager>();
+            EOSManager.Instance.RemoveManager<EOSStatsManager>();
         }
 
         private void Update()
@@ -138,11 +142,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             var statsInterface = EOSManager.Instance.GetEOSPlatformInterface().GetStatsInterface();
             var userId = EOSManager.Instance.GetProductUserId();
-            IngestStatOptions ingestOptions = new IngestStatOptions()
+            IngestStatOptions ingestOptions = new()
             {
                 LocalUserId = userId,
                 TargetUserId = userId,
-                Stats = new IngestData[] { new IngestData() { StatName = "login_count", IngestAmount = 1 } }
+                Stats = new IngestData[] { new() { StatName = "login_count", IngestAmount = 1 } }
             };
 
             statsInterface.IngestStat(ref ingestOptions, null, (ref IngestStatCompleteCallbackInfo info) =>

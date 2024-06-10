@@ -51,8 +51,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         private ConcurrentDictionary<ProductUserId, List<PlayerAchievement>> productUserIdToPlayerAchievement;
         private AchievementsInterface eosAchievementInterface;
 
-        private Dictionary<ProductUserId, List<Stat>> productUserIdToStatsCache = new Dictionary<ProductUserId, List<Stat>>();
-
         private List<Action> achievementDataUpdatedCallbacks;
 
         public EOSAchievementManager()
@@ -63,7 +61,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             productUserIdToPlayerAchievement = new ConcurrentDictionary<ProductUserId, List<PlayerAchievement>>();
             achievementDataUpdatedCallbacks = new List<Action>();
         }
-
 
         [Conditional("ENABLE_DEBUG_EOSACHIEVEMENTMANAGER")]
         static void print(string toPrint)
@@ -76,12 +73,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             var eosPlatformInterface = EOSManager.Instance.GetEOSPlatformInterface();
             return eosPlatformInterface;
-        }
-
-        //-------------------------------------------------------------------------
-        private Epic.OnlineServices.Stats.StatsInterface GetEOSStatsInterface()
-        {
-            return GetEOSPlatformInterface().GetStatsInterface();
         }
 
         private string ProductUserIdToString(ProductUserId productUserId)
@@ -103,72 +94,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         }
 
         //-------------------------------------------------------------------------
-        private void CacheStatsForProductUserId(ProductUserId productUserId)
-        {
-            var statInterface = GetEOSStatsInterface();
-            GetStatCountOptions countOptions = new GetStatCountOptions
-            {
-                TargetUserId = productUserId
-            };
-            uint statsCountForProductUserId = statInterface.GetStatsCount(ref countOptions);
-
-            List<Stat> collectedStats = new List<Stat>();
-            var copyStatsByIndexOptions = new CopyStatByIndexOptions
-            {
-                TargetUserId = productUserId,
-                StatIndex = 0
-            };
-
-            for (uint i = 0; i < statsCountForProductUserId; ++i)
-            {
-                copyStatsByIndexOptions.StatIndex = i;
-
-                Result copyStatResult = statInterface.CopyStatByIndex(ref copyStatsByIndexOptions, out Stat? stat);
-
-                if (copyStatResult == Result.Success)
-                {
-                    collectedStats.Add(stat.Value);
-                }
-            }
-
-            if (collectedStats.Count > 0)
-            {
-                productUserIdToStatsCache[productUserId] = collectedStats;
-            }
-        }
-
-        //-------------------------------------------------------------------------
-        // may only be called after logging in with connect
-        private void QueryStatsForProductUserId(ProductUserId productUserId, OnQueryStatsCompleteCallback callback)
-        {
-            if (!productUserId.IsValid())
-            {
-                print("Invalid product user id sent in!");
-                return;
-            }
-            var statInterface = GetEOSStatsInterface();
-
-            QueryStatsOptions statsOptions = new QueryStatsOptions
-            {
-                LocalUserId = productUserId,
-                TargetUserId = productUserId
-            };
-
-            statInterface.QueryStats(ref statsOptions, null, (ref OnQueryStatsCompleteCallbackInfo queryStatsCompleteCallbackInfo) =>
-            {
-                if (queryStatsCompleteCallbackInfo.ResultCode != Result.Success)
-                {
-                    // TODO: handle error
-                    print("Failed to query stats: " + queryStatsCompleteCallbackInfo.ResultCode);
-                }
-                if (callback != null)
-                {
-                    callback(ref queryStatsCompleteCallbackInfo);
-                }
-            });
-        }
-
-        //-------------------------------------------------------------------------
         private Epic.OnlineServices.UserInfo.UserInfoInterface GetEOSUserInfoInterface()
         {
             return GetEOSPlatformInterface().GetUserInfoInterface();
@@ -178,19 +103,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public void OnConnectLogin(Epic.OnlineServices.Connect.LoginCallbackInfo loginCallbackInfo)
         {
             ProductUserId productUserId = loginCallbackInfo.LocalUserId;
-            QueryStatsForProductUserId(productUserId, (ref OnQueryStatsCompleteCallbackInfo statsQueryData) =>
+            QueryAchievementDefinitions(productUserId, (ref OnQueryDefinitionsCompleteCallbackInfo defQueryData) =>
             {
-                CacheStatsForProductUserId(productUserId);
-                QueryAchievementDefinitions(productUserId, (ref OnQueryDefinitionsCompleteCallbackInfo defQueryData) =>
+                CacheAllAchievementDefinitions(productUserId);
+                QueryPlayerAchievements(productUserId, (ref OnQueryPlayerAchievementsCompleteCallbackInfo playerAchiQueryData) =>
                 {
-                    CacheAllAchievementDefinitions(productUserId);
-                    QueryPlayerAchievements(productUserId, (ref OnQueryPlayerAchievementsCompleteCallbackInfo playerAchiQueryData) =>
-                    {
-                        CacheAllPlayerAchievements(productUserId);
-                    });
+                    CacheAllPlayerAchievements(productUserId);
                 });
             });
-
         }
 
         public void RefreshData()
@@ -199,53 +119,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             QueryAchievementDefinitions(productUserId, (ref OnQueryDefinitionsCompleteCallbackInfo defQueryData) =>
             {
                 CacheAllAchievementDefinitions(productUserId);
-                foreach (var userId in productUserIdToStatsCache.Keys)
+                QueryPlayerAchievements(productUserId, (ref OnQueryPlayerAchievementsCompleteCallbackInfo playerAchiQueryData) =>
                 {
-                    QueryStatsForProductUserId(userId, (ref OnQueryStatsCompleteCallbackInfo statsQueryData) =>
-                    {
-                        CacheStatsForProductUserId(userId);
-                        QueryPlayerAchievements(userId, (ref OnQueryPlayerAchievementsCompleteCallbackInfo playerAchiQueryData) =>
-                        {
-                            CacheAllPlayerAchievements(userId);
-                        });
-                    });
-                }
-                //A user with empty stats would not be added to "productUserIdToStatsCache"
-                //This chunk of code makes up for that and welcomes the newcomers.
-                if (!productUserIdToStatsCache.ContainsKey(productUserId))
-                {
-                    QueryStatsForProductUserId(productUserId, (ref OnQueryStatsCompleteCallbackInfo statsQueryData) =>
-                    {
-                        CacheStatsForProductUserId(productUserId);
-                        QueryPlayerAchievements(productUserId, (ref OnQueryPlayerAchievementsCompleteCallbackInfo playerAchiQueryData) =>
-                        {
-                            CacheAllPlayerAchievements(productUserId);
-                        });
-                    });
-                }
+                    CacheAllPlayerAchievements(productUserId);
+                });
             });
         }
-
-        //-------------------------------------------------------------------------
-        /*public void QueryUserInformation(EpicAccountId localEpicAccountId, EpicAccountId targetEpicAccountId)
-        {
-            var options = new QueryUserInfoOptions
-            {
-                LocalUserId = localEpicAccountId,
-                TargetUserId = targetEpicAccountId
-            };
-
-            GetEOSUserInfoInterface().QueryUserInfo(ref options, null, (ref QueryUserInfoCallbackInfo data) =>
-            {
-                var copyUserInfoOptions = new CopyUserInfoOptions
-                {
-                    LocalUserId = localEpicAccountId,
-                    TargetUserId = targetEpicAccountId
-                };
-                GetEOSUserInfoInterface().CopyUserInfo(ref copyUserInfoOptions, out UserInfoData? userInfoData);
-
-            });
-        }*/
 
         //-------------------------------------------------------------------------
         AchievementsInterface GetEOSAchievementInterface()
@@ -292,7 +171,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         //-------------------------------------------------------------------------
         /// <summary>
-        /// Get the latest stats and player progress towards unlocking achievements
+        /// Query for player achievements
         /// </summary>
         /// <param name="productUserId"></param>
         public void QueryPlayerAchievements(Epic.OnlineServices.ProductUserId productUserId, OnQueryPlayerAchievementsCompleteCallback callback)
