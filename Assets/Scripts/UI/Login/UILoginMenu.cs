@@ -319,12 +319,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// <returns>True if input should be handled, false if not.</returns>
         private static bool ShouldInputBeHandled()
         {
+            // Event System isn't found, so main app cannot handle input
             if (null == EventSystem.current)
             {
                 Debug.Log("EventSystem is null");
                 return false;
             }
 
+            // Main app handles input if overlay isn't open
             bool shouldHandle = !EOSManager.Instance.IsOverlayOpenWithExclusiveInput();
 
 #if ENABLE_INPUT_SYSTEM
