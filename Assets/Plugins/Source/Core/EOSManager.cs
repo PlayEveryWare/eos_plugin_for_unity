@@ -597,7 +597,6 @@ namespace PlayEveryWare.EpicOnlineServices
                 }
 
 #if !UNITY_EDITOR && !UNITY_SWITCH
-                // Set logging to VeryVerbose on EOS SDK bootstrap so we get the most logging information
                 for (int logCategoryIndex = 0; logCategoryIndex < logLevelList.Count; logCategoryIndex++)
                 {
                     SetLogLevel((LogCategory)logCategoryIndex, logLevelList[logCategoryIndex]);
