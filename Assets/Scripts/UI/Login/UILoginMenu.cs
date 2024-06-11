@@ -319,29 +319,44 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// <returns>True if input should be handled, false if not.</returns>
         private static bool ShouldInputBeHandled()
         {
-            // TODO: Clarify why this is only evaluated for PS4 and PS5
-#if UNITY_PS4 || UNITY_PS5
-            // TODO: Simplify this conditional - it's sort of confusing to read despite doing exactly what we want
-            if (null == EventSystem.current || EventSystem.current.sendNavigationEvents == !EOSManager.Instance.IsOverlayOpenWithExclusiveInput())
+            // Event System isn't found, so main app cannot handle input
+            if (null == EventSystem.current)
             {
-                return true;
+                Debug.Log("EventSystem is null");
+                return false;
             }
 
+            // Main app handles input if overlay isn't open
             bool shouldHandle = !EOSManager.Instance.IsOverlayOpenWithExclusiveInput();
-                
-            Debug.Log($"Input {(shouldHandle ? "enabled" : "disabled")} due to EOS Overlay.");
+
 #if ENABLE_INPUT_SYSTEM
             EventSystem.current.currentInputModule.enabled = shouldHandle;
+            EventSystem.current.sendNavigationEvents = shouldHandle;
 #else
+            // TODO: Clarify why this is only evaluated for PS4 and PS5
+#if UNITY_PS4 || UNITY_PS5
             EventSystem.current.sendNavigationEvents = shouldHandle;
 #endif
-
-            return shouldHandle;
-#else
-            return true;
 #endif
+
+#if ENABLE_DEBUG_INPUT
+            LogInputChanged(shouldHandle);
+#endif
+            return shouldHandle;
+
         }
 
+#if ENABLE_DEBUG_INPUT
+        private static bool previousShouldHandle = false;
+        private static void LogInputChanged(bool shouldHandle)
+        {
+            if (previousShouldHandle != shouldHandle)
+            {
+                Debug.LogWarning($"Input {(shouldHandle ? "enabled" : "disabled")} for main app");
+                previousShouldHandle = shouldHandle;
+            }
+        }
+#endif
         /// <summary>
         /// Determines whether a GameObject needs to be set as selected.
         /// </summary>
