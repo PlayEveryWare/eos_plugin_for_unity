@@ -27,6 +27,5 @@
     /// </summary>
     public interface IEOSSubManager
     {
-        //public void RefreshData();
     }
 }
