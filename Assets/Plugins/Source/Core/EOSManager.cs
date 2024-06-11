@@ -575,7 +575,7 @@ namespace PlayEveryWare.EpicOnlineServices
                     loadedEOSConfig = LoadEOSConfigFileFromPath(eosFinalConfigPath);
                 }
 
-                var logLevelList = LogLevelHelper.LogLevelList;
+                var logLevelList = LogLevelUtility.LogLevelList;
 
                 if (GetEOSPlatformInterface() != null)
                 {

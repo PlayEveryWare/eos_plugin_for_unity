@@ -32,8 +32,8 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
     {
         LogLevelConfig currentLogLevelConfig;
 
-        string[] categories = LogLevelHelper.LogCategoryStringArray;
-        string[] levels = LogLevelHelper.LogLevelStringArray;
+        string[] categories = LogLevelUtility.LogCategoryStringArray;
+        string[] levels = LogLevelUtility.LogLevelStringArray;
 
         int selectedCategoryIndex = 0;
         bool showAllCategories = false;
@@ -77,7 +77,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
                 foreach (var pair in currentLogLevelConfig.logCategoryLevelPairs)
                 {
                     int selectedLevelIndex = EditorGUILayout.Popup(pair.category, Array.IndexOf(levels, pair.level), levels);
-                    pair.level = LogLevelHelper.LogLevelStringArray[selectedLevelIndex];
+                    pair.level = LogLevelUtility.LogLevelStringArray[selectedLevelIndex];
                 }
             }
             else
@@ -87,7 +87,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 
                 var selectedPair = currentLogLevelConfig.logCategoryLevelPairs[selectedCategoryIndex];
                 int selectedLevelIndex = EditorGUILayout.Popup(Array.IndexOf(levels, selectedPair.level), levels);
-                selectedPair.level = LogLevelHelper.LogLevelStringArray[selectedLevelIndex];           
+                selectedPair.level = LogLevelUtility.LogLevelStringArray[selectedLevelIndex];           
                 EditorGUILayout.EndHorizontal();
             }
 

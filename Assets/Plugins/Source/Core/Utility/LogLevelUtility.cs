@@ -30,7 +30,7 @@ using JsonUtility = PlayEveryWare.EpicOnlineServices.Utility.JsonUtility;
 
 namespace PlayEveryWare.EpicOnlineServices
 {
-    public static class LogLevelHelper
+    public static class LogLevelUtility
     {
         public static string[] LogCategoryStringArray
         {
