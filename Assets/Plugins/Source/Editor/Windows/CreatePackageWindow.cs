@@ -301,7 +301,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
                 {
                     // Ternary statement here to prevent a divide by zero problem
                     // ever happening, despite how odd it would be in this case.
-                    float newActualProgress = (0.0f <= value.TotalBytesToCopy)
+                    float newActualProgress = (0.0f < value.TotalBytesToCopy)
                         ? value.BytesCopied / (float)value.TotalBytesToCopy
                         : 0;
 
