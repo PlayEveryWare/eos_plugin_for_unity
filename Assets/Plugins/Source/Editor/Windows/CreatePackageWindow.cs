@@ -301,7 +301,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
                 {
                     // Ternary statement here to prevent a divide by zero problem
                     // ever happening, despite how odd it would be in this case.
-                    float newActualProgress = (0.0f <= value.TotalBytesToCopy)
+                    float newActualProgress = (0.0f < value.TotalBytesToCopy)
                         ? value.BytesCopied / (float)value.TotalBytesToCopy
                         : 0;
 
@@ -338,7 +338,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
                     }
                 }
 
-                await UPMUtility.CreatePackage(type, progressHandler, _createPackageCancellationTokenSource.Token);
+                await UPMUtility.CreatePackage(type, false, progressHandler, _createPackageCancellationTokenSource.Token);
 
                 if (EditorUtility.DisplayDialog("Package Created", "Package was successfully created",
                         "Open Output Path", "Close"))
