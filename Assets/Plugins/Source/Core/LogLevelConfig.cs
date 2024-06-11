@@ -41,7 +41,10 @@ namespace PlayEveryWare.EpicOnlineServices
     [Serializable]
     public class LogLevelConfig : Config
     {
-        public LogLevelConfig() : base("log_level_config.json") { }
+        public LogLevelConfig() : base("log_level_config.json") 
+        {
+            RegisterFactory(() => new LogLevelConfig());
+        }
 
         public List<LogCategoryLevelPair> logCategoryLevelPairs;
     }
