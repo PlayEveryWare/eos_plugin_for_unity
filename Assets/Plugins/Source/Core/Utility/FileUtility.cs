@@ -69,6 +69,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
             /// </summary>
             public long Bytes;
         }
+
         /// <summary>
         /// Contains information about the progress of a copy file operation.
         /// </summary>
@@ -194,7 +195,8 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         /// do not rely on the existence of directories further down the list.
         /// </param>
         /// <returns></returns>
-        private static IEnumerable<string> GetDirectories(IEnumerable<string> filepaths, bool creationOrder = true)
+        public static IEnumerable<string> GetDirectories(IEnumerable<string> filepaths, bool creationOrder = true)
+
         {
             // For each filepath, determine the immediate parent directory of
             // the file. Make a unique set of these by utilizing a HashSet.
