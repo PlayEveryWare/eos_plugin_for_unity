@@ -188,11 +188,15 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
 
                 FileInfo destInfo = new(destPath);
 
-                if (file.originalSrcDestPair.dest.Contains('~'))
+                if (file.originalSrcDestPair.dest.Contains('~') && !file.originalSrcDestPair.dest.Contains("Samples~"))
                 {
                     // When generating a upm package, all directories that contain a 
                     // tilde character at the end of the name are ignored by Unity's
                     // Asset pipeline, so we skip copying meta files for those.
+                    // However, an exception to this rule is the Samples directory,
+                    // because an imported project allows the importing of the contents
+                    // of the samples directory - at which point the meta files become
+                    // necessary.
                     if (".meta" == src.Extension)
                         continue;
                 }
