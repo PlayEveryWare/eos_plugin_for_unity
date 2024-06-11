@@ -575,8 +575,6 @@ namespace PlayEveryWare.EpicOnlineServices
                     loadedEOSConfig = LoadEOSConfigFileFromPath(eosFinalConfigPath);
                 }
 
-                var logLevelList = LogLevelUtility.LogLevelList;
-
                 if (GetEOSPlatformInterface() != null)
                 {
                     print("Init completed with existing EOS PlatformInterface");
@@ -587,20 +585,14 @@ namespace PlayEveryWare.EpicOnlineServices
                         hasSetLoggingCallback = true;
                     }
 
-                    for (int logCategoryIndex = 0; logCategoryIndex < logLevelList.Count; logCategoryIndex++)
-                    {
-                        SetLogLevel((LogCategory)logCategoryIndex, logLevelList[logCategoryIndex]);
-                    }
+                    InitializeLogLevels();
 
                     InitializeOverlay(coroutineOwner);
                     return;
                 }
 
 #if !UNITY_EDITOR && !UNITY_SWITCH
-                for (int logCategoryIndex = 0; logCategoryIndex < logLevelList.Count; logCategoryIndex++)
-                {
-                    SetLogLevel((LogCategory)logCategoryIndex, logLevelList[logCategoryIndex]);
-                }
+                InitializeLogLevels();
 #endif
                 s_state = EOSState.Starting;
 
@@ -677,11 +669,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
 
                 InitializeOverlay(coroutineOwner);
-
-                for (int logCategoryIndex = 0; logCategoryIndex < logLevelList.Count; logCategoryIndex++)
-                {
-                    SetLogLevel((LogCategory)logCategoryIndex, logLevelList[logCategoryIndex]);
-                }
+                InitializeLogLevels();
 
                 print("EOS loaded");
             }
@@ -768,6 +756,20 @@ namespace PlayEveryWare.EpicOnlineServices
                 else
                 {
                     logLevels[Category] = Level;
+                }
+            }
+
+            //-------------------------------------------------------------------------
+            /// <summary>
+            /// Initialize log levels loaded from <see cref="LogLevelConfig" />
+            /// </summary>
+            private void InitializeLogLevels()
+            {
+                var logLevelList = LogLevelUtility.LogLevelList;
+
+                for (int logCategoryIndex = 0; logCategoryIndex < logLevelList.Count; logCategoryIndex++)
+                {
+                    SetLogLevel((LogCategory)logCategoryIndex, logLevelList[logCategoryIndex]);
                 }
             }
 
