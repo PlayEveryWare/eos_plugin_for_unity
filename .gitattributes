@@ -31,5 +31,3 @@
 *.asset             merge=unityyamlmerge eol=lf
 *.meta              merge=unityyamlmerge eol=lf
 *.controller        merge=unityyamlmerge eol=lf
-
-Assets/Plugins/Linux/libDynamicLibraryLoaderHelper.so filter=lfs diff=lfs merge=lfs binary
