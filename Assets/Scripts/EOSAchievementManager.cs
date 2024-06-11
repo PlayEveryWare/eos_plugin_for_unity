@@ -43,16 +43,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         private List<DefinitionV2> _achievementDefinitionCache = new();
         private ConcurrentDictionary<ProductUserId, List<PlayerAchievement>> _productUserIdToPlayerAchievement = new();
         private AchievementsInterface _eosAchievementInterface = new();
-
-        private List<Action> achievementDataUpdatedCallbacks;
-
-        public EOSAchievementManager()
-        {
-            //downloadCache = new ConcurrentDictionary<string, byte[]>();
-            //achievementDefinitionCache = new List<DefinitionV2>();
-            //productUserIdToPlayerAchievement = new ConcurrentDictionary<ProductUserId, List<PlayerAchievement>>();
-            achievementDataUpdatedCallbacks = new List<Action>();
-        }
+        private List<Action> achievementDataUpdatedCallbacks = new();
 
         [Conditional("ENABLE_DEBUG_EOSACHIEVEMENTMANAGER")]
         static void print(string toPrint)
