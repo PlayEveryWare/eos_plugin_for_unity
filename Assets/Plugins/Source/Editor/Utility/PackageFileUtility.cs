@@ -211,7 +211,6 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
                         FileInfoMatchingResult metaFile = file;
                         metaFile.fileInfo = new FileInfo($"{src.FullName}.meta");
                         metaFile.originalSrcDestPair = file.originalSrcDestPair;
-                        //metaFile.relativePath = $"{file.relativePath}.meta";
                         matchingResultsStack.Push(metaFile);
                     }
                 }
