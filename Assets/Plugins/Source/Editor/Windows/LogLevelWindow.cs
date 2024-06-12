@@ -47,11 +47,14 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
         protected override void Setup()
         {
             currentLogLevelConfig = EpicOnlineServices.Config.Get<LogLevelConfig>();
+
+            // Config.Get<T> only guarantees T to be not null, but not for its members
             if (currentLogLevelConfig.logCategoryLevelPairs == null) 
             {
                 currentLogLevelConfig.logCategoryLevelPairs = new List<LogCategoryLevelPair>();
             }
 
+            // Initialize the list if config categories does not match the SDK categories, which might happen when using a different SDK version
             if (currentLogLevelConfig.logCategoryLevelPairs.Count != categories.Length)
             {
                 currentLogLevelConfig.logCategoryLevelPairs.Clear();
