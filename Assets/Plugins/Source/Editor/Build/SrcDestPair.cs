@@ -31,7 +31,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
         // Allows for adding a comment
         [SerializeField] public string comment;
 
-        [SerializeField] public bool recursive;
+        [SerializeField] public bool recurse;
         [SerializeField] public string src;
 
         // If pattern is provided, src must be a directory,
