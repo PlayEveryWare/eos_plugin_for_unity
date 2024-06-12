@@ -61,7 +61,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
                     currentLogLevelConfig.logCategoryLevelPairs.Add(new LogCategoryLevelPair(category, "Info"));
                 }
 
-                SaveToJSONConfig(true);
+                currentLogLevelConfig.Write(true);
             }
         }
         protected override void RenderWindow()
@@ -101,17 +101,10 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
                 }
             }
 
-
-
             if (GUILayout.Button("Save All Changes"))
             {
-                SaveToJSONConfig(true);
+                currentLogLevelConfig.Write(true);
             }
-        }
-
-        private void SaveToJSONConfig(bool prettyPrint)
-        {
-            currentLogLevelConfig.Write(prettyPrint);
         }
     }
 }
