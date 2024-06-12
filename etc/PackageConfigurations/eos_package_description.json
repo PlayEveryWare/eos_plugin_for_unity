@@ -18,7 +18,6 @@
         {"src":"docs/images/*", "dest" : "Documentation~/images/"},
 
         {"src":"Assets/Plugins/com.playeveryware.eos.asmdef", "dest": "Runtime/"},
-        {"src":"Assets/Plugins/com.playeveryware.eos.asmdef.meta", "dest": "Runtime/"},
 
         {"src":"Assets/EOS.meta", "dest": "Runtime/"},
         {"src":"Assets/EOS/*.png", "dest": "Runtime/EOS/"},
@@ -27,10 +26,8 @@
         {"src":"Assets/Plugins/*.cs", "dest": "Runtime/"},
 
         {"src":"Assets/Plugins/*.prefab", "dest": "Runtime/"},
-        {"src":"Assets/Plugins/*.prefab.meta", "dest": "Runtime/"},
         {"src":"Assets/Plugins/Source/Core.meta", "dest": "Runtime/"},
         {"src":"Assets/Plugins/Source/Core/*.asmdef", "dest": "Runtime/Core/"},
-        {"src":"Assets/Plugins/Source/Core/*.asmdef.meta", "dest": "Runtime/Core/"},
         {"src":"Assets/Plugins/Source/Core/*.cs", "dest": "Runtime/Core/"},
 
         {"src":"Assets/Plugins/Source/Core/Utility.meta", "dest": "Runtime/Core/"},
@@ -40,7 +37,6 @@
         {"src":"Assets/Plugins/Source/Core/Utility/Extensions/*.cs", "dest": "Runtime/Core/Utility/Extensions/"},
 
         {"src":"Assets/Plugins/Source/Editor/com.playeveryware.eos-Editor.asmdef", "dest": "Editor/"},
-        {"src":"Assets/Plugins/Source/Editor/com.playeveryware.eos-Editor.asmdef.meta", "dest": "Editor/"},
         {"src":"Assets/Plugins/Source/Editor/csc.rsp", "dest": "Editor/"},
         {"src":"Assets/Plugins/Source/Editor/csc.rsp.meta", "dest": "Editor/"},
 
@@ -67,7 +63,6 @@
         {"src":"Assets/Plugins/Source/Editor/Utility/Steam/*.cs", "dest": "Editor/Utility/Steam/"},
 
         {"src":"Assets/Plugins/Source/Editor/Utility/Steam/com.playeveryware.eos-Editor.steam.utility.asmdef", "dest": "Editor/Utility/Steam/"},
-        {"src":"Assets/Plugins/Source/Editor/Utility/Steam/com.playeveryware.eos-Editor.steam.utility.asmdef.meta", "dest": "Editor/Utility/Steam/"},
 
         {"src":"Assets/Plugins/Source/Editor/Build.meta", "dest": "Editor/"},
         {"src":"Assets/Plugins/Source/Editor/Build/*.cs", "dest": "Editor/Build/"},
@@ -102,19 +97,13 @@
 
         {"src":"Assets/Plugins/Windows/x64.meta", "dest": "Runtime/Windows/"},
         {"src":"Assets/Plugins/Windows/x64/*.dll", "dest": "Runtime/Windows/x64/"},
-        {"src":"Assets/Plugins/Windows/x64/*.dll.meta", "dest": "Runtime/Windows/x64/"},
         {"src":"Assets/Plugins/Windows/x64/license.txt", "dest": "Runtime/Windows/x64/"},
-        {"src":"Assets/Plugins/Windows/x64/license.txt.meta", "dest": "Runtime/Windows/x64/"},
         {"src":"Assets/Plugins/Windows/x64/ThirdPartySoftwareNotice.txt", "dest": "Runtime/Windows/x64/"},
-        {"src":"Assets/Plugins/Windows/x64/ThirdPartySoftwareNotice.txt.meta", "dest": "Runtime/Windows/x64/"},
 
         {"src":"Assets/Plugins/Windows/x86.meta", "dest": "Runtime/Windows/"},
         {"src":"Assets/Plugins/Windows/x86/*.dll", "dest": "Runtime/Windows/x86/"},
-        {"src":"Assets/Plugins/Windows/x86/*.dll.meta", "dest": "Runtime/Windows/x86/"},
         {"src":"Assets/Plugins/Windows/x86/license.txt", "dest": "Runtime/windows/x86/"},
-        {"src":"Assets/Plugins/Windows/x86/license.txt.meta", "dest": "Runtime/windows/x86/"},
         {"src":"Assets/Plugins/Windows/x86/ThirdPartySoftwareNotice.txt", "dest": "Runtime/windows/x86/"},
-        {"src":"Assets/Plugins/Windows/x86/ThirdPartySoftwareNotice.txt.meta", "dest": "Runtime/windows/x86/"},
 
         {"src":"Assets/Plugins/Windows/Core.meta", "dest": "Runtime/Windows/"},
         {"src":"Assets/Plugins/Windows/Core/*.cs", "dest": "Runtime/Windows/Core/"},
@@ -150,11 +139,8 @@
         {"src":"Assets/Plugins/Linux.meta", "dest": "Runtime/"},
         
         {"src":"Assets/Plugins/Linux/license.txt", "dest": "Runtime/Linux/"},
-        {"src":"Assets/Plugins/Linux/license.txt.meta", "dest": "Runtime/Linux/"},
         {"src":"Assets/Plugins/Linux/ThirdPartySoftwareNotice.txt", "dest": "Runtime/Linux/"},
-        {"src":"Assets/Plugins/Linux/ThirdPartySoftwareNotice.txt.meta", "dest": "Runtime/Linux/"},
         {"src":"Assets/Plugins/Linux/*.so", "dest": "Runtime/Linux/"},
-        {"src":"Assets/Plugins/Linux/*.so.meta", "dest": "Runtime/Linux/"},
         {"src":"Assets/Plugins/Linux/*.cs", "dest": "Runtime/Linux/"},
 
         
@@ -165,7 +151,6 @@
         {"src":"Assets/Plugins/Linux/Editor/*.cs", "dest": "Editor/Linux/"},
 
         {"src":"Assets/Plugins/Linux/Editor/*.asmref", "dest": "Editor/Linux/"},
-        {"src":"Assets/Plugins/Linux/Editor/*.asmref.meta", "dest": "Editor/Linux/"},
         
         {"src":"etc/PlatformSpecificAssets/EOS/Linux/eac_launcher", "dest": "PlatformSpecificAssets~/EOS/Linux/"},
         {"src":"etc/PlatformSpecificAssets/EOS/Linux/EasyAntiCheat/Licenses/*.txt", "dest": "PlatformSpecificAssets~/EOS/Linux/EasyAntiCheat/Licenses/"},
@@ -178,12 +163,9 @@
         {"comment": "----------------------------macOS---------------------------------------------"},
         {"src":"Assets/Plugins/macOS.meta", "dest": "Runtime/"},
         {"src":"Assets/Plugins/macOS/libDynamicLibraryLoaderHelper.dylib", "dest": "Runtime/macOS/"},
-        {"src":"Assets/Plugins/macOS/libDynamicLibraryLoaderHelper.dylib.meta", "dest": "Runtime/macOS/"},
         {"src":"Assets/Plugins/macOS/MicrophoneUtility_macos.dylib", "dest": "Runtime/macOS/"},
-        {"src":"Assets/Plugins/macOS/MicrophoneUtility_macos.dylib.meta", "dest": "Runtime/macOS/"},
 
         {"src":"Assets/Plugins/macOS/libEOSSDK-Mac-Shipping.dylib", "dest": "Runtime/macOS/"},
-        {"src":"Assets/Plugins/macOS/libEOSSDK-Mac-Shipping.dylib.meta", "dest": "Runtime/macOS/"},
 
         {"src":"Assets/Plugins/macOS/*.cs", "dest": "Runtime/macOS/"},
 
@@ -193,7 +175,6 @@
 
         {"src":"Assets/Plugins/macOS/Editor.meta", "dest": "Editor/macOS.meta"},
         {"src":"Assets/Plugins/macOS/Editor/com.playeveryware.eos-Editor.asmref", "dest": "Editor/macOS/"},
-        {"src":"Assets/Plugins/macOS/Editor/com.playeveryware.eos-Editor.asmref.meta", "dest": "Editor/macOS/"},
         {"src":"Assets/Plugins/macOS/Editor/*.cs", "dest": "Editor/macOS/"},
 
         
@@ -211,7 +192,6 @@
         {"comment": "----------------------------EAC bin---------------------------------------------"},
         
         {"src":"Assets/Plugins/Standalone/Editor/anticheat_integritytool.cfg", "dest": "Editor/Standalone/"},
-        {"src":"Assets/Plugins/Standalone/Editor/anticheat_integritytool.cfg.meta", "dest": "Editor/Standalone/"},
         {"src":"tools/bin/EAC/Windows/anticheat_integritytool.exe", "dest": "bin~/EAC/Windows/"},
         {"src":"tools/bin/EAC/Windows/anticheat_integritytool64.exe", "dest": "bin~/EAC/Windows/"},
         {"src":"tools/bin/EAC/Linux/anticheat_integritytool", "dest": "bin~/EAC/Linux/"},
@@ -220,7 +200,6 @@
         {"comment": "----------------------------End EAC bin---------------------------------------------"},
 
         {"src":"Assets/link.xml", "dest": "Editor/"},
-        {"src":"Assets/link.xml.meta", "dest": "Editor/"},
 
         {"src":"Assets/Plugins/Source/EOS_SDK.meta", "dest": "Runtime/"},
         {"src":"Assets/Plugins/Source/EOS_SDK/*", "dest": "Runtime/EOS_SDK/", "recurse": true },
@@ -228,7 +207,6 @@
         {"src":"Assets/Plugins/Android.meta", "dest": "Runtime/"},
 
         {"src":"Assets/Plugins/Android/DynamicLibraryLoaderHelper_Android.cpp", "dest": "Runtime/Android/"},
-        {"src":"Assets/Plugins/Android/DynamicLibraryLoaderHelper_Android.cpp.meta", "dest": "Runtime/Android/"},
 
         {"src":"etc/PlatformSpecificAssets/EOS/Android/", "dest": "PlatformSpecificAssets~/EOS/Android/"},
         {"src":"etc/PlatformSpecificAssets/EOS/Android/eos_dependencies.androidlib/*", "dest": "PlatformSpecificAssets~/EOS/Android/eos_dependencies.androidlib/"},
@@ -239,7 +217,6 @@
         {"src":"Assets/Plugins/Android/gradleTemplate.properties", "dest": "PlatformSpecificAssets~/EOS/Android/"},
 
         {"src":"Assets/Plugins/Android/UnityHelpers_Android-debug.aar", "dest": "Runtime/Android/"},
-        {"src":"Assets/Plugins/Android/UnityHelpers_Android-debug.aar.meta", "dest": "Runtime/Android/"},
 
         {"src":"Assets/Plugins/Android/*.cs", "dest": "Runtime/Android/"},
 
@@ -247,7 +224,6 @@
         {"src":"Assets/Plugins/Android/Editor/*.cs", "dest": "Editor/Android/"},
 
         {"src":"Assets/Plugins/Android/Editor/com.playeveryware.eos-Editor.asmref", "dest": "Editor/Android/"},
-        {"src":"Assets/Plugins/Android/Editor/com.playeveryware.eos-Editor.asmref.meta", "dest": "Editor/Android/"},
 
         {"src":"Assets/Plugins/Android/Core.meta", "dest": "Runtime/Android/"},
         {"src":"Assets/Plugins/Android/Core/*", "dest": "Runtime/Android/Core/"},
@@ -263,22 +239,18 @@
         {"src":"Assets/Plugins/iOS/*.cs", "dest": "Runtime/iOS/"},
 
         {"src":"Assets/Plugins/iOS/*.cpp", "dest": "Runtime/iOS/"},
-        {"src":"Assets/Plugins/iOS/*.cpp.meta", "dest": "Runtime/iOS/"},
         {"src":"Assets/Plugins/iOS/*.mm", "dest": "Runtime/iOS/"},
-        {"src":"Assets/Plugins/iOS/*.mm.meta", "dest": "Runtime/iOS/"},
         {"src":"Assets/Plugins/iOS/Core.meta", "dest": "Runtime/iOS/"},
         {"src":"Assets/Plugins/iOS/Core/*", "dest": "Runtime/iOS/Core/"},
         {"src":"Assets/Plugins/iOS/EOSSDK.framework.meta", "dest": "Runtime/iOS/"},
         {"src":"Assets/Plugins/iOS/EOSSDK.framework/EOSSDK", "dest": "Runtime/iOS/EOSSDK.framework/"},
         {"src":"Assets/Plugins/iOS/EOSSDK.framework/EOSSDK.meta", "dest": "Runtime/iOS/EOSSDK.framework/"},
         {"src":"Assets/Plugins/iOS/EOSSDK.framework/*.plist", "dest": "Runtime/iOS/EOSSDK.framework/"},
-        {"src":"Assets/Plugins/iOS/EOSSDK.framework/*.plist.meta", "dest": "Runtime/iOS/EOSSDK.framework/"},
 
         {"src":"Assets/Plugins/iOS/Editor.meta", "dest": "Editor/iOS.meta"},
         {"src":"Assets/Plugins/iOS/Editor/*.cs", "dest": "Editor/iOS/"},
 
         {"src":"Assets/Plugins/iOS/Editor/com.playeveryware.eos-Editor.asmref", "dest": "Editor/iOS/"},
-        {"src":"Assets/Plugins/iOS/Editor/com.playeveryware.eos-Editor.asmref.meta", "dest": "Editor/iOS/"},
 
         {"comment": "--------------------------------End Prerelease platforms-----------------------------------------"},
 
