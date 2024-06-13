@@ -143,8 +143,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         private static IEnumerable<FileInfoMatchingResult> FindMatchingFiles(string root, string currentWorkingDir, SrcDestPair pair)
         {
             IEnumerable<string> collectedFiles;
-            SearchOption searchOption = SearchOption.TopDirectoryOnly;// pair.recurse ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
-
+            
             string searchPattern = pair.src;
             string path = root;
 
@@ -156,7 +155,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
 
             try
             {
-                collectedFiles = Directory.EnumerateFiles(path, searchPattern, searchOption);
+                collectedFiles = Directory.EnumerateFiles(path, searchPattern);
             }
             catch (Exception e)
             {
