@@ -372,6 +372,14 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
                         File.Copy(op.SourcePath, op.DestinationPath, true);
                     }, cancellationToken);
 
+                    // if the file was not copied on the first attempt, then
+                    // be sure to log the fact that it eventually *was*
+                    // copied successfully
+                    if (attempt > 0)
+                    {
+                        Debug.Log($"File \"{op.SourcePath}\" was successfully copied after {attempt + 1} retries.");
+                    }
+
                     // if the task completes, then break out of the retry loop
                     break;
                 }
@@ -393,12 +401,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
                     // Only retry if there are remaining attempts.
                     await Task.Delay(delay, cancellationToken);
                 }
-                
             }
-
-            // Run the file copy asynchronously, passing on the
-            // cancellation token.
-            await Task.Run(() => File.Copy(op.SourcePath, op.DestinationPath,true), cancellationToken);
         }
 
         /// <summary>
