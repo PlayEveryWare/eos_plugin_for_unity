@@ -80,7 +80,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
                         $"Copy error for file \"{srcDestPair.src}\": {errorMessageToUse}");
                 }
 
-                if (srcDestPair.recurse)
+                if (srcDestPair.recursive)
                 {
                     string baseSource = srcDestPair.src[..^1];
                     string baseDest = srcDestPair.dest;
@@ -168,7 +168,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
             {
                 FileInfo srcItem = new(Path.GetFullPath(entry).Replace('\\', '/').Replace(currentWorkingDir, ""));
                 var newItem = new FileInfoMatchingResult();
-                if (pair.recurse && Directory.Exists(Path.Combine(root, pair.src)))
+                if (pair.recursive && Directory.Exists(Path.Combine(root, pair.src)))
                 {
                     newItem.relativePath = Path.GetRelativePath(Path.Combine(root, pair.src), entry);
                 }
