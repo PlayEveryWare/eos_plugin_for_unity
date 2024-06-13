@@ -8,8 +8,8 @@
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -26,6 +26,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
     using System;
     using System.Collections.Generic;
     using System.IO;
+    using System.Text;
     using System.Threading;
     using System.Threading.Tasks;
     using UnityEngine;
@@ -69,10 +70,11 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
             /// </summary>
             public long Bytes;
         }
+
         /// <summary>
         /// Contains information about the progress of a copy file operation.
         /// </summary>
-        public struct CopyFileProgressInfo
+        public class CopyFileProgressInfo
         {
             /// <summary>
             /// The number of files that have been copied.
@@ -194,7 +196,9 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         /// do not rely on the existence of directories further down the list.
         /// </param>
         /// <returns></returns>
-        private static IEnumerable<string> GetDirectories(IEnumerable<string> filepaths, bool creationOrder = true)
+        public static IEnumerable<string> GetDirectories(
+            IEnumerable<string> filepaths, 
+            bool creationOrder = true)
         {
             // For each filepath, determine the immediate parent directory of
             // the file. Make a unique set of these by utilizing a HashSet.
@@ -243,10 +247,17 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         /// <param name="progress">Progress reporter.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <returns>Task</returns>
-        public static async Task CopyFilesAsync(IList<CopyFileOperation> operations, CancellationToken cancellationToken = default, IProgress<CopyFileProgressInfo> progress = null, int updateIntervalMS = DefaultUpdateIntervalMS)
+        public static async Task CopyFilesAsync(
+            IList<CopyFileOperation> operations, 
+            CancellationToken cancellationToken = default, 
+            IProgress<CopyFileProgressInfo> progress = null, 
+            int updateIntervalMS = DefaultUpdateIntervalMS)
         {
+            IEnumerable<string> directoriesToCreate = GetDirectories(
+                operations.Select(o => o.DestinationPath));
+
             // Create each directory
-            foreach (var directory in GetDirectories(operations.Select(o => o.DestinationPath)))
+            foreach (var directory in directoriesToCreate)
             {
                 Directory.CreateDirectory(directory);
             }
@@ -276,7 +287,11 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
 
                 // Copy the files asynchronously with the provided
                 // cancellation token, and progress stuff.
-                await CopyFilesAsyncInternal(operationsList, cancellationToken, progress, progressInfo);
+                await CopyFilesAsyncInternal(
+                    operationsList, 
+                    cancellationToken, 
+                    progress, 
+                    progressInfo);
             }
             else
             {
@@ -293,25 +308,37 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         /// <param name="progress">Progress reporter.</param>
         /// <param name="progressInfo">Progress information.</param>
         /// <returns>Task</returns>
-        private static async Task CopyFilesAsyncInternal(IEnumerable<CopyFileOperation> operations, CancellationToken cancellationToken = default, IProgress<CopyFileProgressInfo> progress = null, CopyFileProgressInfo progressInfo = default)
-        {   
-            foreach (var copyOperation in operations)
+        private static async Task CopyFilesAsyncInternal(
+            IEnumerable<CopyFileOperation> operations, 
+            CancellationToken cancellationToken = default, 
+            IProgress<CopyFileProgressInfo> progress = null, 
+            CopyFileProgressInfo progressInfo = default)
+        {
+            var tasks = operations.Select(async copyOperation =>
             {
                 await CopyFileAsync(copyOperation, cancellationToken);
 
                 // If there is no progress reporter, then skip updating the
                 // update info.
-                if (null == progress) continue;
+                if (null != progress)
+                {
+                    // lock the progressInfo, since multiple threads will be 
+                    // updating it at once
+                    lock (progressInfo)
+                    {
+                        // Increment the number of files copied.
+                        progressInfo.FilesCopied++;
 
-                // Increment the number of files copied.
-                progressInfo.FilesCopied++;
+                        // Update the number of bytes that have been copied.
+                        progressInfo.BytesCopied += copyOperation.Bytes;
 
-                // Update the number of bytes that have been copied.
-                progressInfo.BytesCopied += copyOperation.Bytes;
+                        // Report progress if a progress reporter is provided.
+                        progress?.Report(progressInfo);
+                    }
+                }
+            }).ToList();
 
-                // Report progress if a progress reporter is provided.
-                progress?.Report(progressInfo);
-            }
+            await Task.WhenAll(tasks);
         }
 
         /// <summary>
@@ -320,11 +347,54 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         /// <param name="op">The file copy operation.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <returns>Task</returns>
-        private static async Task CopyFileAsync(CopyFileOperation op, CancellationToken cancellationToken)
+        private static async Task CopyFileAsync(
+            CopyFileOperation op, 
+            CancellationToken cancellationToken)
         {
-            // Make sure to throw an exception if a cancellation was
-            // requested of the token.
-            cancellationToken.ThrowIfCancellationRequested();
+            // Maximum number of times the operation is retried if it fails.
+            const int maxRetries = 3;
+
+            // This is the initial delay before the operation is retried.
+            const int delayMilliseconds = 200; 
+
+            for (int attempt = 0; attempt < maxRetries; attempt++)
+            {
+                try
+                {
+                    // Make sure to throw an exception if a cancellation was
+                    // requested of the token.
+                    cancellationToken.ThrowIfCancellationRequested();
+
+                    // Run the file copy asynchronously, passing on the
+                    // cancellation token.
+                    await Task.Run(() =>
+                    {
+                        File.Copy(op.SourcePath, op.DestinationPath, true);
+                    }, cancellationToken);
+
+                    // if the task completes, then break out of the retry loop
+                    break;
+                }
+                catch (IOException ex) when (attempt < maxRetries - 1)
+                {
+                    // exponentially increase the delay to maximize the chance
+                    // it will succeed without waiting too long.
+                    var delay = delayMilliseconds * (int)Math.Pow(2, attempt);
+                    
+                    // Construct detailed message regarding the nature of the problem.
+                    StringBuilder sb = new();
+                    sb.AppendLine($"Exception occurred during the following copy operation:");
+                    sb.AppendLine($"From: \"{op.SourcePath}\"");
+                    sb.AppendLine($"  To: \"{op.DestinationPath}\"");
+                    sb.AppendLine($"Exception message: \"{ex.Message}\"");
+                    sb.AppendLine($"Retrying in {delay}ms.");
+                    Debug.LogWarning(sb.ToString());
+
+                    // Only retry if there are remaining attempts.
+                    await Task.Delay(delay, cancellationToken);
+                }
+                
+            }
 
             // Run the file copy asynchronously, passing on the
             // cancellation token.
