@@ -380,7 +380,6 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
                         Debug.Log($"File \"{op.SourcePath}\" was successfully copied after {attempt + 1} retries.");
                     }
 
-
                     // if the task completes, then break out of the retry loop
                     break;
                 }
