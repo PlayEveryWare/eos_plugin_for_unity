@@ -401,12 +401,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
                     // Only retry if there are remaining attempts.
                     await Task.Delay(delay, cancellationToken);
                 }
-                
             }
-
-            // Run the file copy asynchronously, passing on the
-            // cancellation token.
-            await Task.Run(() => File.Copy(op.SourcePath, op.DestinationPath,true), cancellationToken);
         }
 
         /// <summary>
