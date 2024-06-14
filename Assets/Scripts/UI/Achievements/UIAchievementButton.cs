@@ -34,7 +34,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public RawImage IconImage;
         public Text NameText;
 
-        public UnityEvent<int> OnClick;
+        public UnityEvent<string, int> OnClick;
 
         public void SetIconTexture(Texture2D Texture)
         {
@@ -48,7 +48,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public void OnButtonClicked()
         {
-            OnClick?.Invoke(index);
+            OnClick?.Invoke(NameText.text, index);
         }
     }
 }

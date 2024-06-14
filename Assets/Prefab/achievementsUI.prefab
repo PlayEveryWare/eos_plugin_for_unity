@@ -140,7 +140,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 3912250522102205713}
         m_TargetAssemblyTypeName: PlayEveryWare.EpicOnlineServices.Samples.UIAchievementsMenu,
-          Assembly-CSharp
+          com.playeveryware.eos.samples
         m_MethodName: OnDefinitionIdButtonClicked
         m_Mode: 0
         m_Arguments:
@@ -743,8 +743,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 691286542098735079}
   m_HandleRect: {fileID: 4486159949228947216}
   m_Direction: 2
-  m_Value: 1
-  m_Size: 1
+  m_Value: 1.0000002
+  m_Size: 0.04503774
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

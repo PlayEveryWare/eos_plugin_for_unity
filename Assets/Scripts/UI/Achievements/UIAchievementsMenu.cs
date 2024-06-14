@@ -64,7 +64,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         private List<UIAchievementButton> achievementListItems;
 
         private bool displayDefinition = false;
-        private int displayIndex = -1;
+        private string _selectedAchievementId;
 
         class AchievementData
         {
@@ -156,12 +156,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         //TODO: refresh achievement data without having to log out
         public void UnlockAchievement()
         {
-            if (displayIndex < 0 || displayIndex > achievementManager.GetAchievementDefinitionCount())
+            if (string.IsNullOrEmpty(_selectedAchievementId))
             {
                 return;
             }
 
-            var definition = achievementManager.GetAchievementDefinitionAtIndex(displayIndex);
+            //var definition = achievementManager.GetAchievementDefinitionAtIndex(displayIndex);
+
+            var definition = achievementDataList[0].Definition;
 
             achievementManager.UnlockAchievementManually(definition.AchievementId, (ref OnUnlockAchievementsCompleteCallbackInfo info) =>
             {
@@ -258,30 +260,36 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             displayDefinition = value;
 
-            if (displayIndex >= 0)
-            {
-                OnDefinitionIdButtonClicked(displayIndex);
-            }
+            OnDefinitionIdButtonClicked(_selectedAchievementId, 0);
         }
         public void RefreshDisplayingDefinition()
         {
-            if (displayIndex == -1)
-            {
-                return;
-            }
-            OnDefinitionIdButtonClicked(displayIndex);
+            OnDefinitionIdButtonClicked(_selectedAchievementId, 0);
         }
 
-        public void OnDefinitionIdButtonClicked(int i)
+        public void OnDefinitionIdButtonClicked(string achievementId, int i)
         {
-            if (i > achievementManager.GetAchievementDefinitionCount())
+            if (string.IsNullOrEmpty(achievementId))
             {
                 return;
             }
 
-            displayIndex = i;
+            _selectedAchievementId = achievementId;
 
-            var achievementData = achievementDataList[i];
+            AchievementData achievementData = null;
+
+            foreach (var data in achievementDataList)
+            {
+                if (data.Definition.AchievementId != achievementId)
+                    continue;
+
+                achievementData = data;
+                break;
+            }
+
+            if (null == achievementData)
+                return;
+
             var definition = achievementData.Definition;
             achievementUnlockedIcon.texture = achievementManager.GetAchievementUnlockedIconTexture(definition.AchievementId);
             achievementLockedIcon.texture = achievementManager.GetAchievementLockedIconTexture(definition.AchievementId);
