@@ -161,11 +161,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 return;
             }
 
-            //var definition = achievementManager.GetAchievementDefinitionAtIndex(displayIndex);
+            var definition = achievementManager.GetAchievementDefinition(_selectedAchievementId);
 
-            var definition = achievementDataList[0].Definition;
-
-            achievementManager.UnlockAchievementManually(definition.AchievementId, (ref OnUnlockAchievementsCompleteCallbackInfo info) =>
+            achievementManager.UnlockAchievement(definition.AchievementId, (ref OnUnlockAchievementsCompleteCallbackInfo info) =>
             {
                 if (info.ResultCode == Result.Success)
                 {
