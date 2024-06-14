@@ -63,6 +63,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Steam
         HAuthTicket sessionTicketHandle = HAuthTicket.Invalid;
         string sessionTicketString = null;
 
+        Callback<GetTicketForWebApiResponse_t> m_AuthTicketForWebApiResponseCallback;
+
         CallResult<EncryptedAppTicketResponse_t> appTicketCallResult = new CallResult<EncryptedAppTicketResponse_t>();
         private event Action<string> appTicketEvent;
         private string encryptedAppTicket = null;
@@ -147,6 +149,20 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Steam
                 // You must launch with "-debug_steamapi" in the launch args to receive warnings.
                 m_SteamAPIWarningMessageHook = new SteamAPIWarningMessageHook_t(SteamAPIDebugTextHook);
                 SteamClient.SetWarningMessageHook(m_SteamAPIWarningMessageHook);
+            }
+
+            if (m_AuthTicketForWebApiResponseCallback == null)
+            {
+                m_AuthTicketForWebApiResponseCallback = Callback<GetTicketForWebApiResponse_t>.Create(
+                    (GetTicketForWebApiResponse_t pCallback) =>
+                    {
+                        if (pCallback.m_eResult == EResult.k_EResultOK)
+                        {
+                            sessionTicketHandle = pCallback.m_hAuthTicket;
+                            sessionTicketString = System.BitConverter.ToString(pCallback.m_rgubTicket).Replace("-", "");
+                            Debug.LogWarning ("GetAuthTicketForWebApi succeed, try logging in again");
+                        }
+                    });
             }
         }
 
@@ -323,6 +339,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Steam
                 return sessionTicketString;
             }
 
+#if GET_STEAM_SESSION_TICKET_LEGACY
             int bufferSize = 1024;
             byte[] buffer = new byte[bufferSize];
             uint ticketSize = 0;
@@ -345,9 +362,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Steam
             Array.Resize(ref buffer, (int)ticketSize);
             //convert to hex string
             sessionTicketString = System.BitConverter.ToString(buffer).Replace("-", "");
+#else
+            SteamUser.GetAuthTicketForWebApi(null);
+            sessionTicketString = "";
+#endif
             return sessionTicketString;
 #endif
-
         }
 
         public void RequestAppTicket(Action<string> callback)
