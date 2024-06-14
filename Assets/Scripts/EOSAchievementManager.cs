@@ -20,7 +20,7 @@
 * SOFTWARE.
 */
 
-//#define ENABLE_DEBUG_EOSACHIEVEMENTMANAGER
+#define ENABLE_DEBUG_EOSACHIEVEMENTMANAGER
 
 using System.Collections.Generic;
 using UnityEngine;
@@ -70,7 +70,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// <summary>
         /// Conditionally executed proxy function for Unity's log function.
         /// </summary>
-        /// <param name="toPrint"></param>
+        /// <param name="toPrint">The message to log.</param>
         [Conditional("ENABLE_DEBUG_EOSACHIEVEMENTMANAGER")]
         private static void Log(string toPrint)
         {
@@ -173,7 +173,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 if (queryStatsCompleteCallbackInfo.ResultCode != Result.Success)
                 {
                     // TODO: handle error
-                    Log("Failed to query stats: " + queryStatsCompleteCallbackInfo.ResultCode);
+                    Log($"Failed to query stats, result code: {queryStatsCompleteCallbackInfo.ResultCode}");
                 }
                 callback?.Invoke(ref queryStatsCompleteCallbackInfo);
             });
@@ -263,7 +263,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// Queries the server for the achievement definitions for the game.
         /// Note that while a ProductUserId is a required parameter, it is used
         /// exclusively for the purpose of getting Locale-specific versions of
-        /// the achievement strings.
+        /// the achievements.
         /// </summary>
         /// <param name="productUserId">
         /// The ProductUserId that corresponds to the player. This is used
@@ -286,7 +286,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             {
                 if (data.ResultCode != Result.Success)
                 {
-                    Log("unable to query achievement definitions: " + data.ResultCode.ToString());
+                    Log($"Unable to query achievement definitions. Result code: {data.ResultCode}");
                 }
 
                 callback?.Invoke(ref data);
@@ -324,7 +324,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             {
                 if (data.ResultCode != Result.Success)
                 {
-                    Log("Error after query player achievements: " + data.ResultCode);
+                    Log($"Error querying player achievements. Result code: {data.ResultCode}");
                 }
 
                 callback?.Invoke(ref data);
@@ -540,7 +540,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 var copyResult = GetEOSAchievementInterface().CopyPlayerAchievementByIndex(ref playerAchievementByIndexOptions, out PlayerAchievement? playerAchievement);
                 if (copyResult != Result.Success)
                 {
-                    Log("Failed to copy player achievement : " + copyResult);
+                    Log($"Failed to copy player achievement from the cache. Result code: {copyResult}");
                     continue; // TODO handle error
                 }
                 if (playerAchievement.HasValue)
