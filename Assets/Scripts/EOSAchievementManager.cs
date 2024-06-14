@@ -34,11 +34,13 @@ using System.Diagnostics;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
+    using Debug = System.Diagnostics.Debug;
+
     /// <summary>
     /// Class <c>EOSAchievementManager</c> is a simplified wrapper for
     /// EOS [Achievements Interface](https://dev.epicgames.com/docs/services/en-US/Interfaces/Achievements/index.html).
     /// </summary>
-    public class EOSAchievementManager : IEOSSubManager, IEOSOnConnectLogin
+    public class EOSAchievementManager : Service
     {
         /// <summary>
         /// Stores data that has been cached, where the string key is a URI,
@@ -184,13 +186,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// TODO: It may not be necessary or wise to call this upon login. it
         /// might make more sense to call it on demand.
         /// </summary>
-        /// <param name="loginCallbackInfo">
-        /// Information pertaining to the login that took place.
+        /// <param name="productUserId">
+        /// The product user id for the logged in player. Might be null if the
+        /// login was unsuccessful.
         /// </param>
-        public void OnConnectLogin(Epic.OnlineServices.Connect.LoginCallbackInfo loginCallbackInfo)
+        protected override void PostLogin(ProductUserId productUserId)
         {
-            ProductUserId productUserId = loginCallbackInfo.LocalUserId;
-
             QueryAchievements(productUserId, (ref OnQueryDefinitionsCompleteCallbackInfo defQueryData) =>
             {
                 _achievements = GetCachedAchievements();
@@ -205,7 +206,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// to any player for whom that information has been requested
         /// previously.
         /// </summary>
-        public void Refresh()
+        protected override void RefreshLocalData()
         {
             ProductUserId productUserId = EOSManager.Instance.GetProductUserId();
             QueryAchievements(productUserId, (ref OnQueryDefinitionsCompleteCallbackInfo defQueryData) =>
@@ -245,7 +246,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 _playerAchievements[productUserId] = GetCachedPlayerAchievements(productUserId);
             });
 
-            NotifyAchievementDataUpdated();
+            NotifyListeners();
         }
 
         /// <summary>
@@ -550,45 +551,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
 
             return collectedAchievements;
-        }
-
-        /// <summary>
-        /// Trigger the notification callbacks that have been registered,
-        /// letting any consumers know that the data base been updated.
-        /// </summary>
-        private void NotifyAchievementDataUpdated()
-        {
-            foreach (Action callback in _dataUpdatedNotifiers)
-            {
-                callback?.Invoke();
-            }
-        }
-
-        /// <summary>
-        /// Adds a given callback - to be invoked by the manager whenever
-        /// data pertaining to the manager has been updated.
-        /// </summary>
-        /// <param name="callback">
-        /// The callback to invoke when data pertaining to this manager has been
-        /// updated locally.
-        /// </param>
-        public void AddNotifyAchievementDataUpdated(Action callback)
-        {
-            _dataUpdatedNotifiers.Add(callback);
-            if (_playerAchievements.Count > 0)
-            {
-                callback?.Invoke();
-            }
-        }
-
-        /// <summary>
-        /// Removes a specific callback from the list of callbacks to call when
-        /// data for achievements and stats has been updated locally.
-        /// </summary>
-        /// <param name="callback">The callback to remove.</param>
-        public void RemoveNotifyAchievementDataUpdated(Action callback)
-        {
-            _dataUpdatedNotifiers.Remove(callback);
         }
 
         /// <summary>
