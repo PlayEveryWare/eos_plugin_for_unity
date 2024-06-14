@@ -52,8 +52,13 @@
 
         {"src":"Assets/link.xml", "dest": "Editor/"},
 
-        {"src":"Assets/Plugins/Source/EOS_SDK/*",                   "dest": "Runtime/EOS_SDK/", "recurse": true },
-        
+        {"src":"Assets/Plugins/Source/EOS_SDK/*",                   "dest": "Runtime/EOS_SDK/", "recursive": true },
+        {"ignore_regex":"Assets/Plugins/Source/EOS_SDK/Generated/PS4/*" },
+        {"ignore_regex":"Assets/Plugins/Source/EOS_SDK/Generated/PS5/*" },
+        {"ignore_regex":"Assets/Plugins/Source/EOS_SDK/Generated/XboxOneGDK/*" },
+        {"ignore_regex":"Assets/Plugins/Source/EOS_SDK/Generated/XSX/*" },
+        {"ignore_regex":"Assets/Plugins/Source/EOS_SDK/Generated/Switch/*" },
+
         {"src":"Assets/Resources/SourceCodePro.ttf",                "dest": "Samples~/Samples/StandardSamples/Materials/"},
         {"src":"Assets/Prefab/*.prefab",                            "dest": "Samples~/Samples/StandardSamples/Prefab/"},
         {"src":"Assets/Scripts/*",                                  "dest": "Samples~/Samples/StandardSamples/Scripts/"},    
