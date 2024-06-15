@@ -59,17 +59,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         private ConcurrentDictionary<ProductUserId, List<PlayerAchievement>> _playerAchievements = new();
         
         /// <summary>
-        /// Maps a given user to a list of player statistics.
-        /// </summary>
-        private IDictionary<ProductUserId, List<Stat>> _playerStats = new Dictionary<ProductUserId, List<Stat>>();
-
-        /// <summary>
-        /// Stores a list of functions to be called whenever data related to
-        /// Achievements has been updated locally.
-        /// </summary>
-        private IList<Action> _dataUpdatedNotifiers = new List<Action>();
-
-        /// <summary>
         /// Conditionally executed proxy function for Unity's log function.
         /// </summary>
         /// <param name="toPrint">The message to log.</param>
@@ -78,18 +67,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             UnityEngine.Debug.Log(toPrint);
         }
-
-        /// <summary>
-        /// Gets the Stats Interface from the EOS SDK.
-        /// </summary>
-        /// <returns>
-        /// A references to the StatsInterface from the EOS SDK
-        /// </returns>
-        private static StatsInterface GetEOSStatsInterface()
-        {
-            return EOSManager.Instance.GetEOSPlatformInterface().GetStatsInterface();
-        }
-
+        
         /// <summary>
         /// Helper function to convert a ProductUserId to string.
         /// </summary>
@@ -99,86 +77,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             productUserId.ToString(out Utf8String buffer);
             return buffer;
-        }
-
-        /// <summary>
-        /// Returns the list of statistics for a given player that have been
-        /// locally cached. Note that reading the cached statistics is the only
-        /// means by which statistics for a player can be accessed.
-        /// </summary>
-        /// <param name="productUserId">
-        /// The ProductUserId for a given player.
-        /// </param>
-        /// <returns>
-        /// A list of statistics pertaining to the player represented by the
-        /// given ProductUserId
-        /// </returns>
-        private static List<Stat> GetCachedPlayerStats(ProductUserId productUserId)
-        {
-            var statInterface = GetEOSStatsInterface();
-            GetStatCountOptions countOptions = new()
-            {
-                TargetUserId = productUserId
-            };
-            uint statsCountForProductUserId = statInterface.GetStatsCount(ref countOptions);
-
-            List<Stat> collectedStats = new();
-            CopyStatByIndexOptions copyStatsByIndexOptions = new()
-            {
-                TargetUserId = productUserId,
-                StatIndex = 0
-            };
-
-            for (uint i = 0; i < statsCountForProductUserId; ++i)
-            {
-                copyStatsByIndexOptions.StatIndex = i;
-
-                Result copyStatResult = statInterface.CopyStatByIndex(ref copyStatsByIndexOptions, out Stat? stat);
-
-                if (copyStatResult == Result.Success && stat.HasValue)
-                {
-                    collectedStats.Add(stat.Value);
-                }
-            }
-
-            return collectedStats;
-        }
-
-        /// <summary>
-        /// Queries from the server the stats pertaining to the user associated
-        /// to the given ProductUserId.
-        /// </summary>
-        /// <param name="productUserId">
-        /// The ProductUserId associated with the player to get the statistics
-        /// for.
-        /// </param>
-        /// <param name="callback">
-        /// Invoked when the query has completed (successfully or otherwise).
-        /// </param>
-        private static void QueryPlayerStats(ProductUserId productUserId, OnQueryStatsCompleteCallback callback)
-        {
-            if (!productUserId.IsValid())
-            {
-                Log("Invalid product user id sent in!");
-                return;
-            }
-            var statInterface = GetEOSStatsInterface();
-
-            QueryStatsOptions statsOptions = new()
-            {
-                LocalUserId = productUserId,
-                TargetUserId = productUserId
-            };
-
-            statInterface.QueryStats(ref statsOptions, null, (ref OnQueryStatsCompleteCallbackInfo queryStatsCompleteCallbackInfo) =>
-            {
-                if (queryStatsCompleteCallbackInfo.ResultCode != Result.Success)
-                {
-                    // TODO: handle error
-                    Log($"Failed to query stats, result code: {queryStatsCompleteCallbackInfo.ResultCode}");
-                }
-                callback?.Invoke(ref queryStatsCompleteCallbackInfo);
-            });
         }
 
         /// <summary>
@@ -195,7 +93,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             QueryAchievements(productUserId, (ref OnQueryDefinitionsCompleteCallbackInfo defQueryData) =>
             {
                 _achievements = GetCachedAchievements();
-                RefreshPlayerStatsAndAchievements(productUserId);
+                RefreshPlayerAchievements(productUserId);
             });
         }
 
@@ -212,15 +110,15 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             QueryAchievements(productUserId, (ref OnQueryDefinitionsCompleteCallbackInfo defQueryData) =>
             {
                 _achievements = GetCachedAchievements();
-                foreach (var userId in _playerStats.Keys)
+                foreach (var userId in _playerAchievements.Keys)
                 {
-                    RefreshPlayerStatsAndAchievements(userId);
+                    RefreshPlayerAchievements(userId);
                 }
                 //A user with empty stats would not be added to "productUserIdToStatsCache"
                 //This chunk of code makes up for that and welcomes the newcomers.
-                if (!_playerStats.ContainsKey(productUserId))
+                if (!_playerAchievements.ContainsKey(productUserId))
                 {
-                    RefreshPlayerStatsAndAchievements(productUserId);    
+                    RefreshPlayerAchievements(productUserId);    
                 }
             });
         }
@@ -234,13 +132,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// The ProductUserId associated with the player for whom the statistics
         /// and achievements are to be updated for.
         /// </param>
-        private void RefreshPlayerStatsAndAchievements(ProductUserId productUserId)
+        private void RefreshPlayerAchievements(ProductUserId productUserId)
         {
-            QueryPlayerStats(productUserId, (ref OnQueryStatsCompleteCallbackInfo statsInfo) =>
-            {
-                _playerStats[productUserId] = GetCachedPlayerStats(productUserId);
-            });
-
             QueryPlayerAchievements(productUserId, (ref OnQueryPlayerAchievementsCompleteCallbackInfo achievementsInfo) =>
             {
                 _playerAchievements[productUserId] = GetCachedPlayerAchievements(productUserId);

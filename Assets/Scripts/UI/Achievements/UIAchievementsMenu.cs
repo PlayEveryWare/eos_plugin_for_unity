@@ -21,7 +21,6 @@
 */
 
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 
 using UnityEngine;
@@ -30,11 +29,7 @@ using UnityEngine.UI;
 
 using Epic.OnlineServices;
 using Epic.OnlineServices.Achievements;
-using Epic.OnlineServices.Ecom;
-using Epic.OnlineServices.UI;
 using Epic.OnlineServices.Stats;
-
-using PlayEveryWare.EpicOnlineServices;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
@@ -60,6 +55,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public GameObject UIFirstSelected;
 
         private EOSAchievementManager achievementManager;
+        private EOSStatsManager _statsManager;
 
         private List<UIAchievementButton> achievementListItems;
 
@@ -80,6 +76,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             HideMenu();
             achievementManager = EOSManager.Instance.GetOrCreateManager<EOSAchievementManager>();
+            _statsManager = EOSManager.Instance.GetOrCreateManager<EOSStatsManager>();
         }
 
         private void OnEnable()
@@ -136,24 +133,19 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public void IncrementLoginStat()
         {
-            var statsInterface = EOSManager.Instance.GetEOSPlatformInterface().GetStatsInterface();
             var userId = EOSManager.Instance.GetProductUserId();
-            IngestStatOptions ingestOptions = new IngestStatOptions()
-            {
-                LocalUserId = userId,
-                TargetUserId = userId,
-                Stats = new IngestData[] { new IngestData() { StatName = "login_count", IngestAmount = 1 } }
-            };
 
-            statsInterface.IngestStat(ref ingestOptions, null, (ref IngestStatCompleteCallbackInfo info) =>
+            _statsManager.IngestStat(userId, "login_count", 1, () =>
             {
-                Debug.LogFormat("Stat ingest result: {0}", info.ResultCode.ToString());
+                // Once we know that the stat has been ingested by the fact that
+                // the callback has been invoked, we should refresh the 
+                // achievement manager because an achievement may have been
+                // unlocked by the change to the stat value.
                 achievementManager.Refresh();
             });
         }
 
-        //manually unlock achievement being displayed
-        //TODO: refresh achievement data without having to log out
+        // Manually unlock achievement being displayed
         public void UnlockAchievement()
         {
             if (displayIndex < 0 || displayIndex > EOSAchievementManager.GetAchievementsCount())
