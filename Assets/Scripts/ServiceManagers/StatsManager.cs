@@ -18,6 +18,15 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
+ *
+ * Author: Paul Hazen (paul.hazen@playeveryware.com)
+ *
+ * Date:   2024-06-17
+ *
+ * Notes: This file contains implementation of a manager for the stats interface
+ *        of the EOS SDK, extracted from where it previously existed within the
+ *        EOSAchievementManager class.
+ *
  */
 
 //#define ENABLE_DEBUG_EOSSTATSMANAGER
@@ -101,6 +110,13 @@ namespace PlayEveryWare.EpicOnlineServices
             }
         }
 
+        /// <summary>
+        /// Refresh the locally cached data pertaining to Stats for the given
+        /// user.
+        /// </summary>
+        /// <param name="productUserId">
+        /// The ProductUserId of the player whose stats should be refreshed.
+        /// </param>
         private void RefreshPlayerStats(ProductUserId productUserId)
         {
             QueryPlayerStats(productUserId, (ref OnQueryStatsCompleteCallbackInfo data) =>

@@ -41,8 +41,24 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     /// </summary>
     public class EOSAchievementManager : ServiceManager
     {
-        #region Singleton Implementation
+        /// <summary>
+        /// Stores data that has been cached, where the string key is a URI,
+        /// and the value is the bytes of the resource at that URI.
+        /// </summary>
+        private ConcurrentDictionary<string, byte[]> _downloadCache = new();
+
+        /// <summary>
+        /// Contains a list of the achievements that exist for the game.
+        /// </summary>
+        private IList<DefinitionV2> _achievements = new List<DefinitionV2>();
         
+        /// <summary>
+        /// Maps a given user to a list of player achievements.
+        /// </summary>
+        private ConcurrentDictionary<ProductUserId, List<PlayerAchievement>> _playerAchievements = new();
+
+        #region Singleton Implementation
+
         /// <summary>
         /// Lazy instance for singleton allows for thread-safe interactions with
         /// the EOSAchievementManager
@@ -67,28 +83,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         private EOSAchievementManager() { }
 
         #endregion
-
-        /// <summary>
-        /// Stores data that has been cached, where the string key is a URI,
-        /// and the value is the bytes of the resource at that URI.
-        /// </summary>
-        private ConcurrentDictionary<string, byte[]> _downloadCache = new();
-
-        /// <summary>
-        /// Contains a list of the achievements that exist for the game.
-        /// </summary>
-        private IList<DefinitionV2> _achievements = new List<DefinitionV2>();
-        
-        /// <summary>
-        /// Maps a given user to a list of player achievements.
-        /// </summary>
-        private ConcurrentDictionary<ProductUserId, List<PlayerAchievement>> _playerAchievements = new();
-        
-        /// <summary>
-        /// Stores a list of functions to be called whenever data related to
-        /// Achievements has been updated locally.
-        /// </summary>
-        private IList<Action> _dataUpdatedNotifiers = new List<Action>();
 
         /// <summary>
         /// Conditionally executed proxy function for Unity's log function.
@@ -150,7 +144,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             //       comparing equality of the PlayerAchievement struct (defined
             //       in the EOS SDK is not be default supported, so that would
             //       need to be implemented.
-            NotifyAchievementDataUpdated();
+            NotifyUpdated();
         }
 
         /// <summary>
@@ -168,7 +162,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             {
                 _playerAchievements[productUserId] = GetCachedPlayerAchievements(productUserId);
             });
-            NotifyAchievementDataUpdated();
+
+            NotifyUpdated();
         }
 
         /// <summary>
@@ -473,45 +468,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
 
             return collectedAchievements;
-        }
-
-        /// <summary>
-        /// Trigger the notification callbacks that have been registered,
-        /// letting any consumers know that the data base been updated.
-        /// </summary>
-        private void NotifyAchievementDataUpdated()
-        {
-            foreach (Action callback in _dataUpdatedNotifiers)
-            {
-                callback?.Invoke();
-            }
-        }
-
-        /// <summary>
-        /// Adds a given callback - to be invoked by the manager whenever
-        /// data pertaining to the manager has been updated.
-        /// </summary>
-        /// <param name="callback">
-        /// The callback to invoke when data pertaining to this manager has been
-        /// updated locally.
-        /// </param>
-        public void AddNotifyAchievementDataUpdated(Action callback)
-        {
-            _dataUpdatedNotifiers.Add(callback);
-            if (_playerAchievements.Count > 0)
-            {
-                callback?.Invoke();
-            }
-        }
-
-        /// <summary>
-        /// Removes a specific callback from the list of callbacks to call when
-        /// data for achievements and stats has been updated locally.
-        /// </summary>
-        /// <param name="callback">The callback to remove.</param>
-        public void RemoveNotifyAchievementDataUpdated(Action callback)
-        {
-            _dataUpdatedNotifiers.Remove(callback);
         }
 
         /// <summary>

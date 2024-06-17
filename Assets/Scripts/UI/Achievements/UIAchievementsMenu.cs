@@ -81,12 +81,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private void OnEnable()
         {
-            EOSAchievementManager.Instance?.AddNotifyAchievementDataUpdated(OnAchievementDataUpdated);
+            EOSAchievementManager.Instance.AddUpdateCallback(OnAchievementDataUpdated);
         }
 
         private void OnDisable()
         {
-            EOSAchievementManager.Instance?.RemoveNotifyAchievementDataUpdated(OnAchievementDataUpdated);
+            EOSAchievementManager.Instance.RemoveUpdateCallback(OnAchievementDataUpdated);
         }
 
         private void OnDestroy()
