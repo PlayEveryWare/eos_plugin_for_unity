@@ -22,29 +22,57 @@
 
 //#define ENABLE_DEBUG_EOSACHIEVEMENTMANAGER
 
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Networking;
-using System.Collections.Concurrent;
-using Epic.OnlineServices.Achievements;
-using Epic.OnlineServices.Stats;
-using System;
-using Epic.OnlineServices;
-using System.Diagnostics;
-
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
+    using System;
+    using System.Diagnostics;
+    using System.Collections.Generic;
+    using System.Collections.Concurrent;
+
+    using UnityEngine;
+    using UnityEngine.Networking;
+
+    using Epic.OnlineServices;
+    using Epic.OnlineServices.Achievements;
+
     /// <summary>
     /// Class <c>EOSAchievementManager</c> is a simplified wrapper for
     /// EOS [Achievements Interface](https://dev.epicgames.com/docs/services/en-US/Interfaces/Achievements/index.html).
     /// </summary>
-    public class EOSAchievementManager : IEOSSubManager, IEOSOnConnectLogin
+    public class EOSAchievementManager : ServiceManager
     {
+        #region Singleton Implementation
+        
+        /// <summary>
+        /// Lazy instance for singleton allows for thread-safe interactions with
+        /// the EOSAchievementManager
+        /// </summary>
+        private static readonly Lazy<EOSAchievementManager> s_LazyInstance = new(() => new EOSAchievementManager());
+
+        /// <summary>
+        /// Accessor for the instance.
+        /// </summary>
+        public static EOSAchievementManager Instance
+        {
+            get
+            {
+                return s_LazyInstance.Value;
+            }
+        }
+
+        /// <summary>
+        /// Private constructor guarantees adherence to thread-safe singleton
+        /// pattern.
+        /// </summary>
+        private EOSAchievementManager() { }
+
+        #endregion
+
         /// <summary>
         /// Stores data that has been cached, where the string key is a URI,
         /// and the value is the bytes of the resource at that URI.
         /// </summary>
-        private static ConcurrentDictionary<string, byte[]> _downloadCache = new();
+        private ConcurrentDictionary<string, byte[]> _downloadCache = new();
 
         /// <summary>
         /// Contains a list of the achievements that exist for the game.
@@ -56,11 +84,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// </summary>
         private ConcurrentDictionary<ProductUserId, List<PlayerAchievement>> _playerAchievements = new();
         
-        /// <summary>
-        /// Maps a given user to a list of player statistics.
-        /// </summary>
-        private IDictionary<ProductUserId, List<Stat>> _playerStats = new Dictionary<ProductUserId, List<Stat>>();
-
         /// <summary>
         /// Stores a list of functions to be called whenever data related to
         /// Achievements has been updated locally.
@@ -76,18 +99,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             UnityEngine.Debug.Log(toPrint);
         }
-
-        /// <summary>
-        /// Gets the Stats Interface from the EOS SDK.
-        /// </summary>
-        /// <returns>
-        /// A references to the StatsInterface from the EOS SDK
-        /// </returns>
-        private static StatsInterface GetEOSStatsInterface()
-        {
-            return EOSManager.Instance.GetEOSPlatformInterface().GetStatsInterface();
-        }
-
+        
         /// <summary>
         /// Helper function to convert a ProductUserId to string.
         /// </summary>
@@ -99,102 +111,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             return buffer;
         }
 
-        /// <summary>
-        /// Returns the list of statistics for a given player that have been
-        /// locally cached. Note that reading the cached statistics is the only
-        /// means by which statistics for a player can be accessed.
-        /// </summary>
-        /// <param name="productUserId">
-        /// The ProductUserId for a given player.
-        /// </param>
-        /// <returns>
-        /// A list of statistics pertaining to the player represented by the
-        /// given ProductUserId
-        /// </returns>
-        private static List<Stat> GetCachedPlayerStats(ProductUserId productUserId)
+        protected override void OnPlayerLogin(ProductUserId productUserId = null)
         {
-            var statInterface = GetEOSStatsInterface();
-            GetStatCountOptions countOptions = new()
-            {
-                TargetUserId = productUserId
-            };
-            uint statsCountForProductUserId = statInterface.GetStatsCount(ref countOptions);
-
-            List<Stat> collectedStats = new();
-            CopyStatByIndexOptions copyStatsByIndexOptions = new()
-            {
-                TargetUserId = productUserId,
-                StatIndex = 0
-            };
-
-            for (uint i = 0; i < statsCountForProductUserId; ++i)
-            {
-                copyStatsByIndexOptions.StatIndex = i;
-
-                Result copyStatResult = statInterface.CopyStatByIndex(ref copyStatsByIndexOptions, out Stat? stat);
-
-                if (copyStatResult == Result.Success && stat.HasValue)
-                {
-                    collectedStats.Add(stat.Value);
-                }
-            }
-
-            return collectedStats;
-        }
-
-        /// <summary>
-        /// Queries from the server the stats pertaining to the user associated
-        /// to the given ProductUserId.
-        /// </summary>
-        /// <param name="productUserId">
-        /// The ProductUserId associated with the player to get the statistics
-        /// for.
-        /// </param>
-        /// <param name="callback">
-        /// Invoked when the query has completed (successfully or otherwise).
-        /// </param>
-        private static void QueryPlayerStats(ProductUserId productUserId, OnQueryStatsCompleteCallback callback)
-        {
-            if (!productUserId.IsValid())
-            {
-                Log("Invalid product user id sent in!");
-                return;
-            }
-            var statInterface = GetEOSStatsInterface();
-
-            QueryStatsOptions statsOptions = new()
-            {
-                LocalUserId = productUserId,
-                TargetUserId = productUserId
-            };
-
-            statInterface.QueryStats(ref statsOptions, null, (ref OnQueryStatsCompleteCallbackInfo queryStatsCompleteCallbackInfo) =>
-            {
-                if (queryStatsCompleteCallbackInfo.ResultCode != Result.Success)
-                {
-                    // TODO: handle error
-                    Log($"Failed to query stats, result code: {queryStatsCompleteCallbackInfo.ResultCode}");
-                }
-                callback?.Invoke(ref queryStatsCompleteCallbackInfo);
-            });
-        }
-
-        /// <summary>
-        /// This method is called by EOSManager when login has happened.
-        /// TODO: It may not be necessary or wise to call this upon login. it
-        /// might make more sense to call it on demand.
-        /// </summary>
-        /// <param name="loginCallbackInfo">
-        /// Information pertaining to the login that took place.
-        /// </param>
-        public void OnConnectLogin(Epic.OnlineServices.Connect.LoginCallbackInfo loginCallbackInfo)
-        {
-            ProductUserId productUserId = loginCallbackInfo.LocalUserId;
-
             QueryAchievements(productUserId, (ref OnQueryDefinitionsCompleteCallbackInfo defQueryData) =>
             {
                 _achievements = GetCachedAchievements();
-                RefreshPlayerStatsAndAchievements(productUserId);
+                RefreshPlayerAchievements(productUserId);
             });
         }
 
@@ -205,23 +127,30 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// to any player for whom that information has been requested
         /// previously.
         /// </summary>
-        public void Refresh()
+        public override void Refresh()
         {
             ProductUserId productUserId = EOSManager.Instance.GetProductUserId();
             QueryAchievements(productUserId, (ref OnQueryDefinitionsCompleteCallbackInfo defQueryData) =>
             {
                 _achievements = GetCachedAchievements();
-                foreach (var userId in _playerStats.Keys)
+
+                foreach (var userId in _playerAchievements.Keys)
                 {
-                    RefreshPlayerStatsAndAchievements(userId);
-                }
-                //A user with empty stats would not be added to "productUserIdToStatsCache"
-                //This chunk of code makes up for that and welcomes the newcomers.
-                if (!_playerStats.ContainsKey(productUserId))
-                {
-                    RefreshPlayerStatsAndAchievements(productUserId);    
+                    RefreshPlayerAchievements(userId);
                 }
             });
+
+            // NOTE: Because there is no check in the above code to determine if
+            //       any achievements have actually changed, EVERY call to this
+            //       Refresh function will trigger a data updated callback to
+            //       all listeners, regardless of whether anything has changed.
+            //       Possible improvement would be to evaluate each achievement
+            //       definition, and the achievement for each player and only 
+            //       trigger this callback if a change is detected. However,
+            //       comparing equality of the PlayerAchievement struct (defined
+            //       in the EOS SDK is not be default supported, so that would
+            //       need to be implemented.
+            NotifyAchievementDataUpdated();
         }
 
         /// <summary>
@@ -233,18 +162,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// The ProductUserId associated with the player for whom the statistics
         /// and achievements are to be updated for.
         /// </param>
-        private void RefreshPlayerStatsAndAchievements(ProductUserId productUserId)
+        private void RefreshPlayerAchievements(ProductUserId productUserId)
         {
-            QueryPlayerStats(productUserId, (ref OnQueryStatsCompleteCallbackInfo statsInfo) =>
-            {
-                _playerStats[productUserId] = GetCachedPlayerStats(productUserId);
-            });
-
             QueryPlayerAchievements(productUserId, (ref OnQueryPlayerAchievementsCompleteCallbackInfo achievementsInfo) =>
             {
                 _playerAchievements[productUserId] = GetCachedPlayerAchievements(productUserId);
             });
-
             NotifyAchievementDataUpdated();
         }
 
@@ -596,7 +519,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// been cached locally.
         /// </summary>
         /// <returns>A list of achievement definitions.</returns>
-        private static List<DefinitionV2> GetCachedAchievements()
+        private List<DefinitionV2> GetCachedAchievements()
         {
             uint achievementDefinitionCount = GetAchievementsCount();
             var options = new CopyAchievementDefinitionV2ByIndexOptions
@@ -632,7 +555,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// <param name="uri">
         /// The URI to get bytes from.
         /// </param>
-        private static async void GetAndCacheData(string uri)
+        private async void GetAndCacheData(string uri)
         {
             if (_downloadCache.ContainsKey(uri))
             {
