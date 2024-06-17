@@ -20,7 +20,7 @@
 * SOFTWARE.
 */
 
-#define ENABLE_DEBUG_EOSACHIEVEMENTMANAGER
+//#define ENABLE_DEBUG_EOSACHIEVEMENTMANAGER
 
 using System.Collections.Generic;
 using UnityEngine;
