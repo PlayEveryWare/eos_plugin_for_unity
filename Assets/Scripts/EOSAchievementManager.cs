@@ -108,8 +108,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         protected async override void OnPlayerLogin(ProductUserId productUserId)
         {
-            _achievements = await QueryAchievements(productUserId);
-            RefreshPlayerAchievements(productUserId);
+            _achievements = await QueryAchievementsAsync(productUserId);
+            RefreshPlayerAchievementsAsync(productUserId);
         }
 
         /// <summary>
@@ -122,11 +122,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public async override void Refresh()
         {
             ProductUserId productUserId = EOSManager.Instance.GetProductUserId();
-            _achievements = await QueryAchievements(productUserId);
+            _achievements = await QueryAchievementsAsync(productUserId);
             
                 foreach (var userId in _playerAchievements.Keys)
                 {
-                    RefreshPlayerAchievements(userId);
+                    RefreshPlayerAchievementsAsync(userId);
                 }
 
             // NOTE: Because there is no check in the above code to determine if
@@ -151,9 +151,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// The ProductUserId associated with the player for whom the statistics
         /// and achievements are to be updated for.
         /// </param>
-        private async void RefreshPlayerAchievements(ProductUserId productUserId)
+        private async void RefreshPlayerAchievementsAsync(ProductUserId productUserId)
         {
-            _playerAchievements[productUserId] = await QueryPlayerAchievements(productUserId);
+            _playerAchievements[productUserId] = await QueryPlayerAchievementsAsync(productUserId);
             NotifyUpdated();
         }
 
@@ -184,7 +184,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// Invoked when the request from the server has completed - whether
         /// successful or not.
         /// </param>
-        private Task<List<DefinitionV2>> QueryAchievements(ProductUserId productUserId)
+        private Task<List<DefinitionV2>> QueryAchievementsAsync(ProductUserId productUserId)
         {
             var options = new QueryDefinitionsOptions
             {
@@ -252,7 +252,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// <returns>
         /// List of PlayerAchievement objects.
         /// </returns>
-        private Task<List<PlayerAchievement>> QueryPlayerAchievements(ProductUserId productUserId)
+        private Task<List<PlayerAchievement>> QueryPlayerAchievementsAsync(ProductUserId productUserId)
         {
             Log($"Begin query player achievements for {ProductUserIdToString(productUserId)}");
 
@@ -438,11 +438,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// <param name="achievementId">
         /// The id of the achievement to unlock for the current player.
         /// </param>
-        /// <param name="callback">
-        /// Invoked upon the completion of the attempt to unlock the achievement
-        /// for the given player.
-        /// </param>
-        public Task UnlockAchievement(string achievementId)
+        public Task UnlockAchievementAsync(string achievementId)
         {
             var localUserId = EOSManager.Instance.GetProductUserId();
             var eosAchievementOption = new UnlockAchievementsOptions

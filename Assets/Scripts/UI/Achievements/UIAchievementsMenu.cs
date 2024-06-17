@@ -149,7 +149,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             try
             {
-                await EOSAchievementManager.Instance.UnlockAchievement(definition.AchievementId);
+                await EOSAchievementManager.Instance.UnlockAchievementAsync(definition.AchievementId);
             }
             catch (Exception e)
             {
