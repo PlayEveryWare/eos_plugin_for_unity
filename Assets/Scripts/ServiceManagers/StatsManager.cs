@@ -89,7 +89,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
         protected async override void OnPlayerLogin(ProductUserId productUserId)
         {
-            await RefreshPlayerStats(productUserId);
+            await RefreshPlayerStatsAsync(productUserId);
         }
 
         /// <summary>
@@ -107,7 +107,7 @@ namespace PlayEveryWare.EpicOnlineServices
         {
             foreach (var playerId in _playerStats.Keys)
             {
-                await RefreshPlayerStats(playerId);
+                await RefreshPlayerStatsAsync(playerId);
             }
         }
 
@@ -118,9 +118,9 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <param name="productUserId">
         /// The ProductUserId of the player whose stats should be refreshed.
         /// </param>
-        private async Task RefreshPlayerStats(ProductUserId productUserId)
+        private async Task RefreshPlayerStatsAsync(ProductUserId productUserId)
         {
-            _playerStats[productUserId] = await QueryPlayerStats(productUserId);
+            _playerStats[productUserId] = await QueryPlayerStatsAsync(productUserId);
 
             // Because statistics can change achievements, refresh the 
             // achievements service as well.
@@ -166,10 +166,10 @@ namespace PlayEveryWare.EpicOnlineServices
         /// The ProductUserId associated with the player to get the statistics
         /// for.
         /// </param>
-        /// <param name="callback">
-        /// Invoked when the query has completed (successfully or otherwise).
-        /// </param>
-        private static Task<List<Stat>> QueryPlayerStats(ProductUserId productUserId)
+        /// <returns>
+        /// List of stats for the indicated player.
+        /// </returns>
+        private static Task<List<Stat>> QueryPlayerStatsAsync(ProductUserId productUserId)
         {
             if (!productUserId.IsValid())
             {
