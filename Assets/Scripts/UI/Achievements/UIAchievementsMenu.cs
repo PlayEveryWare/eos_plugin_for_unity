@@ -148,7 +148,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             statsInterface.IngestStat(ref ingestOptions, null, (ref IngestStatCompleteCallbackInfo info) =>
             {
                 Debug.LogFormat("Stat ingest result: {0}", info.ResultCode.ToString());
-                achievementManager.RefreshData();
+                achievementManager.Refresh();
             });
         }
 
@@ -156,26 +156,26 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         //TODO: refresh achievement data without having to log out
         public void UnlockAchievement()
         {
-            if (displayIndex < 0 || displayIndex > achievementManager.GetAchievementDefinitionCount())
+            if (displayIndex < 0 || displayIndex > EOSAchievementManager.GetAchievementsCount())
             {
                 return;
             }
 
             var definition = achievementManager.GetAchievementDefinitionAtIndex(displayIndex);
 
-            achievementManager.UnlockAchievementManually(definition.AchievementId, (ref OnUnlockAchievementsCompleteCallbackInfo info) =>
+            achievementManager.UnlockAchievement(definition.AchievementId, (ref OnUnlockAchievementsCompleteCallbackInfo info) =>
             {
                 if (info.ResultCode == Result.Success)
                 {
                     Debug.Log("UnlockAchievement Succeed"); 
-                    achievementManager.RefreshData();
+                    achievementManager.Refresh();
                 }
             });
         }
 
         public void OnRefreshDataClicked()
         {
-            achievementManager.RefreshData();
+            achievementManager.Refresh();
         }
 
         // Achievements
@@ -188,11 +188,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             achievementListItems.Clear();
             achievementDataList.Clear();
 
-            uint achievementDefCount = achievementManager.GetAchievementDefinitionCount();
+            uint achievementDefCount = EOSAchievementManager.GetAchievementsCount();
 
             if (achievementDefCount > 0)
             {
-                foreach (var achievementDef in achievementManager.EnumerateCachedAchievementDefinitions())
+                foreach (var achievementDef in achievementManager.CachedAchievements())
                 {
                     achievementDataList.Add(new AchievementData()
                     {
@@ -204,7 +204,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 var userId = EOSManager.Instance.GetProductUserId();
                 if (userId.IsValid())
                 {
-                    foreach (var playerAch in achievementManager.EnumerateCachedPlayerAchievement(userId))
+                    foreach (var playerAch in achievementManager.CachedPlayerAchievements(userId))
                     {
                         var achData = achievementDataList.Find((AchievementData data) => data.Definition.AchievementId == playerAch.AchievementId);
                         if (achData != null)
@@ -274,7 +274,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public void OnDefinitionIdButtonClicked(int i)
         {
-            if (i > achievementManager.GetAchievementDefinitionCount())
+            if (i > EOSAchievementManager.GetAchievementsCount())
             {
                 return;
             }
@@ -304,7 +304,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         void DisplayPlayerAchievement(DefinitionV2 definition)
         {
             PlayerAchievement? achievementNullable = null;
-            foreach (var ach in achievementManager.EnumerateCachedPlayerAchievement(EOSManager.Instance.GetProductUserId()))
+            foreach (var ach in achievementManager.CachedPlayerAchievements(EOSManager.Instance.GetProductUserId()))
             {
                 if (ach.AchievementId == definition.AchievementId)
                 {
