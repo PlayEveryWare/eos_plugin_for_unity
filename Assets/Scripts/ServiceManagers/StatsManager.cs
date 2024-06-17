@@ -41,6 +41,7 @@ namespace PlayEveryWare.EpicOnlineServices
     using Epic.OnlineServices.Stats;
     
     using Samples;
+    using System.Threading.Tasks;
 
     public class StatsManager : ServiceManager
     {
@@ -86,9 +87,9 @@ namespace PlayEveryWare.EpicOnlineServices
             UnityEngine.Debug.Log(toPrint);
         }
 
-        protected override void OnPlayerLogin(ProductUserId productUserId)
+        protected async override void OnPlayerLogin(ProductUserId productUserId)
         {
-            RefreshPlayerStats(productUserId);
+            await RefreshPlayerStats(productUserId);
         }
 
         /// <summary>
@@ -102,11 +103,11 @@ namespace PlayEveryWare.EpicOnlineServices
             return EOSManager.Instance.GetEOSPlatformInterface().GetStatsInterface();
         }
 
-        public override void Refresh()
+        public async override void Refresh()
         {
             foreach (var playerId in _playerStats.Keys)
             {
-                RefreshPlayerStats(playerId);
+                await RefreshPlayerStats(playerId);
             }
         }
 
@@ -117,16 +118,44 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <param name="productUserId">
         /// The ProductUserId of the player whose stats should be refreshed.
         /// </param>
-        private void RefreshPlayerStats(ProductUserId productUserId)
+        private async Task RefreshPlayerStats(ProductUserId productUserId)
         {
-            QueryPlayerStats(productUserId, (ref OnQueryStatsCompleteCallbackInfo data) =>
-            {
-                _playerStats[productUserId] = GetCachedPlayerStats(productUserId);
+            _playerStats[productUserId] = await QueryPlayerStats(productUserId);
 
-                // Because statistics can change achievements, refresh the 
-                // achievements service as well.
+            // Because statistics can change achievements, refresh the 
+            // achievements service as well.
+            EOSAchievementManager.Instance.Refresh();
+        }
+
+        /// <summary>
+        /// Ingest a given stat for the current player.
+        /// </summary>
+        /// <param name="statName">The stat name.</param>
+        /// <param name="ingestAmount">
+        /// The amount to "ingest" for the stat.
+        /// </param>
+        /// <returns>
+        /// A task so that this function can be awaitable.
+        /// </returns>
+        public Task IngestStatAsync(string statName, int ingestAmount)
+        {
+            ProductUserId userId = EOSManager.Instance.GetProductUserId();
+            IngestStatOptions ingestOptions = new()
+            {
+                LocalUserId = userId,
+                TargetUserId = userId,
+                Stats = new[] { new IngestData() { StatName = statName, IngestAmount = ingestAmount } }
+            };
+
+            TaskCompletionSource<object> taskCompletionSource = new();
+
+            GetEOSStatsInterface().IngestStat(ref ingestOptions, null, (ref IngestStatCompleteCallbackInfo data) =>
+            {
+                taskCompletionSource.SetResult(null);
                 EOSAchievementManager.Instance.Refresh();
             });
+
+            return taskCompletionSource.Task;
         }
 
         /// <summary>
@@ -140,12 +169,12 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <param name="callback">
         /// Invoked when the query has completed (successfully or otherwise).
         /// </param>
-        private static void QueryPlayerStats(ProductUserId productUserId, OnQueryStatsCompleteCallback callback)
+        private static Task<List<Stat>> QueryPlayerStats(ProductUserId productUserId)
         {
             if (!productUserId.IsValid())
             {
                 Log("Invalid product user id sent in!");
-                return;
+                return Task.FromResult(new List<Stat>());
             }
             var statInterface = GetEOSStatsInterface();
 
@@ -155,15 +184,23 @@ namespace PlayEveryWare.EpicOnlineServices
                 TargetUserId = productUserId
             };
 
+            TaskCompletionSource<List<Stat>> tcs = new();
+
             statInterface.QueryStats(ref statsOptions, null, (ref OnQueryStatsCompleteCallbackInfo queryStatsCompleteCallbackInfo) =>
             {
                 if (queryStatsCompleteCallbackInfo.ResultCode != Result.Success)
                 {
                     // TODO: handle error
                     Log($"Failed to query stats, result code: {queryStatsCompleteCallbackInfo.ResultCode}");
+                    tcs.SetResult(new List<Stat>());
                 }
-                callback?.Invoke(ref queryStatsCompleteCallbackInfo);
+                else
+                {
+                    tcs.SetResult(GetCachedPlayerStats(productUserId));
+                }
             });
+
+            return tcs.Task;
         }
 
         /// <summary>

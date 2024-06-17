@@ -131,27 +131,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             achievementLockedIcon.gameObject.SetActive(false);
         }
 
-        public void IncrementLoginStat()
+        public async void IncrementLoginStat()
         {
-            var statsInterface = EOSManager.Instance.GetEOSPlatformInterface().GetStatsInterface();
-            var userId = EOSManager.Instance.GetProductUserId();
-            IngestStatOptions ingestOptions = new IngestStatOptions()
-            {
-                LocalUserId = userId,
-                TargetUserId = userId,
-                Stats = new IngestData[] { new IngestData() { StatName = "login_count", IngestAmount = 1 } }
-            };
-
-            statsInterface.IngestStat(ref ingestOptions, null, (ref IngestStatCompleteCallbackInfo info) =>
-            {
-                Debug.LogFormat("Stat ingest result: {0}", info.ResultCode.ToString());
-                EOSAchievementManager.Instance.Refresh();
-            });
+            await StatsManager.Instance.IngestStatAsync("login_count", 1);
         }
 
         //manually unlock achievement being displayed
         //TODO: refresh achievement data without having to log out
-        public void UnlockAchievement()
+        public async void UnlockAchievement()
         {
             if (displayIndex < 0 || displayIndex > EOSAchievementManager.GetAchievementsCount())
             {
@@ -160,14 +147,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             var definition = EOSAchievementManager.Instance.GetAchievementDefinitionAtIndex(displayIndex);
 
-            EOSAchievementManager.Instance.UnlockAchievement(definition.AchievementId, (ref OnUnlockAchievementsCompleteCallbackInfo info) =>
+            try
             {
-                if (info.ResultCode == Result.Success)
-                {
-                    Debug.Log("UnlockAchievement Succeed");
-                    EOSAchievementManager.Instance.Refresh();
-                }
-            });
+                await EOSAchievementManager.Instance.UnlockAchievement(definition.AchievementId);
+            }
+            catch (Exception e)
+            {
+                Debug.Log(e.Message);
+            }
         }
 
         public void OnRefreshDataClicked()

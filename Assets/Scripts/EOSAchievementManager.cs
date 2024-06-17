@@ -34,6 +34,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
     using Epic.OnlineServices;
     using Epic.OnlineServices.Achievements;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Class <c>EOSAchievementManager</c> is a simplified wrapper for
@@ -105,13 +106,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             return buffer;
         }
 
-        protected override void OnPlayerLogin(ProductUserId productUserId = null)
+        protected async override void OnPlayerLogin(ProductUserId productUserId)
         {
-            QueryAchievements(productUserId, (ref OnQueryDefinitionsCompleteCallbackInfo defQueryData) =>
-            {
-                _achievements = GetCachedAchievements();
-                RefreshPlayerAchievements(productUserId);
-            });
+            _achievements = await QueryAchievements(productUserId);
+            RefreshPlayerAchievements(productUserId);
         }
 
         /// <summary>
@@ -121,18 +119,15 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// to any player for whom that information has been requested
         /// previously.
         /// </summary>
-        public override void Refresh()
+        public async override void Refresh()
         {
             ProductUserId productUserId = EOSManager.Instance.GetProductUserId();
-            QueryAchievements(productUserId, (ref OnQueryDefinitionsCompleteCallbackInfo defQueryData) =>
-            {
-                _achievements = GetCachedAchievements();
-
+            _achievements = await QueryAchievements(productUserId);
+            
                 foreach (var userId in _playerAchievements.Keys)
                 {
                     RefreshPlayerAchievements(userId);
                 }
-            });
 
             // NOTE: Because there is no check in the above code to determine if
             //       any achievements have actually changed, EVERY call to this
@@ -156,13 +151,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// The ProductUserId associated with the player for whom the statistics
         /// and achievements are to be updated for.
         /// </param>
-        private void RefreshPlayerAchievements(ProductUserId productUserId)
+        private async void RefreshPlayerAchievements(ProductUserId productUserId)
         {
-            QueryPlayerAchievements(productUserId, (ref OnQueryPlayerAchievementsCompleteCallbackInfo achievementsInfo) =>
-            {
-                _playerAchievements[productUserId] = GetCachedPlayerAchievements(productUserId);
-            });
-
+            _playerAchievements[productUserId] = await QueryPlayerAchievements(productUserId);
             NotifyUpdated();
         }
 
@@ -193,12 +184,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// Invoked when the request from the server has completed - whether
         /// successful or not.
         /// </param>
-        private static void QueryAchievements(ProductUserId productUserId, OnQueryDefinitionsCompleteCallback callback)
+        private Task<List<DefinitionV2>> QueryAchievements(ProductUserId productUserId)
         {
             var options = new QueryDefinitionsOptions
             {
                 LocalUserId = productUserId
             };
+
+            TaskCompletionSource<List<DefinitionV2>> tcs = new();
 
             GetEOSAchievementInterface().QueryDefinitions(ref options, null, (ref OnQueryDefinitionsCompleteCallbackInfo data) =>
             {
@@ -207,8 +200,45 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     Log($"Unable to query achievement definitions. Result code: {data.ResultCode}");
                 }
 
-                callback?.Invoke(ref data);
+                tcs.SetResult(GetCachedAchievements());
             });
+
+            return tcs.Task;
+        }
+
+        /// <summary>
+        /// Retrieves the list of achievement definitions for the game that have
+        /// been cached locally.
+        /// </summary>
+        /// <returns>A list of achievement definitions.</returns>
+        private List<DefinitionV2> GetCachedAchievements()
+        {
+            uint achievementDefinitionCount = GetAchievementsCount();
+            var options = new CopyAchievementDefinitionV2ByIndexOptions
+            {
+                AchievementIndex = 0
+            };
+
+            List<DefinitionV2> achievements = new();
+
+            for (uint i = 0; i < achievementDefinitionCount; ++i)
+            {
+                options.AchievementIndex = i;
+                GetEOSAchievementInterface().CopyAchievementDefinitionV2ByIndex(ref options, out DefinitionV2? definition);
+
+                // Move on if the definition is empty
+                if (!definition.HasValue)
+                    continue;
+
+                achievements.Add(definition.Value);
+
+                UnityEngine.Debug.LogFormat("Achievements (CacheAchievementDef): Id={0}, LockedDisplayName={1}", definition.Value.AchievementId, definition.Value.LockedDisplayName);
+
+                GetAndCacheData(definition.Value.LockedIconURL);
+                GetAndCacheData(definition.Value.UnlockedIconURL);
+            }
+
+            return achievements;
         }
 
         /// <summary>
@@ -219,34 +249,35 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// The ProductUserId that corresponds to the player for whom the
         /// achievements are being queried.
         /// </param>
-        /// <param name="callback">
-        /// Invoked when the request from the server has completed - whether
-        /// successful or not.
-        /// </param>
-        private static void QueryPlayerAchievements(ProductUserId productUserId, OnQueryPlayerAchievementsCompleteCallback callback)
+        /// <returns>
+        /// List of PlayerAchievement objects.
+        /// </returns>
+        private Task<List<PlayerAchievement>> QueryPlayerAchievements(ProductUserId productUserId)
         {
-            if (!productUserId.IsValid())
-            {
-                return;
-            }
-
             Log($"Begin query player achievements for {ProductUserIdToString(productUserId)}");
 
             QueryPlayerAchievementsOptions options = new()
             {
                 LocalUserId = productUserId,
                 TargetUserId = productUserId
-            }; 
+            };
+
+            TaskCompletionSource<List<PlayerAchievement>> tcs = new();
 
             GetEOSAchievementInterface().QueryPlayerAchievements(ref options, null, (ref OnQueryPlayerAchievementsCompleteCallbackInfo data) =>
             {
                 if (data.ResultCode != Result.Success)
                 {
                     Log($"Error querying player achievements. Result code: {data.ResultCode}");
+                    tcs.SetResult(new List<PlayerAchievement>());
                 }
-
-                callback?.Invoke(ref data);
+                else
+                {
+                    tcs.SetResult(GetCachedPlayerAchievements(productUserId));
+                }
             });
+
+            return tcs.Task;
         }
 
         /// <summary>
@@ -395,7 +426,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             uint achievementDefinitionCount = GetEOSAchievementInterface().GetAchievementDefinitionCount(ref getAchievementDefinitionCountOptions);
 
-            UnityEngine.Debug.LogFormat("Achievements (GetAchievementDefinitionCount): Count={0}", achievementDefinitionCount);
+            Log($"Achievements (GetAchievementDefinitionCount): Count={achievementDefinitionCount}");
 
             return achievementDefinitionCount;
         }
@@ -411,9 +442,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// Invoked upon the completion of the attempt to unlock the achievement
         /// for the given player.
         /// </param>
-        public void UnlockAchievement(string achievementId, OnUnlockAchievementsCompleteCallback callback)
+        public Task UnlockAchievement(string achievementId)
         {
-            var eosAchievementInterface = GetEOSAchievementInterface();
             var localUserId = EOSManager.Instance.GetProductUserId();
             var eosAchievementOption = new UnlockAchievementsOptions
             {
@@ -421,7 +451,22 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 AchievementIds = new Utf8String[] { achievementId }
             };
 
-            eosAchievementInterface.UnlockAchievements(ref eosAchievementOption, null, callback);
+            TaskCompletionSource<object> tcs = new();
+
+            GetEOSAchievementInterface().UnlockAchievements(ref eosAchievementOption, null,
+                (ref OnUnlockAchievementsCompleteCallbackInfo data) =>
+                {
+                    if (data.ResultCode != Result.Success)
+                    {
+                        tcs.SetException(new Exception($"Could not unlock achievement. Error code: {Enum.GetName(typeof(Result), data.ResultCode)}"));
+                    }
+                    else
+                    {
+                        tcs.SetResult(null);
+                    }
+                });
+
+            return tcs.Task;
         }
 
         /// <summary>
@@ -470,40 +515,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             return collectedAchievements;
         }
 
-        /// <summary>
-        /// Retrieves the list of achievement definitions for the game that have
-        /// been cached locally.
-        /// </summary>
-        /// <returns>A list of achievement definitions.</returns>
-        private List<DefinitionV2> GetCachedAchievements()
-        {
-            uint achievementDefinitionCount = GetAchievementsCount();
-            var options = new CopyAchievementDefinitionV2ByIndexOptions
-            {
-                AchievementIndex = 0
-            };
-
-            List<DefinitionV2> achievements = new();
-
-            for (uint i = 0; i < achievementDefinitionCount; ++i)
-            {
-                options.AchievementIndex = i;
-                GetEOSAchievementInterface().CopyAchievementDefinitionV2ByIndex(ref options, out DefinitionV2? definition);
-
-                // Move on if the definition is empty
-                if (!definition.HasValue)
-                    continue;
-
-                achievements.Add(definition.Value);
-
-                UnityEngine.Debug.LogFormat("Achievements (CacheAchievementDef): Id={0}, LockedDisplayName={1}", definition.Value.AchievementId, definition.Value.LockedDisplayName);
-
-                GetAndCacheData(definition.Value.LockedIconURL);
-                GetAndCacheData(definition.Value.UnlockedIconURL);
-            }
-
-            return achievements;
-        }
+        
 
         /// <summary>
         /// Gets and subsequently caches the data at the given URI.
