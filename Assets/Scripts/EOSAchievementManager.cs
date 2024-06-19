@@ -81,7 +81,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// Private constructor guarantees adherence to thread-safe singleton
         /// pattern.
         /// </summary>
-        private EOSAchievementManager() { }
+        private EOSAchievementManager() : base(true) { }
 
         #endregion
 
@@ -119,7 +119,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// to any player for whom that information has been requested
         /// previously.
         /// </summary>
-        public async override Task RefreshAsync()
+        protected async override Task InternalRefreshAsync()
         {
             ProductUserId productUserId = EOSManager.Instance.GetProductUserId();
             _achievements = await QueryAchievementsAsync(productUserId);
@@ -164,8 +164,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             //       would not need to be called.
             _playerAchievements.AddOrUpdate(productUserId, playerAchievements, 
                 (id, previousPlayerAchievements) => playerAchievements);
-
-            NotifyUpdated();
         }
 
         /// <summary>

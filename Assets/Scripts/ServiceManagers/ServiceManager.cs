@@ -46,13 +46,19 @@ namespace PlayEveryWare.EpicOnlineServices
     /// Contains implementation of common functionality between different
     /// EOS Service managers (Currently EOSAchievementManager and StatsManager).
     /// </summary>
-    public abstract class ServiceManager : IEOSOnConnectLogin, IEOSSubManager
+    public abstract class ServiceManager : IEOSOnConnectLogin, IEOSSubManager, IDisposable
     {
         /// <summary>
         /// Stores a list of functions to be called whenever data related to
         /// the manager has been updated.
         /// </summary>
         protected IList<Action> _updateCallbacks = new List<Action>();
+
+        /// <summary>
+        /// Indicates whether the service needs to have a user authenticated in
+        /// order to function properly.
+        /// </summary>
+        private bool _requiresAuthentication;
 
         /// <summary>
         /// Called when connect login has taken place.
@@ -69,6 +75,76 @@ namespace PlayEveryWare.EpicOnlineServices
         }
 
         /// <summary>
+        /// Base constructor for Service managers.
+        /// </summary>
+        /// <param name="requiresAuthentication">
+        /// Indicates whether the service manager requires a user to be
+        /// authenticated in order to function properly.
+        /// </param>
+        protected ServiceManager(bool requiresAuthentication)
+        {
+            _requiresAuthentication = requiresAuthentication;
+
+            EOSManager.Instance.AddConnectLoginListener(this);
+        }
+
+        /// <summary>
+        /// Determines whether a user is currently authenticated.
+        /// </summary>
+        /// <returns>True if a user is authenticated, false otherwise.</returns>
+        protected static bool IsAuthenticated()
+        {
+            return (IsAuthenticatedByEpicAuthInterface() || IsAuthenticatedByConnectInterface());
+        }
+
+        /// <summary>
+        /// Determines whether the user is currently authenticated using the
+        /// Auth Interface provided by the EOS SDK.
+        /// </summary>
+        /// <returns>
+        /// True if the user is authenticated using the Auth Interface, false
+        /// otherwise.
+        /// </returns>
+        private static bool IsAuthenticatedByEpicAuthInterface()
+        {
+            EpicAccountId userId = EOSManager.Instance.GetLocalUserId();
+            if (null == userId || false == userId.IsValid())
+            {
+                return false;
+            }
+
+            return EOSManager.Instance.GetEOSAuthInterface().GetLoginStatus(userId) == LoginStatus.LoggedIn;
+        }
+
+        /// <summary>
+        /// Determines whether the user is currently authenticated using the
+        /// Connect Interface provided by the EOS SDK.
+        /// </summary>
+        /// <returns>
+        /// True if the user is authenticated using the Connect Interface, false
+        /// otherwise.
+        /// </returns>
+        private static bool IsAuthenticatedByConnectInterface()
+        {
+            ProductUserId userId = EOSManager.Instance.GetProductUserId();
+            if (null == userId || false == userId.IsValid())
+            {
+                return false;
+            }
+
+            return EOSManager.Instance.GetEOSConnectInterface().GetLoginStatus(userId) == LoginStatus.LoggedIn;
+        }
+
+        /// <summary>
+        /// Dispose function makes sure that the manager is removed from the
+        /// collection of connect login listeners.
+        /// </summary>
+        public void Dispose()
+        {
+            EOSManager.Instance.RemoveConnectLoginListener(this);
+        }
+
+        /// <summary>
         /// Should be called when a player has been successfully logged in.
         /// </summary>
         /// <param name="productUserId">
@@ -77,10 +153,25 @@ namespace PlayEveryWare.EpicOnlineServices
         protected abstract void OnPlayerLogin(ProductUserId productUserId);
 
         /// <summary>
+        /// Refreshes the service manager
+        /// </summary>
+        /// <returns></returns>
+        public async Task RefreshAsync()
+        {
+            // Check to see if authentication is required, if it's not then 
+            // continue. If it is, then make sure a user is authenticated before
+            // refreshing.
+            if (!_requiresAuthentication || (_requiresAuthentication && IsAuthenticated()))
+            {
+                await InternalRefreshAsync();
+            }
+        }
+        
+        /// <summary>
         /// Implementation of this function should refresh the locally cached
         /// data managed by the service manager in question.
         /// </summary>
-        public abstract Task RefreshAsync();
+        protected abstract Task InternalRefreshAsync();
 
         /// <summary>
         /// Trigger the notification callbacks that have been registered,

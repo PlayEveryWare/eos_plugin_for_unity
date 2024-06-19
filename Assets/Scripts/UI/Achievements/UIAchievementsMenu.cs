@@ -202,7 +202,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 scrollRect.content.sizeDelta = new Vector2(0, achievementDefCount * 30);
 
                 int i = 0;
-                foreach (var achievementData in achievementDataList)
+                List<AchievementData> achievementDataListCopy = new(achievementDataList);
+                foreach (var achievementData in achievementDataListCopy)
                 {
                     var newButton = Instantiate(itemTemplate, achievementListContainer);
                     newButton.SetNameText(achievementData.Definition.AchievementId);

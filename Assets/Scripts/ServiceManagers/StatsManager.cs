@@ -69,7 +69,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// Private constructor guarantees adherence to thread-safe singleton
         /// pattern.
         /// </summary>
-        private StatsManager() { }
+        private StatsManager() : base(true) { }
 
         #endregion
 
@@ -104,7 +104,7 @@ namespace PlayEveryWare.EpicOnlineServices
             return EOSManager.Instance.GetEOSPlatformInterface().GetStatsInterface();
         }
 
-        public async override Task RefreshAsync()
+        protected async override Task InternalRefreshAsync()
         {
             // Add all the refresh player stats tasks to an array so we can
             // await the completion of all of them, and allow them to happen
@@ -116,6 +116,8 @@ namespace PlayEveryWare.EpicOnlineServices
             }
 
             await Task.WhenAll(refreshPlayerStatsTasks);
+
+            NotifyUpdated();
         }
 
         /// <summary>
@@ -138,8 +140,6 @@ namespace PlayEveryWare.EpicOnlineServices
             // Because statistics can change achievements, refresh the 
             // achievements service as well.
             await EOSAchievementManager.Instance.RefreshAsync();
-
-            NotifyUpdated();
         }
 
         /// <summary>
