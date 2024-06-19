@@ -232,7 +232,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             for (uint i = 0; i < achievementDefinitionCount; ++i)
             {
                 options.AchievementIndex = i;
-                GetEOSAchievementInterface().CopyAchievementDefinitionV2ByIndex(ref options, out DefinitionV2? definition);
+                Result copyResult = GetEOSAchievementInterface().CopyAchievementDefinitionV2ByIndex(ref options, out DefinitionV2? definition);
+
+                // Log a warning and continue if the achievement was not copied
+                if (copyResult != Result.Success)
+                {
+                    UnityEngine.Debug.LogWarning($"Could not copy achievement definition from cache. Result code: {Enum.GetName(typeof(Result), copyResult)}");
+                    continue;
+                }
 
                 // Move on if the definition is empty
                 if (!definition.HasValue)
