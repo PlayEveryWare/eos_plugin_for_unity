@@ -88,7 +88,11 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </summary>
         protected void NotifyUpdated()
         {
-            foreach (Action action in _updateCallbacks)
+            // Make copy of the update callbacks so that the callback cannot
+            // inadvertently remove from or add to the list, which would break
+            // the foreach loop.
+            IList<Action> updateCallBacksCopy = new List<Action>(_updateCallbacks);
+            foreach (Action action in updateCallBacksCopy)
                 action();
         }
 
