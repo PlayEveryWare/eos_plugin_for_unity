@@ -21,6 +21,7 @@
   - [Why am I getting Overlay Errors?](#why-am-i-getting-overlay-errors)
   - [Missing Native Libraries?](#missing-native-libraries)
   - [How do I debug the native DLL?](#how-do-i-debug-the-native-dll)
+  - [How do I disable the Overlay?](#how-do-i-disable-the-overlay)
 
 ## Why does the plugin fail to work after changing configuration?
 
@@ -146,3 +147,9 @@ Or to install the libraries manually, go to the `lib/NativeCode` folder, find th
 2. Build the Visual Studio project.
 3. Copy the DLL to a version of the exported project to debug.
 4. After launch, attach to the project after the dialog box appears.
+
+## How do I disable the Overlay?
+
+On the EOS Configuration Editor Window there is a setting for `Platform Flags`. By adding `DisableOverlay` to your list of Platform Flags, the Epic Overlay will not be initialized during runtime. When this is configured the `EOSBootstrapper.exe` will not be included in Windows builds.
+
+See [`PlatformFlags.cs`](/Assets/Plugins/Source/EOS_SDK/Generated/Platform/PlatformFlags.cs)

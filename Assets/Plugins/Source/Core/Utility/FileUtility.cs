@@ -8,8 +8,8 @@
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -22,10 +22,20 @@
 
 namespace PlayEveryWare.EpicOnlineServices.Utility
 {
+    using Extensions;
     using System;
+    using System.Collections.Generic;
     using System.IO;
+    using System.Text;
+    using System.Threading;
     using System.Threading.Tasks;
     using UnityEngine;
+
+    // This compile conditional exists to ensure that the Linq namespace is
+    // not utilized during runtime operations.
+#if UNITY_EDITOR
+    using System.Linq;
+#endif
 
     /// <summary>
     /// Utility class used for a variety of File tasks.
@@ -33,26 +43,365 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
     public static class FileUtility
     {
         /// <summary>
-        /// Generates a unique and new temporary directory inside the Temporary Cache Path as determined by Unity,
-        /// and returns the fully-qualified path to the newly created directory.
+        /// Interval with which to update progress, in milliseconds
         /// </summary>
-        /// <returns>Fully-qualified file path to the newly generated directory.</returns>
-        public static string GenerateTempDirectory()
-        {
-            // Generate a temporary directory path.
-            string tempDirectory = Path.Combine(Application.temporaryCachePath, $"/Output-{Guid.NewGuid()}/");
+        private const int DefaultUpdateIntervalMS = 1500;
 
-            // If (by some crazy miracle) the directory path already exists, keep generating until there is a new one.
-            while (Directory.Exists(tempDirectory))
+        #region Data Structures 
+
+        /// <summary>
+        /// Stores information regarding a file copy operation.
+        /// </summary>
+        public struct CopyFileOperation
+        {
+            /// <summary>
+            /// The fully-qualified path of the source file.
+            /// </summary>
+            public string SourcePath;
+
+            /// <summary>
+            /// The fully-qualified path to copy the file to. The path does not
+            /// have to exist, and in fact might not.
+            /// </summary>
+            public string DestinationPath;
+
+            /// <summary>
+            /// The number of bytes in the file to copy.
+            /// </summary>
+            public long Bytes;
+        }
+
+        /// <summary>
+        /// Contains information about the progress of a copy file operation.
+        /// </summary>
+        public class CopyFileProgressInfo
+        {
+            /// <summary>
+            /// The number of files that have been copied.
+            /// </summary>
+            public int FilesCopied;
+
+            /// <summary>
+            /// The total number of files being copied.
+            /// </summary>
+            public int TotalFilesToCopy;
+
+            /// <summary>
+            /// The size in bytes of the files that have been copied.
+            /// </summary>
+            public long BytesCopied;
+
+            /// <summary>
+            /// The total size in bytes of all the files being copied.
+            /// </summary>
+            public long TotalBytesToCopy;
+        }
+
+        #endregion
+
+        /// <summary>
+        /// Generates a unique and new temporary directory inside the Temporary
+        /// Cache Path as determined by Unity, and returns the fully-qualified
+        /// path to the newly created directory. The directory name will be
+        /// "Temp-" appended with a GUID.
+        /// </summary>
+        /// <param name="path">
+        /// Fully-qualified path to the newly generated directory if one was
+        /// created, otherwise path is set to default System.String value.
+        /// </param>
+        /// <returns>
+        /// True if the temporary directory was created, false otherwise.
+        /// </returns>
+        public static bool TryGetTempDirectory(out string path)
+        {
+            path = default;
+            
+            // Nested local function to reduce repetitive code.
+            string GenerateTempPath()
             {
-                tempDirectory = Path.Combine(Application.temporaryCachePath, $"/Output-{Guid.NewGuid()}/");
+                return Path.Combine(
+                    Application.temporaryCachePath,
+                    $"Temp-{Guid.NewGuid()}");
             }
 
-            // Create the directory.
-            Directory.CreateDirectory(tempDirectory);
+            // Generate a temporary directory path.
+            string tempPath = GenerateTempPath();
+
+            // If (by some crazy miracle) the directory path already exists,
+            // try once more.
+            if (Directory.Exists(tempPath))
+            {
+                Debug.LogWarning(
+                    $"The temporary directory created collided with " +
+                    $"an existing temporary directory of the same name. This " +
+                    $"is very unlikely.");
+
+                tempPath = GenerateTempPath();
+
+                if (Directory.Exists(tempPath))
+                {
+                    Debug.LogError(
+                        $"When generating a temporary directory, the " +
+                        $"temporary directory generated collided twice with " +
+                        $"already existing directories of the same name. " +
+                        $"This is very unlikely.");
+
+                    return false;
+                }
+            }
+
+            try
+            {
+                // Create the directory.
+                var dInfo = Directory.CreateDirectory(tempPath);
+
+                // Make sure the directory exists.
+                if (!dInfo.Exists)
+                {
+                    Debug.LogError(
+                        $"Could not generate temporary directory.");
+                    return false;
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.LogError(
+                    $"Could not generate temporary directory: " +
+                    $"{e.Message}");
+                return false;
+            }
 
             // return the fully-qualified path to the newly created directory.
-            return Path.GetFullPath(tempDirectory);
+            path = Path.GetFullPath(tempPath);
+            return true;
+        }
+
+        // This compile conditional exists because the following functions 
+        // make use of the System.Linq namespace which is undesirable to use
+        // during runtime. Since these functions are currently only ever 
+        // utilized in areas of the code that run in the editor, it is
+        // appropriate to use compile conditionals to include / exclude them.
+#if UNITY_EDITOR
+        /// <summary>
+        /// Get a list of the directories that are represented by the filepaths
+        /// provided. The list is unique, and is ordered by smallest path first,
+        /// so that the list can be utilized to create each directory in-order
+        /// if that is useful
+        /// </summary>
+        /// <param name="filepaths">
+        /// The filepaths to get the directories for.
+        /// </param>
+        /// <param name="creationOrder">
+        /// If true, return the list of directories in such an order that they
+        /// do not rely on the existence of directories further down the list.
+        /// </param>
+        /// <returns></returns>
+        public static IEnumerable<string> GetDirectories(
+            IEnumerable<string> filepaths, 
+            bool creationOrder = true)
+        {
+            // For each filepath, determine the immediate parent directory of
+            // the file. Make a unique set of these by utilizing a HashSet.
+            ISet<string> directoriesToCreate = new HashSet<string>();
+            foreach (var path in filepaths)
+            {
+                string parent = Path.GetDirectoryName(path);
+
+                // skip if no parent
+                if (null == parent) continue;
+                
+                directoriesToCreate.Add(parent);
+                
+            }
+
+            // Return the list of directories to create in ascending order of
+            // string length.
+            if (creationOrder)
+            {
+                return directoriesToCreate.OrderBy(s => s.Length);
+            }
+
+            return directoriesToCreate;
+        }
+
+        /// <summary>
+        /// Run a list of file copy operations. If the destination directory
+        /// indicated does not exist, it will be created. It is expected that
+        /// the source file indicated exists. Default behavior is to overwrite
+        /// destination files.
+        ///
+        /// Before the file copy operations begin, the copy file operations are
+        /// inspected for missing destination directories - and the directory
+        /// structure required is created in its entirety before file copy
+        /// operations commence.
+        /// 
+        /// If a progress interface is provided, the file copy operations will
+        /// be randomized so as to average out the number of bytes copied at
+        /// each interval. Otherwise the files will be copied in the order they
+        /// are in the provided operations parameter.
+        /// </summary>
+        /// <param name="operations">File copy operations to perform.</param>
+        /// <param name="updateIntervalMS">
+        /// The interval in milliseconds with which to report progress.
+        /// </param>
+        /// <param name="progress">Progress reporter.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        /// <returns>Task</returns>
+        public static async Task CopyFilesAsync(
+            IList<CopyFileOperation> operations, 
+            CancellationToken cancellationToken = default, 
+            IProgress<CopyFileProgressInfo> progress = null, 
+            int updateIntervalMS = DefaultUpdateIntervalMS)
+        {
+            IEnumerable<string> directoriesToCreate = GetDirectories(
+                operations.Select(o => o.DestinationPath));
+
+            // Create each directory
+            foreach (var directory in directoriesToCreate)
+            {
+                Directory.CreateDirectory(directory);
+            }
+
+            // If the progress is defined, then do extra work to track the
+            // progress.
+            if (null != progress)
+            {
+                // Create struct to track and report on progress
+                CopyFileProgressInfo progressInfo = new()
+                {
+                    TotalBytesToCopy = operations.Sum(o => o.Bytes),
+                    TotalFilesToCopy = operations.Count()
+                };
+
+                // Create timer to periodically report on the progress based on
+                // the interval (at some future point it may be appropriate to
+                // make that interval a parameter)
+                await using Timer progressTimer = new(state =>
+                {
+                    progress?.Report(progressInfo);
+                }, null, 0, updateIntervalMS);
+
+                // Get a list out of the operations, and shuffle it
+                IList<CopyFileOperation> operationsList = operations.ToList();
+                operationsList.Shuffle();
+
+                // Copy the files asynchronously with the provided
+                // cancellation token, and progress stuff.
+                await CopyFilesAsyncInternal(
+                    operationsList, 
+                    cancellationToken, 
+                    progress, 
+                    progressInfo);
+            }
+            else
+            {
+                await CopyFilesAsyncInternal(operations, cancellationToken);
+            }
+        }
+#endif
+
+        /// <summary>
+        /// Performs the core file copy operations.
+        /// </summary>
+        /// <param name="operations">File copy operations to perform.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        /// <param name="progress">Progress reporter.</param>
+        /// <param name="progressInfo">Progress information.</param>
+        /// <returns>Task</returns>
+        private static async Task CopyFilesAsyncInternal(
+            IEnumerable<CopyFileOperation> operations, 
+            CancellationToken cancellationToken = default, 
+            IProgress<CopyFileProgressInfo> progress = null, 
+            CopyFileProgressInfo progressInfo = default)
+        {
+            var tasks = operations.Select(async copyOperation =>
+            {
+                await CopyFileAsync(copyOperation, cancellationToken);
+
+                // If there is no progress reporter, then skip updating the
+                // update info.
+                if (null != progress)
+                {
+                    // lock the progressInfo, since multiple threads will be 
+                    // updating it at once
+                    lock (progressInfo)
+                    {
+                        // Increment the number of files copied.
+                        progressInfo.FilesCopied++;
+
+                        // Update the number of bytes that have been copied.
+                        progressInfo.BytesCopied += copyOperation.Bytes;
+
+                        // Report progress if a progress reporter is provided.
+                        progress?.Report(progressInfo);
+                    }
+                }
+            }).ToList();
+
+            await Task.WhenAll(tasks);
+        }
+
+        /// <summary>
+        /// Copies a single file asynchronously.
+        /// </summary>
+        /// <param name="op">The file copy operation.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        /// <returns>Task</returns>
+        private static async Task CopyFileAsync(
+            CopyFileOperation op, 
+            CancellationToken cancellationToken)
+        {
+            // Maximum number of times the operation is retried if it fails.
+            const int maxRetries = 3;
+
+            // This is the initial delay before the operation is retried.
+            const int delayMilliseconds = 200; 
+
+            for (int attempt = 0; attempt < maxRetries; attempt++)
+            {
+                try
+                {
+                    // Make sure to throw an exception if a cancellation was
+                    // requested of the token.
+                    cancellationToken.ThrowIfCancellationRequested();
+
+                    // Run the file copy asynchronously, passing on the
+                    // cancellation token.
+                    await Task.Run(() =>
+                    {
+                        File.Copy(op.SourcePath, op.DestinationPath, true);
+                    }, cancellationToken);
+
+                    // if the file was not copied on the first attempt, then
+                    // be sure to log the fact that it eventually *was*
+                    // copied successfully
+                    if (attempt > 0)
+                    {
+                        Debug.Log($"File \"{op.SourcePath}\" was successfully copied after {attempt + 1} retries.");
+                    }
+
+                    // if the task completes, then break out of the retry loop
+                    break;
+                }
+                catch (IOException ex) when (attempt < maxRetries - 1)
+                {
+                    // exponentially increase the delay to maximize the chance
+                    // it will succeed without waiting too long.
+                    var delay = delayMilliseconds * (int)Math.Pow(2, attempt);
+                    
+                    // Construct detailed message regarding the nature of the problem.
+                    StringBuilder sb = new();
+                    sb.AppendLine($"Exception occurred during the following copy operation:");
+                    sb.AppendLine($"From: \"{op.SourcePath}\"");
+                    sb.AppendLine($"  To: \"{op.DestinationPath}\"");
+                    sb.AppendLine($"Exception message: \"{ex.Message}\"");
+                    sb.AppendLine($"Retrying in {delay}ms.");
+                    Debug.LogWarning(sb.ToString());
+
+                    // Only retry if there are remaining attempts.
+                    await Task.Delay(delay, cancellationToken);
+                }
+            }
         }
 
         /// <summary>
@@ -65,7 +414,6 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         }
 
 #if UNITY_EDITOR
-        
         #region Line Ending Manipulations
 
         public static void ConvertDosToUnixLineEndings(string filename)
@@ -131,8 +479,13 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         /// <returns>Task</returns>
         public static async Task<string> ReadAllTextAsync(string path)
         {
-            
-            return await File.ReadAllTextAsync(path);
+            string text = string.Empty;
+#if UNITY_ANDROID && !UNITY_EDITOR
+            text = AndroidFileIOHelper.ReadAllText(path);
+#else
+            text = await File.ReadAllTextAsync(path);
+#endif
+            return await Task.FromResult(text);
         }
 
         public static void NormalizePath(ref string path)
