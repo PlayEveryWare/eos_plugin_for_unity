@@ -35,7 +35,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     /// <summary>
     /// Class <c>EOSAntiCheatClientManager</c> is a simplified wrapper for EOS [AntiCheat Client Interface](https://dev.epicgames.com/docs/services/en-US/GameServices/AntiCheat/index.html).
     /// </summary>
-    public class EOSAntiCheatClientManager : IEOSSubManager, IEOSOnConnectLogin, IEOSOnAuthLogin, IEOSOnAuthLogout
+    public class EOSAntiCheatClientManager : IEOSSubManager, IEOSOnConnectLogin, IEpicAuthHandler
     {
         private AntiCheatClientInterface AntiCheatHandle;
         private ConnectInterface ConnectHandle;
@@ -125,13 +125,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             VerifyIdToken(LocalUserIdToken);
         }
 
-        public void OnAuthLogin(Epic.OnlineServices.Auth.LoginCallbackInfo loginCallbackInfo)
+        public void OnEpicAuthLogin(Epic.OnlineServices.Auth.LoginCallbackInfo loginCallbackInfo)
         {
             GetLocalIdToken();
             VerifyIdToken(LocalUserIdToken);
         }
 
-        public void OnAuthLogout(Epic.OnlineServices.Auth.LogoutCallbackInfo logoutCallbackInfo)
+        public void OnEpicAuthLogout(Epic.OnlineServices.Auth.LogoutCallbackInfo logoutCallbackInfo)
         {
             LocalUserIdToken = null;
         }

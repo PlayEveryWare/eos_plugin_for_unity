@@ -328,14 +328,14 @@ namespace PlayEveryWare.EpicOnlineServices
                 s_onConnectLoginCallbacks.Add(connectLogin.OnConnectLogin);
             }
 
-            public void AddAuthLoginListener(IEOSOnAuthLogin authLogin)
+            public void AddAuthLoginListener(IEpicAuthHandler authHandler)
             {
-                s_onAuthLoginCallbacks.Add(authLogin.OnAuthLogin);
+                s_onAuthLoginCallbacks.Add(authHandler.OnEpicAuthLogin);
             }
 
-            public void AddAuthLogoutListener(IEOSOnAuthLogin authLogout)
+            public void AddAuthLogoutListener(IEpicAuthHandler authLogout)
             {
-                s_onAuthLogoutCallbacks.Add(authLogout.OnAuthLogout);
+                s_onAuthLogoutCallbacks.Add(authLogout.OnEpicAuthLogout);
             }
 
             public void AddApplicationCloseListener(Action listener)
@@ -348,14 +348,14 @@ namespace PlayEveryWare.EpicOnlineServices
                 s_onConnectLoginCallbacks.Remove(connectLogin.OnConnectLogin);
             }
 
-            public void RemoveAuthLoginListener(IEOSOnAuthLogin authLogin)
+            public void RemoveAuthLoginListener(IEpicAuthHandler authHandler)
             {
-                s_onAuthLoginCallbacks.Remove(authLogin.OnAuthLogin);
+                s_onAuthLoginCallbacks.Remove(authHandler.OnEpicAuthLogin);
             }
 
-            public void RemoveAuthLogoutListener(IEOSOnAuthLogin authLogout)
+            public void RemoveAuthLogoutListener(IEpicAuthHandler authLogout)
             {
-                s_onAuthLogoutCallbacks.Remove(authLogout.OnAuthLogout);
+                s_onAuthLogoutCallbacks.Remove(authLogout.OnEpicAuthLogout);
             }
 
             //-------------------------------------------------------------------------
@@ -373,10 +373,10 @@ namespace PlayEveryWare.EpicOnlineServices
                         AddConnectLoginListener(manager as IEOSOnConnectLogin);
                     }
 
-                    if (manager is IEOSOnAuthLogin)
+                    if (manager is IEpicAuthHandler)
                     {
-                        AddAuthLoginListener(manager as IEOSOnAuthLogin);
-                        AddAuthLogoutListener(manager as IEOSOnAuthLogin);
+                        AddAuthLoginListener(manager as IEpicAuthHandler);
+                        AddAuthLogoutListener(manager as IEpicAuthHandler);
                     }
                 }
                 else
@@ -398,10 +398,10 @@ namespace PlayEveryWare.EpicOnlineServices
                         RemoveConnectLoginListener(manager as IEOSOnConnectLogin);
                     }
 
-                    if (manager is IEOSOnAuthLogin)
+                    if (manager is IEpicAuthHandler)
                     {
-                        RemoveAuthLoginListener(manager as IEOSOnAuthLogin);
-                        RemoveAuthLogoutListener(manager as IEOSOnAuthLogin);
+                        RemoveAuthLoginListener(manager as IEpicAuthHandler);
+                        RemoveAuthLogoutListener(manager as IEpicAuthHandler);
                     }
 
                     s_subManagers.Remove(type);

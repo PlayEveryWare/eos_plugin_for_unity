@@ -38,7 +38,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     /// Class <c>EOSStoreManager</c> is a simplified wrapper for EOS [Ecom Interface](https://dev.epicgames.com/docs/services/en-US/Interfaces/Ecom/index.html).
     /// </summary>
 
-    public class EOSStoreManager : IEOSSubManager, IEOSOnAuthLogin
+    public class EOSStoreManager : IEOSSubManager, IEpicAuthHandler
     {
         private List<CatalogOffer> CatalogOffers;
         private bool CatalogOffersDirty;
@@ -55,12 +55,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         }
 
 #if !EOS_DISABLE
-        void IEOSOnAuthLogin.OnAuthLogin(LoginCallbackInfo loginCallbackInfo)
+        void IEpicAuthHandler.OnEpicAuthLogin(LoginCallbackInfo loginCallbackInfo)
         {
             OnLoggedIn();
         }
 
-        public void OnAuthLogout(LogoutCallbackInfo logoutCallbackInfo)
+        public void OnEpicAuthLogout(LogoutCallbackInfo logoutCallbackInfo)
         {
             OnLoggedOut();
         }

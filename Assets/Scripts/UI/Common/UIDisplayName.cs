@@ -27,7 +27,7 @@ using Epic.OnlineServices.Auth;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
-    public class UIDisplayName : MonoBehaviour, IEOSOnAuthLogin, IEOSOnConnectLogin
+    public class UIDisplayName : MonoBehaviour, IEpicAuthHandler, IEOSOnConnectLogin
     {
         public Text DisplayNameText;
 
@@ -82,12 +82,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             OnLocalUserInfoChanged(userInfo);
         }
 
-        public void OnAuthLogin(LoginCallbackInfo loginCallbackInfo)
+        public void OnEpicAuthLogin(LoginCallbackInfo loginCallbackInfo)
         {
             OnLogin();
         }
 
-        public void OnAuthLogout(LogoutCallbackInfo logoutCallbackInfo)
+        public void OnEpicAuthLogout(LogoutCallbackInfo logoutCallbackInfo)
         {
             OnDisable();
         }
