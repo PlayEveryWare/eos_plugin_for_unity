@@ -8,9 +8,9 @@
         {"src": "etc/PackageTemplate/Editor.meta",  "dest": "" },
         {"src": "etc/PackageTemplate/Runtime.meta", "dest": "" },
 
-        {"src": "etc/PlatformSpecificAssets/EOS/*", "dest": "PlatformSpecificAssets~/EOS/", "recurse": true},
-        {"src": "docs/*",                           "dest": "Documentation~/",              "recurse": true},
-                                                       
+        {"src": "etc/PlatformSpecificAssets/EOS/*", "dest": "PlatformSpecificAssets~/EOS/", "recurse": true },
+        {"src": "docs/*",                           "dest": "Documentation~/",              "recurse": true },
+        {"src": "tools/bin/*",                      "dest": "bin~/",                        "recurse": true },                                               
         {"src": "Assets/EOS/*.png", "dest": "Runtime/EOS/"},
                              
         {"src": "Assets/Plugins/*",                                   "dest": "Runtime/"                         },
@@ -49,13 +49,13 @@
 
         {"src": "Assets/Plugins/Standalone/Editor/*",                            "dest": "Editor/Standalone/"},
         {"src": "Assets/Plugins/Standalone/Editor/anticheat_integritytool.cfg",  "dest": "Editor/Standalone/"},
-        {"src": "tools/bin/*",                                                   "dest": "bin~/", "recurse": true},
+        
         {"src": "Assets/link.xml",                                               "dest": "Editor/"},
 
         {"src": "Assets/Plugins/Source/EOS_SDK/*",                               "dest": "Runtime/EOS_SDK/"                              },
         {"src": "Assets/Plugins/Source/EOS_SDK/Overrides/*",                     "dest": "Runtime/EOS_SDK/Overrides/"                    },
         {"src": "Assets/Plugins/Source/EOS_SDK/Core/*",                          "dest": "Runtime/EOS_SDK/Core/"                         },
-        
+
         {"src": "Assets/Plugins/Source/EOS_SDK/Generated/Achievements/*",        "dest": "Runtime/EOS_SDK/Generated/Achievements/"       },
 
         {"src": "Assets/Plugins/Source/EOS_SDK/Generated/Android/*",             "dest": "Runtime/EOS_SDK/Generated/Android/"            },
