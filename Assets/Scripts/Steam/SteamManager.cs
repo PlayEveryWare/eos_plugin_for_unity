@@ -63,7 +63,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Steam
         HAuthTicket sessionTicketHandle = HAuthTicket.Invalid;
         string sessionTicketString = null;
 
-        Callback<GetTicketForWebApiResponse_t> m_AuthTicketForWebApiResponseCallback;
+        Callback<GetTicketForWebApiResponse_t> authTicketForWebApiResponseCallback { get; set; }
 
         CallResult<EncryptedAppTicketResponse_t> appTicketCallResult = new CallResult<EncryptedAppTicketResponse_t>();
         private event Action<string> appTicketEvent;
@@ -151,16 +151,20 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Steam
                 SteamClient.SetWarningMessageHook(m_SteamAPIWarningMessageHook);
             }
 
-            if (m_AuthTicketForWebApiResponseCallback == null)
+            if (authTicketForWebApiResponseCallback == null)
             {
-                m_AuthTicketForWebApiResponseCallback = Callback<GetTicketForWebApiResponse_t>.Create(
+                authTicketForWebApiResponseCallback = Callback<GetTicketForWebApiResponse_t>.Create(
                     (GetTicketForWebApiResponse_t pCallback) =>
                     {
                         if (pCallback.m_eResult == EResult.k_EResultOK)
                         {
                             sessionTicketHandle = pCallback.m_hAuthTicket;
                             sessionTicketString = System.BitConverter.ToString(pCallback.m_rgubTicket).Replace("-", "");
-                            Debug.LogWarning ("GetAuthTicketForWebApi succeed, try logging in again");
+                            print("GetAuthTicketForWebApi succeed, try logging in again");
+                        }
+                        else 
+                        {
+                            Debug.LogError($"GetAuthTicketForWebApi Result : {pCallback.m_eResult}");
                         }
                     });
             }
@@ -339,7 +343,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Steam
                 return sessionTicketString;
             }
 
-#if GET_STEAM_SESSION_TICKET_LEGACY
+            // GetAuthTicketForWebApi will become the only EOS supported way to grab session tickets in the future
+            // https://dev.epicgames.com/docs/dev-portal/identity-provider-management#steam
+            // For now (2024/06/19) it still used the old way to grab session tickets
+            // Manually define GET_SESSION_TICKET_FOR_WEB_API to use the new version
+#if GET_SESSION_TICKET_PREVIEW
+            SteamUser.GetAuthTicketForWebApi(null);
+            sessionTicketString = "";
+#else
             int bufferSize = 1024;
             byte[] buffer = new byte[bufferSize];
             uint ticketSize = 0;
@@ -362,9 +373,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Steam
             Array.Resize(ref buffer, (int)ticketSize);
             //convert to hex string
             sessionTicketString = System.BitConverter.ToString(buffer).Replace("-", "");
-#else
-            SteamUser.GetAuthTicketForWebApi(null);
-            sessionTicketString = "";
 #endif
             return sessionTicketString;
 #endif
