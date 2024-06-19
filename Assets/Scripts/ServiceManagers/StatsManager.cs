@@ -41,6 +41,7 @@ namespace PlayEveryWare.EpicOnlineServices
     using Epic.OnlineServices.Stats;
     
     using Samples;
+    using System.Collections.Concurrent;
     using System.Threading.Tasks;
 
     public class StatsManager : ServiceManager
@@ -75,7 +76,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <summary>
         /// Maps a given user to a list of player statistics.
         /// </summary>
-        private IDictionary<ProductUserId, List<Stat>> _playerStats = new Dictionary<ProductUserId, List<Stat>>();
+        private ConcurrentDictionary<ProductUserId, List<Stat>> _playerStats = new();
 
         /// <summary>
         /// Conditionally executed proxy function for Unity's log function.
@@ -120,11 +121,19 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </param>
         private async Task RefreshPlayerStatsAsync(ProductUserId productUserId)
         {
-            _playerStats[productUserId] = await QueryPlayerStatsAsync(productUserId);
+            List<Stat> playerStats = await QueryPlayerStatsAsync(productUserId);
 
+            // TODO: In the lambda function to update stats, the stats could be
+            //       inspected for equality. If it is determined they have not
+            //       changed, then refreshing the achievement manager could be
+            //       skipped, as could invoking NotifyUpdated()
+            _playerStats.AddOrUpdate(productUserId, playerStats, (id, previousStats) => playerStats);
+            
             // Because statistics can change achievements, refresh the 
             // achievements service as well.
             await EOSAchievementManager.Instance.RefreshAsync();
+
+            NotifyUpdated();
         }
 
         /// <summary>

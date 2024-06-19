@@ -153,7 +153,15 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// </param>
         private async Task RefreshPlayerAchievementsAsync(ProductUserId productUserId)
         {
-            _playerAchievements[productUserId] = await QueryPlayerAchievementsAsync(productUserId);
+            var playerAchievements = await QueryPlayerAchievementsAsync(productUserId);
+
+            // TODO: In the lambda function to update achievements, the
+            //       achievements could be inspected for equality. If it is
+            //       determined they have not changed, then NotifyUpdated()
+            //       would not need to be called.
+            _playerAchievements.AddOrUpdate(productUserId, playerAchievements, 
+                (id, previousPlayerAchievements) => playerAchievements);
+
             NotifyUpdated();
         }
 
