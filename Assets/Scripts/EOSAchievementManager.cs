@@ -140,8 +140,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             //       definition, and the achievement for each player and only 
             //       trigger this callback if a change is detected. However,
             //       comparing equality of the PlayerAchievement struct (defined
-            //       in the EOS SDK is not be default supported, so that would
-            //       need to be implemented).
+            //       in the EOS SDK) is not be default supported, so that would
+            //       need to be implemented.
             NotifyUpdated();
         }
 
