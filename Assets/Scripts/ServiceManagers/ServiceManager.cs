@@ -40,6 +40,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
     using Epic.OnlineServices;
     using Epic.OnlineServices.Connect;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Contains implementation of common functionality between different
@@ -79,7 +80,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// Implementation of this function should refresh the locally cached
         /// data managed by the service manager in question.
         /// </summary>
-        public abstract void Refresh();
+        public abstract Task RefreshAsync();
 
         /// <summary>
         /// Trigger the notification callbacks that have been registered,

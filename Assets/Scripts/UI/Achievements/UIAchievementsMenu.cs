@@ -157,9 +157,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 
-        public void OnRefreshDataClicked()
+        public async void OnRefreshDataClicked()
         {
-            EOSAchievementManager.Instance.Refresh();
+            await EOSAchievementManager.Instance.RefreshAsync();
         }
 
         // Achievements

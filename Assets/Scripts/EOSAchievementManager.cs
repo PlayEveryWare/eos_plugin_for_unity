@@ -109,7 +109,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         protected async override void OnPlayerLogin(ProductUserId productUserId)
         {
             _achievements = await QueryAchievementsAsync(productUserId);
-            RefreshPlayerAchievementsAsync(productUserId);
+            await RefreshPlayerAchievementsAsync(productUserId);
         }
 
         /// <summary>
@@ -119,15 +119,15 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// to any player for whom that information has been requested
         /// previously.
         /// </summary>
-        public async override void Refresh()
+        public async override Task RefreshAsync()
         {
             ProductUserId productUserId = EOSManager.Instance.GetProductUserId();
             _achievements = await QueryAchievementsAsync(productUserId);
             
-                foreach (var userId in _playerAchievements.Keys)
-                {
-                    RefreshPlayerAchievementsAsync(userId);
-                }
+            foreach (var userId in _playerAchievements.Keys)
+            {
+                await RefreshPlayerAchievementsAsync(userId);
+            }
 
             // NOTE: Because there is no check in the above code to determine if
             //       any achievements have actually changed, EVERY call to this
@@ -151,7 +151,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// The ProductUserId associated with the player for whom the statistics
         /// and achievements are to be updated for.
         /// </param>
-        private async void RefreshPlayerAchievementsAsync(ProductUserId productUserId)
+        private async Task RefreshPlayerAchievementsAsync(ProductUserId productUserId)
         {
             _playerAchievements[productUserId] = await QueryPlayerAchievementsAsync(productUserId);
             NotifyUpdated();

@@ -103,7 +103,7 @@ namespace PlayEveryWare.EpicOnlineServices
             return EOSManager.Instance.GetEOSPlatformInterface().GetStatsInterface();
         }
 
-        public async override void Refresh()
+        public async override Task RefreshAsync()
         {
             foreach (var playerId in _playerStats.Keys)
             {
@@ -124,7 +124,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
             // Because statistics can change achievements, refresh the 
             // achievements service as well.
-            EOSAchievementManager.Instance.Refresh();
+            await EOSAchievementManager.Instance.RefreshAsync();
         }
 
         /// <summary>
@@ -152,7 +152,7 @@ namespace PlayEveryWare.EpicOnlineServices
             GetEOSStatsInterface().IngestStat(ref ingestOptions, null, (ref IngestStatCompleteCallbackInfo data) =>
             {
                 taskCompletionSource.SetResult(null);
-                EOSAchievementManager.Instance.Refresh();
+                _ = EOSAchievementManager.Instance.RefreshAsync();
             });
 
             return taskCompletionSource.Task;
