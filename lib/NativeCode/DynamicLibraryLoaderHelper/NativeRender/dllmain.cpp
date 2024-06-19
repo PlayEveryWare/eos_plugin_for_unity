@@ -1422,11 +1422,21 @@ DLL_EXPORT(void) UnityPluginLoad(void*)
 
 #if PLATFORM_WINDOWS
     std::string deploymentArgName = "-eosdeploymentid=";
+    std::string egsDeploymentArgName = "-epicdeploymentid=";
     for (unsigned i = 0; i < argStrings.size(); ++i)
     {
+        std::string* match = nullptr;
         if (argStrings[i]._Starts_with(deploymentArgName))
         {
-            std::string deploymentArg = argStrings[i].substr(deploymentArgName.length());
+            match = &deploymentArgName;
+        }
+        else if (argStrings[i]._Starts_with(egsDeploymentArgName))
+        {
+            match = &egsDeploymentArgName;
+        }
+        if (match != nullptr)
+        {
+            std::string deploymentArg = argStrings[i].substr(match->length());
             if (!deploymentArg.empty())
             {
                 log_inform(("Deployment ID override specified: " + deploymentArg).c_str());

@@ -76,24 +76,14 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
         /// </summary>
         public static CoroutineExecutor executorInstance;
         
-        private static PackageDescription ReadPackageDescription(string pathToJSONPackageDescription)
-        {
-            return JsonUtility.FromJsonFile<PackageDescription>(pathToJSONPackageDescription);
-        }
-
-        public struct CreatePackageProgressInfo
-        {
-            public int FilesCopied;
-            public int TotalFilesToCopy;
-            public long SizeOfFilesCopied;
-            public long TotalSizeOfFilesToCopy;
-        }
-
-        public static async Task CreatePackage(PackageType packageType, IProgress<CreatePackageProgressInfo> progress = null, CancellationToken cancellationToken = default)
+        public static async Task CreatePackage(PackageType packageType, bool clean = false, IProgress<FileUtility.CopyFileProgressInfo> progress = null, CancellationToken cancellationToken = default)
         {
             var packagingConfig = await Config.GetAsync<PackagingConfig>();
 
-            FileUtility.CleanDirectory(packagingConfig.pathToOutput, true);
+            if (clean)
+            {
+	            FileUtility.CleanDirectory(packagingConfig.pathToOutput, true);
+            }
 
             switch (packageType)
             {
@@ -112,7 +102,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             ValidatePackage(packagingConfig.pathToOutput);
         }
 
-        private static async Task CreateUPM(string outputPath, string json_file, IProgress<CreatePackageProgressInfo> progress, CancellationToken cancellationToken)
+        private static async Task CreateUPM(string outputPath, string json_file, IProgress<FileUtility.CopyFileProgressInfo> progress, CancellationToken cancellationToken)
         {
             /*
              * NOTES:
@@ -130,8 +120,8 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
                 return;
             }
 
-            PackageDescription packageDescription = ReadPackageDescription(json_file);
-            
+            PackageDescription packageDescription = JsonUtility.FromJsonFile<PackageDescription>(json_file);
+
             var filesToCopy = PackageFileUtility.FindPackageFiles(
                 FileUtility.GetProjectPath(),
                 packageDescription
@@ -141,9 +131,9 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
         }
 
         private static async Task CreateUPMTarball(string outputPath, string json_file,
-            IProgress<CreatePackageProgressInfo> progress, CancellationToken cancellationToken)
+            IProgress<FileUtility.CopyFileProgressInfo> progress, CancellationToken cancellationToken)
         {
-            if (!PackageFileUtility.TryGetTempDirectory(out string tempOutput))
+            if (!FileUtility.TryGetTempDirectory(out string tempOutput))
             {
                 throw new BuildFailedException(
                     "Could not create temporary directory into which to place files for compression.");

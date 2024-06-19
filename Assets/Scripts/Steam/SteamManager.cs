@@ -72,8 +72,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Steam
             if (ioFailure || response.m_eResult != EResult.k_EResultOK)
             {
                 Debug.LogError("Error occured when requesting Encrypted App Ticket");
-                appTicketEvent?.Invoke(null);
+
+                // First set the appTicketEvent we're calling to its own variable, set the appTicketEvent to null, then invoke the variable we set aside.
+                // This way if the callback for the function would add to the appTicketEvent, it isn't immediately set to null.
+                // This pattern is applied to the other calls that raise appTicketEvent inside this function.
+                Action<string> appTicketEventLetIOFailureOrNotOkay = appTicketEvent;
                 appTicketEvent = null;
+                appTicketEventLetIOFailureOrNotOkay?.Invoke(null);
                 return;
             }
 
@@ -91,8 +96,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Steam
             if (!success)
             {
                 Debug.LogError("Failed to retrieve Encrypted App Ticket");
-                appTicketEvent?.Invoke(null);
+
+                // See above in regards to raising appTicketEvent
+                Action<string> appTicketEventLetNotSuccess = appTicketEvent;
                 appTicketEvent = null;
+                appTicketEventLetNotSuccess?.Invoke(null);
+
                 return;
             }
 
@@ -101,8 +110,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Steam
             //convert to hex string
             encryptedAppTicket = System.BitConverter.ToString(buffer).Replace("-", "");
 
-            appTicketEvent?.Invoke(encryptedAppTicket);
+            // See above in regards to raising appTicketEvent
+            Action<string> appTicketEventLetSuccess = appTicketEvent;
             appTicketEvent = null;
+            appTicketEventLetSuccess?.Invoke(encryptedAppTicket);
         }
 
         private void OnApplicationQuit()
@@ -358,6 +369,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Steam
 
             appTicketEvent += callback;
             var call = SteamUser.RequestEncryptedAppTicket(null, 0);
+            appTicketCallResult = new CallResult<EncryptedAppTicketResponse_t>();
             appTicketCallResult.Set(call, RequestAppTicketResponse);
 #endif
         }
@@ -419,7 +431,21 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Steam
                 }
                 else
                 {
-                    EOSManager.Instance.StartConnectLoginWithOptions(Epic.OnlineServices.ExternalCredentialType.SteamAppTicket, token, onloginCallback: onLoginCallback);
+                    // At this point, we're certain that a token was received from RequestAppTicket
+                    // Now add to the callback a step wherein, if it fails from this point, the cached encryptedAppTicket will be invalidated
+                    EOSManager.OnConnectLoginCallback cacheInvalidationOnFailureCallback = (Epic.OnlineServices.Connect.LoginCallbackInfo callbackInfo) =>
+                    {
+                        if (callbackInfo.ResultCode != Epic.OnlineServices.Result.Success)
+                        {
+                            Debug.Log($"Connect Login failed: SteamManager successfully retrieved an app ticket from Steam, but the provided app ticket was invalid for logging in to Epic Online Services. The cached app ticket in `{nameof(encryptedAppTicket)}` will now be invalidated.");
+                            encryptedAppTicket = null;
+                        }
+
+                        // Then call the original callback we were provided, if we have one
+                        onLoginCallback?.Invoke(callbackInfo);
+                    };
+
+                    EOSManager.Instance.StartConnectLoginWithOptions(Epic.OnlineServices.ExternalCredentialType.SteamAppTicket, token, onloginCallback: cacheInvalidationOnFailureCallback);
                 }
             });
 #endif

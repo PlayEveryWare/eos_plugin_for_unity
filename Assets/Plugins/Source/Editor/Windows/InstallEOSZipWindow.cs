@@ -65,8 +65,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
         private string pathToImportDescDirectory;
         private PlatformImportInfoList importInfoList;
 
-        // Disabling Install EOSZipWindow because it does not currently work.
-        //[MenuItem("Tools/EOS Plugin/Install EOS zip")]
+        [MenuItem("Tools/EOS Plugin/Install EOS zip")]
         public static void ShowWindow()
         {
             GetWindow<InstallEOSZipWindow>("Install EOS Zip");
@@ -126,8 +125,8 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 
         protected override void Setup()
         {
-            pathToImportDescDirectory = Path.Combine(FileUtility.GetProjectPath(), "etc/EOSImportDesriptions/");
-            importInfoList = JsonUtility.FromJsonFile<PlatformImportInfoList>(pathToImportDescDirectory);
+            pathToImportDescDirectory = Path.Combine(FileUtility.GetProjectPath(), "etc/EOSImportDesriptions");
+            importInfoList = JsonUtility.FromJsonFile<PlatformImportInfoList>(Path.Combine(pathToImportDescDirectory, PlatformImportInfoListFileName));
         }
 
         private void DrawPresets()
@@ -208,7 +207,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
             GUILayout.Label(pathToZipFile);
             GUILayout.EndHorizontal();
 
-            if (GUILayout.Button("Install") && PackageFileUtility.TryGetTempDirectory(out string tmpDir))
+            if (GUILayout.Button("Install") && FileUtility.TryGetTempDirectory(out string tmpDir))
             {
                 try
                 {

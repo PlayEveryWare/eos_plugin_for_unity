@@ -33,6 +33,7 @@ namespace PlayEveryWare.EpicOnlineServices
     using System.Text;
     using JsonUtility = PlayEveryWare.EpicOnlineServices.Utility.JsonUtility;
     using System.Runtime.CompilerServices;
+    using Utility;
 
     /// <summary>
     /// Represents a set of configuration data for use by the EOS Plugin for
@@ -269,8 +270,7 @@ namespace PlayEveryWare.EpicOnlineServices
 #endif
             }
 
-            using StreamReader reader = new(FilePath);
-            _lastReadJsonString = await reader.ReadToEndAsync();
+            _lastReadJsonString = await FileUtility.ReadAllTextAsync(FilePath);
             JsonUtility.FromJsonOverwrite(_lastReadJsonString, this);
         }
 
@@ -284,8 +284,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
             if (configFileExists)
             {
-                using StreamReader reader = new(FilePath);
-                _lastReadJsonString = reader.ReadToEnd();
+                _lastReadJsonString = FileUtility.ReadAllText(FilePath);
                 JsonUtility.FromJsonOverwrite(_lastReadJsonString, this);
             }
             else

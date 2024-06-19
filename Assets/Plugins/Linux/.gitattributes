@@ -1,1 +1,2 @@
 libEOSSDK-Linux-Shipping.so filter=lfs diff=lfs merge=lfs binary
+libDynamicLibraryLoaderHelper.so filter=lfs diff=lfs merge=lfs binary
