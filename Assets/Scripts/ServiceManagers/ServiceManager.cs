@@ -86,6 +86,8 @@ namespace PlayEveryWare.EpicOnlineServices
             _requiresAuthentication = requiresAuthentication;
 
             EOSManager.Instance.AddConnectLoginListener(this);
+
+            _ = RefreshAsync();
         }
 
         /// <summary>

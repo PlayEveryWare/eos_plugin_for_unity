@@ -108,8 +108,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         protected async override void OnPlayerLogin(ProductUserId productUserId)
         {
-            _achievements = await QueryAchievementsAsync(productUserId);
-            await RefreshPlayerAchievementsAsync(productUserId);
+            await RefreshAsync();
         }
 
         /// <summary>
@@ -123,6 +122,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             ProductUserId productUserId = EOSManager.Instance.GetProductUserId();
             _achievements = await QueryAchievementsAsync(productUserId);
+
+            // If the user is not in the list, then add it.
+            if (!_playerAchievements.ContainsKey(productUserId))
+            {
+                _playerAchievements.AddOrUpdate(productUserId, new List<PlayerAchievement>(),
+                    (id, list) => new List<PlayerAchievement>());
+            }
 
             List<Task> refreshPlayerAchievementsTasks = new();
             foreach (var userId in _playerAchievements.Keys)
