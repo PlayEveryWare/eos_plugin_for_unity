@@ -247,7 +247,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
                 achievements.Add(definition.Value);
 
-                UnityEngine.Debug.LogFormat("Achievements (CacheAchievementDef): Id={0}, LockedDisplayName={1}", definition.Value.AchievementId, definition.Value.LockedDisplayName);
+                Log($"Achievements (CacheAchievementDef): Id={definition.Value.AchievementId}, LockedDisplayName={definition.Value.LockedDisplayName}.");
 
                 GetAndCacheData(definition.Value.LockedIconURL);
                 GetAndCacheData(definition.Value.UnlockedIconURL);
