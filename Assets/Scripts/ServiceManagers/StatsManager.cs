@@ -199,9 +199,7 @@ namespace PlayEveryWare.EpicOnlineServices
             {
                 if (queryStatsCompleteCallbackInfo.ResultCode != Result.Success)
                 {
-                    // TODO: handle error
-                    Log($"Failed to query stats, result code: {queryStatsCompleteCallbackInfo.ResultCode}");
-                    tcs.SetResult(new List<Stat>());
+                    tcs.SetException(new Exception($"Failed to query stats, result code: {queryStatsCompleteCallbackInfo.ResultCode}"));
                 }
                 else
                 {
