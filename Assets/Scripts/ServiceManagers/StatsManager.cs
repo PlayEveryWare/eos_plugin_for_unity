@@ -106,10 +106,16 @@ namespace PlayEveryWare.EpicOnlineServices
 
         public async override Task RefreshAsync()
         {
+            // Add all the refresh player stats tasks to an array so we can
+            // await the completion of all of them, and allow them to happen
+            // concurrently.
+            List<Task> refreshPlayerStatsTasks = new();
             foreach (var playerId in _playerStats.Keys)
             {
-                await RefreshPlayerStatsAsync(playerId);
+                refreshPlayerStatsTasks.Add(RefreshPlayerStatsAsync(playerId));
             }
+
+            await Task.WhenAll(refreshPlayerStatsTasks);
         }
 
         /// <summary>

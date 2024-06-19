@@ -123,11 +123,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             ProductUserId productUserId = EOSManager.Instance.GetProductUserId();
             _achievements = await QueryAchievementsAsync(productUserId);
-            
+
+            List<Task> refreshPlayerAchievementsTasks = new();
             foreach (var userId in _playerAchievements.Keys)
             {
-                await RefreshPlayerAchievementsAsync(userId);
+                refreshPlayerAchievementsTasks.Add(RefreshPlayerAchievementsAsync(userId));
             }
+
+            await Task.WhenAll(refreshPlayerAchievementsTasks);
 
             // NOTE: Because there is no check in the above code to determine if
             //       any achievements have actually changed, EVERY call to this
