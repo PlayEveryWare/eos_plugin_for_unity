@@ -481,6 +481,10 @@
         {"src":"Assets/Scripts/Utility/*.cs", "dest": "Samples~/Samples/StandardSamples/Scripts/Utility/"},  
         {"src":"Assets/Scripts/Utility/Extensions/*.cs", "dest": "Samples~/Samples/StandardSamples/Scripts/Utility/Extensions/"},
 
+        {"src":"Assets/Scripts/ServiceManagers.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/"},
+        {"src":"Assets/Scripts/ServiceManagers/*.cs", "dest": "Samples~/Samples/StandardSamples/Scripts/ServiceManagers/"},
+        {"src":"Assets/Scripts/ServiceManagers/*.cs.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/ServiceManagers/"},
+
         {"src":"Assets/Scripts/Core/*", "dest": "Samples~/Samples/StandardSamples/Scripts/Core/"},
         {"src":"Assets/Scripts/Steam/*", "dest": "Samples~/Samples/StandardSamples/Scripts/Steam/"},
         {"src":"Assets/Scripts/Discord/*", "dest": "Samples~/Samples/StandardSamples/Scripts/Discord/"},
@@ -489,7 +493,7 @@
         {"src":"Assets/Scripts/OpenID/*", "dest": "Samples~/Samples/StandardSamples/Scripts/OpenID/"},
         {"src":"Assets/Scripts/OpenID/CloudFunction/*", "dest": "Samples~/Samples/StandardSamples/Scripts/OpenID/CloudFunction/"},
 
-       {"src":"Assets/Scripts/SignInWithApple/*", "dest": "Samples~/Samples/StandardSamples/Scripts/SignInWithApple/"},
+        {"src":"Assets/Scripts/SignInWithApple/*", "dest": "Samples~/Samples/StandardSamples/Scripts/SignInWithApple/"},
         {"src":"Assets/Scripts/SignInWithApple/Editor/*", "dest": "Samples~/Samples/StandardSamples/Scripts/SignInWithApple/Editor/"},
 
         {"src":"Assets/Scenes/StandardSamples/*.unity", "dest": "Samples~/Samples/StandardSamples/Scenes/"},
