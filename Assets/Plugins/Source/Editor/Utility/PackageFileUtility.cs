@@ -50,9 +50,13 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
             // TODO: Replace the path separator logic with system-specific things / methods provided by Mono.
             string currentWorkingDir = Path.GetFullPath(Directory.GetCurrentDirectory()).Replace('\\', '/') + "/";
 
+            Stack<SrcDestPair> srcDestPairs = new(packageDescription.source_to_dest.Where(p => !p.IsCommentOnly()));
+
             // Iterate through the SrcDestPair entries that are not merely comments.
-            foreach (var srcDestPair in packageDescription.source_to_dest.Where(p => !p.IsCommentOnly()))
+            while (srcDestPairs.Count != 0)
             {
+                SrcDestPair srcDestPair = srcDestPairs.Pop();
+
                 // If the SrcDestPair has an ignore_regex, then add it to the list of pairs that are to be interpreted as ignore patterns,
                 // and move on to the next SrcDestPair.
                 if (!string.IsNullOrEmpty(srcDestPair.ignore_regex))
@@ -74,6 +78,24 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
 
                     Debug.LogWarning(
                         $"Copy error for file \"{srcDestPair.src}\": {errorMessageToUse}");
+                }
+
+                if (srcDestPair.recursive)
+                {
+                    string baseSource = srcDestPair.src[..^1];
+                    string baseDest = srcDestPair.dest;
+
+                    var subdirectories = Directory.EnumerateDirectories(baseSource, "*", SearchOption.AllDirectories);
+
+                    foreach (var subdir in subdirectories)
+                    {
+                        SrcDestPair subDirectoryEntry = new()
+                        {
+                            src = Path.Join(subdir, "*"),
+                            dest = Path.Join(baseDest, subdir[(baseSource.Length)..]) + "/"
+                        };
+                        srcDestPairs.Push(subDirectoryEntry);
+                    }
                 }
 
                 var matchingFiles = FindMatchingFiles(root, currentWorkingDir, srcDestPair);
@@ -121,8 +143,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         private static IEnumerable<FileInfoMatchingResult> FindMatchingFiles(string root, string currentWorkingDir, SrcDestPair pair)
         {
             IEnumerable<string> collectedFiles;
-            SearchOption searchOption = pair.recursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
-
+            
             string searchPattern = pair.src;
             string path = root;
 
@@ -134,7 +155,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
 
             try
             {
-                collectedFiles = Directory.EnumerateFiles(path, searchPattern, searchOption);
+                collectedFiles = Directory.EnumerateFiles(path, searchPattern);
             }
             catch (Exception e)
             {
