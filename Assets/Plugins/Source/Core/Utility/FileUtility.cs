@@ -479,7 +479,13 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         /// <returns>Task</returns>
         public static async Task<string> ReadAllTextAsync(string path)
         {
-            return await File.ReadAllTextAsync(path);
+            string text = string.Empty;
+#if UNITY_ANDROID && !UNITY_EDITOR
+            text = AndroidFileIOHelper.ReadAllText(path);
+#else
+            text = await File.ReadAllTextAsync(path);
+#endif
+            return await Task.FromResult(text);
         }
 
         public static void NormalizePath(ref string path)

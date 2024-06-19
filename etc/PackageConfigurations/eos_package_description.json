@@ -1,6 +1,5 @@
 {
     "source_to_dest": [
-        
         {"src": "CHANGELOG.md",                     "dest": "" },
         {"src": "LICENSE.md",                       "dest": "" },
         {"src": "README.md",                        "dest": "" },
@@ -150,7 +149,6 @@
         {"src": "Assets/Resources/PerformanceStressTest_Profiles/*", "dest": "Samples~/Samples/PerformanceStressTestSample/Profiles/"               },
 
         {"src": "Assets/Readme/*.txt",                               "dest": "Samples~/Samples/StandardSamples/Readme/"                             }
-
     ],
     "blacklist": [
         "*.png"
