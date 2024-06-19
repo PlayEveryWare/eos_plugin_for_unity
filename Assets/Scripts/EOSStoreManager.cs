@@ -59,6 +59,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             OnLoggedIn();
         }
+
+        public void OnAuthLogout(LogoutCallbackInfo logoutCallbackInfo)
+        {
+            OnLoggedOut();
+        }
 #endif
 
         public void OnLoggedOut()

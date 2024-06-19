@@ -27,8 +27,5 @@ namespace PlayEveryWare.EpicOnlineServices
     /// </summary>
     public interface IEOSOnAuthLogout
     {
-#if !EOS_DISABLE
-        void OnAuthLogout(Epic.OnlineServices.Auth.LogoutCallbackInfo logoutCallbackInfo);
-#endif
     }
 }

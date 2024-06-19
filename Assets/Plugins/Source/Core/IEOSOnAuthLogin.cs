@@ -29,6 +29,7 @@ namespace PlayEveryWare.EpicOnlineServices
     {
 #if !EOS_DISABLE
         void OnAuthLogin(Epic.OnlineServices.Auth.LoginCallbackInfo loginCallbackInfo);
+        void OnAuthLogout(Epic.OnlineServices.Auth.LogoutCallbackInfo logoutCallbackInfo);
 #endif
     }
 }

@@ -87,6 +87,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             OnLogin();
         }
 
+        public void OnAuthLogout(LogoutCallbackInfo logoutCallbackInfo)
+        {
+            OnDisable();
+        }
+
         public void OnConnectLogin(Epic.OnlineServices.Connect.LoginCallbackInfo loginCallbackInfo)
         {
             OnLogin();

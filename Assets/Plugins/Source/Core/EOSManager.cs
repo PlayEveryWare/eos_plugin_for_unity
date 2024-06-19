@@ -333,7 +333,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 s_onAuthLoginCallbacks.Add(authLogin.OnAuthLogin);
             }
 
-            public void AddAuthLogoutListener(IEOSOnAuthLogout authLogout)
+            public void AddAuthLogoutListener(IEOSOnAuthLogin authLogout)
             {
                 s_onAuthLogoutCallbacks.Add(authLogout.OnAuthLogout);
             }
@@ -353,7 +353,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 s_onAuthLoginCallbacks.Remove(authLogin.OnAuthLogin);
             }
 
-            public void RemoveAuthLogoutListener(IEOSOnAuthLogout authLogout)
+            public void RemoveAuthLogoutListener(IEOSOnAuthLogin authLogout)
             {
                 s_onAuthLogoutCallbacks.Remove(authLogout.OnAuthLogout);
             }
@@ -376,11 +376,7 @@ namespace PlayEveryWare.EpicOnlineServices
                     if (manager is IEOSOnAuthLogin)
                     {
                         AddAuthLoginListener(manager as IEOSOnAuthLogin);
-                    }
-
-                    if (manager is IEOSOnAuthLogout)
-                    {
-                        AddAuthLogoutListener(manager as IEOSOnAuthLogout);
+                        AddAuthLogoutListener(manager as IEOSOnAuthLogin);
                     }
                 }
                 else
@@ -405,11 +401,7 @@ namespace PlayEveryWare.EpicOnlineServices
                     if (manager is IEOSOnAuthLogin)
                     {
                         RemoveAuthLoginListener(manager as IEOSOnAuthLogin);
-                    }
-
-                    if (manager is IEOSOnAuthLogout)
-                    {
-                        RemoveAuthLogoutListener(manager as IEOSOnAuthLogout);
+                        RemoveAuthLogoutListener(manager as IEOSOnAuthLogin);
                     }
 
                     s_subManagers.Remove(type);
