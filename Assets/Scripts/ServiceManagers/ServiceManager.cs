@@ -46,7 +46,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// Indicates whether the service needs to have a user authenticated in
         /// order to function properly.
         /// </summary>
-        private bool _requiresAuthentication;
+        private bool _requiresLoggedInWithConnectInterface;
 
         /// <summary>
         /// Called when connect login has taken place.
@@ -65,45 +65,18 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <summary>
         /// Base constructor for Service managers.
         /// </summary>
-        /// <param name="requiresAuthentication">
+        /// <param name="requiresLoggedInWithConnectInterface">
         /// Indicates whether the service manager requires a user to be
-        /// authenticated in order to function properly.
+        /// authenticated with the Connect Interface in order to function
+        /// properly.
         /// </param>
-        protected ServiceManager(bool requiresAuthentication)
+        protected ServiceManager(bool requiresLoggedInWithConnectInterface)
         {
-            _requiresAuthentication = requiresAuthentication;
+            _requiresLoggedInWithConnectInterface = requiresLoggedInWithConnectInterface;
 
             EOSManager.Instance.AddConnectLoginListener(this);
 
             _ = RefreshAsync();
-        }
-
-        /// <summary>
-        /// Determines whether a user is currently authenticated.
-        /// </summary>
-        /// <returns>True if a user is authenticated, false otherwise.</returns>
-        protected static bool IsAuthenticated()
-        {
-            return (IsAuthenticatedByEpicAuthInterface() || IsAuthenticatedByConnectInterface());
-        }
-
-        /// <summary>
-        /// Determines whether the user is currently authenticated using the
-        /// Auth Interface provided by the EOS SDK.
-        /// </summary>
-        /// <returns>
-        /// True if the user is authenticated using the Auth Interface, false
-        /// otherwise.
-        /// </returns>
-        private static bool IsLoggedInWithEpicAuthInterface()
-        {
-            EpicAccountId userId = EOSManager.Instance.GetLocalUserId();
-            if (null == userId || false == userId.IsValid())
-            {
-                return false;
-            }
-
-            return EOSManager.Instance.GetEOSAuthInterface().GetLoginStatus(userId) == LoginStatus.LoggedIn;
         }
 
         /// <summary>
@@ -151,7 +124,7 @@ namespace PlayEveryWare.EpicOnlineServices
             // Check to see if authentication is required, if it's not then 
             // continue. If it is, then make sure a user is authenticated before
             // refreshing.
-            if (!_requiresAuthentication || (_requiresAuthentication && IsAuthenticated()))
+            if (!_requiresLoggedInWithConnectInterface || (_requiresLoggedInWithConnectInterface && IsLoggedInWithConnectInterface()))
             {
                 await InternalRefreshAsync();
             }
