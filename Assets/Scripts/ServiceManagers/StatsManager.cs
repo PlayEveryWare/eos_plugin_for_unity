@@ -19,14 +19,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  *
- * Author: Paul Hazen (paul.hazen@playeveryware.com)
- *
- * Date:   2024-06-17
- *
- * Notes: This file contains implementation of a manager for the stats interface
- *        of the EOS SDK, extracted from where it previously existed within the
- *        EOSAchievementManager class.
- *
  */
 
 //#define ENABLE_DEBUG_EOSSTATSMANAGER

@@ -19,19 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  *
- * Author: Paul Hazen (paul.hazen@playeveryware.com)
- *
- * Date:   2024-06-17
- *
- * Notes: This file contains implementation of functionality that is common to
- *        many of the different managers. Not all managers make use of it - as
- *        transitioning will be done gradually and as areas are refactored.
- *        Consequently, only EOSAchievementManager and StatsManager make use of
- *        this base class.
- *
  */
-
-//#define ENABLE_DEBUG_EOSSTATSMANAGER
 
 namespace PlayEveryWare.EpicOnlineServices
 {
@@ -107,7 +95,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// True if the user is authenticated using the Auth Interface, false
         /// otherwise.
         /// </returns>
-        private static bool IsAuthenticatedByEpicAuthInterface()
+        private static bool IsLoggedInWithEpicAuthInterface()
         {
             EpicAccountId userId = EOSManager.Instance.GetLocalUserId();
             if (null == userId || false == userId.IsValid())
@@ -126,7 +114,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// True if the user is authenticated using the Connect Interface, false
         /// otherwise.
         /// </returns>
-        private static bool IsAuthenticatedByConnectInterface()
+        private static bool IsLoggedInWithConnectInterface()
         {
             ProductUserId userId = EOSManager.Instance.GetProductUserId();
             if (null == userId || false == userId.IsValid())
