@@ -334,7 +334,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 
-        public void IngestStatOnClick()
+        public async void IngestStatOnClick()
         {
             if(string.IsNullOrEmpty(ingestStatValueInput.InputField.text))
             {
@@ -354,14 +354,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 return;
             }
 
-            LeaderboardManager.IngestStat(currentSelectedDefinitionStatName, amount, (ref IngestStatCompleteCallbackInfo ingestedCallbackInfo) => 
+            await StatsManager.Instance.IngestStatAsync(currentSelectedDefinitionStatName, amount);
+
+            if (refreshLeaderboardCoroutine != null)
             {
-                if (refreshLeaderboardCoroutine != null)
-                {
-                    StopCoroutine(refreshLeaderboardCoroutine);
-                }
-                refreshLeaderboardCoroutine = StartCoroutine(RefreshCurrentLeaderboardAfterWait(SecondsAfterStatIngestedToRefresh));
-            });
+                StopCoroutine(refreshLeaderboardCoroutine);
+            }
+            refreshLeaderboardCoroutine = StartCoroutine(RefreshCurrentLeaderboardAfterWait(SecondsAfterStatIngestedToRefresh));
         }
 
         public void ShowMenu()
