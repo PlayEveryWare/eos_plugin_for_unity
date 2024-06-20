@@ -298,7 +298,6 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
                 await CopyFilesAsyncInternal(operations, cancellationToken);
             }
         }
-#endif
 
         /// <summary>
         /// Performs the core file copy operations.
@@ -340,7 +339,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
 
             await Task.WhenAll(tasks);
         }
-
+#endif
         /// <summary>
         /// Copies a single file asynchronously.
         /// </summary>
