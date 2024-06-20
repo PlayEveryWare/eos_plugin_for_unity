@@ -284,6 +284,25 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
         {
             try
             {
+                string outputPath = _packagingConfig.pathToOutput;
+
+                // if the output path is empty or doesn't exist, prompt for the user to select one
+                if (string.IsNullOrEmpty(outputPath) || !Directory.Exists(outputPath))
+                {
+                    if (SelectOutputDirectory(ref outputPath))
+                    {
+                        _packagingConfig.pathToOutput = outputPath;
+                        _packagingConfig.Write();
+                    }
+                    else
+                    {
+                        EditorUtility.DisplayDialog("Package Export Canceled",
+                            "An output directory was not selected, so package export has been canceled.",
+                            "ok");
+                        return;
+                    }
+                }
+
                 _createPackageCancellationTokenSource = new();
                 _operationInProgress = true;
 
@@ -316,25 +335,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 
                     Repaint();
                 });
-
-                string outputPath = _packagingConfig.pathToOutput;
-
-                // if the output path is empty or doesn't exist, prompt for the user to select one
-                if (string.IsNullOrEmpty(outputPath) || !Directory.Exists(outputPath))
-                {
-                    if (SelectOutputDirectory(ref outputPath))
-                    {
-                        _packagingConfig.pathToOutput = outputPath;
-                        _packagingConfig.Write();
-                    }
-                    else
-                    {
-                        EditorUtility.DisplayDialog("Package Export Canceled",
-                            "An output directory was not selected, so package export has been canceled.",
-                            "ok");
-                        return;
-                    }
-                }
 
                 await UPMUtility.CreatePackage(type, clean, progressHandler, _createPackageCancellationTokenSource.Token);
 
