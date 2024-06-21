@@ -337,6 +337,8 @@ _WIN32 || _WIN64
             GUIEditorUtility.AssigningUintField("Steamworks SDK minor version",
                 ref steamEOSConfigFile.steamSDKMinorVersion, 190);
 
+            GUIEditorUtility.AssigningTextField("Steamworks Interface Versions", ref steamEOSConfigFile.steamApiInterfaceVersionsArray, 190, tooltip: "This is a formatted array-like string of Steamworks Interface Versions that are in use. Press the \"Update from Steamworks.NET\" button to update this string. It should be specific constant strings defined in Steamworks Constants, separated by spaces and \0. This is required for Steamworks versions v1.58a and later.");
+
             if (GUILayout.Button("Update from Steamworks.NET", GUILayout.MaxWidth(200)))
             {
                 var steamworksVersion = Steamworks_Utility.GetSteamworksVersion();
@@ -357,6 +359,8 @@ _WIN32 || _WIN64
                 {
                     Debug.LogError("Failed to retrieve Steamworks SDK version from Steamworks.NET");
                 }
+
+                steamEOSConfigFile.steamApiInterfaceVersionsArray = Steamworks_Utility.GetPszInternalCheckInterfaceVersions();
             }
         }
 

@@ -34,6 +34,8 @@ namespace PlayEveryWare.EpicOnlineServices
         public uint steamSDKMajorVersion;
         public uint steamSDKMinorVersion;
 
+        public string steamApiInterfaceVersionsArray;
+
         static SteamConfig()
         {
             RegisterFactory(() => new SteamConfig());

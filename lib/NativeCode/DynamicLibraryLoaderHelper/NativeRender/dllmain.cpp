@@ -149,6 +149,7 @@ struct EOSSteamConfig
     uint32_t steamSDKMajorVersion;
     uint32_t steamSDKMinorVersion;
     std::optional<std::string> OverrideLibraryPath;
+    std::optional<std::string> steamApiInterfaceVersionsArray;
 
     EOSSteamConfig()
     {
@@ -1243,6 +1244,12 @@ void eos_create(EOSConfig& eosConfig)
 
         steam_platform.SteamMajorVersion = eos_steam_config.steamSDKMajorVersion;
         steam_platform.SteamMinorVersion = eos_steam_config.steamSDKMinorVersion;
+
+        if (eos_steam_config.steamApiInterfaceVersionsArray.has_value())
+        {
+            steam_platform.SteamApiInterfaceVersionsArray = eos_steam_config.steamApiInterfaceVersionsArray.value().c_str();
+            steam_platform.SteamApiInterfaceVersionsArrayBytes = sizeof(eos_steam_config.steamApiInterfaceVersionsArray.value());
+        }
 
         steam_integrated_platform_option.ApiVersion = EOS_INTEGRATEDPLATFORM_OPTIONS_API_LATEST;
         steam_integrated_platform_option.Type = EOS_IPT_Steam;

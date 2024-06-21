@@ -42,5 +42,19 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             return Steamworks.Version.SteamworksSDKVersion;
 #endif
         }
+
+        /// <summary>
+        /// This is to populate the SteamConfig's steamApiInterfaceVersionsArray. It needs to be configured exactly like this for Steamworks v1.58a onwards.
+        /// https://dev.epicgames.com/docs/en-US/api-ref/structs/eos-integrated-platform-steam-options
+        /// </summary>
+        /// <returns></returns>
+        public static string GetPszInternalCheckInterfaceVersions()
+        {
+#if DISABLESTEAMWORKS
+            return string.Empty;
+#else
+            return $"{Steamworks.Constants.STEAMUTILS_INTERFACE_VERSION} \0 {Steamworks.Constants.STEAMNETWORKINGUTILS_INTERFACE_VERSION} \0 {Steamworks.Constants.STEAMUSER_INTERFACE_VERSION} \0 {Steamworks.Constants.STEAMVIDEO_INTERFACE_VERSION} \0 \0";
+#endif
+        }
     }
 }
