@@ -23,7 +23,8 @@
 namespace PlayEveryWare.EpicOnlineServices
 {
     /// <summary>
-    /// Interface for classes using <c>OnLogin</c>
+    /// Interface for classes that implement login event handlers for login
+    /// events originating from the Auth Interface provided by the EOS SDK.
     /// </summary>
     public interface IAuthInterfaceLoginHandler
     {
