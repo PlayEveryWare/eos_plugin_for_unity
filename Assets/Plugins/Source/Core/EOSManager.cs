@@ -323,15 +323,15 @@ namespace PlayEveryWare.EpicOnlineServices
             }
 
             //-------------------------------------------------------------------------
-            public void AddConnectLoginListener(IEOSOnConnectLogin connectLogin)
+            public void AddConnectInterfaceLoginHandler(IConnectInterfaceLoginHandler connectInterfaceLoginHandler)
             {
-                s_onConnectLoginCallbacks.Add(connectLogin.OnConnectLogin);
+                s_onConnectLoginCallbacks.Add(connectInterfaceLoginHandler.OnLogin);
             }
 
-            public void AddAuthLoginListener(IEOSOnAuthLogin authLogin)
+            public void AddAuthInterfaceLoginHandler(IAuthInterfaceLoginHandler authInterfaceLoginHandler)
             {
-                s_onAuthLoginCallbacks.Add(authLogin.OnAuthLogin);
-                s_onAuthLogoutCallbacks.Add(authLogin.OnAuthLogout);
+                s_onAuthLoginCallbacks.Add(authInterfaceLoginHandler.OnLogin);
+                s_onAuthLogoutCallbacks.Add(authInterfaceLoginHandler.OnLogout);
             }
 
             public void AddApplicationCloseListener(Action listener)
@@ -339,15 +339,15 @@ namespace PlayEveryWare.EpicOnlineServices
                 s_onApplicationShutdownCallbacks.Add(listener);
             }
 
-            public void RemoveConnectLoginListener(IEOSOnConnectLogin connectLogin)
+            public void RemoveConnectLoginListener(IConnectInterfaceLoginHandler connectInterfaceLoginHandler)
             {
-                s_onConnectLoginCallbacks.Remove(connectLogin.OnConnectLogin);
+                s_onConnectLoginCallbacks.Remove(connectInterfaceLoginHandler.OnLogin);
             }
 
-            public void RemoveAuthLoginListener(IEOSOnAuthLogin authLogin)
+            public void RemoveAuthLoginListener(IAuthInterfaceLoginHandler authInterfaceLoginHandler)
             {
-                s_onAuthLoginCallbacks.Remove(authLogin.OnAuthLogin);
-                s_onAuthLogoutCallbacks.Remove(authLogin.OnAuthLogout);
+                s_onAuthLoginCallbacks.Remove(authInterfaceLoginHandler.OnLogin);
+                s_onAuthLogoutCallbacks.Remove(authInterfaceLoginHandler.OnLogout);
             }
 
             //-------------------------------------------------------------------------
@@ -360,14 +360,14 @@ namespace PlayEveryWare.EpicOnlineServices
                     manager = new T();
                     s_subManagers.Add(type, manager);
 
-                    if (manager is IEOSOnConnectLogin)
+                    if (manager is IConnectInterfaceLoginHandler)
                     {
-                        AddConnectLoginListener(manager as IEOSOnConnectLogin);
+                        AddConnectInterfaceLoginHandler(manager as IConnectInterfaceLoginHandler);
                     }
 
-                    if (manager is IEOSOnAuthLogin)
+                    if (manager is IAuthInterfaceLoginHandler)
                     {
-                        AddAuthLoginListener(manager as IEOSOnAuthLogin);
+                        AddAuthInterfaceLoginHandler(manager as IAuthInterfaceLoginHandler);
                     }
                 }
                 else
@@ -384,14 +384,14 @@ namespace PlayEveryWare.EpicOnlineServices
                 if (s_subManagers.ContainsKey(type))
                 {
                     T manager = (T)s_subManagers[type];
-                    if (manager is IEOSOnConnectLogin)
+                    if (manager is IConnectInterfaceLoginHandler)
                     {
-                        RemoveConnectLoginListener(manager as IEOSOnConnectLogin);
+                        RemoveConnectLoginListener(manager as IConnectInterfaceLoginHandler);
                     }
 
-                    if (manager is IEOSOnAuthLogin)
+                    if (manager is IAuthInterfaceLoginHandler)
                     {
-                        RemoveAuthLoginListener(manager as IEOSOnAuthLogin);
+                        RemoveAuthLoginListener(manager as IAuthInterfaceLoginHandler);
                     }
 
                     s_subManagers.Remove(type);

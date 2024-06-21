@@ -34,7 +34,7 @@ namespace PlayEveryWare.EpicOnlineServices
     /// Contains implementation of common functionality between different
     /// EOS Service managers (Currently EOSAchievementManager and StatsManager).
     /// </summary>
-    public abstract class ServiceManager : IEOSOnConnectLogin, IEOSSubManager, IDisposable
+    public abstract class ServiceManager : IConnectInterfaceLoginHandler, IEOSSubManager, IDisposable
     {
         /// <summary>
         /// Stores a list of functions to be called whenever data related to
@@ -52,7 +52,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// Called when connect login has taken place.
         /// </summary>
         /// <param name="loginCallbackInfo"></param>
-        public void OnConnectLogin(LoginCallbackInfo loginCallbackInfo)
+        public void OnLogin(LoginCallbackInfo loginCallbackInfo)
         {
             if (loginCallbackInfo.ResultCode != Result.Success)
             {
@@ -74,7 +74,7 @@ namespace PlayEveryWare.EpicOnlineServices
         {
             _requiresLoggedInWithConnectInterface = requiresLoggedInWithConnectInterface;
 
-            EOSManager.Instance.AddConnectLoginListener(this);
+            EOSManager.Instance.AddConnectInterfaceLoginHandler(this);
 
             _ = RefreshAsync();
         }

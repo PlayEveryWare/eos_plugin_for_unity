@@ -23,13 +23,13 @@
 namespace PlayEveryWare.EpicOnlineServices
 {
     /// <summary>
-    /// Interface for classes using <c>OnAuthLogin</c>
+    /// Interface for classes using <c>OnLogin</c>
     /// </summary>
-    public interface IEOSOnAuthLogin
+    public interface IAuthInterfaceLoginHandler
     {
 #if !EOS_DISABLE
-        void OnAuthLogin(Epic.OnlineServices.Auth.LoginCallbackInfo loginCallbackInfo);
-        void OnAuthLogout(Epic.OnlineServices.Auth.LogoutCallbackInfo logoutCallbackInfo);
+        void OnLogin(Epic.OnlineServices.Auth.LoginCallbackInfo loginCallbackInfo);
+        void OnLogout(Epic.OnlineServices.Auth.LogoutCallbackInfo logoutCallbackInfo);
 #endif
     }
 }

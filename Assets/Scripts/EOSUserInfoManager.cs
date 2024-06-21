@@ -34,7 +34,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     /// <summary>
     /// Class <c>EOSUserInfoManager</c> is a general purpose access point for user info, including local user.
     /// </summary>
-    public class EOSUserInfoManager : IEOSSubManager, IEOSOnConnectLogin, IEOSOnAuthLogin
+    public class EOSUserInfoManager : IEOSSubManager, IConnectInterfaceLoginHandler, IAuthInterfaceLoginHandler
     {
         private UserInfoData LocalUserInfo;
 
@@ -58,19 +58,19 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             UpdateLocalUserInfo();
         }
 
-        public void OnConnectLogin(Epic.OnlineServices.Connect.LoginCallbackInfo loginCallbackInfo)
+        public void OnLogin(Epic.OnlineServices.Connect.LoginCallbackInfo loginCallbackInfo)
         {
             UserInfoHandle = EOSManager.Instance?.GetEOSPlatformInterface()?.GetUserInfoInterface();
             UpdateLocalUserInfo();
         }
 
-        public void OnAuthLogin(Epic.OnlineServices.Auth.LoginCallbackInfo loginCallbackInfo)
+        public void OnLogin(Epic.OnlineServices.Auth.LoginCallbackInfo loginCallbackInfo)
         {
             UserInfoHandle = EOSManager.Instance?.GetEOSPlatformInterface()?.GetUserInfoInterface();
             UpdateLocalUserInfo();
         }
 
-        public void OnAuthLogout(LogoutCallbackInfo logoutCallbackInfo)
+        public void OnLogout(LogoutCallbackInfo logoutCallbackInfo)
         {
             LocalUserInfo = default;
             foreach (var callback in LocalUserInfoChangedCallbacks)

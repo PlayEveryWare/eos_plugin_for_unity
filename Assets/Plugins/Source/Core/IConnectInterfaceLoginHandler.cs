@@ -23,12 +23,12 @@
 namespace PlayEveryWare.EpicOnlineServices
 {
     /// <summary>
-    /// Interface for classes using <c>OnConnectLogin</c>
+    /// Interface for classes using <c>OnLogin</c>
     /// </summary>
-    public interface IEOSOnConnectLogin
+    public interface IConnectInterfaceLoginHandler
     {
 #if !EOS_DISABLE
-        void OnConnectLogin(Epic.OnlineServices.Connect.LoginCallbackInfo loginCallbackInfo);
+        void OnLogin(Epic.OnlineServices.Connect.LoginCallbackInfo loginCallbackInfo);
 #endif
     }
 }
