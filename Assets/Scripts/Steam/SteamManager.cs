@@ -129,9 +129,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Steam
             }
         }
 
-
         TaskCompletionSource<string> tcs;
-
         // This should only ever get called on first load and after an Assembly reload, You should never Disable the Steamworks Manager yourself.
         protected virtual void OnEnable()
         {
@@ -334,18 +332,28 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Steam
             return SteamUser.GetSteamID().GetAccountID().ToString();
 #endif
         }
-        public Task<string> GetSessionTicketTask() 
-        {   
+        public Task<string> GetSessionTicketTask()
+        {
+#if DISABLESTEAMWORKS
+            return null;
+#else
+            // GetAuthTicketForWebApi will become the only EOS supported way to grab session tickets in the future
+            // https://dev.epicgames.com/docs/dev-portal/identity-provider-management#steam
+            // For now (2024/06/19) it still used the old way to grab session tickets
+            // Manually define GET_SESSION_TICKET_FOR_WEB_API to use the new version
+    #if ASYNC_GET_STEAM_SESSION_TICKET_PREVIEW
             //if (sessionTicketString != null)
             //{
             //    return Task.FromResult(sessionTicketString);
             //}
 
             tcs = new TaskCompletionSource<string>();
-
             SteamUser.GetAuthTicketForWebApi(null);
-
             return tcs.Task;
+    #else
+            return Task.FromResult(GetSessionTicket());
+    #endif
+#endif
         }
         public string GetSessionTicket()
         {
@@ -357,14 +365,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Steam
                 return sessionTicketString;
             }
 
-            // GetAuthTicketForWebApi will become the only EOS supported way to grab session tickets in the future
-            // https://dev.epicgames.com/docs/dev-portal/identity-provider-management#steam
-            // For now (2024/06/19) it still used the old way to grab session tickets
-            // Manually define GET_SESSION_TICKET_FOR_WEB_API to use the new version
-#if GET_SESSION_TICKET_PREVIEW
-            SteamUser.GetAuthTicketForWebApi(null);
-            sessionTicketString = "";
-#else
             int bufferSize = 1024;
             byte[] buffer = new byte[bufferSize];
             uint ticketSize = 0;
@@ -387,7 +387,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Steam
             Array.Resize(ref buffer, (int)ticketSize);
             //convert to hex string
             sessionTicketString = System.BitConverter.ToString(buffer).Replace("-", "");
-#endif
             return sessionTicketString;
 #endif
         }
@@ -430,8 +429,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Steam
 
             string steamId = GetSteamID();
             string steamToken = await GetSessionTicketTask();
-
-            //string steamToken = GetSessionTicket();
             if (steamId == null)
             {
                 Debug.LogError("ExternalAuth failed: Steam ID not valid");
