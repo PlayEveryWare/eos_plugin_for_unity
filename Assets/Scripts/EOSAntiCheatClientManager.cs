@@ -35,7 +35,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     /// <summary>
     /// Class <c>EOSAntiCheatClientManager</c> is a simplified wrapper for EOS [AntiCheat Client Interface](https://dev.epicgames.com/docs/services/en-US/GameServices/AntiCheat/index.html).
     /// </summary>
-    public class EOSAntiCheatClientManager : IEOSSubManager, IConnectInterfaceLoginHandler, IAuthInterfaceLoginHandler
+    public class EOSAntiCheatClientManager : IEOSSubManager, IConnectInterfaceListener, IAuthInterfaceListener
     {
         private AntiCheatClientInterface AntiCheatHandle;
         private ConnectInterface ConnectHandle;

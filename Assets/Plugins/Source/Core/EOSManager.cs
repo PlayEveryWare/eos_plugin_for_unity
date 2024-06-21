@@ -323,15 +323,15 @@ namespace PlayEveryWare.EpicOnlineServices
             }
 
             //-------------------------------------------------------------------------
-            public void AddConnectInterfaceLoginHandler(IConnectInterfaceLoginHandler connectInterfaceLoginHandler)
+            public void AddConnectInterfaceLoginHandler(IConnectInterfaceListener connectInterfaceListener)
             {
-                s_onConnectLoginCallbacks.Add(connectInterfaceLoginHandler.OnLogin);
+                s_onConnectLoginCallbacks.Add(connectInterfaceListener.OnLogin);
             }
 
-            public void AddAuthInterfaceLoginHandler(IAuthInterfaceLoginHandler authInterfaceLoginHandler)
+            public void AddAuthInterfaceLoginHandler(IAuthInterfaceListener authInterfaceListener)
             {
-                s_onAuthLoginCallbacks.Add(authInterfaceLoginHandler.OnLogin);
-                s_onAuthLogoutCallbacks.Add(authInterfaceLoginHandler.OnLogout);
+                s_onAuthLoginCallbacks.Add(authInterfaceListener.OnLogin);
+                s_onAuthLogoutCallbacks.Add(authInterfaceListener.OnLogout);
             }
 
             public void AddApplicationCloseListener(Action listener)
@@ -339,15 +339,15 @@ namespace PlayEveryWare.EpicOnlineServices
                 s_onApplicationShutdownCallbacks.Add(listener);
             }
 
-            public void RemoveConnectLoginListener(IConnectInterfaceLoginHandler connectInterfaceLoginHandler)
+            public void RemoveConnectLoginListener(IConnectInterfaceListener connectInterfaceListener)
             {
-                s_onConnectLoginCallbacks.Remove(connectInterfaceLoginHandler.OnLogin);
+                s_onConnectLoginCallbacks.Remove(connectInterfaceListener.OnLogin);
             }
 
-            public void RemoveAuthLoginListener(IAuthInterfaceLoginHandler authInterfaceLoginHandler)
+            public void RemoveAuthLoginListener(IAuthInterfaceListener authInterfaceListener)
             {
-                s_onAuthLoginCallbacks.Remove(authInterfaceLoginHandler.OnLogin);
-                s_onAuthLogoutCallbacks.Remove(authInterfaceLoginHandler.OnLogout);
+                s_onAuthLoginCallbacks.Remove(authInterfaceListener.OnLogin);
+                s_onAuthLogoutCallbacks.Remove(authInterfaceListener.OnLogout);
             }
 
             //-------------------------------------------------------------------------
@@ -360,14 +360,14 @@ namespace PlayEveryWare.EpicOnlineServices
                     manager = new T();
                     s_subManagers.Add(type, manager);
 
-                    if (manager is IConnectInterfaceLoginHandler)
+                    if (manager is IConnectInterfaceListener)
                     {
-                        AddConnectInterfaceLoginHandler(manager as IConnectInterfaceLoginHandler);
+                        AddConnectInterfaceLoginHandler(manager as IConnectInterfaceListener);
                     }
 
-                    if (manager is IAuthInterfaceLoginHandler)
+                    if (manager is IAuthInterfaceListener)
                     {
-                        AddAuthInterfaceLoginHandler(manager as IAuthInterfaceLoginHandler);
+                        AddAuthInterfaceLoginHandler(manager as IAuthInterfaceListener);
                     }
                 }
                 else
@@ -384,14 +384,14 @@ namespace PlayEveryWare.EpicOnlineServices
                 if (s_subManagers.ContainsKey(type))
                 {
                     T manager = (T)s_subManagers[type];
-                    if (manager is IConnectInterfaceLoginHandler)
+                    if (manager is IConnectInterfaceListener)
                     {
-                        RemoveConnectLoginListener(manager as IConnectInterfaceLoginHandler);
+                        RemoveConnectLoginListener(manager as IConnectInterfaceListener);
                     }
 
-                    if (manager is IAuthInterfaceLoginHandler)
+                    if (manager is IAuthInterfaceListener)
                     {
-                        RemoveAuthLoginListener(manager as IAuthInterfaceLoginHandler);
+                        RemoveAuthLoginListener(manager as IAuthInterfaceListener);
                     }
 
                     s_subManagers.Remove(type);

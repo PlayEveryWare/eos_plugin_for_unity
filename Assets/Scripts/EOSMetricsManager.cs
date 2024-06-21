@@ -33,7 +33,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     /// <summary>
     /// Class <c>EOSMetricsManager</c> is a simplified wrapper for EOS [Metrics Interface](https://dev.epicgames.com/docs/game-services/eos-metrics-interface).
     /// </summary>
-    public class EOSMetricsManager : IEOSSubManager, IAuthInterfaceLoginHandler
+    public class EOSMetricsManager : IEOSSubManager, IAuthInterfaceListener
     {
         bool sessionActive;
         MetricsInterface metricsHandle;

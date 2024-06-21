@@ -38,7 +38,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     /// Class <c>EOSStoreManager</c> is a simplified wrapper for EOS [Ecom Interface](https://dev.epicgames.com/docs/services/en-US/Interfaces/Ecom/index.html).
     /// </summary>
 
-    public class EOSStoreManager : IEOSSubManager, IAuthInterfaceLoginHandler
+    public class EOSStoreManager : IEOSSubManager, IAuthInterfaceListener
     {
         private List<CatalogOffer> CatalogOffers;
         private bool CatalogOffersDirty;

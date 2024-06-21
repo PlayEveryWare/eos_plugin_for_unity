@@ -34,7 +34,7 @@ namespace PlayEveryWare.EpicOnlineServices
     /// Contains implementation of common functionality between different
     /// EOS Service managers (Currently EOSAchievementManager and StatsManager).
     /// </summary>
-    public abstract class ServiceManager : IConnectInterfaceLoginHandler, IEOSSubManager, IDisposable
+    public abstract class ServiceManager : IConnectInterfaceListener, IEOSSubManager, IDisposable
     {
         /// <summary>
         /// Stores a list of functions to be called whenever data related to

@@ -23,13 +23,14 @@
 namespace PlayEveryWare.EpicOnlineServices
 {
     /// <summary>
-    /// Interface for classes that handle login events from the
-    /// Connect Interface provided by the EOS SDK.
+    /// Interface for classes that implement login event handlers for login
+    /// events originating from the Auth Interface provided by the EOS SDK.
     /// </summary>
-    public interface IConnectInterfaceLoginHandler
+    public interface IAuthInterfaceListener
     {
 #if !EOS_DISABLE
-        void OnLogin(Epic.OnlineServices.Connect.LoginCallbackInfo loginCallbackInfo);
+        void OnLogin(Epic.OnlineServices.Auth.LoginCallbackInfo loginCallbackInfo);
+        void OnLogout(Epic.OnlineServices.Auth.LogoutCallbackInfo logoutCallbackInfo);
 #endif
     }
 }

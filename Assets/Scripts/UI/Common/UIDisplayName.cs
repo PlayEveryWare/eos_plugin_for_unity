@@ -29,7 +29,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 {
     using System.Runtime.CompilerServices;
 
-    public class UIDisplayName : MonoBehaviour, IAuthInterfaceLoginHandler, IConnectInterfaceLoginHandler
+    public class UIDisplayName : MonoBehaviour, IAuthInterfaceListener, IConnectInterfaceListener
     {
         public Text DisplayNameText;
 
