@@ -27,6 +27,8 @@ using Epic.OnlineServices.Auth;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
+    using System.Runtime.CompilerServices;
+
     public class UIDisplayName : MonoBehaviour, IEOSOnAuthLogin, IEOSOnConnectLogin
     {
         public Text DisplayNameText;
@@ -49,6 +51,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         }
 
         private void OnDisable()
+        {
+            Clear();
+        }
+
+        private void Clear()
         {
             EOSManager.Instance.RemoveConnectLoginListener(this);
             EOSManager.Instance.RemoveAuthLoginListener(this);
@@ -80,6 +87,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             userInfoManager.AddNotifyLocalUserInfoChanged(OnLocalUserInfoChanged);
             var userInfo = userInfoManager.GetLocalUserInfo();
             OnLocalUserInfoChanged(userInfo);
+        }
+
+        public void OnAuthLogout(LogoutCallbackInfo logoutCallbackInfo)
+        {
+            Clear();
         }
 
         public void OnAuthLogin(LoginCallbackInfo loginCallbackInfo)

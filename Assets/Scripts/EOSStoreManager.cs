@@ -55,9 +55,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         }
 
 #if !EOS_DISABLE
-        void IEOSOnAuthLogin.OnAuthLogin(LoginCallbackInfo loginCallbackInfo)
+        public void OnAuthLogin(LoginCallbackInfo loginCallbackInfo)
         {
             OnLoggedIn();
+        }
+
+        public void OnAuthLogout(LogoutCallbackInfo logoutCallbackInfo)
+        {
+            OnLoggedOut();
         }
 #endif
 

@@ -331,11 +331,7 @@ namespace PlayEveryWare.EpicOnlineServices
             public void AddAuthLoginListener(IEOSOnAuthLogin authLogin)
             {
                 s_onAuthLoginCallbacks.Add(authLogin.OnAuthLogin);
-            }
-
-            public void AddAuthLogoutListener(IEOSOnAuthLogout authLogout)
-            {
-                s_onAuthLogoutCallbacks.Add(authLogout.OnAuthLogout);
+                s_onAuthLogoutCallbacks.Add(authLogin.OnAuthLogout);
             }
 
             public void AddApplicationCloseListener(Action listener)
@@ -351,11 +347,7 @@ namespace PlayEveryWare.EpicOnlineServices
             public void RemoveAuthLoginListener(IEOSOnAuthLogin authLogin)
             {
                 s_onAuthLoginCallbacks.Remove(authLogin.OnAuthLogin);
-            }
-
-            public void RemoveAuthLogoutListener(IEOSOnAuthLogout authLogout)
-            {
-                s_onAuthLogoutCallbacks.Remove(authLogout.OnAuthLogout);
+                s_onAuthLogoutCallbacks.Remove(authLogin.OnAuthLogout);
             }
 
             //-------------------------------------------------------------------------
@@ -376,11 +368,6 @@ namespace PlayEveryWare.EpicOnlineServices
                     if (manager is IEOSOnAuthLogin)
                     {
                         AddAuthLoginListener(manager as IEOSOnAuthLogin);
-                    }
-
-                    if (manager is IEOSOnAuthLogout)
-                    {
-                        AddAuthLogoutListener(manager as IEOSOnAuthLogout);
                     }
                 }
                 else
@@ -405,11 +392,6 @@ namespace PlayEveryWare.EpicOnlineServices
                     if (manager is IEOSOnAuthLogin)
                     {
                         RemoveAuthLoginListener(manager as IEOSOnAuthLogin);
-                    }
-
-                    if (manager is IEOSOnAuthLogout)
-                    {
-                        RemoveAuthLogoutListener(manager as IEOSOnAuthLogout);
                     }
 
                     s_subManagers.Remove(type);
