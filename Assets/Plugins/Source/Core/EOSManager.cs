@@ -323,19 +323,25 @@ namespace PlayEveryWare.EpicOnlineServices
             }
 
             //-------------------------------------------------------------------------
-            public void AddConnectLoginListener(IEOSOnConnectLogin connectLogin)
+            public void AddConnectLoginListener(IConnectInterfaceEventListener connectLogin)
             {
                 s_onConnectLoginCallbacks.Add(connectLogin.OnConnectLogin);
             }
-
-            public void AddAuthLoginListener(IEOSOnAuthLogin authLogin)
+            public void RemoveConnectLoginListener(IConnectInterfaceEventListener connectLogin)
             {
-                s_onAuthLoginCallbacks.Add(authLogin.OnAuthLogin);
+                s_onConnectLoginCallbacks.Remove(connectLogin.OnConnectLogin);
             }
 
-            public void AddAuthLogoutListener(IEOSOnAuthLogout authLogout)
+            public void AddAuthInterfaceEventListener(IAuthInterfaceEventListener listener)
             {
-                s_onAuthLogoutCallbacks.Add(authLogout.OnAuthLogout);
+                s_onAuthLoginCallbacks.Add(listener.OnAuthLogin);
+                s_onAuthLogoutCallbacks.Add(listener.OnAuthLogout);
+            }
+
+            public void RemoveAuthInterfaceEventListener(IAuthInterfaceEventListener listener)
+            {
+                s_onAuthLoginCallbacks.Remove(listener.OnAuthLogin);
+                s_onAuthLogoutCallbacks.Remove(listener.OnAuthLogout);
             }
 
             public void AddApplicationCloseListener(Action listener)
@@ -343,44 +349,24 @@ namespace PlayEveryWare.EpicOnlineServices
                 s_onApplicationShutdownCallbacks.Add(listener);
             }
 
-            public void RemoveConnectLoginListener(IEOSOnConnectLogin connectLogin)
-            {
-                s_onConnectLoginCallbacks.Remove(connectLogin.OnConnectLogin);
-            }
-
-            public void RemoveAuthLoginListener(IEOSOnAuthLogin authLogin)
-            {
-                s_onAuthLoginCallbacks.Remove(authLogin.OnAuthLogin);
-            }
-
-            public void RemoveAuthLogoutListener(IEOSOnAuthLogout authLogout)
-            {
-                s_onAuthLogoutCallbacks.Remove(authLogout.OnAuthLogout);
-            }
-
             //-------------------------------------------------------------------------
             public T GetOrCreateManager<T>() where T : IEOSSubManager, new()
             {
-                T manager = default;
                 Type type = typeof(T);
+                T manager;
                 if (!s_subManagers.ContainsKey(type))
                 {
                     manager = new T();
                     s_subManagers.Add(type, manager);
 
-                    if (manager is IEOSOnConnectLogin)
+                    if (manager is IConnectInterfaceEventListener connectListener)
                     {
-                        AddConnectLoginListener(manager as IEOSOnConnectLogin);
+                        AddConnectLoginListener(connectListener);
                     }
 
-                    if (manager is IEOSOnAuthLogin)
+                    if (manager is IAuthInterfaceEventListener authListeneer)
                     {
-                        AddAuthLoginListener(manager as IEOSOnAuthLogin);
-                    }
-
-                    if (manager is IEOSOnAuthLogout)
-                    {
-                        AddAuthLogoutListener(manager as IEOSOnAuthLogout);
+                        AddAuthInterfaceEventListener(authListeneer);
                     }
                 }
                 else
@@ -397,19 +383,14 @@ namespace PlayEveryWare.EpicOnlineServices
                 if (s_subManagers.ContainsKey(type))
                 {
                     T manager = (T)s_subManagers[type];
-                    if (manager is IEOSOnConnectLogin)
+                    if (manager is IConnectInterfaceEventListener connectListener)
                     {
-                        RemoveConnectLoginListener(manager as IEOSOnConnectLogin);
+                        RemoveConnectLoginListener(connectListener);
                     }
 
-                    if (manager is IEOSOnAuthLogin)
+                    if (manager is IAuthInterfaceEventListener authListener)
                     {
-                        RemoveAuthLoginListener(manager as IEOSOnAuthLogin);
-                    }
-
-                    if (manager is IEOSOnAuthLogout)
-                    {
-                        RemoveAuthLogoutListener(manager as IEOSOnAuthLogout);
+                        RemoveAuthInterfaceEventListener(authListener);
                     }
 
                     s_subManagers.Remove(type);
