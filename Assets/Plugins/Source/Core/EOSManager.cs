@@ -323,25 +323,19 @@ namespace PlayEveryWare.EpicOnlineServices
             }
 
             //-------------------------------------------------------------------------
-            public void AddConnectLoginListener(IConnectInterfaceEventListener connectLogin)
+            public void AddConnectLoginListener(IEOSOnConnectLogin connectLogin)
             {
                 s_onConnectLoginCallbacks.Add(connectLogin.OnConnectLogin);
             }
-            public void RemoveConnectLoginListener(IConnectInterfaceEventListener connectLogin)
+
+            public void AddAuthLoginListener(IEOSOnAuthLogin authLogin)
             {
-                s_onConnectLoginCallbacks.Remove(connectLogin.OnConnectLogin);
+                s_onAuthLoginCallbacks.Add(authLogin.OnAuthLogin);
             }
 
-            public void AddAuthInterfaceEventListener(IAuthInterfaceEventListener listener)
+            public void AddAuthLogoutListener(IEOSOnAuthLogout authLogout)
             {
-                s_onAuthLoginCallbacks.Add(listener.OnAuthLogin);
-                s_onAuthLogoutCallbacks.Add(listener.OnAuthLogout);
-            }
-
-            public void RemoveAuthInterfaceEventListener(IAuthInterfaceEventListener listener)
-            {
-                s_onAuthLoginCallbacks.Remove(listener.OnAuthLogin);
-                s_onAuthLogoutCallbacks.Remove(listener.OnAuthLogout);
+                s_onAuthLogoutCallbacks.Add(authLogout.OnAuthLogout);
             }
 
             public void AddApplicationCloseListener(Action listener)
@@ -349,24 +343,44 @@ namespace PlayEveryWare.EpicOnlineServices
                 s_onApplicationShutdownCallbacks.Add(listener);
             }
 
+            public void RemoveConnectLoginListener(IEOSOnConnectLogin connectLogin)
+            {
+                s_onConnectLoginCallbacks.Remove(connectLogin.OnConnectLogin);
+            }
+
+            public void RemoveAuthLoginListener(IEOSOnAuthLogin authLogin)
+            {
+                s_onAuthLoginCallbacks.Remove(authLogin.OnAuthLogin);
+            }
+
+            public void RemoveAuthLogoutListener(IEOSOnAuthLogout authLogout)
+            {
+                s_onAuthLogoutCallbacks.Remove(authLogout.OnAuthLogout);
+            }
+
             //-------------------------------------------------------------------------
             public T GetOrCreateManager<T>() where T : IEOSSubManager, new()
             {
+                T manager = default;
                 Type type = typeof(T);
-                T manager;
                 if (!s_subManagers.ContainsKey(type))
                 {
                     manager = new T();
                     s_subManagers.Add(type, manager);
 
-                    if (manager is IConnectInterfaceEventListener connectListener)
+                    if (manager is IEOSOnConnectLogin)
                     {
-                        AddConnectLoginListener(connectListener);
+                        AddConnectLoginListener(manager as IEOSOnConnectLogin);
                     }
 
-                    if (manager is IAuthInterfaceEventListener authListeneer)
+                    if (manager is IEOSOnAuthLogin)
                     {
-                        AddAuthInterfaceEventListener(authListeneer);
+                        AddAuthLoginListener(manager as IEOSOnAuthLogin);
+                    }
+
+                    if (manager is IEOSOnAuthLogout)
+                    {
+                        AddAuthLogoutListener(manager as IEOSOnAuthLogout);
                     }
                 }
                 else
@@ -383,14 +397,19 @@ namespace PlayEveryWare.EpicOnlineServices
                 if (s_subManagers.ContainsKey(type))
                 {
                     T manager = (T)s_subManagers[type];
-                    if (manager is IConnectInterfaceEventListener connectListener)
+                    if (manager is IEOSOnConnectLogin)
                     {
-                        RemoveConnectLoginListener(connectListener);
+                        RemoveConnectLoginListener(manager as IEOSOnConnectLogin);
                     }
 
-                    if (manager is IAuthInterfaceEventListener authListener)
+                    if (manager is IEOSOnAuthLogin)
                     {
-                        RemoveAuthInterfaceEventListener(authListener);
+                        RemoveAuthLoginListener(manager as IEOSOnAuthLogin);
+                    }
+
+                    if (manager is IEOSOnAuthLogout)
+                    {
+                        RemoveAuthLogoutListener(manager as IEOSOnAuthLogout);
                     }
 
                     s_subManagers.Remove(type);
@@ -448,7 +467,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 IPlatformSpecifics platformSpecifics = EOSManagerPlatformSpecificsSingleton.Instance;
 
                 EOSCreateOptions platformOptions = new EOSCreateOptions();
-                
+
                 platformOptions.options.CacheDirectory = platformSpecifics.GetTempDir();
                 platformOptions.options.IsServer = configData.isServer;
                 platformOptions.options.Flags =
@@ -477,7 +496,8 @@ namespace PlayEveryWare.EpicOnlineServices
 
                 var clientCredentials = new ClientCredentials
                 {
-                    ClientId = configData.clientID, ClientSecret = configData.clientSecret
+                    ClientId = configData.clientID,
+                    ClientSecret = configData.clientSecret
                 };
                 platformOptions.options.ClientCredentials = clientCredentials;
 
@@ -501,7 +521,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 integratedPlatformOptionsContainer.Release();
 #endif
                 return platformInterface;
-               
+
             }
 
             //-------------------------------------------------------------------------
@@ -806,7 +826,10 @@ namespace PlayEveryWare.EpicOnlineServices
             {
                 var loginCredentials = new Credentials
                 {
-                    Type = loginType, ExternalType = externalCredentialType, Id = id, Token = token
+                    Type = loginType,
+                    ExternalType = externalCredentialType,
+                    Id = id,
+                    Token = token
                 };
 
                 var defaultScopeFlags =
@@ -961,7 +984,9 @@ namespace PlayEveryWare.EpicOnlineServices
                 var authInterface = GetEOSPlatformInterface().GetAuthInterface();
                 var linkOptions = new LinkAccountOptions
                 {
-                    ContinuanceToken = token, LinkAccountFlags = linkAccountFlags, LocalUserId = null
+                    ContinuanceToken = token,
+                    LinkAccountFlags = linkAccountFlags,
+                    LocalUserId = null
                 };
 
                 if (linkAccountFlags.HasFlag(LinkAccountFlags.NintendoNsaId))
@@ -1044,7 +1069,8 @@ namespace PlayEveryWare.EpicOnlineServices
 
                             connectLoginOptions.Credentials = new Epic.OnlineServices.Connect.Credentials
                             {
-                                Token = userAuthToken.Value.AccessToken, Type = ExternalCredentialType.Epic
+                                Token = userAuthToken.Value.AccessToken,
+                                Type = ExternalCredentialType.Epic
                             };
 
                             StartConnectLoginWithOptions(connectLoginOptions, onConnectLoginCallback);
@@ -1054,7 +1080,8 @@ namespace PlayEveryWare.EpicOnlineServices
                 {
                     connectLoginOptions.Credentials = new Epic.OnlineServices.Connect.Credentials
                     {
-                        Token = authToken.Value.AccessToken, Type = ExternalCredentialType.Epic
+                        Token = authToken.Value.AccessToken,
+                        Type = ExternalCredentialType.Epic
                     };
 
                     StartConnectLoginWithOptions(connectLoginOptions, onConnectLoginCallback);
@@ -1068,7 +1095,8 @@ namespace PlayEveryWare.EpicOnlineServices
                 var loginOptions = new Epic.OnlineServices.Connect.LoginOptions();
                 loginOptions.Credentials = new Epic.OnlineServices.Connect.Credentials
                 {
-                    Token = token, Type = externalCredentialType
+                    Token = token,
+                    Type = externalCredentialType
                 };
 
                 switch (externalCredentialType)
@@ -1080,7 +1108,8 @@ namespace PlayEveryWare.EpicOnlineServices
                         {
                             loginOptions.UserLoginInfo = new UserLoginInfo
                             {
-                                DisplayName = displayname, NsaIdToken = nsaIdToken,
+                                DisplayName = displayname,
+                                NsaIdToken = nsaIdToken,
                             };
                         }
 
@@ -1146,7 +1175,8 @@ namespace PlayEveryWare.EpicOnlineServices
 
                 connectLoginOptions.Credentials = new Epic.OnlineServices.Connect.Credentials
                 {
-                    Token = null, Type = ExternalCredentialType.DeviceidAccessToken,
+                    Token = null,
+                    Type = ExternalCredentialType.DeviceidAccessToken,
                 };
 
                 StartConnectLoginWithOptions(connectLoginOptions, onLoginCallback);
@@ -1674,13 +1704,13 @@ namespace PlayEveryWare.EpicOnlineServices
                 s_isPaused = isPaused;
                 print($"EOSSingleton.OnApplicationPause: IsPaused {wasPaused} -> {s_isPaused}");
 
-//                // Poll for the latest application constrained state as we're about
-//                // to need it to determine the appropriate EOS application status
-//#if UNITY_PS4 || UNITY_GAMECORE_XBOXONE || UNITY_GAMECORE_SCARLETT
-//                UpdateApplicationConstrainedState(false);
-//#else
-//                UpdateApplicationConstrainedState(true);
-//#endif
+                //                // Poll for the latest application constrained state as we're about
+                //                // to need it to determine the appropriate EOS application status
+                //#if UNITY_PS4 || UNITY_GAMECORE_XBOXONE || UNITY_GAMECORE_SCARLETT
+                //                UpdateApplicationConstrainedState(false);
+                //#else
+                //                UpdateApplicationConstrainedState(true);
+                //#endif
             }
 
             //-------------------------------------------------------------------------
@@ -1690,13 +1720,13 @@ namespace PlayEveryWare.EpicOnlineServices
                 s_hasFocus = hasFocus;
                 print($"EOSSingleton.OnApplicationFocus: HasFocus {hadFocus} -> {s_hasFocus}");
 
-//                // Poll for the latest application constrained state as we're about
-//                // to need it to determine the appropriate EOS application status
-//#if UNITY_PS4 || UNITY_GAMECORE_XBOXONE || UNITY_GAMECORE_SCARLETT
-//                UpdateApplicationConstrainedState(false);
-//#else
-//                UpdateApplicationConstrainedState(true);
-//#endif
+                //                // Poll for the latest application constrained state as we're about
+                //                // to need it to determine the appropriate EOS application status
+                //#if UNITY_PS4 || UNITY_GAMECORE_XBOXONE || UNITY_GAMECORE_SCARLETT
+                //                UpdateApplicationConstrainedState(false);
+                //#else
+                //                UpdateApplicationConstrainedState(true);
+                //#endif
             }
 
             //-------------------------------------------------------------------------

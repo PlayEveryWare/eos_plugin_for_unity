@@ -38,7 +38,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         private void OnEnable()
         {
             EOSManager.Instance.AddConnectLoginListener(this);
-            EOSManager.Instance.AddAuthInterfaceEventListener(this);
+            EOSManager.Instance.AddAuthLoginListener(this);
+            EOSManager.Instance.AddAuthLogoutListener(this);
 
             DisplayNameText.text = NoUser;
 
@@ -56,7 +57,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         private void Clear()
         {
             EOSManager.Instance.RemoveConnectLoginListener(this);
-            EOSManager.Instance.AddAuthInterfaceEventListener(this);
+            EOSManager.Instance.RemoveAuthLoginListener(this);
+            EOSManager.Instance.RemoveAuthLogoutListener(this);
 
             userInfoManager?.RemoveNotifyLocalUserInfoChanged(OnLocalUserInfoChanged);
             DisplayNameText.text = string.Empty;
