@@ -354,7 +354,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 return;
             }
 
-            await StatsManager.Instance.IngestStatAsync(currentSelectedDefinitionStatName, amount);
+            await StatsService.Instance.IngestStatAsync(currentSelectedDefinitionStatName, amount);
 
             if (refreshLeaderboardCoroutine != null)
             {
