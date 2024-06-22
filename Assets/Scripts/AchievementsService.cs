@@ -20,7 +20,7 @@
 * SOFTWARE.
 */
 
-//#define ENABLE_DEBUG_EOSACHIEVEMENTMANAGER
+//#define ENABLE_DEBUG_ACHIEVEMENTS_SERVICE
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
@@ -89,7 +89,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// Conditionally executed proxy function for Unity's log function.
         /// </summary>
         /// <param name="toPrint">The message to log.</param>
-        [Conditional("ENABLE_DEBUG_EOSACHIEVEMENTMANAGER")]
+        [Conditional("ENABLE_DEBUG_ACHIEVEMENTS_SERVICE")]
         private static void Log(string toPrint)
         {
             UnityEngine.Debug.Log(toPrint);

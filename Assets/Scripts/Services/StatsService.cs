@@ -21,7 +21,7 @@
  *
  */
 
-//#define ENABLE_DEBUG_EOSSTATSMANAGER
+//#define ENABLE_DEBUG_STATS_SERVICE
 
 namespace PlayEveryWare.EpicOnlineServices
 {
@@ -74,7 +74,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// Conditionally executed proxy function for Unity's log function.
         /// </summary>
         /// <param name="toPrint">The message to log.</param>
-        [Conditional("ENABLE_DEBUG_EOSSTATSMANAGER")]
+        [Conditional("ENABLE_DEBUG_STATS_SERVICE")]
         private static void Log(string toPrint)
         {
             UnityEngine.Debug.Log(toPrint);
