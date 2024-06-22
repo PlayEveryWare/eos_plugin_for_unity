@@ -32,7 +32,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
     /// <summary>
     /// Contains implementation of common functionality between different
-    /// EOS Service managers (Currently EOSAchievementManager and StatsManager).
+    /// EOS Service managers (Currently AchievementsService and StatsService).
     /// </summary>
     public abstract class ServiceManager : IConnectInterfaceEventListener, IEOSSubManager, IDisposable
     {
@@ -70,7 +70,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// authenticated with the Connect Interface in order to function
         /// properly.
         /// </param>
-        protected ServiceManager(bool requiresLoggedInWithConnectInterface)
+        protected EOSService(bool requiresLoggedInWithConnectInterface)
         {
             _requiresLoggedInWithConnectInterface = requiresLoggedInWithConnectInterface;
 
