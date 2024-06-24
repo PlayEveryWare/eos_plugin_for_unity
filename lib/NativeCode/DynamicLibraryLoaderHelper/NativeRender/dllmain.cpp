@@ -17,6 +17,8 @@
 #include <filesystem>
 #include <optional>
 #include <codecvt>
+#include <vector>
+#include <iostream>
 
 
 //#include "eos_minimum_includes.h"
@@ -149,7 +151,7 @@ struct EOSSteamConfig
     uint32_t steamSDKMajorVersion;
     uint32_t steamSDKMinorVersion;
     std::optional<std::string> OverrideLibraryPath;
-    std::optional<std::string> steamApiInterfaceVersionsArray;
+    std::vector<std::string> steamApiInterfaceVersionsArray;
 
     EOSSteamConfig()
     {
@@ -1029,6 +1031,16 @@ static EOSSteamConfig eos_steam_config_from_json_value(json_value_s *config_json
         {
             eos_config.steamSDKMinorVersion = json_value_as_uint32(iter->value);
         }
+        else if (!strcmp("steamApiInterfaceVersionsArray", iter->name->string))
+        {
+            json_array_s* apiVersions = json_value_as_array(iter->value);
+
+            for (auto e = apiVersions->start; e != nullptr; e = e->next)
+            {
+                eos_config.steamApiInterfaceVersionsArray.push_back(json_value_as_string(e->value)->string);
+            }
+        }
+
         iter = iter->next;
     }
 
@@ -1245,11 +1257,36 @@ void eos_create(EOSConfig& eosConfig)
         steam_platform.SteamMajorVersion = eos_steam_config.steamSDKMajorVersion;
         steam_platform.SteamMinorVersion = eos_steam_config.steamSDKMinorVersion;
 
-        if (eos_steam_config.steamApiInterfaceVersionsArray.has_value())
+        // For each element in the array (each of which is a string of an api version information)
+        // iterate across each character, and at the end of a string add a null terminator \0
+        // then add one more null terminator at the end of the array
+        std::vector<char> steamApiInterfaceVersionsAsCharArray = std::vector<char>();
+
+        // steam_platform needs to have a count of how many bytes the "array" is, stored in SteamApiInterfaceVersionsArrayBytes
+        // This has some fuzzy behavior; if you set it to 0 or count it up properly, there won't be a logged problem
+        // if you put a non-zero amount that is insufficient, there will be an unclear logged error message
+        // HACK: For now the right method seems to be counting each char added to the array, including the null terminator
+        uint32_t totalBytes = 0;
+
+        for (int apiInterfaceVersionIndex = 0; apiInterfaceVersionIndex < eos_steam_config.steamApiInterfaceVersionsArray.size(); apiInterfaceVersionIndex++)
         {
-            steam_platform.SteamApiInterfaceVersionsArray = eos_steam_config.steamApiInterfaceVersionsArray.value().c_str();
-            steam_platform.SteamApiInterfaceVersionsArrayBytes = sizeof(eos_steam_config.steamApiInterfaceVersionsArray.value());
+            std::string currentFullValue = eos_steam_config.steamApiInterfaceVersionsArray[apiInterfaceVersionIndex];
+
+            for (int characterIndex = 0; characterIndex < currentFullValue.length(); characterIndex++)
+            {
+                char currentCharacter = currentFullValue[characterIndex];
+                steamApiInterfaceVersionsAsCharArray.push_back(currentCharacter);
+                totalBytes++;
+            }
+
+            steamApiInterfaceVersionsAsCharArray.push_back('\0');
+            totalBytes++;
         }
+        steamApiInterfaceVersionsAsCharArray.push_back('\0');
+        totalBytes++;
+
+        steam_platform.SteamApiInterfaceVersionsArray = reinterpret_cast<char*>(steamApiInterfaceVersionsAsCharArray.data());
+        steam_platform.SteamApiInterfaceVersionsArrayBytes = totalBytes;
 
         steam_integrated_platform_option.ApiVersion = EOS_INTEGRATEDPLATFORM_OPTIONS_API_LATEST;
         steam_integrated_platform_option.Type = EOS_IPT_Steam;

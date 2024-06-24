@@ -28,6 +28,7 @@ using UnityEngine;
 
 #if !DISABLESTEAMWORKS
 using Steamworks;
+using System.Collections.Generic;
 #endif
 
 namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
@@ -45,15 +46,43 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
 
         /// <summary>
         /// This is to populate the SteamConfig's steamApiInterfaceVersionsArray. It needs to be configured exactly like this for Steamworks v1.58a onwards.
+        /// This value is identical to steam_api.h's pszInternalCheckInterfaceVersions value.
         /// https://dev.epicgames.com/docs/en-US/api-ref/structs/eos-integrated-platform-steam-options
         /// </summary>
         /// <returns></returns>
-        public static string GetPszInternalCheckInterfaceVersions()
+        public static List<string> GetSteamInterfaceVersions()
         {
 #if DISABLESTEAMWORKS
             return string.Empty;
 #else
-            return $"{Steamworks.Constants.STEAMUTILS_INTERFACE_VERSION} \0 {Steamworks.Constants.STEAMNETWORKINGUTILS_INTERFACE_VERSION} \0 {Steamworks.Constants.STEAMUSER_INTERFACE_VERSION} \0 {Steamworks.Constants.STEAMVIDEO_INTERFACE_VERSION} \0 \0";
+            return new List<string>()
+            {
+                 Steamworks.Constants.STEAMUTILS_INTERFACE_VERSION,
+                 Steamworks.Constants.STEAMNETWORKINGUTILS_INTERFACE_VERSION,
+                 Steamworks.Constants.STEAMAPPS_INTERFACE_VERSION,
+                 Steamworks.Constants.STEAMFRIENDS_INTERFACE_VERSION,
+                 Steamworks.Constants.STEAMGAMESEARCH_INTERFACE_VERSION,
+                 Steamworks.Constants.STEAMHTMLSURFACE_INTERFACE_VERSION,
+                 Steamworks.Constants.STEAMHTTP_INTERFACE_VERSION,
+                 Steamworks.Constants.STEAMINPUT_INTERFACE_VERSION,
+                 Steamworks.Constants.STEAMINVENTORY_INTERFACE_VERSION,
+                 Steamworks.Constants.STEAMMATCHMAKINGSERVERS_INTERFACE_VERSION,
+                 Steamworks.Constants.STEAMMATCHMAKING_INTERFACE_VERSION,
+                 Steamworks.Constants.STEAMMUSICREMOTE_INTERFACE_VERSION,
+                 Steamworks.Constants.STEAMMUSIC_INTERFACE_VERSION,
+                 Steamworks.Constants.STEAMNETWORKINGMESSAGES_INTERFACE_VERSION,
+                 Steamworks.Constants.STEAMNETWORKINGSOCKETS_INTERFACE_VERSION,
+                 Steamworks.Constants.STEAMNETWORKING_INTERFACE_VERSION,
+                 Steamworks.Constants.STEAMPARENTALSETTINGS_INTERFACE_VERSION,
+                 Steamworks.Constants.STEAMPARTIES_INTERFACE_VERSION,
+                 Steamworks.Constants.STEAMREMOTEPLAY_INTERFACE_VERSION,
+                 Steamworks.Constants.STEAMREMOTESTORAGE_INTERFACE_VERSION,
+                 Steamworks.Constants.STEAMSCREENSHOTS_INTERFACE_VERSION,
+                 Steamworks.Constants.STEAMUGC_INTERFACE_VERSION,
+                 Steamworks.Constants.STEAMUSERSTATS_INTERFACE_VERSION,
+                 Steamworks.Constants.STEAMUSER_INTERFACE_VERSION,
+                 Steamworks.Constants.STEAMVIDEO_INTERFACE_VERSION
+        };
 #endif
         }
     }

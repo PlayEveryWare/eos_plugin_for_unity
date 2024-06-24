@@ -337,7 +337,36 @@ _WIN32 || _WIN64
             GUIEditorUtility.AssigningUintField("Steamworks SDK minor version",
                 ref steamEOSConfigFile.steamSDKMinorVersion, 190);
 
-            GUIEditorUtility.AssigningTextField("Steamworks Interface Versions", ref steamEOSConfigFile.steamApiInterfaceVersionsArray, 190, tooltip: "This is a formatted array-like string of Steamworks Interface Versions that are in use. Press the \"Update from Steamworks.NET\" button to update this string. It should be specific constant strings defined in Steamworks Constants, separated by spaces and \0. This is required for Steamworks versions v1.58a and later.");
+            EditorGUILayout.LabelField("Steamworks Interface Versions");
+            if (steamEOSConfigFile.steamApiInterfaceVersionsArray == null)
+            {
+                steamEOSConfigFile.steamApiInterfaceVersionsArray = new List<string>();
+            }
+
+            for (int i = 0; i < steamEOSConfigFile.steamApiInterfaceVersionsArray.Count; ++i)
+            {
+                EditorGUILayout.BeginHorizontal();
+
+                string thisVersionValue = steamEOSConfigFile.steamApiInterfaceVersionsArray[i];
+
+                GUIEditorUtility.AssigningTextField("Interface API",
+                    ref thisVersionValue,
+                    tooltip: "Identifier and version string for a Steam Interface Version. Found in steam_api.h or in Steamworks.NET's SteamConstants.cs file.", labelWidth: 80);
+
+                steamEOSConfigFile.steamApiInterfaceVersionsArray[i] = thisVersionValue;
+
+                if (GUILayout.Button("Remove", GUILayout.MaxWidth(70)))
+                {
+                    steamEOSConfigFile.steamApiInterfaceVersionsArray.RemoveAt(i);
+                }
+
+                EditorGUILayout.EndHorizontal();
+            }
+
+            if (GUILayout.Button("Add", GUILayout.MaxWidth(100)))
+            {
+                steamEOSConfigFile.steamApiInterfaceVersionsArray.Add(string.Empty);
+            }
 
             if (GUILayout.Button("Update from Steamworks.NET", GUILayout.MaxWidth(200)))
             {
@@ -360,7 +389,7 @@ _WIN32 || _WIN64
                     Debug.LogError("Failed to retrieve Steamworks SDK version from Steamworks.NET");
                 }
 
-                steamEOSConfigFile.steamApiInterfaceVersionsArray = Steamworks_Utility.GetPszInternalCheckInterfaceVersions();
+                steamEOSConfigFile.steamApiInterfaceVersionsArray = Steamworks_Utility.GetSteamInterfaceVersions();
             }
         }
 
