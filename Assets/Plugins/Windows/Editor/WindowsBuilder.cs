@@ -22,7 +22,9 @@
 
 namespace PlayEveryWare.EpicOnlineServices.Build
 {
+#if !EOS_DISABLE
     using Epic.OnlineServices.Platform;
+#endif
     using PlayEveryWare.EpicOnlineServices.Editor.Config;
     using System.IO;
     using UnityEditor;
@@ -80,6 +82,7 @@ namespace PlayEveryWare.EpicOnlineServices.Build
 
         private static async void ConfigureAndInstallBootstrapper(BuildReport report)
         {
+#if !EOS_DISABLE
             // Determine if 'DisableOverlay' is set in Platform Flags. If it is, then the EOSBootstrapper.exe is not included in the build,
             // because without needing the overlay, the EOSBootstrapper.exe is not useful to users of the plugin
             EOSConfig configuration = await Config.GetAsync<EOSConfig>();
@@ -89,7 +92,7 @@ namespace PlayEveryWare.EpicOnlineServices.Build
                 Debug.Log($"The '{nameof(PlatformFlags.DisableOverlay)}' flag has been configured, EOSBootstrapper.exe will not be included in this build.");
                 return;
             }
-
+#endif
             /*
              * NOTE:
              *
