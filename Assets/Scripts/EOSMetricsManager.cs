@@ -33,7 +33,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     /// <summary>
     /// Class <c>EOSMetricsManager</c> is a simplified wrapper for EOS [Metrics Interface](https://dev.epicgames.com/docs/game-services/eos-metrics-interface).
     /// </summary>
-    public class EOSMetricsManager : IEOSSubManager, IEOSOnAuthLogout
+    public class EOSMetricsManager : IEOSSubManager, IAuthInterfaceEventListener
     {
         bool sessionActive;
         MetricsInterface metricsHandle;
@@ -119,6 +119,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             {
                 Debug.Log("EOSMetricsManager (EndSession): Failed to end session: " + result.ToString());
             }
+        }
+
+        public void OnAuthLogin(LoginCallbackInfo loginCallbackInfo)
+        {
+            // Default behavior for the time being is to take no action
         }
 
         public void OnAuthLogout(LogoutCallbackInfo logoutCallbackInfo)

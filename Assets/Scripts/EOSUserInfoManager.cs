@@ -34,7 +34,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     /// <summary>
     /// Class <c>EOSUserInfoManager</c> is a general purpose access point for user info, including local user.
     /// </summary>
-    public class EOSUserInfoManager : IEOSSubManager, IEOSOnConnectLogin, IEOSOnAuthLogin, IEOSOnAuthLogout
+    public class EOSUserInfoManager : IEOSSubManager, IConnectInterfaceEventListener, IAuthInterfaceEventListener
     {
         private UserInfoData LocalUserInfo;
 
