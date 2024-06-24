@@ -64,6 +64,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Steam
         HAuthTicket sessionTicketHandle = HAuthTicket.Invalid;
         string sessionTicketString = null;
 
+        TaskCompletionSource<string> authTicketResponseTaskCompletionSource;
         Callback<GetTicketForWebApiResponse_t> authTicketForWebApiResponseCallback { get; set; }
 
         CallResult<EncryptedAppTicketResponse_t> appTicketCallResult = new CallResult<EncryptedAppTicketResponse_t>();
@@ -129,7 +130,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Steam
             }
         }
 
-        TaskCompletionSource<string> tcs;
         // This should only ever get called on first load and after an Assembly reload, You should never Disable the Steamworks Manager yourself.
         protected virtual void OnEnable()
         {
@@ -160,7 +160,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Steam
                         {
                             sessionTicketHandle = pCallback.m_hAuthTicket;
                             sessionTicketString = System.BitConverter.ToString(pCallback.m_rgubTicket).Replace("-", "");
-                            tcs.SetResult(sessionTicketString);
+                            authTicketResponseTaskCompletionSource.SetResult(sessionTicketString);
                         }
                         else
                         {
@@ -342,14 +342,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Steam
             // For now (2024/06/19) it still used the old way to grab session tickets
             // Manually define GET_SESSION_TICKET_FOR_WEB_API to use the new version
     #if ASYNC_GET_STEAM_SESSION_TICKET_PREVIEW
-            //if (sessionTicketString != null)
-            //{
-            //    return Task.FromResult(sessionTicketString);
-            //}
 
-            tcs = new TaskCompletionSource<string>();
+            authTicketResponseTaskCompletionSource = new TaskCompletionSource<string>();
             SteamUser.GetAuthTicketForWebApi(null);
-            return tcs.Task;
+            return authTicketResponseTaskCompletionSource.Task;
     #else
             return Task.FromResult(GetSessionTicket());
     #endif
