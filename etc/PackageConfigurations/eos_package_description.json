@@ -10,7 +10,8 @@
 
         {"src": "etc/PlatformSpecificAssets/EOS/*", "dest": "PlatformSpecificAssets~/EOS/", "recursive": true },
         {"src": "docs/*",                           "dest": "Documentation~/",              "recursive": true },
-        {"src": "tools/bin/*",                      "dest": "bin~/",                        "recursive": true },                                               
+        {"src": "tools/bin/*",                      "dest": "bin~/",                        "recursive": true },
+
         {"src": "Assets/EOS/*.png", "dest": "Runtime/EOS/"},
                              
         {"src": "Assets/Plugins/*",                                   "dest": "Runtime/"                         },
