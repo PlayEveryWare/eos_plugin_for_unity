@@ -80,7 +80,6 @@ namespace PlayEveryWare.EpicOnlineServices
     using LogoutOptions = Epic.OnlineServices.Auth.LogoutOptions;
     using OnLogoutCallback = Epic.OnlineServices.Auth.OnLogoutCallback;
 #endif
-
     /// <summary>
     /// One of the responsibilities of this class is to manage the lifetime of
     /// the EOS SDK and to be the interface for getting all the managed EOS interfaces.
