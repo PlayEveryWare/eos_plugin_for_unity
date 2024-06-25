@@ -25,10 +25,10 @@
 #endif
 
 using UnityEngine;
+using System.Collections.Generic;
 
 #if !DISABLESTEAMWORKS
 using Steamworks;
-using System.Collections.Generic;
 #endif
 
 namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
@@ -53,7 +53,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
         public static List<string> GetSteamInterfaceVersions()
         {
 #if DISABLESTEAMWORKS
-            return string.Empty;
+            return new List<string>();
 #else
             return new List<string>()
             {
