@@ -21,7 +21,7 @@
  */
 
 // Uncomment the following define to enable menu items detailed below
-// #define PROJECT_UTILITY_ENABLED
+//#define PROJECT_UTILITY_ENABLED
 
 #if PROJECT_UTILITY_ENABLED
 
@@ -44,19 +44,21 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
 
             foreach (string assetPath in allAssetPaths)
             {
-                if (assetPath.EndsWith(".prefab"))
+                // Skip if the asset is not a prefab
+                if (!assetPath.EndsWith(".prefab"))
+                    continue;
+
+                GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(assetPath);
+                Component[] components = prefab.GetComponentsInChildren<Component>(true);
+                foreach (Component component in components)
                 {
-                    GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(assetPath);
-                    Component[] components = prefab.GetComponentsInChildren<Component>(true);
-                    foreach (Component component in components)
-                    {
-                        if (component == null)
-                        {
-                            Debug.LogError("Missing script found in prefab: " + assetPath, prefab);
-                            missingScriptCount++;
-                            break; // Once a missing script is found, no need to check further.
-                        }
-                    }
+                    // skip if the component is not null (we're looking for null)
+                    if (component != null)
+                        continue;
+
+                    Debug.LogError("Missing script found in prefab: " + assetPath, prefab);
+                    missingScriptCount++;
+                    break; // Once a missing script is found, no need to check further.
                 }
             }
 
@@ -66,7 +68,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             }
             else
             {
-                Debug.LogFormat("{0} prefabs with missing scripts found.", missingScriptCount);
+                Debug.LogWarning($"{missingScriptCount} prefabs with missing scripts found.");
             }
         }
 
@@ -77,16 +79,18 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
         }
 
         [MenuItem("Tools/Find Missing Scripts/In Scenes")]
-        private static void FindMissingScripts()
+        private static void FindMissingScriptsInScenes()
         {
             // Store the currently open scene
             var previouslyOpenScene = SceneManager.GetActiveScene().path;
+
+            IList<(string message, Object context)> missingScriptMessages = new List<(string message, Object context)>();
 
             // Iterate over all the scenes
             foreach (string scenePath in EditorBuildSettingsScene.GetActiveSceneList(EditorBuildSettings.scenes))
             {
                 // Open the scene
-                EditorSceneManager.OpenScene(scenePath);
+                Scene currentScene = EditorSceneManager.OpenScene(scenePath, OpenSceneMode.Single);
 
                 // Get all the game objects
                 GameObject[] gameObjects = Object.FindObjectsOfType<GameObject>();
@@ -101,15 +105,25 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
                         // Skip if the component is there.
                         if (component != null) continue;
 
-                        Debug.LogError(
-                            $"Script \"{FullGameObjectPath(go)}\" in scene \"{Path.GetFileNameWithoutExtension(scenePath)}\" is missing.",
-                            go);
+                        missingScriptMessages.Add(($"Script \"{FullGameObjectPath(go)}\" in scene \"{Path.GetFileNameWithoutExtension(scenePath)}\" is missing.", go));
                     }
                 }
             }
 
+            if (0 == missingScriptMessages.Count)
+            {
+                Debug.Log("There were no scripts found to be missing in any scene.");
+            }
+            else
+            {
+                foreach ((string message, Object context) in missingScriptMessages)
+                {
+                    Debug.LogWarning(message, context);
+                }
+            }
+
             // Reopen the scene that was open originally
-            EditorSceneManager.OpenScene(previouslyOpenScene);
+            EditorSceneManager.OpenScene(previouslyOpenScene, OpenSceneMode.Single);
         }
 
         [MenuItem("Tools/Find Missing Scripts/In Scenes", isValidateFunction: true)]
@@ -122,51 +136,56 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
         [MenuItem("Tools/Find Unreferenced Prefabs")]
         public static void FindAllUnreferencedPrefabs()
         {
-            // Tell the user that it will take a little while
-            if (false == EditorUtility.DisplayDialog("Find unreferenced prefabs",
-                    "Finding unreferenced prefabs can take a while, and when the process is done all project scenes will be open in the editor.",
-                    "Ok", "Cancel"))
-            {
-                return;
-            }
+            HashSet<string> referencedPrefabGuids = new();
+            HashSet<string> checkedPrefabGuids = new();
 
-            HashSet<string> s_referencedPrefabGuids = new();
-            HashSet<string> s_checkedPrefabGuids = new();
+            // Get the path to the currently open scene so we can reopen it
+            // when we are done looking for unreferenced prefabs.
+            var previouslyOpenScene = SceneManager.GetActiveScene().path;
 
             // First pass: Find prefabs referenced in scenes
             foreach (var scenePath in EditorBuildSettingsScene.GetActiveSceneList(EditorBuildSettings.scenes))
             {
-                var scene = EditorSceneManager.OpenScene(scenePath, OpenSceneMode.Additive);
-                FindPrefabsInCurrentScene(ref s_referencedPrefabGuids);
+                var scene = EditorSceneManager.OpenScene(scenePath, OpenSceneMode.Single);
+                FindPrefabsInCurrentScene(ref referencedPrefabGuids);
             }
 
-            Debug.Log($"There are a total of {s_referencedPrefabGuids.Count} prefabs directly referenced by scenes.");
+            EditorSceneManager.OpenScene(previouslyOpenScene, OpenSceneMode.Single);
+
+            Debug.Log($"There are a total of {referencedPrefabGuids.Count} prefabs directly referenced by scenes.");
 
             // Second pass: Find prefabs referenced by other prefabs
             Debug.Log($"Now checking each prefab for prefab dependencies.");
-            var prefabsReferencedByScenesDirectory = new HashSet<string>(s_referencedPrefabGuids);
+            var prefabsReferencedByScenesDirectory = new HashSet<string>(referencedPrefabGuids);
             foreach (var prefabGuid in prefabsReferencedByScenesDirectory)
             {
-                FindPrefabDependencies(ref s_checkedPrefabGuids, ref s_referencedPrefabGuids, prefabGuid);
+                FindPrefabDependencies(ref checkedPrefabGuids, ref referencedPrefabGuids, prefabGuid);
             }
 
             // Compare to list of all prefabs
             string[] allPrefabGuids = AssetDatabase.FindAssets("t:Prefab");
             Debug.Log(
-                $"Comparing discovered (referenced) prefabs ({s_referencedPrefabGuids.Count}) to all prefabs ({allPrefabGuids.Length}).");
+                $"Comparing discovered (referenced) prefabs ({referencedPrefabGuids.Count}) to all prefabs ({allPrefabGuids.Length}).");
             foreach (var prefabGuid in allPrefabGuids)
             {
-                if (!s_referencedPrefabGuids.Contains(prefabGuid))
-                {
-                    string path = AssetDatabase.GUIDToAssetPath(prefabGuid);
-                    Debug.Log("Unreferenced Prefab: " + path);
-                }
+                // Skip if the prefab is referenced
+                if (referencedPrefabGuids.Contains(prefabGuid))
+                    continue;
+
+                string path = AssetDatabase.GUIDToAssetPath(prefabGuid);
+                Debug.LogWarning($"Unreferenced Prefab: {path}");
             }
+        }
+
+        [MenuItem("Tools/Find Unreferenced Prefabs", isValidateFunction: true)]
+        public static bool CanFindUnreferencedPrefabs()
+        {
+            return !EditorApplication.isPlaying;
         }
 
         private static void FindPrefabsInCurrentScene(ref HashSet<string> referencedPrefabGuids)
         {
-            GameObject[] allGameObjects = GameObject.FindObjectsOfType<GameObject>(true);
+            GameObject[] allGameObjects = Object.FindObjectsOfType<GameObject>(true);
             foreach (var go in allGameObjects)
             {
                 AddPrefabReferencesFromGameObject(ref referencedPrefabGuids, go);
@@ -180,21 +199,23 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             {
                 if (component == null) continue;
 
-                SerializedObject so = new SerializedObject(component);
+                SerializedObject so = new(component);
                 SerializedProperty sp = so.GetIterator();
 
                 while (sp.Next(true))
                 {
-                    if (sp.propertyType == SerializedPropertyType.ObjectReference && sp.objectReferenceValue != null)
+                    if (sp.propertyType != SerializedPropertyType.ObjectReference || sp.objectReferenceValue == null)
                     {
-                        string path = AssetDatabase.GetAssetPath(sp.objectReferenceValue);
-
-                        // Skip if the path is null, or if it is not a prefab.
-                        if (string.IsNullOrEmpty(path) || !path.EndsWith(".prefab")) continue;
-
-                        string guid = AssetDatabase.AssetPathToGUID(path);
-                        referencedPrefabGuids.Add(guid);
+                        continue;
                     }
+
+                    string path = AssetDatabase.GetAssetPath(sp.objectReferenceValue);
+
+                    // Skip if the path is null, or if it is not a prefab.
+                    if (string.IsNullOrEmpty(path) || !path.EndsWith(".prefab")) continue;
+
+                    string guid = AssetDatabase.AssetPathToGUID(path);
+                    referencedPrefabGuids.Add(guid);
                 }
             }
         }
@@ -236,21 +257,19 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
                     if (string.IsNullOrEmpty(depPath) || !depPath.EndsWith(".prefab")) continue;
 
                     string depGuid = AssetDatabase.AssetPathToGUID(depPath);
-                    if (!referencedPrefabGuids.Contains(depGuid))
+                    if (referencedPrefabGuids.Contains(depGuid))
                     {
-                        referencedPrefabGuids.Add(depGuid);
-                        FindPrefabDependencies(ref checkedPrefabGuids, ref referencedPrefabGuids,
-                            depGuid); // Recursively check this new prefab
+                        continue;
                     }
+
+                    referencedPrefabGuids.Add(depGuid);
+                    FindPrefabDependencies(ref checkedPrefabGuids, ref referencedPrefabGuids,
+                        depGuid); // Recursively check this new prefab
                 }
             }
         }
 
-        [MenuItem("Tools/Find Unreferenced Prefabs", isValidateFunction: true)]
-        public static bool CanFindUnreferencedPrefabs()
-        {
-            return !EditorApplication.isPlaying;
-        }
+        
 
         /// <summary>
         /// Determine the full path of a given GameObject recursively.
