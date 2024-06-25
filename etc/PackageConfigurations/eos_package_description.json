@@ -18,7 +18,7 @@
         {"src": "Assets/Plugins/Source/Core/*",                       "dest": "Runtime/Core/"                    },
         {"src": "Assets/Plugins/Source/Core/Utility/*.cs",            "dest": "Runtime/Core/Utility/"            },
         {"src": "Assets/Plugins/Source/Core/Utility/Extensions/*.cs", "dest": "Runtime/Core/Utility/Extensions/" },
-        {"src": "Assets/Plugins/Source/Editor/*",                     "dest": "Editor/"                          },
+        {"src": "Assets/Plugins/Source/Editor/*",                     "dest": "Editor/",        "recursive": true},
 
         {"src": "Assets/Plugins/Windows/*",                           "dest": "Runtime/Windows/"      },
         {"src": "Assets/Plugins/Windows/x64/*",                       "dest": "Runtime/Windows/x64/"  },
