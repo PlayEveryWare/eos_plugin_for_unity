@@ -57,6 +57,7 @@
         {"src": "Assets/Plugins/Source/EOS_SDK/Overrides/*",                     "dest": "Runtime/EOS_SDK/Overrides/"                    },
         {"src": "Assets/Plugins/Source/EOS_SDK/Core/*",                          "dest": "Runtime/EOS_SDK/Core/"                         },
 
+        {"src": "Assets/Plugins/Source/EOS_SDK/Generated/*",                     "dest": "Runtime/EOS_SDK/Generated/"                    },
         {"src": "Assets/Plugins/Source/EOS_SDK/Generated/Achievements/*",        "dest": "Runtime/EOS_SDK/Generated/Achievements/"       },
 
         {"src": "Assets/Plugins/Source/EOS_SDK/Generated/Android/*",             "dest": "Runtime/EOS_SDK/Generated/Android/"            },
