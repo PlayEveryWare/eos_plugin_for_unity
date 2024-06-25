@@ -135,7 +135,7 @@
         {"src": "Assets/Scripts/SignInWithApple/*",                  "dest": "Samples~/Samples/StandardSamples/Scripts/SignInWithApple/"        },
         {"src": "Assets/Scripts/SignInWithApple/Editor/*",           "dest": "Samples~/Samples/StandardSamples/Scripts/SignInWithApple/Editor/" },
 
-        {"src": "Assets/Scripts/ServiceManagers/*",                  "dest": "Samples~/Samples/StandardSamples/Scripts/ServiceManagers/"        },
+        {"src": "Assets/Scripts/Services/*",                         "dest": "Samples~/Samples/StandardSamples/Scripts/Services/"        },
       
         {"src": "Assets/Scenes/StandardSamples/*.unity",             "dest": "Samples~/Samples/StandardSamples/Scenes/"    },
         {"src": "Assets/Scenes/SampleScenes.asset",                  "dest": "Samples~/Samples/StandardSamples/Scenes/"    },
