@@ -8,9 +8,10 @@
         {"src": "etc/PackageTemplate/Editor.meta",  "dest": "" },
         {"src": "etc/PackageTemplate/Runtime.meta", "dest": "" },
 
-        {"src": "etc/PlatformSpecificAssets/EOS/*", "dest": "PlatformSpecificAssets~/EOS/", "recurse": true },
-        {"src": "docs/*",                           "dest": "Documentation~/",              "recurse": true },
-        {"src": "tools/bin/*",                      "dest": "bin~/",                        "recurse": true },                                               
+        {"src": "etc/PlatformSpecificAssets/EOS/*", "dest": "PlatformSpecificAssets~/EOS/", "recursive": true },
+        {"src": "docs/*",                           "dest": "Documentation~/",              "recursive": true },
+        {"src": "tools/bin/*",                      "dest": "bin~/",                        "recursive": true },
+
         {"src": "Assets/EOS/*.png", "dest": "Runtime/EOS/"},
                              
         {"src": "Assets/Plugins/*",                                   "dest": "Runtime/"                         },
@@ -135,7 +136,7 @@
         {"src": "Assets/Scripts/SignInWithApple/*",                  "dest": "Samples~/Samples/StandardSamples/Scripts/SignInWithApple/"        },
         {"src": "Assets/Scripts/SignInWithApple/Editor/*",           "dest": "Samples~/Samples/StandardSamples/Scripts/SignInWithApple/Editor/" },
 
-        {"src": "Assets/Scripts/ServiceManagers/*",                  "dest": "Samples~/Samples/StandardSamples/Scripts/ServiceManagers/"        },
+        {"src": "Assets/Scripts/Services/*",                         "dest": "Samples~/Samples/StandardSamples/Scripts/Services/"        },
       
         {"src": "Assets/Scenes/StandardSamples/*.unity",             "dest": "Samples~/Samples/StandardSamples/Scenes/"    },
         {"src": "Assets/Scenes/SampleScenes.asset",                  "dest": "Samples~/Samples/StandardSamples/Scenes/"    },
