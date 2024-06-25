@@ -92,8 +92,8 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
                 // Open the scene
                 Scene currentScene = EditorSceneManager.OpenScene(scenePath, OpenSceneMode.Single);
 
-                // Get all the game objects
-                GameObject[] gameObjects = Object.FindObjectsOfType<GameObject>();
+                // Get all the game objects (including inactive objects)
+                GameObject[] gameObjects = Object.FindObjectsOfType<GameObject>(true);
 
                 // Iterate over all the game objects
                 foreach (GameObject go in gameObjects)
@@ -116,6 +116,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             }
             else
             {
+                Debug.LogWarning($"There were {missingScriptMessages.Count} scripts found to be missing in scenes.");
                 foreach ((string message, Object context) in missingScriptMessages)
                 {
                     Debug.LogWarning(message, context);
