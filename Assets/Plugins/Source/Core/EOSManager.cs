@@ -73,13 +73,13 @@ namespace PlayEveryWare.EpicOnlineServices
     using LoginCallbackInfo = Epic.OnlineServices.Auth.LoginCallbackInfo;
     using LoginOptions = Epic.OnlineServices.Auth.LoginOptions;
     using LoginStatusChangedCallbackInfo = Epic.OnlineServices.Auth.LoginStatusChangedCallbackInfo;
-#endif
+
     using Utility;
     using JsonUtility = PlayEveryWare.EpicOnlineServices.Utility.JsonUtility;
     using LogoutCallbackInfo = Epic.OnlineServices.Auth.LogoutCallbackInfo;
     using LogoutOptions = Epic.OnlineServices.Auth.LogoutOptions;
     using OnLogoutCallback = Epic.OnlineServices.Auth.OnLogoutCallback;
-
+#endif
     /// <summary>
     /// One of the responsibilities of this class is to manage the lifetime of
     /// the EOS SDK and to be the interface for getting all the managed EOS interfaces.
@@ -467,7 +467,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 IPlatformSpecifics platformSpecifics = EOSManagerPlatformSpecificsSingleton.Instance;
 
                 EOSCreateOptions platformOptions = new EOSCreateOptions();
-                
+
                 platformOptions.options.CacheDirectory = platformSpecifics.GetTempDir();
                 platformOptions.options.IsServer = configData.isServer;
                 platformOptions.options.Flags =
@@ -496,7 +496,8 @@ namespace PlayEveryWare.EpicOnlineServices
 
                 var clientCredentials = new ClientCredentials
                 {
-                    ClientId = configData.clientID, ClientSecret = configData.clientSecret
+                    ClientId = configData.clientID,
+                    ClientSecret = configData.clientSecret
                 };
                 platformOptions.options.ClientCredentials = clientCredentials;
 
@@ -520,7 +521,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 integratedPlatformOptionsContainer.Release();
 #endif
                 return platformInterface;
-               
+
             }
 
             //-------------------------------------------------------------------------
@@ -825,7 +826,10 @@ namespace PlayEveryWare.EpicOnlineServices
             {
                 var loginCredentials = new Credentials
                 {
-                    Type = loginType, ExternalType = externalCredentialType, Id = id, Token = token
+                    Type = loginType,
+                    ExternalType = externalCredentialType,
+                    Id = id,
+                    Token = token
                 };
 
                 var defaultScopeFlags =
@@ -980,7 +984,9 @@ namespace PlayEveryWare.EpicOnlineServices
                 var authInterface = GetEOSPlatformInterface().GetAuthInterface();
                 var linkOptions = new LinkAccountOptions
                 {
-                    ContinuanceToken = token, LinkAccountFlags = linkAccountFlags, LocalUserId = null
+                    ContinuanceToken = token,
+                    LinkAccountFlags = linkAccountFlags,
+                    LocalUserId = null
                 };
 
                 if (linkAccountFlags.HasFlag(LinkAccountFlags.NintendoNsaId))
@@ -1063,7 +1069,8 @@ namespace PlayEveryWare.EpicOnlineServices
 
                             connectLoginOptions.Credentials = new Epic.OnlineServices.Connect.Credentials
                             {
-                                Token = userAuthToken.Value.AccessToken, Type = ExternalCredentialType.Epic
+                                Token = userAuthToken.Value.AccessToken,
+                                Type = ExternalCredentialType.Epic
                             };
 
                             StartConnectLoginWithOptions(connectLoginOptions, onConnectLoginCallback);
@@ -1073,7 +1080,8 @@ namespace PlayEveryWare.EpicOnlineServices
                 {
                     connectLoginOptions.Credentials = new Epic.OnlineServices.Connect.Credentials
                     {
-                        Token = authToken.Value.AccessToken, Type = ExternalCredentialType.Epic
+                        Token = authToken.Value.AccessToken,
+                        Type = ExternalCredentialType.Epic
                     };
 
                     StartConnectLoginWithOptions(connectLoginOptions, onConnectLoginCallback);
@@ -1087,7 +1095,8 @@ namespace PlayEveryWare.EpicOnlineServices
                 var loginOptions = new Epic.OnlineServices.Connect.LoginOptions();
                 loginOptions.Credentials = new Epic.OnlineServices.Connect.Credentials
                 {
-                    Token = token, Type = externalCredentialType
+                    Token = token,
+                    Type = externalCredentialType
                 };
 
                 switch (externalCredentialType)
@@ -1099,7 +1108,8 @@ namespace PlayEveryWare.EpicOnlineServices
                         {
                             loginOptions.UserLoginInfo = new UserLoginInfo
                             {
-                                DisplayName = displayname, NsaIdToken = nsaIdToken,
+                                DisplayName = displayname,
+                                NsaIdToken = nsaIdToken,
                             };
                         }
 
@@ -1165,7 +1175,8 @@ namespace PlayEveryWare.EpicOnlineServices
 
                 connectLoginOptions.Credentials = new Epic.OnlineServices.Connect.Credentials
                 {
-                    Token = null, Type = ExternalCredentialType.DeviceidAccessToken,
+                    Token = null,
+                    Type = ExternalCredentialType.DeviceidAccessToken,
                 };
 
                 StartConnectLoginWithOptions(connectLoginOptions, onLoginCallback);
@@ -1693,13 +1704,13 @@ namespace PlayEveryWare.EpicOnlineServices
                 s_isPaused = isPaused;
                 print($"EOSSingleton.OnApplicationPause: IsPaused {wasPaused} -> {s_isPaused}");
 
-//                // Poll for the latest application constrained state as we're about
-//                // to need it to determine the appropriate EOS application status
-//#if UNITY_PS4 || UNITY_GAMECORE_XBOXONE || UNITY_GAMECORE_SCARLETT
-//                UpdateApplicationConstrainedState(false);
-//#else
-//                UpdateApplicationConstrainedState(true);
-//#endif
+                //                // Poll for the latest application constrained state as we're about
+                //                // to need it to determine the appropriate EOS application status
+                //#if UNITY_PS4 || UNITY_GAMECORE_XBOXONE || UNITY_GAMECORE_SCARLETT
+                //                UpdateApplicationConstrainedState(false);
+                //#else
+                //                UpdateApplicationConstrainedState(true);
+                //#endif
             }
 
             //-------------------------------------------------------------------------
@@ -1709,13 +1720,13 @@ namespace PlayEveryWare.EpicOnlineServices
                 s_hasFocus = hasFocus;
                 print($"EOSSingleton.OnApplicationFocus: HasFocus {hadFocus} -> {s_hasFocus}");
 
-//                // Poll for the latest application constrained state as we're about
-//                // to need it to determine the appropriate EOS application status
-//#if UNITY_PS4 || UNITY_GAMECORE_XBOXONE || UNITY_GAMECORE_SCARLETT
-//                UpdateApplicationConstrainedState(false);
-//#else
-//                UpdateApplicationConstrainedState(true);
-//#endif
+                //                // Poll for the latest application constrained state as we're about
+                //                // to need it to determine the appropriate EOS application status
+                //#if UNITY_PS4 || UNITY_GAMECORE_XBOXONE || UNITY_GAMECORE_SCARLETT
+                //                UpdateApplicationConstrainedState(false);
+                //#else
+                //                UpdateApplicationConstrainedState(true);
+                //#endif
             }
 
             //-------------------------------------------------------------------------

@@ -21,7 +21,7 @@
  *
  */
 
-//#define ENABLE_DEBUG_EOSSTATSMANAGER
+//#define ENABLE_DEBUG_STATS_SERVICE
 
 namespace PlayEveryWare.EpicOnlineServices
 {
@@ -36,20 +36,20 @@ namespace PlayEveryWare.EpicOnlineServices
     using System.Collections.Concurrent;
     using System.Threading.Tasks;
 
-    public class StatsManager : ServiceManager
+    public class StatsService : EOSService
     {
         #region Singleton Implementation
 
         /// <summary>
         /// Lazy instance for singleton allows for thread-safe interactions with
-        /// the StatsManager
+        /// the StatsService
         /// </summary>
-        private static readonly Lazy<StatsManager> s_LazyInstance = new(() => new StatsManager());
+        private static readonly Lazy<StatsService> s_LazyInstance = new(() => new StatsService());
 
         /// <summary>
         /// Accessor for the instance.
         /// </summary>
-        public static StatsManager Instance
+        public static StatsService Instance
         {
             get
             {
@@ -61,7 +61,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// Private constructor guarantees adherence to thread-safe singleton
         /// pattern.
         /// </summary>
-        private StatsManager() : base(true) { }
+        private StatsService() : base(true) { }
 
         #endregion
 
@@ -74,7 +74,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// Conditionally executed proxy function for Unity's log function.
         /// </summary>
         /// <param name="toPrint">The message to log.</param>
-        [Conditional("ENABLE_DEBUG_EOSSTATSMANAGER")]
+        [Conditional("ENABLE_DEBUG_STATS_SERVICE")]
         private static void Log(string toPrint)
         {
             UnityEngine.Debug.Log(toPrint);
@@ -131,7 +131,7 @@ namespace PlayEveryWare.EpicOnlineServices
             
             // Because statistics can change achievements, refresh the 
             // achievements service as well.
-            await EOSAchievementManager.Instance.RefreshAsync();
+            await AchievementsService.Instance.RefreshAsync();
         }
 
         /// <summary>
@@ -159,7 +159,7 @@ namespace PlayEveryWare.EpicOnlineServices
             GetEOSStatsInterface().IngestStat(ref ingestOptions, null, (ref IngestStatCompleteCallbackInfo data) =>
             {
                 taskCompletionSource.SetResult(null);
-                _ = EOSAchievementManager.Instance.RefreshAsync();
+                _ = AchievementsService.Instance.RefreshAsync();
             });
 
             return taskCompletionSource.Task;

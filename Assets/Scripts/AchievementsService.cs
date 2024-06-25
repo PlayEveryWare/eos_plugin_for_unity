@@ -20,7 +20,7 @@
 * SOFTWARE.
 */
 
-//#define ENABLE_DEBUG_EOSACHIEVEMENTMANAGER
+//#define ENABLE_DEBUG_ACHIEVEMENTS_SERVICE
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
@@ -37,10 +37,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     using System.Threading.Tasks;
 
     /// <summary>
-    /// Class <c>EOSAchievementManager</c> is a simplified wrapper for
+    /// Class <c>AchievementsService</c> is a simplified wrapper for
     /// EOS [Achievements Interface](https://dev.epicgames.com/docs/services/en-US/Interfaces/Achievements/index.html).
     /// </summary>
-    public class EOSAchievementManager : ServiceManager
+    public class AchievementsService : EOSService
     {
         /// <summary>
         /// Stores data that has been cached, where the string key is a URI,
@@ -62,14 +62,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         /// <summary>
         /// Lazy instance for singleton allows for thread-safe interactions with
-        /// the EOSAchievementManager
+        /// the AchievementsService
         /// </summary>
-        private static readonly Lazy<EOSAchievementManager> s_LazyInstance = new(() => new EOSAchievementManager());
+        private static readonly Lazy<AchievementsService> s_LazyInstance = new(() => new AchievementsService());
 
         /// <summary>
         /// Accessor for the instance.
         /// </summary>
-        public static EOSAchievementManager Instance
+        public static AchievementsService Instance
         {
             get
             {
@@ -81,7 +81,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// Private constructor guarantees adherence to thread-safe singleton
         /// pattern.
         /// </summary>
-        private EOSAchievementManager() : base(true) { }
+        private AchievementsService() : base(true) { }
 
         #endregion
 
@@ -89,7 +89,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// Conditionally executed proxy function for Unity's log function.
         /// </summary>
         /// <param name="toPrint">The message to log.</param>
-        [Conditional("ENABLE_DEBUG_EOSACHIEVEMENTMANAGER")]
+        [Conditional("ENABLE_DEBUG_ACHIEVEMENTS_SERVICE")]
         private static void Log(string toPrint)
         {
             UnityEngine.Debug.Log(toPrint);
