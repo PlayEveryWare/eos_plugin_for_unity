@@ -224,15 +224,17 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
                 else
                 {
                     // If the destination path does not contain a tilde, and
-                    // the source file does _not_ have a .meta extension, then
-                    // AND if the current file has a sibling that _does_ have a
-                    // .meta extension, and we should copy that file additionally.
+                    // the source file does _not_ have a .meta extension, AND if
+                    // the current file has a sibling that _does_ have a .meta
+                    // extension, then we should copy that file additionally.
                     if (".meta" != src.Extension && File.Exists($"{src.FullName}.meta"))
                     {
-                        FileInfoMatchingResult metaFile = file;
-                        metaFile.fileInfo = new FileInfo($"{src.FullName}.meta");
-                        metaFile.originalSrcDestPair = file.originalSrcDestPair;
-                        matchingResultsStack.Push(metaFile);
+                        FileInfoMatchingResult newResult = new()
+                        {
+                            fileInfo = new FileInfo($"{src.FullName}.meta"),
+                            originalSrcDestPair = file.originalSrcDestPair
+                        };
+                        matchingResultsStack.Push(newResult);
                     }
                 }
 
