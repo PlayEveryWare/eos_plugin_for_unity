@@ -37,7 +37,6 @@
         {"src": "Assets/Plugins/macOS/Core/*",                        "dest": "Runtime/macOS/Core/" },
         {"src": "Assets/Plugins/macOS/Editor/*",                      "dest": "Editor/macOS/"       },
 
-        {"src": "Assets/Plugins/Android/gradleTemplate.properties",   "dest": "PlatformSpecificAssets~/EOS/Android/" },
         {"src": "Assets/Plugins/Android/*",                           "dest": "Runtime/Android/"                     },
         {"src": "Assets/Plugins/Android/Core/*",                      "dest": "Runtime/Android/Core/"                },
         {"src": "Assets/Plugins/Android/Editor/*",                    "dest": "Editor/Android/"                      },
