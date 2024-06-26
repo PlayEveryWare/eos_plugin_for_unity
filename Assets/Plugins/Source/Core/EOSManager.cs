@@ -584,8 +584,11 @@ namespace PlayEveryWare.EpicOnlineServices
                         LoggingInterface.SetCallback(SimplePrintCallback);
                         hasSetLoggingCallback = true;
                     }
-
+#if UNITY_EDITOR
+                    SetLogLevel(LogCategory.AllCategories, LogLevel.VeryVerbose);
+#else
                     InitializeLogLevels();
+#endif
 
                     InitializeOverlay(coroutineOwner);
                     return;
