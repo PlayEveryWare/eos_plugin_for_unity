@@ -229,9 +229,12 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
                     // .meta extension, and we should copy that file additionally.
                     if (".meta" != src.Extension && File.Exists($"{src.FullName}.meta"))
                     {
-                        FileInfoMatchingResult metaFile = file;
-                        metaFile.fileInfo = new FileInfo($"{src.FullName}.meta");
-                        metaFile.originalSrcDestPair = file.originalSrcDestPair;
+                        FileInfoMatchingResult metaFile = new()
+                        {
+                            fileInfo = new FileInfo($"{src.FullName}.meta"),
+                            originalSrcDestPair = file.originalSrcDestPair,
+                        };
+
                         matchingResultsStack.Push(metaFile);
                     }
                 }

@@ -1,9 +1,7 @@
 {
     "source_to_dest": [
 
-        {"src": "CHANGELOG.md",                     "dest": "" },
-        {"src": "LICENSE.md",                       "dest": "" },
-        {"src": "README.md",                        "dest": "" },
+        {"src": "*.md",                             "dest": "" },
         {"src": "etc/PackageTemplate/package.json", "dest": "" },
         {"src": "etc/PackageTemplate/Editor.meta",  "dest": "" },
         {"src": "etc/PackageTemplate/Runtime.meta", "dest": "" },
@@ -14,13 +12,11 @@
 
         {"src": "Assets/EOS/*.png", "dest": "Runtime/EOS/"},
                              
-        {"src": "Assets/Plugins/*",                                   "dest": "Runtime/"                         },
-        {"src": "Assets/Plugins/Source/Core/*",                       "dest": "Runtime/Core/"                    },
-        {"src": "Assets/Plugins/Source/Core/Utility/*.cs",            "dest": "Runtime/Core/Utility/"            },
-        {"src": "Assets/Plugins/Source/Core/Utility/Extensions/*.cs", "dest": "Runtime/Core/Utility/Extensions/" },
-        {"src": "Assets/Plugins/Source/Editor/*",                     "dest": "Editor/",        "recursive": true},
+        {"src": "Assets/Plugins/*",                                   "dest": "Runtime/"                          },
+        {"src": "Assets/Plugins/Source/Core/*",                       "dest": "Runtime/Core/",  "recursive": true },
+        {"src": "Assets/Plugins/Source/Editor/*",                     "dest": "Editor/",        "recursive": true },
 
-        {"src": "Assets/Plugins/Windows/*",                           "dest": "Runtime/Windows/"      },
+        {"src": "Assets/Plugins/Windows/*.cs",                           "dest": "Runtime/Windows/"      },
         {"src": "Assets/Plugins/Windows/x64/*",                       "dest": "Runtime/Windows/x64/"  },
         {"src": "Assets/Plugins/Windows/x86/*",                       "dest": "Runtime/Windows/x86/"  },
         {"src": "Assets/Plugins/Windows/Core/*",                      "dest": "Runtime/Windows/Core/" },
@@ -33,27 +29,22 @@
         {"src": "Assets/Plugins/Linux/*",                             "dest": "Runtime/Linux/"      },
         {"src": "Assets/Plugins/Linux/Core/*",                        "dest": "Runtime/Linux/Core/" },
         {"src": "Assets/Plugins/Linux/Editor/*",                      "dest": "Editor/Linux/"       },
-        {"src": "Assets/Plugins/Linux/Editor.meta",                   "dest": "Editor/Linux.meta"       },
 
         {"src": "Assets/Plugins/macOS/*.cs",                          "dest": "Runtime/macOS/"      },
         {"src": "Assets/Plugins/macOS/Core/*",                        "dest": "Runtime/macOS/Core/" },
         {"src": "Assets/Plugins/macOS/Editor/*",                      "dest": "Editor/macOS/"       },
-        {"src": "Assets/Plugins/macOS/Editor.meta",                   "dest": "Editor/macOS.meta"   },
 
         {"src": "Assets/Plugins/Android/*",                           "dest": "Runtime/Android/"                     },
         {"src": "Assets/Plugins/Android/Core/*",                      "dest": "Runtime/Android/Core/"                },
         {"src": "Assets/Plugins/Android/Editor/*",                    "dest": "Editor/Android/"                      },
-        {"src": "Assets/Plugins/Android/Editor.meta",                 "dest": "Editor/Android.meta"                  },
 
         {"src": "Assets/Plugins/iOS/*",                               "dest": "Runtime/iOS/"                  },
         {"src": "Assets/Plugins/iOS/Core/*",                          "dest": "Runtime/iOS/Core/"             },
         {"src": "Assets/Plugins/iOS/Editor/*",                        "dest": "Editor/iOS/"                   },
-        {"src": "Assets/Plugins/iOS/Editor.meta",                     "dest": "Editor/iOS.meta"               },
         {"src": "Assets/Plugins/iOS/EOSSDK.framework/EOSSDK",         "dest": "Runtime/iOS/EOSSDK.framework/" },
         {"src": "Assets/Plugins/iOS/EOSSDK.framework/*.plist",        "dest": "Runtime/iOS/EOSSDK.framework/" },
 
         {"src": "Assets/Plugins/Standalone/Editor/*",                            "dest": "Editor/Standalone/"    },
-        {"src": "Assets/Plugins/Standalone/Editor.meta",                         "dest": "Editor/Standalone.meta"},
         {"src": "Assets/Plugins/Standalone/Editor/anticheat_integritytool.cfg",  "dest": "Editor/Standalone/"    },
         
         {"src": "Assets/link.xml",                                               "dest": "Editor/"},
