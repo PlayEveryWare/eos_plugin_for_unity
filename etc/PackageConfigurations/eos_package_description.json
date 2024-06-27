@@ -1,7 +1,7 @@
 {
     "source_to_dest": [
 
-        {"src": "*.md",                             "dest": "/" },
+        {"src": "etc/PackageTemplate/*.md",         "dest": ""  },
         {"src": "etc/PackageTemplate/package.json", "dest": ""  },
         {"src": "etc/PackageTemplate/Editor.meta",  "dest": ""  },
         {"src": "etc/PackageTemplate/Runtime.meta", "dest": ""  },
@@ -18,9 +18,24 @@
         {"src": "Assets/Plugins/Source/Core/*",                    "dest": "Runtime/Core/"                        },
         {"src": "Assets/Plugins/Source/Core/Utility/*",            "dest": "Runtime/Core/Utility/"                },
         {"src": "Assets/Plugins/Source/Core/Utility/Extensions/*", "dest": "Runtime/Core/Utility/Extensions/"     },
-        {"src": "Assets/Plugins/Source/Editor/*",                  "dest": "Editor/",          "recursive": true  },
+        
+        {"src": "Assets/Plugins/Source/Editor/*",                  "dest": "Editor/"                },
+        {"src": "Assets/Plugins/Source/Editor/Build/*",            "dest": "Editor/Build/"          },
+        {"src": "Assets/Plugins/Source/Editor/ConfigEditors/*",    "dest": "Editor/ConfigEditors/"  },
+        {"src": "Assets/Plugins/Source/Editor/Configs/*",          "dest": "Editor/Configs/"        },
+        {"src": "Assets/Plugins/Source/Editor/EditorWindows/*",    "dest": "Editor/EditorWindows/"  },
 
-        {"src": "Assets/Plugins/Windows/*",                        "dest": "Runtime/Windows/", "recursive": true  },
+        {"src": "Assets/Plugins/Source/Editor/Utility/*",          "dest": "Editor/Utility/",  "recursive": true  },
+
+        {"src": "Assets/Plugins/Source/Editor/Platforms/*",           "dest": "Editor/Platforms/"            },
+        {"src": "Assets/Plugins/Source/Editor/Platforms/Android/",    "dest": "Editor/Platforms/Android/"    },
+        {"src": "Assets/Plugins/Source/Editor/Platforms/iOS/",        "dest": "Editor/Platforms/iOS/"        },
+        {"src": "Assets/Plugins/Source/Editor/Platforms/Linux/",      "dest": "Editor/Platforms/Linux/"      },
+        {"src": "Assets/Plugins/Source/Editor/Platforms/macOS/",      "dest": "Editor/Platforms/macOS/"      },
+        {"src": "Assets/Plugins/Source/Editor/Platforms/Standalone/", "dest": "Editor/Platforms/Standalone/" },
+        {"src": "Assets/Plugins/Source/Editor/Platforms/Windows/",    "dest": "Editor/Platforms/Windows/"    },
+
+        {"src": "Assets/Plugins/Windows/*",                           "dest": "Runtime/Windows/", "recursive": true  },
 
         {"ignore_regex": "Assets/Plugins/Windows/.*/steam_api\\.dll"   },                 
         {"ignore_regex": "Assets/Plugins/Windows/.*/steam_api64\\.dll" },  
