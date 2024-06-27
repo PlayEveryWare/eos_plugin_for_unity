@@ -584,22 +584,22 @@ namespace PlayEveryWare.EpicOnlineServices
                         LoggingInterface.SetCallback(SimplePrintCallback);
                         hasSetLoggingCallback = true;
                     }
-#if UNITY_EDITOR
-                    SetLogLevel(LogCategory.AllCategories, LogLevel.VeryVerbose);
-#else
-                    InitializeLogLevels();
-#endif
 
                     InitializeOverlay(coroutineOwner);
                     return;
                 }
 
-#if !UNITY_EDITOR && !UNITY_SWITCH
-                InitializeLogLevels();
-#endif
                 s_state = EOSState.Starting;
 
                 LoadEOSLibraries();
+
+                // Set log level prior to platform interface initialization
+                // VeryVerbose for dynamic linking platforms, otherwise set levels from configs 
+#if UNITY_EDITOR || UNITY_SWITCH
+                SetLogLevel(LogCategory.AllCategories, LogLevel.VeryVerbose);
+#else
+                InitializeLogLevels();
+#endif
 
                 var epicArgs = GetCommandLineArgsFromEpicLauncher();
 
@@ -670,9 +670,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 SetEOSPlatformInterface(eosPlatformInterface);
                 UpdateEOSApplicationStatus();
 
-
                 InitializeOverlay(coroutineOwner);
-                InitializeLogLevels();
 
                 print("EOS loaded");
             }
@@ -764,7 +762,8 @@ namespace PlayEveryWare.EpicOnlineServices
 
             //-------------------------------------------------------------------------
             /// <summary>
-            /// Initialize log levels loaded from <see cref="LogLevelConfig" />
+            /// Initialize log levels loaded from <see cref="LogLevelConfig" />.
+            /// Should only be called after EOS library loaded, especially for dynamic linking platforms
             /// </summary>
             private void InitializeLogLevels()
             {
@@ -1772,8 +1771,8 @@ namespace PlayEveryWare.EpicOnlineServices
         }
 #endif
 
-        /// <value>Private static instance of <c>EOSSingleton</c></value>
-        static EOSSingleton s_instance;
+                /// <value>Private static instance of <c>EOSSingleton</c></value>
+                static EOSSingleton s_instance;
 
         /// <value>Public static instance of <c>EOSSingleton</c></value>
         //-------------------------------------------------------------------------
