@@ -34,6 +34,7 @@
 #endif
 
 using System;
+using System.Threading.Tasks;
 using UnityEngine;
 #if !DISABLESTEAMWORKS
 using Steamworks;
@@ -62,6 +63,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Steam
 
         HAuthTicket sessionTicketHandle = HAuthTicket.Invalid;
         string sessionTicketString = null;
+
+        TaskCompletionSource<string> authTicketResponseTaskCompletionSource;
+        Callback<GetTicketForWebApiResponse_t> authTicketForWebApiResponseCallback { get; set; }
 
         CallResult<EncryptedAppTicketResponse_t> appTicketCallResult = new CallResult<EncryptedAppTicketResponse_t>();
         private event Action<string> appTicketEvent;
@@ -126,8 +130,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Steam
             }
         }
 
-
-
         // This should only ever get called on first load and after an Assembly reload, You should never Disable the Steamworks Manager yourself.
         protected virtual void OnEnable()
         {
@@ -147,6 +149,24 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Steam
                 // You must launch with "-debug_steamapi" in the launch args to receive warnings.
                 m_SteamAPIWarningMessageHook = new SteamAPIWarningMessageHook_t(SteamAPIDebugTextHook);
                 SteamClient.SetWarningMessageHook(m_SteamAPIWarningMessageHook);
+            }
+
+            if (authTicketForWebApiResponseCallback == null)
+            {
+                authTicketForWebApiResponseCallback = Callback<GetTicketForWebApiResponse_t>.Create(
+                    (GetTicketForWebApiResponse_t pCallback) =>
+                    {
+                        if (pCallback.m_eResult == EResult.k_EResultOK)
+                        {
+                            sessionTicketHandle = pCallback.m_hAuthTicket;
+                            sessionTicketString = System.BitConverter.ToString(pCallback.m_rgubTicket).Replace("-", "");
+                            authTicketResponseTaskCompletionSource.SetResult(sessionTicketString);
+                        }
+                        else
+                        {
+                            Debug.LogError($"GetAuthTicketForWebApi Result : {pCallback.m_eResult}");
+                        }
+                    });
             }
         }
 
@@ -312,7 +332,25 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Steam
             return SteamUser.GetSteamID().GetAccountID().ToString();
 #endif
         }
+        public Task<string> GetSessionTicketTask()
+        {
+#if DISABLESTEAMWORKS
+            return null;
+#else
+            // GetAuthTicketForWebApi will become the only EOS supported way to grab session tickets in the future
+            // https://dev.epicgames.com/docs/dev-portal/identity-provider-management#steam
+            // For now (2024/06/19) it still used the old way to grab session tickets
+            // Manually define GET_SESSION_TICKET_FOR_WEB_API to use the new version
+    #if ASYNC_GET_STEAM_SESSION_TICKET_PREVIEW
 
+            authTicketResponseTaskCompletionSource = new TaskCompletionSource<string>();
+            SteamUser.GetAuthTicketForWebApi(null);
+            return authTicketResponseTaskCompletionSource.Task;
+    #else
+            return Task.FromResult(GetSessionTicket());
+    #endif
+#endif
+        }
         public string GetSessionTicket()
         {
 #if DISABLESTEAMWORKS
@@ -347,7 +385,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Steam
             sessionTicketString = System.BitConverter.ToString(buffer).Replace("-", "");
             return sessionTicketString;
 #endif
-
         }
 
         public void RequestAppTicket(Action<string> callback)
@@ -377,7 +414,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Steam
         /// NOTE: This conditional is here because if EOS_DISABLE is enabled, the members referenced
         ///       in this code block will not exist on EOSManager.
 #if !EOS_DISABLE
-        public void StartLoginWithSteam(EOSManager.OnAuthLoginCallback onLoginCallback)
+        public async void StartLoginWithSteam(EOSManager.OnAuthLoginCallback onLoginCallback)
         {
 #if DISABLESTEAMWORKS
             onLoginCallback?.Invoke(new Epic.OnlineServices.Auth.LoginCallbackInfo()
@@ -387,7 +424,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Steam
 #else
 
             string steamId = GetSteamID();
-            string steamToken = GetSessionTicket();
+            string steamToken = await GetSessionTicketTask();
             if (steamId == null)
             {
                 Debug.LogError("ExternalAuth failed: Steam ID not valid");
