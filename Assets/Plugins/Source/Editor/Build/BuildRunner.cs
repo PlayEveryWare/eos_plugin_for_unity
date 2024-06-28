@@ -71,6 +71,26 @@ namespace PlayEveryWare.EpicOnlineServices.Build
 
             // Run the static builder's prebuild.
             s_builder?.PreBuild(report);
+
+#if !DISABLESTEAMWORKS
+            // If we're using Steamworks, then look at the user's Steam configuration file
+            // If the "steamApiInterfaceVersionsArray" is empty, try to set it for the user
+            SteamConfig config = SteamConfig.Get<SteamConfig>();
+            if (config != null && (config.steamApiInterfaceVersionsArray == null || config.steamApiInterfaceVersionsArray.Count == 0))
+            {
+                config.steamApiInterfaceVersionsArray = Steamworks_Utility.GetSteamInterfaceVersions();
+
+                if (config.steamApiInterfaceVersionsArray == null || config.steamApiInterfaceVersionsArray.Count == 0)
+                {
+                    UnityEngine.Debug.Log($"BuildRunner: This project is using Steamworks, but has not yet configured the steamApiInterfaceVersionsArray. The builder attempted to automatically configure this field, but it was unable to determine the api version information. This field is required for Steamworks versions v1.58 and later if the LibraryManagedBySDK platform flag is defined for Steam.");
+                }
+                else
+                {
+                    UnityEngine.Debug.Log($"BuildRunner: This project is using Steamworks, but has not yet configured the steamApiInterfaceVersionsArray. The builder has automatically configured this field and will now try to save the value.");
+                    config.Write(true, false);
+                }
+            }
+#endif
         }
 
         /// <summary>
