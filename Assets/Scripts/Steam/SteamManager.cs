@@ -414,21 +414,15 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Steam
         /// NOTE: This conditional is here because if EOS_DISABLE is enabled, the members referenced
         ///       in this code block will not exist on EOSManager.
 #if !EOS_DISABLE
-        public
-            // NOTE: This conditional is here because the function should only
-            //       be marked as 'async' if it calls an awaitable function 
-            //       using the 'await' keyword. When SteamWorks is disabled, 
-            //       there is no such call, which results in a compiler warning.
-#if !DISABLESTEAMWORKS
-            async 
-#endif
-            void StartLoginWithSteam(EOSManager.OnAuthLoginCallback onLoginCallback)
-            {
+        public async void StartLoginWithSteam(EOSManager.OnAuthLoginCallback onLoginCallback)
+        {
 #if DISABLESTEAMWORKS
             onLoginCallback?.Invoke(new Epic.OnlineServices.Auth.LoginCallbackInfo()
             {
                 ResultCode = Epic.OnlineServices.Result.UnexpectedError
             });
+
+            await Task.Run(() => { });
 #else
 
             string steamId = GetSteamID();
