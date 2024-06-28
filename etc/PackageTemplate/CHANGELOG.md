@@ -2,11 +2,12 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-# [3.2.1] - 2024-06-20
+# [3.2.1] - 2024-06-24
 
-### Fixes
-- **General Fixes**:
-  - Corrected the binary associated with the release, and included the appropriate `.gitattributes` file for the corresponding release in the `eos_plugin_for_unity_upm` repository.
+- ### Fixes
+- **Release Binary Fixes**:
+  - Corrects an error that was made when generating the binary package for the `3.2.0` release.
+  - Corrects an issue where the presence of the scripting define `EOS_DISABLE` caused compilation errors.
 
 # [3.2.0] - 2024-05-16
 
