@@ -595,7 +595,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
                 // Set log level prior to platform interface initialization
                 // VeryVerbose for dynamic linking platforms, otherwise set levels from configs 
-#if UNITY_EDITOR || UNITY_SWITCH
+#if UNITY_EDITOR
                 SetLogLevel(LogCategory.AllCategories, LogLevel.VeryVerbose);
 #else
                 InitializeLogLevels();
@@ -1771,8 +1771,8 @@ namespace PlayEveryWare.EpicOnlineServices
         }
 #endif
 
-                /// <value>Private static instance of <c>EOSSingleton</c></value>
-                static EOSSingleton s_instance;
+        /// <value>Private static instance of <c>EOSSingleton</c></value>
+        static EOSSingleton s_instance;
 
         /// <value>Public static instance of <c>EOSSingleton</c></value>
         //-------------------------------------------------------------------------
