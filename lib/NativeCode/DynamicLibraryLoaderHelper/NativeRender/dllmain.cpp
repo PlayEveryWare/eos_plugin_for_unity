@@ -1253,40 +1253,34 @@ void eos_create(EOSConfig& eosConfig)
             steam_platform.OverrideLibraryPath = eos_steam_config.OverrideLibraryPath.value().c_str();
         }
 
-
         steam_platform.SteamMajorVersion = eos_steam_config.steamSDKMajorVersion;
         steam_platform.SteamMinorVersion = eos_steam_config.steamSDKMinorVersion;
 
         // For each element in the array (each of which is a string of an api version information)
         // iterate across each character, and at the end of a string add a null terminator \0
         // then add one more null terminator at the end of the array
-        std::vector<char> steamApiInterfaceVersionsAsCharArray = std::vector<char>();
-
-        // steam_platform needs to have a count of how many bytes the "array" is, stored in SteamApiInterfaceVersionsArrayBytes
-        // This has some fuzzy behavior; if you set it to 0 or count it up properly, there won't be a logged problem
-        // if you put a non-zero amount that is insufficient, there will be an unclear logged error message
-        // HACK: For now the right method seems to be counting each char added to the array, including the null terminator
-        uint32_t totalBytes = 0;
+        std::vector<char> steamApiInterfaceVersionsAsCharArray;
 
         for (int apiInterfaceVersionIndex = 0; apiInterfaceVersionIndex < eos_steam_config.steamApiInterfaceVersionsArray.size(); apiInterfaceVersionIndex++)
         {
-            std::string currentFullValue = eos_steam_config.steamApiInterfaceVersionsArray[apiInterfaceVersionIndex];
+            const std::string& currentFullValue = eos_steam_config.steamApiInterfaceVersionsArray[apiInterfaceVersionIndex];
 
             for (int characterIndex = 0; characterIndex < currentFullValue.length(); characterIndex++)
             {
                 char currentCharacter = currentFullValue[characterIndex];
                 steamApiInterfaceVersionsAsCharArray.push_back(currentCharacter);
-                totalBytes++;
             }
 
             steamApiInterfaceVersionsAsCharArray.push_back('\0');
-            totalBytes++;
         }
         steamApiInterfaceVersionsAsCharArray.push_back('\0');
-        totalBytes++;
 
         steam_platform.SteamApiInterfaceVersionsArray = reinterpret_cast<char*>(steamApiInterfaceVersionsAsCharArray.data());
-        steam_platform.SteamApiInterfaceVersionsArrayBytes = totalBytes;
+
+        // steam_platform needs to have a count of how many bytes the "array" is, stored in SteamApiInterfaceVersionsArrayBytes
+        // This has some fuzzy behavior; if you set it to 0 or count it up properly, there won't be a logged problem
+        // if you put a non-zero amount that is insufficient, there will be an unclear logged error message
+        steam_platform.SteamApiInterfaceVersionsArrayBytes = steamApiInterfaceVersionsAsCharArray.size();
 
         steam_integrated_platform_option.ApiVersion = EOS_INTEGRATEDPLATFORM_OPTIONS_API_LATEST;
         steam_integrated_platform_option.Type = EOS_IPT_Steam;
