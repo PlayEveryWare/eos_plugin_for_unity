@@ -421,6 +421,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Steam
             {
                 ResultCode = Epic.OnlineServices.Result.UnexpectedError
             });
+
+            await Task.Run(() => { });
 #else
 
             string steamId = GetSteamID();
