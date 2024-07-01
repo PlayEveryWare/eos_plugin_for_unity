@@ -28,13 +28,13 @@ namespace PlayEveryWare.EpicOnlineServices
     [Serializable]
     public class LogCategoryLevelPair
     {
-        public string category;
-        public string level;
+        public string Category;
+        public string Level;
 
         public LogCategoryLevelPair(string category, string level)
         {
-            this.category = category;
-            this.level = level;
+            Category = category;
+            Level = level;
         }
     }
 
@@ -47,6 +47,6 @@ namespace PlayEveryWare.EpicOnlineServices
         }
         public LogLevelConfig() : base("log_level_config.json") { }
 
-        public List<LogCategoryLevelPair> logCategoryLevelPairs;
+        public List<LogCategoryLevelPair> LogCategoryLevelPairs;
     }
 }

@@ -37,9 +37,8 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 
         int selectedCategoryIndex = 0;
         bool showAllCategories = false;
-        string previousAllCategoryLogLevel;
 
-        [MenuItem("Tools/EOS Plugin/Log Level")]
+        [MenuItem("Tools/EOS Plugin/Log Level Configuration")]
         public static void ShowWindow()
         {
             GetWindow<LogLevelWindow>("Log Level");
@@ -49,19 +48,19 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
             currentLogLevelConfig = EpicOnlineServices.Config.Get<LogLevelConfig>();
 
             // Config.Get<T> only guarantees T to be not null, but not for its members
-            if (currentLogLevelConfig.logCategoryLevelPairs == null) 
+            if (currentLogLevelConfig.LogCategoryLevelPairs == null) 
             {
-                currentLogLevelConfig.logCategoryLevelPairs = new List<LogCategoryLevelPair>();
+                currentLogLevelConfig.LogCategoryLevelPairs = new List<LogCategoryLevelPair>();
             }
 
             // Initialize the list if config categories does not match the SDK categories, which might happen when using a different SDK version
-            if (currentLogLevelConfig.logCategoryLevelPairs.Count != categories.Length)
+            if (currentLogLevelConfig.LogCategoryLevelPairs.Count != categories.Length)
             {
-                currentLogLevelConfig.logCategoryLevelPairs.Clear();
+                currentLogLevelConfig.LogCategoryLevelPairs.Clear();
 
                 foreach (var category in categories)
                 {
-                    currentLogLevelConfig.logCategoryLevelPairs.Add(new LogCategoryLevelPair(category, "Info"));
+                    currentLogLevelConfig.LogCategoryLevelPairs.Add(new LogCategoryLevelPair(category, "Info"));
                 }
 
                 currentLogLevelConfig.Write(true);
@@ -70,17 +69,17 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
         protected override void RenderWindow()
         {
             // Last element in the list is All Categories
-            previousAllCategoryLogLevel = currentLogLevelConfig.logCategoryLevelPairs[categories.Length - 1].level;
+            string previousAllCategoryLogLevel = currentLogLevelConfig.LogCategoryLevelPairs[categories.Length - 1].Level;
 
             showAllCategories = EditorGUILayout.Toggle("Show All Log Settings", showAllCategories);
             EditorGUILayout.LabelField("Category", "Level", GUILayout.Width(200));
 
             if (showAllCategories)
             {
-                foreach (var pair in currentLogLevelConfig.logCategoryLevelPairs)
+                foreach (var pair in currentLogLevelConfig.LogCategoryLevelPairs)
                 {
-                    int selectedLevelIndex = EditorGUILayout.Popup(pair.category, Array.IndexOf(levels, pair.level), levels);
-                    pair.level = LogLevelUtility.LogLevelStringArray[selectedLevelIndex];
+                    int selectedLevelIndex = EditorGUILayout.Popup(pair.Category, Array.IndexOf(levels, pair.Level), levels);
+                    pair.Level = LogLevelUtility.LogLevelStringArray[selectedLevelIndex];
                 }
             }
             else
@@ -88,19 +87,19 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
                 EditorGUILayout.BeginHorizontal();
                 selectedCategoryIndex = EditorGUILayout.Popup(selectedCategoryIndex, categories);
 
-                var selectedPair = currentLogLevelConfig.logCategoryLevelPairs[selectedCategoryIndex];
-                int selectedLevelIndex = EditorGUILayout.Popup(Array.IndexOf(levels, selectedPair.level), levels);
-                selectedPair.level = LogLevelUtility.LogLevelStringArray[selectedLevelIndex];           
+                var selectedPair = currentLogLevelConfig.LogCategoryLevelPairs[selectedCategoryIndex];
+                int selectedLevelIndex = EditorGUILayout.Popup(Array.IndexOf(levels, selectedPair.Level), levels);
+                selectedPair.Level = LogLevelUtility.LogLevelStringArray[selectedLevelIndex];           
                 EditorGUILayout.EndHorizontal();
             }
 
             // If Level for All Category is "dirty", then update every category
-            var newAllCategoryLogLevel = currentLogLevelConfig.logCategoryLevelPairs[categories.Length - 1].level;
+            var newAllCategoryLogLevel = currentLogLevelConfig.LogCategoryLevelPairs[categories.Length - 1].Level;
             if (newAllCategoryLogLevel != previousAllCategoryLogLevel) 
             {
-                foreach (var pair in currentLogLevelConfig.logCategoryLevelPairs)
+                foreach (var pair in currentLogLevelConfig.LogCategoryLevelPairs)
                 {
-                    pair.level = newAllCategoryLogLevel;
+                    pair.Level = newAllCategoryLogLevel;
                 }
             }
 

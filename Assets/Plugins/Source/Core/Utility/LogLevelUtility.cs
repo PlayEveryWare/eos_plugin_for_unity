@@ -22,11 +22,9 @@
 
 #if !EOS_DISABLE
 using System;
-using System.IO;
 using System.Collections.Generic;
 using UnityEngine;
 using Epic.OnlineServices.Logging;
-using JsonUtility = PlayEveryWare.EpicOnlineServices.Utility.JsonUtility;
 
 namespace PlayEveryWare.EpicOnlineServices
 {
@@ -45,12 +43,12 @@ namespace PlayEveryWare.EpicOnlineServices
         {
             get
             {
-                LogLevelConfig logLevelConfig = JsonUtility.FromJsonFile<LogLevelConfig>(Path.Combine(Application.streamingAssetsPath, "EOS", "log_level_config.json"));
+                LogLevelConfig logLevelConfig = Config.Get<LogLevelConfig>();
 
-                var logLevels = new List<LogLevel>();
+                List<LogLevel> logLevels = new List<LogLevel>();
                 for (int i = 0; i < LogCategoryStringArray.Length - 1; i++)
                 {
-                    if (Enum.TryParse(logLevelConfig.logCategoryLevelPairs[i].level, out LogLevel parsedLogLevel))
+                    if (Enum.TryParse(logLevelConfig.LogCategoryLevelPairs[i].Level, out LogLevel parsedLogLevel))
                     {
                         logLevels.Add(parsedLogLevel);
                     }
