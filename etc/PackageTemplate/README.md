@@ -2,9 +2,13 @@
 
 <div align="center"> <img src="/docs/images/EOSPluginLogo.png" alt="PlayEveryWare EOS Plugin for Unity" /> </div>
 
+<br />
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 # Overview
 
-The PlayEveryWare EOS Plugin for Unity brings the free services from Epic that connect players across all platforms and all stores to Unity in an easy-to-use package. Find more information on EOS [here](https://dev.epicgames.com/en-US/services) and read the Epic docs on the services [here](https://dev.epicgames.com/docs/epic-online-services).
+The PlayEveryWare EOS Plugin for Unity brings the free services from Epic that connect players across all platforms and all stores to Unity in an easy-to-use package. Find more information on what services Epic Online Services encompasses, see here: [https://dev.epicgames.com/en-US/services](https://dev.epicgames.com/en-US/services) and to read the developer documentation on those services, see here: [https://dev.epicgames.com/docs/epic-online-services](https://dev.epicgames.com/docs/epic-online-services).
 
 This repository contains the source code for development and serves as a destination for support for the [PlayEveryWare EOS Plugin for Unity (UPM Package)](https://github.com/PlayEveryWare/eos_plugin_for_unity_upm).
 
@@ -12,7 +16,7 @@ Out of the box, this project demonstrates (through a collection of sample scenes
 
 See [this](/docs/plugin_advantages.md) for a more complete overview of the advantages of using EOS with Unity.
 
-[^1]: See [here](#supported-eos-sdk-features) for which SDK features specifically are demonstrated.
+[^1]: See the [supported-eos-sdk-features](#supported-eos-sdk-features) section for which SDK features specifically are demonstrated.
 
 > [!NOTE]
 > If you are **not** interested in the _development_ of the EOS Plugin project (and instead just want to get to using it) you can follow our guide on [Importing the Plugin Package](#importing-the-plugin-package) to start using the most recently released version of the EOS Plugin.
@@ -97,13 +101,17 @@ Once imported into your project, be sure to [Configure the Plugin](/docs/configu
 
 # Support / Contact
 
-PlayEveryWare EOS Plugin for Unity API Documentation can be found at [here](https://eospluginforunity.playeveryware.com).
+PlayEveryWare EOS Plugin for Unity documentation can be found here on GitHub.
 
 For issues related to integration or usage of the EOS Unity plugin, please create a `New Issue` under the [Issues](https://github.com/PlayEveryWare/eos_plugin_for_unity/issues) tab.
 
-For issues related to Epic Online Services SDK, Epic Dev Portal or for general EOS SDK information, please go to [Epic Online Services Community Support](https://eoshelp.epicgames.com/).
+For issues related to Epic Online Services SDK, Epic Dev Portal or for general EOS SDK information, see the [Epic Online Services Community Support](https://eoshelp.epicgames.com/).
 
-Detailed descriptions and usage for EOS SDK Interfaces can be found at [here](https://dev.epicgames.com/docs/services/en-US/GameServices/index.html).
+Detailed descriptions and usage for EOS SDK Interfaces can be found on [Epic's documentation for Game Services](https://dev.epicgames.com/docs/services/en-US/GameServices/index.html).
+
+For issues of a confidential nature (for instance for support using this Plugin on restricted console platforms), please reach out to us directly at [eos-support@playeveryware.com](mailto:playeos-support@playeveryware.com).
+
+If it is _at all_ unclear to you where to go for support - do not hesitate to open a `New Issue` under the [Issues](https://github.com/PlayEveryWare/eos_plugin_for_unity/issues) tab, and we will make certain that you are properly (and promptly) assisted :)
 
 # Contributor Notes
 
@@ -113,10 +121,10 @@ This is an open source project! We welcome you to make contributions. See our [C
 
 To disable the plugin for specific platforms, see [this](/docs/disable_plugin_per_platform.md) (which also explains why you might want to do this).
 
-See [here](/docs/command_line_export.md) for a guide on how to export the plugin from the command line. 
+See [our guide](/docs/command_line_export.md) on how to export the plugin from the command line. 
 
 For issues of API Level compatibility, please read our [document](/docs/dotnet_quirks.md) on .NET Quirks and Unity compatibility.
 
-For more FAQs see [here](/docs/frequently_asked_questions.md).
+For more FAQs see [Frequently Asked Questions](/docs/frequently_asked_questions.md).
 
 If you have any outstanding questions, please bring them up in the [Discussions](https://github.com/PlayEveryWare/eos_plugin_for_unity/discussions) tab.
