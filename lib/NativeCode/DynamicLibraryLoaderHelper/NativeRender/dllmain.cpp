@@ -1363,9 +1363,8 @@ void eos_create(EOSConfig& eosConfig)
 
         for (const auto& currentFullValue : eos_steam_config.steamApiInterfaceVersionsArray)
         {
-            for (size_t characterIndex = 0; characterIndex < currentFullValue.length(); characterIndex++)
+            for (char currentCharacter : currentFullValue)
             {
-                char currentCharacter = currentFullValue[characterIndex];
                 steamApiInterfaceVersionsAsCharArray.push_back(currentCharacter);
             }
 
