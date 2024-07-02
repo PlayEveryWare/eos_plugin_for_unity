@@ -585,23 +585,22 @@ namespace PlayEveryWare.EpicOnlineServices
                         LoggingInterface.SetCallback(SimplePrintCallback);
                         hasSetLoggingCallback = true;
                     }
-#if UNITY_EDITOR
-                    SetLogLevel(LogCategory.AllCategories, LogLevel.VeryVerbose);
-#else
-                    SetLogLevel(LogCategory.AllCategories, LogLevel.Warning);
-#endif
 
                     InitializeOverlay(coroutineOwner);
                     return;
                 }
 
-#if !UNITY_EDITOR && !UNITY_SWITCH
-                // Set logging to VeryVerbose on EOS SDK bootstrap so we get the most logging information
-                SetLogLevel(LogCategory.AllCategories, LogLevel.VeryVerbose);
-#endif
                 s_state = EOSState.Starting;
 
                 LoadEOSLibraries();
+
+                // Set log level prior to platform interface initialization
+                // VeryVerbose for dynamic linking platforms, otherwise set levels from configs 
+#if UNITY_EDITOR
+                SetLogLevel(LogCategory.AllCategories, LogLevel.VeryVerbose);
+#else
+                InitializeLogLevels();
+#endif
 
                 var epicArgs = GetCommandLineArgsFromEpicLauncher();
 
@@ -672,15 +671,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 SetEOSPlatformInterface(eosPlatformInterface);
                 UpdateEOSApplicationStatus();
 
-
                 InitializeOverlay(coroutineOwner);
-
-                // Default back to quiet logs
-#if UNITY_EDITOR
-                SetLogLevel(LogCategory.AllCategories, LogLevel.VeryVerbose);
-#else
-                SetLogLevel(LogCategory.AllCategories, LogLevel.Warning);
-#endif
 
                 print("EOS loaded");
             }
@@ -767,6 +758,21 @@ namespace PlayEveryWare.EpicOnlineServices
                 else
                 {
                     logLevels[Category] = Level;
+                }
+            }
+
+            //-------------------------------------------------------------------------
+            /// <summary>
+            /// Initialize log levels loaded from <see cref="LogLevelConfig" />.
+            /// Should only be called after EOS library loaded, especially for dynamic linking platforms
+            /// </summary>
+            private void InitializeLogLevels()
+            {
+                var logLevelList = LogLevelUtility.LogLevelList;
+
+                for (int logCategoryIndex = 0; logCategoryIndex < logLevelList.Count; logCategoryIndex++)
+                {
+                    SetLogLevel((LogCategory)logCategoryIndex, logLevelList[logCategoryIndex]);
                 }
             }
 

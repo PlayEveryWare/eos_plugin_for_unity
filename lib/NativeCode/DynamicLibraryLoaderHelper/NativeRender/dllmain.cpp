@@ -64,6 +64,7 @@
 
 #define EOS_SERVICE_CONFIG_FILENAME "EpicOnlineServicesConfig.json"
 #define EOS_STEAM_CONFIG_FILENAME "eos_steam_config.json"
+#define EOS_LOGLEVEL_CONFIG_FILENAME "log_level_config.json"
 
 #define RESTRICT __restrict
 
@@ -143,6 +144,12 @@ struct EOSConfig
 
     bool isServer = false;
 
+};
+
+struct LogLevelConfig 
+{
+    std::vector<std::string> category;
+    std::vector<std::string> level;
 };
 
 struct EOSSteamConfig
@@ -375,6 +382,41 @@ static const char* eos_loglevel_to_print_str(EOS_ELogLevel level)
         break;
     default:
         return nullptr;
+    }
+}
+
+std::unordered_map<std::string, EOS_ELogLevel> const loglevel_str_map =
+{
+    {"Off",EOS_ELogLevel::EOS_LOG_Off},
+    {"Fatal",EOS_ELogLevel::EOS_LOG_Fatal},
+    {"Error",EOS_ELogLevel::EOS_LOG_Error},
+    {"Warning",EOS_ELogLevel::EOS_LOG_Warning},
+    {"Info",EOS_ELogLevel::EOS_LOG_Info},
+    {"Verbose",EOS_ELogLevel::EOS_LOG_Verbose},
+    {"VeryVerbose",EOS_ELogLevel::EOS_LOG_VeryVerbose},
+};
+
+EOS_ELogLevel eos_loglevel_str_to_enum(const std::string& str)
+{
+    auto it = loglevel_str_map.find(str);
+    if (it != loglevel_str_map.end())
+    {
+        return it->second;
+    }
+    else
+    {
+        return EOS_ELogLevel::EOS_LOG_Verbose;
+    }
+}
+
+void eos_set_loglevel(const LogLevelConfig& log_config)
+{
+    if (EOS_Logging_SetLogLevel_ptr != nullptr)
+    {
+        for (int i = 0; i < log_config.category.size() - 1; i++)
+        {
+            EOS_Logging_SetLogLevel_ptr((EOS_ELogCategory)i, eos_loglevel_str_to_enum(log_config.level[i]));
+        }
     }
 }
 
@@ -897,6 +939,41 @@ static EOSConfig eos_config_from_json_value(json_value_s* config_json)
     return eos_config;
 }
 
+static LogLevelConfig log_config_from_json_value(json_value_s* config_json)
+{
+    struct json_object_s* config_json_object = json_value_as_object(config_json);
+    struct json_object_element_s* iter = config_json_object->start;
+    LogLevelConfig log_config;
+
+    while (iter != nullptr)
+    {
+        if (!strcmp("logCategoryLevelPairs", iter->name->string))
+        {
+            json_array_s* pairs = json_value_as_array(iter->value);
+            for (auto e = pairs->start; e != nullptr; e = e->next)
+            {
+                struct json_object_s* pairs_json_object = json_value_as_object(e->value);
+                struct json_object_element_s* pairs_iter = pairs_json_object->start;
+                while (pairs_iter != nullptr)
+                {
+                    if (!strcmp("category", pairs_iter->name->string))
+                    {
+                        log_config.category.push_back(json_value_as_string(pairs_iter->value)->string);
+                    }
+                    else if (!strcmp("level", pairs_iter->name->string))
+                    {
+                        log_config.level.push_back(json_value_as_string(pairs_iter->value)->string);
+                    }
+                    pairs_iter = pairs_iter->next;
+                }
+            }
+        }
+        iter = iter->next;
+    }
+    
+    return log_config;
+}
+
 //-------------------------------------------------------------------------
 static bool str_is_equal_to_any(const char* str, ...)
 {
@@ -1417,6 +1494,12 @@ DLL_EXPORT(void) UnityPluginLoad(void*)
     EOSConfig eos_config = eos_config_from_json_value(eos_config_as_json);
     free(eos_config_as_json);
 
+    auto path_to_log_config_json = get_path_for_eos_service_config(EOS_LOGLEVEL_CONFIG_FILENAME);
+    json_value_s* log_config_as_json = read_config_json_as_json_from_path(path_to_log_config_json);
+    LogLevelConfig log_config = log_config_from_json_value(log_config_as_json);
+    free(log_config_as_json);
+    global_logf("NativePlugin log sonfig size (%d)", log_config.category.size());
+
 #if PLATFORM_WINDOWS
     //support sandbox and deployment id override via command line arguments
     std::stringstream argStream = std::stringstream(GetCommandLineA());
@@ -1518,6 +1601,7 @@ DLL_EXPORT(void) UnityPluginLoad(void*)
 
             eos_init(eos_config);
 
+            eos_set_loglevel(log_config);
             //log_warn("start eos create");
             eos_create(eos_config);
 
