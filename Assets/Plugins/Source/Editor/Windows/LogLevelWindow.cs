@@ -23,6 +23,7 @@
 using UnityEngine;
 using UnityEditor;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 
 #if !EOS_DISABLE
@@ -53,8 +54,10 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
                 currentLogLevelConfig.LogCategoryLevelPairs = new List<LogCategoryLevelPair>();
             }
 
+            string[] storedCategories = currentLogLevelConfig.LogCategoryLevelPairs.Select(pair => pair.Category).ToArray();
+
             // Initialize the list if config categories does not match the SDK categories, which might happen when using a different SDK version
-            if (currentLogLevelConfig.LogCategoryLevelPairs.Count != categories.Length)
+            if (!storedCategories.SequenceEqual(categories))
             {
                 currentLogLevelConfig.LogCategoryLevelPairs.Clear();
 
