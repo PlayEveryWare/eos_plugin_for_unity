@@ -1376,16 +1376,18 @@ void eos_create(EOSConfig& eosConfig)
                 
         auto size = steamApiInterfaceVersionsAsCharArray.size();
 
-        if (size > (std::numeric_limits<uint32_t>::max)()) {
-            log_error("Size given for SteamApiInterfaceVersionsAsCharArray exceeds the maximum value for uint32_t.");
-            throw std::overflow_error("Size exceeds the maximum value for uint32_t");
+        if (size > EOS_INTEGRATEDPLATFORM_STEAM_MAX_STEAMAPIINTERFACEVERSIONSARRAY_SIZE) 
+        {
+            log_error("Size given for SteamApiInterfaceVersionsAsCharArray exceeds the maximum value.");
         }
-
-        // steam_platform needs to have a count of how many bytes the "array" is, stored in SteamApiInterfaceVersionsArrayBytes
-        // This has some fuzzy behavior; if you set it to 0 or count it up properly, there won't be a logged problem
-        // if you put a non-zero amount that is insufficient, there will be an unclear logged error message
-        steam_platform.SteamApiInterfaceVersionsArrayBytes = static_cast<uint32_t>(size);
-
+        else
+        {
+            // steam_platform needs to have a count of how many bytes the "array" is, stored in SteamApiInterfaceVersionsArrayBytes
+            // This has some fuzzy behavior; if you set it to 0 or count it up properly, there won't be a logged problem
+            // if you put a non-zero amount that is insufficient, there will be an unclear logged error message
+            steam_platform.SteamApiInterfaceVersionsArrayBytes = size;
+        }
+        
         steam_integrated_platform_option.ApiVersion = EOS_INTEGRATEDPLATFORM_OPTIONS_API_LATEST;
         steam_integrated_platform_option.Type = EOS_IPT_Steam;
         steam_integrated_platform_option.Flags = eos_steam_config.flags;
