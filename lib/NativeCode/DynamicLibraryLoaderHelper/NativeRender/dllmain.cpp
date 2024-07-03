@@ -1,3 +1,25 @@
+/*
+ * Copyright (c) 2021 PlayEveryWare
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 // dllmain.cpp : Defines the entry point for the DLL application.
 // This file does some *magick* to load the EOS Overlay DLL.
 // This is apparently needed so that the Overlay can render properly
@@ -6,13 +28,11 @@
 #define _SILENCE_CXX17_CODECVT_HEADER_DEPRECATION_WARNING
 
 #include <stdio.h>
-#include <assert.h>
 #include <stdlib.h>
 
 #include <string>
 #include <sstream>
 #include <functional>
-#include <algorithm>
 #include <utility>
 #include <filesystem>
 #include <optional>
@@ -30,7 +50,6 @@
 #endif
 #include "eos_sdk.h"
 #include "eos_logging.h"
-#include "eos_integratedplatform.h"
 
 #include "json.h"
 
@@ -413,7 +432,7 @@ void eos_set_loglevel(const LogLevelConfig& log_config)
 {
     if (EOS_Logging_SetLogLevel_ptr != nullptr)
     {
-        for (int i = 0; i < log_config.category.size() - 1; i++)
+        for (size_t i = 0; i < log_config.category.size() - 1; i++)
         {
             EOS_Logging_SetLogLevel_ptr((EOS_ELogCategory)i, eos_loglevel_str_to_enum(log_config.level[i]));
         }
@@ -1338,13 +1357,10 @@ void eos_create(EOSConfig& eosConfig)
         // then add one more null terminator at the end of the array
         std::vector<char> steamApiInterfaceVersionsAsCharArray;
 
-        for (int apiInterfaceVersionIndex = 0; apiInterfaceVersionIndex < eos_steam_config.steamApiInterfaceVersionsArray.size(); apiInterfaceVersionIndex++)
+        for (const auto& currentFullValue : eos_steam_config.steamApiInterfaceVersionsArray)
         {
-            const std::string& currentFullValue = eos_steam_config.steamApiInterfaceVersionsArray[apiInterfaceVersionIndex];
-
-            for (int characterIndex = 0; characterIndex < currentFullValue.length(); characterIndex++)
+            for (char currentCharacter : currentFullValue)
             {
-                char currentCharacter = currentFullValue[characterIndex];
                 steamApiInterfaceVersionsAsCharArray.push_back(currentCharacter);
             }
 
@@ -1353,12 +1369,21 @@ void eos_create(EOSConfig& eosConfig)
         steamApiInterfaceVersionsAsCharArray.push_back('\0');
 
         steam_platform.SteamApiInterfaceVersionsArray = reinterpret_cast<char*>(steamApiInterfaceVersionsAsCharArray.data());
+                
+        auto size = steamApiInterfaceVersionsAsCharArray.size();
 
-        // steam_platform needs to have a count of how many bytes the "array" is, stored in SteamApiInterfaceVersionsArrayBytes
-        // This has some fuzzy behavior; if you set it to 0 or count it up properly, there won't be a logged problem
-        // if you put a non-zero amount that is insufficient, there will be an unclear logged error message
-        steam_platform.SteamApiInterfaceVersionsArrayBytes = steamApiInterfaceVersionsAsCharArray.size();
-
+        if (size > EOS_INTEGRATEDPLATFORM_STEAM_MAX_STEAMAPIINTERFACEVERSIONSARRAY_SIZE) 
+        {
+            log_error("Size given for SteamApiInterfaceVersionsAsCharArray exceeds the maximum value.");
+        }
+        else
+        {
+            // steam_platform needs to have a count of how many bytes the "array" is, stored in SteamApiInterfaceVersionsArrayBytes
+            // This has some fuzzy behavior; if you set it to 0 or count it up properly, there won't be a logged problem
+            // if you put a non-zero amount that is insufficient, there will be an unclear logged error message
+            steam_platform.SteamApiInterfaceVersionsArrayBytes = static_cast<uint32_t>(size);
+        }
+        
         steam_integrated_platform_option.ApiVersion = EOS_INTEGRATEDPLATFORM_OPTIONS_API_LATEST;
         steam_integrated_platform_option.Type = EOS_IPT_Steam;
         steam_integrated_platform_option.Flags = eos_steam_config.flags;
