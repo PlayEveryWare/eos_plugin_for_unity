@@ -1385,7 +1385,7 @@ void eos_create(EOSConfig& eosConfig)
             // steam_platform needs to have a count of how many bytes the "array" is, stored in SteamApiInterfaceVersionsArrayBytes
             // This has some fuzzy behavior; if you set it to 0 or count it up properly, there won't be a logged problem
             // if you put a non-zero amount that is insufficient, there will be an unclear logged error message
-            steam_platform.SteamApiInterfaceVersionsArrayBytes = size;
+            steam_platform.SteamApiInterfaceVersionsArrayBytes = static_cast<uint32_t>(size);
         }
         
         steam_integrated_platform_option.ApiVersion = EOS_INTEGRATEDPLATFORM_OPTIONS_API_LATEST;
