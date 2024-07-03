@@ -28,20 +28,17 @@
 #define _SILENCE_CXX17_CODECVT_HEADER_DEPRECATION_WARNING
 
 #include <stdio.h>
-#include <assert.h>
 #include <stdlib.h>
 
 #include <string>
 #include <sstream>
 #include <functional>
-#include <algorithm>
 #include <utility>
 #include <filesystem>
 #include <optional>
 #include <codecvt>
 #include <vector>
 #include <iostream>
-#include <limits>
 
 
 //#include "eos_minimum_includes.h"
@@ -53,7 +50,6 @@
 #endif
 #include "eos_sdk.h"
 #include "eos_logging.h"
-#include "eos_integratedplatform.h"
 
 #include "json.h"
 
