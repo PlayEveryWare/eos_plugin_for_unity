@@ -531,7 +531,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// The callback will only run if a listener is subscribed, which is done in <see cref="SubscribeToLobbyUpdates"/>.
         /// </summary>
         /// <param name="lobbyInterface">Handle to the lobby interface.</param>
-        /// <param name="notificationFn">Callback to receive notification when lobby member update is received</param>
+        /// <param name="notificationFn">Callback to receive notification when lobby update is received.</param>
+        /// <returns>Handle representing the registered callback</returns>
         private ulong AddNotifyLobbyUpdateReceived(LobbyInterface lobbyInterface, OnLobbyUpdateReceivedCallback notificationFn)
         {
             var options = new AddNotifyLobbyUpdateReceivedOptions();
@@ -543,7 +544,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// The callback will only run if a listener is subscribed, which is done in <see cref="SubscribeToLobbyUpdates"/>.
         /// </summary>
         /// <param name="lobbyInterface">Handle to the lobby interface.</param>
-        /// <param name="notificationFn">Callback to receive notification when lobby member update is received</param>
+        /// <param name="notificationFn">Callback to receive notification when lobby member update is received.</param>
+        /// <returns>Handle representing the registered callback</returns>
         private ulong AddNotifyLobbyMemberUpdateReceived(LobbyInterface lobbyInterface, OnLobbyMemberUpdateReceivedCallback notificationFn)
         {
             var options = new AddNotifyLobbyMemberUpdateReceivedOptions();
@@ -555,7 +557,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// The callback will only run if a listener is subscribed, which is done in <see cref="SubscribeToLobbyUpdates"/>.
         /// </summary>
         /// <param name="lobbyInterface">Handle to the lobby interface.</param>
-        /// <param name="notificationFn">Callback to receive notification when lobby member update is received</param>
+        /// <param name="notificationFn">Callback to receive notification when lobby member status is received.</param>
+        /// <returns>Handle representing the registered callback</returns>
         private ulong AddNotifyLobbyMemberStatusReceived(LobbyInterface lobbyInterface, OnLobbyMemberStatusReceivedCallback notificationFn)
         {
             var options = new AddNotifyLobbyMemberStatusReceivedOptions();
@@ -567,7 +570,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// The callback will only run if a listener is subscribed, which is done in <see cref="SubscribeToLobbyUpdates"/>.
         /// </summary>
         /// <param name="lobbyInterface">Handle to the lobby interface.</param>
-        /// <param name="notificationFn">Callback to receive notification when lobby member update is received</param>
+        /// <param name="notificationFn">Callback to receive notification when lobby member leave request is received.</param>
+        /// <returns>Handle representing the registered callback</returns>
         private ulong AddNotifyLeaveLobbyRequested(LobbyInterface lobbyInterface, OnLeaveLobbyRequestedCallback notificationFn)
         {
             var options = new AddNotifyLeaveLobbyRequestedOptions();
