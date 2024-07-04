@@ -1060,9 +1060,26 @@ namespace PlayEveryWare.EpicOnlineServices
                     return;
                 }
 
-                if (authToken.HasValue && authToken.Value.RefreshToken != null)
+                print($"CopyUserAuthToken result code: {result}");
+
+                if (!authToken.HasValue)
+                {
+                    print("authToken was not found, unable to login");
+
+                    var dummyLoginCallbackInfo = new Epic.OnlineServices.Connect.LoginCallbackInfo();
+                    dummyLoginCallbackInfo.ResultCode = Result.InvalidAuth;
+                    onConnectLoginCallback(dummyLoginCallbackInfo);
+
+                    return;
+                }
+
+                // If the authToken returned a value, and there is a RefreshToken, then try to login using that
+                // Otherwise, try to use the AccessToken if that's available
+                // One or the other should be provided, but if neither is available then fail to login
+                if (authToken.Value.RefreshToken != null)
                 {
                     print("Attempting to use refresh token to login with connect");
+
                     // need to refresh the epicaccount id
                     // LoginCredentialType.RefreshToken
                     Instance.StartLoginWithLoginTypeAndToken(LoginCredentialType.RefreshToken, null,
@@ -1082,8 +1099,10 @@ namespace PlayEveryWare.EpicOnlineServices
                             StartConnectLoginWithOptions(connectLoginOptions, onConnectLoginCallback);
                         });
                 }
-                else
+                else if (authToken.Value.AccessToken != null)
                 {
+                    print("Attempting to use access token to login with connect");
+
                     connectLoginOptions.Credentials = new Epic.OnlineServices.Connect.Credentials
                     {
                         Token = authToken.Value.AccessToken,
@@ -1091,6 +1110,14 @@ namespace PlayEveryWare.EpicOnlineServices
                     };
 
                     StartConnectLoginWithOptions(connectLoginOptions, onConnectLoginCallback);
+                }
+                else
+                {
+                    print("authToken has a value, but neither the refresh token nor the access token was provided. Cannot login.");
+
+                    var dummyLoginCallbackInfo = new Epic.OnlineServices.Connect.LoginCallbackInfo();
+                    dummyLoginCallbackInfo.ResultCode = Result.InvalidAuth;
+                    onConnectLoginCallback(dummyLoginCallbackInfo);
                 }
             }
 
