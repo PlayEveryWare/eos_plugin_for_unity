@@ -268,6 +268,15 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 }
             }
 
+            if (sessionDetailsInfo.HasValue)
+            {
+                NumConnections = MaxPlayers - sessionDetailsInfo.Value.NumOpenPublicConnections;
+            }
+            else
+            {
+                EOSSessionsManager.Log("Session (InitFromSessionInfo): SessionDetailsInfo was null, therefore unable to determine current player count.");
+            }
+
             InitActiveSession();
 
             UpdateInProgress = false;
@@ -439,6 +448,22 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         #endregion
 
+        #region Peer2Peer UX Variables
+
+        /// <summary>
+        /// When using <see cref="RefreshSession(string)"/>, this is the SessionSearch used.
+        /// The search is contained inside here instead of <see cref="CurrentSearch"/> to minimize collisions with any other searches.
+        /// </summary>
+        private SessionSearch P2PSessionRefreshSessionSearch { get; set; }
+
+        /// <summary>
+        /// After a successful <see cref="RefreshSession(string)"/> and <see cref="OnRefreshSessionFindSessionsCompleteCallback(ref SessionSearchFindCallbackInfo)"/> callback call,
+        /// this is run to inform UI of the updated Session information.
+        /// </summary>
+        public Action<Session, SessionDetails> UIOnSessionRefresh { get; set; }
+
+        #endregion
+
         public bool IsUserLoggedIn
         {
             get { return userLoggedIn; }
@@ -456,6 +481,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             CurrentSearch = new SessionSearch();
             Invites = new Dictionary<Session, SessionDetails>();
             CurrentInvite = null;
+
+            P2PSessionRefreshSessionSearch = new SessionSearch();
         }
 
         /// <summary>
@@ -465,7 +492,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// </summary>
         /// <param name="toPrint">The message to log.</param>
         [System.Diagnostics.Conditional("ENABLE_DEBUG_SESSIONS_MANAGER")]
-        private static void Log(string toPrint)
+        internal static void Log(string toPrint)
         {
             UnityEngine.Debug.Log(toPrint);
         }
@@ -889,7 +916,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             return false;
         }
 
-        public Session GetSessionById(string id)
+        public bool TryGetSessionById(string id, out Session session)
         {
             foreach (Session curSession in CurrentSessions.Values)
             {
@@ -898,10 +925,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     continue;
                 }
 
-                return curSession;
+                session = curSession;
+                return true;
             }
 
-            return null;
+            session = null;
+            return false;
         }
 
         public void StartSession(string name)
@@ -1825,6 +1854,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             // ClientData should contain the local sessionName
             if (data.ClientData is string localSessionName)
             {
+                // Refresh the owner's local UI, and also inform members
+                RefreshSession(localSessionName);
                 InformSessionMembers(localSessionName, P2P_REFRESH_SESSION_MESSAGE_ELEMENT);
             }
         }
@@ -1846,6 +1877,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             // ClientData should contain the local sessionName
             if (data.ClientData is string localSessionName)
             {
+                // Refresh the owner's local UI, and also inform members
+                RefreshSession(localSessionName);
                 InformSessionMembers(localSessionName, P2P_REFRESH_SESSION_MESSAGE_ELEMENT);
             }
         }
@@ -2031,6 +2064,145 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public void DeclineLobbyInvite()
         {
             PopLobbyInvite();
+        }
+
+        /// <summary>
+        /// Identifies a local session by its <paramref name="localSessionName"/>, gets its back end <see cref="Session.Id"/>,
+        /// and then attempts to use the Session search API to look for this Session on the Epic Online Services back end.
+        /// If it is able to find it, then a UI refresh action is called to inform the UI to update the Session's displayed information.
+        /// While similar to <see cref="SearchById(string)"/>, this function uses <see cref="P2PSessionRefreshSessionSearch"/> instead of <see cref="CurrentSearch"/>,
+        /// and uses <see cref="OnRefreshSessionFindSessionsCompleteCallback"/> as the callback to handle the results.
+        /// </summary>
+        /// <param name="localSessionName"></param>
+        public void RefreshSession(string localSessionName)
+        {
+            // First ensure that we have this local session
+            if (!TryGetSession(localSessionName, out Session localSession))
+            {
+                Log($"EOSSessionsManager (RefreshSession): Asked to refresh a Session with {nameof(localSessionName)} \"{localSessionName}\", but could not find a local Session with that name. Unable to refresh.");
+                return;
+            }
+
+            if (string.IsNullOrEmpty(localSession.Id))
+            {
+                Log($"EOSSessionsManager (RefreshSession): Asked to refresh a Session with {nameof(localSessionName)} \"{localSessionName}\", but the found local Session did not have an {nameof(Session.Id)} assigned. Unable to refresh.");
+                return;
+            }
+
+            Log($"EOSSessionsManager (RefreshSession): Requested to refresh session with local name {localSessionName} and {nameof(Session.Id)} {localSession.Id}.");
+
+            // Clear previous search
+            P2PSessionRefreshSessionSearch.Release();
+
+            // There should be exactly one or zero results
+            CreateSessionSearchOptions searchOptions = new CreateSessionSearchOptions();
+            searchOptions.MaxSearchResults = 1;
+
+            SessionsInterface sessionInterface = EOSManager.Instance.GetEOSPlatformInterface().GetSessionsInterface();
+            Result result = sessionInterface.CreateSessionSearch(ref searchOptions, out Epic.OnlineServices.Sessions.SessionSearch sessionSearchHandle);
+
+            if (result != Result.Success)
+            {
+                Debug.LogErrorFormat("EOSSessionsManager (RefreshSession): Failed create Session search. Error code: {0}", result);
+                AcknowledgeEventId(result);
+                return;
+            }
+
+            P2PSessionRefreshSessionSearch.SetNewSearch(sessionSearchHandle);
+
+            SessionSearchSetSessionIdOptions sessionIdOptions = new SessionSearchSetSessionIdOptions();
+            sessionIdOptions.SessionId = localSession.Id;
+
+            result = sessionSearchHandle.SetSessionId(ref sessionIdOptions);
+
+            if (result != Result.Success)
+            {
+                Debug.LogErrorFormat("EOSSessionsManager (RefreshSession): Failed to update Session search with Session ID. Error code: {0}", result);
+                AcknowledgeEventId(result);
+                return;
+            }
+
+            SessionSearchFindOptions findOptions = new SessionSearchFindOptions();
+            findOptions.LocalUserId = EOSManager.Instance.GetProductUserId();
+
+            sessionSearchHandle.Find(ref findOptions, localSessionName, OnRefreshSessionFindSessionsCompleteCallback);
+        }
+
+        /// <summary>
+        /// Handles the Session search results from <see cref="P2PSessionRefreshSessionSearch"/>.
+        /// Similar to <see cref="OnFindSessionsCompleteCallback(ref SessionSearchFindCallbackInfo)"/>, but tailored explicitly for refreshing existing Sessions.
+        /// </summary>
+        /// <param name="info">Callback information indicating success. The <see cref="SessionSearchFindCallbackInfo.ClientData"/> should contain the local Session name.</param>
+        private void OnRefreshSessionFindSessionsCompleteCallback(ref SessionSearchFindCallbackInfo info)
+        {
+            if (info.ClientData is not string localSessionName)
+            {
+                Debug.LogError($"EOSSessionsManager (OnRefreshSessionFindSessionsCompleteCallback): When constructing the search, the local Session name should be included in the ClientData of the Find method. Without it, the Session that should be updated cannot be determined.");
+                return;
+            }
+
+            if (P2PSessionRefreshSessionSearch == null)
+            {
+                Debug.LogError($"EOSSessionsManager (OnRefreshSessionFindSessionsCompleteCallback): {nameof(P2PSessionRefreshSessionSearch)} is null. This callback should not be run without this search being set.");
+                return;
+            }
+
+            Epic.OnlineServices.Sessions.SessionSearch searchHandle = P2PSessionRefreshSessionSearch.GetSearchHandle();
+
+            if (searchHandle == null)
+            {
+                Debug.LogError("EOSSessionsManager (OnRefreshSessionFindSessionsCompleteCallback): searchHandle is null");
+                return;
+            }
+
+            var sessionSearchGetSearchResultCountOptions = new SessionSearchGetSearchResultCountOptions();
+            uint numSearchResult = searchHandle.GetSearchResultCount(ref sessionSearchGetSearchResultCountOptions);
+
+            if (numSearchResult == 0)
+            {
+                Log($"EOSSessionsManager (OnRefreshSessionFindSessionsCompleteCallback): Search for refresh completed successfully, but found no sessions with the associated id.");
+                return;
+            }
+
+            if (numSearchResult > 1)
+            {
+                Log($"EOSSessionsManager (OnRefreshSessionFindSessionsCompleteCallback): Search for refresh completed successfully, but somehow found multiple Sessions. Only the first Session in the list will be used.");
+            }
+
+
+            SessionSearchCopySearchResultByIndexOptions indexOptions = new SessionSearchCopySearchResultByIndexOptions()
+            {
+                SessionIndex = 0
+            };
+
+            Result result = searchHandle.CopySearchResultByIndex(ref indexOptions, out SessionDetails sessionDetails);
+
+            if (result != Result.Success || sessionDetails == null)
+            {
+                Debug.LogError($"EOSSessionsManager (OnRefreshSessionFindSessionsCompleteCallback): Failed to copy search results. Result code {result}.");
+                return;
+            }
+
+            var sessionDetailsCopyInfoOptions = new SessionDetailsCopyInfoOptions();
+            result = sessionDetails.CopyInfo(ref sessionDetailsCopyInfoOptions, out SessionDetailsInfo? sessionInfo);
+
+            if (result != Result.Success || !sessionInfo.HasValue)
+            {
+                Debug.LogError($"EOSSessionsManager (OnRefreshSessionFindSessionsCompleteCallback): Failed to copy information out of the Session handle. Result code {result}.");
+                return;
+            }
+
+            // Now that we have the back-end session information, update the existing session
+            if (!TryGetSessionById(sessionInfo.Value.SessionId, out Session existingLocalSession))
+            {
+                Log($"EOSSessionsManager (OnRefreshSessionFindSessionsCompleteCallback): Successfully queried Epic Online Services for Session, but was unable to find a local session with {nameof(Session.Id)} \"{sessionInfo.Value.SessionId}\".");
+                return;
+            }
+
+            Log($"EOSSessionsManager (OnRefreshSessionFindSessionsCompleteCallback): Successfully queried Epic Online Services for Session. Attempting to update found local Session with {nameof(Session.Name)} \"{existingLocalSession.Name}\".");
+            existingLocalSession.InitFromSessionInfo(sessionDetails, sessionInfo);
+
+            UIOnSessionRefresh?.Invoke(existingLocalSession, sessionDetails);
         }
 
         #region Peer2Peer Messaging Functions
@@ -2426,14 +2598,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             Log($"EOSSessionsManager (HandleReceivedP2PMessages): Message parts: [{nameof(sessionId)}: {sessionId}] [{nameof(userId)}: {userId}] [{nameof(messageElement)}: {messageElement}]");
 
-            Session session = GetSessionById(sessionId);
-            ProductUserId messagingUserId = ProductUserId.FromString(userId);
-
-            if (session == null)
+            if (!TryGetSessionById(sessionId, out Session session))
             {
                 Debug.LogError($"EOSSessionsManager (HandleReceivedP2PMessages): Message received regarding sessionId {sessionId}, but no local sessions have that id. Message: {message}");
                 return;
             }
+
+            ProductUserId messagingUserId = ProductUserId.FromString(userId);
 
             switch (messageElement)
             {
@@ -2444,7 +2615,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     UnRegister(session.Name, messagingUserId);
                     break;
                 case P2P_REFRESH_SESSION_MESSAGE_ELEMENT:
-                    // TODO: This is where a method would be called for refreshing one's local UI
+                    RefreshSession(session.Name);
                     break;
                 case P2P_SESSION_OWNER_DESTROYED_SESSION_MESSAGE_ELEMENT:
                     // TODO: This is where a user would leave a session because it was destroyed

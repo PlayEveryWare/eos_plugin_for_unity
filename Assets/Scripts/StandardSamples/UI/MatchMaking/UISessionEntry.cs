@@ -44,6 +44,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         [HideInInspector]
         public SessionDetails JoinSessionDetails = null;
 
+        public Session RepresentedSession { get; set; }
+
         public Button StartButton;
         public Button EndButton;
         public Button ModifyButton;
@@ -72,8 +74,24 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public void EnableButtonsBySessionState(bool updating, OnlineSessionState state)
         {
-            StartButton.interactable = !updating && (state == OnlineSessionState.Pending || state == OnlineSessionState.Ended);
-            EndButton.interactable = !updating && state == OnlineSessionState.InProgress;
+            // If we aren't in this Session, then only show the buttons for joining
+            // If we are in this Session, enable those buttons
+            if (state == OnlineSessionState.NoSession)
+            {
+                OnlyEnableSearchResultButtons();
+            }
+            else
+            {
+                NameTxt.transform.gameObject.SetActive(true);
+
+                StartButton.interactable = !updating && (state == OnlineSessionState.Pending || state == OnlineSessionState.Ended);
+                EndButton.interactable = !updating && state == OnlineSessionState.InProgress;
+                LeaveButton.interactable = true;
+
+                // TODO: ModifyButton should only be available for users with permission to use it
+                // We should query that information and then set this intelligently
+                ModifyButton.interactable = true;
+            }
         }
 
         public void JoinOnClickHandler()
@@ -138,6 +156,74 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             {
                 Debug.LogError("UISessionEntry: LeaveOnClick is not defined!");
             }
+        }
+
+        /// <summary>
+        /// Updates all of the labels and the pressable buttons for this UI element.
+        /// This version takes in only a <see cref="Session"/>.
+        /// It is meant to be called when you don't need <see cref="JoinOnClick"/> to be set,
+        /// perhaps because the user has already joined the Session this represents.
+        /// Call <see cref="SetUIElementsFromSessionAndDetails(Session, SessionDetails, UISessionsMatchmakingMenu)"/> to set the <see cref="JoinOnClick"/> action.
+        /// </summary>
+        /// <param name="session">The local Session that this should represent, from the Epic Online Services C# SDK.</param>
+        /// <param name="ui">The UI that contains click callback handlers.</param>
+        public void SetUIElementsFromSession(Session session, UISessionsMatchmakingMenu ui)
+        {
+            RepresentedSession = session;
+
+            NameTxt.text = session.Name;
+
+            if (session.UpdateInProgress)
+            {
+                StatusTxt.text = "*Updating*";
+            }
+            else
+            {
+                StatusTxt.text = session.SessionState.ToString();
+            }
+
+            EnableButtonsBySessionState(session.UpdateInProgress, session.SessionState);
+
+            PlayersTxt.text = string.Format("{0}/{1}", session.NumConnections, session.MaxPlayers);
+            JIPTxt.text = session.AllowJoinInProgress.ToString();
+            PermissionTxt.text = session.PermissionLevel.ToString();
+            InvitesTxt.text = session.InvitesAllowed.ToString();
+
+            StartOnClick = ui.StartButtonOnClick;
+            EndOnClick = ui.EndButtonOnClick;
+            ModifyOnClick = ui.ModifyButtonOnClick;
+            LeaveOnClick = ui.LeaveButtonOnClick;
+
+            bool levelAttributeFound = false;
+            foreach (SessionAttribute sessionAttr in session.Attributes)
+            {
+                if (sessionAttr.Key.Equals("Level", StringComparison.OrdinalIgnoreCase))
+                {
+                    LevelTxt.text = sessionAttr.AsString;
+                    levelAttributeFound = true;
+                    break;
+                }
+            }
+
+            if (!levelAttributeFound)
+            {
+                Debug.LogErrorFormat($"UISessionEntry (SetUIElementsFromSession): Attribute 'Level' not found for session '{session.Name}'.");
+                LevelTxt.text = "-NA-";
+            }
+        }
+
+        /// <summary>
+        /// Updates all of the labels and the pressable buttons for this UI element.
+        /// This calls <see cref="SetUIElementsFromSession(Session, UISessionsMatchmakingMenu)"/>, and additionally sets <see cref="JoinOnClick"/> and <see cref="JoinSessionDetails"/>.
+        /// </summary>
+        /// <param name="session">The local Session that this should represent, from the Epic Online Services C# SDK.</param>
+        /// <param name="details">Additional Session information from the Epic Online Services C SDK. Used to provide additional information needed to join a Session.</param>
+        /// <param name="ui">The UI that contains click callback handlers.</param>
+        public void SetUIElementsFromSessionAndDetails(Session session, SessionDetails details, UISessionsMatchmakingMenu ui)
+        {
+            SetUIElementsFromSession(session, ui);
+            JoinOnClick = ui.JoinButtonOnClick;
+            JoinSessionDetails = details;
         }
     }
 }
