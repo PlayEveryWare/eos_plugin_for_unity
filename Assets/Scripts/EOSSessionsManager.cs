@@ -2618,7 +2618,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     RefreshSession(session.Name);
                     break;
                 case P2P_SESSION_OWNER_DESTROYED_SESSION_MESSAGE_ELEMENT:
-                    // TODO: This is where a user would leave a session because it was destroyed
+                    DestroySession(session.Name);
                     break;
                 default:
                     Debug.LogError($"EOSSessionsManager (HandleReceivedP2PMessages): Unrecognized message element, unclear what action to take. Message: {message}");
