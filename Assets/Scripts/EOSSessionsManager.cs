@@ -370,10 +370,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         /// <summary>
         /// When sending or receiving Peer2Peer messages relating to Session Status upkeep, always use this same socket name.
-        /// The combination of this and <see cref="P2PSessionStatusUpdateChannel"/> is used to receive and send messages.
+        /// The combination of this and <see cref="P2P_SESSION_STATUS_UPDATE_CHANNEL"/> is used to receive and send messages.
         /// This should be distinct from any other sockets used in the program, because the socket id is used while accepting incoming peer requests.
         /// </summary>
-        private const string P2PSessionStatusSocketName = "SESSIONSTATUS";
+        private const string P2P_SESSION_STATUS_SOCKET_NAME = "SESSIONSTATUS";
 
         /// <summary>
         /// When sending or receiving Peer2Peer messages relating to Session status upkeep, always use this same channel.
@@ -381,58 +381,58 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// Because of the nature of <see cref="P2PInterface.GetNextReceivedPacketSize(ref GetNextReceivedPacketSizeOptions, out uint)"/>,
         /// collisions in using the same channel in another point in the program would require you to filter out things not meant for the appropriate socket.
         /// </summary>
-        private const byte P2PSessionStatusUpdateChannel = 0xF;
+        private const byte P2P_SESSION_STATUS_UPDATE_CHANNEL = 0xF;
 
         /// <summary>
         /// Messages about sessions should all start with this message, so that parsing the message for information is easy.
-        /// This is part of <see cref="P2PInformSessionMessageFormat"/>, which is then formatted to form messages that are sent.
+        /// This is part of <see cref="P2P_INFORM_SESSION_MESSAGE_FORMAT"/>, which is then formatted to form messages that are sent.
         /// The start of received messages are checked for starting with this text to know that it's something intended for managing session updates.
         /// </summary>
-        private const string P2PInformSessionMessageBase = "SESSIONINFORMATION";
+        private const string P2P_INFORM_SESSION_MESSAGE_BASE = "SESSIONINFORMATION";
 
         /// <summary>
-        /// Messages about sessions follow this format, starting with <see cref="P2PInformSessionMessageBase"/>.
+        /// Messages about sessions follow this format, starting with <see cref="P2P_INFORM_SESSION_MESSAGE_BASE"/>.
         /// {0} - The back-end <see cref="Session.Id"/> of the session to message about.
         /// {1} - The <see cref="ProductUserId"/> of the user sending the message.
         /// {2} - Additional information about the message.
-        /// <see cref="P2PJoiningSessionMessageElement"/>
-        /// <see cref="P2PLeavingSessionMessageElement"/>
-        /// <see cref="P2PRefreshSessionMessageElement"/>
-        /// <see cref="P2PSessionOwnerDestroyedSessionMessageElement"/>
+        /// <see cref="P2P_JOINING_SESSION_MESSAGE_ELEMENT"/>
+        /// <see cref="P2P_LEAVING_SESSION_MESSAGE_ELEMENT"/>
+        /// <see cref="P2P_REFRESH_SESSION_MESSAGE_ELEMENT"/>
+        /// <see cref="P2P_SESSION_OWNER_DESTROYED_SESSION_MESSAGE_ELEMENT"/>
         /// </summary>
-        private const string P2PInformSessionMessageFormat = P2PInformSessionMessageBase + " ({0}) ({1}) ({2})";
+        private const string P2P_INFORM_SESSION_MESSAGE_FORMAT = P2P_INFORM_SESSION_MESSAGE_BASE + " ({0}) ({1}) ({2})";
 
         /// <summary>
         /// Messages with this as the {2} parameter of <see cref="InformSessionOwnerMessageFormat"/> indicate a user is joining the session.
         /// </summary>
-        private const string P2PJoiningSessionMessageElement = "JOIN";
+        private const string P2P_JOINING_SESSION_MESSAGE_ELEMENT = "JOIN";
 
         /// <summary>
-        /// Messages with this as the {2} parameter of <see cref="P2PInformSessionMessageFormat"/> indicate a user is leaving the session.
+        /// Messages with this as the {2} parameter of <see cref="P2P_INFORM_SESSION_MESSAGE_FORMAT"/> indicate a user is leaving the session.
         /// </summary>
-        private const string P2PLeavingSessionMessageElement = "LEAVE";
+        private const string P2P_LEAVING_SESSION_MESSAGE_ELEMENT = "LEAVE";
 
         /// <summary>
-        /// Messages with this as the {2} parameter of <see cref="P2PInformSessionMessageFormat"/> indicate that a user should re-acquire and refresh session information.
+        /// Messages with this as the {2} parameter of <see cref="P2P_INFORM_SESSION_MESSAGE_FORMAT"/> indicate that a user should re-acquire and refresh session information.
         /// </summary>
-        private const string P2PRefreshSessionMessageElement = "REFRESH";
+        private const string P2P_REFRESH_SESSION_MESSAGE_ELEMENT = "REFRESH";
 
         /// <summary>
-        /// Messages with this as the {2} parameter of <see cref="P2PInformSessionMessageFormat"/> indicate that the owner of a session has destroyed the session,
+        /// Messages with this as the {2} parameter of <see cref="P2P_INFORM_SESSION_MESSAGE_FORMAT"/> indicate that the owner of a session has destroyed the session,
         /// so members of the session should also remove themselves from the session.
         /// </summary>
-        private const string P2PSessionOwnerDestroyedSessionMessageElement = "DESTROY";
+        private const string P2P_SESSION_OWNER_DESTROYED_SESSION_MESSAGE_ELEMENT = "DESTROY";
 
         /// <summary>
         /// When subscribing to peer request connection messages, this Id is held as a way to later remove the subscription.
-        /// This one notification id will handle all incoming peer requests on the <see cref="P2PSessionStatusSocketName"/> socket.
+        /// This one notification id will handle all incoming peer requests on the <see cref="P2P_SESSION_STATUS_SOCKET_NAME"/> socket.
         /// You should only be subscribed once for these notifications.
         /// </summary>
         private ulong P2PSessionPeerRequestConnectionNotificationId { get; set; }
 
         /// <summary>
         /// When subscribing to peer disconnection messages, this Id is held as a way to later remove the subscription.
-        /// This one notification id will handle all incoming peer disconnections on the <see cref="P2PSessionStatusSocketName"/> socket.
+        /// This one notification id will handle all incoming peer disconnections on the <see cref="P2P_SESSION_STATUS_SOCKET_NAME"/> socket.
         /// You should only be subscribed once for these notifications.
         /// </summary>
         private ulong P2PSessionPeerDisconnectConnectionNotificationId { get; set; }
@@ -1385,7 +1385,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     }
                 }
 
-                InformSessionMembers(sessionName, P2PRefreshSessionMessageElement);
+                InformSessionMembers(sessionName, P2P_REFRESH_SESSION_MESSAGE_ELEMENT);
             }
         }
 
@@ -1493,7 +1493,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                         CurrentSessions[session.Name] = session;
                     }
 
-                    InformSessionOwnerWithMessage(session.Name, P2PJoiningSessionMessageElement);
+                    InformSessionOwnerWithMessage(session.Name, P2P_JOINING_SESSION_MESSAGE_ELEMENT);
                 }
                 callback?.Invoke(result);
             }
@@ -1718,7 +1718,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             // ClientData should contain the local sessionName
             if (data.ClientData is string localSessionName)
             {
-                InformSessionMembers(localSessionName, P2PRefreshSessionMessageElement);
+                InformSessionMembers(localSessionName, P2P_REFRESH_SESSION_MESSAGE_ELEMENT);
             }
         }
 
@@ -1745,7 +1745,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             // ClientData should contain the local sessionName
             if (data.ClientData is string localSessionName)
             {
-                InformSessionMembers(localSessionName, P2PRefreshSessionMessageElement);
+                InformSessionMembers(localSessionName, P2P_REFRESH_SESSION_MESSAGE_ELEMENT);
             }
         }
 
@@ -1794,12 +1794,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             if (outActiveSessionInfo.Value.SessionDetails.Value.OwnerUserId.Equals(EOSManager.Instance.GetProductUserId()))
             {
                 // We're the owner of the session, inform everyone that it was destroyed
-                InformSessionMembers(sessionName, P2PSessionOwnerDestroyedSessionMessageElement);
+                InformSessionMembers(sessionName, P2P_SESSION_OWNER_DESTROYED_SESSION_MESSAGE_ELEMENT);
             }
             else
             {
                 // Inform the owner that we've left the session
-                InformSessionOwnerWithMessage(sessionName, P2PLeavingSessionMessageElement);
+                InformSessionOwnerWithMessage(sessionName, P2P_LEAVING_SESSION_MESSAGE_ELEMENT);
             }
 
             if (!string.IsNullOrEmpty(sessionName))
@@ -1825,7 +1825,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             // ClientData should contain the local sessionName
             if (data.ClientData is string localSessionName)
             {
-                InformSessionMembers(localSessionName, P2PRefreshSessionMessageElement);
+                InformSessionMembers(localSessionName, P2P_REFRESH_SESSION_MESSAGE_ELEMENT);
             }
         }
 
@@ -1846,7 +1846,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             // ClientData should contain the local sessionName
             if (data.ClientData is string localSessionName)
             {
-                InformSessionMembers(localSessionName, P2PRefreshSessionMessageElement);
+                InformSessionMembers(localSessionName, P2P_REFRESH_SESSION_MESSAGE_ELEMENT);
             }
         }
 
@@ -2039,7 +2039,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// This method subscribes to the notification channels for receiving P2P connection requests.
         /// By subscribing to the connection requests, we are able to accept those requests, and then start receiving P2P messages from the requesting user.
         /// This method must be called first, before P2P Messages can be received.
-        /// The subscribed socket is <see cref="P2PSessionStatusSocketName"/>.
+        /// The subscribed socket is <see cref="P2P_SESSION_STATUS_SOCKET_NAME"/>.
         /// This subscription should be open as long as any P2P Session management is desired.
         /// When finished, unsubscribe using <see cref="UnsubscribeToSessionMessageConnectionRequests"/>.
         /// </summary>
@@ -2047,7 +2047,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             SocketId socketId = new SocketId()
             {
-                SocketName = P2PSessionStatusSocketName
+                SocketName = P2P_SESSION_STATUS_SOCKET_NAME
             };
 
             AddNotifyPeerConnectionRequestOptions options = new AddNotifyPeerConnectionRequestOptions()
@@ -2074,7 +2074,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// <summary>
         /// If subscribed, unsubscribe to P2P Session management messages.
         /// The ability to receive P2P connection requests is unsubscribed from.
-        /// Closes all connections relating to the <see cref="P2PSessionStatusSocketName"/> socket.
+        /// Closes all connections relating to the <see cref="P2P_SESSION_STATUS_SOCKET_NAME"/> socket.
         /// </summary>
         private void UnsubscribeToSessionMessageConnectionRequests()
         {
@@ -2095,7 +2095,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 LocalUserId = EOSManager.Instance.GetProductUserId(), 
                 SocketId = new SocketId() 
                 { 
-                    SocketName = P2PSessionStatusSocketName 
+                    SocketName = P2P_SESSION_STATUS_SOCKET_NAME 
                 } 
             };
 
@@ -2109,15 +2109,15 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// <param name="data">Data, containing the product user id of the connecting request.</param>
         private void OnIncomingSessionsConnectionRequest(ref OnIncomingConnectionRequestInfo data)
         {
-            if (data.SocketId?.SocketName != P2PSessionStatusSocketName)
+            if (data.SocketId?.SocketName != P2P_SESSION_STATUS_SOCKET_NAME)
             {
-                Debug.LogError($"EOSSessionsManager (OnIncomingSessionsConnectionRequest): This function should not be handling this message, its socket is not '{P2PSessionStatusSocketName}'. Socket name is '{(data.SocketId?.SocketName)}'.");
+                Debug.LogError($"EOSSessionsManager (OnIncomingSessionsConnectionRequest): This function should not be handling this message, its socket is not '{P2P_SESSION_STATUS_SOCKET_NAME}'. Socket name is '{(data.SocketId?.SocketName)}'.");
                 return;
             }
 
             SocketId socketId = new SocketId()
             {
-                SocketName = P2PSessionStatusSocketName
+                SocketName = P2P_SESSION_STATUS_SOCKET_NAME
             };
 
             AcceptConnectionOptions options = new AcceptConnectionOptions()
@@ -2135,7 +2135,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
             else
             {
-                Log($"EOSSessionsManager (OnIncomingSessionsConnectionRequest): Successfully accepted connection from {options.RemoteUserId} on socket {P2PSessionStatusSocketName}");
+                Log($"EOSSessionsManager (OnIncomingSessionsConnectionRequest): Successfully accepted connection from {options.RemoteUserId} on socket {P2P_SESSION_STATUS_SOCKET_NAME}");
             }
         }
 
@@ -2147,7 +2147,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             SocketId socketId = new SocketId()
             {
-                SocketName = P2PSessionStatusSocketName
+                SocketName = P2P_SESSION_STATUS_SOCKET_NAME
             };
 
             CloseConnectionOptions closeOptions = new CloseConnectionOptions()
@@ -2165,7 +2165,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
             else
             {
-                Log($"EOSSessionsManager (OnIncomingSessionsDisconnect): Successfully closed connection with {closeOptions.RemoteUserId} on socket {P2PSessionStatusSocketName}");
+                Log($"EOSSessionsManager (OnIncomingSessionsDisconnect): Successfully closed connection with {closeOptions.RemoteUserId} on socket {P2P_SESSION_STATUS_SOCKET_NAME}");
             }
         }
         
@@ -2231,7 +2231,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 return;
             }
 
-            string formattedMessage = string.Format(P2PInformSessionMessageFormat, localSession.Id, EOSManager.Instance.GetProductUserId(), messageDetail);
+            string formattedMessage = string.Format(P2P_INFORM_SESSION_MESSAGE_FORMAT, localSession.Id, EOSManager.Instance.GetProductUserId(), messageDetail);
             SendP2PMessage(formattedMessage, ownerUserId);
         }
 
@@ -2291,7 +2291,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             Log($"EOSSessionsManager (InformSessionMembers): There are {playerCount} registered members in {localSession.Name}, informing users of {messageDetail} (excluding self)");
 
-            string messageToSend = string.Format(P2PInformSessionMessageFormat, copiedInfo.Value.SessionDetails.Value.SessionId, EOSManager.Instance.GetProductUserId(), messageDetail);
+            string messageToSend = string.Format(P2P_INFORM_SESSION_MESSAGE_FORMAT, copiedInfo.Value.SessionDetails.Value.SessionId, EOSManager.Instance.GetProductUserId(), messageDetail);
             for (uint ii = 0; ii < playerCount; ii++)
             {
                 ActiveSessionGetRegisteredPlayerByIndexOptions getPlayerIndexOption = new ActiveSessionGetRegisteredPlayerByIndexOptions() { PlayerIndex = ii };
@@ -2310,13 +2310,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// <summary>
         /// Utility function for sending P2P messages.
         /// </summary>
-        /// <param name="message">The message to send. Should be a formatted string of <see cref="P2PInformSessionMessageFormat"/>.</param>
+        /// <param name="message">The message to send. Should be a formatted string of <see cref="P2P_INFORM_SESSION_MESSAGE_FORMAT"/>.</param>
         /// <param name="userToSendTo">The ProductUserId to send the message to.</param>
         private void SendP2PMessage(string message, ProductUserId userToSendTo)
         {
             SocketId socketId = new SocketId()
             {
-                SocketName = P2PSessionStatusSocketName
+                SocketName = P2P_SESSION_STATUS_SOCKET_NAME
             };
 
             SendPacketOptions options = new SendPacketOptions()
@@ -2325,7 +2325,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 RemoteUserId = userToSendTo,
                 SocketId = socketId,
                 AllowDelayedDelivery = true,
-                Channel = P2PSessionStatusUpdateChannel,
+                Channel = P2P_SESSION_STATUS_UPDATE_CHANNEL,
                 Reliability = PacketReliability.ReliableOrdered,
                 Data = new ArraySegment<byte>(System.Text.Encoding.UTF8.GetBytes(message))
             };
@@ -2354,13 +2354,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             {
                 LocalUserId = EOSManager.Instance.GetProductUserId(),
                 MaxDataSizeBytes = 4096,
-                RequestedChannel = P2PSessionStatusUpdateChannel
+                RequestedChannel = P2P_SESSION_STATUS_UPDATE_CHANNEL
             };
 
             var getNextReceivedPacketSizeOptions = new GetNextReceivedPacketSizeOptions
             {
                 LocalUserId = EOSManager.Instance.GetProductUserId(),
-                RequestedChannel = P2PSessionStatusUpdateChannel
+                RequestedChannel = P2P_SESSION_STATUS_UPDATE_CHANNEL
             };
 
             Result nextPacketSizeResult = EOSManager.Instance.GetEOSPlatformInterface().GetP2PInterface().GetNextReceivedPacketSize(ref getNextReceivedPacketSizeOptions, out uint nextPacketSizeBytes);
@@ -2385,7 +2385,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             byte[] data = new byte[nextPacketSizeBytes];
             var dataSegment = new ArraySegment<byte>(data);
             ProductUserId peerId = null;
-            SocketId socketId = new SocketId() { SocketName = P2PSessionStatusSocketName };
+            SocketId socketId = new SocketId() { SocketName = P2P_SESSION_STATUS_SOCKET_NAME };
 
             Result receivePacketResult = EOSManager.Instance.GetEOSPlatformInterface().GetP2PInterface().ReceivePacket(ref options, ref peerId, ref socketId, out byte outChannel, dataSegment, out uint bytesWritten);
 
@@ -2405,7 +2405,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             Log($"EOSSessionsManager (HandleReceivedP2PMessages): Received a message: {message}");
 
-            if (!message.StartsWith(P2PInformSessionMessageBase))
+            if (!message.StartsWith(P2P_INFORM_SESSION_MESSAGE_BASE))
             {
                 Debug.LogError($"EOSSessionsManager (HandleReceivedP2PMessages): This function is handling a received message that it wasn't intended to. Perhaps there's a socket or channel conflict? Message: {message}");
                 return;
@@ -2437,16 +2437,16 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             switch (messageElement)
             {
-                case P2PJoiningSessionMessageElement:
+                case P2P_JOINING_SESSION_MESSAGE_ELEMENT:
                     Register(session.Name, messagingUserId);
                     break;
-                case P2PLeavingSessionMessageElement:
+                case P2P_LEAVING_SESSION_MESSAGE_ELEMENT:
                     UnRegister(session.Name, messagingUserId);
                     break;
-                case P2PRefreshSessionMessageElement:
+                case P2P_REFRESH_SESSION_MESSAGE_ELEMENT:
                     // TODO: This is where a method would be called for refreshing one's local UI
                     break;
-                case P2PSessionOwnerDestroyedSessionMessageElement:
+                case P2P_SESSION_OWNER_DESTROYED_SESSION_MESSAGE_ELEMENT:
                     // TODO: This is where a user would leave a session because it was destroyed
                     break;
                 default:
