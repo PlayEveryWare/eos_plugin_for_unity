@@ -1,3 +1,25 @@
+/*
+ * Copyright (c) 2021 PlayEveryWare
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 // dllmain.cpp : Defines the entry point for the DLL application.
 // This file does some *magick* to load the EOS Overlay DLL.
 // This is apparently needed so that the Overlay can render properly
@@ -6,17 +28,17 @@
 #define _SILENCE_CXX17_CODECVT_HEADER_DEPRECATION_WARNING
 
 #include <stdio.h>
-#include <assert.h>
 #include <stdlib.h>
 
 #include <string>
 #include <sstream>
 #include <functional>
-#include <algorithm>
 #include <utility>
 #include <filesystem>
 #include <optional>
 #include <codecvt>
+#include <vector>
+#include <iostream>
 
 
 //#include "eos_minimum_includes.h"
@@ -28,7 +50,6 @@
 #endif
 #include "eos_sdk.h"
 #include "eos_logging.h"
-#include "eos_integratedplatform.h"
 
 #include "json.h"
 
@@ -62,6 +83,7 @@
 
 #define EOS_SERVICE_CONFIG_FILENAME "EpicOnlineServicesConfig.json"
 #define EOS_STEAM_CONFIG_FILENAME "eos_steam_config.json"
+#define EOS_LOGLEVEL_CONFIG_FILENAME "log_level_config.json"
 
 #define RESTRICT __restrict
 
@@ -143,12 +165,19 @@ struct EOSConfig
 
 };
 
+struct LogLevelConfig 
+{
+    std::vector<std::string> category;
+    std::vector<std::string> level;
+};
+
 struct EOSSteamConfig
 {
     EOS_EIntegratedPlatformManagementFlags flags;
     uint32_t steamSDKMajorVersion;
     uint32_t steamSDKMinorVersion;
     std::optional<std::string> OverrideLibraryPath;
+    std::vector<std::string> steamApiInterfaceVersionsArray;
 
     EOSSteamConfig()
     {
@@ -372,6 +401,41 @@ static const char* eos_loglevel_to_print_str(EOS_ELogLevel level)
         break;
     default:
         return nullptr;
+    }
+}
+
+std::unordered_map<std::string, EOS_ELogLevel> const loglevel_str_map =
+{
+    {"Off",EOS_ELogLevel::EOS_LOG_Off},
+    {"Fatal",EOS_ELogLevel::EOS_LOG_Fatal},
+    {"Error",EOS_ELogLevel::EOS_LOG_Error},
+    {"Warning",EOS_ELogLevel::EOS_LOG_Warning},
+    {"Info",EOS_ELogLevel::EOS_LOG_Info},
+    {"Verbose",EOS_ELogLevel::EOS_LOG_Verbose},
+    {"VeryVerbose",EOS_ELogLevel::EOS_LOG_VeryVerbose},
+};
+
+EOS_ELogLevel eos_loglevel_str_to_enum(const std::string& str)
+{
+    auto it = loglevel_str_map.find(str);
+    if (it != loglevel_str_map.end())
+    {
+        return it->second;
+    }
+    else
+    {
+        return EOS_ELogLevel::EOS_LOG_Verbose;
+    }
+}
+
+void eos_set_loglevel(const LogLevelConfig& log_config)
+{
+    if (EOS_Logging_SetLogLevel_ptr != nullptr)
+    {
+        for (size_t i = 0; i < log_config.category.size() - 1; i++)
+        {
+            EOS_Logging_SetLogLevel_ptr((EOS_ELogCategory)i, eos_loglevel_str_to_enum(log_config.level[i]));
+        }
     }
 }
 
@@ -894,6 +958,41 @@ static EOSConfig eos_config_from_json_value(json_value_s* config_json)
     return eos_config;
 }
 
+static LogLevelConfig log_config_from_json_value(json_value_s* config_json)
+{
+    struct json_object_s* config_json_object = json_value_as_object(config_json);
+    struct json_object_element_s* iter = config_json_object->start;
+    LogLevelConfig log_config;
+
+    while (iter != nullptr)
+    {
+        if (!strcmp("logCategoryLevelPairs", iter->name->string))
+        {
+            json_array_s* pairs = json_value_as_array(iter->value);
+            for (auto e = pairs->start; e != nullptr; e = e->next)
+            {
+                struct json_object_s* pairs_json_object = json_value_as_object(e->value);
+                struct json_object_element_s* pairs_iter = pairs_json_object->start;
+                while (pairs_iter != nullptr)
+                {
+                    if (!strcmp("category", pairs_iter->name->string))
+                    {
+                        log_config.category.push_back(json_value_as_string(pairs_iter->value)->string);
+                    }
+                    else if (!strcmp("level", pairs_iter->name->string))
+                    {
+                        log_config.level.push_back(json_value_as_string(pairs_iter->value)->string);
+                    }
+                    pairs_iter = pairs_iter->next;
+                }
+            }
+        }
+        iter = iter->next;
+    }
+    
+    return log_config;
+}
+
 //-------------------------------------------------------------------------
 static bool str_is_equal_to_any(const char* str, ...)
 {
@@ -1028,6 +1127,16 @@ static EOSSteamConfig eos_steam_config_from_json_value(json_value_s *config_json
         {
             eos_config.steamSDKMinorVersion = json_value_as_uint32(iter->value);
         }
+        else if (!strcmp("steamApiInterfaceVersionsArray", iter->name->string))
+        {
+            json_array_s* apiVersions = json_value_as_array(iter->value);
+
+            for (auto e = apiVersions->start; e != nullptr; e = e->next)
+            {
+                eos_config.steamApiInterfaceVersionsArray.push_back(json_value_as_string(e->value)->string);
+            }
+        }
+
         iter = iter->next;
     }
 
@@ -1240,10 +1349,41 @@ void eos_create(EOSConfig& eosConfig)
             steam_platform.OverrideLibraryPath = eos_steam_config.OverrideLibraryPath.value().c_str();
         }
 
-
         steam_platform.SteamMajorVersion = eos_steam_config.steamSDKMajorVersion;
         steam_platform.SteamMinorVersion = eos_steam_config.steamSDKMinorVersion;
 
+        // For each element in the array (each of which is a string of an api version information)
+        // iterate across each character, and at the end of a string add a null terminator \0
+        // then add one more null terminator at the end of the array
+        std::vector<char> steamApiInterfaceVersionsAsCharArray;
+
+        for (const auto& currentFullValue : eos_steam_config.steamApiInterfaceVersionsArray)
+        {
+            for (char currentCharacter : currentFullValue)
+            {
+                steamApiInterfaceVersionsAsCharArray.push_back(currentCharacter);
+            }
+
+            steamApiInterfaceVersionsAsCharArray.push_back('\0');
+        }
+        steamApiInterfaceVersionsAsCharArray.push_back('\0');
+
+        steam_platform.SteamApiInterfaceVersionsArray = reinterpret_cast<char*>(steamApiInterfaceVersionsAsCharArray.data());
+                
+        auto size = steamApiInterfaceVersionsAsCharArray.size();
+
+        if (size > EOS_INTEGRATEDPLATFORM_STEAM_MAX_STEAMAPIINTERFACEVERSIONSARRAY_SIZE) 
+        {
+            log_error("Size given for SteamApiInterfaceVersionsAsCharArray exceeds the maximum value.");
+        }
+        else
+        {
+            // steam_platform needs to have a count of how many bytes the "array" is, stored in SteamApiInterfaceVersionsArrayBytes
+            // This has some fuzzy behavior; if you set it to 0 or count it up properly, there won't be a logged problem
+            // if you put a non-zero amount that is insufficient, there will be an unclear logged error message
+            steam_platform.SteamApiInterfaceVersionsArrayBytes = static_cast<uint32_t>(size);
+        }
+        
         steam_integrated_platform_option.ApiVersion = EOS_INTEGRATEDPLATFORM_OPTIONS_API_LATEST;
         steam_integrated_platform_option.Type = EOS_IPT_Steam;
         steam_integrated_platform_option.Flags = eos_steam_config.flags;
@@ -1379,6 +1519,12 @@ DLL_EXPORT(void) UnityPluginLoad(void*)
     EOSConfig eos_config = eos_config_from_json_value(eos_config_as_json);
     free(eos_config_as_json);
 
+    auto path_to_log_config_json = get_path_for_eos_service_config(EOS_LOGLEVEL_CONFIG_FILENAME);
+    json_value_s* log_config_as_json = read_config_json_as_json_from_path(path_to_log_config_json);
+    LogLevelConfig log_config = log_config_from_json_value(log_config_as_json);
+    free(log_config_as_json);
+    global_logf("NativePlugin log sonfig size (%d)", log_config.category.size());
+
 #if PLATFORM_WINDOWS
     //support sandbox and deployment id override via command line arguments
     std::stringstream argStream = std::stringstream(GetCommandLineA());
@@ -1480,6 +1626,7 @@ DLL_EXPORT(void) UnityPluginLoad(void*)
 
             eos_init(eos_config);
 
+            eos_set_loglevel(log_config);
             //log_warn("start eos create");
             eos_create(eos_config);
 

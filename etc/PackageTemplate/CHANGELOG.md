@@ -2,6 +2,55 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+# Changelog
+
+## [3.3.0] - 2024-07-03
+
+### Fixed
+- Resolved various issues with the `eos_package_description.json` file:
+  - Moved script files to utilize the recursive feature.
+  - Removed duplicate gradle file entries.
+  - Corrected directory paths and naming conventions.
+  - Improved handling of subdirectories within `EOS_SDK/Generated`.
+- Enhanced package creation:
+  - Further refinements to the package description file.
+  - Added additional entries and log warnings.
+  - Corrected function signatures and async implementation.
+  - Fixed UI issues with the progress bar update.
+- Addressed merge conflicts and discrepancies in `CHANGELOG.md`.
+- Corrected usage of conditional compilation (`#if EOS_DISABLE`).
+- Fixed handling of missing scripts and unreferenced prefabs.
+
+### Merged
+- Integrated changes from various branches:
+  - `fix/create-package-fix`
+  - `fix/duplicate-gradle-file`
+  - `fix/unity-project-tools`
+  - `development`
+  - `release-3.2.1`
+- Updated the `EOSManager` to handle new functionalities and interfaces.
+
+### Chore
+- Updated version numbers and dependencies:
+  - Upgraded to Android API Level 33.
+  - Resolved merge conflicts and improved documentation.
+- Restored `gitattributes` with `eol=lf` instructions.
+- Removed errant files and redundant code.
+
+### Documentation
+- Updated the `NamingConventionReadme.txt` and `CHANGELOG.md` to reflect recent changes.
+- Added documentation for new features and fixes.
+
+### Performance
+- Improved performance of file copy operations by multi-threading.
+- Optimized logging and debugging processes.
+
+### New Features
+- Introduced support for `StatsManager` and async operations.
+- Implemented deployment overrides with `-epicdeploymentid` argument.
+
+**Full Changelog**: https://github.com/PlayEveryWare/eos_plugin_for_unity/compare/v3.2.1...v3.3.0
+
 # [3.2.1] - 2024-06-24
 
 - ### Fixes

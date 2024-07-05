@@ -140,9 +140,8 @@ namespace PlayEveryWare.EpicOnlineServices
 
                 var rtcOptions = new WindowsRTCOptions();
                 rtcOptions.PlatformSpecificOptions = rtcPlatformSpecificOptions;
-#if !UNITY_EDITOR
                 createOptions.options.RTCOptions = rtcOptions;
-#endif
+
                 // This code seems to commonly cause hangs in the editor, so until those can be resolved this code is being 
                 // disabled in the editor
 #if !UNITY_EDITOR && ENABLE_CONFIGURE_STEAM_FROM_MANAGED
