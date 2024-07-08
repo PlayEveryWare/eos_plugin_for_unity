@@ -20,18 +20,24 @@
 * SOFTWARE.
 */
 
-using System;
-using System.Collections.Generic;
-
-using UnityEngine;
-
-using Epic.OnlineServices;
-using Epic.OnlineServices.Sessions;
-using Epic.OnlineServices.Presence;
-using Epic.OnlineServices.UI;
+// Uncomment this define, or define it in build symbols, to get non-error debugging messages from this Manager
+// #define ENABLE_DEBUG_SESSIONS_MANAGER
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
+    using System;
+    using System.Collections.Generic;
+
+    using UnityEngine;
+
+    using Epic.OnlineServices;
+    using Epic.OnlineServices.Sessions;
+    using Epic.OnlineServices.Presence;
+    using Epic.OnlineServices.UI;
+    using Epic.OnlineServices.P2P;
+    using System.Text.RegularExpressions;
+    using System.Text;
+
     /// <summary>
     /// Class represents a session search and search results
     /// </summary>
@@ -359,6 +365,80 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private bool subscribtedToGameInvites = false;
         private bool userLoggedIn = false;
+
+        #region Peer2Peer Messaging Variables
+
+        /// <summary>
+        /// When sending or receiving Peer2Peer messages relating to Session Status upkeep, always use this same socket name.
+        /// The combination of this and <see cref="P2P_SESSION_STATUS_UPDATE_CHANNEL"/> is used to receive and send messages.
+        /// This should be distinct from any other sockets used in the program, because the socket id is used while accepting incoming peer requests.
+        /// </summary>
+        private const string P2P_SESSION_STATUS_SOCKET_NAME = "SESSIONSTATUS";
+
+        /// <summary>
+        /// When sending or receiving Peer2Peer messages relating to Session status upkeep, always use this same channel.
+        /// This should be a distinct and unique channel, different than any other channel utilized in the program, if possible.
+        /// Because of the nature of <see cref="P2PInterface.GetNextReceivedPacketSize(ref GetNextReceivedPacketSizeOptions, out uint)"/>,
+        /// collisions in using the same channel in another point in the program would require you to filter out things not meant for the appropriate socket.
+        /// </summary>
+        private const byte P2P_SESSION_STATUS_UPDATE_CHANNEL = 0xF;
+
+        /// <summary>
+        /// Messages about sessions should all start with this message, so that parsing the message for information is easy.
+        /// This is part of <see cref="P2P_INFORM_SESSION_MESSAGE_FORMAT"/>, which is then formatted to form messages that are sent.
+        /// The start of received messages are checked for starting with this text to know that it's something intended for managing session updates.
+        /// </summary>
+        private const string P2P_INFORM_SESSION_MESSAGE_BASE = "SESSIONINFORMATION";
+
+        /// <summary>
+        /// Messages about sessions follow this format, starting with <see cref="P2P_INFORM_SESSION_MESSAGE_BASE"/>.
+        /// {0} - The back-end <see cref="Session.Id"/> of the session to message about.
+        /// {1} - The <see cref="ProductUserId"/> of the user sending the message.
+        /// {2} - Additional information about the message.
+        /// <see cref="P2P_JOINING_SESSION_MESSAGE_ELEMENT"/>
+        /// <see cref="P2P_LEAVING_SESSION_MESSAGE_ELEMENT"/>
+        /// <see cref="P2P_REFRESH_SESSION_MESSAGE_ELEMENT"/>
+        /// <see cref="P2P_SESSION_OWNER_DESTROYED_SESSION_MESSAGE_ELEMENT"/>
+        /// </summary>
+        private const string P2P_INFORM_SESSION_MESSAGE_FORMAT = P2P_INFORM_SESSION_MESSAGE_BASE + " ({0}) ({1}) ({2})";
+
+        /// <summary>
+        /// Messages with this as the {2} parameter of <see cref="InformSessionOwnerMessageFormat"/> indicate a user is joining the session.
+        /// </summary>
+        private const string P2P_JOINING_SESSION_MESSAGE_ELEMENT = "JOIN";
+
+        /// <summary>
+        /// Messages with this as the {2} parameter of <see cref="P2P_INFORM_SESSION_MESSAGE_FORMAT"/> indicate a user is leaving the session.
+        /// </summary>
+        private const string P2P_LEAVING_SESSION_MESSAGE_ELEMENT = "LEAVE";
+
+        /// <summary>
+        /// Messages with this as the {2} parameter of <see cref="P2P_INFORM_SESSION_MESSAGE_FORMAT"/> indicate that a user should re-acquire and refresh session information.
+        /// </summary>
+        private const string P2P_REFRESH_SESSION_MESSAGE_ELEMENT = "REFRESH";
+
+        /// <summary>
+        /// Messages with this as the {2} parameter of <see cref="P2P_INFORM_SESSION_MESSAGE_FORMAT"/> indicate that the owner of a session has destroyed the session,
+        /// so members of the session should also remove themselves from the session.
+        /// </summary>
+        private const string P2P_SESSION_OWNER_DESTROYED_SESSION_MESSAGE_ELEMENT = "DESTROY";
+
+        /// <summary>
+        /// When subscribing to peer request connection messages, this Id is held as a way to later remove the subscription.
+        /// This one notification id will handle all incoming peer requests on the <see cref="P2P_SESSION_STATUS_SOCKET_NAME"/> socket.
+        /// You should only be subscribed once for these notifications.
+        /// </summary>
+        private ulong P2PSessionPeerRequestConnectionNotificationId { get; set; }
+
+        /// <summary>
+        /// When subscribing to peer disconnection messages, this Id is held as a way to later remove the subscription.
+        /// This one notification id will handle all incoming peer disconnections on the <see cref="P2P_SESSION_STATUS_SOCKET_NAME"/> socket.
+        /// You should only be subscribed once for these notifications.
+        /// </summary>
+        private ulong P2PSessionPeerDisconnectConnectionNotificationId { get; set; }
+
+        #endregion
+
         public bool IsUserLoggedIn
         {
             get { return userLoggedIn; }
@@ -376,6 +456,18 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             CurrentSearch = new SessionSearch();
             Invites = new Dictionary<Session, SessionDetails>();
             CurrentInvite = null;
+        }
+
+        /// <summary>
+        /// Conditionally executed proxy function for Unity's log function.
+        /// Errors are logged using <see cref="UnityEngine.Debug.LogError(object)"/>.
+        /// If this is included, it is used to log out non-error debug messages.
+        /// </summary>
+        /// <param name="toPrint">The message to log.</param>
+        [System.Diagnostics.Conditional("ENABLE_DEBUG_SESSIONS_MANAGER")]
+        private static void Log(string toPrint)
+        {
+            UnityEngine.Debug.Log(toPrint);
         }
 
         public Dictionary<Session, SessionDetails> GetInvites()
@@ -465,12 +557,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             DestroyAllSessions();
             UnsubscribeFromGameInvites();
+            UnsubscribeToSessionMessageConnectionRequests();
         }
 
         //-------------------------------------------------------------------------
         public bool Update()
         {
             bool stateUpdates = false;
+            HandleReceivedP2PMessages();
 
             //Update active session from time to time
             foreach (KeyValuePair<string, Session> kvp in CurrentSessions)
@@ -518,6 +612,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
 
             SubscribteToGameInvites();
+            SubscribeToSessionMessageConnectionRequests();
 
             CurrentInvite = null;
 
@@ -533,6 +628,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
 
             UnsubscribeFromGameInvites();
+            UnsubscribeToSessionMessageConnectionRequests();
 
             LeaveAllSessions();
 
@@ -783,11 +879,26 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             return HasPresenceSession() && id.Equals(KnownPresenceSessionId, StringComparison.OrdinalIgnoreCase);
         }
 
-        public Session GetSession(string name)
+        public bool TryGetSession(string name, out Session session)
         {
-            if (CurrentSessions.TryGetValue(name, out Session session))
+            if (CurrentSessions.TryGetValue(name, out session))
             {
-                return session;
+                return true;
+            }
+
+            return false;
+        }
+
+        public Session GetSessionById(string id)
+        {
+            foreach (Session curSession in CurrentSessions.Values)
+            {
+                if (!curSession.Id.Equals(id))
+                {
+                    continue;
+                }
+
+                return curSession;
             }
 
             return null;
@@ -833,7 +944,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             registerOptions.PlayersToRegister = new ProductUserId[] { friendId };
 
             SessionsInterface sessionInterface = EOSManager.Instance.GetEOSPlatformInterface().GetSessionsInterface();
-            sessionInterface.RegisterPlayers(ref registerOptions, null, OnRegisterCompleteCallback);
+            sessionInterface.RegisterPlayers(ref registerOptions, sessionName, OnRegisterCompleteCallback);
         }
 
         public void UnRegister(string sessionName, ProductUserId friendId)
@@ -843,7 +954,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             unregisterOptions.PlayersToUnregister = new ProductUserId[] { friendId };
 
             SessionsInterface sessionInterface = EOSManager.Instance.GetEOSPlatformInterface().GetSessionsInterface();
-            sessionInterface.UnregisterPlayers(ref unregisterOptions, null, OnUnregisterCompleteCallback);
+            sessionInterface.UnregisterPlayers(ref unregisterOptions, sessionName, OnUnregisterCompleteCallback);
         }
 
         public void InviteToSession(string sessionName, ProductUserId friendId)
@@ -1273,6 +1384,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                         CurrentSessions.Remove(sessionName);
                     }
                 }
+
+                InformSessionMembers(sessionName, P2P_REFRESH_SESSION_MESSAGE_ELEMENT);
             }
         }
 
@@ -1379,6 +1492,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     {
                         CurrentSessions[session.Name] = session;
                     }
+
+                    InformSessionOwnerWithMessage(session.Name, P2P_JOINING_SESSION_MESSAGE_ELEMENT);
                 }
                 callback?.Invoke(result);
             }
@@ -1599,6 +1714,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             Debug.LogFormat("Session Matchmaking(OnStartSessionCompleteCallback): Started session: {0}", sessionName);
 
             //OnSessionStarted(sessionName); // Needed for C# wrapper?
+
+            // ClientData should contain the local sessionName
+            if (data.ClientData is string localSessionName)
+            {
+                InformSessionMembers(localSessionName, P2P_REFRESH_SESSION_MESSAGE_ELEMENT);
+            }
         }
 
         private void OnEndSessionCompleteCallback(ref EndSessionCallbackInfo data)
@@ -1620,6 +1741,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             Debug.LogFormat("Session Matchmaking(OnEndSessionCompleteCallback): Ended session: {0}", sessionName);
 
             //OnSessionEnded(sessionName); // Not used in C# wrapper
+
+            // ClientData should contain the local sessionName
+            if (data.ClientData is string localSessionName)
+            {
+                InformSessionMembers(localSessionName, P2P_REFRESH_SESSION_MESSAGE_ELEMENT);
+            }
         }
 
         private void OnDestroySessionCompleteCallback(ref DestroySessionCallbackInfo data)
@@ -1636,12 +1763,43 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 return;
             }
 
-            string sessionName = (string)data.ClientData;
-
             if (data.ResultCode != Result.Success)
             {
                 Debug.LogErrorFormat("Session Matchmaking (OnDestroySessionCompleteCallback): error code: {0}", data.ResultCode);
                 return;
+            }
+
+            // Before removing the session from our local data, we need to inform the owner of the session that we've left the session, if we're not the owner
+            // TODO: Validate that this gets to the members/owners of the session in time, and that we haven't already deleted the local information needed to get session information
+            string sessionName = (string)data.ClientData;
+            Session localSession;
+
+            if (!TryGetSession(sessionName, out localSession) || localSession.ActiveSession == null)
+            {
+                Debug.LogError($"Session Matchmaking (OnDestroySessionCompleteCallback): Could not find local Session and associated ActiveSession, so could not inform owner/members of destruction.");
+                return;
+            }
+
+            ActiveSessionCopyInfoOptions copyOptions = new ActiveSessionCopyInfoOptions() { };
+            Result localCopyResult = localSession.ActiveSession.CopyInfo(ref copyOptions, out ActiveSessionInfo? outActiveSessionInfo);
+
+            // If we were unable to copy the active session's information, or it failed to populate the SessionDetails inside the ActiveSessionInfo, then we can't get the Owner
+            // If we can't get the Owner, we can't determine who should be messaged, or if we are the owner of this Session
+            if (localCopyResult != Result.Success || !outActiveSessionInfo.HasValue || !outActiveSessionInfo.Value.SessionDetails.HasValue)
+            {
+                Debug.LogError($"Session Matchmaking (OnDestroySessionCompleteCallback): Failed to copy local information for session {sessionName}, so could not inform owner/members of destruction. Result code {localCopyResult}");
+                return;
+            }
+
+            if (outActiveSessionInfo.Value.SessionDetails.Value.OwnerUserId.Equals(EOSManager.Instance.GetProductUserId()))
+            {
+                // We're the owner of the session, inform everyone that it was destroyed
+                InformSessionMembers(sessionName, P2P_SESSION_OWNER_DESTROYED_SESSION_MESSAGE_ELEMENT);
+            }
+            else
+            {
+                // Inform the owner that we've left the session
+                InformSessionOwnerWithMessage(sessionName, P2P_LEAVING_SESSION_MESSAGE_ELEMENT);
             }
 
             if (!string.IsNullOrEmpty(sessionName))
@@ -1663,6 +1821,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 Debug.LogErrorFormat("Session Matchmaking (OnRegisterCompleteCallback): error code: {0}", data.ResultCode);
                 return;
             }
+
+            // ClientData should contain the local sessionName
+            if (data.ClientData is string localSessionName)
+            {
+                InformSessionMembers(localSessionName, P2P_REFRESH_SESSION_MESSAGE_ELEMENT);
+            }
         }
 
         private void OnUnregisterCompleteCallback(ref UnregisterPlayersCallbackInfo data)
@@ -1677,6 +1841,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             {
                 Debug.LogErrorFormat("Session Matchmaking (OnUnregisterCompleteCallback): error code: {0}", data.ResultCode);
                 return;
+            }
+
+            // ClientData should contain the local sessionName
+            if (data.ClientData is string localSessionName)
+            {
+                InformSessionMembers(localSessionName, P2P_REFRESH_SESSION_MESSAGE_ELEMENT);
             }
         }
 
@@ -1862,5 +2032,429 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             PopLobbyInvite();
         }
+
+        #region Peer2Peer Messaging Functions
+
+        /// <summary>
+        /// This method subscribes to the notification channels for receiving P2P connection requests.
+        /// By subscribing to the connection requests, we are able to accept those requests, and then start receiving P2P messages from the requesting user.
+        /// This method must be called first, before P2P Messages can be received.
+        /// The subscribed socket is <see cref="P2P_SESSION_STATUS_SOCKET_NAME"/>.
+        /// This subscription should be open as long as any P2P Session management is desired.
+        /// When finished, unsubscribe using <see cref="UnsubscribeToSessionMessageConnectionRequests"/>.
+        /// </summary>
+        private void SubscribeToSessionMessageConnectionRequests()
+        {
+            SocketId socketId = new SocketId()
+            {
+                SocketName = P2P_SESSION_STATUS_SOCKET_NAME
+            };
+
+            AddNotifyPeerConnectionRequestOptions options = new AddNotifyPeerConnectionRequestOptions()
+            {
+                LocalUserId = EOSManager.Instance.GetProductUserId(),
+                SocketId = socketId
+            };
+
+            P2PSessionPeerRequestConnectionNotificationId = EOSManager.Instance.GetEOSPlatformInterface().GetP2PInterface().AddNotifyPeerConnectionRequest(ref options, null, OnIncomingSessionsConnectionRequest);
+
+            if (P2PSessionPeerRequestConnectionNotificationId == 0)
+            {
+                Debug.Log("EOSSessionsManager (SubscribeToSessionMessageConnectionRequests): Failed to subscribe to P2P Messages, bad Notification Id was returned.");
+            }
+
+            AddNotifyPeerConnectionClosedOptions closedOptions = new AddNotifyPeerConnectionClosedOptions()
+            {
+                LocalUserId = EOSManager.Instance.GetProductUserId(),
+                SocketId = socketId
+            };
+            P2PSessionPeerDisconnectConnectionNotificationId = EOSManager.Instance.GetEOSPlatformInterface().GetP2PInterface().AddNotifyPeerConnectionClosed(ref closedOptions, null, OnIncomingSessionsDisconnect);
+        }
+
+        /// <summary>
+        /// If subscribed, unsubscribe to P2P Session management messages.
+        /// The ability to receive P2P connection requests is unsubscribed from.
+        /// Closes all connections relating to the <see cref="P2P_SESSION_STATUS_SOCKET_NAME"/> socket.
+        /// </summary>
+        private void UnsubscribeToSessionMessageConnectionRequests()
+        {
+            if (P2PSessionPeerRequestConnectionNotificationId != 0)
+            {
+                EOSManager.Instance.GetEOSPlatformInterface().GetP2PInterface().RemoveNotifyPeerConnectionRequest(P2PSessionPeerRequestConnectionNotificationId);
+                P2PSessionPeerRequestConnectionNotificationId = 0;
+            }
+
+            if (P2PSessionPeerDisconnectConnectionNotificationId != 0)
+            {
+                EOSManager.Instance.GetEOSPlatformInterface().GetP2PInterface().RemoveNotifyPeerConnectionClosed(P2PSessionPeerDisconnectConnectionNotificationId);
+                P2PSessionPeerDisconnectConnectionNotificationId = 0;
+            }
+
+            CloseConnectionsOptions closeOptions = new CloseConnectionsOptions()
+            {
+                LocalUserId = EOSManager.Instance.GetProductUserId(), 
+                SocketId = new SocketId() 
+                { 
+                    SocketName = P2P_SESSION_STATUS_SOCKET_NAME 
+                } 
+            };
+
+            EOSManager.Instance.GetEOSPlatformInterface().GetP2PInterface().CloseConnections(ref closeOptions);
+        }
+
+        /// <summary>
+        /// Whenever a user attempts to create a connection, this method handles their connection request.
+        /// By default, accept all incoming connections.
+        /// </summary>
+        /// <param name="data">Data, containing the product user id of the connecting request.</param>
+        private void OnIncomingSessionsConnectionRequest(ref OnIncomingConnectionRequestInfo data)
+        {
+            if (data.SocketId?.SocketName != P2P_SESSION_STATUS_SOCKET_NAME)
+            {
+                Debug.LogError($"EOSSessionsManager (OnIncomingSessionsConnectionRequest): This function should not be handling this message, its socket is not '{P2P_SESSION_STATUS_SOCKET_NAME}'. Socket name is '{(data.SocketId?.SocketName)}'.");
+                return;
+            }
+
+            SocketId socketId = new SocketId()
+            {
+                SocketName = P2P_SESSION_STATUS_SOCKET_NAME
+            };
+
+            AcceptConnectionOptions options = new AcceptConnectionOptions()
+            {
+                LocalUserId = EOSManager.Instance.GetProductUserId(),
+                RemoteUserId = data.RemoteUserId,
+                SocketId = socketId
+            };
+
+            Result result = EOSManager.Instance.GetEOSPlatformInterface().GetP2PInterface().AcceptConnection(ref options);
+
+            if (result != Result.Success)
+            {
+                Debug.LogErrorFormat("EOSSessionsManager (OnIncomingSessionsConnectionRequest): Error while accepting connection, code: {0}", result);
+            }
+            else
+            {
+                Log($"EOSSessionsManager (OnIncomingSessionsConnectionRequest): Successfully accepted connection from {options.RemoteUserId} on socket {P2P_SESSION_STATUS_SOCKET_NAME}");
+            }
+        }
+
+        /// <summary>
+        /// Upon a user that is connected disconnecting, this method closes out the connection.
+        /// </summary>
+        /// <param name="data">Data, containing the product user id of the user to disconnect from.</param>
+        private void OnIncomingSessionsDisconnect(ref OnRemoteConnectionClosedInfo data)
+        {
+            SocketId socketId = new SocketId()
+            {
+                SocketName = P2P_SESSION_STATUS_SOCKET_NAME
+            };
+
+            CloseConnectionOptions closeOptions = new CloseConnectionOptions()
+            {
+                LocalUserId = EOSManager.Instance.GetProductUserId(),
+                RemoteUserId = data.RemoteUserId,
+                SocketId = socketId
+            };
+
+            Result result = EOSManager.Instance.GetEOSPlatformInterface().GetP2PInterface().CloseConnection(ref closeOptions);
+
+            if (result != Result.Success)
+            {
+                Debug.LogErrorFormat("EOSSessionsManager (OnIncomingSessionsDisconnect): Error while closing connection, code: {0}", result);
+            }
+            else
+            {
+                Log($"EOSSessionsManager (OnIncomingSessionsDisconnect): Successfully closed connection with {closeOptions.RemoteUserId} on socket {P2P_SESSION_STATUS_SOCKET_NAME}");
+            }
+        }
+        
+        /// <summary>
+        /// Utility function to send a message to the owner of a session.
+        /// </summary>
+        /// <param name="localSessionName">The local name for the session.</param>
+        /// <param name="messageDetail">The message detail to send. This message detail is used to inform the owner of what action to take.</param>
+        private void InformSessionOwnerWithMessage(string localSessionName, string messageDetail)
+        {
+            // Find the session with this name
+            // Identify the owner of the session
+            // Send them a packet informing them of joining status
+
+            Session localSession;
+
+            if (!TryGetSession(localSessionName, out localSession))
+            {
+                Debug.LogErrorFormat("EOSSessionsManager (InformSessionOwnerWithMessage): No local session with name \"{0}\" was found.", localSessionName);
+                return;
+            }
+
+            ActiveSession activeSession = localSession.ActiveSession;
+
+            if (activeSession == null)
+            {
+                Debug.LogErrorFormat("EOSSessionsManager (InformSessionOwnerWithMessage): Found local session with name \"{0}\", but there was no corresponding ActiveSession. An ActiveSession should be populated in InitActiveSession.", localSessionName);
+                return;
+            }
+
+            // Copy over the session information
+            // This should contain SessionDetails, which will include the user id of the owner of the room 
+            ActiveSessionCopyInfoOptions copyInfoOptions = new ActiveSessionCopyInfoOptions() { };
+            ActiveSessionInfo? copiedInfo;
+            Result activeSessionInfoCopyResult = activeSession.CopyInfo(ref copyInfoOptions, out copiedInfo);
+
+            if (activeSessionInfoCopyResult != Result.Success)
+            {
+                Debug.LogErrorFormat("EOSSessionsManager (InformSessionOwnerWithMessage): Found local and active session with name \"{0}\", but failed to copy its info. Result code {1}", localSessionName, activeSessionInfoCopyResult);
+                return;
+            }
+
+            if (!copiedInfo.Value.SessionDetails.HasValue)
+            {
+                Debug.LogErrorFormat("EOSSessionsManager (InformSessionOwnerWithMessage): Found local and active session with name \"{0}\", but the SessionDetails in the object is null. Cannot determine session owner or session id.", localSessionName, activeSessionInfoCopyResult);
+                return;
+            }
+
+            ProductUserId ownerUserId = copiedInfo.Value.SessionDetails.Value.OwnerUserId;
+
+            if (!ownerUserId.IsValid())
+            {
+                // This session is owned by a server, so we can't message it using a product user id.
+                // TODO: How do we message it?
+                // This isn't exactly an error state, so we won't log a message, just going to return.
+                return;
+            }
+
+            // Quickly check; is this local user the owner of this session? If so, we shouldn't be informing ourself
+            if (EOSManager.Instance.GetProductUserId().Equals(ownerUserId))
+            {
+                // Oh nevermind, then! This user is the owner of this, and shouldn't message themself.
+                return;
+            }
+
+            string formattedMessage = string.Format(P2P_INFORM_SESSION_MESSAGE_FORMAT, localSession.Id, EOSManager.Instance.GetProductUserId(), messageDetail);
+            SendP2PMessage(formattedMessage, ownerUserId);
+        }
+
+        /// <summary>
+        /// Whenever a session owner has a reason to update the session, inform all members of the session to refresh.
+        /// There should already be a connection between the owner and the members of the session, but one will open if needed.
+        /// The session members should then refresh their session information.
+        /// </summary>
+        /// <param name="localSessionName">The local name for the session.</param>.
+        /// <param name="messageDetail">The message detail to send. This message detail is used to inform the members of what action to take.</param>
+        private void InformSessionMembers(string localSessionName, string messageDetail)
+        {
+            // First find a local session with this name
+            Session localSession;
+
+            if (!TryGetSession(localSessionName, out localSession))
+            {
+                Debug.LogErrorFormat("EOSSessionsManager (InformSessionMembersToRefresh): No local session with name \"{0}\" was found.", localSessionName);
+                return;
+            }
+
+            ActiveSession activeSession = localSession.ActiveSession;
+
+            if (activeSession == null)
+            {
+                Debug.LogErrorFormat("EOSSessionsManager (InformSessionMembersToRefresh): Found local session with name \"{0}\", but there was no corresponding ActiveSession. An ActiveSession should be populated in InitActiveSession.", localSessionName);
+                return;
+            }
+
+            // Copy over the session information
+            // This should contain SessionDetails, which will include the user id of the owner of the room 
+            ActiveSessionCopyInfoOptions copyInfoOptions = new ActiveSessionCopyInfoOptions() { };
+            ActiveSessionInfo? copiedInfo;
+            Result activeSessionInfoCopyResult = activeSession.CopyInfo(ref copyInfoOptions, out copiedInfo);
+
+            if (activeSessionInfoCopyResult != Result.Success)
+            {
+                Debug.LogErrorFormat("EOSSessionsManager (InformSessionMembersToRefresh): Found local and active session with name \"{0}\", but failed to copy its info. Result code {1}", localSessionName, activeSessionInfoCopyResult);
+                return;
+            }
+
+            if (!copiedInfo.Value.SessionDetails.HasValue)
+            {
+                Debug.LogErrorFormat("EOSSessionsManager (InformSessionMembersToRefresh): Found local and active session with name \"{0}\", but the SessionDetails in the object is null. Cannot determine session id.", localSessionName, activeSessionInfoCopyResult);
+                return;
+            }
+
+            // Are we the owner of this session? We should only be messaging people if we are, inside this function
+            if (!copiedInfo.Value.SessionDetails.Value.OwnerUserId.Equals(EOSManager.Instance.GetProductUserId()))
+            {
+                // We're not the owner! This is not an error state, but don't send any messages.
+                return;
+            }
+
+            ActiveSessionGetRegisteredPlayerCountOptions countOptions = new ActiveSessionGetRegisteredPlayerCountOptions() { };
+            uint playerCount = activeSession.GetRegisteredPlayerCount(ref countOptions);
+
+            Log($"EOSSessionsManager (InformSessionMembers): There are {playerCount} registered members in {localSession.Name}, informing users of {messageDetail} (excluding self)");
+
+            string messageToSend = string.Format(P2P_INFORM_SESSION_MESSAGE_FORMAT, copiedInfo.Value.SessionDetails.Value.SessionId, EOSManager.Instance.GetProductUserId(), messageDetail);
+            for (uint ii = 0; ii < playerCount; ii++)
+            {
+                ActiveSessionGetRegisteredPlayerByIndexOptions getPlayerIndexOption = new ActiveSessionGetRegisteredPlayerByIndexOptions() { PlayerIndex = ii };
+                ProductUserId registeredPlayer = activeSession.GetRegisteredPlayerByIndex(ref getPlayerIndexOption);
+
+                // We don't need to message ourself, so skip over if this is the local user
+                if (EOSManager.Instance.GetProductUserId().Equals(registeredPlayer))
+                {
+                    continue;
+                }
+
+                SendP2PMessage(messageToSend, registeredPlayer);
+            }
+        }
+
+        /// <summary>
+        /// Utility function for sending P2P messages.
+        /// </summary>
+        /// <param name="message">The message to send. Should be a formatted string of <see cref="P2P_INFORM_SESSION_MESSAGE_FORMAT"/>.</param>
+        /// <param name="userToSendTo">The ProductUserId to send the message to.</param>
+        private void SendP2PMessage(string message, ProductUserId userToSendTo)
+        {
+            SocketId socketId = new SocketId()
+            {
+                SocketName = P2P_SESSION_STATUS_SOCKET_NAME
+            };
+
+            SendPacketOptions options = new SendPacketOptions()
+            {
+                LocalUserId = EOSManager.Instance.GetProductUserId(),
+                RemoteUserId = userToSendTo,
+                SocketId = socketId,
+                AllowDelayedDelivery = true,
+                Channel = P2P_SESSION_STATUS_UPDATE_CHANNEL,
+                Reliability = PacketReliability.ReliableOrdered,
+                Data = new ArraySegment<byte>(System.Text.Encoding.UTF8.GetBytes(message))
+            };
+
+            // The result code of this indicates that we've managed to send the message successfully,
+            // it does not guarantee that the message was received
+            Result result = EOSManager.Instance.GetEOSPlatformInterface().GetP2PInterface().SendPacket(ref options);
+
+            if (result != Result.Success)
+            {
+                Debug.LogErrorFormat("EOSSessionsManager (SendP2PMessage): Error while sending data, code: {0}.", result);
+            }
+            else
+            {
+                Log($"EOSSessionsManager (SendP2PMessage): Sending \"{message}\" to {userToSendTo}");
+            }
+        }
+
+        /// <summary>
+        /// Every update, or frequently, this method gathers P2P messages directed at the local user.
+        /// This method determines what kind of message is incoming, and dispatches the function appropriately.
+        /// </summary>
+        private void HandleReceivedP2PMessages()
+        {
+            ReceivePacketOptions options = new ReceivePacketOptions()
+            {
+                LocalUserId = EOSManager.Instance.GetProductUserId(),
+                MaxDataSizeBytes = 4096,
+                RequestedChannel = P2P_SESSION_STATUS_UPDATE_CHANNEL
+            };
+
+            var getNextReceivedPacketSizeOptions = new GetNextReceivedPacketSizeOptions
+            {
+                LocalUserId = EOSManager.Instance.GetProductUserId(),
+                RequestedChannel = P2P_SESSION_STATUS_UPDATE_CHANNEL
+            };
+
+            Result nextPacketSizeResult = EOSManager.Instance.GetEOSPlatformInterface().GetP2PInterface().GetNextReceivedPacketSize(ref getNextReceivedPacketSizeOptions, out uint nextPacketSizeBytes);
+
+            if (nextPacketSizeResult == Result.NotFound)
+            {
+                // There was no packet to receive. This isn't an error, there's just no news.
+                return;
+            }
+
+            if (nextPacketSizeResult != Result.Success)
+            {
+                Debug.LogErrorFormat("EOSSessionsManager (HandleReceivedP2PMessages): error while reading received packet data, code: {0}.", nextPacketSizeResult);
+                return;
+            }
+
+            if (nextPacketSizeBytes == 0)
+            {
+                return;
+            }
+
+            byte[] data = new byte[nextPacketSizeBytes];
+            var dataSegment = new ArraySegment<byte>(data);
+            ProductUserId peerId = null;
+            SocketId socketId = new SocketId() { SocketName = P2P_SESSION_STATUS_SOCKET_NAME };
+
+            Result receivePacketResult = EOSManager.Instance.GetEOSPlatformInterface().GetP2PInterface().ReceivePacket(ref options, ref peerId, ref socketId, out byte outChannel, dataSegment, out uint bytesWritten);
+
+            if (receivePacketResult != Result.Success)
+            {
+                Debug.LogErrorFormat("EOSSessionsManager (HandleReceivedP2PMessages): error while reading received packet data, code: {0}.", nextPacketSizeResult);
+                return;
+            }
+
+            if (!peerId.IsValid())
+            {
+                Debug.LogErrorFormat("EOSSessionsManager (HandleReceivedP2PMessages): ProductUserId peerId is not valid!");
+                return;
+            }
+
+            string message = System.Text.Encoding.UTF8.GetString(data);
+
+            Log($"EOSSessionsManager (HandleReceivedP2PMessages): Received a message: {message}");
+
+            if (!message.StartsWith(P2P_INFORM_SESSION_MESSAGE_BASE))
+            {
+                Debug.LogError($"EOSSessionsManager (HandleReceivedP2PMessages): This function is handling a received message that it wasn't intended to. Perhaps there's a socket or channel conflict? Message: {message}");
+                return;
+            }
+
+            // Match the message to look for (sessionid) (userid) (message element)
+            Match regexMatchOfMessage = Regex.Match(message, @"\(([^\)]*)\) \(([^\)]*)\) \(([^\)]*)\)");
+
+            if (regexMatchOfMessage.Groups.Count != 4)
+            {
+                Debug.LogError($"EOSSessionsManager (HandleReceivedP2PMessages): Message received, but it didn't contain the expected three parts. Message: {message}");
+                return;
+            }
+
+            string sessionId = regexMatchOfMessage.Groups[1].Value;
+            string userId = regexMatchOfMessage.Groups[2].Value;
+            string messageElement = regexMatchOfMessage.Groups[3].Value;
+
+            Log($"EOSSessionsManager (HandleReceivedP2PMessages): Message parts: [{nameof(sessionId)}: {sessionId}] [{nameof(userId)}: {userId}] [{nameof(messageElement)}: {messageElement}]");
+
+            Session session = GetSessionById(sessionId);
+            ProductUserId messagingUserId = ProductUserId.FromString(userId);
+
+            if (session == null)
+            {
+                Debug.LogError($"EOSSessionsManager (HandleReceivedP2PMessages): Message received regarding sessionId {sessionId}, but no local sessions have that id. Message: {message}");
+                return;
+            }
+
+            switch (messageElement)
+            {
+                case P2P_JOINING_SESSION_MESSAGE_ELEMENT:
+                    Register(session.Name, messagingUserId);
+                    break;
+                case P2P_LEAVING_SESSION_MESSAGE_ELEMENT:
+                    UnRegister(session.Name, messagingUserId);
+                    break;
+                case P2P_REFRESH_SESSION_MESSAGE_ELEMENT:
+                    // TODO: This is where a method would be called for refreshing one's local UI
+                    break;
+                case P2P_SESSION_OWNER_DESTROYED_SESSION_MESSAGE_ELEMENT:
+                    // TODO: This is where a user would leave a session because it was destroyed
+                    break;
+                default:
+                    Debug.LogError($"EOSSessionsManager (HandleReceivedP2PMessages): Unrecognized message element, unclear what action to take. Message: {message}");
+                    break;
+            }
+        }
+
+        #endregion
     }
 }
