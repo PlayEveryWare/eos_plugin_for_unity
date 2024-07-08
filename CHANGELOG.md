@@ -4,7 +4,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 # Changelog
 
-## [3.3.0] - 2024-06-26
+## [3.3.0] - 2024-07-03
 
 ### Fixed
 - Resolved various issues with the `eos_package_description.json` file:
@@ -48,6 +48,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### New Features
 - Introduced support for `StatsManager` and async operations.
 - Implemented deployment overrides with `-epicdeploymentid` argument.
+
+**Full Changelog**: https://github.com/PlayEveryWare/eos_plugin_for_unity/compare/v3.2.1...v3.3.0
 
 # [3.2.1] - 2024-06-24
 
