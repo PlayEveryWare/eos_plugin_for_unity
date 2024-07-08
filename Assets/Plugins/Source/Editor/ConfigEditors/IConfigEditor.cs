@@ -36,7 +36,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
         /// <summary>
         /// Loads the config values from disk.
         /// </summary>
-        Task Load();
+        Task LoadAsync();
 
         /// <summary>
         /// Saves the configuration to disk.
@@ -47,6 +47,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
         /// <summary>
         /// Render the editor for the configuration values.
         /// </summary>
-        Task Render();
+        Task RenderAsync();
     }
 }

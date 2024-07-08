@@ -147,7 +147,7 @@ _WIN32 || _WIN64
             int i = 2;
             foreach (var platformSpecificConfigEditor in platformSpecificConfigEditors)
             {
-                await platformSpecificConfigEditor.Load();
+                await platformSpecificConfigEditor.LoadAsync();
                 toolbarTitleStrings[i] = platformSpecificConfigEditor.GetLabelText();
                 i++;
             }
@@ -408,7 +408,7 @@ _WIN32 || _WIN64
                 default:
                     if (platformSpecificConfigEditors.Count > toolbarInt - 2)
                     {
-                        platformSpecificConfigEditors[toolbarInt - 2].Render();
+                        platformSpecificConfigEditors[toolbarInt - 2].RenderAsync();
                     }
 
                     break;

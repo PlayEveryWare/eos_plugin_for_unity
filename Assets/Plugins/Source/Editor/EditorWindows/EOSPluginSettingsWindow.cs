@@ -94,7 +94,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 
             foreach (var editor in configEditors)
             {
-                await editor.Load();
+                await editor.LoadAsync();
             }
         }
 
@@ -106,7 +106,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
                 {
                     GUILayout.Label(configurationSectionEditor.GetLabelText(), EditorStyles.boldLabel);
                     GUIEditorUtility.HorizontalLine(Color.white);
-                    configurationSectionEditor.Render();
+                    configurationSectionEditor.RenderAsync();
                     EditorGUILayout.Space();
                 }
             }

@@ -22,7 +22,10 @@
 
 namespace PlayEveryWare.EpicOnlineServices.Editor
 {
-    using System.Threading.Tasks;
+    using System.Linq;
+    using System.Reflection;
+    using UnityEngine;
+    using Task = System.Threading.Tasks.Task;
 
     /// <summary>
     /// Contains implementations of IConfigEditor that are common to all implementing classes.
@@ -38,12 +41,20 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
             _labelText = labelText;
         }
 
+        private static IOrderedEnumerable<IGrouping<uint, FieldInfo>> GetFieldsByGroup()
+        {
+            return typeof(T).GetFields(BindingFlags.Public | BindingFlags.Instance)
+                .Where(field => field.GetCustomAttribute<ConfigFieldAttribute>() != null)
+                .GroupBy(field => field.GetCustomAttribute<ConfigFieldAttribute>().Group)
+                .OrderBy(group => group.Key);
+        }
+
         public string GetLabelText()
         {
             return _labelText;
         }
 
-        public async Task Load()
+        public async Task LoadAsync()
         {
             config = await EpicOnlineServices.Config.GetAsync<T>();
         }
@@ -55,11 +66,11 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
 
         public abstract void RenderContents();
 
-        public async Task Render()
+        public async Task RenderAsync()
         {
             if (config == null)
             {
-                await Load();
+                await LoadAsync();
             }
 
             RenderContents();
