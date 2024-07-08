@@ -525,30 +525,63 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         }
 
         // Helper method to keep the code cleaner
+
+        /// <summary>
+        /// Use to access functionality of [EOS_Lobby_AddNotifyLobbyUpdateReceived](https://dev.epicgames.com/docs/api-ref/functions/eos-lobby-add-notify-lobby-update-received)
+        /// The callback will only run if a listener is subscribed, which is done in <see cref="SubscribeToLobbyUpdates"/>.
+        /// </summary>
+        /// <param name="lobbyInterface">Handle to the lobby interface.</param>
+        /// <param name="notificationFn">Callback to receive notification when lobby update is received.</param>
+        /// <returns>Handle representing the registered callback</returns>
         private ulong AddNotifyLobbyUpdateReceived(LobbyInterface lobbyInterface, OnLobbyUpdateReceivedCallback notificationFn)
         {
             var options = new AddNotifyLobbyUpdateReceivedOptions();
             return lobbyInterface.AddNotifyLobbyUpdateReceived(ref options, null, notificationFn);
         }
 
+        /// <summary>
+        /// Use to access functionality of [EOS_Lobby_AddNotifyLobbyMemberUpdateReceived](https://dev.epicgames.com/docs/api-ref/functions/eos-lobby-add-notify-lobby-member-update-received)
+        /// The callback will only run if a listener is subscribed, which is done in <see cref="SubscribeToLobbyUpdates"/>.
+        /// </summary>
+        /// <param name="lobbyInterface">Handle to the lobby interface.</param>
+        /// <param name="notificationFn">Callback to receive notification when lobby member update is received.</param>
+        /// <returns>Handle representing the registered callback</returns>
         private ulong AddNotifyLobbyMemberUpdateReceived(LobbyInterface lobbyInterface, OnLobbyMemberUpdateReceivedCallback notificationFn)
         {
             var options = new AddNotifyLobbyMemberUpdateReceivedOptions();
             return lobbyInterface.AddNotifyLobbyMemberUpdateReceived(ref options, null, notificationFn);
         }
 
+        /// <summary>
+        /// Use to access functionality of [EOS_Lobby_AddNotifyLobbyMemberStatusReceived](https://dev.epicgames.com/docs/api-ref/functions/eos-lobby-add-notify-lobby-member-status-received)
+        /// The callback will only run if a listener is subscribed, which is done in <see cref="SubscribeToLobbyUpdates"/>.
+        /// </summary>
+        /// <param name="lobbyInterface">Handle to the lobby interface.</param>
+        /// <param name="notificationFn">Callback to receive notification when lobby member status is received.</param>
+        /// <returns>Handle representing the registered callback</returns>
         private ulong AddNotifyLobbyMemberStatusReceived(LobbyInterface lobbyInterface, OnLobbyMemberStatusReceivedCallback notificationFn)
         {
             var options = new AddNotifyLobbyMemberStatusReceivedOptions();
             return lobbyInterface.AddNotifyLobbyMemberStatusReceived(ref options, null, notificationFn);
         }
 
+        /// <summary>
+        /// Use to access functionality of [EOS_Lobby_AddNotifyLeaveLobbyRequested](https://dev.epicgames.com/docs/api-ref/functions/eos-lobby-add-notify-leave-lobby-requested)
+        /// The callback will only run if a listener is subscribed, which is done in <see cref="SubscribeToLobbyUpdates"/>.
+        /// </summary>
+        /// <param name="lobbyInterface">Handle to the lobby interface.</param>
+        /// <param name="notificationFn">Callback to receive notification when lobby member leave request is received.</param>
+        /// <returns>Handle representing the registered callback</returns>
         private ulong AddNotifyLeaveLobbyRequested(LobbyInterface lobbyInterface, OnLeaveLobbyRequestedCallback notificationFn)
         {
             var options = new AddNotifyLeaveLobbyRequestedOptions();
             return lobbyInterface.AddNotifyLeaveLobbyRequested(ref options, null, notificationFn);
         }
 
+        /// <summary>
+        /// Subscribes to Lobby notifications.
+        /// This method must be run in order to receive any updates from other user's Lobby changes.
+        /// </summary>
         private void SubscribeToLobbyUpdates()
         {
             if(IsLobbyNotificationValid(LobbyUpdateNotification) ||
@@ -592,6 +625,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         }
 
         //-------------------------------------------------------------------------
+        /// <summary>
+        /// Subscribes to Lobby invites.
+        /// This method must be run in order to receive messages relating to lobby invitations.
+        /// </summary>
         private void SubscribeToLobbyInvites()
         {
             if (IsLobbyNotificationValid(LobbyInviteNotification) || 
@@ -1847,6 +1884,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         /// <summary>
         /// Use to access functionality of [EOS_Lobby_AddNotifyLobbyMemberUpdateReceived](https://dev.epicgames.com/docs/services/en-US/API/Members/Functions/Lobby/EOS_Lobby_AddNotifyLobbyMemberUpdateReceived/index.html)
+        /// The callback will only run if a listener is subscribed, which is done in <see cref="SubscribeToLobbyUpdates"/>.
         /// </summary>
         /// <param name="Callback">Callback to receive notification when lobby member update is received</param>
         public void AddNotifyMemberUpdateReceived(OnMemberUpdateCallback Callback)
@@ -1861,6 +1899,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         /// <summary>
         /// Subscribe to event callback for when the user has changed lobbies
+        /// The callback will only run if a listener is subscribed, which is done in <see cref="SubscribeToLobbyUpdates"/>.
         /// </summary>
         /// <param name="Callback">Callback to receive notification when lobby is changed</param>
         public void AddNotifyLobbyChange(Action Callback)
@@ -1875,6 +1914,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         /// <summary>
         /// Subscribe to event callback for when the current lobby data has been updated
+        /// The callback will only run if a listener is subscribed, which is done in <see cref="SubscribeToLobbyUpdates"/>.
         /// </summary>
         /// <param name="Callback">Callback to receive notification when lobby data is updated</param>
         public void AddNotifyLobbyUpdate(Action Callback)
