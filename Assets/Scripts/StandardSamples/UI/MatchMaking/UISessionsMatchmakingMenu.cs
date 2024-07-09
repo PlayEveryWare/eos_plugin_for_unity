@@ -373,12 +373,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             {
                 UISessionEntry thisEntry = childTransform.GetComponent<UISessionEntry>();
 
-                if (thisEntry == null)
-                {
-                    continue;
-                }
-
-                if (thisEntry.RepresentedSession == null || thisEntry.RepresentedSession.Id != sessionId)
+                if (null == thisEntry || null == thisEntry.RepresentedSession || thisEntry.RepresentedSession.Id != sessionId)
                 {
                     continue;
                 }
