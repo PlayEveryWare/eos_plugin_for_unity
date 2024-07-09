@@ -23,18 +23,55 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
 {
     using System;
 
+    /// <summary>
+    /// Indicates the type of the config field. This differs from the data type
+    /// because a string value may represent a string, or it might more
+    /// specifically represent a filepath. Whether to render the input as one
+    /// or the other depends on the value here.
+    /// </summary>
     public enum ConfigFieldType
     {
+        /// <summary>
+        /// A plain string value.
+        /// </summary>
         Text,
+
+        /// <summary>
+        /// A string value that is to represent a path to a file.
+        /// </summary>
         FilePath,
+
+        /// <summary>
+        /// A string value that is to represent a path to a directory.
+        /// </summary>
         DirectoryPath,
+
+        /// <summary>
+        /// A plain boolean value.
+        /// </summary>
         Flag,
+
+        /// <summary>
+        /// A plain unsigned integer.
+        /// </summary>
         Uint,
+
+        /// <summary>
+        /// A plain unsigned long.
+        /// </summary>
         Ulong
     }
 
+    /// <summary>
+    /// This attribute is used to decorate a field member within a config class
+    /// that represents a path to a file.
+    /// </summary>
     public class FilePathField : ConfigFieldAttribute
     {
+        /// <summary>
+        /// When launching the file selector in the system, use this to
+        /// filter which files can be selected.
+        /// </summary>
         public string Extension { get; }
 
         public FilePathField(string label, string extension, int group = -1) : this(label, extension, null, group) { }
@@ -49,6 +86,10 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
         }
     }
 
+    /// <summary>
+    /// This attribute is used to decorate a field member within a config class
+    /// that represents a path to a directory.
+    /// </summary>
     public class DirectoryPathField : ConfigFieldAttribute
     {
         public DirectoryPathField(string label, int group = -1) : base(label, ConfigFieldType.DirectoryPath, group) { }

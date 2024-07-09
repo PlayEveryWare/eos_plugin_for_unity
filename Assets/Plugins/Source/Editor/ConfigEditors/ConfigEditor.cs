@@ -58,6 +58,12 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
             _labelText = labelText;
         }
 
+        /// <summary>
+        /// Use reflection to retrieve a collection of fields that have been
+        /// assigned custom ConfigFieldAttribute attributes, grouping by group,
+        /// and sorting by group.
+        /// </summary>
+        /// <returns>A collection of config fields.</returns>
         private static IOrderedEnumerable<IGrouping<int, (FieldInfo FieldInfo, ConfigFieldAttribute FieldDetails)>> GetFieldsByGroup()
         {
             var returnValue = typeof(T).GetFields(BindingFlags.Public | BindingFlags.Instance)
@@ -69,6 +75,18 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
             return returnValue;
         }
 
+        /// <summary>
+        /// Using a collection of FieldInfo and ConfigFieldAttribute classes,
+        /// representing the fields in a Config, determine which field in a
+        /// given group is the longest, and return that length.
+        /// </summary>
+        /// <param name="group">
+        /// A group of fields that have ConfigFieldAttribute and the same group
+        /// number.
+        /// </param>
+        /// <returns>
+        /// The length of the longest label to create 
+        /// </returns>
         private static float GetMaximumLabelWidth(IEnumerable<(FieldInfo, ConfigFieldAttribute)> group)
         {
             GUIStyle labelStyle = new(GUI.skin.label);
@@ -88,6 +106,16 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
             return maxWidth;
         }
 
+        /// <summary>
+        /// Render the config fields for the config that has been set to edit.
+        /// </summary>
+        /// <exception cref="NotImplementedException">
+        /// Thrown for types that are not yet implemented.
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown for types that are not yet implemented, and not accounted for
+        /// in the switch statement.
+        /// </exception>
         protected void RenderConfigFields()
         {
             var fieldGroups = GetFieldsByGroup();
