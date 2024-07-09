@@ -1487,20 +1487,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             return string.Format("{0}{1}", JOINED_SESSION_NAME, JoinedSessionIndex);
         }
 
-        public void OnJoinGameAcceptedListener(ref JoinGameAcceptedCallbackInfo data) // OnPresenceJoinGameAcceptedListener
-        {
-            Debug.Log($"{nameof(EOSSessionsManager)} ({nameof(OnJoinGameAcceptedListener)}): join game accepted successfully.");
-
-            OnJoinGameAcceptedByJoinInfo(data.JoinInfo, data.UiEventId);
-        }
-
-        public void OnJoinSessionAcceptedListener(ref JoinSessionAcceptedCallbackInfo data) // OnSessionsJoinSessionAcceptedCallback
-        {
-            Log($"{nameof(EOSSessionsManager)} ({nameof(OnJoinSessionAcceptedListener)}): join game accepted successfully.");
-
-            OnJoinGameAcceptedByEventId(data.UiEventId);
-        }
-
         private void OnJoinGameAcceptedByJoinInfo(string joinInfo, ulong uiEventId)
         {
             JoinUiEvent = uiEventId;
@@ -1539,6 +1525,24 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(OnJoinGameAcceptedByEventId)}): unable to get details for event ID: {uiEventId}");
             }
         }
+
+        #region Notifications
+
+        public void OnJoinGameAcceptedListener(ref JoinGameAcceptedCallbackInfo data) // OnPresenceJoinGameAcceptedListener
+        {
+            Debug.Log($"{nameof(EOSSessionsManager)} ({nameof(OnJoinGameAcceptedListener)}): join game accepted successfully.");
+
+            OnJoinGameAcceptedByJoinInfo(data.JoinInfo, data.UiEventId);
+        }
+
+        public void OnJoinSessionAcceptedListener(ref JoinSessionAcceptedCallbackInfo data) // OnSessionsJoinSessionAcceptedCallback
+        {
+            Log($"{nameof(EOSSessionsManager)} ({nameof(OnJoinSessionAcceptedListener)}): join game accepted successfully.");
+
+            OnJoinGameAcceptedByEventId(data.UiEventId);
+        }
+
+        #endregion
 
         #endregion
 
@@ -2082,6 +2086,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 
+        #region Notifications
+
         public void OnSessionInviteReceivedListener(ref SessionInviteReceivedCallbackInfo data) // OnSessionInviteReceivedCallback
         {
             Log($"{nameof(EOSSessionsManager)} ({nameof(OnSessionInviteReceivedListener)}): invite to session received. Invite id: {data.InviteId}");
@@ -2114,6 +2120,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             OnJoinSessionFinished(null);
         }
+
+        #endregion
 
         #endregion
 
@@ -2184,73 +2192,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             };
 
             EOSManager.Instance.GetEOSPlatformInterface().GetP2PInterface().CloseConnections(ref closeOptions);
-        }
-
-        /// <summary>
-        /// Whenever a user attempts to create a connection, this method handles their connection request.
-        /// By default, accept all incoming connections.
-        /// </summary>
-        /// <param name="data">Data, containing the product user id of the connecting request.</param>
-        private void OnIncomingSessionsConnectionRequest(ref OnIncomingConnectionRequestInfo data)
-        {
-            if (data.SocketId?.SocketName != P2P_SESSION_STATUS_SOCKET_NAME)
-            {
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(OnIncomingSessionsConnectionRequest)}): This function should not be handling this message, its socket is not '{P2P_SESSION_STATUS_SOCKET_NAME}'. Socket name is '{(data.SocketId?.SocketName)}'.");
-                return;
-            }
-
-            SocketId socketId = new SocketId()
-            {
-                SocketName = P2P_SESSION_STATUS_SOCKET_NAME
-            };
-
-            AcceptConnectionOptions options = new AcceptConnectionOptions()
-            {
-                LocalUserId = EOSManager.Instance.GetProductUserId(),
-                RemoteUserId = data.RemoteUserId,
-                SocketId = socketId
-            };
-
-            Result result = EOSManager.Instance.GetEOSPlatformInterface().GetP2PInterface().AcceptConnection(ref options);
-
-            if (result != Result.Success)
-            {
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(OnIncomingSessionsConnectionRequest)}): Error while accepting connection, code: {result}");
-            }
-            else
-            {
-                Log($"{nameof(EOSSessionsManager)} ({nameof(OnIncomingSessionsConnectionRequest)}): Successfully accepted connection from {options.RemoteUserId} on socket {P2P_SESSION_STATUS_SOCKET_NAME}");
-            }
-        }
-
-        /// <summary>
-        /// Upon a user that is connected disconnecting, this method closes out the connection.
-        /// </summary>
-        /// <param name="data">Data, containing the product user id of the user to disconnect from.</param>
-        private void OnIncomingSessionsDisconnect(ref OnRemoteConnectionClosedInfo data)
-        {
-            SocketId socketId = new SocketId()
-            {
-                SocketName = P2P_SESSION_STATUS_SOCKET_NAME
-            };
-
-            CloseConnectionOptions closeOptions = new CloseConnectionOptions()
-            {
-                LocalUserId = EOSManager.Instance.GetProductUserId(),
-                RemoteUserId = data.RemoteUserId,
-                SocketId = socketId
-            };
-
-            Result result = EOSManager.Instance.GetEOSPlatformInterface().GetP2PInterface().CloseConnection(ref closeOptions);
-
-            if (result != Result.Success)
-            {
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(OnIncomingSessionsDisconnect)}): Error while closing connection, code: {result}");
-            }
-            else
-            {
-                Log($"{nameof(EOSSessionsManager)} ({nameof(OnIncomingSessionsDisconnect)}): Successfully closed connection with {closeOptions.RemoteUserId} on socket {P2P_SESSION_STATUS_SOCKET_NAME}");
-            }
         }
         
         /// <summary>
@@ -2537,6 +2478,77 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     break;
             }
         }
+
+        #region Notifications
+
+        /// <summary>
+        /// Whenever a user attempts to create a connection, this method handles their connection request.
+        /// By default, accept all incoming connections.
+        /// </summary>
+        /// <param name="data">Data, containing the product user id of the connecting request.</param>
+        private void OnIncomingSessionsConnectionRequest(ref OnIncomingConnectionRequestInfo data)
+        {
+            if (data.SocketId?.SocketName != P2P_SESSION_STATUS_SOCKET_NAME)
+            {
+                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(OnIncomingSessionsConnectionRequest)}): This function should not be handling this message, its socket is not '{P2P_SESSION_STATUS_SOCKET_NAME}'. Socket name is '{(data.SocketId?.SocketName)}'.");
+                return;
+            }
+
+            SocketId socketId = new SocketId()
+            {
+                SocketName = P2P_SESSION_STATUS_SOCKET_NAME
+            };
+
+            AcceptConnectionOptions options = new AcceptConnectionOptions()
+            {
+                LocalUserId = EOSManager.Instance.GetProductUserId(),
+                RemoteUserId = data.RemoteUserId,
+                SocketId = socketId
+            };
+
+            Result result = EOSManager.Instance.GetEOSPlatformInterface().GetP2PInterface().AcceptConnection(ref options);
+
+            if (result != Result.Success)
+            {
+                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(OnIncomingSessionsConnectionRequest)}): Error while accepting connection, code: {result}");
+            }
+            else
+            {
+                Log($"{nameof(EOSSessionsManager)} ({nameof(OnIncomingSessionsConnectionRequest)}): Successfully accepted connection from {options.RemoteUserId} on socket {P2P_SESSION_STATUS_SOCKET_NAME}");
+            }
+        }
+
+        /// <summary>
+        /// Upon a user that is connected disconnecting, this method closes out the connection.
+        /// </summary>
+        /// <param name="data">Data, containing the product user id of the user to disconnect from.</param>
+        private void OnIncomingSessionsDisconnect(ref OnRemoteConnectionClosedInfo data)
+        {
+            SocketId socketId = new SocketId()
+            {
+                SocketName = P2P_SESSION_STATUS_SOCKET_NAME
+            };
+
+            CloseConnectionOptions closeOptions = new CloseConnectionOptions()
+            {
+                LocalUserId = EOSManager.Instance.GetProductUserId(),
+                RemoteUserId = data.RemoteUserId,
+                SocketId = socketId
+            };
+
+            Result result = EOSManager.Instance.GetEOSPlatformInterface().GetP2PInterface().CloseConnection(ref closeOptions);
+
+            if (result != Result.Success)
+            {
+                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(OnIncomingSessionsDisconnect)}): Error while closing connection, code: {result}");
+            }
+            else
+            {
+                Log($"{nameof(EOSSessionsManager)} ({nameof(OnIncomingSessionsDisconnect)}): Successfully closed connection with {closeOptions.RemoteUserId} on socket {P2P_SESSION_STATUS_SOCKET_NAME}");
+            }
+        }
+
+        #endregion
 
         #endregion
     }
