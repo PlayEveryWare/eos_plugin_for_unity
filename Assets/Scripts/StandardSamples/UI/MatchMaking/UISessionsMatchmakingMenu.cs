@@ -79,6 +79,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             InviteFromVal.text = string.Empty;
 
             HideMenu();
+
+            GetEOSSessionsManager.UIOnSessionRefresh = OnSessionRefresh;
         }
 
         /*private void Start()
@@ -160,45 +162,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
                     GameObject sessionUiObj = Instantiate(UISessionEntryPrefab, SessionContentParent.transform);
                     UISessionEntry uiEntry = sessionUiObj.GetComponent<UISessionEntry>();
+
                     if (uiEntry != null)
                     {
-                        uiEntry.NameTxt.text = sessionResult.Name;
-
-                        if (sessionResult.UpdateInProgress)
-                        {
-                            uiEntry.StatusTxt.text = "*Updating*";
-                        }
-                        else
-                        {
-                            uiEntry.StatusTxt.text = sessionResult.SessionState.ToString();
-                        }
-
-                        uiEntry.PlayersTxt.text = string.Format("{0}/{1}", sessionResult.NumConnections, sessionResult.MaxPlayers);
-                        uiEntry.JIPTxt.text = sessionResult.AllowJoinInProgress.ToString();
-                        uiEntry.PermissionTxt.text = sessionResult.PermissionLevel.ToString();
-                        uiEntry.InvitesTxt.text = sessionResult.InvitesAllowed.ToString();
-
-                        uiEntry.JoinOnClick = JoinButtonOnClick;
-                        uiEntry.JoinSessionDetails = kvp.Value;
-
-                        uiEntry.OnlyEnableSearchResultButtons();
-
-                        bool levelAttributeFound = false;
-                        foreach (SessionAttribute sessionAttr in sessionResult.Attributes)
-                        {
-                            if (sessionAttr.Key.Equals("Level", StringComparison.OrdinalIgnoreCase))
-                            {
-                                uiEntry.LevelTxt.text = sessionAttr.AsString;
-                                levelAttributeFound = true;
-                                break;
-                            }
-                        }
-
-                        if (!levelAttributeFound)
-                        {
-                            Debug.LogErrorFormat("UISessionsMatchmakingMenu: Attribute 'Level' not found for session '{0}'", sessionResult.Name);
-                            uiEntry.LevelTxt.text = "-NA-";
-                        }
+                        uiEntry.SetUIElementsFromSessionAndDetails(sessionResult, kvp.Value, this);
                     }
                 }
             }
@@ -239,46 +206,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
                     GameObject sessionUiObj = Instantiate(UISessionEntryPrefab, SessionContentParent.transform);
                     UISessionEntry uiEntry = sessionUiObj.GetComponent<UISessionEntry>();
+
                     if (uiEntry != null)
                     {
-                        uiEntry.NameTxt.text = kvp.Key;
-
-                        if (session.UpdateInProgress)
-                        {
-                            uiEntry.StatusTxt.text = "*Updating*";
-                        }
-                        else
-                        {
-                            uiEntry.StatusTxt.text = session.SessionState.ToString();
-                        }
-                        uiEntry.EnableButtonsBySessionState(session.UpdateInProgress, session.SessionState);
-
-                        uiEntry.PlayersTxt.text = string.Format("{0}/{1}", session.NumConnections, session.MaxPlayers);
-                        uiEntry.JIPTxt.text = session.AllowJoinInProgress.ToString();
-                        uiEntry.PermissionTxt.text = session.PermissionLevel.ToString();
-                        uiEntry.InvitesTxt.text = session.InvitesAllowed.ToString();
-
-                        uiEntry.StartOnClick = StartButtonOnClick;
-                        uiEntry.EndOnClick = EndButtonOnClick;
-                        uiEntry.ModifyOnClick = ModifyButtonOnClick;
-                        uiEntry.LeaveOnClick = LeaveButtonOnClick;
-
-                        bool levelAttributeFound = false;
-                        foreach (SessionAttribute sessionAttr in session.Attributes)
-                        {
-                            if (sessionAttr.Key.Equals("Level", StringComparison.OrdinalIgnoreCase))
-                            {
-                                uiEntry.LevelTxt.text = sessionAttr.AsString;
-                                levelAttributeFound = true;
-                                break;
-                            }
-                        }
-
-                        if (!levelAttributeFound)
-                        {
-                            Debug.LogErrorFormat("UISessionsMatchmakingMenu: Attribute 'Level' not found for session '{0}'", session.Name);
-                            uiEntry.LevelTxt.text = "-NA-";
-                        }
+                        uiEntry.SetUIElementsFromSession(session, this);
                     }
                 }
             }
@@ -311,7 +242,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         }
 
         //Search Result
-        private void JoinButtonOnClick(SessionDetails sessionHandle)
+        public void JoinButtonOnClick(SessionDetails sessionHandle)
         {
             GetEOSSessionsManager.JoinSession(sessionHandle, true, OnJoinSessionFinished); // Default Presence True
         }
@@ -421,6 +352,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             // Controller
             EventSystem.current.SetSelectedGameObject(UIFirstSelected);
+
+            EOSManager.Instance.SetLogLevel(Epic.OnlineServices.Logging.LogCategory.AllCategories, Epic.OnlineServices.Logging.LogLevel.Warning);
+            EOSManager.Instance.SetLogLevel(Epic.OnlineServices.Logging.LogCategory.Sessions, Epic.OnlineServices.Logging.LogLevel.Verbose);
         }
 
         public void HideMenu()
@@ -431,6 +365,41 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
 
             SessionsMatchmakingUIParent.gameObject.SetActive(false);
+        }
+
+        public bool TryGetExistingUISessionEntryById(string sessionId, out UISessionEntry entry)
+        {
+            foreach (Transform childTransform in SessionContentParent.transform)
+            {
+                UISessionEntry thisEntry = childTransform.GetComponent<UISessionEntry>();
+
+                if (null == thisEntry || null == thisEntry.RepresentedSession || thisEntry.RepresentedSession.Id != sessionId)
+                {
+                    continue;
+                }
+
+                entry = thisEntry;
+                return true;
+            }
+
+            entry = null;
+            return false;
+        }
+
+        /// <summary>
+        /// After a Session is successfully refreshed, this is run to update the UI with the new information about the local Session.
+        /// </summary>
+        /// <param name="session">Information about the Session from the EOS C# SDK.</param>
+        /// <param name="details">Additional information about the Session from the EOS C SDK.</param>
+        public void OnSessionRefresh(Session session, SessionDetails details)
+        {
+            if (!TryGetExistingUISessionEntryById(session.Id, out UISessionEntry uiEntry))
+            {
+                Debug.Log($"UISessionsMatchmakingMenu (OnSessionRefresh): Requested refresh of a Session with {nameof(Session.Id)} \"{session.Id}\", but did not have a UI Entry for that currently. Cannot refresh it.");
+                return;
+            }
+
+            uiEntry.SetUIElementsFromSessionAndDetails(session, details, this);
         }
     }
 }
