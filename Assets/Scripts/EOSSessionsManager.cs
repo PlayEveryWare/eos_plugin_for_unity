@@ -464,7 +464,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         #endregion
 
-
         #region Manager Set Up And Utility
 
         public EOSSessionsManager()
@@ -493,13 +492,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         internal static void Log(string toPrint)
         {
             UnityEngine.Debug.Log(toPrint);
-        }
-
-        private void OnShutDown()
-        {
-            DestroyAllSessions();
-            UnsubscribeFromGameInvites();
-            UnsubscribeToSessionMessageConnectionRequests();
         }
 
         public bool Update()
@@ -582,6 +574,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             userLoggedIn = false;
         }
 
+        private void OnShutDown()
+        {
+            DestroyAllSessions();
+            UnsubscribeFromGameInvites();
+            UnsubscribeToSessionMessageConnectionRequests();
+        }
+
         private void AcknowledgeEventId(Result result)
         {
             if (JoinUiEvent != 0)
@@ -600,6 +599,76 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public bool IsUserLoggedIn
         {
             get { return userLoggedIn; }
+        }
+
+        public static void SetJoinInfo(string joinInfo, bool onLoggingOut = false)
+        {
+            EpicAccountId userId = EOSManager.Instance.GetLocalUserId();
+
+            if (userId?.IsValid() != true)
+            {
+                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(SetJoinInfo)}): Current player is invalid");
+                return;
+            }
+
+            PresenceInterface presenceInterface = EOSManager.Instance.GetEOSPlatformInterface().GetPresenceInterface();
+
+            CreatePresenceModificationOptions createModOptions = new CreatePresenceModificationOptions();
+            createModOptions.LocalUserId = EOSManager.Instance.GetLocalUserId();
+
+            Result result = presenceInterface.CreatePresenceModification(ref createModOptions, out PresenceModification presenceModification);
+            if (result != Result.Success)
+            {
+                if (onLoggingOut)
+                {
+                    Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(SetJoinInfo)}): Create presence modification during logOut, ignore.");
+                    return;
+                }
+                else
+                {
+                    Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(SetJoinInfo)}): Create presence modification failed: {result}");
+                    return;
+                }
+            }
+
+            PresenceModificationSetJoinInfoOptions joinOptions = new PresenceModificationSetJoinInfoOptions();
+            if (string.IsNullOrEmpty(joinInfo))
+            {
+                // Clear JoinInfo string if there is no local sessionId
+                joinOptions.JoinInfo = null;
+            }
+            else
+            {
+                // Use local sessionId to build JoinInfo string to share with friends
+                joinOptions.JoinInfo = joinInfo;
+            }
+
+            result = presenceModification.SetJoinInfo(ref joinOptions);
+            if (result != Result.Success)
+            {
+                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(SetJoinInfo)}): SetJoinInfo failed: {result}");
+                return;
+            }
+
+            SetPresenceOptions setOptions = new SetPresenceOptions();
+            setOptions.LocalUserId = userId;
+            setOptions.PresenceModificationHandle = presenceModification;
+
+            presenceInterface.SetPresence(ref setOptions, null, OnSetPresenceCompleteCallback);
+
+            presenceModification.Release();
+        }
+
+        private static void OnSetPresenceCompleteCallback(ref SetPresenceCallbackInfo data)
+        {
+            if (data.ResultCode != Result.Success)
+            {
+                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(OnSetPresenceCompleteCallback)}): error code: {data.ResultCode}");
+            }
+            else
+            {
+                Log($"{nameof(EOSSessionsManager)} ({nameof(OnSetPresenceCompleteCallback)}): set presence successfully.");
+            }
         }
 
         #endregion
@@ -751,6 +820,38 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             return true;
         }
 
+        private void OnUpdateSessionCompleteCallback_ForCreate(ref UpdateSessionCallbackInfo data)
+        {
+            bool removeSession = true;
+            bool success = (data.ResultCode == Result.Success);
+
+            if (success)
+            {
+                ProductUserId prodUserId = EOSManager.Instance.GetProductUserId();
+
+                if (prodUserId != null)
+                {
+                    // Register session owner
+                    Register(data.SessionName, prodUserId);
+                    removeSession = false;
+                }
+                else
+                {
+                    Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(OnUpdateSessionCompleteCallback_ForCreate)}): player is null, can't register yourself in created session.");
+                }
+            }
+            else
+            {
+                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(OnUpdateSessionCompleteCallback_ForCreate)}): error code: {data.ResultCode}");
+            }
+
+            if (UIOnSessionCreated.Count > 0)
+            {
+                UIOnSessionCreated.Dequeue().Invoke();
+            }
+
+            OnSessionUpdateFinished(success, data.SessionName, data.SessionId, removeSession);
+        }
 
         #endregion
 
@@ -978,6 +1079,18 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             sessionSearchHandle.Find(ref findOptions, null, OnFindSessionsCompleteCallback);
         }
 
+        private void OnFindSessionsCompleteCallback(ref SessionSearchFindCallbackInfo data)
+        {
+            if (data.ResultCode != Result.Success)
+            {
+                AcknowledgeEventId(data.ResultCode);
+                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(OnFindSessionsCompleteCallback)}): error code: {data.ResultCode}");
+                return;
+            }
+
+            OnSearchResultsReceived();
+        }
+
         private void OnSearchResultsReceived()
         {
             if (CurrentSearch == null)
@@ -1052,7 +1165,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 AcknowledgeEventId(Result.NotFound);
             }
         }
-
 
         /// <summary>
         /// Identifies a local session by its <paramref name="localSessionName"/>, gets its back end <see cref="Session.Id"/>,
@@ -1193,30 +1305,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             UIOnSessionRefresh?.Invoke(existingLocalSession, sessionDetails);
         }
 
-        private void OnFindSessionsCompleteCallback(ref SessionSearchFindCallbackInfo data)
-        {
-            if (data.ResultCode != Result.Success)
-            {
-                AcknowledgeEventId(data.ResultCode);
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(OnFindSessionsCompleteCallback)}): error code: {data.ResultCode}");
-                return;
-            }
-
-            OnSearchResultsReceived();
-        }
-
         #endregion
 
         #region Session Leaving
-
-        private void LeaveAllSessions()
-        {
-            // Enumerate session entries in UI
-            foreach (KeyValuePair<string, Session> kvp in GetCurrentSessions())
-            {
-                DestroySession(kvp.Key);
-            }
-        }
 
         public void DestroySession(string name)
         {
@@ -1226,52 +1317,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             destroyOptions.SessionName = name;
 
             sessionInterface.DestroySession(ref destroyOptions, name, OnDestroySessionCompleteCallback);
-        }
-
-        public void DestroyAllSessions()
-        {
-            foreach (KeyValuePair<string, Session> session in CurrentSessions)
-            {
-                if (!session.Key.Contains(JOINED_SESSION_NAME))
-                {
-                    DestroySession(session.Key);
-                }
-            }
-        }
-
-        private void OnSessionDestroyed(string sessionName)
-        {
-            if (!string.IsNullOrEmpty(sessionName))
-            {
-                if (CurrentSessions.TryGetValue(sessionName, out Session session))
-                {
-                    CurrentSessions.Remove(sessionName);
-                }
-            }
-        }
-
-        private void OnSessionUpdateFinished(bool success, string sessionName, string sessionId, bool removeSessionOnFailure = false)
-        {
-            if (CurrentSessions.TryGetValue(sessionName, out Session session))
-            {
-                session.Name = sessionName;
-                session.InitActiveSession();
-                session.UpdateInProgress = false;
-
-                if (success)
-                {
-                    session.Id = sessionId;
-                }
-                else
-                {
-                    if (removeSessionOnFailure)
-                    {
-                        CurrentSessions.Remove(sessionName);
-                    }
-                }
-
-                InformSessionMembers(sessionName, P2P_REFRESH_SESSION_MESSAGE_ELEMENT);
-            }
         }
 
         private void OnDestroySessionCompleteCallback(ref DestroySessionCallbackInfo data)
@@ -1327,10 +1372,55 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 
+        private void OnSessionDestroyed(string sessionName)
+        {
+            if (!string.IsNullOrEmpty(sessionName))
+            {
+                if (CurrentSessions.TryGetValue(sessionName, out Session session))
+                {
+                    CurrentSessions.Remove(sessionName);
+                }
+            }
+        }
+
+        private void LeaveAllSessions()
+        {
+            // Enumerate session entries in UI
+            foreach (KeyValuePair<string, Session> kvp in GetCurrentSessions())
+            {
+                DestroySession(kvp.Key);
+            }
+        }
+
+        public void DestroyAllSessions()
+        {
+            foreach (KeyValuePair<string, Session> session in CurrentSessions)
+            {
+                if (!session.Key.Contains(JOINED_SESSION_NAME))
+                {
+                    DestroySession(session.Key);
+                }
+            }
+        }
 
         #endregion
 
         #region Session Joining
+
+        public void JoinSession(SessionDetails sessionHandle, bool presenceSession, Action<Result> callback = null)
+        {
+            JoinSessionOptions joinOptions = new JoinSessionOptions();
+            joinOptions.SessionHandle = sessionHandle;
+            joinOptions.SessionName = GenerateJoinedSessionName();
+            joinOptions.LocalUserId = EOSManager.Instance.GetProductUserId();
+            joinOptions.PresenceEnabled = presenceSession;
+
+            SessionsInterface sessionInterface = EOSManager.Instance.GetEOSPlatformInterface().GetSessionsInterface();
+            sessionInterface.JoinSession(ref joinOptions, callback, OnJoinSessionListener);
+
+            //SetJoinSessionDetails
+            JoiningSessionDetails = sessionHandle;
+        }
 
         private void OnJoinSessionListener(ref JoinSessionCallbackInfo data) // OnJoinSessionCallback
         {
@@ -1350,34 +1440,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             OnJoinSessionFinished(callback);
 
             AcknowledgeEventId(data.ResultCode);
-        }
-
-        public void OnJoinGameAcceptedListener(ref JoinGameAcceptedCallbackInfo data) // OnPresenceJoinGameAcceptedListener
-        {
-            Debug.Log($"{nameof(EOSSessionsManager)} ({nameof(OnJoinGameAcceptedListener)}): join game accepted successfully.");
-
-            OnJoinGameAcceptedByJoinInfo(data.JoinInfo, data.UiEventId);
-        }
-
-        public void OnJoinSessionAcceptedListener(ref JoinSessionAcceptedCallbackInfo data) // OnSessionsJoinSessionAcceptedCallback
-        {
-            Log($"{nameof(EOSSessionsManager)} ({nameof(OnJoinSessionAcceptedListener)}): join game accepted successfully.");
-
-            OnJoinGameAcceptedByEventId(data.UiEventId);
-        }
-        public void JoinSession(SessionDetails sessionHandle, bool presenceSession, Action<Result> callback = null)
-        {
-            JoinSessionOptions joinOptions = new JoinSessionOptions();
-            joinOptions.SessionHandle = sessionHandle;
-            joinOptions.SessionName = GenerateJoinedSessionName();
-            joinOptions.LocalUserId = EOSManager.Instance.GetProductUserId();
-            joinOptions.PresenceEnabled = presenceSession;
-
-            SessionsInterface sessionInterface = EOSManager.Instance.GetEOSPlatformInterface().GetSessionsInterface();
-            sessionInterface.JoinSession(ref joinOptions, callback, OnJoinSessionListener);
-
-            //SetJoinSessionDetails
-            JoiningSessionDetails = sessionHandle;
         }
 
         private void OnJoinSessionFinished(Action<Result> callback)
@@ -1415,66 +1477,28 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 
-        // private void OnSessionStarted(string name) // Not needed for C# Wrapper
-
-        // private void OnSessionEnded(string name) // Not needed for C# Wrapper
-        //TODO: move this somewhere more general purpose
-        public static void SetJoinInfo(string joinInfo, bool onLoggingOut = false)
+        private string GenerateJoinedSessionName(bool noIncrement = false)
         {
-            EpicAccountId userId = EOSManager.Instance.GetLocalUserId();
-
-            if (userId?.IsValid() != true)
+            if (!noIncrement)
             {
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(SetJoinInfo)}): Current player is invalid");
-                return;
+                JoinedSessionIndex = (JoinedSessionIndex + 1) & JOINED_SESSION_NAME_ROTATION_NUM;
             }
 
-            PresenceInterface presenceInterface = EOSManager.Instance.GetEOSPlatformInterface().GetPresenceInterface();
+            return string.Format("{0}{1}", JOINED_SESSION_NAME, JoinedSessionIndex);
+        }
 
-            CreatePresenceModificationOptions createModOptions = new CreatePresenceModificationOptions();
-            createModOptions.LocalUserId = EOSManager.Instance.GetLocalUserId();
+        public void OnJoinGameAcceptedListener(ref JoinGameAcceptedCallbackInfo data) // OnPresenceJoinGameAcceptedListener
+        {
+            Debug.Log($"{nameof(EOSSessionsManager)} ({nameof(OnJoinGameAcceptedListener)}): join game accepted successfully.");
 
-            Result result = presenceInterface.CreatePresenceModification(ref createModOptions, out PresenceModification presenceModification);
-            if (result != Result.Success)
-            {
-                if (onLoggingOut)
-                {
-                    Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(SetJoinInfo)}): Create presence modification during logOut, ignore.");
-                    return;
-                }
-                else
-                {
-                    Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(SetJoinInfo)}): Create presence modification failed: {result}");
-                    return;
-                }
-            }
+            OnJoinGameAcceptedByJoinInfo(data.JoinInfo, data.UiEventId);
+        }
 
-            PresenceModificationSetJoinInfoOptions joinOptions = new PresenceModificationSetJoinInfoOptions();
-            if (string.IsNullOrEmpty(joinInfo))
-            {
-                // Clear JoinInfo string if there is no local sessionId
-                joinOptions.JoinInfo = null;
-            }
-            else
-            {
-                // Use local sessionId to build JoinInfo string to share with friends
-                joinOptions.JoinInfo = joinInfo;
-            }
+        public void OnJoinSessionAcceptedListener(ref JoinSessionAcceptedCallbackInfo data) // OnSessionsJoinSessionAcceptedCallback
+        {
+            Log($"{nameof(EOSSessionsManager)} ({nameof(OnJoinSessionAcceptedListener)}): join game accepted successfully.");
 
-            result = presenceModification.SetJoinInfo(ref joinOptions);
-            if (result != Result.Success)
-            {
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(SetJoinInfo)}): SetJoinInfo failed: {result}");
-                return;
-            }
-
-            SetPresenceOptions setOptions = new SetPresenceOptions();
-            setOptions.LocalUserId = userId;
-            setOptions.PresenceModificationHandle = presenceModification;
-
-            presenceInterface.SetPresence(ref setOptions, null, OnSetPresenceCompleteCallback);
-
-            presenceModification.Release();
+            OnJoinGameAcceptedByEventId(data.UiEventId);
         }
 
         private void OnJoinGameAcceptedByJoinInfo(string joinInfo, ulong uiEventId)
@@ -1494,6 +1518,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(OnJoinGameAcceptedByJoinInfo)}): unable to parse location string: {joinInfo}");
         }
 
+        private void JoinPresenceSessionById(string sessionId)
+        {
+            JoinPresenceSessionId = sessionId;
+            Log($"{nameof(EOSSessionsManager)} ({nameof(JoinPresenceSessionById)}): looking for session ID: {JoinPresenceSessionId}");
+            SearchById(JoinPresenceSessionId);
+        }
+
         private void OnJoinGameAcceptedByEventId(ulong uiEventId)
         {
             SessionDetails eventSession = MakeSessionHandleByEventId(uiEventId);
@@ -1506,35 +1537,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 JoinUiEvent = uiEventId;
                 AcknowledgeEventId(Result.UnexpectedError);
                 Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(OnJoinGameAcceptedByEventId)}): unable to get details for event ID: {uiEventId}");
-            }
-        }
-
-        private void JoinPresenceSessionById(string sessionId)
-        {
-            JoinPresenceSessionId = sessionId;
-            Log($"{nameof(EOSSessionsManager)} ({nameof(JoinPresenceSessionById)}): looking for session ID: {JoinPresenceSessionId}");
-            SearchById(JoinPresenceSessionId);
-        }
-
-        private string GenerateJoinedSessionName(bool noIncrement = false)
-        {
-            if (!noIncrement)
-            {
-                JoinedSessionIndex = (JoinedSessionIndex + 1) & JOINED_SESSION_NAME_ROTATION_NUM;
-            }
-
-            return string.Format("{0}{1}", JOINED_SESSION_NAME, JoinedSessionIndex);
-        }
-
-        private static void OnSetPresenceCompleteCallback(ref SetPresenceCallbackInfo data)
-        {
-            if (data.ResultCode != Result.Success)
-            {
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(OnSetPresenceCompleteCallback)}): error code: {data.ResultCode}");
-            }
-            else
-            {
-                Log($"{nameof(EOSSessionsManager)} ({nameof(OnSetPresenceCompleteCallback)}): set presence successfully.");
             }
         }
 
@@ -1560,6 +1562,33 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 
+        private void OnStartSessionCompleteCallBack(ref StartSessionCallbackInfo data)
+        {
+            if (data.ClientData == null)
+            {
+                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(OnStartSessionCompleteCallBack)}): data.ClientData is null");
+                return;
+            }
+
+            string sessionName = (string)data.ClientData;
+
+            if (data.ResultCode != Result.Success)
+            {
+                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(OnStartSessionCompleteCallBack)}): session name: '{sessionName}' error code: {data.ResultCode}");
+                return;
+            }
+
+            Log($"{nameof(EOSSessionsManager)} ({nameof(OnStartSessionCompleteCallBack)}): Started session: {sessionName}");
+
+            //OnSessionStarted(sessionName); // Needed for C# wrapper?
+
+            // ClientData should contain the local sessionName
+            if (data.ClientData is string localSessionName)
+            {
+                InformSessionMembers(localSessionName, P2P_REFRESH_SESSION_MESSAGE_ELEMENT);
+            }
+        }
+
         public void EndSession(string name)
         {
             if (!CurrentSessions.TryGetValue(name, out Session session))
@@ -1575,6 +1604,27 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             sessionInterface.EndSession(ref endOptions, name, OnEndSessionCompleteCallback);
         }
 
+        private void OnEndSessionCompleteCallback(ref EndSessionCallbackInfo data)
+        {
+            string sessionName = (string)data.ClientData;
+
+            if (data.ResultCode != Result.Success)
+            {
+                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(OnEndSessionCompleteCallback)}): session name: '{sessionName}' error code: {data.ResultCode}");
+                return;
+            }
+
+            Log($"{nameof(EOSSessionsManager)} ({nameof(OnEndSessionCompleteCallback)}): Ended session: {sessionName}");
+
+            //OnSessionEnded(sessionName); // Not used in C# wrapper
+
+            // ClientData should contain the local sessionName
+            if (data.ClientData is string localSessionName)
+            {
+                InformSessionMembers(localSessionName, P2P_REFRESH_SESSION_MESSAGE_ELEMENT);
+            }
+        }
+
         public void Register(string sessionName, ProductUserId friendId)
         {
             RegisterPlayersOptions registerOptions = new RegisterPlayersOptions();
@@ -1585,6 +1635,23 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             sessionInterface.RegisterPlayers(ref registerOptions, sessionName, OnRegisterCompleteCallback);
         }
 
+        private void OnRegisterCompleteCallback(ref RegisterPlayersCallbackInfo data)
+        {
+            if (data.ResultCode != Result.Success)
+            {
+                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(OnRegisterCompleteCallback)}): error code: {data.ResultCode}");
+                return;
+            }
+
+            // ClientData should contain the local sessionName
+            if (data.ClientData is string localSessionName)
+            {
+                // Refresh the owner's local UI, and also inform members
+                RefreshSession(localSessionName);
+                InformSessionMembers(localSessionName, P2P_REFRESH_SESSION_MESSAGE_ELEMENT);
+            }
+        }
+
         public void UnRegister(string sessionName, ProductUserId friendId)
         {
             UnregisterPlayersOptions unregisterOptions = new UnregisterPlayersOptions();
@@ -1593,6 +1660,23 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             SessionsInterface sessionInterface = EOSManager.Instance.GetEOSPlatformInterface().GetSessionsInterface();
             sessionInterface.UnregisterPlayers(ref unregisterOptions, sessionName, OnUnregisterCompleteCallback);
+        }
+
+        private void OnUnregisterCompleteCallback(ref UnregisterPlayersCallbackInfo data)
+        {
+            if (data.ResultCode != Result.Success)
+            {
+                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(OnUnregisterCompleteCallback)}): error code: {data.ResultCode}");
+                return;
+            }
+
+            // ClientData should contain the local sessionName
+            if (data.ClientData is string localSessionName)
+            {
+                // Refresh the owner's local UI, and also inform members
+                RefreshSession(localSessionName);
+                InformSessionMembers(localSessionName, P2P_REFRESH_SESSION_MESSAGE_ELEMENT);
+            }
         }
 
         public bool ModifySession(Session session, Action callback = null)
@@ -1764,40 +1848,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             return true;
         }
 
-        private void OnRegisterCompleteCallback(ref RegisterPlayersCallbackInfo data)
-        {
-            if (data.ResultCode != Result.Success)
-            {
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(OnRegisterCompleteCallback)}): error code: {data.ResultCode}");
-                return;
-            }
-
-            // ClientData should contain the local sessionName
-            if (data.ClientData is string localSessionName)
-            {
-                // Refresh the owner's local UI, and also inform members
-                RefreshSession(localSessionName);
-                InformSessionMembers(localSessionName, P2P_REFRESH_SESSION_MESSAGE_ELEMENT);
-            }
-        }
-
-        private void OnUnregisterCompleteCallback(ref UnregisterPlayersCallbackInfo data)
-        {
-            if (data.ResultCode != Result.Success)
-            {
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(OnUnregisterCompleteCallback)}): error code: {data.ResultCode}");
-                return;
-            }
-
-            // ClientData should contain the local sessionName
-            if (data.ClientData is string localSessionName)
-            {
-                // Refresh the owner's local UI, and also inform members
-                RefreshSession(localSessionName);
-                InformSessionMembers(localSessionName, P2P_REFRESH_SESSION_MESSAGE_ELEMENT);
-            }
-        }
-
         private void OnUpdateSessionCompleteCallback(ref UpdateSessionCallbackInfo data)
         {
             if (data.ResultCode != Result.Success)
@@ -1817,84 +1867,27 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 
-        private void OnUpdateSessionCompleteCallback_ForCreate(ref UpdateSessionCallbackInfo data)
+        private void OnSessionUpdateFinished(bool success, string sessionName, string sessionId, bool removeSessionOnFailure = false)
         {
-            bool removeSession = true;
-            bool success = (data.ResultCode == Result.Success);
-
-            if (success)
+            if (CurrentSessions.TryGetValue(sessionName, out Session session))
             {
-                ProductUserId prodUserId = EOSManager.Instance.GetProductUserId();
+                session.Name = sessionName;
+                session.InitActiveSession();
+                session.UpdateInProgress = false;
 
-                if (prodUserId != null)
+                if (success)
                 {
-                    // Register session owner
-                    Register(data.SessionName, prodUserId);
-                    removeSession = false;
+                    session.Id = sessionId;
                 }
                 else
                 {
-                    Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(OnUpdateSessionCompleteCallback_ForCreate)}): player is null, can't register yourself in created session.");
+                    if (removeSessionOnFailure)
+                    {
+                        CurrentSessions.Remove(sessionName);
+                    }
                 }
-            }
-            else
-            {
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(OnUpdateSessionCompleteCallback_ForCreate)}): error code: {data.ResultCode}");
-            }
 
-            if (UIOnSessionCreated.Count > 0)
-            {
-                UIOnSessionCreated.Dequeue().Invoke();
-            }
-
-            OnSessionUpdateFinished(success, data.SessionName, data.SessionId, removeSession);
-        }
-
-        private void OnStartSessionCompleteCallBack(ref StartSessionCallbackInfo data)
-        {
-            if (data.ClientData == null)
-            {
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(OnStartSessionCompleteCallBack)}): data.ClientData is null");
-                return;
-            }
-
-            string sessionName = (string)data.ClientData;
-
-            if (data.ResultCode != Result.Success)
-            {
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(OnStartSessionCompleteCallBack)}): session name: '{sessionName}' error code: {data.ResultCode}");
-                return;
-            }
-
-            Log($"{nameof(EOSSessionsManager)} ({nameof(OnStartSessionCompleteCallBack)}): Started session: {sessionName}");
-
-            //OnSessionStarted(sessionName); // Needed for C# wrapper?
-
-            // ClientData should contain the local sessionName
-            if (data.ClientData is string localSessionName)
-            {
-                InformSessionMembers(localSessionName, P2P_REFRESH_SESSION_MESSAGE_ELEMENT);
-            }
-        }
-
-        private void OnEndSessionCompleteCallback(ref EndSessionCallbackInfo data)
-        {
-            string sessionName = (string)data.ClientData;
-
-            if (data.ResultCode != Result.Success)
-            {
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(OnEndSessionCompleteCallback)}): session name: '{sessionName}' error code: {data.ResultCode}");
-                return;
-            }
-
-            Log($"{nameof(EOSSessionsManager)} ({nameof(OnEndSessionCompleteCallback)}): Ended session: {sessionName}");
-
-            //OnSessionEnded(sessionName); // Not used in C# wrapper
-
-            // ClientData should contain the local sessionName
-            if (data.ClientData is string localSessionName)
-            {
-                InformSessionMembers(localSessionName, P2P_REFRESH_SESSION_MESSAGE_ELEMENT);
+                InformSessionMembers(sessionName, P2P_REFRESH_SESSION_MESSAGE_ELEMENT);
             }
         }
 
@@ -1973,6 +1966,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             return CurrentInvite;
         }
+
         public void InviteToSession(string sessionName, ProductUserId friendId)
         {
             if (!friendId.IsValid())
@@ -1995,6 +1989,17 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             SessionsInterface sessionInterface = EOSManager.Instance.GetEOSPlatformInterface().GetSessionsInterface();
             sessionInterface.SendInvite(ref sendInviteOptions, null, OnSendInviteCompleteCallback);
+        }
+
+        private void OnSendInviteCompleteCallback(ref SendInviteCallbackInfo data)
+        {
+            if (data.ResultCode != Result.Success)
+            {
+                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(OnSendInviteCompleteCallback)}): error code: {data.ResultCode}");
+                return;
+            }
+
+            Log($"{nameof(EOSSessionsManager)} ({nameof(OnSendInviteCompleteCallback)}): invite to session sent successfully.");
         }
 
         public void SetInviteSession(Session session, SessionDetails sessionDetails)
@@ -2061,15 +2066,20 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             PopLobbyInvite();
         }
 
-        private void OnSendInviteCompleteCallback(ref SendInviteCallbackInfo data)
+        private void PopLobbyInvite()
         {
-            if (data.ResultCode != Result.Success)
+            if (CurrentInvite != null)
             {
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(OnSendInviteCompleteCallback)}): error code: {data.ResultCode}");
-                return;
+                Invites.Remove(CurrentInvite);
+                CurrentInvite = null;
             }
 
-            Log($"{nameof(EOSSessionsManager)} ({nameof(OnSendInviteCompleteCallback)}): invite to session sent successfully.");
+            if (Invites.Count > 0)
+            {
+                var nextInvite = Invites.GetEnumerator();
+                nextInvite.MoveNext();
+                CurrentInvite = nextInvite.Current.Key;
+            }
         }
 
         public void OnSessionInviteReceivedListener(ref SessionInviteReceivedCallbackInfo data) // OnSessionInviteReceivedCallback
@@ -2095,22 +2105,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             else
             {
                 Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(OnSessionInviteReceivedListener)}): Could not copy session information for invite id {data.InviteId}");
-            }
-        }
-
-        private void PopLobbyInvite()
-        {
-            if (CurrentInvite != null)
-            {
-                Invites.Remove(CurrentInvite);
-                CurrentInvite = null;
-            }
-
-            if (Invites.Count > 0)
-            {
-                var nextInvite = Invites.GetEnumerator();
-                nextInvite.MoveNext();
-                CurrentInvite = nextInvite.Current.Key;
             }
         }
 
