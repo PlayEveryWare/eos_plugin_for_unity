@@ -108,14 +108,10 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
 
         public override void RenderContents()
         {
-            string pathToSigntool = (config.pathToSignTool ?? "");
-            string pathToPFX = (config.pathToPFX ?? "");
-            string pfxPassword = (config.pfxPassword ?? "");
-            string timestampURL = (config.timestampURL ?? "");
-            GUIEditorUtility.AssigningPath("Path to SignTool", ref pathToSigntool, "Select SignTool", extension: "exe");
-            GUIEditorUtility.AssigningPath("Path to PFX key", ref pathToPFX, "Select PFX key", extension: "pfx");
-            GUIEditorUtility.AssigningTextField("PFX password", ref pfxPassword);
-            GUIEditorUtility.AssigningTextField("Timestamp Authority URL", ref timestampURL);
+            GUILayout.Label(GetLabelText(), EditorStyles.boldLabel);
+            GUIEditorUtility.HorizontalLine(Color.white);
+
+            RenderConfigFields();
 
             if (config.dllPaths == null)
             {
@@ -139,10 +135,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
                 config.dllPaths.Add("");
             }
 
-            config.pathToSignTool = pathToSigntool;
-            config.pathToPFX = pathToPFX;
-            config.pfxPassword = pfxPassword;
-            config.timestampURL = timestampURL.Trim();
+            EditorGUILayout.Space();
         }
     }
 }

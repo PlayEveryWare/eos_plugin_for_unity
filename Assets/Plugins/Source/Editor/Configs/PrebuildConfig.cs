@@ -25,6 +25,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Config
     using System;
 
     [Serializable]
+    [ConfigGroup("Prebuild Settings")]
     public class PrebuildConfig : EditorConfig
     {
         /// <summary>
@@ -32,6 +33,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Config
         /// the value in
         /// the EOS Configuration for version.
         /// </summary>
+        [ConfigField("Use Unity App Version for the EOS product version", ConfigFieldType.Flag)]
         public bool useAppVersionAsProductVersion;
 
         static PrebuildConfig()

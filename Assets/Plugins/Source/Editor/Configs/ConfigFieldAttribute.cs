@@ -26,26 +26,73 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
     public enum ConfigFieldType
     {
         Text,
-        Path,
+        FilePath,
+        DirectoryPath,
         Flag,
         Uint,
         Ulong
     }
 
-    [AttributeUsage(AttributeTargets.Field, Inherited = true, AllowMultiple = false)]
-    public class ConfigFieldAttribute : Attribute
+    public class FilePathField : ConfigFieldAttribute
+    {
+        public string Extension { get; }
+
+        public FilePathField(string label, string extension, int group = -1) : this(label, extension, null, group) { }
+
+        public FilePathField(
+            string label, 
+            string extension, 
+            string tooltip, 
+            int group = -1) : base(label, ConfigFieldType.FilePath, tooltip, group)
+        {
+            Extension = extension;
+        }
+    }
+
+    public class DirectoryPathField : ConfigFieldAttribute
+    {
+        public DirectoryPathField(string label, int group = -1) : base(label, ConfigFieldType.DirectoryPath, group) { }
+
+        public DirectoryPathField(string label, string tooltip, int group = -1) : base(label, ConfigFieldType.DirectoryPath, tooltip, group) { }
+    }
+
+    [AttributeUsage(AttributeTargets.Class)]
+    public class ConfigGroupAttribute : Attribute
     {
         public string Label { get; }
 
-        public uint Group { get; }
+        public ConfigGroupAttribute(string label)
+        {
+            Label = label;
+        }
+    }
+
+    [AttributeUsage(AttributeTargets.Field)]
+    public class ConfigFieldAttribute : Attribute
+    {   
+        public string Label { get; }
+
+        public string ToolTip { get; }
+
+        public int Group { get; }
 
         public ConfigFieldType FieldType { get; }
 
-        public ConfigFieldAttribute(string label, ConfigFieldType type, uint group = 0)
+        public ConfigFieldAttribute(string label, ConfigFieldType type) : this(label, type, null, -1)
+        {
+
+        }
+
+        public ConfigFieldAttribute(string label, ConfigFieldType type, int group = -1) : this(label, type, null, group)
+        {
+        }
+
+        public ConfigFieldAttribute(string label, ConfigFieldType type, string tooltip, int group = -1)
         {
             Label = label;
-            FieldType = type;
+            ToolTip = tooltip;
             Group = group;
+            FieldType = type;
         }
     }
 }

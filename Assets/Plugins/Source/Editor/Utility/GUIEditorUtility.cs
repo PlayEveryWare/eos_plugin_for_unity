@@ -119,6 +119,8 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             }
         }
 
+        private delegate T InputRenderDelegate<T>(string label, T value, float labelWidth, string tooltip);
+
         public static void AssigningULongField(string label, ref ulong value, float labelWidth = -1, string tooltip = null)
         {
             float originalLabelWidth = EditorGUIUtility.labelWidth;
@@ -221,6 +223,116 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             }
 
             EditorGUIUtility.labelWidth = originalLabelWidth;
+        }
+
+        public static string RenderInputField(DirectoryPathField configFieldDetails, string value, float labelWidth,
+            string tooltip = null)
+        {
+            const float MaximumButtonWidth = 100f;
+
+            EditorGUILayout.BeginHorizontal();
+
+            string filePath = InputRendererWrapper<string>(configFieldDetails.Label, value, labelWidth, tooltip,
+                (label, s, width, tooltip) =>
+                {
+                    return EditorGUILayout.TextField(CreateGUIContent(configFieldDetails.Label, tooltip), value,
+                        GUILayout.ExpandWidth(true));
+                });
+
+            if (GUILayout.Button("Select", GUILayout.MaxWidth(MaximumButtonWidth)))
+            {
+                string selectedPath = EditorUtility.OpenFolderPanel(configFieldDetails.Label, "", "");
+
+                if (!string.IsNullOrWhiteSpace(selectedPath))
+                {
+                    filePath = selectedPath;
+                }
+            }
+
+            EditorGUILayout.EndHorizontal();
+
+            return filePath;
+        }
+
+        public static string RenderInputField(FilePathField configFieldDetails, string value, float labelWidth, string tooltip = null)
+        {
+            const float MaximumButtonWidth = 100f;
+
+            EditorGUILayout.BeginHorizontal();
+
+            string filePath = InputRendererWrapper<string>(configFieldDetails.Label, value, labelWidth, tooltip,
+                (label, s, width, tooltip) =>
+                {
+                    return EditorGUILayout.TextField(CreateGUIContent(configFieldDetails.Label, tooltip), value,
+                        GUILayout.ExpandWidth(true));
+                });
+
+            if (GUILayout.Button("Select", GUILayout.MaxWidth(MaximumButtonWidth)))
+            {
+                string selectedPath =
+                    EditorUtility.OpenFilePanel(configFieldDetails.Label, "", configFieldDetails.Extension);
+
+                if (!string.IsNullOrWhiteSpace(selectedPath))
+                {
+                    filePath = selectedPath;
+                }
+            }
+
+            EditorGUILayout.EndHorizontal();
+
+            return filePath;
+        }
+
+        public static string RenderInputField(ConfigFieldAttribute configFieldDetails, string value, float labelWidth,
+            string tooltip = null)
+        {
+            return InputRendererWrapper<string>(configFieldDetails.Label, value, labelWidth, tooltip,
+                (label, s, width, tooltip1) =>
+                {
+                    return EditorGUILayout.TextField(CreateGUIContent(configFieldDetails.Label, tooltip), value,
+                        GUILayout.ExpandWidth(true));
+                });
+        }
+
+        public static ulong RenderInputField(ConfigFieldAttribute configFieldDetails, ulong value, float labelWidth,
+            string tooltip = null)
+        {
+            return InputRendererWrapper(configFieldDetails.Label, value, labelWidth, tooltip,
+                (label, value1, width, s) =>
+                {
+                    _ = SafeTranslatorUtility.TryConvert(value, out long temp);
+
+                    long longValue = EditorGUILayout.LongField(
+                            CreateGUIContent(configFieldDetails.Label, tooltip),
+                            temp,
+                            GUILayout.ExpandWidth(true));
+
+                    _ = SafeTranslatorUtility.TryConvert(longValue, out ulong newValue);
+
+                    return newValue;
+                });
+        }
+
+        public static bool RenderInputField(ConfigFieldAttribute configFieldDetails, bool value, float labelWidth, string tooltip = null)
+        {
+            return InputRendererWrapper<bool>(configFieldDetails.Label, value, labelWidth, tooltip, (s, b, arg3, arg4) =>
+            {
+                return EditorGUILayout.Toggle(CreateGUIContent(configFieldDetails.Label, tooltip), value, GUILayout.ExpandWidth(true));
+            });
+        }
+
+        private static T InputRendererWrapper<T>(string label, T value, float labelWidth, string toolTip, InputRenderDelegate<T> renderFn)
+        {
+            // Store the current label width so that it can be subsequently be restored.
+            float currentLabelWidth = EditorGUIUtility.labelWidth;
+
+            EditorGUIUtility.labelWidth = labelWidth;
+
+            T newValue = renderFn(label, value, labelWidth, toolTip);
+
+            EditorGUIUtility.labelWidth = currentLabelWidth;
+
+            return newValue;
         }
 
         public static void AssigningBoolField(string label, ref bool value, float labelWidth = -1, string tooltip = null)

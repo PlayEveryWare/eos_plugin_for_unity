@@ -22,10 +22,16 @@
 
 namespace PlayEveryWare.EpicOnlineServices.Editor.Config
 {
+    [ConfigGroup("Packaging")]
     public class PackagingConfig : EditorConfig
     {
+        [DirectoryPathField("Custom Build Directory Path")]
         public string customBuildDirectoryPath;
+
+        [FilePathField("JSON Description Path", "json")]
         public string pathToJSONPackageDescription;
+
+        [DirectoryPathField("Output Path")]
         public string pathToOutput;
 
         static PackagingConfig()

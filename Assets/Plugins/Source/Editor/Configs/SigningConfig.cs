@@ -35,21 +35,25 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Config
         /// <summary>
         /// Path to the tool used for signing the DLLs.
         /// </summary>
+        [FilePathField("Path to SignTool", "exe", 0)]
         public string pathToSignTool;
 
         /// <summary>
         /// Path to the PFX file used for signing.
         /// </summary>
+        [FilePathField("Path to PFX Key", "pfx", 0)]
         public string pathToPFX;
 
         /// <summary>
         /// Password to the PFX file.
         /// </summary>
+        [ConfigField("PFX Password", ConfigFieldType.Text, 1)]
         public string pfxPassword;
 
         /// <summary>
         /// The URL to use for getting a timestamp.
         /// </summary>
+        [ConfigField("Timestamp Authority URL", ConfigFieldType.Text, 1)]
         public string timestampURL;
      
         /// <summary>

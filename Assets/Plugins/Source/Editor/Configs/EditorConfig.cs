@@ -25,8 +25,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Config
     using EpicOnlineServices.Utility;
     using System.IO;
     using System.Threading.Tasks;
-    using UnityEditor;
-    using UnityEngine;
     using Config = EpicOnlineServices.Config;
 
     /// <summary>

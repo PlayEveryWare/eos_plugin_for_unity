@@ -22,31 +22,105 @@
 
 namespace PlayEveryWare.EpicOnlineServices.Editor
 {
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
     using System.Linq;
     using System.Reflection;
+    using UnityEditor;
     using UnityEngine;
+    using Utility;
     using Task = System.Threading.Tasks.Task;
 
     /// <summary>
     /// Contains implementations of IConfigEditor that are common to all implementing classes.
     /// </summary>
     /// <typeparam name="T">Intended to be a type accepted by the templated class EOSConfigFile.</typeparam>
-    public abstract class ConfigEditor<T> : IConfigEditor where T : EpicOnlineServices.Config
+    public class ConfigEditor<T> : IConfigEditor where T : EpicOnlineServices.Config
     {
         private readonly string _labelText;
         protected T config;
+
+        public ConfigEditor()
+        {
+            Type configType = typeof(T);
+
+            ConfigGroupAttribute attribute = configType.GetCustomAttribute<ConfigGroupAttribute>();
+
+            if (null != attribute)
+            {
+                _labelText = attribute.Label;
+            }
+        }
 
         protected ConfigEditor(string labelText)
         {
             _labelText = labelText;
         }
 
-        private static IOrderedEnumerable<IGrouping<uint, FieldInfo>> GetFieldsByGroup()
+        private static IOrderedEnumerable<IGrouping<int, (FieldInfo FieldInfo, ConfigFieldAttribute FieldDetails)>> GetFieldsByGroup()
         {
-            return typeof(T).GetFields(BindingFlags.Public | BindingFlags.Instance)
+            var returnValue = typeof(T).GetFields(BindingFlags.Public | BindingFlags.Instance)
                 .Where(field => field.GetCustomAttribute<ConfigFieldAttribute>() != null)
-                .GroupBy(field => field.GetCustomAttribute<ConfigFieldAttribute>().Group)
+                .Select(info => (info, info.GetCustomAttribute<ConfigFieldAttribute>()))
+                .GroupBy(r => r.Item2.Group)
                 .OrderBy(group => group.Key);
+
+            return returnValue;
+        }
+
+        private static float GetMaximumLabelWidth(IEnumerable<(FieldInfo, ConfigFieldAttribute)> group)
+        {
+            GUIStyle labelStyle = new(GUI.skin.label);
+
+            float maxWidth = 0f;
+            foreach (var field in group)
+            {
+                string labelText = field.Item2.Label;
+
+                Vector2 labelSize = labelStyle.CalcSize(new GUIContent(labelText));
+                if (maxWidth < labelSize.x)
+                {
+                    maxWidth = labelSize.x;
+                }
+            }
+
+            return maxWidth;
+        }
+
+        protected void RenderConfigFields()
+        {
+            var fieldGroups = GetFieldsByGroup();
+            foreach (var fieldGroup in fieldGroups)
+            {
+                float labelWidth = GetMaximumLabelWidth(fieldGroup);
+
+                foreach (var field in fieldGroup)
+                {
+                    switch (field.FieldDetails.FieldType)
+                    {
+                        case ConfigFieldType.Text:
+                            field.FieldInfo.SetValue(config, GUIEditorUtility.RenderInputField(field.FieldDetails, (string)field.FieldInfo.GetValue(config), labelWidth));
+                            break;
+                        case ConfigFieldType.FilePath:
+                            field.FieldInfo.SetValue(config, GUIEditorUtility.RenderInputField(field.FieldDetails as FilePathField, (string)field.FieldInfo.GetValue(config), labelWidth));
+                            break;
+                        case ConfigFieldType.Flag:
+                            field.FieldInfo.SetValue(config, GUIEditorUtility.RenderInputField(field.FieldDetails, (bool)field.FieldInfo.GetValue(config), labelWidth));
+                            break;
+                        case ConfigFieldType.DirectoryPath:
+                            field.FieldInfo.SetValue(config, GUIEditorUtility.RenderInputField(field.FieldDetails as DirectoryPathField, (string)field.FieldInfo.GetValue(config), labelWidth));
+                            break;
+                        case ConfigFieldType.Ulong:
+                            field.FieldInfo.SetValue(config, GUIEditorUtility.RenderInputField(field.FieldDetails, (ulong)field.FieldInfo.GetValue(config), labelWidth));
+                            break;
+                        case ConfigFieldType.Uint:
+                            throw new NotImplementedException();
+                        default:
+                            throw new ArgumentOutOfRangeException();
+                    }
+                }
+            }
         }
 
         public string GetLabelText()
@@ -56,6 +130,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
 
         public async Task LoadAsync()
         {
+
             config = await EpicOnlineServices.Config.GetAsync<T>();
         }
 
@@ -64,7 +139,13 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
             await config.WriteAsync(prettyPrint);
         }
 
-        public abstract void RenderContents();
+        public virtual void RenderContents()
+        {
+            GUILayout.Label(GetLabelText(), EditorStyles.boldLabel);
+            GUIEditorUtility.HorizontalLine(Color.white);
+            RenderConfigFields();
+            EditorGUILayout.Space();
+        }
 
         public async Task RenderAsync()
         {
