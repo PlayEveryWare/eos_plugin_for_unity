@@ -10,7 +10,7 @@ using AppleAuth.Native;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples.Apple
 {
-    public class EOSSignInWithAppleManager : MonoBehaviour
+    public class EOSSignInWithAppleManager
     {
 #if APPLEAUTH_MODULE
         IAppleAuthManager m_AppleAuthManager;
