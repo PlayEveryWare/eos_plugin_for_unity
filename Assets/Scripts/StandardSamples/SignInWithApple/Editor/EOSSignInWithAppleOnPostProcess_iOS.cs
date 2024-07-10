@@ -8,13 +8,14 @@ using UnityEditor.Callbacks;
 using UnityEditor.iOS.Xcode;
 
 using AppleAuth.Editor;
+using PlayEveryWare.EpicOnlineServices.Editor.Utility;
 
 public class EOSSignInWithAppleOnPostProcess_iOS
 {
     [PostProcessBuild]
     public static void OnPostprocessBuild(BuildTarget buildTarget, string path)
     {
-        if (EOSPreprocessUtilities.IsEOSDisabled(buildTarget))
+        if (ScriptingDefineUtility.IsEOSDisabled(buildTarget))
         {
             return;
         }
