@@ -29,6 +29,8 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
 
     public static class GUIEditorUtility
     {
+        private const float MaximumButtonWidth = 100f;
+
         private static GUIContent CreateGUIContent(string label, string tooltip = null)
         {
             label ??= "";
@@ -225,11 +227,56 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             EditorGUIUtility.labelWidth = originalLabelWidth;
         }
 
+        public static List<string> RenderInputField(ConfigFieldAttribute configFieldDetails, List<string> value,
+            float labelWidth, string tooltip = null)
+        {
+            float currentLabelWidth = EditorGUIUtility.labelWidth;
+
+            EditorGUIUtility.labelWidth = labelWidth;
+
+            // Because the list is beneath the label, add a colon if it does
+            // not already have one.
+            string listLabel = configFieldDetails.Label.EndsWith(":")
+                ? configFieldDetails.Label
+                : configFieldDetails.Label + ":";
+
+            GUILayout.Label(CreateGUIContent(listLabel, configFieldDetails.ToolTip));
+
+            EditorGUIUtility.labelWidth = currentLabelWidth;
+
+            List<string> newValue = new(value);
+            for (var i = 0; i < newValue.Count; ++i)
+            {
+                bool itemRemoved = false;
+
+                EditorGUILayout.BeginHorizontal();
+
+                newValue[i] = EditorGUILayout.TextField(newValue[i], GUILayout.ExpandWidth(true));
+
+                if (GUILayout.Button("Remove", GUILayout.MaxWidth(MaximumButtonWidth)))
+                {
+                    newValue.RemoveAt(i);
+                    itemRemoved = true;
+                }
+
+                EditorGUILayout.EndHorizontal();
+
+                if (itemRemoved)
+                    break;
+            }
+
+            // render add button
+            if (GUILayout.Button("Add", GUILayout.MaxWidth(MaximumButtonWidth)))
+            {
+                newValue.Add(string.Empty);
+            }
+
+            return newValue;
+        }
+
         public static string RenderInputField(DirectoryPathField configFieldDetails, string value, float labelWidth,
             string tooltip = null)
         {
-            const float MaximumButtonWidth = 100f;
-
             EditorGUILayout.BeginHorizontal();
 
             string filePath = InputRendererWrapper<string>(configFieldDetails.Label, value, labelWidth, tooltip,

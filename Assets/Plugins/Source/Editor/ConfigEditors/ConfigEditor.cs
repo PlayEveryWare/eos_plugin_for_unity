@@ -142,6 +142,9 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
                         case ConfigFieldType.Ulong:
                             field.FieldInfo.SetValue(config, GUIEditorUtility.RenderInputField(field.FieldDetails, (ulong)field.FieldInfo.GetValue(config), labelWidth));
                             break;
+                        case ConfigFieldType.TextList:
+                            field.FieldInfo.SetValue(config, GUIEditorUtility.RenderInputField(field.FieldDetails, (List<string>)field.FieldInfo.GetValue(config), labelWidth));
+                            break;
                         case ConfigFieldType.Uint:
                             throw new NotImplementedException();
                         default:

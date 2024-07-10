@@ -89,7 +89,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
                     new ConfigEditor<ToolsConfig>(),
                     new ConfigEditor<AndroidBuildConfig>(),
                     new ConfigEditor<LibraryBuildConfig>(),
-                    new SigningConfigEditor(),
+                    new ConfigEditor<SigningConfig>(),
                     new ConfigEditor<PackagingConfig>()
                 };
 

@@ -30,6 +30,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Config
     /// Contains configuration values pertinent to signing DLLs.
     /// </summary>
     [Serializable]
+    [ConfigGroup("Code Signing")]
     public class SigningConfig : EditorConfig
     {
         /// <summary>
@@ -55,10 +56,11 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Config
         /// </summary>
         [ConfigField("Timestamp Authority URL", ConfigFieldType.Text, 1)]
         public string timestampURL;
-     
+
         /// <summary>
         /// List of paths to the DLLs that can be signed.
         /// </summary>
+        [ConfigField("Target DLL Paths", ConfigFieldType.TextList, 2)]
         public List<string> dllPaths;
 
         static SigningConfig()

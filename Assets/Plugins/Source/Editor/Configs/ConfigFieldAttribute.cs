@@ -59,7 +59,12 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
         /// <summary>
         /// A plain unsigned long.
         /// </summary>
-        Ulong
+        Ulong,
+
+        /// <summary>
+        /// A list of strings.
+        /// </summary>
+        TextList,
     }
 
     /// <summary>
@@ -97,9 +102,17 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
         public DirectoryPathField(string label, string tooltip, int group = -1) : base(label, ConfigFieldType.DirectoryPath, tooltip, group) { }
     }
 
+    /// <summary>
+    /// This attribute is used to decorate a config class that represents a
+    /// collection of configuration fields.
+    /// </summary>
     [AttributeUsage(AttributeTargets.Class)]
     public class ConfigGroupAttribute : Attribute
     {
+        /// <summary>
+        /// The label for the collection of config fields that the config class
+        /// represents.
+        /// </summary>
         public string Label { get; }
 
         public ConfigGroupAttribute(string label)
@@ -111,10 +124,20 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
     [AttributeUsage(AttributeTargets.Field)]
     public class ConfigFieldAttribute : Attribute
     {   
+        /// <summary>
+        /// The label for the config field.
+        /// </summary>
         public string Label { get; }
 
+        /// <summary>
+        /// The tooltip to display when the user hovers a mouse over the label.
+        /// </summary>
         public string ToolTip { get; }
 
+        /// <summary>
+        /// The group that that config field belongs to (helps to cluster config
+        /// fields into meaningful groups).
+        /// </summary>
         public int Group { get; }
 
         public ConfigFieldType FieldType { get; }
