@@ -79,13 +79,8 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
         /// </summary>
         public string Extension { get; }
 
-        public FilePathField(string label, string extension, int group = -1) : this(label, extension, null, group) { }
-
-        public FilePathField(
-            string label, 
-            string extension, 
-            string tooltip, 
-            int group = -1) : base(label, ConfigFieldType.FilePath, tooltip, group)
+        public FilePathField(string label, string extension, string tooltip = null, int group = -1) : base(label,
+            ConfigFieldType.FilePath, tooltip, group)
         {
             Extension = extension;
         }
@@ -97,9 +92,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
     /// </summary>
     public class DirectoryPathField : ConfigFieldAttribute
     {
-        public DirectoryPathField(string label, int group = -1) : base(label, ConfigFieldType.DirectoryPath, group) { }
-
-        public DirectoryPathField(string label, string tooltip, int group = -1) : base(label, ConfigFieldType.DirectoryPath, tooltip, group) { }
+        public DirectoryPathField(string label, string tooltip = null, int group = -1) : base(label, ConfigFieldType.DirectoryPath, tooltip, group) { }
     }
 
     /// <summary>
@@ -141,17 +134,8 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
         public int Group { get; }
 
         public ConfigFieldType FieldType { get; }
-
-        public ConfigFieldAttribute(string label, ConfigFieldType type) : this(label, type, null, -1)
-        {
-
-        }
-
-        public ConfigFieldAttribute(string label, ConfigFieldType type, int group = -1) : this(label, type, null, group)
-        {
-        }
-
-        public ConfigFieldAttribute(string label, ConfigFieldType type, string tooltip, int group = -1)
+        
+        public ConfigFieldAttribute(string label, ConfigFieldType type, string tooltip = null, int group = -1)
         {
             Label = label;
             ToolTip = tooltip;

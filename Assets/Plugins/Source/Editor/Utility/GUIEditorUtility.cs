@@ -303,8 +303,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
 
         public static string RenderInputField(FilePathField configFieldDetails, string value, float labelWidth, string tooltip = null)
         {
-            const float MaximumButtonWidth = 100f;
-
             EditorGUILayout.BeginHorizontal();
 
             string filePath = InputRendererWrapper<string>(configFieldDetails.Label, value, labelWidth, tooltip,
