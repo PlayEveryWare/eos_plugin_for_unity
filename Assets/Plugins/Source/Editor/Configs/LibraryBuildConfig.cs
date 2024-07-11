@@ -30,7 +30,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Config
         [FilePathField("MSBuild path", "exe")]
         public string msbuildPath;
 
-        [FilePathField("Make path", "")]
+        [FilePathField("Make path", "*")]
         public string makePath;
 
         [ConfigField("Use debug config for MSBuild", ConfigFieldType.Flag, group:1)]
