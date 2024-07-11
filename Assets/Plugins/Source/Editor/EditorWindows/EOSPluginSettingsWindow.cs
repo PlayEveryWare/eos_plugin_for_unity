@@ -39,10 +39,14 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
     {
         private List<IConfigEditor> configEditors;
 
+        public EOSPluginSettingsWindow() : base("EOS Plugin Settings")
+        {
+        }
+
         [SettingsProvider]
         public static SettingsProvider CreateSettingsProvider()
         {
-            var eosPluginEditorConfigEditor = ScriptableObject.CreateInstance<EOSPluginSettingsWindow>();
+            var eosPluginEditorConfigEditor = CreateInstance<EOSPluginSettingsWindow>();
             eosPluginEditorConfigEditor.SetIsEmbedded(true);
             var provider = new SettingsProvider("Preferences/EOS Plugin Configuration", SettingsScope.User)
             {
@@ -59,7 +63,8 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
         [MenuItem("Tools/EOS Plugin/Plugin Configuration")]
         public static void ShowWindow()
         {
-            GetWindow<EOSPluginSettingsWindow>("EOS Plugin Configuration");
+            var window = GetWindow<EOSPluginSettingsWindow>("EOS Plugin Configuration");
+            window.SetIsEmbedded(false);
         }
 
         public static bool IsAsset(string configFilepath)

@@ -97,9 +97,18 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
         /// </summary>
         private bool _initialized;
 
+        /// <summary>
+        /// Static reference to a mono font, used in a variety of editor
+        /// windows.
+        /// </summary>
         protected static Font MonoFont;
 
-        protected EOSEditorWindow(float minimumHeight = 50f, float minimumWidth = 50f,
+        /// <summary>
+        /// String value for the title of the window.
+        /// </summary>
+        protected string _windowTitle;
+
+        protected EOSEditorWindow(string windowTitle, float minimumHeight = 50f, float minimumWidth = 50f,
             string preferencesOverrideKey = null)
         {
             // Set the preferences key either to the full name of the deriving type, or the provided override value.
@@ -109,6 +118,9 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 
             AbsoluteMinimumWindowHeight = minimumHeight;
             AbsoluteMinimumWindowWidth = minimumWidth;
+
+            _windowTitle = windowTitle;
+            titleContent = new GUIContent(windowTitle);
         }
 
         private void OnEnable()
@@ -218,14 +230,19 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
         protected void SetIsEmbedded(bool? isEmbedded = null)
         {
             // if the window has already been marked as embedded, skip
-            if (_isEmbedded != null) return;
+            //if (_isEmbedded != null) return;
 
             _isEmbedded = isEmbedded;
-            if (isEmbedded == true)
+
+            if (_isEmbedded == null)
             {
-                _isPadded = false;
-                _autoResize = false;
+                return;
             }
+
+            Debug.Log($"IsEmbedded changed to: {_isEmbedded.Value}.");
+
+            _isPadded = !_isEmbedded.Value;
+            _autoResize = !_isEmbedded.Value;
         }
 
         /// <summary>
@@ -250,6 +267,10 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
                 // Begin the padded area
                 GUILayout.BeginArea(paddedArea);
             }
+
+            // Explicitly set the window title, because sometimes Unity will
+            // change it inexplicably to be the fully-qualified class name
+            titleContent = new GUIContent(_windowTitle);
 
             // Call the implemented method to render the window
             RenderWindow();

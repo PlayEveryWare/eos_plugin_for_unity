@@ -38,6 +38,8 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
     {
         private const string PlatformImportInfoListFileName = "eos_platform_import_info_list.json";
 
+        public InstallEOSZipWindow() : base("Install EOS Zip") { }
+
         [Serializable]
         private class PlatformImportInfo
         {

@@ -39,6 +39,10 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
         string eos_library_version = "Not found";
         string eos_plugin_version = "Not found";
 
+        public PluginVersionWindow() : base("EOS Version Information")
+        {
+        }
+
         /// <summary>
         /// Unity Editor tool to display plug-in version information.
         /// </summary>

@@ -60,6 +60,8 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
         
         private bool _operationInProgress;
 
+        public CreatePackageWindow() : base("Create Package") { }
+
         #region Progress Bar Stuff
         
         private float _actualProgress;

@@ -39,7 +39,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
     [Serializable]
     public class EOSSettingsWindow : EOSEditorWindow
     {
-        private const string WindowTitle = "EOS Configuration";
         private List<IConfigEditor> platformSpecificConfigEditors;
 
         private static readonly string ConfigDirectory = Path.Combine("Assets", "StreamingAssets", "EOS");
@@ -56,22 +55,30 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 
         SteamConfig steamEOSConfigFile;
 
+        public EOSSettingsWindow() : base("EOS Configuration")
+        {
+        }
+
         [MenuItem("Tools/EOS Plugin/EOS Configuration")]
         public static void ShowWindow()
         {
-            GetWindow<EOSSettingsWindow>(WindowTitle);
+            Debug.Log("Window created via the menu.");
+            var window = GetWindow<EOSSettingsWindow>("EOS Configuration", true);
+            
+            window.SetIsEmbedded(false);
         }
 
         [SettingsProvider]
         public static SettingsProvider CreateProjectSettingsProvider()
         {
+            Debug.Log("Window created via settings provider");
             var eosPluginEditorConfigEditor = CreateInstance<EOSSettingsWindow>();
             string[] keywords = {"Epic", "EOS", "Online", "Services", "PlayEveryWare"};
             // mark the editor window as being embedded, so it skips auto formatting stuff.
             eosPluginEditorConfigEditor.SetIsEmbedded(true);
-            var provider = new SettingsProvider($"Preferences/{WindowTitle}", SettingsScope.Project)
+            var provider = new SettingsProvider($"Preferences/EOS Configuration", SettingsScope.Project)
             {
-                label = WindowTitle,
+                label = "EOS Configuration",
                 keywords = keywords,
                 guiHandler = searchContext =>
                 {
