@@ -28,6 +28,7 @@ using System.Collections.Generic;
 
 namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 {
+    using Config;
     using System.Threading.Tasks;
     using Utility;
 
@@ -84,17 +85,17 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
         {
             configEditors ??= new List<IConfigEditor>
                 {
-                    new PrebuildConfigEditor(),
-                    new ToolsConfigEditor(),
-                    new AndroidBuildConfigEditor(),
-                    new LibraryBuildConfigEditor(),
-                    new SigningConfigEditor(),
-                    new PackagingConfigEditor()
+                    new ConfigEditor<PrebuildConfig>(),
+                    new ConfigEditor<ToolsConfig>(),
+                    new ConfigEditor<AndroidBuildConfig>(),
+                    new ConfigEditor<LibraryBuildConfig>(),
+                    new ConfigEditor<SigningConfig>(),
+                    new ConfigEditor<PackagingConfig>()
                 };
 
             foreach (var editor in configEditors)
             {
-                await editor.Load();
+                await editor.LoadAsync();
             }
         }
 
@@ -104,10 +105,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
             {
                 foreach (var configurationSectionEditor in configEditors)
                 {
-                    GUILayout.Label(configurationSectionEditor.GetLabelText(), EditorStyles.boldLabel);
-                    GUIEditorUtility.HorizontalLine(Color.white);
-                    configurationSectionEditor.Render();
-                    EditorGUILayout.Space();
+                    _ = configurationSectionEditor.RenderAsync();
                 }
             }
 

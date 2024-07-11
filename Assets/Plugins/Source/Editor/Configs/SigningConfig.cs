@@ -30,31 +30,37 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Config
     /// Contains configuration values pertinent to signing DLLs.
     /// </summary>
     [Serializable]
+    [ConfigGroup("Code Signing")]
     public class SigningConfig : EditorConfig
     {
         /// <summary>
         /// Path to the tool used for signing the DLLs.
         /// </summary>
+        [FilePathField("Path to SignTool", "exe", group:0)]
         public string pathToSignTool;
 
         /// <summary>
         /// Path to the PFX file used for signing.
         /// </summary>
+        [FilePathField("Path to PFX Key", "pfx", group: 0)]
         public string pathToPFX;
 
         /// <summary>
         /// Password to the PFX file.
         /// </summary>
+        [ConfigField("PFX Password", ConfigFieldType.Text, group: 1)]
         public string pfxPassword;
 
         /// <summary>
         /// The URL to use for getting a timestamp.
         /// </summary>
+        [ConfigField("Timestamp Authority URL", ConfigFieldType.Text, group: 1)]
         public string timestampURL;
-     
+
         /// <summary>
         /// List of paths to the DLLs that can be signed.
         /// </summary>
+        [ConfigField("Target DLL Paths", ConfigFieldType.TextList, group: 2)]
         public List<string> dllPaths;
 
         static SigningConfig()
