@@ -22,6 +22,9 @@
 
 namespace PlayEveryWare.EpicOnlineServices.Editor.Config
 {
+    using System;
+
+    [Serializable]
     [ConfigGroup("Packaging")]
     public class PackagingConfig : EditorConfig
     {
