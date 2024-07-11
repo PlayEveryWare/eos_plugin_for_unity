@@ -57,7 +57,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
         [MenuItem("Tools/EOS Plugin/Version", false, 100)]
         public static void ShowWindow()
         {
-            GetWindow<PluginVersionWindow>("EOS Version Information");
+            GetWindow<PluginVersionWindow>();
         }
 
         public string GetRepositoryRoot()
