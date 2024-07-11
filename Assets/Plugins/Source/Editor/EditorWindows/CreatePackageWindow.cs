@@ -75,7 +75,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
         [MenuItem("Tools/EOS Plugin/Create Package")]
         public static void ShowWindow()
         {
-            GetWindow<CreatePackageWindow>("Create Package");
+            GetWindow<CreatePackageWindow>();
         }
 
         protected override async Task AsyncSetup()

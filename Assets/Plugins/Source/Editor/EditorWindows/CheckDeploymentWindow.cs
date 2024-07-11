@@ -50,7 +50,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
         [MenuItem("Tools/EOS Plugin/Check Deployment")]
         public static void ShowWindow()
         {
-            GetWindow<CheckDeploymentWindow>("Deployment Checker");
+            GetWindow<CheckDeploymentWindow>();
         }
 
         protected override void Setup()

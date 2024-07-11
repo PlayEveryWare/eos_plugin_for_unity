@@ -103,11 +103,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
         /// </summary>
         protected static Font MonoFont;
 
-        /// <summary>
-        /// String value for the title of the window.
-        /// </summary>
-        protected string _windowTitle;
-
         protected EOSEditorWindow(string windowTitle, float minimumHeight = 50f, float minimumWidth = 50f,
             string preferencesOverrideKey = null)
         {
@@ -119,9 +114,13 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
             AbsoluteMinimumWindowHeight = minimumHeight;
             AbsoluteMinimumWindowWidth = minimumWidth;
 
-            _windowTitle = windowTitle;
-            titleContent = new GUIContent(windowTitle);
+            WindowTitle = windowTitle;
         }
+
+        /// <summary>
+        /// String value for the title of the window.
+        /// </summary>
+        public string WindowTitle { get; }
 
         private void OnEnable()
         {
@@ -139,29 +138,33 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
         /// </summary>
         private void CheckForInitialized()
         {
-            if (_initializeTask.IsCompleted && !_initialized)
+            if (!_initializeTask.IsCompleted || _initialized)
             {
-                _initialized = true;
-                Repaint();
-                EditorApplication.update -= CheckForInitialized;
+                return;
+            }
 
-                if (!_initializeTask.IsCompletedSuccessfully)
+            _initialized = true;
+            Repaint();
+            EditorApplication.update -= CheckForInitialized;
+
+            if (_initializeTask.IsCompletedSuccessfully)
+            {
+                return;
+            }
+
+            StringBuilder errorMessageBuilder = new($"There were some exceptions initializing the window: \n");
+
+            if (_initializeTask.Exception?.InnerExceptions != null)
+            {
+                foreach (var e in _initializeTask.Exception?.InnerExceptions)
                 {
-                    StringBuilder errorMessageBuilder = new($"There were some exceptions initializing the window: \n");
-
-                    if (_initializeTask.Exception?.InnerExceptions != null)
-                    {
-                        foreach (var e in _initializeTask.Exception?.InnerExceptions)
-                        {
-                            errorMessageBuilder.AppendLine(e.Message);
-                        }
-                    }
-
-                    string errorMessage = errorMessageBuilder.ToString();
-
-                    Debug.LogError(errorMessage);
+                    errorMessageBuilder.AppendLine(e.Message);
                 }
             }
+
+            string errorMessage = errorMessageBuilder.ToString();
+
+            Debug.LogError(errorMessage);
         }
 
         /// <summary>
@@ -229,17 +232,12 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
         /// <param name="isEmbedded">Whether or not the window is being rendered within another.</param>
         protected void SetIsEmbedded(bool? isEmbedded = null)
         {
-            // if the window has already been marked as embedded, skip
-            //if (_isEmbedded != null) return;
-
             _isEmbedded = isEmbedded;
 
             if (_isEmbedded == null)
             {
                 return;
             }
-
-            Debug.Log($"IsEmbedded changed to: {_isEmbedded.Value}.");
 
             _isPadded = !_isEmbedded.Value;
             _autoResize = !_isEmbedded.Value;
@@ -270,7 +268,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 
             // Explicitly set the window title, because sometimes Unity will
             // change it inexplicably to be the fully-qualified class name
-            titleContent = new GUIContent(_windowTitle);
+            titleContent = new GUIContent(WindowTitle);
 
             // Call the implemented method to render the window
             RenderWindow();

@@ -37,7 +37,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
     public class InstallEOSZipWindow : EOSEditorWindow
     {
         private const string PlatformImportInfoListFileName = "eos_platform_import_info_list.json";
-
         public InstallEOSZipWindow() : base("Install EOS Zip") { }
 
         [Serializable]
@@ -70,7 +69,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
         [MenuItem("Tools/EOS Plugin/Install EOS zip")]
         public static void ShowWindow()
         {
-            GetWindow<InstallEOSZipWindow>("Install EOS Zip");
+            GetWindow<InstallEOSZipWindow>();
         }
 
         static public void UnzipEntry(ZipArchiveEntry zipEntry, string pathName)
