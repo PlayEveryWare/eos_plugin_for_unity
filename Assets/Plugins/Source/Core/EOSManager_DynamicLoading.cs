@@ -174,101 +174,10 @@ namespace PlayEveryWare.EpicOnlineServices
 #endif
                  });
 
-//#if !UNITY_EDITOR
                 EOSManagerPlatformSpecificsSingleton.Instance?.LoadDelegatesWithEOSBindingAPI();
-//#endif
 #endif
                 }
-            //-------------------------------------------------------------------------
-            // Using runtime reflection, hook up things
-            static public void LoadDelegatesWithReflection()
-            {
-                var selectedAssemblies = new List<Assembly>();
-                var eosLibraryHandle = LoadDynamicLibrary(EOSBinaryName);
-                selectedAssemblies.Add(typeof(PlatformInterface).Assembly);
 
-                foreach(var assembly in selectedAssemblies)
-                {
-                    foreach(var clazz in assembly.GetTypes())
-                    {
-                        if (clazz.Namespace == null)
-                        {
-                            continue;
-                        }
-                        //print("Looking at this class " + clazz.FullName);
-                        if(!clazz.Namespace.StartsWith("Epic"))
-                        {
-                            continue;
-                        }
-
-                        //TODO figure out if can actually modify binding at runtime between a method impl and the c function 
-                        // so I don't have to use delegates. Or don't worry about it because maybe it doesn't impact perf that much?
-                        //foreach (var method in clazz.GetMethods(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic))
-                        //{
-                        //    if(method.IsDefined(typeof(DllImportAttribute)))
-                        //    {
-
-                        //    }
-                        //}
-
-                        // This works due to an assumed naming convention in the EOS Library that was added for this plugin
-                        foreach(var member in clazz.GetMembers(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic))
-                        {
-                            FieldInfo fieldInfo = clazz.GetField(member.Name);
-                            if (fieldInfo == null)
-                            {
-                                continue;
-                            }
-
-                            if (fieldInfo.FieldType.Name.EndsWith("_delegate"))
-                            {
-                                var delegateType = fieldInfo.FieldType;
-                                var functionNameAsString = member.Name.Replace("_delegate", "");
-                                eosLibraryHandle.ConfigureFromLibraryDelegateFieldOnClassWithFunctionName(clazz, delegateType, functionNameAsString);
-                            }
-                        }
-                    }
-                }
-            }
-
-            //-------------------------------------------------------------------------
-            // At the moment, this isn't supported on Consoles.
-            static private void LoadDelegatesByHand()
-            {
-#if UNITY_EDITOR && !UNITY_SWITCH && USE_MANUAL_METHOD_LOADING
-                var eosLibraryHandle = LoadDynamicLibrary(Epic.OnlineServices.Config.BinaryName);
-
-                var eosPlatformType = typeof(PlatformInterface);
-
-                eosLibraryHandle.ConfigureFromLibraryDelegateFieldOnClassWithFunctionName(eosPlatformType, typeof(PlatformInterface.EOS_Initialize_delegate), "EOS_Initialize");
-                eosLibraryHandle.ConfigureFromLibraryDelegateFieldOnClassWithFunctionName(eosPlatformType, typeof(PlatformInterface.EOS_Platform_Create_delegate), "EOS_Platform_Create");
-                eosLibraryHandle.ConfigureFromLibraryDelegateFieldOnClassWithFunctionName(eosPlatformType, typeof(PlatformInterface.EOS_Platform_Tick_delegate), "EOS_Platform_Tick");
-                eosLibraryHandle.ConfigureFromLibraryDelegateFieldOnClassWithFunctionName(eosPlatformType, typeof(PlatformInterface.EOS_Platform_GetAuthInterface_delegate), "EOS_Platform_GetAuthInterface");
-                eosLibraryHandle.ConfigureFromLibraryDelegateFieldOnClassWithFunctionName(eosPlatformType, typeof(PlatformInterface.EOS_Platform_Release_delegate), "EOS_Platform_Release");
-                eosLibraryHandle.ConfigureFromLibraryDelegateFieldOnClassWithFunctionName(eosPlatformType, typeof(PlatformInterface.EOS_Shutdown_delegate), "EOS_Shutdown");
-                eosLibraryHandle.ConfigureFromLibraryDelegateFieldOnClassWithFunctionName(eosPlatformType, typeof(PlatformInterface.EOS_Platform_GetConnectInterface_delegate), "EOS_Platform_GetConnectInterface");
-
-                var eosHelper = typeof(Helper);
-                eosLibraryHandle.ConfigureFromLibraryDelegateFieldOnClassWithFunctionName(eosHelper, typeof(Helper.EOS_EResult_IsOperationComplete_delegate), "EOS_EResult_IsOperationComplete");
-
-
-                var eosLoggingType = typeof(LoggingInterface);
-                eosLibraryHandle.ConfigureFromLibraryDelegateFieldOnClassWithFunctionName(eosLoggingType, typeof(LoggingInterface.EOS_Logging_SetCallback_delegate), "EOS_Logging_SetCallback");
-
-                var eosAuthType = typeof(Epic.OnlineServices.Auth.AuthInterface);
-                eosLibraryHandle.ConfigureFromLibraryDelegateFieldOnClassWithFunctionName(eosAuthType, typeof(Epic.OnlineServices.Auth.AuthInterface.EOS_Auth_Login_delegate), "EOS_Auth_Login");
-                eosLibraryHandle.ConfigureFromLibraryDelegateFieldOnClassWithFunctionName(eosAuthType, typeof(Epic.OnlineServices.Auth.AuthInterface.EOS_Auth_Logout_delegate), "EOS_Auth_Logout");
-#endif
-            }
-
-            static bool loadEOSWithReflection
-#if UNITY_EDITOR
-                = true;
-#elif UNITY_SWITCH
-                = true;
-#else
-                = false;
-#endif
             //-------------------------------------------------------------------------
             // At the moment this only works on Windows.
             static private void ForceUnloadEOSLibrary()
@@ -301,19 +210,10 @@ namespace PlayEveryWare.EpicOnlineServices
             //-------------------------------------------------------------------------
             static public void LoadEOSLibraries()
             {
-                if (loadEOSWithReflection)
-                {
 #if EOS_DYNAMIC_BINDINGS
                     LoadDelegatesWithEOSBindingAPI();
-#else
-                    LoadDelegatesWithReflection();
 #endif
                     return;
-                }
-
-#if UNITY_EDITOR
-                LoadDelegatesByHand();
-#endif
             }
 #endif
         }
