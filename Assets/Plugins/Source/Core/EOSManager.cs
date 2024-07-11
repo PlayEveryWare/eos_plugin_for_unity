@@ -29,6 +29,16 @@
 #define EOS_CAN_SHUTDOWN
 #endif
 
+//#define EOS_DO_NOT_UNLOAD_SDK_ON_SHUTDOWN
+#if (UNITY_EDITOR_OSX || UNITY_EDITOR_LINUX)
+#define EOS_DO_NOT_UNLOAD_SDK_ON_SHUTDOWN
+#endif
+
+#if !EOS_DO_NOT_UNLOAD_SDK_ON_SHUTDOWN
+// If defined, the EOS SDK will be unloaded
+#define EOS_UNLOAD_SDK_ON_SHUTDOWN
+#endif
+
 #if !UNITY_EDITOR
 #define USE_STATIC_EOS_VARIABLE
 #endif
@@ -635,24 +645,32 @@ namespace PlayEveryWare.EpicOnlineServices
                 Result initResult = InitializePlatformInterface(loadedEOSConfig);
                 Debug.Log($"EOSManager::Init: InitializePlatformInterface: initResult = {initResult}");
 
-                if (initResult != Result.Success)
+#if EOS_DO_NOT_UNLOAD_SDK_ON_SHUTDOWN
+                if (initResult != Result.AlreadyConfigured)
+#endif
                 {
-#if UNITY_EDITOR
-                    ShutdownPlatformInterface();
-                    UnloadAllLibraries();
-                    ForceUnloadEOSLibrary();
-                    LoadEOSLibraries();
 
-                    var secondTryResult = InitializePlatformInterface(loadedEOSConfig);
-                    Debug.Log($"EOSManager::Init: InitializePlatformInterface: initResult = {secondTryResult}");
-
-                    if (secondTryResult != Result.Success)
-#endif
-#if (UNITY_EDITOR_OSX || UNITY_EDITOR_LINUX)
-                    if (secondTryResult != Result.AlreadyConfigured)
-#endif
+                    if (initResult != Result.Success)
                     {
-                        throw new Exception("Epic Online Services didn't init correctly: " + initResult);
+#if UNITY_EDITOR
+
+#if EOS_UNLOAD_SDK_ON_SHUTDOWN
+                        ShutdownPlatformInterface();
+#endif
+                        UnloadAllLibraries();
+#if EOS_UNLOAD_SDK_ON_SHUTDOWN
+                        ForceUnloadEOSLibrary();
+#endif
+                        LoadEOSLibraries();
+
+                        var secondTryResult = InitializePlatformInterface(loadedEOSConfig);
+                        Debug.Log($"EOSManager::Init: InitializePlatformInterface: initResult = {secondTryResult}");
+
+                        if (secondTryResult != Result.Success)
+#endif
+                        {
+                            throw new Exception("Epic Online Services didn't init correctly: " + initResult);
+                        }
                     }
                 }
 
@@ -1640,13 +1658,20 @@ namespace PlayEveryWare.EpicOnlineServices
                     Debug.Log("Releasing the EOS Platform Interface.");
                     GetEOSPlatformInterface()?.Release();
 
+#if EOS_UNLOAD_SDK_ON_SHUTDOWN
                     Debug.Log("Shutting down the platform interface.");
                     ShutdownPlatformInterface();
+#endif
+
                     SetEOSPlatformInterface(null);
+
+
 #endif
 #if UNITY_EDITOR
+#if EOS_UNLOAD_SDK_ON_SHUTDOWN
                     Debug.Log("Unloading all libraries.");
                     UnloadAllLibraries();
+#endif
 #endif
                     Debug.Log("Finished shutdown.");
                     s_state = EOSState.Shutdown;
