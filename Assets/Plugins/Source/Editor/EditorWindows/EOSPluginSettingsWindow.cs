@@ -105,7 +105,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
             {
                 foreach (var configurationSectionEditor in configEditors)
                 {
-                    configurationSectionEditor.RenderAsync();
+                    _ = configurationSectionEditor.RenderAsync();
                 }
             }
 
