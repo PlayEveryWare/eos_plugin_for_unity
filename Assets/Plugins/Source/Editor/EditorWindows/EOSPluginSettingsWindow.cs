@@ -40,17 +40,21 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
     {
         private List<IConfigEditor> configEditors;
 
+        public EOSPluginSettingsWindow() : base("EOS Plugin Settings")
+        {
+        }
+
         [SettingsProvider]
         public static SettingsProvider CreateSettingsProvider()
         {
-            var eosPluginEditorConfigEditor = ScriptableObject.CreateInstance<EOSPluginSettingsWindow>();
-            eosPluginEditorConfigEditor.SetIsEmbedded(true);
-            var provider = new SettingsProvider("Preferences/EOS Plugin Configuration", SettingsScope.User)
+            var pluginSettingsWindow = CreateInstance<EOSPluginSettingsWindow>();
+            pluginSettingsWindow.SetIsEmbedded(true);
+            var provider = new SettingsProvider($"Preferences/{pluginSettingsWindow.WindowTitle}", SettingsScope.User)
             {
-                label = "EOS Plugin Configuration",
+                label = pluginSettingsWindow.WindowTitle,
                 guiHandler = (searchContext) =>
                 {
-                    eosPluginEditorConfigEditor.OnGUI();
+                    pluginSettingsWindow.OnGUI();
                 }
             };
 
@@ -60,7 +64,8 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
         [MenuItem("Tools/EOS Plugin/Plugin Configuration")]
         public static void ShowWindow()
         {
-            GetWindow<EOSPluginSettingsWindow>("EOS Plugin Configuration");
+            var window = GetWindow<EOSPluginSettingsWindow>();
+            window.SetIsEmbedded(false);
         }
 
         public static bool IsAsset(string configFilepath)

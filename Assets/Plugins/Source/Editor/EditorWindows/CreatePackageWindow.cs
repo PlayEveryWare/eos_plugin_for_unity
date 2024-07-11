@@ -60,6 +60,8 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
         
         private bool _operationInProgress;
 
+        public CreatePackageWindow() : base("Create Package") { }
+
         #region Progress Bar Stuff
         
         private float _actualProgress;
@@ -73,7 +75,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
         [MenuItem("Tools/EOS Plugin/Create Package")]
         public static void ShowWindow()
         {
-            GetWindow<CreatePackageWindow>("Create Package");
+            GetWindow<CreatePackageWindow>();
         }
 
         protected override async Task AsyncSetup()
