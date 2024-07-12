@@ -29,6 +29,14 @@
 #define EOS_CAN_SHUTDOWN
 #endif
 
+// This define controls if the EOS SDK should be unloaded in the editor at shutdown to work around DLL unload errors.
+//#define EOS_DO_NOT_UNLOAD_SDK_ON_SHUTDOWN
+
+// On macOS and Linux, there isn't a known reliable way to unload shared libraries, therefore this is the default behavior.
+#if (UNITY_EDITOR_OSX || UNITY_EDITOR_LINUX)
+#define EOS_DO_NOT_UNLOAD_SDK_ON_SHUTDOWN
+#endif
+
 #if !UNITY_EDITOR
 #define USE_STATIC_EOS_VARIABLE
 #endif
@@ -180,6 +188,14 @@ namespace PlayEveryWare.EpicOnlineServices
 
             // Need to keep track for shutting down EOS after a successful platform initialization
             static private bool s_hasInitializedPlatform;
+
+            private static readonly bool s_eosUnloadSDKOnShutdown =
+#if EOS_DO_NOT_UNLOAD_SDK_ON_SHUTDOWN
+                false
+#else
+                true
+#endif
+            ;
 
             //-------------------------------------------------------------------------
             /// <summary>
@@ -633,28 +649,44 @@ namespace PlayEveryWare.EpicOnlineServices
                 }
 
                 Result initResult = InitializePlatformInterface(loadedEOSConfig);
-                Debug.Log($"EOSManager::Init: InitializePlatformInterface: initResult = {initResult}");
+
 
                 if (initResult != Result.Success)
                 {
-#if UNITY_EDITOR
-                    ShutdownPlatformInterface();
-                    UnloadAllLibraries();
-                    ForceUnloadEOSLibrary();
-                    LoadEOSLibraries();
-
-                    var secondTryResult = InitializePlatformInterface(loadedEOSConfig);
-                    Debug.Log($"EOSManager::Init: InitializePlatformInterface: initResult = {secondTryResult}");
-
-                    if (secondTryResult != Result.Success)
-#endif
-#if (UNITY_EDITOR_OSX || UNITY_EDITOR_LINUX)
-                    if (secondTryResult != Result.AlreadyConfigured)
-#endif
+                    if (s_eosUnloadSDKOnShutdown)
                     {
-                        throw new Exception("Epic Online Services didn't init correctly: " + initResult);
+#if UNITY_EDITOR
+                        ShutdownPlatformInterface();
+                        UnloadAllLibraries();
+                        ForceUnloadEOSLibrary();
+                        LoadEOSLibraries();
+#endif
+                    }
+                    else if (initResult == Result.AlreadyConfigured)
+                    {
+
+#if UNITY_EDITOR
+                        // in the case where the error is AlreadyConfigured and EOSManager is configured to not
+                        // shutdown, we can pretend the initResult was a 'real' Success so that we can continue to boot
+                        initResult = Result.Success;
+#endif
+                    }
+
+                    if (initResult != Result.Success)
+                    {
+#if UNITY_EDITOR
+                        initResult = InitializePlatformInterface(loadedEOSConfig);
+#endif
+
+                        if (initResult != Result.Success)
+                        {
+                            throw new Exception("Epic Online Services didn't init correctly: " + initResult);
+                        }
                     }
                 }
+
+                Debug.Log($"EOSManager::Init: InitializePlatformInterface: initResult = {initResult}");
+
 
                 s_hasInitializedPlatform = true;
 
@@ -1640,13 +1672,22 @@ namespace PlayEveryWare.EpicOnlineServices
                     Debug.Log("Releasing the EOS Platform Interface.");
                     GetEOSPlatformInterface()?.Release();
 
-                    Debug.Log("Shutting down the platform interface.");
-                    ShutdownPlatformInterface();
+                    if (s_eosUnloadSDKOnShutdown)
+                    {
+                        Debug.Log("Shutting down the platform interface.");
+                        ShutdownPlatformInterface();
+                    }
+
                     SetEOSPlatformInterface(null);
+
+
 #endif
 #if UNITY_EDITOR
-                    Debug.Log("Unloading all libraries.");
-                    UnloadAllLibraries();
+                    if (s_eosUnloadSDKOnShutdown)
+                    {
+                        Debug.Log("Unloading all libraries.");
+                        UnloadAllLibraries();
+                    }
 #endif
                     Debug.Log("Finished shutdown.");
                     s_state = EOSState.Shutdown;
