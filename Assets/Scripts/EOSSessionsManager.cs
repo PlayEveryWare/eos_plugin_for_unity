@@ -98,7 +98,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     }
 
     /// <summary>
-    /// Class represents a single session attribute
+    /// Class represents a single session attribute.
+    /// 
+    /// TODO: When used for Search, this structure only supports Equality options.
+    /// Should use all comparisons available in https://dev.epicgames.com/docs/game-services/lobbies-and-sessions/sessions#configuring-for-attribute-data
     /// </summary>
     public class SessionAttribute
     {
@@ -348,12 +351,33 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         private SessionDetails JoiningSessionDetails = null;
         private ulong JoinedSessionIndex = 0;
 
+        /// <summary>
+        /// When joining a Session you did not create, the Session's name is not shared with you.
+        /// Instead the Session is given a local name, starting with this, when <see cref="GenerateJoinedSessionName(bool)"/> is called.
+        /// This local name doesn't have to follow any particular formatting, but does need to be locally unique and consistent.
+        /// </summary>
         private const string JOINED_SESSION_NAME = "Session#";
         private const uint JOINED_SESSION_NAME_ROTATION_NUM = 9;
         private const int JOINED_SESSION_NAME_ROTATION = 9;
+
+        /// <summary>
+        /// The Bucket Id to create Sessions under, and to search by when finding Sessions.
+        /// Bucket Ids are used to separate search results, operating as a major filter option.
+        /// Your application could use different Bucket Ids for Sessions. If you do,
+        /// then you will need to search by those Bucket Ids in order to find those Sessions online.
+        /// 
+        /// https://dev.epicgames.com/docs/en-US/api-ref/functions/eos-session-modification-set-bucket-id
+        /// </summary>
         private const string BUCKET_ID = "SessionSample:Region";
 
+        /// <summary>
+        /// When creating a Session or searching for one, this is the attribute used to filter for buckets.
+        /// In these sample functions, <see cref="CreateSession(Session, bool, Action)"/> sets the BucketId
+        /// in <see cref="CreateSessionModificationOptions"/> as well as an <see cref="SessionAttribute"/>.
+        /// </summary>
         private const string EOS_SESSIONS_SEARCH_BUCKET_ID = "bucket";
+
+        // TODO: All three of these are unused, remove?
         private const string EOS_SESSIONS_SEARCH_EMPTY_SERVERS_ONLY = "emptyonly";
         private const string EOS_SESSIONS_SEARCH_NONEMPTY_SERVERS_ONLY = "nonemptyonly";
         private const string EOS_SESSIONS_SEARCH_MINSLOTSAVAILABLE = "minslotsavailable";
@@ -1057,11 +1081,22 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             return true;
         }
 
+        /// <summary>
+        /// Determines if a local Session with the provided id is a Presence Session.
+        /// </summary>
+        /// <param name="id">The Session Id to check.</param>
+        /// <returns>True if a local session is found with the id, and it is a Presence Session.</returns>
         public bool IsPresenceSession(string id)
         {
             return HasPresenceSession() && id.Equals(KnownPresenceSessionId, StringComparison.OrdinalIgnoreCase);
         }
 
+        /// <summary>
+        /// Tries to get a local Session that is joined with the provided name.
+        /// </summary>
+        /// <param name="name">The local name of the Session to try to get. This name is unique to the user.</param>
+        /// <param name="session">Out parameter with the Session, if found.</param>
+        /// <returns>True if a Session with the provided name is found.</returns>
         public bool TryGetSession(string name, out Session session)
         {
             if (CurrentSessions.TryGetValue(name, out session))
@@ -1072,6 +1107,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             return false;
         }
 
+        /// <summary>
+        /// Tries to get a local Session that is joined with the provided id.
+        /// </summary>
+        /// <param name="id">The id of the Session to try to get. This is the back-end id, shared for all users.</param>
+        /// <param name="session">Out parameter with the Session, if found.</param>
+        /// <returns>True if a Session with the provided name is found.</returns>
         public bool TryGetSessionById(string id, out Session session)
         {
             foreach (Session curSession in CurrentSessions.Values)
@@ -1089,6 +1130,17 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             return false;
         }
 
+        /// <summary>
+        /// Gets a Session from the most recent <see cref="CurrentSearch"/> with the provided id.
+        /// 
+        /// TODO: This is unimplemented. Either implement fully or remove.
+        /// </summary>
+        /// <param name="sessionId">
+        /// The id of the Session to try to get.
+        /// This is the back-end id, shared for all users.
+        /// Can only get results from the most recent search.
+        /// </param>
+        /// <returns>Session Details handle, if found.</returns>
         public SessionDetails MakeSessionHandleFromSearch(string sessionId)
         {
             // TODO if needed
@@ -1099,6 +1151,17 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         #region Online Session Lookup and Search
 
+        /// <summary>
+        /// Performs an online Search to look up a Session, where all attributes provided are met.
+        /// <see cref="OnFindSessionsCompleteCallback"/> is called with the results.
+        /// A handle for retriving results will be stored in <see cref="CurrentSearch"/>.
+        /// 
+        /// TODO: I feel like this should run a callback or return a Result in case of errors when trying to set up the search.
+        /// TODO: Only finds up to 10 results. Should have some method for finding next sets of results.
+        /// </summary>
+        /// <param name="attributes">
+        /// A list of Session Attributes to act as filters.
+        /// </param>
         public void Search(List<SessionAttribute> attributes)
         {
             // Clear previous search
@@ -1175,6 +1238,17 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             sessionSearchHandle.Find(ref findOptions, null, OnFindSessionsCompleteCallback);
         }
 
+        /// <summary>
+        /// Searches online for a Session with the exact Id. This can only return zero or one results.
+        /// Like other online searching methods, this can only find Sessions that are marked as either Public or JoinViaPresence.
+        /// It won't be able to find private invite only Sessions.
+        /// <see cref="OnFindSessionsCompleteCallback"/> is called with the results.
+        /// A handle for retriving results will be stored in <see cref="CurrentSearch"/>.
+        /// This is the back-end id, shared for all users.
+        /// 
+        /// TODO: This should also have a callback or return type to indicate successful search attempt.
+        /// </summary>
+        /// <param name="sessionId">The session Id to search for.</param>
         public void SearchById(string sessionId)
         {
             // Clear previous search
@@ -1213,6 +1287,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             sessionSearchHandle.Find(ref findOptions, null, OnFindSessionsCompleteCallback);
         }
 
+        /// <summary>
+        /// Callback function to dispatch search results success and failure.
+        /// This function doesn't access the returned Sessions from the Search,
+        /// instead calling <see cref="OnSearchResultsReceived"/> to indicate search should be updated.
+        /// This currently uses <see cref="CurrentSearch"/> only.
+        /// </summary>
+        /// <param name="data">Callback information about the success.</param>
         private void OnFindSessionsCompleteCallback(ref SessionSearchFindCallbackInfo data)
         {
             if (data.ResultCode != Result.Success)
@@ -1225,6 +1306,15 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             OnSearchResultsReceived();
         }
 
+        /// <summary>
+        /// Handler method for dispatching search results for use.
+        /// A handle is received from <see cref="CurrentSearch"/>, which was set when calling a Search-starting function.
+        /// If <see cref="JoinPresenceSessionId"/> is set, and one of the Search results is that Id, it will be immediately joined.
+        /// 
+        /// TODO: This should handle any <see cref="SessionSearch"/>, not just <see cref="CurrentSearch"/>.
+        /// TODO: What happens if a Presence Session is already joined, and it gets rejoined?
+        /// TODO: Shouldn't log errors if no Presence Session is set.
+        /// </summary>
         private void OnSearchResultsReceived()
         {
             if (CurrentSearch == null)
@@ -1306,6 +1396,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// If it is able to find it, then a UI refresh action is called to inform the UI to update the Session's displayed information.
         /// While similar to <see cref="SearchById(string)"/>, this function uses <see cref="P2PSessionRefreshSessionSearch"/> instead of <see cref="CurrentSearch"/>,
         /// and uses <see cref="OnRefreshSessionFindSessionsCompleteCallback"/> as the callback to handle the results.
+        /// 
+        /// TODO: This should be designed to work regardless of what the "public" status of the Session is.
+        /// Currently only functions for Public and Join by Presence. Must also function for invites.
         /// </summary>
         /// <param name="localSessionName"></param>
         public void RefreshSession(string localSessionName)
@@ -1443,6 +1536,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         #region Session Leaving
 
+        /// <summary>
+        /// Indicates that a Session should be "destroyed".
+        /// This informs Epic Game Services that this local user is leaving a Session.
+        /// <see cref="OnDestroySessionCallback"/> runs with results, which should then locally remove all of the Session's information.
+        /// If this user is the Owner of the Session, the Session is destroyed on the back end, and every member should leave it.
+        /// </summary>
+        /// <param name="name">The local name of the Session to destroy.</param>
         public void DestroySession(string name)
         {
             SessionsInterface sessionInterface = EOSManager.Instance.GetEOSPlatformInterface().GetSessionsInterface();
@@ -1453,6 +1553,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             sessionInterface.DestroySession(ref destroyOptions, name, OnDestroySessionCompleteCallback);
         }
 
+        /// <summary>
+        /// Handles the results of a Session destruction.
+        /// Uses Peer2Peer messaging to inform the Owner of a Session that this user left it,
+        /// or if this user is the owner of the Session, inform the members that they should leave it.
+        /// The local Session information for the Session should then be cleaned up and removed.
+        /// </summary>
+        /// <param name="data">Callback information about the operation.</param>
         private void OnDestroySessionCompleteCallback(ref DestroySessionCallbackInfo data)
         {
             if (data.ClientData == null)
@@ -1506,6 +1613,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 
+        /// <summary>
+        /// Removes local information about the Session.
+        /// </summary>
+        /// <param name="sessionName">The local Session's name to remove.</param>
         private void OnSessionDestroyed(string sessionName)
         {
             if (!string.IsNullOrEmpty(sessionName))
@@ -1517,6 +1628,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 
+        /// <summary>
+        /// Leaves all Sessions currently joined by using <see cref="DestroySession(string)"/>.
+        /// </summary>
         private void LeaveAllSessions()
         {
             // Enumerate session entries in UI
@@ -1526,6 +1640,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 
+        /// <summary>
+        /// Leaves all Sessions currently joined by using <see cref="DestroySession(string)"/>.
+        /// Only applies to Sessions not owned.
+        /// 
+        /// TODO: This seems redundant and misleading. Should remove.
+        /// </summary>
         public void DestroyAllSessions()
         {
             foreach (KeyValuePair<string, Session> session in CurrentSessions)
@@ -1541,6 +1661,20 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         #region Session Joining
 
+        /// <summary>
+        /// Attempts to join an online Session.
+        /// The results are handled by <see cref="OnJoinSessionListener(ref JoinSessionCallbackInfo)"/>.
+        /// Sets <see cref="JoiningSessionDetails"/> with the handle, so that it can be used to inform which Session was joined.
+        /// </summary>
+        /// <param name="sessionHandle">A handle to the Session that you want to join.</param>
+        /// <param name="presenceSession">
+        /// If true, then when the Session is joined it'll be set to Presence enabled.
+        /// You can only have one Presence enabled Session at a time.
+        /// </param>
+        /// <param name="callback">
+        /// Additional callback to run with the results of the operation.
+        /// Executed as ClientData in <see cref="OnJoinSessionListener(ref JoinSessionCallbackInfo)"/>.
+        /// </param>
         public void JoinSession(SessionDetails sessionHandle, bool presenceSession, Action<Result> callback = null)
         {
             JoinSessionOptions joinOptions = new JoinSessionOptions();
@@ -1556,6 +1690,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             JoiningSessionDetails = sessionHandle;
         }
 
+        /// <summary>
+        /// Callback handler for joining a Session.
+        /// If the joining failed, invokes the <paramref name="data"/>'s ClientData as an Action<Result>.
+        /// If it succeeds, calls <see cref="OnJoinSessionFinished(Action{Result})"/> with the above callback.
+        /// </summary>
+        /// <param name="data">Callback information indicating success.</param>
         private void OnJoinSessionListener(ref JoinSessionCallbackInfo data) // OnJoinSessionCallback
         {
             var callback = data.ClientData as Action<Result>;
@@ -1576,6 +1716,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             AcknowledgeEventId(data.ResultCode);
         }
 
+        /// <summary>
+        /// Run when a Session has been successfully joined.
+        /// Uses the handle in <see cref="JoiningSessionDetails"/> to determine the Session that was joined.
+        /// Uses Peer2Peer messages to inform the Owner that this user has joined the Session.
+        /// </summary>
+        /// <param name="callback">Callback to run with the status, perhaps used to inform the UI to update.</param>
         private void OnJoinSessionFinished(Action<Result> callback)
         {
             if (JoiningSessionDetails != null)
@@ -1611,6 +1757,19 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 
+        /// <summary>
+        /// Returns a valid Session Name for use as the local Session's name.
+        /// Names are local to each user for Sessions.
+        /// Manipulates <see cref="JoinedSessionIndex"/> if <paramref name="noIncrement"/> is false,
+        /// then uses that to determine a Session name.
+        /// 
+        /// TODO: This should do validation to make sure the returned name is actually unused.
+        /// </summary>
+        /// <param name="noIncrement">
+        /// If false, <see cref="JoinedSessionIndex"/> is manipulated before returning the name.
+        /// If true, then this will return the current value of <see cref="JoinedSessionIndex"/> when generating the name.
+        /// </param>
+        /// <returns>A usable Session name for local use.</returns>
         private string GenerateJoinedSessionName(bool noIncrement = false)
         {
             if (!noIncrement)
