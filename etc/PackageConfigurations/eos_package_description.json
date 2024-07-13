@@ -1,10 +1,10 @@
 {
     "source_to_dest": [
 
-        {"src": "etc/PackageTemplate/*.md",         "dest": ""  },
-        {"src": "etc/PackageTemplate/package.json", "dest": ""  },
-        {"src": "etc/PackageTemplate/Editor.meta",  "dest": ""  },
-        {"src": "etc/PackageTemplate/Runtime.meta", "dest": ""  },
+        {"src": "com.playeveryware.eos/*.md",         "dest": ""  },
+        {"src": "com.playeveryware.eos/package.json", "dest": ""  },
+        {"src": "com.playeveryware.eos/Editor.meta",  "dest": ""  },
+        {"src": "com.playeveryware.eos/Runtime.meta", "dest": ""  },
 
         {"src": "etc/PlatformSpecificAssets/EOS/*", "dest": "PlatformSpecificAssets~/EOS/", "recursive": true },
         {"src": "docs/*",                           "dest": "Documentation~/",              "recursive": true },
