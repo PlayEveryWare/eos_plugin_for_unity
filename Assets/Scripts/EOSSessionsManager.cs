@@ -1780,6 +1780,20 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             return string.Format("{0}{1}", JOINED_SESSION_NAME, JoinedSessionIndex);
         }
 
+        /// <summary>
+        /// Upon successfully joining a Session by Presence, handles joining the local Session and setting Presence.
+        /// 
+        /// TODO: This is incorrectly implemented and will not function properly. Need to change how <paramref name="joinInfo"/> is utilized.
+        /// </summary>
+        /// <param name="joinInfo">
+        /// Information containing a Session id to join off of.
+        /// TODO: Determine an example string and post in this comment.
+        /// </param>
+        /// <param name="uiEventId">
+        /// An Id that the EOS SDK can use to create a handle.
+        /// Once used or no longer needed, call <see cref="AcknowledgeEventId(Result)"/>.
+        /// <see cref="MakeSessionHandleByEventId(ulong)"/>
+        /// </param>
         private void OnJoinGameAcceptedByJoinInfo(string joinInfo, ulong uiEventId)
         {
             JoinUiEvent = uiEventId;
@@ -1797,6 +1811,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(OnJoinGameAcceptedByJoinInfo)}): unable to parse location string: {joinInfo}");
         }
 
+        /// <summary>
+        /// Sets the local <see cref="JoinPresenceSessionId"/>, and then attempts to <see cref="SearchById(string)"/>.
+        /// If the indicated Session is found, it'll join it, and then set the <see cref="KnownPresenceSessionId"/> to that Id.
+        /// This can only find Sessions that have their <see cref="Session.PermissionLevel"/> set to either
+        /// <see cref="OnlineSessionPermissionLevel.JoinViaPresence"/> or <see cref="OnlineSessionPermissionLevel.PublicAdvertised"/>.
+        /// </summary>
+        /// <param name="sessionId">The back end Session Id.</param>
         private void JoinPresenceSessionById(string sessionId)
         {
             JoinPresenceSessionId = sessionId;
@@ -1804,6 +1825,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             SearchById(JoinPresenceSessionId);
         }
 
+        /// <summary>
+        /// After a Session is successfully joined, try to set local information about the Session,
+        /// then join it.
+        /// 
+        /// TODO: This should probably call <see cref="AcknowledgeEventId(Result)"/> after using the handle.
+        /// </summary>
+        /// <param name="uiEventId">The EOS SDK's Event Id to use for creating a Session Handle.</param>
         private void OnJoinGameAcceptedByEventId(ulong uiEventId)
         {
             SessionDetails eventSession = MakeSessionHandleByEventId(uiEventId);
@@ -1819,8 +1847,42 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 
+        /// <summary>
+        /// Uses a provided <paramref name="uiEventId"/> to get a <see cref="SessionDetails"/> object.
+        /// This will only return a value if the provided Id has not yet been called with <see cref="AcknowledgeEventId(Result)"/>.
+        /// After making the Session handle, <see cref="AcknowledgeEventId(Result)"/> should be called with this id.
+        /// </summary>
+        /// <param name="uiEventId">The id to create off of.</param>
+        /// <returns>
+        /// If an event is available with the provided id, returns <see cref="SessionDetails"/> for the Session.
+        /// Otherwise returns null.
+        /// </returns>
+        public SessionDetails MakeSessionHandleByEventId(ulong uiEventId)
+        {
+            CopySessionHandleByUiEventIdOptions copyOptions = new CopySessionHandleByUiEventIdOptions();
+            copyOptions.UiEventId = uiEventId;
+
+            SessionsInterface sessionInterface = EOSManager.Instance.GetEOSPlatformInterface().GetSessionsInterface();
+            Result result = sessionInterface.CopySessionHandleByUiEventId(ref copyOptions, out SessionDetails sessionHandle);
+            if (result == Result.Success && sessionHandle != null)
+            {
+                return sessionHandle;
+            }
+
+            return null;
+        }
+
         #region Notifications
 
+        /// <summary>
+        /// Listener notification method for when a game is joined.
+        /// Upon firing, this calls <see cref="OnJoinGameAcceptedByJoinInfo(string, ulong)"/> to join the Game.
+        /// 
+        /// TODO: When is this called versus <see cref="OnJoinSessionAcceptedListener(ref JoinSessionAcceptedCallbackInfo)"/>?
+        /// TODO: At what point does this get called in joining life cycle?
+        /// TODO: What is a Game versus a Session?
+        /// </summary>
+        /// <param name="data">Callback information from the attempted join.</param>
         public void OnJoinGameAcceptedListener(ref JoinGameAcceptedCallbackInfo data) // OnPresenceJoinGameAcceptedListener
         {
             Debug.Log($"{nameof(EOSSessionsManager)} ({nameof(OnJoinGameAcceptedListener)}): join game accepted successfully.");
@@ -1828,6 +1890,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             OnJoinGameAcceptedByJoinInfo(data.JoinInfo, data.UiEventId);
         }
 
+        /// <summary>
+        /// Listener notification method for when a Session is joined.
+        /// UPon firing, this calls <see cref="OnJoinGameAcceptedByEventId(ulong)"/> to join the Session.
+        /// 
+        /// TODO: When is this called versus <see cref="OnJoinGameAcceptedListener(ref JoinGameAcceptedCallbackInfo)"/>?
+        /// TODO: At what point does this get called in a joining life cycle?
+        /// </summary>
+        /// <param name="data">Callback information from the attempted join.</param>
         public void OnJoinSessionAcceptedListener(ref JoinSessionAcceptedCallbackInfo data) // OnSessionsJoinSessionAcceptedCallback
         {
             Log($"{nameof(EOSSessionsManager)} ({nameof(OnJoinSessionAcceptedListener)}): join game accepted successfully.");
@@ -1841,6 +1911,28 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         #region Session Other State Management
 
+        /* These methods manage the state of the Session, other than Destroying it.
+         * All of the public methods will call out to EOS Game Services to make the modification,
+         * then a local callback is run to make the modification.
+         * Only the owner of a Session are able to modify its state.
+         * 
+         * With P2P Messaging enabled, these modifications will call out to members of the Session to update their state.
+         * */
+
+        /// <summary>
+        /// Starts an existing Session in EOS Game Services. This is not used to create new Sessions.
+        /// This is mostly used for standardizing a state across clients,
+        /// but if <see cref="Session.AllowJoinInProgress"/> is set to false, then users can only join it if it hasn't been started.
+        /// This will set the <see cref="Session.SessionState"/> to <see cref="OnlineSessionState.Starting"/>,
+        /// and then soon after <see cref="OnlineSessionState.InProgress"/>.
+        /// <see cref="Update"/> will notice the change in State and inform the UI to update.
+        /// Calls to <see cref="SessionsInterface.StartSession(ref StartSessionOptions, object, OnStartSessionCallback)"/>,
+        /// with the ClientData param containing the local name of the Session to start.
+        /// <see cref="OnStartSessionCompleteCallBack(ref StartSessionCallbackInfo)"/> handles the callback.
+        /// 
+        /// TODO: Answer - can users see this if it has been ended and <see cref="Session.AllowJoinInProgress"/> is false?
+        /// </summary>
+        /// <param name="name">The local name of the Session to start.</param>
         public void StartSession(string name)
         {
             if (CurrentSessions.TryGetValue(name, out Session session))
@@ -1859,6 +1951,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 
+        /// <summary>
+        /// Callback after an attempted Session start.
+        /// When successful, the Session owner will attempt to inform Session members of the state change.
+        /// </summary>
+        /// <param name="data">
+        /// Callback information about the attempted start.
+        /// <see cref="StartSessionCallbackInfo.ClientData"/> must contain the local name of the Session that started.
+        /// </param>
         private void OnStartSessionCompleteCallBack(ref StartSessionCallbackInfo data)
         {
             if (data.ClientData == null)
@@ -1886,6 +1986,21 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 
+        /// <summary>
+        /// Ends an existing Session in EOS Game Services. This is not used to leave or destroy Sessions.
+        /// A Session does not need to "End" in order to be left or destroyed.
+        /// This is mostly used for standardizing a state across clients,
+        /// but if <see cref="Session.AllowJoinInProgress"/> is set to false, then users can only join it if it hasn't been started.
+        /// This will set the <see cref="Session.SessionState"/> to <see cref="OnlineSessionState.Ending"/>,
+        /// and then soon after <see cref="OnlineSessionState.Ended"/>.
+        /// <see cref="Update"/> will notice the change in State and inform the UI to update.
+        /// Calls to <see cref="SessionsInterface.EndSession(ref EndSessionOptions, object, OnEndSessionCallback)"/>,
+        /// with the ClientData param containing the local name of the Session to end.
+        /// <see cref="OnEndSessionCompleteCallback(ref EndSessionCallbackInfo)"/> handles the callback.
+        /// 
+        /// TODO: Answer - can users see this if it has been ended and <see cref="Session.AllowJoinInProgress"/> is false?
+        /// </summary>
+        /// <param name="name">The local name of the Session to end.</param>
         public void EndSession(string name)
         {
             if (!CurrentSessions.TryGetValue(name, out Session session))
@@ -1901,6 +2016,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             sessionInterface.EndSession(ref endOptions, name, OnEndSessionCompleteCallback);
         }
 
+        /// <summary>
+        /// Callback after an attempted Session ending.
+        /// When successful, the Session owner will attempt to inform Session members of the state change.
+        /// </summary>
+        /// <param name="data">
+        /// Callback information about the attempted end.
+        /// <see cref="EndSessionCallbackInfo.ClientData"/> must contain the local name of the Session that ended.
+        /// </param>
         private void OnEndSessionCompleteCallback(ref EndSessionCallbackInfo data)
         {
             string sessionName = (string)data.ClientData;
@@ -1922,6 +2045,19 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 
+        /// <summary>
+        /// Registers a user to the Session.
+        /// Users will be able to query the identities of Registered members in a Session,
+        /// and Registering is required for EOS Game Services to manage Maximum Users configurations.
+        /// This should be called by the owner of a Session. They are informed to do so with P2P messages.
+        /// </summary>
+        /// <param name="sessionName">The name of the local session to register the user to.</param>
+        /// <param name="friendId">
+        /// The ProductUserId of the user to Register to the Session.
+        /// Uses <paramref name="sessionName"/> for ClientData to identify the Session to register the user to.
+        /// 
+        /// TODO: This doesn't need to be a "friend", the parameter name should change.
+        /// </param>
         public void Register(string sessionName, ProductUserId friendId)
         {
             RegisterPlayersOptions registerOptions = new RegisterPlayersOptions();
@@ -1932,6 +2068,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             sessionInterface.RegisterPlayers(ref registerOptions, sessionName, OnRegisterCompleteCallback);
         }
 
+        /// <summary>
+        /// Callback handler for an attempt to register a user to the Session.
+        /// </summary>
+        /// <param name="data">
+        /// Callback info from the attempt.
+        /// ClientData should contain the local Session name.
+        /// </param>
         private void OnRegisterCompleteCallback(ref RegisterPlayersCallbackInfo data)
         {
             if (data.ResultCode != Result.Success)
@@ -1949,6 +2092,18 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 
+        /// <summary>
+        /// Unregisters a user from a Session.
+        /// This will then inform the user to leave the room with P2P messages.
+        /// An unregistered user will no longer be part of the Session in EOS Game Services.
+        /// Uses <paramref name="sessionName"/> as the ClientData to identify the local Session name to unregister the user from.
+        /// </summary>
+        /// <param name="sessionName">Local session name to unregister the user from.</param>
+        /// <param name="friendId">
+        /// The ProductUserId of the user to unregister.
+        /// 
+        /// TODO: Not necessarily a friend, rename parameter.
+        /// </param>
         public void UnRegister(string sessionName, ProductUserId friendId)
         {
             UnregisterPlayersOptions unregisterOptions = new UnregisterPlayersOptions();
@@ -1959,6 +2114,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             sessionInterface.UnregisterPlayers(ref unregisterOptions, sessionName, OnUnregisterCompleteCallback);
         }
 
+        /// <summary>
+        /// Callback handler for an attempt to uregister a user to the Session.
+        /// </summary>
+        /// <param name="data">
+        /// Callback info from the attempt.
+        /// ClientData should contain the local Session name.
+        /// </param>
         private void OnUnregisterCompleteCallback(ref UnregisterPlayersCallbackInfo data)
         {
             if (data.ResultCode != Result.Success)
@@ -1976,6 +2138,27 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 
+        /// <summary>
+        /// Saturates an attempt to modify a Session that this user is the owner of.
+        /// Assumes there is a local Session present in <see cref="CurrentSessions"/>,
+        /// which is a different object than the <paramref name="session"/>.
+        /// By looking up the Session in the EOS SDK with a matching local Session name,
+        /// and comparing it to the changes in <paramref name="session"/>,
+        /// this calls to <see cref="SessionsInterface.UpdateSession(ref UpdateSessionOptions, object, OnUpdateSessionCallback)"/>.
+        /// 
+        /// TODO: I really don't like that this assumes you have an entirely different Session object,
+        /// or that it's unsafe to modify the Session object if you ever have a reference to it.
+        /// This should probably take in a different method for modifying the Session.
+        /// </summary>
+        /// <param name="session">
+        /// A new Session object that can be used to compare to the local Session to determine changes.
+        /// Should be a different object than the existing local Session.
+        /// </param>
+        /// <param name="callback">Optional callback to run after an update.</param>
+        /// <returns>
+        /// True if successfully attempting to change the Session.
+        /// Does not indicate that the modification was successful, just that the attempt to create a modification was successful.
+        /// </returns>
         public bool ModifySession(Session session, Action callback = null)
         {
             if (session == null)
@@ -2145,6 +2328,15 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             return true;
         }
 
+        /// <summary>
+        /// Callback after an attempting a Session modification.
+        /// Dispatches the call to <see cref="OnSessionUpdateFinished(bool, string, string, bool)"/>.
+        /// 
+        /// TODO: This pops <see cref="UIOnSessionModified"/> if successful, but not if in failure state.
+        /// This can easily get that queue in to an error state. Pop either way with a result?
+        /// TODO: Rename to something more clearly tying to <see cref="ModifySession(Session, Action)"/>.
+        /// </summary>
+        /// <param name="data">Callback information about the update attempt.</param>
         private void OnUpdateSessionCompleteCallback(ref UpdateSessionCallbackInfo data)
         {
             if (data.ResultCode != Result.Success)
@@ -2164,6 +2356,20 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 
+        /// <summary>
+        /// Called after an attempted Session update or creation.
+        /// Informs the Session to re-update itself after the change.
+        /// <see cref="ModifySession(Session, Action)"/>
+        /// <see cref="CreateSession(Session, bool, Action)"/>
+        /// 
+        /// TODO: Should only inform Session Members on a successful edit.
+        /// TODO: This is pretty unclear in what it is actually doing or updating...
+        /// Can it possibly change the SessionId? Why is that passed in at all at the same time as SessionName?
+        /// </summary>
+        /// <param name="success">Whether the update was successful.</param>
+        /// <param name="sessionName">The local Session name.</param>
+        /// <param name="sessionId">The Session id that was updated.</param>
+        /// <param name="removeSessionOnFailure">If true, and success is false, remove the local Session.</param>
         private void OnSessionUpdateFinished(bool success, string sessionName, string sessionId, bool removeSessionOnFailure = false)
         {
             if (CurrentSessions.TryGetValue(sessionName, out Session session))
@@ -2192,6 +2398,18 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         #region Invite Management
 
+        /* Methods in this area relate to sending and receiving Invites, which are explicit messages from users asking them to join the Session.
+         * 
+         * TODO: The object management in this region is pretty rough, with several easily disrupted carrier objects.
+         * Variables relating to it should be reorganized and renamed.
+         * */
+
+        /// <summary>
+        /// Subscribes to notifications for Game/Session invitations.
+        /// This must be called for the EOS Game Services to know to send messages to you regarding being invited.
+        /// You should call <see cref="UnsubscribeFromGameInvites"/> before the application finishes shutting down,
+        /// or when you no longer want to listen to and respond to game invites.
+        /// </summary>
         public void SubscribteToGameInvites()
         {
             if (subscribtedToGameInvites)
@@ -2216,6 +2434,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             subscribtedToGameInvites = true;
         }
 
+        /// <summary>
+        /// Removes all notification handles relating to Game/Session Invites.
+        /// </summary>
         public void UnsubscribeFromGameInvites()
         {
             if (!subscribtedToGameInvites)
@@ -2254,16 +2475,32 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             subscribtedToGameInvites = false;
         }
 
+        /// <summary>
+        /// Accessor for retrieving <see cref="Invites"/>, which are invites sent to the user.
+        /// </summary>
+        /// <returns>All Invites sent to the user.</returns>
         public Dictionary<Session, SessionDetails> GetInvites()
         {
             return Invites;
         }
 
+        /// <summary>
+        /// Accessor for retriving the Session that is currently being operated on in regards to invitation.
+        /// </summary>
+        /// <returns>Currently acted upon Session, in regards to invitation.</returns>
         public Session GetCurrentInvite()
         {
             return CurrentInvite;
         }
 
+        /// <summary>
+        /// Sends an invitation to a user in EOS Game Services to join a Session.
+        /// </summary>
+        /// <param name="sessionName">The local Session name to invite the user to.</param>
+        /// <param name="friendId">
+        /// The ProductUserId of the user to invite.
+        /// TODO: Not necessarily a friend.
+        /// </param>
         public void InviteToSession(string sessionName, ProductUserId friendId)
         {
             if (!friendId.IsValid())
@@ -2288,6 +2525,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             sessionInterface.SendInvite(ref sendInviteOptions, null, OnSendInviteCompleteCallback);
         }
 
+        /// <summary>
+        /// Callback handling the results of sending an invite.
+        /// </summary>
+        /// <param name="data">Callback information about the success of the invitation.</param>
         private void OnSendInviteCompleteCallback(ref SendInviteCallbackInfo data)
         {
             if (data.ResultCode != Result.Success)
@@ -2299,6 +2540,21 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             Log($"{nameof(EOSSessionsManager)} ({nameof(OnSendInviteCompleteCallback)}): invite to session sent successfully.");
         }
 
+        /// <summary>
+        /// Sets a specific set of Session information as the currently acted upon Session.
+        /// If there are any existing Session invites, bring the most recent one up by calling <see cref="PopLobbyInvite"/>.
+        /// Otherwise sets the current invitation to the one passed in to this function.
+        /// The <see cref="CurrentInvite"/> is used to automatically join if a joined Session has this id.
+        /// 
+        /// TODO: This assumes a user is only invited once to a Session, which is not necessarily true.
+        /// TODO: This has awkward management of the most recent invitation object.
+        /// </summary>
+        /// <param name="session">Session information to join. Mostly used for its name and id.</param>
+        /// <param name="sessionDetails">
+        /// Handle to additional details.
+        /// 
+        /// TODO: This should be readily available for any Session you've been invited to, and probably shouldn't be passed as an argument.
+        /// </param>
         public void SetInviteSession(Session session, SessionDetails sessionDetails)
         {
             // Add invite
@@ -2314,6 +2570,16 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 
+        /// <summary>
+        /// Creates a <see cref="SessionDetails"/> handle based on an invitation Id.
+        /// This can be used to translate the provided information from an invitation to a more detailed form.
+        /// After the returned object is no longer useful, call <see cref="SessionDetails.Release"/> to free the memory.
+        /// </summary>
+        /// <param name="inviteId">The invitation id to create a Session handle from.</param>
+        /// <returns>
+        /// If an invitation Id that hasn't been released yet is found, then return that.
+        /// Otherwise returns null.
+        /// </returns>
         public SessionDetails MakeSessionHandleByInviteId(string inviteId)
         {
             CopySessionHandleByInviteIdOptions options = new CopySessionHandleByInviteIdOptions();
@@ -2330,21 +2596,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             return null;
         }
 
-        public SessionDetails MakeSessionHandleByEventId(ulong uiEventId)
-        {
-            CopySessionHandleByUiEventIdOptions copyOptions = new CopySessionHandleByUiEventIdOptions();
-            copyOptions.UiEventId = uiEventId;
-
-            SessionsInterface sessionInterface = EOSManager.Instance.GetEOSPlatformInterface().GetSessionsInterface();
-            Result result = sessionInterface.CopySessionHandleByUiEventId(ref copyOptions, out SessionDetails sessionHandle);
-            if (result == Result.Success && sessionHandle != null)
-            {
-                return sessionHandle;
-            }
-
-            return null;
-        }
-
+        /// <summary>
+        /// Accepts the <see cref="CurrentInvite"/> and attempts to <see cref="JoinSession(SessionDetails, bool, Action{Result})"/>.
+        /// 
+        /// TODO: It's weird that this doesn't accept an invitation object, just directly joining the last Session to be pointed at.
+        /// </summary>
+        /// <param name="invitePresenceToggled">If true, the Session will be joined as the Presence Session for this user.</param>
         public void AcceptLobbyInvite(bool invitePresenceToggled)
         {
             if (CurrentInvite != null && Invites.TryGetValue(CurrentInvite, out SessionDetails sessionHandle))
@@ -2358,11 +2615,23 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 
+        /// <summary>
+        /// Declines the most recent invitation.
+        /// 
+        /// TODO: It's weird that this doesn't accept a specific invitation to respond to.
+        /// If you're invited to two things, this will only pop the most recent one, which might not be the thing you want to decline.
+        /// </summary>
         public void DeclineLobbyInvite()
         {
             PopLobbyInvite();
         }
 
+        /// <summary>
+        /// If there is a <see cref="CurrentInvite"/>, unsets and removes it from <see cref="Invites"/>.
+        /// If there are any <see cref="Invites"/> remaining, sets the next one to <see cref="CurrentInvite"/>.
+        /// Should be called after the <see cref="CurrentInvite"/> is "dealt with",
+        /// either by accepting or rejecting it.
+        /// </summary>
         private void PopLobbyInvite()
         {
             if (CurrentInvite != null)
@@ -2381,6 +2650,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         #region Notifications
 
+        /// <summary>
+        /// Notification handler for a Session Invite being received by the local user.
+        /// </summary>
+        /// <param name="data">Callback information about the most recent invitation.</param>
         public void OnSessionInviteReceivedListener(ref SessionInviteReceivedCallbackInfo data) // OnSessionInviteReceivedCallback
         {
             Log($"{nameof(EOSSessionsManager)} ({nameof(OnSessionInviteReceivedListener)}): invite to session received. Invite id: {data.InviteId}");
@@ -2407,6 +2680,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 
+        /// <summary>
+        /// Notification handler for a Session Invite being accepted by the local user.
+        /// </summary>
+        /// <param name="data">Callback informationa bout the most recent invitation.</param>
         public void OnSessionInviteAcceptedListener(ref SessionInviteAcceptedCallbackInfo data) // OnSessionInviteAcceptedCallback
         {
             Log($"{nameof(EOSSessionsManager)} ({nameof(OnSessionInviteAcceptedListener)}): joined session successfully.");
