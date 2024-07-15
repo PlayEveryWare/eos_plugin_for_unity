@@ -146,7 +146,8 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
                             field.FieldInfo.SetValue(config, GUIEditorUtility.RenderInputField(field.FieldDetails, (List<string>)field.FieldInfo.GetValue(config), labelWidth));
                             break;
                         case ConfigFieldType.Uint:
-                            throw new NotImplementedException();
+                            field.FieldInfo.SetValue(config, GUIEditorUtility.RenderInputField(field.FieldDetails, (uint)field.FieldInfo.GetValue(config), labelWidth));
+                            break;
                         default:
                             throw new ArgumentOutOfRangeException();
                     }
