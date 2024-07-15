@@ -28,7 +28,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests
 
     [Serializable]
     [ConfigGroup("EOS Automated Test Configuration")]
-    public class AutomatedTestConfig : EditorConfig
+    public class UnitTestConfig : EditorConfig
     {
         /// <summary>
         /// The IP address of the machine running the EOS_DevAuthTool.
@@ -54,11 +54,11 @@ namespace PlayEveryWare.EpicOnlineServices.Tests
         /// </summary>
         public bool Enable;
 
-        protected AutomatedTestConfig() : base("eos_automated_test_config.json") { }
+        protected UnitTestConfig() : base("eos_automated_test_config.json") { }
 
-        static AutomatedTestConfig()
+        static UnitTestConfig()
         {
-            RegisterFactory(() => new AutomatedTestConfig());
+            RegisterFactory(() => new UnitTestConfig());
         }
     }
 }

@@ -78,7 +78,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests
 
             _initialized = true;
 
-            AutomatedTestConfig config = EpicOnlineServices.Config.Get<AutomatedTestConfig>();
+            UnitTestConfig config = EpicOnlineServices.Config.Get<UnitTestConfig>();
 
             // Using DevAuth for local testing.
             // Need to make this use Password on a build machine to make it fully automated if possible.
