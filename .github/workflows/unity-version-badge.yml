@@ -21,7 +21,7 @@ jobs:
 
       - name: Update README with Badge
         run: |
-          badge_url="https://img.shields.io/badge/Unity-$UNITY_VERSION-brightgreen"
+          badge_url="https://img.shields.io/badge/Unity-$UNITY_VERSION-blue"
           sed -i 's|!\[Unity\](.*)|![Unity]('"$badge_url"')|' README.md
           sed -i 's|!\[Unity\](.*)|![Unity]('"$badge_url"')|' etc/PackageTemplate/README.md
 
