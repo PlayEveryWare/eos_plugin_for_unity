@@ -1,0 +1,33 @@
+name: Unity Version Badge
+
+on:
+  push:
+    paths:
+      - 'ProjectSettings/ProjectVersion.txt'
+  workflow_dispatch:
+
+jobs:
+  update-badge:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Read Unity Version
+        id: read_unity_version
+        run: |
+          unity_version=$(grep -oP 'm_EditorVersion: \K.*' ProjectSettings/ProjectVersion.txt)
+          echo "UNITY_VERSION=$unity_version" >> $GITHUB_ENV
+
+      - name: Update README with Badge
+        run: |
+          badge_url="https://img.shields.io/badge/Unity-$UNITY_VERSION-brightgreen"
+          sed -i 's|!\[Unity\](.*)|![Unity]('"$badge_url"')|' README.md
+
+      - name: Commit changes
+        run: |
+          git config --global user.name 'github-actions'
+          git config --global user.email 'github-actions@github.com'
+          git add README.md
+          git commit -m "Update Unity version badge to $UNITY_VERSION"
+          git push
