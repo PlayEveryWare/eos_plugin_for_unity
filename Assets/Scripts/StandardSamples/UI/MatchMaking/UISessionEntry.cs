@@ -72,7 +72,25 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             LeaveButton.interactable = false;
         }
 
-        public void EnableButtonsBySessionState(bool updating, OnlineSessionState state)
+        /// <summary>
+        /// Sets the UI buttons interactivity based on the parameters provided.
+        /// </summary>
+        /// <param name="updating">
+        /// Provide "true" if the Session represented by this object is mid-update.
+        /// When it's done, call this function again providing "false".
+        /// This helps with trying to perform operations before a Session is finished being created or joined.
+        /// </param>
+        /// <param name="state">
+        /// Status indicating the state of this Session.
+        /// <see cref="OnlineSessionState.NoSession"/> indicates that there is no local Session for this object yet,
+        /// suggesting that it hasn't been joined.
+        /// Otherwise indicates things such as <see cref="OnlineSessionState.InProgress"/> for setting contextual buttons.
+        /// </param>
+        /// <param name="isOwner">
+        /// Is this local user the owner of the represented Session?
+        /// If false, state-affecting buttons are disabled.
+        /// </param>
+        public void EnableButtonsBySessionState(bool updating, OnlineSessionState state, bool isOwner)
         {
             // If we aren't in this Session, then only show the buttons for joining
             // If we are in this Session, enable those buttons
@@ -84,13 +102,20 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             {
                 NameTxt.transform.gameObject.SetActive(true);
 
-                StartButton.interactable = !updating && (state == OnlineSessionState.Pending || state == OnlineSessionState.Ended);
-                EndButton.interactable = !updating && state == OnlineSessionState.InProgress;
+                if (isOwner)
+                {
+                    StartButton.interactable = !updating && (state == OnlineSessionState.Pending || state == OnlineSessionState.Ended);
+                    EndButton.interactable = !updating && state == OnlineSessionState.InProgress;
+                    ModifyButton.interactable = !updating;
+                }
+                else
+                {
+                    StartButton.interactable = false;
+                    EndButton.interactable = false;
+                    ModifyButton.interactable = false;
+                }
+                
                 LeaveButton.interactable = true;
-
-                // TODO: ModifyButton should only be available for users with permission to use it
-                // We should query that information and then set this intelligently
-                ModifyButton.interactable = true;
             }
         }
 
@@ -182,7 +207,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 StatusTxt.text = session.SessionState.ToString();
             }
 
-            EnableButtonsBySessionState(session.UpdateInProgress, session.SessionState);
+            EnableButtonsBySessionState(session.UpdateInProgress, session.SessionState, session.IsLocalUserOwnerOfSession());
 
             PlayersTxt.text = string.Format("{0}/{1}", session.NumConnections, session.MaxPlayers);
             JIPTxt.text = session.AllowJoinInProgress.ToString();
