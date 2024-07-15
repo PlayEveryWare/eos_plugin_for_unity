@@ -30,5 +30,6 @@ jobs:
           git config --global user.name 'github-actions'
           git config --global user.email 'github-actions@github.com'
           git add README.md
+          git add etc/PackageTemplate/README.md
           git commit -m "Update Unity version badge to $UNITY_VERSION"
           git push
