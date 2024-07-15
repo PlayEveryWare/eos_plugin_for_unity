@@ -23,6 +23,7 @@ jobs:
         run: |
           badge_url="https://img.shields.io/badge/Unity-$UNITY_VERSION-brightgreen"
           sed -i 's|!\[Unity\](.*)|![Unity]('"$badge_url"')|' README.md
+          sed -i 's|!\[Unity\](.*)|![Unity]('"$badge_url"')|' etc/PackageTemplate/README.md
 
       - name: Commit changes
         run: |
