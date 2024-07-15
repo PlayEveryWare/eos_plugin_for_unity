@@ -433,7 +433,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         /// <summary>
         /// Messages about sessions follow this format, starting with <see cref="P2P_INFORM_SESSION_MESSAGE_BASE"/>.
-        /// {0} - The back-end <see cref="Session.Id"/> of the session to message about.
+        /// {0} - The EOS Game Services <see cref="Session.Id"/> of the session to message about.
         /// {1} - The <see cref="ProductUserId"/> of the user sending the message.
         /// {2} - Additional information about the message.
         /// <see cref="P2P_JOINING_SESSION_MESSAGE_ELEMENT"/>
@@ -596,7 +596,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 return;
             }
 
-            SubscribteToGameInvites();
+            SubscribeToGameInvites();
             SubscribeToSessionMessageConnectionRequests();
 
             CurrentInvite = null;
@@ -987,7 +987,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         #region Local Session Lookup and Search
 
         /* These functions are separated out to highlight that these functions are entirely local.
-         * While they may call in to the EOS SDK, none of these functions call the Epic Online Services backend.
+         * While they may call in to the EOS SDK, none of these functions call the EOS Game Services backend.
          * */
 
         /// <summary>
@@ -1110,7 +1110,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// <summary>
         /// Tries to get a local Session that is joined with the provided id.
         /// </summary>
-        /// <param name="id">The id of the Session to try to get. This is the back-end id, shared for all users.</param>
+        /// <param name="id">The id of the Session to try to get. This is the EOS Game Services id, shared for all users.</param>
         /// <param name="session">Out parameter with the Session, if found.</param>
         /// <returns>True if a Session with the provided name is found.</returns>
         public bool TryGetSessionById(string id, out Session session)
@@ -1137,7 +1137,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// </summary>
         /// <param name="sessionId">
         /// The id of the Session to try to get.
-        /// This is the back-end id, shared for all users.
+        /// This is the EOS Game Services id, shared for all users.
         /// Can only get results from the most recent search.
         /// </param>
         /// <returns>Session Details handle, if found.</returns>
@@ -1244,7 +1244,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// It won't be able to find private invite only Sessions.
         /// <see cref="OnFindSessionsCompleteCallback"/> is called with the results.
         /// A handle for retriving results will be stored in <see cref="CurrentSearch"/>.
-        /// This is the back-end id, shared for all users.
+        /// This is the EOS Game Services id, shared for all users.
         /// 
         /// TODO: This should also have a callback or return type to indicate successful search attempt.
         /// </summary>
@@ -1391,7 +1391,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         }
 
         /// <summary>
-        /// Identifies a local session by its <paramref name="localSessionName"/>, gets its back end <see cref="Session.Id"/>,
+        /// Identifies a local session by its <paramref name="localSessionName"/>, gets its EOS Game Services <see cref="Session.Id"/>,
         /// and then attempts to use the Session search API to look for this Session on the Epic Online Services back end.
         /// If it is able to find it, then a UI refresh action is called to inform the UI to update the Session's displayed information.
         /// While similar to <see cref="SearchById(string)"/>, this function uses <see cref="P2PSessionRefreshSessionSearch"/> instead of <see cref="CurrentSearch"/>,
@@ -1519,7 +1519,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 return;
             }
 
-            // Now that we have the back-end session information, update the existing session
+            // Now that we have the EOS Game Services session information, update the existing session
             if (!TryGetSessionById(sessionInfo.Value.SessionId, out Session existingLocalSession))
             {
                 Log($"{nameof(EOSSessionsManager)} ({nameof(OnRefreshSessionFindSessionsCompleteCallback)}): Successfully queried Epic Online Services for Session, but was unable to find a local session with {nameof(Session.Id)} \"{sessionInfo.Value.SessionId}\".");
@@ -1540,7 +1540,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// Indicates that a Session should be "destroyed".
         /// This informs Epic Game Services that this local user is leaving a Session.
         /// <see cref="OnDestroySessionCallback"/> runs with results, which should then locally remove all of the Session's information.
-        /// If this user is the Owner of the Session, the Session is destroyed on the back end, and every member should leave it.
+        /// If this user is the Owner of the Session, the Session is destroyed with EOS Game Services, and every member should leave it.
         /// </summary>
         /// <param name="name">The local name of the Session to destroy.</param>
         public void DestroySession(string name)
@@ -1817,7 +1817,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// This can only find Sessions that have their <see cref="Session.PermissionLevel"/> set to either
         /// <see cref="OnlineSessionPermissionLevel.JoinViaPresence"/> or <see cref="OnlineSessionPermissionLevel.PublicAdvertised"/>.
         /// </summary>
-        /// <param name="sessionId">The back end Session Id.</param>
+        /// <param name="sessionId">The EOS Game Services Session Id.</param>
         private void JoinPresenceSessionById(string sessionId)
         {
             JoinPresenceSessionId = sessionId;
@@ -1920,7 +1920,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
          * */
 
         /// <summary>
-        /// Starts an existing Session in EOS Game Services. This is not used to create new Sessions.
+        /// Starts an existing Session with EOS Game Services. This is not used to create new Sessions.
         /// This is mostly used for standardizing a state across clients,
         /// but if <see cref="Session.AllowJoinInProgress"/> is set to false, then users can only join it if it hasn't been started.
         /// This will set the <see cref="Session.SessionState"/> to <see cref="OnlineSessionState.Starting"/>,
@@ -1987,7 +1987,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         }
 
         /// <summary>
-        /// Ends an existing Session in EOS Game Services. This is not used to leave or destroy Sessions.
+        /// Ends an existing Session with EOS Game Services. This is not used to leave or destroy Sessions.
         /// A Session does not need to "End" in order to be left or destroyed.
         /// This is mostly used for standardizing a state across clients,
         /// but if <see cref="Session.AllowJoinInProgress"/> is set to false, then users can only join it if it hasn't been started.
@@ -2021,7 +2021,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// When successful, the Session owner will attempt to inform Session members of the state change.
         /// </summary>
         /// <param name="data">
-        /// Callback information about the attempted end.
+        /// Callback information about the attempted end operation.
         /// <see cref="EndSessionCallbackInfo.ClientData"/> must contain the local name of the Session that ended.
         /// </param>
         private void OnEndSessionCompleteCallback(ref EndSessionCallbackInfo data)
@@ -2052,17 +2052,15 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// This should be called by the owner of a Session. They are informed to do so with P2P messages.
         /// </summary>
         /// <param name="sessionName">The name of the local session to register the user to.</param>
-        /// <param name="friendId">
+        /// <param name="userIdToRegister">
         /// The ProductUserId of the user to Register to the Session.
         /// Uses <paramref name="sessionName"/> for ClientData to identify the Session to register the user to.
-        /// 
-        /// TODO: This doesn't need to be a "friend", the parameter name should change.
         /// </param>
-        public void Register(string sessionName, ProductUserId friendId)
+        public void Register(string sessionName, ProductUserId userIdToRegister)
         {
             RegisterPlayersOptions registerOptions = new RegisterPlayersOptions();
             registerOptions.SessionName = sessionName;
-            registerOptions.PlayersToRegister = new ProductUserId[] { friendId };
+            registerOptions.PlayersToRegister = new ProductUserId[] { userIdToRegister };
 
             SessionsInterface sessionInterface = EOSManager.Instance.GetEOSPlatformInterface().GetSessionsInterface();
             sessionInterface.RegisterPlayers(ref registerOptions, sessionName, OnRegisterCompleteCallback);
@@ -2095,20 +2093,18 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// <summary>
         /// Unregisters a user from a Session.
         /// This will then inform the user to leave the room with P2P messages.
-        /// An unregistered user will no longer be part of the Session in EOS Game Services.
+        /// An unregistered user will no longer be part of the Session with EOS Game Services.
         /// Uses <paramref name="sessionName"/> as the ClientData to identify the local Session name to unregister the user from.
         /// </summary>
         /// <param name="sessionName">Local session name to unregister the user from.</param>
-        /// <param name="friendId">
+        /// <param name="userIdToUnRegister">
         /// The ProductUserId of the user to unregister.
-        /// 
-        /// TODO: Not necessarily a friend, rename parameter.
         /// </param>
-        public void UnRegister(string sessionName, ProductUserId friendId)
+        public void UnRegister(string sessionName, ProductUserId userIdToUnRegister)
         {
             UnregisterPlayersOptions unregisterOptions = new UnregisterPlayersOptions();
             unregisterOptions.SessionName = sessionName;
-            unregisterOptions.PlayersToUnregister = new ProductUserId[] { friendId };
+            unregisterOptions.PlayersToUnregister = new ProductUserId[] { userIdToUnRegister };
 
             SessionsInterface sessionInterface = EOSManager.Instance.GetEOSPlatformInterface().GetSessionsInterface();
             sessionInterface.UnregisterPlayers(ref unregisterOptions, sessionName, OnUnregisterCompleteCallback);
@@ -2410,11 +2406,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// You should call <see cref="UnsubscribeFromGameInvites"/> before the application finishes shutting down,
         /// or when you no longer want to listen to and respond to game invites.
         /// </summary>
-        public void SubscribteToGameInvites()
+        public void SubscribeToGameInvites()
         {
             if (subscribtedToGameInvites)
             {
-                Debug.LogWarning($"{nameof(EOSSessionsManager)} ({nameof(SubscribteToGameInvites)}): Already subscribed.");
+                Debug.LogWarning($"{nameof(EOSSessionsManager)} ({nameof(SubscribeToGameInvites)}): Already subscribed.");
                 return;
             }
 
@@ -2494,7 +2490,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         }
 
         /// <summary>
-        /// Sends an invitation to a user in EOS Game Services to join a Session.
+        /// Sends an invitation to a user with EOS Game Services to join a Session.
         /// </summary>
         /// <param name="sessionName">The local Session name to invite the user to.</param>
         /// <param name="friendId">
