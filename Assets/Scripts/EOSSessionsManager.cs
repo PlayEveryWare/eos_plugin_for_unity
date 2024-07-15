@@ -331,6 +331,43 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             return base.GetHashCode();
         }
+
+        /// <summary>
+        /// Determines if the local user owns this Session.
+        /// This information can be used to gate some Session modifying actions.
+        /// </summary>
+        /// <returns>
+        /// True if the Session is owned by the local user.
+        /// False if either it was determined that the user doesn't own this Session,
+        /// or if the operation to query that information failed.
+        /// </returns>
+        public bool IsLocalUserOwnerOfSession()
+        {
+            ProductUserId localUserId = EOSManager.Instance?.GetProductUserId();
+
+            // If we can't even get the local user's id, that state suggests they shouldn't be owning any Sessions
+            if (localUserId == null)
+            {
+                return false;
+            }
+
+            // If the ActiveSession isn't set, then this user isn't a part of the Session
+            // Can't possibly own it
+            if (ActiveSession == null)
+            {
+                return false;
+            }
+
+            ActiveSessionCopyInfoOptions options = new ActiveSessionCopyInfoOptions() { };
+            Result copyResult = ActiveSession.CopyInfo(ref options, out ActiveSessionInfo? sessionInfo);
+
+            if (copyResult != Result.Success || !sessionInfo.HasValue || !sessionInfo.Value.SessionDetails.HasValue)
+            {
+                return false;
+            }
+
+            return sessionInfo.Value.SessionDetails.Value.OwnerUserId.Equals(localUserId);
+        }
     }
 
     /// <summary>
