@@ -31,16 +31,16 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Editor
     /// <summary>
     /// Custom editor window for managing test build settings.
     /// </summary>
-    public class AutomatedTestSettingsWindow : EOSEditorWindow
+    public class EOSUnitTestSettingsWindow : EOSEditorWindow
     {
         private IConfigEditor _testConfigEditor;
 
-        public AutomatedTestSettingsWindow() : base("EOS Unit Test Configuration") { }
+        public EOSUnitTestSettingsWindow() : base("EOS Unit Test Configuration") { }
 
-        [MenuItem("Tools/EOS Plugin/Tests/Test Configuration", priority = -1)]
+        [MenuItem("Tools/EOS Plugin/Advanced/Unit Test Configuration")]
         public static void OpenUnitTestSettingsWindow()
         {
-            GetWindow<AutomatedTestSettingsWindow>();
+            GetWindow<EOSUnitTestSettingsWindow>();
         }
 
         protected override async Task AsyncSetup()
