@@ -1539,7 +1539,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// <summary>
         /// Indicates that a Session should be "destroyed".
         /// This informs Epic Game Services that this local user is leaving a Session.
-        /// <see cref="OnDestroySessionCallback"/> runs with results, which should then locally remove all of the Session's information.
+        /// <see cref="OnDestroySessionCompleteCallback"/> runs with results, which should then locally remove all of the Session's information.
         /// If this user is the Owner of the Session, the Session is destroyed with EOS Game Services, and every member should leave it.
         /// </summary>
         /// <param name="name">The local name of the Session to destroy.</param>
