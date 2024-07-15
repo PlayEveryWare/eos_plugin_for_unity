@@ -101,7 +101,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     /// Class represents a single session attribute.
     /// 
     /// TODO: When used for Search, this structure only supports Equality options.
-    /// Should use all comparisons available in https://dev.epicgames.com/docs/game-services/lobbies-and-sessions/sessions#configuring-for-attribute-data
+    /// This should be changed to use all comparisons available in https://dev.epicgames.com/docs/game-services/lobbies-and-sessions/sessions#configuring-for-attribute-data
     /// </summary>
     public class SessionAttribute
     {
@@ -352,9 +352,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         private ulong JoinedSessionIndex = 0;
 
         /// <summary>
-        /// When joining a Session you did not create, the Session's name is not shared with you.
+        /// When joining a Session the local user did not create, the Session name is not shared.
         /// Instead the Session is given a local name, starting with this, when <see cref="GenerateJoinedSessionName(bool)"/> is called.
-        /// This local name doesn't have to follow any particular formatting, but does need to be locally unique and consistent.
+        /// This local name does not have to follow any particular formatting, but does need to be locally unique and consistent.
         /// </summary>
         private const string JOINED_SESSION_NAME = "Session#";
         private const uint JOINED_SESSION_NAME_ROTATION_NUM = 9;
@@ -363,8 +363,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// <summary>
         /// The Bucket Id to create Sessions under, and to search by when finding Sessions.
         /// Bucket Ids are used to separate search results, operating as a major filter option.
-        /// Your application could use different Bucket Ids for Sessions. If you do,
-        /// then you will need to search by those Bucket Ids in order to find those Sessions online.
+        /// The application could use different Bucket Ids for Sessions. If this is done,
+        /// then the application will need to search by those Bucket Ids in order to find those Sessions online.
         /// 
         /// https://dev.epicgames.com/docs/en-US/api-ref/functions/eos-session-modification-set-bucket-id
         /// </summary>
@@ -377,15 +377,16 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// </summary>
         private const string EOS_SESSIONS_SEARCH_BUCKET_ID = "bucket";
 
-        // TODO: All three of these are unused, remove?
+        // TODO: Confirm that these three following values are unused and unuseful, if so remove them.
         private const string EOS_SESSIONS_SEARCH_EMPTY_SERVERS_ONLY = "emptyonly";
         private const string EOS_SESSIONS_SEARCH_NONEMPTY_SERVERS_ONLY = "nonemptyonly";
         private const string EOS_SESSIONS_SEARCH_MINSLOTSAVAILABLE = "minslotsavailable";
 
         // UI Parameterized Callbacks
-        // TODO: None of these are subscribed to, several of them aren't implemented fully. Remove? Implement more fully?
-        // UIOnSessionCreated is actually utilized
         Queue<Action> UIOnSessionCreated;
+
+        // TODO: Because the following four UI Action Queues are never set,
+        // they should either be wired up fully, or removed.
         Queue<Action> UIOnSessionModified;
         Queue<Action> UIOnJoinSession;
         Queue<Action> UIOnLeaveSession;
@@ -403,8 +404,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         #region Peer2Peer Messaging Variables
 
-        /* The Sessions Interface does not provide a way to notify Session Owners and Members when things change,
-         * such as users joining, leaving, or the session starting, ending, being modified, or bieng destroyed.
+        /* 
+         * REGION NOTES:
+         * 
+         * The Sessions Interface does not provide a way to notify Session Owners and Members when things change,
+         * such as users joining, leaving, or the session starting, ending, being modified, or being destroyed.
          * This set of constants is used for sending Peer2Peer messages to update users.
          * In order to receive Peer 2 Peer messages, the Notifications for requests must be subscribed to, and cleaned up when exiting Peer 2 Peer messaging areas.
          * */
@@ -420,7 +424,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// When sending or receiving Peer2Peer messages relating to Session status upkeep, always use this same channel.
         /// This should be a distinct and unique channel, different than any other channel utilized in the program, if possible.
         /// Because of the nature of <see cref="P2PInterface.GetNextReceivedPacketSize(ref GetNextReceivedPacketSizeOptions, out uint)"/>,
-        /// collisions in using the same channel in another point in the program would require you to filter out things not meant for the appropriate socket.
+        /// collisions in using the same channel in another point in the program would require the application to filter out things not meant for the appropriate socket.
         /// </summary>
         private const byte P2P_SESSION_STATUS_UPDATE_CHANNEL = 0xF;
 
@@ -467,14 +471,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// <summary>
         /// When subscribing to peer request connection messages, this Id is held as a way to later remove the subscription.
         /// This one notification id will handle all incoming peer requests on the <see cref="P2P_SESSION_STATUS_SOCKET_NAME"/> socket.
-        /// You should only be subscribed once for these notifications.
+        /// There should only be one subscription for these notifications.
         /// </summary>
         private ulong P2PSessionPeerRequestConnectionNotificationId { get; set; }
 
         /// <summary>
         /// When subscribing to peer disconnection messages, this Id is held as a way to later remove the subscription.
         /// This one notification id will handle all incoming peer disconnections on the <see cref="P2P_SESSION_STATUS_SOCKET_NAME"/> socket.
-        /// You should only be subscribed once for these notifications.
+        /// There should only be one subscription for these notifications.
         /// </summary>
         private ulong P2PSessionPeerDisconnectConnectionNotificationId { get; set; }
 
@@ -482,7 +486,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         #region Peer2Peer UX Variables
 
-        /* In order to update a local Session, it must be "Searched" for.
+        /* 
+         * REGION NOTES:
+         * 
+         * In order to update a local Session, it must be "Searched" for.
          * Then when retrieving the updated Session from Epic Online Services, the Action in this region can be used to inform the UI.
          * */
 
@@ -494,7 +501,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         /// <summary>
         /// After a successful <see cref="RefreshSession(string)"/> and <see cref="OnRefreshSessionFindSessionsCompleteCallback(ref SessionSearchFindCallbackInfo)"/> callback call,
-        /// this is run to inform UI of the updated Session information. This should be subscribed to by your program's UI.
+        /// this is run to inform UI of the updated Session information.
+        /// This should be subscribed to by the program's UI.
         /// </summary>
         public Action<Session, SessionDetails> UIOnSessionRefresh { get; set; }
 
@@ -502,11 +510,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         #region Manager Set Up And Utility
 
-        /* This region contains meta-management for this Manager class.
+        /* 
+         * REGION NOTES:
+         * 
+         * This region contains meta-management for this Manager class.
          * This Manager isn't a MonoBehaviour, so its state management needs to be called by the program using it.
          * OnLoggedIn should be run *after* a successful authentication, and either OnLoggedOut or OnShutDown should be called when it's time to clean up the class,
          * and Update must be called every frame to receive messages.
-         * If you implement your own manager, the actions and broadstrokes of the implementation within should be considered.
+         * If the application implements its own custom manager, the actions and broadstrokes of the implementation within should be considered.
          * */
 
         public EOSSessionsManager()
@@ -607,8 +618,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// <summary>
         /// Unsubscribes from invitations and Peer2Peer message requests and clears internal states.
         /// This can be run before or after a successful logout, or preparing to shut down the application.
-        /// This must be called in order to remove Native notifications.
-        /// After calling this function, you must call <see cref="OnLoggedIn"/> to resume full Sessions functionality.
+        /// This must be called in order to instruct the EOS SDK to stop notifying from the messages subscribed to in <see cref="OnLoggedIn"/>.
+        /// After calling this function, <see cref="OnLoggedIn"/> must be called to resume full Sessions functionality.
         /// </summary>
         public void OnLoggedOut()
         {
@@ -648,10 +659,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// <summary>
         /// Informs the <see cref="UIInterface"/> that a UI Event has been processed.
         /// Some functions in the EOS SDK return a UIEventId. When this happens, it is required that this function be called to released by the SDK.
-        /// For example, if you are subscribed to <see cref="OnJoinSessionAcceptedListener(ref JoinSessionAcceptedCallbackInfo)"/>, after a successful call to <see cref="SessionsInterface.JoinSession(ref JoinSessionOptions, object, OnJoinSessionCallback)"/>,
+        /// For example, if a subscription is made to <see cref="OnJoinSessionAcceptedListener(ref JoinSessionAcceptedCallbackInfo)"/>, after a successful call to <see cref="SessionsInterface.JoinSession(ref JoinSessionOptions, object, OnJoinSessionCallback)"/>,
         /// the notification function will receive a <see cref="JoinSessionAcceptedCallbackInfo.UiEventId"/>.
-        /// You can use this event id to create a <see cref="SessionDetails"/> object by calling <see cref="MakeSessionHandleByEventId(ulong)"/>.
-        /// After you've done so, or if you aren't going to use this handle, you must call this function to release the handle in the EOS SDK.
+        /// This event id can be used to create a <see cref="SessionDetails"/> object by calling <see cref="MakeSessionHandleByEventId(ulong)"/>.
+        /// After doing so, or if the handle will not be utilized, this function must call this function to release the handle in the EOS SDK.
         /// Most of the functions in the EOS SDK that require this will mention it in the comments of the callback function. Anything with a UiEventId should have this called.
         /// 
         /// TODO: This is hard coded to only handle the <see cref="JoinUiEvent"/> case. It must be changed to also accept the event's id in order to function properly.
@@ -685,12 +696,16 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// 
         /// TODO: This is not called by this manager. It either should be utilized, or moved to another manager, perhaps some sort of EOSPresenceManager.
         /// </summary>
-        /// <param name="joinInfo">If provided, this string will be displayed to users in the Social Overlay as your current presence.
-        /// This can be used to indicate things like current level, looking for party status, etc.</param>
-        /// <param name="onLoggingOut">Indicates if the user is currently attempting or has already logged out.
-        /// If true, then if there's an error while trying to change your presence, the error will be ignored.
+        /// <param name="joinInfo">
+        /// If provided, this string will be displayed to users in the Social Overlay as the local user's current presence.
+        /// This can be used to indicate things like current level, looking for party status, etc.
+        /// </param>
+        /// <param name="onLoggingOut">
+        /// Indicates if the user is currently attempting or has already logged out.
+        /// If true, then if there's an error while trying to change the local user's presence, the error will be ignored.
         /// 
-        /// TODO: The error handling in both scenarios is almost identical. Perhaps an error state should be returned in the situation where this is false and an error is encountered.</param>
+        /// TODO: The error handling in both scenarios is almost identical. Perhaps an error state should be returned in the situation where this is false and an error is encountered.
+        /// </param>
         public static void SetJoinInfo(string joinInfo, bool onLoggingOut = false)
         {
             EpicAccountId userId = EOSManager.Instance.GetLocalUserId();
@@ -770,7 +785,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         #region Session Creation
 
-        /* This section is clearly separated from others to show the entry point for creating a Session, and handling the callback.
+        /* 
+         * REGION NOTES:
+         * 
+         * This section is clearly separated from others to show the entry point for creating a Session, and handling the callback.
          * */
 
         /// <summary>
@@ -781,14 +799,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// </summary>
         /// <param name="session">An object containing information about the Session to create.
         /// Some values are expected to be set by the caller, and some values are updated when the Session is actually created.
-        /// You should set the following:
+        /// The following values should be set:
         /// - <see cref="Session.MaxPlayers"/>
         /// - <see cref="Session.Name"/>
         /// - <see cref="Session.SanctionsEnabled"/>
         /// - <see cref="Session.PermissionLevel"/>
         /// - <see cref="Session.AllowJoinInProgress"/>
         /// - <see cref="Session.InvitesAllowed"/>
-        /// You should also set any <see cref="SessionAttribute"/>s inside <see cref="Session.Attributes"/> that should be in the initial Session creation.
+        /// The application should also set any <see cref="SessionAttribute"/>s inside <see cref="Session.Attributes"/> that should be in the initial Session creation.
         /// <param name="presence">Determines if this created session should be tied with the local user's presence information.
         /// Only one local Session can be Presence enabled at one time.
         /// <seealso cref="CreateSessionModificationOptions.PresenceEnabled"/></param>
@@ -966,7 +984,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 }
                 else
                 {
-                    Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(OnUpdateSessionCompleteCallback_ForCreate)}): player is null, can't register yourself in created session.");
+                    Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(OnUpdateSessionCompleteCallback_ForCreate)}): player is null, can't register the local user in created session.");
                 }
             }
             else
@@ -986,7 +1004,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         #region Local Session Lookup and Search
 
-        /* These functions are separated out to highlight that these functions are entirely local.
+        /* 
+         * REGION NOTES:
+         * 
+         * These functions are separated out to highlight that these functions are entirely local.
          * While they may call in to the EOS SDK, none of these functions call the EOS Game Services backend.
          * */
 
@@ -1013,7 +1034,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// <summary>
         /// Determines if any Sessions are joined.
         /// 
-        /// TODO: This is unused, only detects Sessions that aren't locally owned. This should likely be removed. Ironically it doesn't determine if there are any <see cref="ActiveSession"/>s.
+        /// TODO: This is unused, only detects Sessions that aren't locally owned. This should likely be removed. Ironically it does not determine if there are any <see cref="ActiveSession"/>s.
         /// </summary>
         /// <returns>True if a local Session has been joined.</returns>
         public bool HasActiveLocalSessions()
@@ -1035,7 +1056,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// Otherwise uses the <see cref="SessionsInterface.CopySessionHandleForPresence(ref CopySessionHandleForPresenceOptions, out SessionDetails)"/> to attempt to find a local Presence enabled Session.
         /// If found, caches the Session's Id in <see cref="KnownPresenceSessionId"/>.
         /// 
-        /// TODO: This doesn't actually function properly in the KnownPresenceSessionId scenario. The returned value is an Id, not the local name of the Session. The cache look up will never succeed, rework.
+        /// TODO: This does not actually function properly in the KnownPresenceSessionId scenario. The returned value is an Id, not the local name of the Session. The cache look up will never succeed, rework.
         /// </summary>
         /// <returns>Returns true if there is a local Session with Presence enabled.</returns>
         public bool HasPresenceSession()
@@ -1156,7 +1177,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// <see cref="OnFindSessionsCompleteCallback"/> is called with the results.
         /// A handle for retriving results will be stored in <see cref="CurrentSearch"/>.
         /// 
-        /// TODO: I feel like this should run a callback or return a Result in case of errors when trying to set up the search.
+        /// TODO: This should run a callback or return a Result in case of errors when trying to set up the search.
         /// TODO: Only finds up to 10 results. Should have some method for finding next sets of results.
         /// </summary>
         /// <param name="attributes">
@@ -1289,7 +1310,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         /// <summary>
         /// Callback function to dispatch search results success and failure.
-        /// This function doesn't access the returned Sessions from the Search,
+        /// This function does not access the returned Sessions from the Search,
         /// instead calling <see cref="OnSearchResultsReceived"/> to indicate search should be updated.
         /// This currently uses <see cref="CurrentSearch"/> only.
         /// </summary>
@@ -1666,10 +1687,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// The results are handled by <see cref="OnJoinSessionListener(ref JoinSessionCallbackInfo)"/>.
         /// Sets <see cref="JoiningSessionDetails"/> with the handle, so that it can be used to inform which Session was joined.
         /// </summary>
-        /// <param name="sessionHandle">A handle to the Session that you want to join.</param>
+        /// <param name="sessionHandle">A handle to the Session to join.</param>
         /// <param name="presenceSession">
         /// If true, then when the Session is joined it'll be set to Presence enabled.
-        /// You can only have one Presence enabled Session at a time.
+        /// There can only be one Presence enabled Session at a time.
         /// </param>
         /// <param name="callback">
         /// Additional callback to run with the results of the operation.
@@ -1911,7 +1932,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         #region Session Other State Management
 
-        /* These methods manage the state of the Session, other than Destroying it.
+        /* 
+         * REGION NOTES:
+         * 
+         * These methods manage the state of the Session, other than Destroying it.
          * All of the public methods will call out to EOS Game Services to make the modification,
          * then a local callback is run to make the modification.
          * Only the owner of a Session are able to modify its state.
@@ -2142,9 +2166,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// and comparing it to the changes in <paramref name="session"/>,
         /// this calls to <see cref="SessionsInterface.UpdateSession(ref UpdateSessionOptions, object, OnUpdateSessionCallback)"/>.
         /// 
-        /// TODO: I really don't like that this assumes you have an entirely different Session object,
-        /// or that it's unsafe to modify the Session object if you ever have a reference to it.
-        /// This should probably take in a different method for modifying the Session.
+        /// TODO: The <paramref name="session"/> argument should be replaced with another type of object to indicate its purpose.
+        /// It is unclear and easily problematic that it looks like the same object can be used to modify the Session.
         /// </summary>
         /// <param name="session">
         /// A new Session object that can be used to compare to the local Session to determine changes.
@@ -2394,7 +2417,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         #region Invite Management
 
-        /* Methods in this area relate to sending and receiving Invites, which are explicit messages from users asking them to join the Session.
+        /* 
+         * REGION NOTES:
+         * 
+         * Methods in this area relate to sending and receiving Invites, which are explicit messages from users asking them to join the Session.
          * 
          * TODO: The object management in this region is pretty rough, with several easily disrupted carrier objects.
          * Variables relating to it should be reorganized and renamed.
@@ -2402,9 +2428,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         /// <summary>
         /// Subscribes to notifications for Game/Session invitations.
-        /// This must be called for the EOS Game Services to know to send messages to you regarding being invited.
-        /// You should call <see cref="UnsubscribeFromGameInvites"/> before the application finishes shutting down,
-        /// or when you no longer want to listen to and respond to game invites.
+        /// This must be called for the EOS Game Services to know to send messages to the local user regarding being invited.
+        /// The application should call <see cref="UnsubscribeFromGameInvites"/> before the application finishes shutting down,
+        /// or when it is no longer desired to listen to and respond to game invites.
         /// </summary>
         public void SubscribeToGameInvites()
         {
@@ -2549,7 +2575,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// <param name="sessionDetails">
         /// Handle to additional details.
         /// 
-        /// TODO: This should be readily available for any Session you've been invited to, and probably shouldn't be passed as an argument.
+        /// TODO: This (sessionDetails) should be readily available for any Session the user has been invited to, and probably shouldn't be passed as an argument.
         /// </param>
         public void SetInviteSession(Session session, SessionDetails sessionDetails)
         {
@@ -2595,7 +2621,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// <summary>
         /// Accepts the <see cref="CurrentInvite"/> and attempts to <see cref="JoinSession(SessionDetails, bool, Action{Result})"/>.
         /// 
-        /// TODO: It's weird that this doesn't accept an invitation object, just directly joining the last Session to be pointed at.
+        /// TODO: This should use the invitation to respond to as an argument.
         /// </summary>
         /// <param name="invitePresenceToggled">If true, the Session will be joined as the Presence Session for this user.</param>
         public void AcceptLobbyInvite(bool invitePresenceToggled)
@@ -2614,8 +2640,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// <summary>
         /// Declines the most recent invitation.
         /// 
-        /// TODO: It's weird that this doesn't accept a specific invitation to respond to.
-        /// If you're invited to two things, this will only pop the most recent one, which might not be the thing you want to decline.
+        /// TODO: This should use the invitation to respond to as an argument.
+        /// If the user invited to two things, this will only pop the most recent one, which might not be the thing to decline.
         /// </summary>
         public void DeclineLobbyInvite()
         {
