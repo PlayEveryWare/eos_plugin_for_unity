@@ -25,7 +25,17 @@ jobs:
           sed -i 's|!\[Unity\](.*)|![Unity]('"$badge_url"')|' README.md
           sed -i 's|!\[Unity\](.*)|![Unity]('"$badge_url"')|' etc/PackageTemplate/README.md
 
+      - name: Check for changes
+        id: check_changes
+        run: |
+          if [ -n "$(git status --porcelain)" ]; then
+            echo "changes=true" >> $GITHUB_ENV
+          else
+            echo "changes=false" >> $GITHUB_ENV
+          fi
+
       - name: Commit changes
+        if: env.changes == 'true'
         run: |
           git config --global user.name 'github-actions'
           git config --global user.email 'github-actions@github.com'
@@ -33,3 +43,7 @@ jobs:
           git add etc/PackageTemplate/README.md
           git commit -m "Update Unity version badge to $UNITY_VERSION"
           git push
+
+      - name: No changes to commit
+        if: env.changes == 'false'
+        run: echo "No changes to commit"
