@@ -35,7 +35,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.ClientTests
     /// <summary>
     /// Session connection tests that test connecting to an existing session.
     /// </summary>
-    public class EOSClientSessionTests : EOSTestBase
+    public class ClientSessionTests : EOSTestBase
     {
         private const ulong InvalidNotificationId = 0;
 

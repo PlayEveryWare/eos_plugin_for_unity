@@ -33,7 +33,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.IntegrationTests
     /// <summary>
     /// Tests for the title storage functionality of EOS.
     /// </summary>
-    public class EOSTitleStorageTests : EOSTestBase
+    public class TitleStorageTests : EOSTestBase
     {
         private TitleStorageInterface _titleStorageHandle;
 

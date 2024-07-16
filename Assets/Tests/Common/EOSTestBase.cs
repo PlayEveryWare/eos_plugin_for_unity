@@ -22,6 +22,7 @@
 
 namespace PlayEveryWare.EpicOnlineServices.Tests
 {
+    using System;
     using System.Collections;
     using Epic.OnlineServices;
     using Epic.OnlineServices.Auth;
@@ -34,6 +35,40 @@ namespace PlayEveryWare.EpicOnlineServices.Tests
     /// </summary>
     public class EOSTestBase
     {
+        /// <summary>
+        /// Common constants used in the tests.
+        /// </summary>
+        protected class TestCategories
+        {
+            public const string SoloCategory = "Solo";
+            public const string ClientCategory = "Client";
+        }
+
+        /// <summary>
+        /// Custom yield that has a timeout so it will complete when either the predicate is true or
+        /// the timeout is reached.
+        /// </summary>
+        public sealed class WaitUntilDone : CustomYieldInstruction
+        {
+            private readonly Func<bool> _predicate;
+
+            private float _timeout;
+
+            private bool WaitForDoneProcess()
+            {
+                _timeout -= Time.deltaTime;
+                return _timeout <= 0f || _predicate();
+            }
+
+            public override bool keepWaiting => !WaitForDoneProcess();
+
+            public WaitUntilDone(float timeout, Func<bool> predicate)
+            {
+                this._predicate = predicate;
+                this._timeout = timeout;
+            }
+        }
+
         protected const float GlobalTestTimeout = 5f;
         protected const float LoginTestTimeout = 30f;
 
@@ -114,7 +149,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests
         [OneTimeTearDown]
         public void ShutdownEOS()
         {
-            Object.Destroy(eosObject);
+            UnityEngine.Object.Destroy(eosObject);
         }
     }
 }

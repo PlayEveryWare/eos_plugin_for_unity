@@ -36,7 +36,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.IntegrationTests
     /// <summary>
     /// Tests for the player storage functionality of EOS.
     /// </summary>
-    public class EOSPlayerStorageTests : EOSTestBase
+    public class PlayerStorageTests : EOSTestBase
     {
         private const uint MAX_CHUNK_SIZE = 4096;
         private static readonly System.Random random = new();

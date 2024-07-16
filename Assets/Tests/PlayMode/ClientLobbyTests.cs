@@ -35,7 +35,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.ClientTests
     /// <summary>
     /// Lobby connection tests that test connecting to an existing lobby.
     /// </summary>
-    public class EOSClientLobbyTests : EOSTestBase
+    public class ClientLobbyTests : EOSTestBase
     {
         private string lobbyId;
         private NotifyEventHandle lobbyInviteNotification;

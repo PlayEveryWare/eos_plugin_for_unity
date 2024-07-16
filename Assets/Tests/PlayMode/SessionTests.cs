@@ -33,7 +33,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.IntegrationTests
     /// <summary>
     /// Integration tests for sessions and matchmaking.
     /// </summary>
-    public class EOSSessionTests : EOSTestBase
+    public class SessionTests : EOSTestBase
     {
         private const string SessionName = "IntegrationTestSession";
         private const string LevelName = "CASTLE";

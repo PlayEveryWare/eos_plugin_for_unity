@@ -1,13 +1,11 @@
 {
-    "name": "com.playeveryware.eos-Tests",
+    "name": "com.playeveryware.eos.tests.common",
     "rootNamespace": "",
     "references": [
+        "GUID:be1f6e9efffcfce41aeb5c2f4c27cf75",
         "GUID:27619889b8ba8c24980f49ee34dbb44a",
         "GUID:0acc523941302664db1f4e527237feb3",
         "GUID:3a63500f0eef43a438c0553491f7c5da",
-        "GUID:2ced8f3cc58f63843bc26c7591a35628",
-        "GUID:be1f6e9efffcfce41aeb5c2f4c27cf75",
-        "GUID:419b7922ca6269a408b5dc7e0cc327d7",
         "GUID:cc11d9857b82d9b458fca637d5cb33fb"
     ],
     "includePlatforms": [],

@@ -39,7 +39,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.IntegrationTests
     /// <summary>
     /// Integration tests for friend related calls.
     /// </summary>
-    public class EOSFriendsTests : EOSTestBase
+    public class FriendsTests : EOSTestBase
     {
         private FriendsInterface _friendsInterface;
         private UserInfoInterface _userInfoInterface;
