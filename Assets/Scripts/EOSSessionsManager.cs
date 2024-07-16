@@ -925,7 +925,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// Even before getting a response for creating the Session, this function sets local information about the Session for use in displaying UI in <see cref="CurrentSessions"/>.
         /// This should only be called to create a Session on Epic Online Services, not to create a local copy of a joined Session.
         /// </summary>
-        /// <param name="Session">An object containing information about the Session to create.
+        /// <param name="session">An object containing information about the Session to create.
         /// Some values are expected to be set by the caller, and some values are updated when the Session is actually created.
         /// The following values should be set:
         /// - <see cref="Session.MaxPlayers"/>
@@ -2352,15 +2352,15 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// <summary>
         /// Saturates an attempt to modify a Session that this user is the Owner of.
         /// Assumes there is a local Session present in <see cref="CurrentSessions"/>,
-        /// which is a different object than the <paramref name="Session"/>.
+        /// which is a different object than the <paramref name="session"/>.
         /// By looking up the Session in the EOS SDK with a matching local Session name,
-        /// and comparing it to the changes in <paramref name="Session"/>,
+        /// and comparing it to the changes in <paramref name="session"/>,
         /// this calls to <see cref="SessionsInterface.UpdateSession(ref UpdateSessionOptions, object, OnUpdateSessionCallback)"/>.
         /// 
-        /// TODO: The <paramref name="Session"/> argument should be replaced with another type of object to indicate its purpose.
+        /// TODO: The <paramref name="session"/> argument should be replaced with another type of object to indicate its purpose.
         /// It is unclear and easily problematic that it looks like the same object can be used to modify the Session.
         /// </summary>
-        /// <param name="Session">
+        /// <param name="session">
         /// A new Session object that can be used to compare to the local Session to determine changes.
         /// Should be a different object than the existing local Session.
         /// </param>
