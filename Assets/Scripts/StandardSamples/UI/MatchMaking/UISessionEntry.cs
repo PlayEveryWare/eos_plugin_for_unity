@@ -114,7 +114,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     EndButton.interactable = false;
                     ModifyButton.interactable = false;
                 }
-                
+
+                JoinButton.transform.gameObject.SetActive(false);
                 LeaveButton.interactable = true;
             }
         }
@@ -207,7 +208,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 StatusTxt.text = session.SessionState.ToString();
             }
 
-            EnableButtonsBySessionState(session.UpdateInProgress, session.SessionState, session.IsLocalUserOwnerOfSession());
+            EnableButtonsBySessionState(session.UpdateInProgress, session.SessionState, session.IsLocalUserOwnerOfSession);
 
             PlayersTxt.text = string.Format("{0}/{1}", session.NumConnections, session.MaxPlayers);
             JIPTxt.text = session.AllowJoinInProgress.ToString();
