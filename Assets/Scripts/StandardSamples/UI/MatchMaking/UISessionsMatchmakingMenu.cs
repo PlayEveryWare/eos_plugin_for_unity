@@ -399,6 +399,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 return;
             }
 
+            Debug.Log($"{nameof(UISessionsMatchmakingMenu)} ({nameof(OnSessionRefresh)} Instructed to refresh Session with {nameof(Session.Id)} \"{session.Id}\". Found local UI element. Refreshing now.");
+
             uiEntry.SetUIElementsFromSessionAndDetails(session, details, this);
         }
     }

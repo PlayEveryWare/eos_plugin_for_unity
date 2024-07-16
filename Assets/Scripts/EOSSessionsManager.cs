@@ -39,7 +39,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     using System.Text;
 
     /// <summary>
-    /// Class represents a session search and search results
+    /// Class represents a Session search and search results
     /// </summary>
     public class SessionSearch
     {
@@ -98,7 +98,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     }
 
     /// <summary>
-    /// Class represents a single session attribute.
+    /// Class represents a single Session attribute.
     /// 
     /// TODO: When used for Search, this structure only supports Equality options.
     /// This should be changed to use all comparisons available in https://dev.epicgames.com/docs/game-services/lobbies-and-sessions/sessions#configuring-for-attribute-data
@@ -175,7 +175,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     }
 
     /// <summary>
-    /// Class represents a single session attribute
+    /// Class represents a single Session attribute
     /// </summary>
     public class Session
     {
@@ -198,29 +198,29 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         //private Session InvalidSession;
 
         //-------------------------------------------------------------------------
-        public bool InitFromInfoOfSessionDetails(SessionDetails session)
+        public bool InitFromInfoOfSessionDetails(SessionDetails Session)
         {
             //SessionDetails
 
             SessionDetailsCopyInfoOptions copyOptions = new SessionDetailsCopyInfoOptions();
-            Result result = session.CopyInfo(ref copyOptions, out SessionDetailsInfo? outSessionInfo);
+            Result result = Session.CopyInfo(ref copyOptions, out SessionDetailsInfo? outSessionInfo);
 
             if (result != Result.Success)
             {
                 return false;
             }
 
-            InitFromSessionInfo(session, outSessionInfo);
             //session.Release();  // Crashes EOS on JoinSession if session is released here
+            InitFromSessionInfo(Session, outSessionInfo);
             return true;
         }
 
         //-------------------------------------------------------------------------
-        public void InitFromSessionInfo(SessionDetails session, SessionDetailsInfo? sessionDetailsInfo)
+        public void InitFromSessionInfo(SessionDetails Session, SessionDetailsInfo? sessionDetailsInfo)
         {
             if (sessionDetailsInfo != null && sessionDetailsInfo?.Settings != null)
             {
-                // Copy session info
+                // Copy Session info
                 AllowJoinInProgress = (bool)(sessionDetailsInfo?.Settings?.AllowJoinInProgress);
                 BucketId = sessionDetailsInfo?.Settings?.BucketId;
                 PermissionLevel = (OnlineSessionPermissionLevel)(sessionDetailsInfo?.Settings?.PermissionLevel);
@@ -232,14 +232,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             // Get Attributes
             Attributes.Clear();
             var sessionDetailsGetSessionAttributeCountOptions = new SessionDetailsGetSessionAttributeCountOptions();
-            uint attributeCount = session.GetSessionAttributeCount(ref sessionDetailsGetSessionAttributeCountOptions);
+            uint attributeCount = Session.GetSessionAttributeCount(ref sessionDetailsGetSessionAttributeCountOptions);
 
             for (uint attribIndex = 0; attribIndex < attributeCount; attribIndex++)
             {
                 SessionDetailsCopySessionAttributeByIndexOptions attributeOptions = new SessionDetailsCopySessionAttributeByIndexOptions();
                 attributeOptions.AttrIndex = attribIndex;
 
-                Result result = session.CopySessionAttributeByIndex(ref attributeOptions, out SessionDetailsAttribute? sessionAttribute);
+                Result result = Session.CopySessionAttributeByIndex(ref attributeOptions, out SessionDetailsAttribute? sessionAttribute);
                 if (result == Result.Success && sessionAttribute != null && sessionAttribute?.Data != null)
                 {
                     SessionAttribute nextAttribute = new SessionAttribute();
@@ -290,6 +290,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             if (!string.IsNullOrEmpty(Name))
             {
+                if (ActiveSession != null)
+                {
+                    ActiveSession.Release();
+                    ActiveSession = null;
+                }
+
                 CopyActiveSessionHandleOptions copyOptions = new CopyActiveSessionHandleOptions();
                 copyOptions.SessionName = Name;
 
@@ -303,6 +309,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 }
 
                 ActiveSession = sessionHandle;
+
+                ActiveSessionCopyInfoOptions activeSessionCopyOptions = new ActiveSessionCopyInfoOptions();
+                result = ActiveSession.CopyInfo(ref activeSessionCopyOptions, out ActiveSessionInfo? outActiveSessionInfo);
+
+                if (result == Result.Success && outActiveSessionInfo.HasValue)
+                {
+                    SessionState = outActiveSessionInfo.Value.State;
+                }
             }
         }
 
@@ -341,32 +355,70 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// False if either it was determined that the user doesn't own this Session,
         /// or if the operation to query that information failed.
         /// </returns>
-        public bool IsLocalUserOwnerOfSession()
+        public bool IsLocalUserOwnerOfSession
         {
-            ProductUserId localUserId = EOSManager.Instance?.GetProductUserId();
-
-            // If we can't even get the local user's id, that state suggests they shouldn't be owning any Sessions
-            if (localUserId == null)
+            get
             {
-                return false;
-            }
+                ProductUserId localUserId = EOSManager.Instance?.GetProductUserId();
 
-            // If the ActiveSession isn't set, then this user isn't a part of the Session
-            // Can't possibly own it
+                // If we can't even get the local user's id, that state suggests they shouldn't be owning any Sessions
+                if (localUserId == null)
+                {
+                    return false;
+                }
+
+                // If the ActiveSession isn't set, then this user isn't a part of the Session
+                // Can't possibly own it
+                if (ActiveSession == null)
+                {
+                    return false;
+                }
+
+                ActiveSessionCopyInfoOptions options = new ActiveSessionCopyInfoOptions() { };
+                Result copyResult = ActiveSession.CopyInfo(ref options, out ActiveSessionInfo? sessionInfo);
+
+                if (copyResult != Result.Success || !sessionInfo.HasValue || !sessionInfo.Value.SessionDetails.HasValue)
+                {
+                    return false;
+                }
+
+                return sessionInfo.Value.SessionDetails.Value.OwnerUserId.Equals(localUserId);
+            }
+        }
+
+        public bool TryGetRegisteredUsers(out List<ProductUserId> userIds)
+        {
             if (ActiveSession == null)
             {
+                userIds = null;
                 return false;
             }
 
-            ActiveSessionCopyInfoOptions options = new ActiveSessionCopyInfoOptions() { };
-            Result copyResult = ActiveSession.CopyInfo(ref options, out ActiveSessionInfo? sessionInfo);
+            ActiveSessionCopyInfoOptions copyInfoOptions = new ActiveSessionCopyInfoOptions() { };
+            ActiveSessionInfo? copiedInfo;
+            Result activeSessionInfoCopyResult = ActiveSession.CopyInfo(ref copyInfoOptions, out copiedInfo);
 
-            if (copyResult != Result.Success || !sessionInfo.HasValue || !sessionInfo.Value.SessionDetails.HasValue)
+            if (activeSessionInfoCopyResult != Result.Success)
             {
+                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(TryGetRegisteredUsers)}): Failed to copy session information. Result code {activeSessionInfoCopyResult}.");
+                userIds = null;
                 return false;
             }
 
-            return sessionInfo.Value.SessionDetails.Value.OwnerUserId.Equals(localUserId);
+            ActiveSessionGetRegisteredPlayerCountOptions countOptions = new ActiveSessionGetRegisteredPlayerCountOptions() { };
+            uint playerCount = ActiveSession.GetRegisteredPlayerCount(ref countOptions);
+
+            // First iterate across the list, getting all registered users
+            userIds = new List<ProductUserId>();
+
+            for (uint playerIndex = 0; playerIndex < playerCount; playerIndex++)
+            {
+                ActiveSessionGetRegisteredPlayerByIndexOptions indexOptions = new ActiveSessionGetRegisteredPlayerByIndexOptions() { PlayerIndex = playerIndex };
+                ProductUserId userId = ActiveSession.GetRegisteredPlayerByIndex(ref indexOptions);
+                userIds.Add(userId);
+            }
+
+            return true;
         }
     }
 
@@ -445,7 +497,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
          * REGION NOTES:
          * 
          * The Sessions Interface does not provide a way to notify Session Owners and Members when things change,
-         * such as users joining, leaving, or the session starting, ending, being modified, or being destroyed.
+         * such as users joining, leaving, or the Session starting, ending, being modified, or being destroyed.
          * This set of constants is used for sending Peer2Peer messages to update users.
          * In order to receive Peer 2 Peer messages, the Notifications for requests must be subscribed to, and cleaned up when exiting Peer 2 Peer messaging areas.
          * */
@@ -468,42 +520,81 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// <summary>
         /// Messages about sessions should all start with this message, so that parsing the message for information is easy.
         /// This is part of <see cref="P2P_INFORM_SESSION_MESSAGE_FORMAT"/>, which is then formatted to form messages that are sent.
-        /// The start of received messages are checked for starting with this text to know that it's something intended for managing session updates.
+        /// The start of received messages are checked for starting with this text to know that it's something intended for managing Session updates.
         /// </summary>
         private const string P2P_INFORM_SESSION_MESSAGE_BASE = "SESSIONINFORMATION";
 
         /// <summary>
         /// Messages about sessions follow this format, starting with <see cref="P2P_INFORM_SESSION_MESSAGE_BASE"/>.
-        /// {0} - The EOS Game Services <see cref="Session.Id"/> of the session to message about.
+        /// {0} - The EOS Game Services <see cref="Session.Id"/> of the Session to message about.
         /// {1} - The <see cref="ProductUserId"/> of the user sending the message.
-        /// {2} - Additional information about the message.
+        /// {2} - Message detail kind, such as "this is a message about a user joining".
+        /// {3} - Optional additional payload.
         /// <see cref="P2P_JOINING_SESSION_MESSAGE_ELEMENT"/>
         /// <see cref="P2P_LEAVING_SESSION_MESSAGE_ELEMENT"/>
         /// <see cref="P2P_REFRESH_SESSION_MESSAGE_ELEMENT"/>
         /// <see cref="P2P_SESSION_OWNER_DESTROYED_SESSION_MESSAGE_ELEMENT"/>
+        /// <see cref="P2P_SESSION_OWNER_SESSIONISSTARTED_ELEMENT"/>
+        /// <see cref="P2P_SESSION_OWNER_SESSIONISENDED_ELEMENT"/>
+        /// <see cref="P2P_SESSION_OWNER_INFORM_ALLREGISTEREDUSERS"/>
         /// </summary>
-        private const string P2P_INFORM_SESSION_MESSAGE_FORMAT = P2P_INFORM_SESSION_MESSAGE_BASE + " ({0}) ({1}) ({2})";
+        private const string P2P_INFORM_SESSION_MESSAGE_FORMAT = P2P_INFORM_SESSION_MESSAGE_BASE + " ({0}) ({1}) ({2}) ({3})";
 
         /// <summary>
-        /// Messages with this as the {2} parameter of <see cref="InformSessionOwnerMessageFormat"/> indicate a user is joining the session.
+        /// Messages with this as the {2} parameter of <see cref="InformSessionOwnerMessageFormat"/> indicate a user is joining the Session.
         /// </summary>
         private const string P2P_JOINING_SESSION_MESSAGE_ELEMENT = "JOIN";
 
         /// <summary>
-        /// Messages with this as the {2} parameter of <see cref="P2P_INFORM_SESSION_MESSAGE_FORMAT"/> indicate a user is leaving the session.
+        /// Messages with this as the {2} parameter of <see cref="P2P_INFORM_SESSION_MESSAGE_FORMAT"/> indicate a user is leaving the Session.
         /// </summary>
         private const string P2P_LEAVING_SESSION_MESSAGE_ELEMENT = "LEAVE";
 
         /// <summary>
-        /// Messages with this as the {2} parameter of <see cref="P2P_INFORM_SESSION_MESSAGE_FORMAT"/> indicate that a user should re-acquire and refresh session information.
+        /// Messages with this as the {2} parameter of <see cref="P2P_INFORM_SESSION_MESSAGE_FORMAT"/> indicate that a user should re-acquire and refresh Session information.
+        /// Note that not every element of the Session can be re-acquired this way.
+        /// It is necessary to mirror <see cref="Register(string, ProductUserId)"/>, <see cref="UnRegister(string, ProductUserId)"/>,
+        /// <see cref="StartSession(string)"/>, and <see cref="EndSession(string)"/> using their associated messages.
         /// </summary>
         private const string P2P_REFRESH_SESSION_MESSAGE_ELEMENT = "REFRESH";
 
         /// <summary>
-        /// Messages with this as the {2} parameter of <see cref="P2P_INFORM_SESSION_MESSAGE_FORMAT"/> indicate that the owner of a session has destroyed the session,
-        /// so members of the session should also remove themselves from the session.
+        /// Messages with this as the {2} parameter of <see cref="P2P_INFORM_SESSION_MESSAGE_FORMAT"/> indicate that the Owner of a Session has destroyed the Session,
+        /// so members of the Session should also remove themselves from the Session.
         /// </summary>
         private const string P2P_SESSION_OWNER_DESTROYED_SESSION_MESSAGE_ELEMENT = "DESTROY";
+
+        /// <summary>
+        /// Messages with this as the {2} parameter of <see cref="P2P_INFORM_SESSION_MESSAGE_FORMAT"/> indicate that the Owner of a Session has started the Session.
+        /// Members of the Session should start their Session locally.
+        /// When a user joins a Session, if the Session is <see cref="OnlineSessionState.Starting"/> or <see cref="OnlineSessionState.InProgress"/>,
+        /// the Owner should inform the joining user that the Session should be Started locally.
+        /// Otherwise when the Owner starts a Session, they should inform the users to start theirs locally.
+        /// 
+        /// <see cref="ActiveSession"/>
+        /// </summary>
+        private const string P2P_SESSION_OWNER_SESSIONISSTARTED_ELEMENT = "STARTED";
+
+        /// <summary>
+        /// Messages with this as the {2} parameter of <see cref="P2P_INFORM_SESSION_MESSAGE_FORMAT"/> indicate that the Owner of a Session has ended the Session.
+        /// Members of the Session should end their Session locally.
+        /// When a user joins a Session, if the Session is <see cref="OnlineSessionState.Ending"/> or <see cref="OnlineSessionState.Ended"/>,
+        /// the Owner should inform the joining user that the Session should be Ended locally.
+        /// Otherwise when the Owner ends a Session, they should inform the users to start theirs locally.
+        /// 
+        /// <see cref="ActiveSession"/>
+        /// </summary>
+        private const string P2P_SESSION_OWNER_SESSIONISENDED_ELEMENT = "ENDED";
+
+        /// <summary>
+        /// Messages with this as the {2} parameter of <see cref="P2P_INFORM_SESSION_MESSAGE_FORMAT"/> indicate a change in the registered users.
+        /// The {3} parameter contains a comma separated list of all registered user's ProductUserId.
+        /// The Owner of a Session should inform joining members of all registered users, and update connected users whenever a registration or unregistration happens.
+        /// Connected users should then determine which of the Ids should be used in <see cref="Register(string, ProductUserId)"/>
+        /// and which users should be used in <see cref="UnRegister(string, ProductUserId)"/>.
+        /// When a non-Owner runs either Register or UnRegister, it only changes their local Session's records of registered users.
+        /// </summary>
+        private const string P2P_SESSION_OWNER_INFORM_ALLREGISTEREDUSERS = "REGISTEREDUSERSUPDATED";
 
         /// <summary>
         /// When subscribing to peer request connection messages, this Id is held as a way to later remove the subscription.
@@ -595,7 +686,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             bool stateUpdates = false;
             HandleReceivedP2PMessages();
 
-            //Update active session from time to time
+            //Update active Session from time to time
             foreach (KeyValuePair<string, Session> kvp in CurrentSessions)
             {
                 if (!string.IsNullOrEmpty(kvp.Key) && kvp.Value.IsValid())
@@ -834,7 +925,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// Even before getting a response for creating the Session, this function sets local information about the Session for use in displaying UI in <see cref="CurrentSessions"/>.
         /// This should only be called to create a Session on Epic Online Services, not to create a local copy of a joined Session.
         /// </summary>
-        /// <param name="session">An object containing information about the Session to create.
+        /// <param name="Session">An object containing information about the Session to create.
         /// Some values are expected to be set by the caller, and some values are updated when the Session is actually created.
         /// The following values should be set:
         /// - <see cref="Session.MaxPlayers"/>
@@ -844,7 +935,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// - <see cref="Session.AllowJoinInProgress"/>
         /// - <see cref="Session.InvitesAllowed"/>
         /// The application should also set any <see cref="SessionAttribute"/>s inside <see cref="Session.Attributes"/> that should be in the initial Session creation.
-        /// <param name="presence">Determines if this created session should be tied with the local user's presence information.
+        /// <param name="presence">Determines if this created Session should be tied with the local user's presence information.
         /// Only one local Session can be Presence enabled at one time.
         /// <seealso cref="CreateSessionModificationOptions.PresenceEnabled"/></param>
         /// <param name="callback">Callback to add to <see cref="UIOnSessionCreated"/>. Invoked in <see cref="OnUpdateSessionCompleteCallback_ForCreate"/>.</param>
@@ -877,7 +968,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             if (result != Result.Success)
             {
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(CreateSession)}): could not create session modification. Error code: {result}");
+                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(CreateSession)}): could not create Session modification. Error code: {result}");
                 return false;
             }
 
@@ -1015,13 +1106,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
                 if (prodUserId != null)
                 {
-                    // Register session owner
+                    // Register Session Owner
                     Register(data.SessionName, prodUserId);
                     removeSession = false;
                 }
                 else
                 {
-                    Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(OnUpdateSessionCompleteCallback_ForCreate)}): player is null, can't register the local user in created session.");
+                    Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(OnUpdateSessionCompleteCallback_ForCreate)}): player is null, can't register the local user in created Session.");
                 }
             }
             else
@@ -1062,7 +1153,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// Accessor for all Current Session.
         /// These are all Sessions that are locally joined.
         /// </summary>
-        /// <returns>A dictionary lookup of "local session name" to Session object.</returns>
+        /// <returns>A dictionary lookup of "local Session name" to Session object.</returns>
         public Dictionary<string, Session> GetCurrentSessions()
         {
             return CurrentSessions;
@@ -1143,7 +1234,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// Determines if a local Session with the provided id is a Presence Session.
         /// </summary>
         /// <param name="id">The Session Id to check.</param>
-        /// <returns>True if a local session is found with the id, and it is a Presence Session.</returns>
+        /// <returns>True if a local Session is found with the id, and it is a Presence Session.</returns>
         public bool IsPresenceSession(string id)
         {
             return HasPresenceSession() && id.Equals(KnownPresenceSessionId, StringComparison.OrdinalIgnoreCase);
@@ -1233,7 +1324,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             if (result != Result.Success)
             {
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(Search)}): failed to create session search. Error code: {result}");
+                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(Search)}): failed to create Session search. Error code: {result}");
                 return;
             }
 
@@ -1254,7 +1345,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             if (result != Result.Success)
             {
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(Search)}): failed to update session search with bucket id parameter. Error code: {result}");
+                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(Search)}): failed to update Session search with bucket id parameter. Error code: {result}");
                 return;
             }
 
@@ -1285,7 +1376,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
                 if (result != Result.Success)
                 {
-                    Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(Search)}): failed to update session search with parameter. Error code: {result}");
+                    Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(Search)}): failed to update Session search with parameter. Error code: {result}");
                     return;
                 }
             }
@@ -1306,7 +1397,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// 
         /// TODO: This should also have a callback or return type to indicate successful search attempt.
         /// </summary>
-        /// <param name="sessionId">The session Id to search for.</param>
+        /// <param name="sessionId">The Session Id to search for.</param>
         public void SearchById(string sessionId)
         {
             // Clear previous search
@@ -1321,7 +1412,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             if (result != Result.Success)
             {
                 AcknowledgeEventId(result);
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(SearchById)}): failed create session search. Error code: {result}");
+                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(SearchById)}): failed create Session search. Error code: {result}");
                 return;
             }
 
@@ -1335,7 +1426,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             if (result != Result.Success)
             {
                 AcknowledgeEventId(result);
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(SearchById)}): failed to update session search with session ID. Error code: {result}");
+                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(SearchById)}): failed to update Session search with Session ID. Error code: {result}");
                 return;
             }
 
@@ -1433,7 +1524,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 SessionDetails sessionHandle = CurrentSearch.GetSessionHandleById(JoinPresenceSessionId);
                 if (sessionHandle != null)
                 {
-                    // Clear session Id
+                    // Clear Session Id
                     JoinPresenceSessionId = string.Empty;
                     JoinSession(sessionHandle, true);
                 }
@@ -1449,7 +1540,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         }
 
         /// <summary>
-        /// Identifies a local session by its <paramref name="localSessionName"/>, gets its EOS Game Services <see cref="Session.Id"/>,
+        /// Identifies a local Session by its <paramref name="localSessionName"/>, gets its EOS Game Services <see cref="Session.Id"/>,
         /// and then attempts to use the Session search API to look for this Session on the Epic Online Services back end.
         /// If it is able to find it, then a UI refresh action is called to inform the UI to update the Session's displayed information.
         /// While similar to <see cref="SearchById(string)"/>, this function uses <see cref="P2PSessionRefreshSessionSearch"/> instead of <see cref="CurrentSearch"/>,
@@ -1461,7 +1552,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// <param name="localSessionName"></param>
         public void RefreshSession(string localSessionName)
         {
-            // First ensure that we have this local session
+            // First ensure that we have this local Session
             if (!TryGetSession(localSessionName, out Session localSession))
             {
                 Log($"{nameof(EOSSessionsManager)} ({nameof(RefreshSession)}): Asked to refresh a Session with {nameof(localSessionName)} \"{localSessionName}\", but could not find a local Session with that name. Unable to refresh.");
@@ -1474,7 +1565,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 return;
             }
 
-            Log($"{nameof(EOSSessionsManager)} ({nameof(RefreshSession)}): Requested to refresh session with local name {localSessionName} and {nameof(Session.Id)} {localSession.Id}.");
+            Log($"{nameof(EOSSessionsManager)} ({nameof(RefreshSession)}): Requested to refresh Session with local name {localSessionName} and {nameof(Session.Id)} {localSession.Id}.");
 
             // Clear previous search
             P2PSessionRefreshSessionSearch.Release();
@@ -1577,10 +1668,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 return;
             }
 
-            // Now that we have the EOS Game Services session information, update the existing session
+            // Now that we have the EOS Game Services Session information, update the existing Session
             if (!TryGetSessionById(sessionInfo.Value.SessionId, out Session existingLocalSession))
             {
-                Log($"{nameof(EOSSessionsManager)} ({nameof(OnRefreshSessionFindSessionsCompleteCallback)}): Successfully queried Epic Online Services for Session, but was unable to find a local session with {nameof(Session.Id)} \"{sessionInfo.Value.SessionId}\".");
+                Log($"{nameof(EOSSessionsManager)} ({nameof(OnRefreshSessionFindSessionsCompleteCallback)}): Successfully queried Epic Online Services for Session, but was unable to find a local Session with {nameof(Session.Id)} \"{sessionInfo.Value.SessionId}\".");
                 return;
             }
 
@@ -1614,7 +1705,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// <summary>
         /// Handles the results of a Session destruction.
         /// Uses Peer2Peer messaging to inform the Owner of a Session that this user left it,
-        /// or if this user is the owner of the Session, inform the members that they should leave it.
+        /// or if this user is the Owner of the Session, inform the members that they should leave it.
         /// The local Session information for the Session should then be cleaned up and removed.
         /// </summary>
         /// <param name="data">Callback information about the operation.</param>
@@ -1632,36 +1723,36 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 return;
             }
 
-            // Before removing the session from our local data, we need to inform the owner of the session that we've left the session, if we're not the owner
-            // TODO: Validate that this gets to the members/owners of the session in time, and that we haven't already deleted the local information needed to get session information
+            // Before removing the Session from our local data, we need to inform the Owner of the Session that we've left the Session, if we're not the Owner
+            // TODO: Validate that this gets to the members/owners of the Session in time, and that we haven't already deleted the local information needed to get Session information
             string sessionName = (string)data.ClientData;
             Session localSession;
 
             if (!TryGetSession(sessionName, out localSession) || localSession.ActiveSession == null)
             {
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(OnDestroySessionCompleteCallback)}): Could not find local Session and associated ActiveSession, so could not inform owner/members of destruction.");
+                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(OnDestroySessionCompleteCallback)}): Could not find local Session and associated ActiveSession, so could not inform Owner/members of destruction.");
                 return;
             }
 
             ActiveSessionCopyInfoOptions copyOptions = new ActiveSessionCopyInfoOptions() { };
             Result localCopyResult = localSession.ActiveSession.CopyInfo(ref copyOptions, out ActiveSessionInfo? outActiveSessionInfo);
 
-            // If we were unable to copy the active session's information, or it failed to populate the SessionDetails inside the ActiveSessionInfo, then we can't get the Owner
-            // If we can't get the Owner, we can't determine who should be messaged, or if we are the owner of this Session
+            // If we were unable to copy the active Session's information, or it failed to populate the SessionDetails inside the ActiveSessionInfo, then we can't get the Owner
+            // If we can't get the Owner, we can't determine who should be messaged, or if we are the Owner of this Session
             if (localCopyResult != Result.Success || !outActiveSessionInfo.HasValue || !outActiveSessionInfo.Value.SessionDetails.HasValue)
             {
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(OnDestroySessionCompleteCallback)}): Failed to copy local information for session {sessionName}, so could not inform owner/members of destruction. Result code {localCopyResult}");
+                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(OnDestroySessionCompleteCallback)}): Failed to copy local information for Session {sessionName}, so could not inform Owner/members of destruction. Result code {localCopyResult}");
                 return;
             }
 
-            if (outActiveSessionInfo.Value.SessionDetails.Value.OwnerUserId.Equals(EOSManager.Instance.GetProductUserId()))
+            if (localSession.IsLocalUserOwnerOfSession)
             {
-                // We're the owner of the session, inform everyone that it was destroyed
+                // We're the Owner of the Session, inform everyone that it was destroyed
                 InformSessionMembers(sessionName, P2P_SESSION_OWNER_DESTROYED_SESSION_MESSAGE_ELEMENT);
             }
             else
             {
-                // Inform the owner that we've left the session
+                // Inform the Owner that we've left the Session
                 InformSessionOwnerWithMessage(sessionName, P2P_LEAVING_SESSION_MESSAGE_ELEMENT);
             }
 
@@ -1679,7 +1770,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             if (!string.IsNullOrEmpty(sessionName))
             {
-                if (CurrentSessions.TryGetValue(sessionName, out Session session))
+                if (CurrentSessions.TryGetValue(sessionName, out Session Session))
                 {
                     CurrentSessions.Remove(sessionName);
                 }
@@ -1691,7 +1782,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// </summary>
         private void LeaveAllSessions()
         {
-            // Enumerate session entries in UI
+            // Enumerate Session entries in UI
             foreach (KeyValuePair<string, Session> kvp in GetCurrentSessions())
             {
                 DestroySession(kvp.Key);
@@ -1706,11 +1797,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// </summary>
         public void DestroyAllSessions()
         {
-            foreach (KeyValuePair<string, Session> session in CurrentSessions)
+            foreach (KeyValuePair<string, Session> Session in CurrentSessions)
             {
-                if (!session.Key.Contains(JOINED_SESSION_NAME))
+                if (!Session.Key.Contains(JOINED_SESSION_NAME))
                 {
-                    DestroySession(session.Key);
+                    DestroySession(Session.Key);
                 }
             }
         }
@@ -1766,9 +1857,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 return;
             }
 
-            Log($"{nameof(EOSSessionsManager)} ({nameof(OnJoinSessionListener)}): joined session successfully.");
+            Log($"{nameof(EOSSessionsManager)} ({nameof(OnJoinSessionListener)}): joined Session successfully.");
 
-            // Add joined session to list of current sessions
+            // Add joined Session to list of current sessions
             OnJoinSessionFinished(callback);
 
             AcknowledgeEventId(data.ResultCode);
@@ -1793,7 +1884,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     session.Name = GenerateJoinedSessionName(true);
                     session.InitFromSessionInfo(JoiningSessionDetails, sessionInfo);
 
-                    // Check if we have a local session with same ID
+                    // Check if we have a local Session with same ID
                     bool localSessionFound = false;
                     foreach (Session currentSession in CurrentSessions.Values)
                     {
@@ -1879,7 +1970,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         private void JoinPresenceSessionById(string sessionId)
         {
             JoinPresenceSessionId = sessionId;
-            Log($"{nameof(EOSSessionsManager)} ({nameof(JoinPresenceSessionById)}): looking for session ID: {JoinPresenceSessionId}");
+            Log($"{nameof(EOSSessionsManager)} ({nameof(JoinPresenceSessionById)}): looking for Session ID: {JoinPresenceSessionId}");
             SearchById(JoinPresenceSessionId);
         }
 
@@ -1975,7 +2066,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
          * These methods manage the state of the Session, other than Destroying it.
          * All of the public methods will call out to EOS Game Services to make the modification,
          * then a local callback is run to make the modification.
-         * Only the owner of a Session are able to modify its state.
+         * Only the Owner of a Session are able to modify its state.
          * 
          * With P2P Messaging enabled, these modifications will call out to members of the Session to update their state.
          * */
@@ -2007,14 +2098,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
             else
             {
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(StartSession)}): can't start session: no active session with specified name.");
+                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(StartSession)}): can't start Session: no active Session with specified name.");
                 return;
             }
         }
 
         /// <summary>
         /// Callback after an attempted Session start.
-        /// When successful, the Session owner will attempt to inform Session members of the state change.
+        /// When successful, the Session Owner will attempt to inform Session members of the state change.
         /// </summary>
         /// <param name="data">
         /// Callback information about the attempted start.
@@ -2032,18 +2123,18 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             if (data.ResultCode != Result.Success)
             {
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(OnStartSessionCompleteCallBack)}): session name: '{sessionName}' error code: {data.ResultCode}");
+                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(OnStartSessionCompleteCallBack)}): Session name: '{sessionName}' error code: {data.ResultCode}");
                 return;
             }
 
-            Log($"{nameof(EOSSessionsManager)} ({nameof(OnStartSessionCompleteCallBack)}): Started session: {sessionName}");
+            Log($"{nameof(EOSSessionsManager)} ({nameof(OnStartSessionCompleteCallBack)}): Started Session: {sessionName}");
 
             //OnSessionStarted(sessionName); // Needed for C# wrapper?
 
             // ClientData should contain the local sessionName
             if (data.ClientData is string localSessionName)
             {
-                InformSessionMembers(localSessionName, P2P_REFRESH_SESSION_MESSAGE_ELEMENT);
+                InformSessionMembers(localSessionName, P2P_SESSION_OWNER_SESSIONISSTARTED_ELEMENT);
             }
         }
 
@@ -2079,7 +2170,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         /// <summary>
         /// Callback after an attempted Session ending.
-        /// When successful, the Session owner will attempt to inform Session members of the state change.
+        /// When successful, the Session Owner will attempt to inform Session members of the state change.
         /// </summary>
         /// <param name="data">
         /// Callback information about the attempted end operation.
@@ -2091,18 +2182,18 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             if (data.ResultCode != Result.Success)
             {
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(OnEndSessionCompleteCallback)}): session name: '{sessionName}' error code: {data.ResultCode}");
+                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(OnEndSessionCompleteCallback)}): Session name: '{sessionName}' error code: {data.ResultCode}");
                 return;
             }
 
-            Log($"{nameof(EOSSessionsManager)} ({nameof(OnEndSessionCompleteCallback)}): Ended session: {sessionName}");
+            Log($"{nameof(EOSSessionsManager)} ({nameof(OnEndSessionCompleteCallback)}): Ended Session: {sessionName}");
 
             //OnSessionEnded(sessionName); // Not used in C# wrapper
 
             // ClientData should contain the local sessionName
             if (data.ClientData is string localSessionName)
             {
-                InformSessionMembers(localSessionName, P2P_REFRESH_SESSION_MESSAGE_ELEMENT);
+                InformSessionMembers(localSessionName, P2P_SESSION_OWNER_SESSIONISENDED_ELEMENT);
             }
         }
 
@@ -2110,9 +2201,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// Registers a user to the Session.
         /// Users will be able to query the identities of Registered members in a Session,
         /// and Registering is required for EOS Game Services to manage Maximum Users configurations.
-        /// This should be called by the owner of a Session. They are informed to do so with P2P messages.
+        /// When called by the Owner of a Session, the Registered user is reflected with EOS Game Services.
+        /// Other users should be informed by the Owner to Register users, so they have their information.
+        /// P2P messages can be used to inform the Owner and users when to run this method.
         /// </summary>
-        /// <param name="sessionName">The name of the local session to register the user to.</param>
+        /// <param name="sessionName">The name of the local Session to register the user to.</param>
         /// <param name="userIdToRegister">
         /// The ProductUserId of the user to Register to the Session.
         /// Uses <paramref name="sessionName"/> for ClientData to identify the Session to register the user to.
@@ -2122,6 +2215,35 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             RegisterPlayersOptions registerOptions = new RegisterPlayersOptions();
             registerOptions.SessionName = sessionName;
             registerOptions.PlayersToRegister = new ProductUserId[] { userIdToRegister };
+
+            SessionsInterface sessionInterface = EOSManager.Instance.GetEOSPlatformInterface().GetSessionsInterface();
+            sessionInterface.RegisterPlayers(ref registerOptions, sessionName, OnRegisterCompleteCallback);
+        }
+
+        /// <summary>
+        /// Registers possibly multiple users to the Session.
+        /// Users will be able to query the identities of Registered members in a Session,
+        /// and Registering is required for EOS Game Services to manage Maximum Users configurations.
+        /// When called by the Owner of a Session, the Registered user is reflected with EOS Game Services.
+        /// Other users should be informed by the Owner to Register users, so they have their information.
+        /// P2P messages can be used to inform the Owner and users when to run this method.
+        /// </summary>
+        /// <param name="sessionName">The name of the local Session to register the user to.</param>
+        /// <param name="userIdsToRegister">
+        /// The ProductUserId of the users to Register to the Session.
+        /// If this array is empty, the function exits without performing an operation.
+        /// Uses <paramref name="sessionName"/> for ClientData to identify the Session to register the user to.
+        /// </param>
+        public void Register(string sessionName, ProductUserId[] userIdsToRegister)
+        {
+            if (userIdsToRegister.Length == 0)
+            {
+                return;
+            }
+
+            RegisterPlayersOptions registerOptions = new RegisterPlayersOptions();
+            registerOptions.SessionName = sessionName;
+            registerOptions.PlayersToRegister = userIdsToRegister;
 
             SessionsInterface sessionInterface = EOSManager.Instance.GetEOSPlatformInterface().GetSessionsInterface();
             sessionInterface.RegisterPlayers(ref registerOptions, sessionName, OnRegisterCompleteCallback);
@@ -2145,9 +2267,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             // ClientData should contain the local sessionName
             if (data.ClientData is string localSessionName)
             {
-                // Refresh the owner's local UI, and also inform members
+                // Refresh the Owner's local UI, and also inform members
                 RefreshSession(localSessionName);
-                InformSessionMembers(localSessionName, P2P_REFRESH_SESSION_MESSAGE_ELEMENT);
+                InformUsersOfRegistrationStatusChange(localSessionName);
             }
         }
 
@@ -2156,8 +2278,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// This will then inform the user to leave the room with P2P messages.
         /// An unregistered user will no longer be part of the Session with EOS Game Services.
         /// Uses <paramref name="sessionName"/> as the ClientData to identify the local Session name to unregister the user from.
+        /// When called by the Owner of a Session, the user is unregistered from the Session in EOS Game Services.
+        /// Other users should call this to keep members of the Session current.
+        /// P2P messages can be used to inform the Owner and users when to run this method.
         /// </summary>
-        /// <param name="sessionName">Local session name to unregister the user from.</param>
+        /// <param name="sessionName">Local Session name to unregister the user from.</param>
         /// <param name="userIdToUnRegister">
         /// The ProductUserId of the user to unregister.
         /// </param>
@@ -2166,6 +2291,35 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             UnregisterPlayersOptions unregisterOptions = new UnregisterPlayersOptions();
             unregisterOptions.SessionName = sessionName;
             unregisterOptions.PlayersToUnregister = new ProductUserId[] { userIdToUnRegister };
+
+            SessionsInterface sessionInterface = EOSManager.Instance.GetEOSPlatformInterface().GetSessionsInterface();
+            sessionInterface.UnregisterPlayers(ref unregisterOptions, sessionName, OnUnregisterCompleteCallback);
+        }
+
+        /// <summary>
+        /// Unregisters a user from a Session.
+        /// This will then inform the user to leave the room with P2P messages.
+        /// An unregistered user will no longer be part of the Session with EOS Game Services.
+        /// Uses <paramref name="sessionName"/> as the ClientData to identify the local Session name to unregister the user from.
+        /// When called by the Owner of a Session, the user is unregistered from the Session in EOS Game Services.
+        /// Other users should call this to keep members of the Session current.
+        /// P2P messages can be used to inform the Owner and users when to run this method.
+        /// </summary>
+        /// <param name="sessionName">Local Session name to unregister the user from.</param>
+        /// <param name="userIdsToUnRegister">
+        /// The ProductUserId of the users to unregister.
+        /// If this array is empty, the function exits without performing an operation.
+        /// </param>
+        public void UnRegister(string sessionName, ProductUserId[] userIdsToUnRegister)
+        {
+            if (userIdsToUnRegister.Length == 0)
+            {
+                return;
+            }
+
+            UnregisterPlayersOptions unregisterOptions = new UnregisterPlayersOptions();
+            unregisterOptions.SessionName = sessionName;
+            unregisterOptions.PlayersToUnregister = userIdsToUnRegister;
 
             SessionsInterface sessionInterface = EOSManager.Instance.GetEOSPlatformInterface().GetSessionsInterface();
             sessionInterface.UnregisterPlayers(ref unregisterOptions, sessionName, OnUnregisterCompleteCallback);
@@ -2189,24 +2343,24 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             // ClientData should contain the local sessionName
             if (data.ClientData is string localSessionName)
             {
-                // Refresh the owner's local UI, and also inform members
+                // Refresh the Owner's local UI, and also inform members
                 RefreshSession(localSessionName);
-                InformSessionMembers(localSessionName, P2P_REFRESH_SESSION_MESSAGE_ELEMENT);
+                InformUsersOfRegistrationStatusChange(localSessionName);
             }
         }
 
         /// <summary>
-        /// Saturates an attempt to modify a Session that this user is the owner of.
+        /// Saturates an attempt to modify a Session that this user is the Owner of.
         /// Assumes there is a local Session present in <see cref="CurrentSessions"/>,
-        /// which is a different object than the <paramref name="session"/>.
+        /// which is a different object than the <paramref name="Session"/>.
         /// By looking up the Session in the EOS SDK with a matching local Session name,
-        /// and comparing it to the changes in <paramref name="session"/>,
+        /// and comparing it to the changes in <paramref name="Session"/>,
         /// this calls to <see cref="SessionsInterface.UpdateSession(ref UpdateSessionOptions, object, OnUpdateSessionCallback)"/>.
         /// 
-        /// TODO: The <paramref name="session"/> argument should be replaced with another type of object to indicate its purpose.
+        /// TODO: The <paramref name="Session"/> argument should be replaced with another type of object to indicate its purpose.
         /// It is unclear and easily problematic that it looks like the same object can be used to modify the Session.
         /// </summary>
-        /// <param name="session">
+        /// <param name="Session">
         /// A new Session object that can be used to compare to the local Session to determine changes.
         /// Should be a different object than the existing local Session.
         /// </param>
@@ -2219,7 +2373,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             if (session == null)
             {
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(ModifySession)}): pamater session is null.");
+                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(ModifySession)}): pamater Session is null.");
                 return false;
             }
 
@@ -2233,7 +2387,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             if (!CurrentSessions.TryGetValue(session.Name, out Session currentSession))
             {
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(ModifySession)}): can't modify session: no active session with specified name.");
+                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(ModifySession)}): can't modify Session: no active Session with specified name.");
                 return false;
             }
 
@@ -2403,7 +2557,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             else
             {
                 OnSessionUpdateFinished(true, data.SessionName, data.SessionId);
-                Log($"{nameof(EOSSessionsManager)} ({nameof(OnUpdateSessionCompleteCallback)}): game session updated successfully.");
+                Log($"{nameof(EOSSessionsManager)} ({nameof(OnUpdateSessionCompleteCallback)}): game Session updated successfully.");
 
                 if (UIOnSessionModified.Count > 0)
                 {
@@ -2596,7 +2750,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 return;
             }
 
-            Log($"{nameof(EOSSessionsManager)} ({nameof(OnSendInviteCompleteCallback)}): invite to session sent successfully.");
+            Log($"{nameof(EOSSessionsManager)} ({nameof(OnSendInviteCompleteCallback)}): invite to Session sent successfully.");
         }
 
         /// <summary>
@@ -2715,13 +2869,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// <param name="data">Callback information about the most recent invitation.</param>
         public void OnSessionInviteReceivedListener(ref SessionInviteReceivedCallbackInfo data) // OnSessionInviteReceivedCallback
         {
-            Log($"{nameof(EOSSessionsManager)} ({nameof(OnSessionInviteReceivedListener)}): invite to session received. Invite id: {data.InviteId}");
+            Log($"{nameof(EOSSessionsManager)} ({nameof(OnSessionInviteReceivedListener)}): invite to Session received. Invite id: {data.InviteId}");
 
             SessionDetails sessionDetails = MakeSessionHandleByInviteId(data.InviteId);
 
             if (sessionDetails == null)
             {
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(OnSessionInviteReceivedListener)}): Could not copy session information for invite id {data.InviteId}");
+                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(OnSessionInviteReceivedListener)}): Could not copy Session information for invite id {data.InviteId}");
                 return;
             }
 
@@ -2735,7 +2889,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
             else
             {
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(OnSessionInviteReceivedListener)}): Could not copy session information for invite id {data.InviteId}");
+                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(OnSessionInviteReceivedListener)}): Could not copy Session information for invite id {data.InviteId}");
             }
         }
 
@@ -2745,7 +2899,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// <param name="data">Callback informationa bout the most recent invitation.</param>
         public void OnSessionInviteAcceptedListener(ref SessionInviteAcceptedCallbackInfo data) // OnSessionInviteAcceptedCallback
         {
-            Log($"{nameof(EOSSessionsManager)} ({nameof(OnSessionInviteAcceptedListener)}): joined session successfully.");
+            Log($"{nameof(EOSSessionsManager)} ({nameof(OnSessionInviteAcceptedListener)}): joined Session successfully.");
 
             OnJoinSessionFinished(null);
         }
@@ -2824,21 +2978,22 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         }
         
         /// <summary>
-        /// Utility function to send a message to the owner of a session.
+        /// Utility function to send a message to the Owner of a Session.
         /// </summary>
-        /// <param name="localSessionName">The local name for the session.</param>
-        /// <param name="messageDetail">The message detail to send. This message detail is used to inform the owner of what action to take.</param>
-        private void InformSessionOwnerWithMessage(string localSessionName, string messageDetail)
+        /// <param name="localSessionName">The local name for the Session.</param>
+        /// <param name="messageDetail">The message detail to send. This message detail is used to inform the Owner of what action to take.</param>
+        /// <param name="additionalPayload">Additional information to send. Optional.</param>
+        private void InformSessionOwnerWithMessage(string localSessionName, string messageDetail, string additionalPayload = "")
         {
-            // Find the session with this name
-            // Identify the owner of the session
+            // Find the Session with this name
+            // Identify the Owner of the Session
             // Send them a packet informing them of joining status
 
             Session localSession;
 
             if (!TryGetSession(localSessionName, out localSession))
             {
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(InformSessionOwnerWithMessage)}): No local session with name \"{localSessionName}\" was found.");
+                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(InformSessionOwnerWithMessage)}): No local Session with name \"{localSessionName}\" was found.");
                 return;
             }
 
@@ -2846,25 +3001,25 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             if (activeSession == null)
             {
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(InformSessionOwnerWithMessage)}): Found local session with name \"{localSessionName}\", but there was no corresponding ActiveSession. An ActiveSession should be populated in InitActiveSession.");
+                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(InformSessionOwnerWithMessage)}): Found local Session with name \"{localSessionName}\", but there was no corresponding ActiveSession. An ActiveSession should be populated in InitActiveSession.");
                 return;
             }
 
-            // Copy over the session information
-            // This should contain SessionDetails, which will include the user id of the owner of the room 
+            // Copy over the Session information
+            // This should contain SessionDetails, which will include the user id of the Owner of the room 
             ActiveSessionCopyInfoOptions copyInfoOptions = new ActiveSessionCopyInfoOptions() { };
             ActiveSessionInfo? copiedInfo;
             Result activeSessionInfoCopyResult = activeSession.CopyInfo(ref copyInfoOptions, out copiedInfo);
 
             if (activeSessionInfoCopyResult != Result.Success)
             {
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(InformSessionOwnerWithMessage)}): Found local and active session with name \"{localSessionName}\", but failed to copy its info. Result code {activeSessionInfoCopyResult}");
+                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(InformSessionOwnerWithMessage)}): Found local and active Session with name \"{localSessionName}\", but failed to copy its info. Result code {activeSessionInfoCopyResult}");
                 return;
             }
 
             if (!copiedInfo.Value.SessionDetails.HasValue)
             {
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(InformSessionOwnerWithMessage)}): Found local and active session with name \"{localSessionName}\", but the SessionDetails in the object is null. Cannot determine session owner or session id.");
+                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(InformSessionOwnerWithMessage)}): Found local and active Session with name \"{localSessionName}\", but the SessionDetails in the object is null. Cannot determine Session Owner or Session id.");
                 return;
             }
 
@@ -2872,38 +3027,44 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             if (!ownerUserId.IsValid())
             {
-                // This session is owned by a server, so we can't message it using a product user id.
+                // This Session is owned by a server, so we can't message it using a product user id.
                 // TODO: How do we message it?
                 // This isn't exactly an error state, so we won't log a message, just going to return.
                 return;
             }
 
-            // Quickly check; is this local user the owner of this session? If so, we shouldn't be informing ourself
+            // Quickly check; is this local user the Owner of this Session? If so, we shouldn't be informing ourself
             if (EOSManager.Instance.GetProductUserId().Equals(ownerUserId))
             {
-                // Oh nevermind, then! This user is the owner of this, and shouldn't message themself.
+                // Oh nevermind, then! This user is the Owner of this, and shouldn't message themself.
                 return;
             }
 
-            string formattedMessage = string.Format(P2P_INFORM_SESSION_MESSAGE_FORMAT, localSession.Id, EOSManager.Instance.GetProductUserId(), messageDetail);
+            string formattedMessage = string.Format(P2P_INFORM_SESSION_MESSAGE_FORMAT, localSession.Id, EOSManager.Instance.GetProductUserId(), messageDetail, additionalPayload);
             SendP2PMessage(formattedMessage, ownerUserId);
         }
 
         /// <summary>
-        /// Whenever a session owner has a reason to update the session, inform all members of the session to refresh.
-        /// There should already be a connection between the owner and the members of the session, but one will open if needed.
-        /// The session members should then refresh their session information.
+        /// Whenever a Session Owner has a reason to update the Session, inform all members of the Session to refresh.
+        /// There should already be a connection between the Owner and the members of the Session, but one will open if needed.
+        /// The Session members should then refresh their Session information.
         /// </summary>
-        /// <param name="localSessionName">The local name for the session.</param>.
+        /// <param name="localSessionName">The local name for the Session.</param>.
         /// <param name="messageDetail">The message detail to send. This message detail is used to inform the members of what action to take.</param>
-        private void InformSessionMembers(string localSessionName, string messageDetail)
+        /// <param name="additionalPayload">Additional information about the message to send. Optional.</param>
+        private void InformSessionMembers(string localSessionName, string messageDetail, string additionalPayload = "")
         {
-            // First find a local session with this name
+            // First find a local Session with this name
             Session localSession;
 
             if (!TryGetSession(localSessionName, out localSession))
             {
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(InformSessionMembers)}): No local session with name \"{localSessionName}\" was found.");
+                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(InformSessionMembers)}): No local Session with name \"{localSessionName}\" was found.");
+                return;
+            }
+
+            if (!localSession.IsLocalUserOwnerOfSession)
+            {
                 return;
             }
 
@@ -2911,53 +3072,52 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             if (activeSession == null)
             {
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(InformSessionMembers)}): Found local session with name \"{localSessionName}\", but there was no corresponding ActiveSession. An ActiveSession should be populated in InitActiveSession.");
+                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(InformSessionMembers)}): Found local Session with name \"{localSessionName}\", but there was no corresponding ActiveSession. An ActiveSession should be populated in InitActiveSession.");
                 return;
             }
 
-            // Copy over the session information
-            // This should contain SessionDetails, which will include the user id of the owner of the room 
+            // Copy over the Session information
+            // This should contain SessionDetails, which will include the user id of the Owner of the room 
             ActiveSessionCopyInfoOptions copyInfoOptions = new ActiveSessionCopyInfoOptions() { };
             ActiveSessionInfo? copiedInfo;
             Result activeSessionInfoCopyResult = activeSession.CopyInfo(ref copyInfoOptions, out copiedInfo);
 
             if (activeSessionInfoCopyResult != Result.Success)
             {
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(InformSessionMembers)}): Found local and active session with name \"{localSessionName}\", but failed to copy its info. Result code {activeSessionInfoCopyResult}.");
+                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(InformSessionMembers)}): Found local and active Session with name \"{localSessionName}\", but failed to copy its info. Result code {activeSessionInfoCopyResult}.");
                 return;
             }
 
             if (!copiedInfo.Value.SessionDetails.HasValue)
             {
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(InformSessionMembers)}): Found local and active session with name \"{localSessionName}\", but the SessionDetails in the object is null. Cannot determine session id.");
+                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(InformSessionMembers)}): Found local and active Session with name \"{localSessionName}\", but the SessionDetails in the object is null. Cannot determine Session id.");
                 return;
             }
 
-            // Are we the owner of this session? We should only be messaging people if we are, inside this function
-            if (!copiedInfo.Value.SessionDetails.Value.OwnerUserId.Equals(EOSManager.Instance.GetProductUserId()))
+            // Are we the Owner of this Session? We should only be messaging people if we are, inside this function
+            if (!localSession.IsLocalUserOwnerOfSession)
             {
-                // We're not the owner! This is not an error state, but don't send any messages.
+                // We're not the Owner! This is not an error state, but don't send any messages.
                 return;
             }
 
-            ActiveSessionGetRegisteredPlayerCountOptions countOptions = new ActiveSessionGetRegisteredPlayerCountOptions() { };
-            uint playerCount = activeSession.GetRegisteredPlayerCount(ref countOptions);
-
-            Log($"{nameof(EOSSessionsManager)} ({nameof(InformSessionMembers)}): There are {playerCount} registered members in {localSession.Name}, informing users of {messageDetail} (excluding self)");
-
-            string messageToSend = string.Format(P2P_INFORM_SESSION_MESSAGE_FORMAT, copiedInfo.Value.SessionDetails.Value.SessionId, EOSManager.Instance.GetProductUserId(), messageDetail);
-            for (uint ii = 0; ii < playerCount; ii++)
+            if (!localSession.TryGetRegisteredUsers(out List<ProductUserId> registeredUsers))
             {
-                ActiveSessionGetRegisteredPlayerByIndexOptions getPlayerIndexOption = new ActiveSessionGetRegisteredPlayerByIndexOptions() { PlayerIndex = ii };
-                ProductUserId registeredPlayer = activeSession.GetRegisteredPlayerByIndex(ref getPlayerIndexOption);
+                return;
+            }
 
+            Log($"{nameof(EOSSessionsManager)} ({nameof(InformSessionMembers)}): There are {registeredUsers.Count} registered members in {localSession.Name}, informing users of {messageDetail} (excluding self)");
+
+            string messageToSend = string.Format(P2P_INFORM_SESSION_MESSAGE_FORMAT, copiedInfo.Value.SessionDetails.Value.SessionId, EOSManager.Instance.GetProductUserId(), messageDetail, additionalPayload);
+            foreach (ProductUserId user in registeredUsers)
+            {
                 // We don't need to message ourself, so skip over if this is the local user
-                if (EOSManager.Instance.GetProductUserId().Equals(registeredPlayer))
+                if (EOSManager.Instance.GetProductUserId().Equals(user))
                 {
                     continue;
                 }
 
-                SendP2PMessage(messageToSend, registeredPlayer);
+                SendP2PMessage(messageToSend, user);
             }
         }
 
@@ -3017,95 +3177,239 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 RequestedChannel = P2P_SESSION_STATUS_UPDATE_CHANNEL
             };
 
-            Result nextPacketSizeResult = EOSManager.Instance.GetEOSPlatformInterface().GetP2PInterface().GetNextReceivedPacketSize(ref getNextReceivedPacketSizeOptions, out uint nextPacketSizeBytes);
-
-            if (nextPacketSizeResult == Result.NotFound)
+            Result nextPacketSizeResult;
+            
+            // This is a while loop so that we can continuously retrieve the next packet
+            // When NotFound is returned, there are no more packets to handle
+            while ((nextPacketSizeResult = EOSManager.Instance.GetEOSPlatformInterface().GetP2PInterface().GetNextReceivedPacketSize(ref getNextReceivedPacketSizeOptions, out uint nextPacketSizeBytes)) == Result.Success)
             {
-                // There was no packet to receive. This isn't an error, there's just no news.
+                if (nextPacketSizeResult == Result.NotFound)
+                {
+                    // There was no packet to receive. This isn't an error, there's just no news.
+                    return;
+                }
+
+                if (nextPacketSizeBytes == 0)
+                {
+                    return;
+                }
+
+                byte[] data = new byte[nextPacketSizeBytes];
+                var dataSegment = new ArraySegment<byte>(data);
+                ProductUserId peerId = null;
+                SocketId socketId = new SocketId() { SocketName = P2P_SESSION_STATUS_SOCKET_NAME };
+
+                Result receivePacketResult = EOSManager.Instance.GetEOSPlatformInterface().GetP2PInterface().ReceivePacket(ref options, ref peerId, ref socketId, out byte outChannel, dataSegment, out uint bytesWritten);
+
+                if (receivePacketResult != Result.Success)
+                {
+                    Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(HandleReceivedP2PMessages)}): error while reading received packet data, code: {nextPacketSizeResult}.");
+                    return;
+                }
+
+                if (!peerId.IsValid())
+                {
+                    Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(HandleReceivedP2PMessages)}): ProductUserId peerId is not valid!");
+                    return;
+                }
+
+                string message = System.Text.Encoding.UTF8.GetString(data);
+
+                Log($"{nameof(EOSSessionsManager)} ({nameof(HandleReceivedP2PMessages)}): Received a message: {message}");
+
+                if (!message.StartsWith(P2P_INFORM_SESSION_MESSAGE_BASE))
+                {
+                    Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(HandleReceivedP2PMessages)}): This function is handling a received message that it wasn't intended to. Perhaps there's a socket or channel conflict? Message: {message}");
+                    return;
+                }
+
+                // Match the message to look for (sessionid) (userid) (message element) (additional payload)
+                Match regexMatchOfMessage = Regex.Match(message, @"\(([^\)]*)\) \(([^\)]*)\) \(([^\)]*)\) \(([^\)]*)\)");
+
+                // The Regex match must have five "groups"; the 0th Group is the entire message, then four groups representing the four additional elements of the message
+                if (regexMatchOfMessage.Groups.Count != 5)
+                {
+                    Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(HandleReceivedP2PMessages)}): Message received, but it didn't contain the expected three parts. Message: {message}");
+                    return;
+                }
+
+                string sessionId = regexMatchOfMessage.Groups[1].Value;
+                string userId = regexMatchOfMessage.Groups[2].Value;
+                string messageElement = regexMatchOfMessage.Groups[3].Value;
+                string additionalPayload = regexMatchOfMessage.Groups[4].Value;
+
+                Log($"{nameof(EOSSessionsManager)} ({nameof(HandleReceivedP2PMessages)}): Message parts: [{nameof(sessionId)}: {sessionId}] [{nameof(userId)}: {userId}] [{nameof(messageElement)}: {messageElement}] [{nameof(additionalPayload)}: {additionalPayload}]");
+
+                if (!TryGetSessionById(sessionId, out Session session))
+                {
+                    // Only log a message if the type of message isn't P2P_LEAVING_SESSION_MESSAGE_ELEMENT
+                    // The Owner of a Session might receive leaving messages after they've already destroyed the Session
+                    if (messageElement != P2P_LEAVING_SESSION_MESSAGE_ELEMENT)
+                    {
+                        Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(HandleReceivedP2PMessages)}): Message received regarding sessionId {sessionId}, but no local sessions have that id. Message: {message}");
+                    }
+                    
+                    return;
+                }
+
+                ProductUserId messagingUserId = ProductUserId.FromString(userId);
+
+                switch (messageElement)
+                {
+                    case P2P_JOINING_SESSION_MESSAGE_ELEMENT:
+                        Register(session.Name, messagingUserId);
+                        InformUserOfCurrentSessionStatus(session.Name, messagingUserId);
+                        break;
+                    case P2P_LEAVING_SESSION_MESSAGE_ELEMENT:
+                        UnRegister(session.Name, messagingUserId);
+                        break;
+                    case P2P_REFRESH_SESSION_MESSAGE_ELEMENT:
+                        RefreshSession(session.Name);
+                        break;
+                    case P2P_SESSION_OWNER_DESTROYED_SESSION_MESSAGE_ELEMENT:
+                        DestroySession(session.Name);
+                        break;
+                    case P2P_SESSION_OWNER_SESSIONISSTARTED_ELEMENT:
+                        StartSession(session.Name);
+                        break;
+                    case P2P_SESSION_OWNER_SESSIONISENDED_ELEMENT:
+                        EndSession(session.Name);
+                        break;
+                    case P2P_SESSION_OWNER_INFORM_ALLREGISTEREDUSERS:
+                        HandleRegistrationChangeMessage(sessionId, additionalPayload);
+                        break;
+                    default:
+                        Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(HandleReceivedP2PMessages)}): Unrecognized message element, unclear what action to take. Message: {message}");
+                        break;
+                }
+            }
+        }
+
+        /// <summary>
+        /// When a user joins a Session, if that Session is either Started (<see cref="OnlineSessionState.Starting"/> or <see cref="OnlineSessionState.InProgress"/>),
+        /// or Ended (<see cref="OnlineSessionState.Ending"/> or <see cref="OnlineSessionState.Ended"/>),
+        /// this method can inform the user to set their state appropriately.
+        /// If the Session is in any other state, no message is sent.
+        /// Non-Owners states are local only, and can be used for keeping their <see cref="ActiveSession"/> objects up to date.
+        /// </summary>
+        /// <param name="sessionName">The local name of the Session to send a message for.</param>
+        /// <param name="userId">The user id to consider informing.</param>
+        private void InformUserOfCurrentSessionStatus(string sessionName, ProductUserId userId)
+        {
+            if (!TryGetSession(sessionName, out Session session))
+            {
                 return;
             }
 
-            if (nextPacketSizeResult != Result.Success)
-            {
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(HandleReceivedP2PMessages)}): error while reading received packet data, code: {nextPacketSizeResult}.");
-                return;
-            }
-
-            if (nextPacketSizeBytes == 0)
+            if (!session.IsLocalUserOwnerOfSession)
             {
                 return;
             }
 
-            byte[] data = new byte[nextPacketSizeBytes];
-            var dataSegment = new ArraySegment<byte>(data);
-            ProductUserId peerId = null;
-            SocketId socketId = new SocketId() { SocketName = P2P_SESSION_STATUS_SOCKET_NAME };
-
-            Result receivePacketResult = EOSManager.Instance.GetEOSPlatformInterface().GetP2PInterface().ReceivePacket(ref options, ref peerId, ref socketId, out byte outChannel, dataSegment, out uint bytesWritten);
-
-            if (receivePacketResult != Result.Success)
+            switch (session.SessionState)
             {
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(HandleReceivedP2PMessages)}): error while reading received packet data, code: {nextPacketSizeResult}.");
+                case OnlineSessionState.Starting:
+                case OnlineSessionState.InProgress:
+                    string startingMessage = string.Format(P2P_INFORM_SESSION_MESSAGE_FORMAT, session.Id, EOSManager.Instance.GetProductUserId(), P2P_SESSION_OWNER_SESSIONISSTARTED_ELEMENT, "");
+                    SendP2PMessage(startingMessage, userId);
+                    break;
+                case OnlineSessionState.Ending:
+                case OnlineSessionState.Ended:
+                    string endingMessage = string.Format(P2P_INFORM_SESSION_MESSAGE_FORMAT, session.Id, EOSManager.Instance.GetProductUserId(), P2P_SESSION_OWNER_SESSIONISENDED_ELEMENT, "");
+                    SendP2PMessage(endingMessage, userId);
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Informs all users connected to a Session with a list of registered ProductUserIds.
+        /// This should be called after the Owner successfully Registers or Unregisters a user.
+        /// </summary>
+        /// <param name="sessionName">The local name of the Session to send a message for.</param>
+        private void InformUsersOfRegistrationStatusChange(string sessionName)
+        {
+            if (!TryGetSession(sessionName, out Session session) || session.ActiveSession == null)
+            {
                 return;
             }
 
-            if (!peerId.IsValid())
+            if (!session.IsLocalUserOwnerOfSession)
             {
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(HandleReceivedP2PMessages)}): ProductUserId peerId is not valid!");
                 return;
             }
 
-            string message = System.Text.Encoding.UTF8.GetString(data);
-
-            Log($"{nameof(EOSSessionsManager)} ({nameof(HandleReceivedP2PMessages)}): Received a message: {message}");
-
-            if (!message.StartsWith(P2P_INFORM_SESSION_MESSAGE_BASE))
+            if (session.TryGetRegisteredUsers(out List<ProductUserId> userIds))
             {
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(HandleReceivedP2PMessages)}): This function is handling a received message that it wasn't intended to. Perhaps there's a socket or channel conflict? Message: {message}");
-                return;
+                // Compose a CSV
+                StringBuilder userIdString = new StringBuilder();
+                string commaAddOn = "";
+
+                foreach (ProductUserId curUser in userIds)
+                {
+                    userIdString.Append(commaAddOn + curUser.ToString());
+
+                    // Set the comma so later entries start with a comma
+                    commaAddOn = ",";
+                }
+
+                // Then inform members with this information
+                InformSessionMembers(sessionName, P2P_SESSION_OWNER_INFORM_ALLREGISTEREDUSERS, userIdString.ToString());
             }
+        }
 
-            // Match the message to look for (sessionid) (userid) (message element)
-            Match regexMatchOfMessage = Regex.Match(message, @"\(([^\)]*)\) \(([^\)]*)\) \(([^\)]*)\)");
-
-            if (regexMatchOfMessage.Groups.Count != 4)
-            {
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(HandleReceivedP2PMessages)}): Message received, but it didn't contain the expected three parts. Message: {message}");
-                return;
-            }
-
-            string sessionId = regexMatchOfMessage.Groups[1].Value;
-            string userId = regexMatchOfMessage.Groups[2].Value;
-            string messageElement = regexMatchOfMessage.Groups[3].Value;
-
-            Log($"{nameof(EOSSessionsManager)} ({nameof(HandleReceivedP2PMessages)}): Message parts: [{nameof(sessionId)}: {sessionId}] [{nameof(userId)}: {userId}] [{nameof(messageElement)}: {messageElement}]");
-
+        /// <summary>
+        /// When sent a message about registration status changes in a joined Session,
+        /// this function parses the list of user Ids, determines which currently registered users should be unregistered,
+        /// and which incoming users should be registered.
+        /// </summary>
+        /// <param name="sessionId">The EOS Game Services Session Id to update the status of.</param>
+        /// <param name="userIdCSV">A comma separated list of all users that should be registered to the Session.</param>
+        private void HandleRegistrationChangeMessage(string sessionId, string userIdCSV)
+        {
             if (!TryGetSessionById(sessionId, out Session session))
             {
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(HandleReceivedP2PMessages)}): Message received regarding sessionId {sessionId}, but no local sessions have that id. Message: {message}");
                 return;
             }
 
-            ProductUserId messagingUserId = ProductUserId.FromString(userId);
-
-            switch (messageElement)
+            // The owner of the Session shouldn't be managed through this, otherwise they'll infinite inform users
+            if (session.IsLocalUserOwnerOfSession)
             {
-                case P2P_JOINING_SESSION_MESSAGE_ELEMENT:
-                    Register(session.Name, messagingUserId);
-                    break;
-                case P2P_LEAVING_SESSION_MESSAGE_ELEMENT:
-                    UnRegister(session.Name, messagingUserId);
-                    break;
-                case P2P_REFRESH_SESSION_MESSAGE_ELEMENT:
-                    RefreshSession(session.Name);
-                    break;
-                case P2P_SESSION_OWNER_DESTROYED_SESSION_MESSAGE_ELEMENT:
-                    DestroySession(session.Name);
-                    break;
-                default:
-                    Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(HandleReceivedP2PMessages)}): Unrecognized message element, unclear what action to take. Message: {message}");
-                    break;
+                return;
             }
+
+            if (!session.TryGetRegisteredUsers(out List<ProductUserId> alreadyRegisteredUserIds))
+            {
+                return;
+            }
+
+            string[] incomingUserIds = userIdCSV.Split(",", StringSplitOptions.RemoveEmptyEntries);
+            List<ProductUserId> incomingUserIdsAsProductUserIds = new List<ProductUserId>();
+            foreach (string userId in incomingUserIds)
+            {
+                incomingUserIdsAsProductUserIds.Add(ProductUserId.FromString(userId));
+            }
+
+            // For each user id in the incoming that isn't in the existing users, register them
+            List<ProductUserId> usersToRegister = new List<ProductUserId>();
+            foreach (ProductUserId curIncomingUser in incomingUserIdsAsProductUserIds)
+            {
+                if (!alreadyRegisteredUserIds.Contains(curIncomingUser))
+                {
+                    usersToRegister.Add(curIncomingUser);
+                }
+            }
+            Register(session.Name, usersToRegister.ToArray());
+
+            // For each user id in the existing list that isn't in the incoming users, unregister them
+            List<ProductUserId> usersToUnRegister = new List<ProductUserId>();
+            foreach (ProductUserId curExistingUser in alreadyRegisteredUserIds)
+            {
+                if (!incomingUserIdsAsProductUserIds.Contains(curExistingUser))
+                {
+                    usersToUnRegister.Add(curExistingUser);
+                }
+            }
+            UnRegister(session.Name, usersToRegister.ToArray());
         }
 
         #region Notifications
