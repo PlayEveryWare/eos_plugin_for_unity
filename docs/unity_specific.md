@@ -18,8 +18,8 @@ The EOS Unity Plugin is a collective effort between multiple sources, each sourc
 We take multiple factors into account, and decide on the versions that are most stable and expandable.  
 
 The current release is using :  
-* Unity 2021.3.8f1.  
-* EOS SDK 1.15.4.   
+* Unity 2021.3.16f1.  
+* EOS SDK 1.16.3.   
 * SDK versions of the target platform that supports the given Unity and EOS SDK versions above could be found in their platform forums.
 
 ### Why do we reload the EOS SDK DLL in the editor?
