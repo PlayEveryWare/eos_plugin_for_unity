@@ -7,7 +7,7 @@
         {"src": "com.playeveryware.eos/Runtime.meta", "dest": ""  },
 
         {"src": "etc/PlatformSpecificAssets/EOS/*", "dest": "PlatformSpecificAssets~/EOS/", "recursive": true },
-        {"src": "docs/*",                           "dest": "Documentation~/",              "recursive": true },
+        {"src": "com.playeveryware.eos/Documentation~/*", "dest": "Documentation~/",              "recursive": true },
         {"src": "tools/bin/*",                      "dest": "bin~/",                        "recursive": true },
 
         {"src": "Assets/EOS.meta",  "dest": "Runtime/"     },
