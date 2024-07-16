@@ -1,4 +1,4 @@
-<a href="/README.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="Readme" width="5%"/></a>
+<a href="/README.md"><img src="/com.playeveryware.eos/Documentation~/images/PlayEveryWareLogo.gif" alt="Readme" width="5%"/></a>
 
 # Configuring the Plugin
 
@@ -7,9 +7,9 @@ To function, the plugin needs some information from your EOS project. Be sure to
 1) Open your Unity project with the integrated EOS Unity Plugin. 
 2) In the Unity editor, Open ```Tools -> EOS Plugin -> Dev Portal Configuration```.
 
-    ![EOS Config Menu](/docs/images/dev-portal-configuration-editor-menu.png)
+    ![EOS Config Menu](/com.playeveryware.eos/Documentation~/images/dev-portal-configuration-editor-menu.png)
 
-    ![EOS Config UI](/docs/images/eosconfig_ui.gif)
+    ![EOS Config UI](/com.playeveryware.eos/Documentation~/images/eosconfig_ui.gif)
 
 3) From the [Developer Portal](https://dev.epicgames.com/portal/), copy the configuration values listed below, and paste them into the similarly named fields in the editor tool window pictured above:
 
@@ -40,6 +40,6 @@ To function, the plugin needs some information from your EOS project. Be sure to
 7) Attach `EOSManager.cs (Script)` to a Unity object, and it will initialize the plugin with the specified configuration in `OnAwake()`.
 
 > [!NOTE]
-The included [samples](http://github.com/PlayEveryWare/eos_plugin_for_unity/blob/development/README.md#samples) already have configuration values set for you to experiment with!
+The included [samples](http://github.com/PlayEveryWare/eos_plugin_for_unity/blob/development/com.playeveryware.eos/README.md#samples) already have configuration values set for you to experiment with!
 
 If you would like to see specific examples of various EOS features in action, import the sample Unity scenes that are described below.

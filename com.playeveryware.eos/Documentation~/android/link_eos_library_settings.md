@@ -15,11 +15,11 @@ If the game is using other libraries that also links to the C++ Library, the EOS
 
 1. Open Preferences, `Edit -> Preferences...`.
 
-    ![EOS Config UI](/docs/images/preferences_menu.gif)
+    ![EOS Config UI](/com.playeveryware.eos/Documentation~/images/preferences_menu.gif)
 
 2. Select `EOS Plugin` from the categories menu on the left.
 
-    ![EOS Config UI](/docs/images/link_eos_lib_instructions.gif)
+    ![EOS Config UI](/com.playeveryware.eos/Documentation~/images/link_eos_lib_instructions.gif)
 
 3. Under the `Android Build Settings` section, check the box next to `Link EOS Library Dynamically` to link the EOS library dynamically, and uncheck it link the EOS library statically.
 

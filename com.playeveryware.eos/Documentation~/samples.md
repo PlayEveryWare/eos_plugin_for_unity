@@ -1,10 +1,10 @@
-<a href="/README.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="Readme" width="5%"/></a>
+<a href="/README.md"><img src="/com.playeveryware.eos/Documentation~/images/PlayEveryWareLogo.gif" alt="Readme" width="5%"/></a>
 
 # Samples
 
-<img src="docs/images/sample_screen_lobby.gif" alt="Lobby Screenshot" width="48%"/> <img src="docs/images/sample_screen_achievements.gif" alt="Achievements Storage Screenshot" width="48%"/>
+<img src="com.playeveryware.eos/Documentation~/images/sample_screen_lobby.gif" alt="Lobby Screenshot" width="48%"/> <img src="com.playeveryware.eos/Documentation~/images/sample_screen_achievements.gif" alt="Achievements Storage Screenshot" width="48%"/>
 
-The included samples show examples of fully functional [feature implementations](/docs/eos_features.md) to validate client and dev portal configuration as well as help with EOS integration into your own project. The samples are a collection of scenes that are imported from the UPM package, and include a series of scripts that function as generalized managers for each supported EOS SDK feature and platform.
+The included samples show examples of fully functional [feature implementations](/com.playeveryware.eos/Documentation~/eos_features.md) to validate client and dev portal configuration as well as help with EOS integration into your own project. The samples are a collection of scenes that are imported from the UPM package, and include a series of scripts that function as generalized managers for each supported EOS SDK feature and platform.
 
 > [!NOTE]
 > The generalized managers are a great starting point for feature integration into your own project. They are named as `EOS[Feature/Platform name]Manager.cs`.
@@ -13,7 +13,7 @@ The included samples show examples of fully functional [feature implementations]
 
 1. Select the `PlayEveryWare EOS Plugin for Unity` in the Package Manager window.
 
-    ![Unity Install Samples](/docs/images/unity_install_samples.gif)
+    ![Unity Install Samples](/com.playeveryware.eos/Documentation~/images/unity_install_samples.gif)
 
 2. Open the `Samples` dropdown.
 
@@ -34,9 +34,9 @@ The included samples show examples of fully functional [feature implementations]
 ## Running the samples
 
 > [!IMPORTANT]
-> The plugin must be <a href="/docs/configure_plugin.md">configured</a> for samples to be functional. Some Samples may not be accessible if the extra packs were not <a href="http://github.com/PlayEveryWare/eos_plugin_for_unity/blob/development/README.md#importing-samples">imported</a>.
+> The plugin must be <a href="/com.playeveryware.eos/Documentation~/configure_plugin.md">configured</a> for samples to be functional. Some Samples may not be accessible if the extra packs were not <a href="http://github.com/PlayEveryWare/eos_plugin_for_unity/blob/development/com.playeveryware.eos/README.md#importing-samples">imported</a>.
 
-Checkout our [Sample Walkthroughs](/docs/Walkthrough.md) for a scene-by-scene walkthrough of each sample.
+Checkout our [Sample Walkthroughs](/com.playeveryware.eos/Documentation~/Walkthrough.md) for a scene-by-scene walkthrough of each sample.
 
 <details>
   <summary><b>Steps to run a sample in editor</b></summary>
@@ -53,10 +53,10 @@ Checkout our [Sample Walkthroughs](/docs/Walkthrough.md) for a scene-by-scene wa
     - `Dev Auth` can be used for faster iteration
     - To explore features that don't require an Epic Games Account, see the table in the [Supported EOS SDK Features](#supported-eos-sdk-features) section of this document.
 
-    ![Auth and Friends Screenshot](/docs/images/sample_screen_account_login.gif)
+    ![Auth and Friends Screenshot](/com.playeveryware.eos/Documentation~/images/sample_screen_account_login.gif)
 
     > [!NOTE]
-    > Additional info on login type options, implementation, and use cases can be found in our [Player Authentication](/docs/player_authentication.md) document.
+    > Additional info on login type options, implementation, and use cases can be found in our [Player Authentication](/com.playeveryware.eos/Documentation~/player_authentication.md) document.
 
 </details>
 
@@ -85,9 +85,9 @@ Checkout our [Sample Walkthroughs](/docs/Walkthrough.md) for a scene-by-scene wa
     - `Dev Auth` can be used for faster iteration
     - To explore features that don't require an Epic Games Account, see the table in the [Supported EOS SDK Features](#supported-eos-sdk-features) section of this document.
 
-    ![Auth and Friends Screenshot](/docs/images/sample_screen_account_login.gif)
+    ![Auth and Friends Screenshot](/com.playeveryware.eos/Documentation~/images/sample_screen_account_login.gif)
 
     > [!NOTE]
-    > Additional info on login type options, implementation, and use cases can be found in our [Player Authentication](/docs/player_authentication.md) document.
+    > Additional info on login type options, implementation, and use cases can be found in our [Player Authentication](/com.playeveryware.eos/Documentation~/player_authentication.md) document.
 
 </details>

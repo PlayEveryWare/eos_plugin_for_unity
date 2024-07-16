@@ -43,7 +43,7 @@ You can follow the standard <a href="/README.md#configuring-the-plugin">Configur
 
 1. Select the ```Android``` button.
 
-    ![EOS Config UI](/docs/images/eosconfig_ui_android.gif)
+    ![EOS Config UI](/com.playeveryware.eos/Documentation~/images/eosconfig_ui_android.gif)
 
 2. Press ```Save All Changes```.
 
@@ -59,4 +59,4 @@ You can follow the standard <a href="/README.md#configuring-the-plugin">Configur
 
 
 
-See [frequently_asked_questions.md](/docs/frequently_asked_questions.md).
+See [frequently_asked_questions.md](/com.playeveryware.eos/Documentation~/frequently_asked_questions.md).

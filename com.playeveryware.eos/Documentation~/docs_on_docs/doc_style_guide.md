@@ -131,12 +131,12 @@ An image can be displayed with the web link format, prefacing with an exclamatio
 Markdown example:
 
 ```markdown
-![unity tools package manager](/docs/images/unity_tools_package_manager.gif)
+![unity tools package manager](/com.playeveryware.eos/Documentation~/images/unity_tools_package_manager.gif)
 ```
 
 What it looks like:
 
-![unity tools package manager](/docs/images/unity_tools_package_manager.gif)
+![unity tools package manager](/com.playeveryware.eos/Documentation~/images/unity_tools_package_manager.gif)
 
 Always place images in the `/docs/images/` directory of the repository. In most cases, it is also appropriate to add a subdirectory to the images directory in order to keep related images organized. For instance, when creating a new document that contains a variety of images, it would be wise to create a subdirectory in the images folder to contain all the images for that new document.
 
@@ -163,13 +163,13 @@ Example markdown linking to a specific section within a document:
 Example markdown linking to another document:
 
 ```markdown
-[Android README](/docs/android/README_Android.md)
+[Android README](/com.playeveryware.eos/Documentation~/android/README_Android.md)
 ```
 
 Example markdown linking to a specific section of another document:
 
 ```markdown
-[Android Prerequisites](/docs/android/README_Android.md#prerequisites)
+[Android Prerequisites](/com.playeveryware.eos/Documentation~/android/README_Android.md#prerequisites)
 ```
 
 > [!IMPORTANT]

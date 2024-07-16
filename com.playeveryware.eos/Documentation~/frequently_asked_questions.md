@@ -1,4 +1,4 @@
-<a href="/README.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="README.md" width="5%"/></a>
+<a href="/README.md"><img src="/com.playeveryware.eos/Documentation~/images/PlayEveryWareLogo.gif" alt="README.md" width="5%"/></a>
 
 # <div align="center"> Frequently Asked Questions (FAQ)</div>
 ---
@@ -26,11 +26,11 @@
 ## Why does the plugin fail to work after changing configuration?
 
 To rerun in UnityEditor without rebooting, we must reload the EOS SDK dll between runs.  
-To find out why and how to do so look see our documentation on [Unity Specific aspects of implementing EOS](https://github.com/PlayEveryWare/eos_plugin_for_unity/blob/development/docs/unity_specific.md).
+To find out why and how to do so look see our documentation on [Unity Specific aspects of implementing EOS](https://github.com/PlayEveryWare/eos_plugin_for_unity/blob/development/com.playeveryware.eos/Documentation~/unity_specific.md).
 
 ## How do I override sandbox or deployment IDs when publishing on the Epic Games Store?
 
-This functionality is outlined in our [document on the Epic Game Store](/docs/epic_game_store.md#overriding-sandbox-andor-deployment-id).
+This functionality is outlined in our [document on the Epic Game Store](/com.playeveryware.eos/Documentation~/epic_game_store.md#overriding-sandbox-andor-deployment-id).
 
 ## How do I get the Epic Username?
 It depends on what one means by "Username".
@@ -85,7 +85,7 @@ The config file has to be in StreamingAssets so that the GfxPluginNativeRender c
 all of Unity has been bootstrapped so that the Plugin can hook all the appropriate things before the first graphics call by the Unity engine.
 
 > [!NOTE]
-> See [eos_config_security.md](/docs/eos_config_security.md) for more information. 
+> See [eos_config_security.md](/com.playeveryware.eos/Documentation~/eos_config_security.md) for more information. 
 
 ## Why does the Demo Scene fail to load?
 
@@ -114,7 +114,7 @@ EOSManager.Instance.StartLoginWithLoginTypeAndToken(
 As a developer you will need to have an Epic Games account in order to interact with the [EOS Developer Portal](https://dev.epicgames.com/portal) and manage your product.
 
 ### As a player
-Players are given multiple login options, which are slightly different from platform to platform. Details of which login methods are supported by each platform are listed in our documentation outlining [login type by platform](/docs/login_type_by_platform.md).
+Players are given multiple login options, which are slightly different from platform to platform. Details of which login methods are supported by each platform are listed in our documentation outlining [login type by platform](/com.playeveryware.eos/Documentation~/login_type_by_platform.md).
 
 ## What does the "DllNotFoundException" error mean? 
 

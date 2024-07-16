@@ -47,7 +47,7 @@ Setting up network configuration can be a little bit confusing if you're doing i
 
     When it's done it should look like this:
 
-    ![](/docs/images/hyperv_linux_guest_vm/finished-virtual-switch.png)
+    ![](/com.playeveryware.eos/Documentation~/images/hyperv_linux_guest_vm/finished-virtual-switch.png)
 
 ## Step 3: Disable Enhanced Session
 
@@ -94,4 +94,4 @@ If you would like to increase the Hyper-V display resolution, see [this helpful 
 
 ## Next Steps
 
-Move on to the [instructions](/docs/dev_env/Ubuntu_Development_Environment.md) to setup Ubuntu.
+Move on to the [instructions](/com.playeveryware.eos/Documentation~/dev_env/Ubuntu_Development_Environment.md) to setup Ubuntu.

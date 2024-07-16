@@ -1,14 +1,14 @@
-<a href="/README.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="README.md" width="5%"/></a>
+<a href="/README.md"><img src="/com.playeveryware.eos/Documentation~/images/PlayEveryWareLogo.gif" alt="README.md" width="5%"/></a>
 
 # Login Type by Platform
 
 | Platform | Account Portal              | Persistent Auth | External Auth       | Exchange Codes | Dev Auth            |
 |--:|-|-|-|-|-|
-| [Windows](/docs/player_authentication.md) | ✅ | ✅ |  ✅ [^1] | ✅ [^2] | ✅ [^3] |
-| [Mac OS](/docs/player_authentication.md) | ✅ | ✅ | ✅ [^1] | ✅ [^2] | ✅ [^3] |
-| [Linux](/docs/player_authentication.md) | ✅ | ✅ | ✅ [^1] | ✅ [^2] | ✅ [^3] |
-| [iOS](/docs/player_authentication.md) | ✅ | ✅ | ❌ | ❌ | ❌ |
-| [Android](/docs/player_authentication.md) | ✅ | ✅ |❌ |❌ | ❌ |
+| [Windows](/com.playeveryware.eos/Documentation~/player_authentication.md) | ✅ | ✅ |  ✅ [^1] | ✅ [^2] | ✅ [^3] |
+| [Mac OS](/com.playeveryware.eos/Documentation~/player_authentication.md) | ✅ | ✅ | ✅ [^1] | ✅ [^2] | ✅ [^3] |
+| [Linux](/com.playeveryware.eos/Documentation~/player_authentication.md) | ✅ | ✅ | ✅ [^1] | ✅ [^2] | ✅ [^3] |
+| [iOS](/com.playeveryware.eos/Documentation~/player_authentication.md) | ✅ | ✅ | ❌ | ❌ | ❌ |
+| [Android](/com.playeveryware.eos/Documentation~/player_authentication.md) | ✅ | ✅ |❌ |❌ | ❌ |
 | GDK            | ❌       | ❌        | ✅              | ❌       | ❌   |
 | PS4            | ❌       | ❌        | ✅              | ❌       | ❌   |
 | PS5            | ❌       | ❌        | ✅              | ❌       | ❌   |

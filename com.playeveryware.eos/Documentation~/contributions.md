@@ -1,4 +1,4 @@
-<a href="/README.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="Readme" width="5%"/></a>
+<a href="/README.md"><img src="/com.playeveryware.eos/Documentation~/images/PlayEveryWareLogo.gif" alt="Readme" width="5%"/></a>
 
 # Contributor Notes
 
@@ -10,8 +10,8 @@ The following are guidelines for making contributions to this open-source projec
 
 The following two guides can help you set up your development environment on Windows using Hyper-V. If you are not using Hyper-V, the second guide can still be used to configure your environment.
 
-  #### [Hyper-V Linux Guest VM](/docs/dev_env/HyperV_Linux_Guest_VM.md)
-  #### [Configuring Ubuntu 18.04](/docs/dev_env/Ubuntu_Development_Environment.md)
+  #### [Hyper-V Linux Guest VM](/com.playeveryware.eos/Documentation~/dev_env/HyperV_Linux_Guest_VM.md)
+  #### [Configuring Ubuntu 18.04](/com.playeveryware.eos/Documentation~/dev_env/Ubuntu_Development_Environment.md)
 
 ### Windows
 
@@ -38,7 +38,7 @@ To setup your environment on windows, follow these steps (or you can run the scr
 
 ### macOS
 
-See [Our macOS README](/docs/macOS/README_macOS.md) for a detailed guide on setting up your environment on macOS.
+See [Our macOS README](/com.playeveryware.eos/Documentation~/macOS/README_macOS.md) for a detailed guide on setting up your environment on macOS.
 
 You can run the [setup-macos.sh](/tools/scripts/setup-macos.sh) script (located in the `tools/scripts/` directory) from a terminal to accomplish most of the setup steps, or read the aforementioned guide for details.
 
@@ -57,15 +57,15 @@ A successful build will place the correct binaries in the proper locations for U
 
 ## Coding Standards
 
-See [standards.md](/docs/standards.md).
+See [standards.md](/com.playeveryware.eos/Documentation~/standards.md).
 
 ## Core Classes
 
-See our [Class Descriptions document](/docs/class_description.md) for an outline of what some of the core classes do.
+See our [Class Descriptions document](/com.playeveryware.eos/Documentation~/class_description.md) for an outline of what some of the core classes do.
 
 ## Create your own UPM
 
 After making changes to the plugin, if you would like to subsequently generate your own Unity Package, read one of the following options:
 
-### [Create UPM Package](/docs/creating_the_upm_package.md)
-### [Command Line Package Creation](/docs/command_line_export.md)
+### [Create UPM Package](/com.playeveryware.eos/Documentation~/creating_the_upm_package.md)
+### [Command Line Package Creation](/com.playeveryware.eos/Documentation~/command_line_export.md)

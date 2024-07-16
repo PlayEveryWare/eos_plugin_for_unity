@@ -42,10 +42,10 @@ You can follow the standard <a href="/README.md#configuring-the-plugin">Configur
 
 1. Select the `iOS` button.
 
-    ![EOS Config UI](/docs/images/eosconfig_ui_ios.gif)
+    ![EOS Config UI](/com.playeveryware.eos/Documentation~/images/eosconfig_ui_ios.gif)
 
 2. Press `Save All Changes`.
 
 # FAQ
 
-See [frequently_asked_questions.md](/docs/frequently_asked_questions.md).
+See [frequently_asked_questions.md](/com.playeveryware.eos/Documentation~/frequently_asked_questions.md).
