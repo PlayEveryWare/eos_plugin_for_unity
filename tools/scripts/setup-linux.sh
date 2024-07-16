@@ -2,7 +2,7 @@
 
 # NOTE: The string below will need to be updated when the project is upgraded
 # to support newer versions of the editor
-UNITY_VERSION=2021.3.30f1
+UNITY_VERSION=2021.3.16f
 
 # Add source for git 
 sudo add-apt-repository ppa:git-core/ppa -y
@@ -17,5 +17,5 @@ sudo apt update
 sudo apt install build-essential git unityhub libgbm-dev libasound2 libgconf-2-4 xvfb -y
 
 # TODO: The following commands cause problems and need further experimentation
-# Install Unity 2021.3 (for some reason cannot specify 2021.3.8f1)
+# Install Unity 2021.3 (for some reason cannot specify 2021.3.16f)
 sudo xvfb-run unityhub --headless install --version $UNITY_VERSION --no-sandbox

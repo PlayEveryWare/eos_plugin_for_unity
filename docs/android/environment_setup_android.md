@@ -5,7 +5,7 @@
 
 ## Unity and Modules
 
-1. Install Unity (minimum version 2020.1.11), preferably on Unity Hub
+1. Install Unity (minimum version 2021.3.16f), preferably on Unity Hub
 
 2. Open the "Add modules" window.
 
@@ -34,14 +34,14 @@ The following methods will show how to install the missing build-tool 30.0.3, an
 
 ### Manage SDK through command prompt
 
-1. (On Windows) If you don't already have the environment variable `JAVA_HOME` as a System Variable, add a new one with the value set to `C:\Program Files\Unity\Hub\Editor\2021.3.8f1\Editor\Data\PlaybackEngines\AndroidPlayer\OpenJDK`.
+1. (On Windows) If you don't already have the environment variable `JAVA_HOME` as a System Variable, add a new one with the value set to `C:\Program Files\Unity\Hub\Editor\2021.3.16f1\Editor\Data\PlaybackEngines\AndroidPlayer\OpenJDK`.
 
 2. Run the command prompt and navigate to the `SDK\tools\bin` folder.
 
     On Windows:
 
     ```bash
-    cd 'C:\Program Files\Unity\Hub\Editor\2021.3.8f1\Editor\Data\PlaybackEngines\AndroidPlayer\SDK\tools\bin'
+    cd 'C:\Program Files\Unity\Hub\Editor\2021.3.16f1\Editor\Data\PlaybackEngines\AndroidPlayer\SDK\tools\bin'
     ```
 
     For most *nix:
