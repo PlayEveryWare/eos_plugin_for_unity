@@ -1,5 +1,14 @@
 {
   "dependencies": {
+    "com.playeveryware.eos": {
+      "version": "file:../com.playeveryware.eos",
+      "depth": 0,
+      "source": "local",
+      "dependencies": {
+        "com.unity.modules.jsonserialize": "1.0.0",
+        "com.unity.editorcoroutines": "1.0.0"
+      }
+    },
     "com.unity.burst": {
       "version": "1.8.8",
       "depth": 0,
