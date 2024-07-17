@@ -1,0 +1,110 @@
+﻿#TopToolbar 
+{
+	height: 25px;
+	width: auto;
+	display: flex;
+	flex-direction: row;
+}
+
+#InfoBar 
+{
+	height: 25px;
+	width: auto;
+	display: flex;
+	flex-direction: row;
+	-unity-text-align: middle-center;
+	border-top-width: 1px;
+	border-color: black;
+}
+
+.resultStat
+{
+	flex-grow: 1;
+	flex-direction: row;
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
+#TotalDurationStat
+{
+	flex-grow: 1;
+	flex-direction: row;
+	padding-left: 10px;
+	padding-right: 10px;
+	-unity-text-align: middle-right;
+}
+
+#ResultSpacer
+{
+	flex-grow: 5;
+}
+
+#Filename
+{
+	flex: auto;
+	font-size: 12px;
+	margin-right: 10px;
+	overflow: hidden;
+	-unity-font-style: bold;
+	-unity-text-align: middle-right;
+}
+
+#Container 
+{
+	display: flex;
+	flex-direction: column;
+	width: auto;
+}
+
+#TopPanel 
+{
+	position: relative;
+	flex: 3;
+	width: auto;
+	border-top-width: 1px;
+	border-bottom-width: 1px;
+	border-color: black;
+	padding: 5px;
+}
+
+#BottomPanel 
+{
+	display: flex;
+	-unity-text-align: middle-center;
+	flex: 2;
+	width: auto;
+	padding: 5px;
+}
+
+#ListView
+{
+	flex-grow: 1;
+}
+
+#ItemContainer
+{
+	display: flex;
+	flex-direction: row;
+	width: auto;
+}
+
+#ItemCheck
+{
+	width: 12px;
+	-unity-font-style: bold;
+}
+
+.itemCheck--skip
+{
+	color: gray;
+}
+
+.itemCheck--pass
+{
+	color: green;
+}
+
+.itemCheck--fail
+{
+	color: red;
+}

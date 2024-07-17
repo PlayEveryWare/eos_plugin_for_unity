@@ -358,6 +358,25 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
                 });
         }
 
+        public static uint RenderInputField(ConfigFieldAttribute configFieldDetails, uint value, float labelWidth,
+            string tooltip = null)
+        {
+            return InputRendererWrapper(configFieldDetails.Label, value, labelWidth, tooltip,
+                (label, value1, width, s) =>
+                {
+                    _ = SafeTranslatorUtility.TryConvert(value1, out int temp);
+                    
+                    int intValue = EditorGUILayout.IntField(
+                        CreateGUIContent(configFieldDetails.Label, tooltip),
+                        temp,
+                        GUILayout.ExpandWidth(true));
+
+                    _ = SafeTranslatorUtility.TryConvert(intValue, out uint newValue);
+
+                    return newValue;
+                });
+        }
+
         public static bool RenderInputField(ConfigFieldAttribute configFieldDetails, bool value, float labelWidth, string tooltip = null)
         {
             return InputRendererWrapper<bool>(configFieldDetails.Label, value, labelWidth, tooltip, (s, b, arg3, arg4) =>

@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<engine:UXML
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:engine="UnityEngine.UIElements"
+    xmlns:editor="UnityEditor.UIElements"
+    xsi:noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd"
+>
+    <engine:VisualElement name="TopToolbar">
+		<engine:Button name="LoadResults" class="loadButton" text="Load XML Test Results..."/>
+		<engine:Label name="Filename" text="Filename"/>
+	</engine:VisualElement>
+
+	<engine:VisualElement name="InfoBar">
+		<engine:VisualElement class="resultStat">
+			<engine:Label text="Passed: " />
+			<engine:Label text="--" name="PassValue"/>
+		</engine:VisualElement>
+		<engine:VisualElement class="resultStat">
+			<engine:Label text="Failed: " />
+			<engine:Label text="--" name="FailedValue"/>
+		</engine:VisualElement>
+		<engine:VisualElement class="resultStat">
+			<engine:Label text="Skipped: " />
+			<engine:Label text="--" name="SkippedValue"/>
+		</engine:VisualElement>
+		<engine:VisualElement name="ResultSpacer"/>
+		<engine:VisualElement name="TotalDurationStat">
+			<engine:Label text="Total Duration: " />
+			<engine:Label text="--" name="TotalDurationValue"/>
+		</engine:VisualElement>
+	</engine:VisualElement>
+
+	<engine:VisualElement name="Container">
+
+		<engine:VisualElement name="TopPanel"/>
+
+		<engine:VisualElement name="BottomPanel">
+			<engine:ScrollView name="TestLoggingView">
+				<engine:TextField name="TestLogging"/>
+			</engine:ScrollView>
+		</engine:VisualElement>
+
+	</engine:VisualElement>
+</engine:UXML>
