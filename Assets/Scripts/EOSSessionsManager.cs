@@ -561,7 +561,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// <summary>
         /// Messages with this as the {2} parameter of <see cref="P2P_INFORM_SESSION_MESSAGE_FORMAT"/> indicate that a user should re-acquire and refresh Session information.
         /// Note that not every element of the Session can be re-acquired this way.
-        /// It is necessary to mirror <see cref="RegisterPlayer(string, ProductUserId)"/>, <see cref="UnRegisterPlayer(string, ProductUserId)"/>,
+        /// It is necessary to mirror <see cref="RegisterPlayer(string, ProductUserId)"/>, <see cref="UnregisterPlayer(string, ProductUserId)"/>,
         /// <see cref="StartSession(string)"/>, and <see cref="EndSession(string)"/> using their associated messages.
         /// </summary>
         private const string P2P_REFRESH_SESSION_MESSAGE_ELEMENT = "REFRESH";
@@ -2291,7 +2291,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// <param name="userIdToUnRegister">
         /// The ProductUserId of the user to unregister.
         /// </param>
-        public void UnRegisterPlayer(string sessionName, ProductUserId userIdToUnRegister)
+        public void UnregisterPlayer(string sessionName, ProductUserId userIdToUnRegister)
         {
             UnregisterPlayersOptions unregisterOptions = new UnregisterPlayersOptions();
             unregisterOptions.SessionName = sessionName;
@@ -2315,7 +2315,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// The ProductUserId of the users to unregister.
         /// If this array is empty, the function exits without performing an operation.
         /// </param>
-        public void UnRegisterPlayers(string sessionName, ProductUserId[] userIdsToUnRegister)
+        public void UnregisterPlayers(string sessionName, ProductUserId[] userIdsToUnRegister)
         {
             if (userIdsToUnRegister.Length == 0)
             {
@@ -3266,7 +3266,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                         InformUserOfCurrentSessionStatus(session.Name, messagingUserId);
                         break;
                     case P2P_LEAVING_SESSION_MESSAGE_ELEMENT:
-                        UnRegisterPlayer(session.Name, messagingUserId);
+                        UnregisterPlayer(session.Name, messagingUserId);
                         break;
                     case P2P_REFRESH_SESSION_MESSAGE_ELEMENT:
                         RefreshSession(session.Name);
@@ -3414,7 +3414,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     usersToUnRegister.Add(curExistingUser);
                 }
             }
-            UnRegisterPlayers(session.Name, usersToRegister.ToArray());
+            UnregisterPlayers(session.Name, usersToRegister.ToArray());
         }
 
         #region Notifications
