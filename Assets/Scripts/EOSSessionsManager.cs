@@ -195,15 +195,21 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public bool UpdateInProgress = true;
         public OnlineSessionState SessionState = OnlineSessionState.NoSession;
 
+        /// <summary>
+        /// Cached value for <see cref="DoesLocalUserOwnSession"/>.
+        /// Answers if the local user owns this Session, which is information that should not change after determined.
+        /// </summary>
+        private bool? doesLocalUserOwnSession = null;
+
         //private Session InvalidSession;
 
         //-------------------------------------------------------------------------
-        public bool InitFromInfoOfSessionDetails(SessionDetails Session)
+        public bool InitFromInfoOfSessionDetails(SessionDetails session)
         {
             //SessionDetails
 
             SessionDetailsCopyInfoOptions copyOptions = new SessionDetailsCopyInfoOptions();
-            Result result = Session.CopyInfo(ref copyOptions, out SessionDetailsInfo? outSessionInfo);
+            Result result = session.CopyInfo(ref copyOptions, out SessionDetailsInfo? outSessionInfo);
 
             if (result != Result.Success)
             {
@@ -211,7 +217,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
 
             //session.Release();  // Crashes EOS on JoinSession if session is released here
-            InitFromSessionInfo(Session, outSessionInfo);
+            InitFromSessionInfo(session, outSessionInfo);
             return true;
         }
 
@@ -290,11 +296,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             if (!string.IsNullOrEmpty(Name))
             {
-                if (ActiveSession != null)
-                {
-                    ActiveSession.Release();
-                    ActiveSession = null;
-                }
+                ActiveSession?.Release();
+                ActiveSession = null;
 
                 CopyActiveSessionHandleOptions copyOptions = new CopyActiveSessionHandleOptions();
                 copyOptions.SessionName = Name;
@@ -355,57 +358,62 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// False if either it was determined that the user doesn't own this Session,
         /// or if the operation to query that information failed.
         /// </returns>
-        public bool IsLocalUserOwnerOfSession
+        public bool DoesLocalUserOwnSession()
         {
-            get
+            ProductUserId localUserId = EOSManager.Instance?.GetProductUserId();
+
+            // If we can't even get the local user's id, that state suggests they shouldn't be owning any Sessions
+            if (localUserId == null)
             {
-                ProductUserId localUserId = EOSManager.Instance?.GetProductUserId();
-
-                // If we can't even get the local user's id, that state suggests they shouldn't be owning any Sessions
-                if (localUserId == null)
-                {
-                    return false;
-                }
-
-                // If the ActiveSession isn't set, then this user isn't a part of the Session
-                // Can't possibly own it
-                if (ActiveSession == null)
-                {
-                    return false;
-                }
-
-                ActiveSessionCopyInfoOptions options = new ActiveSessionCopyInfoOptions() { };
-                Result copyResult = ActiveSession.CopyInfo(ref options, out ActiveSessionInfo? sessionInfo);
-
-                if (copyResult != Result.Success || !sessionInfo.HasValue || !sessionInfo.Value.SessionDetails.HasValue)
-                {
-                    return false;
-                }
-
-                return sessionInfo.Value.SessionDetails.Value.OwnerUserId.Equals(localUserId);
+                return false;
             }
+
+            // If the ActiveSession isn't set, then this user isn't a part of the Session
+            // Can't possibly own it
+            if (ActiveSession == null)
+            {
+                return false;
+            }
+
+            if (doesLocalUserOwnSession.HasValue)
+            {
+                return doesLocalUserOwnSession.Value;
+            }
+
+            ActiveSessionCopyInfoOptions options = new ActiveSessionCopyInfoOptions() { };
+            Result copyResult = ActiveSession.CopyInfo(ref options, out ActiveSessionInfo? sessionInfo);
+
+            if (copyResult != Result.Success || !sessionInfo.HasValue || !sessionInfo.Value.SessionDetails.HasValue)
+            {
+                return false;
+            }
+
+            doesLocalUserOwnSession = sessionInfo.Value.SessionDetails.Value.OwnerUserId.Equals(localUserId);
+            return doesLocalUserOwnSession.Value;
         }
 
         public bool TryGetRegisteredUsers(out List<ProductUserId> userIds)
         {
+            userIds = null;
+
             if (ActiveSession == null)
             {
-                userIds = null;
                 return false;
             }
 
-            ActiveSessionCopyInfoOptions copyInfoOptions = new ActiveSessionCopyInfoOptions() { };
-            ActiveSessionInfo? copiedInfo;
-            Result activeSessionInfoCopyResult = ActiveSession.CopyInfo(ref copyInfoOptions, out copiedInfo);
+            ActiveSessionCopyInfoOptions copyInfoOptions = new();
+            Result activeSessionInfoCopyResult = ActiveSession.CopyInfo(
+                ref copyInfoOptions, 
+                out ActiveSessionInfo? copiedInfo
+                );
 
             if (activeSessionInfoCopyResult != Result.Success)
             {
                 Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(TryGetRegisteredUsers)}): Failed to copy session information. Result code {activeSessionInfoCopyResult}.");
-                userIds = null;
                 return false;
             }
 
-            ActiveSessionGetRegisteredPlayerCountOptions countOptions = new ActiveSessionGetRegisteredPlayerCountOptions() { };
+            ActiveSessionGetRegisteredPlayerCountOptions countOptions = new();
             uint playerCount = ActiveSession.GetRegisteredPlayerCount(ref countOptions);
 
             // First iterate across the list, getting all registered users
@@ -413,7 +421,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             for (uint playerIndex = 0; playerIndex < playerCount; playerIndex++)
             {
-                ActiveSessionGetRegisteredPlayerByIndexOptions indexOptions = new ActiveSessionGetRegisteredPlayerByIndexOptions() { PlayerIndex = playerIndex };
+                ActiveSessionGetRegisteredPlayerByIndexOptions indexOptions = new() { PlayerIndex = playerIndex };
                 ProductUserId userId = ActiveSession.GetRegisteredPlayerByIndex(ref indexOptions);
                 userIds.Add(userId);
             }
@@ -553,7 +561,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// <summary>
         /// Messages with this as the {2} parameter of <see cref="P2P_INFORM_SESSION_MESSAGE_FORMAT"/> indicate that a user should re-acquire and refresh Session information.
         /// Note that not every element of the Session can be re-acquired this way.
-        /// It is necessary to mirror <see cref="Register(string, ProductUserId)"/>, <see cref="UnRegister(string, ProductUserId)"/>,
+        /// It is necessary to mirror <see cref="RegisterPlayer(string, ProductUserId)"/>, <see cref="UnRegisterPlayer(string, ProductUserId)"/>,
         /// <see cref="StartSession(string)"/>, and <see cref="EndSession(string)"/> using their associated messages.
         /// </summary>
         private const string P2P_REFRESH_SESSION_MESSAGE_ELEMENT = "REFRESH";
@@ -589,10 +597,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// <summary>
         /// Messages with this as the {2} parameter of <see cref="P2P_INFORM_SESSION_MESSAGE_FORMAT"/> indicate a change in the registered users.
         /// The {3} parameter contains a comma separated list of all registered user's ProductUserId.
-        /// The Owner of a Session should inform joining members of all registered users, and update connected users whenever a registration or unregistration happens.
-        /// Connected users should then determine which of the Ids should be used in <see cref="Register(string, ProductUserId)"/>
-        /// and which users should be used in <see cref="UnRegister(string, ProductUserId)"/>.
-        /// When a non-Owner runs either Register or UnRegister, it only changes their local Session's records of registered users.
+        /// <see cref="InformUsersOfRegistrationStatusChange(string)"/>
         /// </summary>
         private const string P2P_SESSION_OWNER_INFORM_ALLREGISTEREDUSERS = "REGISTEREDUSERSUPDATED";
 
@@ -1089,7 +1094,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// <summary>
         /// Callback that handles Session creation.
         /// If the callback info indicates failure, the local Session information is cleared out.
-        /// If it succeeds, the local user has <see cref="Register(string, ProductUserId)"/> called for it.
+        /// If it succeeds, the local user has <see cref="RegisterPlayer(string, ProductUserId)"/> called for it.
         /// Either way the most recent <see cref="UIOnSessionCreated"/> is called, as well as <see cref="OnSessionUpdateFinished(bool, string, string, bool)"/>.
         /// 
         /// TODO: It's strange that <see cref="UIOnSessionCreated"/> is called without indicating success, failure, or which Session was created.
@@ -1107,7 +1112,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 if (prodUserId != null)
                 {
                     // Register Session Owner
-                    Register(data.SessionName, prodUserId);
+                    RegisterPlayer(data.SessionName, prodUserId);
                     removeSession = false;
                 }
                 else
@@ -1723,8 +1728,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 return;
             }
 
-            // Before removing the Session from our local data, we need to inform the Owner of the Session that we've left the Session, if we're not the Owner
-            // TODO: Validate that this gets to the members/owners of the Session in time, and that we haven't already deleted the local information needed to get Session information
+            // Before removing the Session from our local data, the local user needs to inform the Owner of the Session that the Session has been left
+            // TODO: Validate that this gets to the members/owners of the Session in time, and that the local information needed to get Session information has not already been deleted.
             string sessionName = (string)data.ClientData;
             Session localSession;
 
@@ -1745,7 +1750,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 return;
             }
 
-            if (localSession.IsLocalUserOwnerOfSession)
+            if (localSession.DoesLocalUserOwnSession())
             {
                 // We're the Owner of the Session, inform everyone that it was destroyed
                 InformSessionMembers(sessionName, P2P_SESSION_OWNER_DESTROYED_SESSION_MESSAGE_ELEMENT);
@@ -2210,7 +2215,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// The ProductUserId of the user to Register to the Session.
         /// Uses <paramref name="sessionName"/> for ClientData to identify the Session to register the user to.
         /// </param>
-        public void Register(string sessionName, ProductUserId userIdToRegister)
+        public void RegisterPlayer(string sessionName, ProductUserId userIdToRegister)
         {
             RegisterPlayersOptions registerOptions = new RegisterPlayersOptions();
             registerOptions.SessionName = sessionName;
@@ -2234,7 +2239,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// If this array is empty, the function exits without performing an operation.
         /// Uses <paramref name="sessionName"/> for ClientData to identify the Session to register the user to.
         /// </param>
-        public void Register(string sessionName, ProductUserId[] userIdsToRegister)
+        public void RegisterPlayers(string sessionName, ProductUserId[] userIdsToRegister)
         {
             if (userIdsToRegister.Length == 0)
             {
@@ -2286,7 +2291,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// <param name="userIdToUnRegister">
         /// The ProductUserId of the user to unregister.
         /// </param>
-        public void UnRegister(string sessionName, ProductUserId userIdToUnRegister)
+        public void UnRegisterPlayer(string sessionName, ProductUserId userIdToUnRegister)
         {
             UnregisterPlayersOptions unregisterOptions = new UnregisterPlayersOptions();
             unregisterOptions.SessionName = sessionName;
@@ -2310,7 +2315,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// The ProductUserId of the users to unregister.
         /// If this array is empty, the function exits without performing an operation.
         /// </param>
-        public void UnRegister(string sessionName, ProductUserId[] userIdsToUnRegister)
+        public void UnRegisterPlayers(string sessionName, ProductUserId[] userIdsToUnRegister)
         {
             if (userIdsToUnRegister.Length == 0)
             {
@@ -3063,7 +3068,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 return;
             }
 
-            if (!localSession.IsLocalUserOwnerOfSession)
+            if (!localSession.DoesLocalUserOwnSession())
             {
                 return;
             }
@@ -3095,7 +3100,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
 
             // Are we the Owner of this Session? We should only be messaging people if we are, inside this function
-            if (!localSession.IsLocalUserOwnerOfSession)
+            if (!localSession.DoesLocalUserOwnSession())
             {
                 // We're not the Owner! This is not an error state, but don't send any messages.
                 return;
@@ -3257,11 +3262,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 switch (messageElement)
                 {
                     case P2P_JOINING_SESSION_MESSAGE_ELEMENT:
-                        Register(session.Name, messagingUserId);
+                        RegisterPlayer(session.Name, messagingUserId);
                         InformUserOfCurrentSessionStatus(session.Name, messagingUserId);
                         break;
                     case P2P_LEAVING_SESSION_MESSAGE_ELEMENT:
-                        UnRegister(session.Name, messagingUserId);
+                        UnRegisterPlayer(session.Name, messagingUserId);
                         break;
                     case P2P_REFRESH_SESSION_MESSAGE_ELEMENT:
                         RefreshSession(session.Name);
@@ -3301,7 +3306,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 return;
             }
 
-            if (!session.IsLocalUserOwnerOfSession)
+            if (!session.DoesLocalUserOwnSession())
             {
                 return;
             }
@@ -3333,7 +3338,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 return;
             }
 
-            if (!session.IsLocalUserOwnerOfSession)
+            if (!session.DoesLocalUserOwnSession())
             {
                 return;
             }
@@ -3372,7 +3377,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
 
             // The owner of the Session shouldn't be managed through this, otherwise they'll infinite inform users
-            if (session.IsLocalUserOwnerOfSession)
+            if (session.DoesLocalUserOwnSession())
             {
                 return;
             }
@@ -3398,7 +3403,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     usersToRegister.Add(curIncomingUser);
                 }
             }
-            Register(session.Name, usersToRegister.ToArray());
+            RegisterPlayers(session.Name, usersToRegister.ToArray());
 
             // For each user id in the existing list that isn't in the incoming users, unregister them
             List<ProductUserId> usersToUnRegister = new List<ProductUserId>();
@@ -3409,7 +3414,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     usersToUnRegister.Add(curExistingUser);
                 }
             }
-            UnRegister(session.Name, usersToRegister.ToArray());
+            UnRegisterPlayers(session.Name, usersToRegister.ToArray());
         }
 
         #region Notifications

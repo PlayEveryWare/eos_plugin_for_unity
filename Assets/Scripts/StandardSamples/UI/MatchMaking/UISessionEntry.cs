@@ -100,12 +100,20 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
             else
             {
+                // Names are only present for Sessions that are locally joined, so at this point it can be enabled
                 NameTxt.transform.gameObject.SetActive(true);
 
+                // If this local user owns the Session, then they might be able to run these state modifying actions
+                // Otherwise, the user shouldn't be able to use any of these buttons, so disable them
                 if (isOwner)
                 {
+                    // The Session can only be started if it is either Pending or Ended, and isn't locally processing an update
                     StartButton.interactable = !updating && (state == OnlineSessionState.Pending || state == OnlineSessionState.Ended);
+
+                    // InProgress is the only state that flows to Ending
                     EndButton.interactable = !updating && state == OnlineSessionState.InProgress;
+
+                    // The Session can be modified at any state, as long as it isn't in the middle of processing an update
                     ModifyButton.interactable = !updating;
                 }
                 else
@@ -115,6 +123,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     ModifyButton.interactable = false;
                 }
 
+                // The Session is already joined, so it can't be joined currently
+                // but the local user can always leave a joined Session
                 JoinButton.transform.gameObject.SetActive(false);
                 LeaveButton.interactable = true;
             }
@@ -208,7 +218,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 StatusTxt.text = session.SessionState.ToString();
             }
 
-            EnableButtonsBySessionState(session.UpdateInProgress, session.SessionState, session.IsLocalUserOwnerOfSession);
+            EnableButtonsBySessionState(session.UpdateInProgress, session.SessionState, session.DoesLocalUserOwnSession());
 
             PlayersTxt.text = string.Format("{0}/{1}", session.NumConnections, session.MaxPlayers);
             JIPTxt.text = session.AllowJoinInProgress.ToString();
