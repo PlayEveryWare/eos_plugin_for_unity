@@ -35,7 +35,7 @@ using PlayEveryWare.EpicOnlineServices;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
-    public class UISessionsMatchmakingMenu : MonoBehaviour, ISampleSceneUI
+    public class UISessionsMatchmakingMenu : UIFriendInteractionSource, ISampleSceneUI
     {
         public GameObject SessionsMatchmakingUIParent;
 
@@ -66,6 +66,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         [Header("Controller")]
         public GameObject UIFirstSelected;
+
+        /// <summary>
+        /// Indicates to the parent class through <see cref="IsDirty"/> that a visual update of the Friends UI is needed.
+        /// Set any time a Session is joined, left, or its state is modified.
+        /// </summary>
+        private bool UIDirty { get; set; } = true;
 
         private EOSSessionsManager GetEOSSessionsManager
         {
@@ -403,5 +409,107 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             uiEntry.SetUIElementsFromSessionAndDetails(session, details, this);
         }
+
+        #region UIFriendInteractionSource Implementations
+
+        /* 
+         * REGION NOTES:
+         * 
+         * The UIFriendsMenu popout uses the base class UIFriendInteractionSource to facilitate interactions.
+         * 
+         * NOTE: This current implementation is not complete.
+         * There is functionality suggested by the existance of this window that need to be added.
+         * 
+         * - Users should be able to Join Sessions their friends are in, if that friend is in a Session, and that Session has invites enabled.
+         * - Users that are in a Session who want to interact with a friend that is also in a Session should have UX for choosing Invite or Join
+         * - Users in multiple Sessions should be able to choose which Session to invite their friend to. Currently it uses the most recently joined Session only.
+         * - Users who have friends in multiple Sessions should be able to choose which Session to join
+         * 
+         */
+
+        public override string GetFriendInteractButtonText()
+        {
+            return "Invite";
+        }
+
+        public override bool IsDirty()
+        {
+            return UIDirty;
+        }
+
+        public override void ResetDirtyFlag()
+        {
+            UIDirty = false;
+        }
+
+        public override void OnFriendInteractButtonClicked(FriendData friendData)
+        {
+            // Get the local Presence Session to invite to
+            if (!GetEOSSessionsManager.TryGetPresenceSession(out Session foundSession) || foundSession.ActiveSession == null)
+            {
+                // Didn't find a presence session, so nothing to invite to
+                Debug.LogError($"{nameof(UISessionsMatchmakingMenu)} ({nameof(OnFriendInteractButtonClicked)}): A friend was chosen to invite to a Session, but no local Presence-enabled Session detected.");
+                return;
+            }
+
+            GetEOSSessionsManager.InviteToSession(foundSession.Name, friendData.UserProductUserId);
+        }
+
+        public override FriendInteractionState GetFriendInteractionState(FriendData friendData)
+        {
+            // First determine if the user is both a friend and online
+            if (!friendData.IsFriend() || !friendData.IsOnline())
+            {
+                return FriendInteractionState.Hidden;
+            }
+
+            // TODO: This information is being processed for each friend found
+            // but this information only needs to be determined once per query
+            // An API should be added to indicate when this should be processed
+
+            // Now determine if the local user has an active, presence-enabled Session
+            if (!GetEOSSessionsManager.TryGetPresenceSession(out Session foundSession) || foundSession.ActiveSession == null)
+            {
+                // Didn't find a presence session, so nothing to invite to
+                return FriendInteractionState.Hidden;
+            }
+
+            // Does this Session allow for invites? If not, you can't invite users to it.
+            if (!foundSession.InvitesAllowed)
+            {
+                return FriendInteractionState.Hidden;
+            }
+
+            // Is this Session in a state that can accept more users?
+            // To answer questions about this, fetch the ActiveSessionInfo
+            ActiveSessionCopyInfoOptions copyInfoOption = new();
+            Result copyResult = foundSession.ActiveSession.CopyInfo(ref copyInfoOption, out ActiveSessionInfo? foundInfo);
+
+            if (copyResult != Result.Success || !foundInfo.HasValue || !foundInfo.Value.SessionDetails.HasValue)
+            {
+                return FriendInteractionState.Hidden;
+            }
+
+            // Beyond here, FriendInteractionState.Disabled is used instead of Hidden when invalid
+            // To represent how the Session could viably allow for invitations under different circumstances
+
+            // If users can't join an in-progress Session, then check the status of the Session
+            if (!foundSession.AllowJoinInProgress && (foundInfo.Value.State == OnlineSessionState.Starting || foundInfo.Value.State == OnlineSessionState.InProgress))
+            {
+                EOSSessionsManager.Log($"{nameof(UISessionsMatchmakingMenu)} ({nameof(GetFriendInteractionState)}): The current Presence-enabled Session cannot be invited to because it is {foundInfo.Value.State} and {nameof(Session.AllowJoinInProgress)} is false.");
+                return FriendInteractionState.Disabled;
+            }
+
+            // Check that the Session doesn't already have the maximum number of users
+            if (foundInfo.Value.SessionDetails.Value.NumOpenPublicConnections == 0)
+            {
+                EOSSessionsManager.Log($"{nameof(UISessionsMatchmakingMenu)} ({nameof(GetFriendInteractionState)}): The current Presence-enabled Session cannot be invited to because the Session already has reached its {nameof(Session.MaxPlayers)} count.");
+                return FriendInteractionState.Disabled;
+            }
+
+            return FriendInteractionState.Enabled;
+        }
+
+        #endregion
     }
 }
