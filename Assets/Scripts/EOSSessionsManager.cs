@@ -1301,6 +1301,38 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             return null;
         }
 
+        /// <summary>
+        /// Attempts to get a locally joined Presence enabled Session.
+        /// Users can only be in one Presence enabled Session at a time.
+        /// The current Id is stored in <see cref="KnownPresenceSessionId"/>.
+        /// </summary>
+        /// <param name="foundSession">Out parameter with the Session, if found.</param>
+        /// <returns>True if a Presence Session is found. False otherwise.</returns>
+        public bool TryGetPresenceSession(out Session foundSession)
+        {
+            foundSession = null;
+
+            // This function will determine which Session is the active Presence Session
+            if (!HasPresenceSession())
+            {
+                return false;
+            }
+
+            if (string.IsNullOrEmpty(KnownPresenceSessionId))
+            {
+                // No known presence session, so exit
+                return false;
+            }
+
+            if (TryGetSessionById(KnownPresenceSessionId, out foundSession))
+            {
+                return true;
+            }
+
+            // If this has been reached, then none was found
+            return false;
+        }
+
         #endregion
 
         #region Online Session Lookup and Search

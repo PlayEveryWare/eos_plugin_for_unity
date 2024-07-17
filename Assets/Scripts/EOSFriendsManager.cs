@@ -436,20 +436,23 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 TargetUserId = data.TargetUserId
             };
 
-            Result joinInfoResult = PresenceHandle.GetJoinInfo(ref joinInfoOptions, out Utf8String joinInfo);
-            if (joinInfoResult != Result.Success)
-            {
-                joinInfo = null;
-            }
-
+            // If the user has a Presence JoinInfo, set that in this incoming Presence.
+            // NotFound just implies the user does not have an active joinable activity, it is not an error.
             PresenceInfo presenceInfo = new PresenceInfo()
             {
                 Application = presence?.ProductId,
                 Platform = presence?.Platform,
                 Status = (Status)(presence?.Status),
                 RichText = presence?.RichText,
-                JoinInfo = joinInfo
+                JoinInfo = null // Default to null until the value is determined
             };
+
+            Result joinInfoResult = PresenceHandle.GetJoinInfo(ref joinInfoOptions, out Utf8String joinInfo);
+
+            if (joinInfoResult == Result.Success)
+            {
+                presenceInfo.JoinInfo = joinInfo;
+            }
 
             if(CachedFriends.TryGetValue(data.TargetUserId, out FriendData friendData))
             {
