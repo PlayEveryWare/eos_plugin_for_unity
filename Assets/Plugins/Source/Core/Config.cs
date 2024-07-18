@@ -337,9 +337,6 @@ namespace PlayEveryWare.EpicOnlineServices
             bool prettyPrint = true, 
             bool updateAssetDatabase = true)
         {
-            FileInfo configFile = new(FilePath);
-            configFile.Directory?.Create();
-
             var json = JsonUtility.ToJson(this, prettyPrint);
 
             // If the json hasn't changed since it was last read, then
