@@ -95,8 +95,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         private EOSFriendsManager FriendsManager;
         private EOSEACLobbyManager AntiCheatLobbyManager;
 
-        private bool UIDirty = false;
-
 #if UNITY_ANDROID && !UNITY_EDITOR //TODO: this should be in a centralized class to reduce clutter, and like an enum if other platforms are to be included
         const bool ONANDROIDPLATFORM = true;
 #else
@@ -536,16 +534,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             return "Invite";
         }
 
-        public override bool IsDirty()
-        {
-            return UIDirty;
-        }
-
-        public override void ResetDirtyFlag()
-        {
-            UIDirty = false;
-        }
-
         public override FriendInteractionState GetFriendInteractionState(FriendData friendData)
         {
             if (friendData.IsFriend() && friendData.IsOnline() && IsCurrentLobbyValid())
@@ -636,7 +624,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             LeaveLobbyButton.gameObject.SetActive(true);
             AddMemberAttributeButton.gameObject.SetActive(true);
 
-            UIDirty = true;
+            MarkFriendsUIDirty();
         }
 
         private void UIOnLeaveLobby(Result result)

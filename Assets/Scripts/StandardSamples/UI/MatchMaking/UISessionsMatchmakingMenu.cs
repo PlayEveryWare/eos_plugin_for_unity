@@ -96,12 +96,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         [Header("Controller")]
         public GameObject UIFirstSelected;
 
-        /// <summary>
-        /// Indicates to the parent class through <see cref="IsDirty"/> that a visual update of the Friends UI is needed.
-        /// Set any time a Session is joined, left, or its state is modified.
-        /// </summary>
-        private bool UIDirty { get; set; } = true;
-
         private EOSSessionsManager GetEOSSessionsManager
         {
             get { return EOSManager.Instance.GetOrCreateManager<EOSSessionsManager>(); }
@@ -382,7 +376,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public void ShowMenu()
         {
             GetEOSSessionsManager.OnLoggedIn();
-            GetEOSSessionsManager.UIOnPresenceAffectingChange.AddListener(MarkDirty);
+            GetEOSSessionsManager.UIOnPresenceAffectingChange.AddListener(MarkFriendsUIDirty);
 
             SessionsMatchmakingUIParent.gameObject.SetActive(true);
 
@@ -397,7 +391,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             if (GetEOSSessionsManager.IsUserLoggedIn)//check to prevent warnings when done unnecessarily during Sessions & Matchmaking startup
             {
-                GetEOSSessionsManager.UIOnPresenceAffectingChange.RemoveListener(MarkDirty);
+                GetEOSSessionsManager.UIOnPresenceAffectingChange.RemoveListener(MarkFriendsUIDirty);
                 GetEOSSessionsManager.OnLoggedOut();
             }
 
@@ -461,16 +455,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public override string GetFriendInteractButtonText()
         {
             return "Invite";
-        }
-
-        public override bool IsDirty()
-        {
-            return UIDirty;
-        }
-
-        public override void ResetDirtyFlag()
-        {
-            UIDirty = false;
         }
 
         public override void OnFriendInteractButtonClicked(FriendData friendData)
@@ -554,11 +538,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             ownInvitationState = OwnSessionInvitationAbilityState.ValidSessionToInviteTo;
             return;
-        }
-
-        public override void MarkDirty()
-        {
-            UIDirty = true;
         }
 
         #endregion
