@@ -280,22 +280,16 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </summary>
         protected virtual void Read()
         {
-            bool configFileExists = File.Exists(FilePath);
-
-            if (configFileExists)
+            
+#if UNITY_EDITOR // This should only happen in Editor Runtime (Play Mode)
+            if (!File.Exists(FilePath)) 
             {
-                _lastReadJsonString = FileUtility.ReadAllText(FilePath);
-                JsonUtility.FromJsonOverwrite(_lastReadJsonString, this);
-            }
-            else
-            {
-#if UNITY_EDITOR
                 Write();
-#else
-                throw new FileNotFoundException(
-                    $"Config file \"{FilePath}\" does not exist.");
-#endif
             }
+#endif
+
+            _lastReadJsonString = FileUtility.ReadAllText(FilePath);
+            JsonUtility.FromJsonOverwrite(_lastReadJsonString, this);
         }
 
         // Functions declared below should only ever be utilized in the editor.
