@@ -60,5 +60,20 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public virtual void ResetDirtyFlag()
         {
         }
+
+        public virtual void MarkDirty()
+        {
+
+        }
+
+        /// <summary>
+        /// This function is called before refreshing the <see cref="UIFriendsMenu"/>.
+        /// This is an opportunity to refresh any caches or do processing work that should be done once,
+        /// instead of processed for each call of <see cref="GetFriendInteractionState(FriendData)"/>.
+        /// </summary>
+        public virtual void ProcessInformationBeforeFriendsRefresh()
+        {
+
+        }
     }
 }

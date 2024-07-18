@@ -176,6 +176,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 GameObject.Destroy(child.gameObject);
             }
 
+            UIFriendInteractionSource?.ProcessInformationBeforeFriendsRefresh();
+
             foreach (FriendData friend in friendDataList)
             {
                 GameObject friendUIObj = Instantiate(UIFriendEntryPrefab, FriendsListContentParent.transform);

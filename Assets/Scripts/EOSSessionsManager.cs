@@ -37,6 +37,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     using Epic.OnlineServices.P2P;
     using System.Text.RegularExpressions;
     using System.Text;
+    using UnityEngine.Events;
 
     /// <summary>
     /// Class represents a Session search and search results
@@ -488,6 +489,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         Queue<Action> UIOnJoinSession;
         Queue<Action> UIOnLeaveSession;
         Queue<Action> UIOnSessionSearchCompleted;
+
+        /// <summary>
+        /// Event to inform UI that it should refresh displayed Friends and Joining/Inviting buttons.
+        /// </summary>
+        public UnityEvent UIOnPresenceAffectingChange = new UnityEvent();
 
         public const ulong INVALID_NOTIFICATIONID = 0;
 
@@ -1194,6 +1200,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// <returns>Returns true if there is a local Session with Presence enabled.</returns>
         public bool HasPresenceSession()
         {
+            // Can't have a presence session if we're not even logged in
+            if (!IsUserLoggedIn)
+            {
+                KnownPresenceSessionId = string.Empty;
+                return false;
+            }
+
             if (KnownPresenceSessionId.Length > 0)
             {
                 if (CurrentSessions.ContainsKey(KnownPresenceSessionId)) // TODO: validate
@@ -1716,6 +1729,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             existingLocalSession.InitFromSessionInfo(sessionDetails, sessionInfo);
 
             UIOnSessionRefresh?.Invoke(existingLocalSession, sessionDetails);
+            UIOnPresenceAffectingChange?.Invoke();
         }
 
         #endregion
@@ -1812,6 +1826,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     CurrentSessions.Remove(sessionName);
                 }
             }
+
+            UIOnPresenceAffectingChange?.Invoke();
         }
 
         /// <summary>
@@ -1937,6 +1953,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                         CurrentSessions[session.Name] = session;
                     }
 
+                    UIOnPresenceAffectingChange?.Invoke();
                     InformSessionOwnerWithMessage(session.Name, P2P_JOINING_SESSION_MESSAGE_ELEMENT);
                 }
                 callback?.Invoke(result);
@@ -2638,6 +2655,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 }
 
                 InformSessionMembers(sessionName, P2P_REFRESH_SESSION_MESSAGE_ELEMENT);
+                UIOnPresenceAffectingChange?.Invoke();
             }
         }
 

@@ -37,6 +37,35 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 {
     public class UISessionsMatchmakingMenu : UIFriendInteractionSource, ISampleSceneUI
     {
+        /// <summary>
+        /// An enum to record the local state of whether the local user can invite users to their Session.
+        /// <see cref="ownInvitationState"/>
+        /// </summary>
+        protected enum OwnSessionInvitationAbilityState
+        {
+            /// <summary>
+            /// Indicates the user has not joined any Session, therefore can't invite anyone.
+            /// </summary>
+            NoSessionToInviteTo,
+
+            /// <summary>
+            /// Indicates the user has joined a Session, but for some reason it can't have invitations sent for it.
+            /// </summary>
+            InvalidSessionToInviteTo,
+
+            /// <summary>
+            /// Indicates the user has joined a Session that can have invitations sent for it correctly.
+            /// </summary>
+            ValidSessionToInviteTo
+        }
+
+        /// <summary>
+        /// Cached state that indicates if the local user can send invitations for a Session.
+        /// Processed in <see cref="ProcessInformationBeforeFriendsRefresh"/>,
+        /// and utilized in <see cref="GetFriendInteractionState(FriendData)"/>.
+        /// </summary>
+        protected OwnSessionInvitationAbilityState ownInvitationState { get; set; } = OwnSessionInvitationAbilityState.NoSessionToInviteTo;
+
         public GameObject SessionsMatchmakingUIParent;
 
         [Header("Sessions/Matchmaking UI - Create Options")]
@@ -353,6 +382,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public void ShowMenu()
         {
             GetEOSSessionsManager.OnLoggedIn();
+            GetEOSSessionsManager.UIOnPresenceAffectingChange.AddListener(MarkDirty);
 
             SessionsMatchmakingUIParent.gameObject.SetActive(true);
 
@@ -367,6 +397,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             if (GetEOSSessionsManager.IsUserLoggedIn)//check to prevent warnings when done unnecessarily during Sessions & Matchmaking startup
             {
+                GetEOSSessionsManager.UIOnPresenceAffectingChange.RemoveListener(MarkDirty);
                 GetEOSSessionsManager.OnLoggedOut();
             }
 
@@ -463,21 +494,35 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 return FriendInteractionState.Hidden;
             }
 
-            // TODO: This information is being processed for each friend found
-            // but this information only needs to be determined once per query
-            // An API should be added to indicate when this should be processed
+            if (ownInvitationState == OwnSessionInvitationAbilityState.NoSessionToInviteTo)
+            {
+                return FriendInteractionState.Hidden;
+            }
 
-            // Now determine if the local user has an active, presence-enabled Session
+            if (ownInvitationState == OwnSessionInvitationAbilityState.InvalidSessionToInviteTo)
+            {
+                return FriendInteractionState.Disabled;
+            }
+
+            // The only thing remaining is yes, this user can be interacted with
+            return FriendInteractionState.Enabled;
+        }
+
+        public override void ProcessInformationBeforeFriendsRefresh()
+        {
+            // Determine if the local user has an active, presence-enabled Session
             if (!GetEOSSessionsManager.TryGetPresenceSession(out Session foundSession) || foundSession.ActiveSession == null)
             {
                 // Didn't find a presence session, so nothing to invite to
-                return FriendInteractionState.Hidden;
+                ownInvitationState = OwnSessionInvitationAbilityState.NoSessionToInviteTo;
+                return;
             }
 
             // Does this Session allow for invites? If not, you can't invite users to it.
             if (!foundSession.InvitesAllowed)
             {
-                return FriendInteractionState.Hidden;
+                ownInvitationState = OwnSessionInvitationAbilityState.InvalidSessionToInviteTo;
+                return;
             }
 
             // Is this Session in a state that can accept more users?
@@ -487,27 +532,33 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             if (copyResult != Result.Success || !foundInfo.HasValue || !foundInfo.Value.SessionDetails.HasValue)
             {
-                return FriendInteractionState.Hidden;
+                ownInvitationState = OwnSessionInvitationAbilityState.InvalidSessionToInviteTo;
+                return;
             }
-
-            // Beyond here, FriendInteractionState.Disabled is used instead of Hidden when invalid
-            // To represent how the Session could viably allow for invitations under different circumstances
 
             // If users can't join an in-progress Session, then check the status of the Session
             if (!foundSession.AllowJoinInProgress && (foundInfo.Value.State == OnlineSessionState.Starting || foundInfo.Value.State == OnlineSessionState.InProgress))
             {
                 EOSSessionsManager.Log($"{nameof(UISessionsMatchmakingMenu)} ({nameof(GetFriendInteractionState)}): The current Presence-enabled Session cannot be invited to because it is {foundInfo.Value.State} and {nameof(Session.AllowJoinInProgress)} is false.");
-                return FriendInteractionState.Disabled;
+                ownInvitationState = OwnSessionInvitationAbilityState.InvalidSessionToInviteTo;
+                return;
             }
 
             // Check that the Session doesn't already have the maximum number of users
             if (foundInfo.Value.SessionDetails.Value.NumOpenPublicConnections == 0)
             {
                 EOSSessionsManager.Log($"{nameof(UISessionsMatchmakingMenu)} ({nameof(GetFriendInteractionState)}): The current Presence-enabled Session cannot be invited to because the Session already has reached its {nameof(Session.MaxPlayers)} count.");
-                return FriendInteractionState.Disabled;
+                ownInvitationState = OwnSessionInvitationAbilityState.InvalidSessionToInviteTo;
+                return;
             }
 
-            return FriendInteractionState.Enabled;
+            ownInvitationState = OwnSessionInvitationAbilityState.ValidSessionToInviteTo;
+            return;
+        }
+
+        public override void MarkDirty()
+        {
+            UIDirty = true;
         }
 
         #endregion
