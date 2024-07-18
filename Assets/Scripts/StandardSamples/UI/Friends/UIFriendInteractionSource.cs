@@ -37,6 +37,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             Enabled
         }
 
+        /// <summary>
+        /// Indicates that this object needs to refresh its UI.
+        /// When this is true, the next time <see cref="UIFriendsMenu.Update"/> runs,
+        /// <see cref="UIFriendsMenu.RefreshFriendUI"/> will be called.
+        /// </summary>
+        protected bool dirtyFlag { get; private set; } = true;
+
         public virtual FriendInteractionState GetFriendInteractionState(FriendData friendData)
         {
             return FriendInteractionState.Hidden;
@@ -52,18 +59,19 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         }
 
         //Should the friend UI update interaction state from this source?
-        public virtual bool IsDirty()
+        public virtual bool IsFriendsUIDirty()
         {
-            return false;
+            return dirtyFlag;
         }
 
-        public virtual void ResetDirtyFlag()
+        public virtual void ResetFriendsUIDirtyFlag()
         {
+            dirtyFlag = false;
         }
 
-        public virtual void MarkDirty()
+        public virtual void MarkFriendsUIDirty()
         {
-
+            dirtyFlag = true;
         }
 
         /// <summary>

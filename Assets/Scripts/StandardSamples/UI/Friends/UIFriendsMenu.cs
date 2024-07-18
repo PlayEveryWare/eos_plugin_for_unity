@@ -140,10 +140,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
             else
             {
-                if (UIFriendInteractionSource != null && UIFriendInteractionSource.IsDirty())
+                if (UIFriendInteractionSource != null && UIFriendInteractionSource.IsFriendsUIDirty())
                 {
                     RenderFriendsList(true);
-                    UIFriendInteractionSource.ResetDirtyFlag();
+                    UIFriendInteractionSource.ResetFriendsUIDirtyFlag();
                 }
                 else
                 {
