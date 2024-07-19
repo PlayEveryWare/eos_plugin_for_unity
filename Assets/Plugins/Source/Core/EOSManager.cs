@@ -257,11 +257,6 @@ namespace PlayEveryWare.EpicOnlineServices
                 return s_localProductUserId;
             }
 
-            private EOSConfig GetLoadedEOSConfig()
-            {
-                return s_loadedEOSConfig;
-            }
-
             //-------------------------------------------------------------------------
             /// <summary>
             /// Get the ProductID configured from Unity Editor that was used during startup of the EOS SDK.
@@ -269,7 +264,7 @@ namespace PlayEveryWare.EpicOnlineServices
             /// <returns></returns>
             public string GetProductId()
             {
-                return GetLoadedEOSConfig().productID;
+                return s_loadedEOSConfig.productID;
             }
 
             //-------------------------------------------------------------------------
@@ -279,7 +274,7 @@ namespace PlayEveryWare.EpicOnlineServices
             /// <returns></returns>
             public string GetSandboxId()
             {
-                return GetLoadedEOSConfig().sandboxID;
+                return s_loadedEOSConfig.sandboxID;
             }
 
             //-------------------------------------------------------------------------
@@ -289,7 +284,7 @@ namespace PlayEveryWare.EpicOnlineServices
             /// <returns></returns>
             public string GetDeploymentID()
             {
-                return GetLoadedEOSConfig().deploymentID;
+                return s_loadedEOSConfig.deploymentID;
             }
 
             //-------------------------------------------------------------------------
@@ -299,7 +294,7 @@ namespace PlayEveryWare.EpicOnlineServices
             /// <returns></returns>
             public bool IsEncryptionKeyValid()
             {
-                return GetLoadedEOSConfig().IsEncryptionKeyValid();
+                return s_loadedEOSConfig.IsEncryptionKeyValid();
             }
 
             //-------------------------------------------------------------------------
@@ -322,7 +317,7 @@ namespace PlayEveryWare.EpicOnlineServices
             public bool ShouldOverlayReceiveInput()
             {
                 return (s_isOverlayVisible && s_DoesOverlayHaveExcusiveInput)
-                       || GetLoadedEOSConfig().alwaysSendInputToOverlay
+                       || s_loadedEOSConfig.alwaysSendInputToOverlay
                     ;
             }
 
