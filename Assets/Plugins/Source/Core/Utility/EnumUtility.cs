@@ -51,8 +51,8 @@ namespace PlayEveryWare.EpicOnlineServices.Extensions
         /// type specified.
         /// </param>
         /// <param name="defaultValue">
-        /// The default enum value to use for if the provided string is either
-        /// null, empty, or cannot be parsed into a value.
+        /// The default enum value to use if the provided string is either null,
+        /// empty, or cannot be parsed into a value.
         /// </param>
         /// <returns>
         /// True if the string was successfully parsed into an enum value, false
@@ -60,7 +60,7 @@ namespace PlayEveryWare.EpicOnlineServices.Extensions
         /// </returns>
         public static bool TryParse(
             string enumValueString, 
-            Dictionary<string, TEnum> customMappings, 
+            IDictionary<string, TEnum> customMappings, 
             out TEnum result, 
             TEnum defaultValue = default)
         {
@@ -117,7 +117,7 @@ namespace PlayEveryWare.EpicOnlineServices.Extensions
         /// </returns>
         public static bool TryParse(
             IList<string> enumValuesAsStrings,
-            Dictionary<string, TEnum> customMappings,
+            IDictionary<string, TEnum> customMappings,
             out TEnum result,
             TEnum defaultValue = default)
         {

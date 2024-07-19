@@ -52,25 +52,21 @@ namespace PlayEveryWare.EpicOnlineServices.Extensions
             };
 
         /// <summary>
-        /// Attempt to parse a string into a PlatformFlags. This is implemented
-        /// because in addition to the standard implementation provided by
-        /// System.Enum.TryParse, there are custom mappings supported. 
+        /// Tries to parse the given list of strings representing individual
+        /// PlatformFlags enum values, and performing a
+        /// bitwise OR operation on those values.
         /// </summary>
-        /// <param name="flagString">
-        /// The string to parse into a PlatformFlags enum value.
+        /// <param name="stringFlags">
+        /// List of strings representing individual PlatformFlags enum values.
         /// </param>
         /// <param name="result">
-        /// The result of the parse operation.
+        /// The result of performing a bitwise OR operation on the values that
+        /// are represented by the list of string values.
         /// </param>
         /// <returns>
-        /// Returns true if the string was successfully parsed into a
-        /// PlatformFlags enum value, false otherwise.
+        /// True if all the list of strings was successfully parsed, and the
+        /// resulting list of enum values was bitwise ORed together.
         /// </returns>
-        public static bool TryParse(string flagString, out PlatformFlags result)
-        {
-            return EnumUtility<PlatformFlags>.TryParse(flagString, s_customMappings, out result);
-        }
-
         public static bool TryParse(IList<string> stringFlags, out PlatformFlags result)
         {
             return EnumUtility<PlatformFlags>.TryParse(stringFlags, s_customMappings, out result);

@@ -24,7 +24,6 @@
 
 namespace PlayEveryWare.EpicOnlineServices.Extensions
 {
-    using Epic.OnlineServices.Auth;
     using Epic.OnlineServices.IntegratedPlatform;
     using System.Collections.Generic;
 
@@ -69,18 +68,22 @@ namespace PlayEveryWare.EpicOnlineServices.Extensions
         };
 
         /// <summary>
-        /// Tries to parse the given string into an enum value.
+        /// Tries to parse the given list of strings representing individual
+        /// IntegratedPlatformManagementFlags enum values, and performing a
+        /// bitwise OR operation on those values.
         /// </summary>
-        /// <param name="str">The string to parse into an enum value.</param>
-        /// <param name="flags">
-        /// The enum value resulting from the parse operation.
+        /// <param name="stringFlags">
+        /// List of strings representing individual
+        /// IntegratedPlatformManagementFlags enum values.
         /// </param>
-        /// <returns>True if parsing was successful, false otherwise.</returns>
-        public static bool TryParse(string str, out IntegratedPlatformManagementFlags flags)
-        {
-            return EnumUtility<IntegratedPlatformManagementFlags>.TryParse(str, s_customMappings, out flags);
-        }
-
+        /// <param name="flags">
+        /// The result of performing a bitwise OR operation on the values that
+        /// are represented by the list of string values.
+        /// </param>
+        /// <returns>
+        /// True if all the list of strings was successfully parsed, and the
+        /// resulting list of enum values was bitwise ORed together.
+        /// </returns>
         public static bool TryParse(IList<string> stringFlags, out IntegratedPlatformManagementFlags flags)
         {
             return EnumUtility<IntegratedPlatformManagementFlags>.TryParse(stringFlags, s_customMappings, out flags);
