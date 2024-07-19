@@ -280,8 +280,11 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </summary>
         protected virtual void Read()
         {
-            
-#if UNITY_EDITOR // This should only happen in Editor Runtime (Play Mode)
+            // This conditional exists because writing a config file is only
+            // something that should ever happen in the editor.
+            // This is the config writing for Editor Playmode
+            // Use WriteAsync instead on Editor Not-Playmode
+#if UNITY_EDITOR
             if (!File.Exists(FilePath)) 
             {
                 Write();
