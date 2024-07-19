@@ -181,7 +181,7 @@ namespace PlayEveryWare.EpicOnlineServices
             static private NotifyEventHandle s_notifyLoginStatusChangedCallbackHandle;
             static private NotifyEventHandle s_notifyConnectLoginStatusChangedCallbackHandle;
             static private NotifyEventHandle s_notifyConnectAuthExpirationCallbackHandle;
-            static private EOSConfig loadedEOSConfig;
+            static private EOSConfig s_loadedEOSConfig;
 
             // Setting it twice will cause an exception
             static bool hasSetLoggingCallback;
@@ -259,7 +259,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
             private EOSConfig GetLoadedEOSConfig()
             {
-                return loadedEOSConfig;
+                return s_loadedEOSConfig;
             }
 
             //-------------------------------------------------------------------------
@@ -587,9 +587,9 @@ namespace PlayEveryWare.EpicOnlineServices
             public void Init(IEOSCoroutineOwner coroutineOwner, string configFileName)
             {
                 string eosFinalConfigPath = Path.Combine(Application.streamingAssetsPath, "EOS", configFileName);
-                if (loadedEOSConfig == null)
+                if (s_loadedEOSConfig == null)
                 {
-                    loadedEOSConfig = LoadEOSConfigFileFromPath(eosFinalConfigPath);
+                    s_loadedEOSConfig = LoadEOSConfigFileFromPath(eosFinalConfigPath);
                 }
 
                 if (GetEOSPlatformInterface() != null)
@@ -623,7 +623,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 if (!string.IsNullOrWhiteSpace(epicArgs.epicSandboxID))
                 {
                     Debug.Log("Sandbox ID override specified: " + epicArgs.epicSandboxID);
-                    loadedEOSConfig.sandboxID = epicArgs.epicSandboxID;
+                    s_loadedEOSConfig.sandboxID = epicArgs.epicSandboxID;
                 }
 
                 // First try to load a specifically overridden epicDeploymentID
@@ -633,22 +633,22 @@ namespace PlayEveryWare.EpicOnlineServices
                 if (!string.IsNullOrWhiteSpace(epicArgs.epicDeploymentID))
                 {
                     Debug.Log("Deployment ID override specified: " + epicArgs.epicDeploymentID);
-                    loadedEOSConfig.deploymentID = epicArgs.epicDeploymentID;
+                    s_loadedEOSConfig.deploymentID = epicArgs.epicDeploymentID;
                 }
-                else if (loadedEOSConfig.sandboxDeploymentOverrides != null)
+                else if (s_loadedEOSConfig.sandboxDeploymentOverrides != null)
                 {
                     //check if a deployment id override exists for sandbox id
-                    foreach (var deploymentOverride in loadedEOSConfig.sandboxDeploymentOverrides)
+                    foreach (var deploymentOverride in s_loadedEOSConfig.sandboxDeploymentOverrides)
                     {
-                        if (loadedEOSConfig.sandboxID == deploymentOverride.sandboxID)
+                        if (s_loadedEOSConfig.sandboxID == deploymentOverride.sandboxID)
                         {
                             Debug.Log("Sandbox Deployment ID override specified: " + deploymentOverride.deploymentID);
-                            loadedEOSConfig.deploymentID = deploymentOverride.deploymentID;
+                            s_loadedEOSConfig.deploymentID = deploymentOverride.deploymentID;
                         }
                     }
                 }
 
-                Result initResult = InitializePlatformInterface(loadedEOSConfig);
+                Result initResult = InitializePlatformInterface(s_loadedEOSConfig);
 
 
                 if (initResult != Result.Success)
@@ -675,7 +675,7 @@ namespace PlayEveryWare.EpicOnlineServices
                     if (initResult != Result.Success)
                     {
 #if UNITY_EDITOR
-                        initResult = InitializePlatformInterface(loadedEOSConfig);
+                        initResult = InitializePlatformInterface(s_loadedEOSConfig);
 #endif
 
                         if (initResult != Result.Success)
@@ -693,7 +693,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 LoggingInterface.SetCallback(SimplePrintCallback);
 
 
-                var eosPlatformInterface = CreatePlatformInterface(loadedEOSConfig);
+                var eosPlatformInterface = CreatePlatformInterface(s_loadedEOSConfig);
 
                 if (eosPlatformInterface == null)
                 {
@@ -876,8 +876,8 @@ namespace PlayEveryWare.EpicOnlineServices
                 return new LoginOptions
                 {
                     Credentials = loginCredentials,
-                    ScopeFlags = loadedEOSConfig.authScopeOptionsFlags.Count > 0
-                        ? loadedEOSConfig.authScopeOptionsFlagsAsAuthScopeFlags()
+                    ScopeFlags = s_loadedEOSConfig.authScopeOptionsFlags.Count > 0
+                        ? s_loadedEOSConfig.authScopeOptionsFlagsAsAuthScopeFlags()
                         : defaultScopeFlags
                 };
             }
