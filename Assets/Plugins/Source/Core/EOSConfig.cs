@@ -133,6 +133,69 @@ namespace PlayEveryWare.EpicOnlineServices
                 !InvalidEncryptionKeyRegex.Match(key).Success;
         }
 
+        /// <summary>
+        /// Override the default sandbox and deployment id. Uses the sandboxId
+        /// as a key to determine the corresponding deploymentId that has been
+        /// set by the user in the configuration window.
+        /// </summary>
+        /// <param name="sandboxId">The sandbox id to use.</param>
+        public void OverrideDeployment(string sandboxId)
+        {
+            // Confirm that the sandboxId is stored in the list of overrides
+            if (!TryGetDeploymentOverride(sandboxDeploymentOverrides, sandboxId,
+                    out SandboxDeploymentOverride overridePair))
+            {
+                Debug.LogError($"The given sandboxId \"{sandboxId}\" could not be found in the configured list of deployment override values.");
+                return;
+            }
+
+            Debug.Log($"Sandbox ID overridden to: \"{overridePair.sandboxID}\".");
+            Debug.Log($"Deployment ID overridden to: \"{overridePair.deploymentID}\".");
+
+            // Override the sandbox and deployment Ids
+            sandboxID = overridePair.sandboxID;
+            deploymentID = overridePair.deploymentID;
+
+            // TODO: This will trigger a need to re-validate the config values
+        }
+
+        /// <summary>
+        /// Given a specified SandboxId, try and retrieve the pair of values for
+        /// the deployment override from the given list of deployment overrides.
+        /// </summary>
+        /// <param name="deploymentOverrides">
+        /// The deployment overrides to search for the pair within.
+        /// </param>
+        /// <param name="sandboxId">
+        /// The sandboxId of the pair to find.
+        /// </param>
+        /// <param name="deploymentOverride">
+        /// The sandboxId and deploymentId override pair that matches the given
+        /// sandboxId.
+        /// </param>
+        /// <returns>
+        /// True if the pair was retrieved, false otherwise.
+        /// </returns>
+        private static bool TryGetDeploymentOverride(
+            List<SandboxDeploymentOverride> deploymentOverrides, 
+            string sandboxId, 
+            out SandboxDeploymentOverride deploymentOverride)
+        {
+            deploymentOverride = null;
+            foreach (var overridePair in deploymentOverrides)
+            {
+                if (overridePair.sandboxID != sandboxId)
+                {
+                    continue;
+                }
+
+                deploymentOverride = overridePair;
+                return true;
+            }
+
+            return false;
+        }
+
         //-------------------------------------------------------------------------
         //TODO: Move this to a shared place
         public static bool StringIsEqualToAny(string flagAsCString, params string[] parameters)

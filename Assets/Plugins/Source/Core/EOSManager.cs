@@ -181,7 +181,7 @@ namespace PlayEveryWare.EpicOnlineServices
             static private NotifyEventHandle s_notifyLoginStatusChangedCallbackHandle;
             static private NotifyEventHandle s_notifyConnectLoginStatusChangedCallbackHandle;
             static private NotifyEventHandle s_notifyConnectAuthExpirationCallbackHandle;
-            static private EOSConfig s_loadedEOSConfig;
+            //static private EOSConfig s_loadedEOSConfig;
 
             // Setting it twice will cause an exception
             static bool hasSetLoggingCallback;
@@ -258,46 +258,6 @@ namespace PlayEveryWare.EpicOnlineServices
             }
 
             //-------------------------------------------------------------------------
-            /// <summary>
-            /// Get the ProductID configured from Unity Editor that was used during startup of the EOS SDK.
-            /// </summary>
-            /// <returns></returns>
-            public string GetProductId()
-            {
-                return s_loadedEOSConfig.productID;
-            }
-
-            //-------------------------------------------------------------------------
-            /// <summary>
-            /// Get the SandboxID configured from Unity Editor that was used during startup of the EOS SDK.
-            /// </summary>
-            /// <returns></returns>
-            public string GetSandboxId()
-            {
-                return s_loadedEOSConfig.sandboxID;
-            }
-
-            //-------------------------------------------------------------------------
-            /// <summary>
-            /// Get the DeploymentID configured from Unity Editor that was used during startup of the EOS SDK.
-            /// </summary>
-            /// <returns></returns>
-            public string GetDeploymentID()
-            {
-                return s_loadedEOSConfig.deploymentID;
-            }
-
-            //-------------------------------------------------------------------------
-            /// <summary>
-            /// Check if encryption key is EOS config is a valid 32-byte hex string.
-            /// </summary>
-            /// <returns></returns>
-            public bool IsEncryptionKeyValid()
-            {
-                return s_loadedEOSConfig.IsEncryptionKeyValid();
-            }
-
-            //-------------------------------------------------------------------------
             private bool HasShutdown()
             {
                 return s_state == EOSState.Shutdown;
@@ -317,7 +277,7 @@ namespace PlayEveryWare.EpicOnlineServices
             public bool ShouldOverlayReceiveInput()
             {
                 return (s_isOverlayVisible && s_DoesOverlayHaveExcusiveInput)
-                       || s_loadedEOSConfig.alwaysSendInputToOverlay
+                       || PlayEveryWare.EpicOnlineServices.Config.Get<EOSConfig>().alwaysSendInputToOverlay
                     ;
             }
 
@@ -428,8 +388,10 @@ namespace PlayEveryWare.EpicOnlineServices
             }
 
             //-------------------------------------------------------------------------
-            private Result InitializePlatformInterface(EOSConfig configData)
+            private Result InitializePlatformInterface()
             {
+                // Temporarily cache this for greater clarity.
+                EOSConfig configData = Config.Get<EOSConfig>();
                 IPlatformSpecifics platformSpecifics = EOSManagerPlatformSpecificsSingleton.Instance;
 
                 print("InitializePlatformInterface: platformSpecifics.GetType() = " + platformSpecifics.GetType());
@@ -473,8 +435,11 @@ namespace PlayEveryWare.EpicOnlineServices
             }
 
             //-------------------------------------------------------------------------
-            private PlatformInterface CreatePlatformInterface(EOSConfig configData)
+            private PlatformInterface CreatePlatformInterface()
             {
+                // Temporarily cache this for greater clarity.
+                EOSConfig configData = Config.Get<EOSConfig>();
+
                 IPlatformSpecifics platformSpecifics = EOSManagerPlatformSpecificsSingleton.Instance;
 
                 EOSCreateOptions platformOptions = new EOSCreateOptions();
@@ -568,25 +533,8 @@ namespace PlayEveryWare.EpicOnlineServices
             }
 
             //-------------------------------------------------------------------------
-            private EOSConfig LoadEOSConfigFileFromPath(string eosFinalConfigPath)
-            {
-                string configDataAsString = FileUtility.ReadAllText(eosFinalConfigPath);
-
-                var configData = JsonUtility.FromJson<EOSConfig>(configDataAsString);
-
-                print("Loaded config file: " + configDataAsString);
-                return configData;
-            }
-
-            //-------------------------------------------------------------------------
             public void Init(IEOSCoroutineOwner coroutineOwner, string configFileName)
             {
-                string eosFinalConfigPath = Path.Combine(Application.streamingAssetsPath, "EOS", configFileName);
-                if (s_loadedEOSConfig == null)
-                {
-                    s_loadedEOSConfig = LoadEOSConfigFileFromPath(eosFinalConfigPath);
-                }
-
                 if (GetEOSPlatformInterface() != null)
                 {
                     print("Init completed with existing EOS PlatformInterface");
@@ -617,33 +565,10 @@ namespace PlayEveryWare.EpicOnlineServices
 
                 if (!string.IsNullOrWhiteSpace(epicArgs.epicSandboxID))
                 {
-                    Debug.Log("Sandbox ID override specified: " + epicArgs.epicSandboxID);
-                    s_loadedEOSConfig.sandboxID = epicArgs.epicSandboxID;
+                    PlayEveryWare.EpicOnlineServices.Config.Get<EOSConfig>().OverrideDeployment(epicArgs.epicSandboxID);
                 }
 
-                // First try to load a specifically overridden epicDeploymentID
-                // If that is available, then use the provided argument
-                // If it is not available, then look up the deployment id using the sandbox overrides
-
-                if (!string.IsNullOrWhiteSpace(epicArgs.epicDeploymentID))
-                {
-                    Debug.Log("Deployment ID override specified: " + epicArgs.epicDeploymentID);
-                    s_loadedEOSConfig.deploymentID = epicArgs.epicDeploymentID;
-                }
-                else if (s_loadedEOSConfig.sandboxDeploymentOverrides != null)
-                {
-                    //check if a deployment id override exists for sandbox id
-                    foreach (var deploymentOverride in s_loadedEOSConfig.sandboxDeploymentOverrides)
-                    {
-                        if (s_loadedEOSConfig.sandboxID == deploymentOverride.sandboxID)
-                        {
-                            Debug.Log("Sandbox Deployment ID override specified: " + deploymentOverride.deploymentID);
-                            s_loadedEOSConfig.deploymentID = deploymentOverride.deploymentID;
-                        }
-                    }
-                }
-
-                Result initResult = InitializePlatformInterface(s_loadedEOSConfig);
+                Result initResult = InitializePlatformInterface();
 
 
                 if (initResult != Result.Success)
@@ -670,7 +595,7 @@ namespace PlayEveryWare.EpicOnlineServices
                     if (initResult != Result.Success)
                     {
 #if UNITY_EDITOR
-                        initResult = InitializePlatformInterface(s_loadedEOSConfig);
+                        initResult = InitializePlatformInterface();
 #endif
 
                         if (initResult != Result.Success)
@@ -688,7 +613,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 LoggingInterface.SetCallback(SimplePrintCallback);
 
 
-                var eosPlatformInterface = CreatePlatformInterface(s_loadedEOSConfig);
+                var eosPlatformInterface = CreatePlatformInterface();
 
                 if (eosPlatformInterface == null)
                 {
@@ -871,8 +796,8 @@ namespace PlayEveryWare.EpicOnlineServices
                 return new LoginOptions
                 {
                     Credentials = loginCredentials,
-                    ScopeFlags = s_loadedEOSConfig.authScopeOptionsFlags.Count > 0
-                        ? s_loadedEOSConfig.authScopeOptionsFlagsAsAuthScopeFlags()
+                    ScopeFlags = Config.Get<EOSConfig>().authScopeOptionsFlags.Count > 0
+                        ? Config.Get<EOSConfig>().authScopeOptionsFlagsAsAuthScopeFlags()
                         : defaultScopeFlags
                 };
             }
