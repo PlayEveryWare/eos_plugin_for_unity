@@ -280,22 +280,19 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </summary>
         protected virtual void Read()
         {
-            bool configFileExists = File.Exists(FilePath);
-
-            if (configFileExists)
-            {
-                _lastReadJsonString = FileUtility.ReadAllText(FilePath);
-                JsonUtility.FromJsonOverwrite(_lastReadJsonString, this);
-            }
-            else
-            {
+            // This conditional exists because writing a config file is only
+            // something that should ever happen in the editor.
+            // This is the config writing for Editor Playmode
+            // Use WriteAsync instead on Editor Not-Playmode
 #if UNITY_EDITOR
+            if (!File.Exists(FilePath)) 
+            {
                 Write();
-#else
-                throw new FileNotFoundException(
-                    $"Config file \"{FilePath}\" does not exist.");
-#endif
             }
+#endif
+
+            _lastReadJsonString = FileUtility.ReadAllText(FilePath);
+            JsonUtility.FromJsonOverwrite(_lastReadJsonString, this);
         }
 
         // Functions declared below should only ever be utilized in the editor.
@@ -343,9 +340,6 @@ namespace PlayEveryWare.EpicOnlineServices
             bool prettyPrint = true, 
             bool updateAssetDatabase = true)
         {
-            FileInfo configFile = new(FilePath);
-            configFile.Directory?.Create();
-
             var json = JsonUtility.ToJson(this, prettyPrint);
 
             // If the json hasn't changed since it was last read, then
