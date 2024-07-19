@@ -61,8 +61,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// enforce usage of the factor pattern for classes that derive from the
         /// Config class.
         /// </summary>
-        private static Dictionary<Type, Func<Config>> s_factories = 
-            new Dictionary<Type, Func<Config>>();
+        private static Dictionary<Type, Func<Config>> s_factories = new();
 
         /// <summary>
         /// The name of the file that contains the config values.

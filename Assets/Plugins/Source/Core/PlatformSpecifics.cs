@@ -114,12 +114,9 @@ namespace PlayEveryWare.EpicOnlineServices
             {
                 Debug.Log($"Assigning thread affinity override values for platform \"{Platform}\".");
                 var overrideThreadAffinity = initializeOptions.options.OverrideThreadAffinity.Value;
-                overrideThreadAffinity.NetworkWork = config.overrideValues.GetThreadAffinityNetworkWork(overrideThreadAffinity.NetworkWork);
-                overrideThreadAffinity.StorageIo = config.overrideValues.GetThreadAffinityStorageIO(overrideThreadAffinity.StorageIo);
-                overrideThreadAffinity.WebSocketIo = config.overrideValues.GetThreadAffinityWebSocketIO(overrideThreadAffinity.WebSocketIo);
-                overrideThreadAffinity.P2PIo = config.overrideValues.GetThreadAffinityP2PIO(overrideThreadAffinity.P2PIo);
-                overrideThreadAffinity.HttpRequestIo = config.overrideValues.GetThreadAffinityHTTPRequestIO(overrideThreadAffinity.HttpRequestIo);
-                overrideThreadAffinity.RTCIo = config.overrideValues.GetThreadAffinityRTCIO(overrideThreadAffinity.RTCIo);
+
+                config.overrideValues.SetOverrideThreadAffinity(ref overrideThreadAffinity);
+
                 initializeOptions.options.OverrideThreadAffinity = overrideThreadAffinity;
             }
         }

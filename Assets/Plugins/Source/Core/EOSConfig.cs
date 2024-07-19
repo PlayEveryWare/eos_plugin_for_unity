@@ -31,9 +31,7 @@ using System.Text.RegularExpressions;
 
 namespace PlayEveryWare.EpicOnlineServices
 {
-    using Epic.OnlineServices.IntegratedPlatform;
     using Extensions;
-    using System.Threading.Tasks;
 
     /// <summary>
     /// Represents the default deployment ID to use when a given sandbox ID is active.
@@ -137,13 +135,71 @@ namespace PlayEveryWare.EpicOnlineServices
                 !InvalidEncryptionKeyRegex.Match(key).Success;
         }
 
-#if !EOS_DISABLE
-
-        public static IntegratedPlatformManagementFlags GetIntegratedPlatformManagementFlags(List<string> stringFlags)
+        /// <summary>
+        /// Override the default sandbox and deployment id. Uses the sandboxId
+        /// as a key to determine the corresponding deploymentId that has been
+        /// set by the user in the configuration window.
+        /// </summary>
+        /// <param name="sandboxId">The sandbox id to use.</param>
+        public void OverrideDeployment(string sandboxId)
         {
-            return StringsToEnum<IntegratedPlatformManagementFlags>(stringFlags,
-                IntegratedPlatformManagementFlagsExtensions.TryParse);
+            // Confirm that the sandboxId is stored in the list of overrides
+            if (!TryGetDeploymentOverride(sandboxDeploymentOverrides, sandboxId,
+                    out SandboxDeploymentOverride overridePair))
+            {
+                Debug.LogError($"The given sandboxId \"{sandboxId}\" could not be found in the configured list of deployment override values.");
+                return;
+            }
+
+            Debug.Log($"Sandbox ID overridden to: \"{overridePair.sandboxID}\".");
+            Debug.Log($"Deployment ID overridden to: \"{overridePair.deploymentID}\".");
+
+            // Override the sandbox and deployment Ids
+            sandboxID = overridePair.sandboxID;
+            deploymentID = overridePair.deploymentID;
+
+            // TODO: This will trigger a need to re-validate the config values
         }
+
+        /// <summary>
+        /// Given a specified SandboxId, try and retrieve the pair of values for
+        /// the deployment override from the given list of deployment overrides.
+        /// </summary>
+        /// <param name="deploymentOverrides">
+        /// The deployment overrides to search for the pair within.
+        /// </param>
+        /// <param name="sandboxId">
+        /// The sandboxId of the pair to find.
+        /// </param>
+        /// <param name="deploymentOverride">
+        /// The sandboxId and deploymentId override pair that matches the given
+        /// sandboxId.
+        /// </param>
+        /// <returns>
+        /// True if the pair was retrieved, false otherwise.
+        /// </returns>
+        private static bool TryGetDeploymentOverride(
+            List<SandboxDeploymentOverride> deploymentOverrides,
+            string sandboxId,
+            out SandboxDeploymentOverride deploymentOverride)
+        {
+            deploymentOverride = null;
+            foreach (var overridePair in deploymentOverrides)
+            {
+                if (overridePair.sandboxID != sandboxId)
+                {
+                    continue;
+                }
+
+                deploymentOverride = overridePair;
+                return true;
+            }
+
+            return false;
+        }
+
+
+#if !EOS_DISABLE
 
         /// <summary>
         /// Returns a single PlatformFlags enum value that results from a
@@ -166,43 +222,24 @@ namespace PlayEveryWare.EpicOnlineServices
         {
             return StringsToEnum<AuthScopeFlags>(authScopeOptionsFlags, AuthScopeFlagsExtensions.TryParse);
         }
+
+        /// <summary>
+        /// Given a reference to an InitializeThreadAffinity struct, set the
+        /// member fields contained within to match the values of this config.
+        /// </summary>
+        /// <param name="affinity">
+        /// The initialize thread affinity object to change the values of.
+        /// </param>
+        public void SetOverrideThreadAffinity(ref InitializeThreadAffinity affinity)
+        {
+            affinity.NetworkWork = GetULongFromString(ThreadAffinity_networkWork);
+            affinity.StorageIo = GetULongFromString(ThreadAffinity_storageIO);
+            affinity.WebSocketIo = GetULongFromString(ThreadAffinity_webSocketIO);
+            affinity.P2PIo = GetULongFromString(ThreadAffinity_P2PIO);
+            affinity.HttpRequestIo = GetULongFromString(ThreadAffinity_HTTPRequestIO);
+            affinity.RTCIo = GetULongFromString(ThreadAffinity_RTCIO);
+        }
 #endif
-
-        //-------------------------------------------------------------------------
-        public ulong GetThreadAffinityNetworkWork(ulong defaultValue = 0)
-        {
-            return GetULongFromString(ThreadAffinity_networkWork, defaultValue);
-        }
-
-        //-------------------------------------------------------------------------
-        public ulong GetThreadAffinityStorageIO(ulong defaultValue = 0)
-        {
-            return GetULongFromString(ThreadAffinity_storageIO, defaultValue);
-        }
- 
-        //-------------------------------------------------------------------------
-        public ulong GetThreadAffinityWebSocketIO(ulong defaultValue = 0)
-        {
-            return GetULongFromString(ThreadAffinity_webSocketIO, defaultValue);
-        }
-
-        //-------------------------------------------------------------------------
-        public ulong GetThreadAffinityP2PIO(ulong defaultValue = 0)
-        {
-            return GetULongFromString(ThreadAffinity_P2PIO, defaultValue);
-        }
-
-        //-------------------------------------------------------------------------
-        public ulong GetThreadAffinityHTTPRequestIO(ulong defaultValue = 0)
-        {
-            return GetULongFromString(ThreadAffinity_HTTPRequestIO, defaultValue);
-        }
-
-        //-------------------------------------------------------------------------
-        public ulong GetThreadAffinityRTCIO(ulong defaultValue = 0)
-        {
-            return GetULongFromString(ThreadAffinity_RTCIO, defaultValue);
-        }
 
         /// <summary>
         /// Wrapper function for ulong.Parse. Returns the result of passing that
@@ -217,7 +254,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// The result of parsing the string to a ulong, or defaultValue if
         /// parsing fails.
         /// </returns>
-        private static ulong GetULongFromString(string str, ulong defaultValue)
+        private static ulong GetULongFromString(string str, ulong defaultValue = 0)
         {
             if (!ulong.TryParse(str, out ulong value))
             {

@@ -181,8 +181,7 @@ namespace PlayEveryWare.EpicOnlineServices
             static private NotifyEventHandle s_notifyLoginStatusChangedCallbackHandle;
             static private NotifyEventHandle s_notifyConnectLoginStatusChangedCallbackHandle;
             static private NotifyEventHandle s_notifyConnectAuthExpirationCallbackHandle;
-            //static private EOSConfig loadedEOSConfig;
-
+            
             // Setting it twice will cause an exception
             static bool hasSetLoggingCallback;
 
@@ -277,7 +276,7 @@ namespace PlayEveryWare.EpicOnlineServices
             public bool ShouldOverlayReceiveInput()
             {
                 return (s_isOverlayVisible && s_DoesOverlayHaveExcusiveInput)
-                       || loadedEOSConfig.alwaysSendInputToOverlay
+                       || Config.Get<EOSConfig>().alwaysSendInputToOverlay
                     ;
             }
 
@@ -409,12 +408,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
                 var overrideThreadAffinity = new InitializeThreadAffinity();
 
-                overrideThreadAffinity.NetworkWork = configData.GetThreadAffinityNetworkWork(overrideThreadAffinity.NetworkWork);
-                overrideThreadAffinity.StorageIo = configData.GetThreadAffinityStorageIO(overrideThreadAffinity.StorageIo);
-                overrideThreadAffinity.WebSocketIo = configData.GetThreadAffinityWebSocketIO(overrideThreadAffinity.WebSocketIo);
-                overrideThreadAffinity.P2PIo = configData.GetThreadAffinityP2PIO(overrideThreadAffinity.P2PIo);
-                overrideThreadAffinity.HttpRequestIo = configData.GetThreadAffinityHTTPRequestIO(overrideThreadAffinity.HttpRequestIo);
-                overrideThreadAffinity.RTCIo = configData.GetThreadAffinityRTCIO(overrideThreadAffinity.RTCIo);
+                configData.SetOverrideThreadAffinity(ref overrideThreadAffinity);
 
                 initOptions.options.OverrideThreadAffinity = overrideThreadAffinity;
 
@@ -430,8 +424,9 @@ namespace PlayEveryWare.EpicOnlineServices
             }
 
             //-------------------------------------------------------------------------
-            private PlatformInterface CreatePlatformInterface(EOSConfig configData)
+            private PlatformInterface CreatePlatformInterface()
             {
+                EOSConfig configData = Config.Get<EOSConfig>();
                 IPlatformSpecifics platformSpecifics = EOSManagerPlatformSpecificsSingleton.Instance;
 
                 EOSCreateOptions platformOptions = new EOSCreateOptions();
@@ -538,12 +533,6 @@ namespace PlayEveryWare.EpicOnlineServices
             //-------------------------------------------------------------------------
             public void Init(IEOSCoroutineOwner coroutineOwner, string configFileName)
             {
-                string eosFinalConfigPath = Path.Combine(Application.streamingAssetsPath, "EOS", configFileName);
-                if (loadedEOSConfig == null)
-                {
-                    loadedEOSConfig = LoadEOSConfigFileFromPath(eosFinalConfigPath);
-                }
-
                 if (GetEOSPlatformInterface() != null)
                 {
                     print("Init completed with existing EOS PlatformInterface");
@@ -574,30 +563,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
                 if (!string.IsNullOrWhiteSpace(epicArgs.epicSandboxID))
                 {
-                    Debug.Log("Sandbox ID override specified: " + epicArgs.epicSandboxID);
-                    loadedEOSConfig.sandboxID = epicArgs.epicSandboxID;
-                }
-
-                // First try to load a specifically overridden epicDeploymentID
-                // If that is available, then use the provided argument
-                // If it is not available, then look up the deployment id using the sandbox overrides
-
-                if (!string.IsNullOrWhiteSpace(epicArgs.epicDeploymentID))
-                {
-                    Debug.Log("Deployment ID override specified: " + epicArgs.epicDeploymentID);
-                    loadedEOSConfig.deploymentID = epicArgs.epicDeploymentID;
-                }
-                else if (loadedEOSConfig.sandboxDeploymentOverrides != null)
-                {
-                    //check if a deployment id override exists for sandbox id
-                    foreach (var deploymentOverride in loadedEOSConfig.sandboxDeploymentOverrides)
-                    {
-                        if (loadedEOSConfig.sandboxID == deploymentOverride.sandboxID)
-                        {
-                            Debug.Log("Sandbox Deployment ID override specified: " + deploymentOverride.deploymentID);
-                            loadedEOSConfig.deploymentID = deploymentOverride.deploymentID;
-                        }
-                    }
+                    Config.Get<EOSConfig>().OverrideDeployment(epicArgs.epicSandboxID);
                 }
 
                 Result initResult = InitializePlatformInterface();
@@ -645,7 +611,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 LoggingInterface.SetCallback(SimplePrintCallback);
 
 
-                var eosPlatformInterface = CreatePlatformInterface(loadedEOSConfig);
+                var eosPlatformInterface = CreatePlatformInterface();
 
                 if (eosPlatformInterface == null)
                 {
@@ -828,8 +794,8 @@ namespace PlayEveryWare.EpicOnlineServices
                 return new LoginOptions
                 {
                     Credentials = loginCredentials,
-                    ScopeFlags = loadedEOSConfig.authScopeOptionsFlags.Count > 0
-                        ? loadedEOSConfig.GetAuthScopeFlags()
+                    ScopeFlags = Config.Get<EOSConfig>().authScopeOptionsFlags.Count > 0
+                        ? Config.Get<EOSConfig>().GetAuthScopeFlags()
                         : defaultScopeFlags
                 };
             }
