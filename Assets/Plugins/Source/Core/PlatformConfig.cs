@@ -22,6 +22,8 @@
 
 namespace PlayEveryWare.EpicOnlineServices
 {
+    using Epic.OnlineServices.IntegratedPlatform;
+    using Extensions;
     using System;
     using System.Collections.Generic;
 
@@ -42,9 +44,13 @@ namespace PlayEveryWare.EpicOnlineServices
         }
 
 #if !EOS_DISABLE
-        public Epic.OnlineServices.IntegratedPlatform.IntegratedPlatformManagementFlags flagsAsIntegratedPlatformManagementFlags()
+        public IntegratedPlatformManagementFlags GetPlatformManagementFlags()
         {
-            return EOSConfig.flagsAsIntegratedPlatformManagementFlags(flags);
+            // TODO: This is a key area where it is clear that the mechanism
+            // of config value override by having a set of override values is 
+            // potentially very very confusing.
+            return StringsToEnum< IntegratedPlatformManagementFlags>(flags, 
+                IntegratedPlatformManagementFlagsExtensions.TryParse);
         }
 #endif
     }

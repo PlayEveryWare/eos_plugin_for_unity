@@ -31,6 +31,10 @@ using System.Text.RegularExpressions;
 
 namespace PlayEveryWare.EpicOnlineServices
 {
+    using Epic.OnlineServices.IntegratedPlatform;
+    using Extensions;
+    using System.Threading.Tasks;
+
     /// <summary>
     /// Represents the default deployment ID to use when a given sandbox ID is active.
     /// </summary>
@@ -122,7 +126,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
         public static Regex InvalidEncryptionKeyRegex;
         
-        public static bool IsEncryptionKeyValid(string key)
+        private static bool IsEncryptionKeyValid(string key)
         {
             return
                 //key not null
@@ -133,163 +137,34 @@ namespace PlayEveryWare.EpicOnlineServices
                 !InvalidEncryptionKeyRegex.Match(key).Success;
         }
 
-        //-------------------------------------------------------------------------
-        //TODO: Move this to a shared place
-        public static bool StringIsEqualToAny(string flagAsCString, params string[] parameters)
-        {
-            foreach(string s in parameters)
-            {
-                if (flagAsCString == s)
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        public static T EnumCast<T, V>(V value)
-        {
-            return (T)Enum.ToObject(typeof(T), value);
-        }
-
 #if !EOS_DISABLE
-        //-------------------------------------------------------------------------
-        public static Epic.OnlineServices.IntegratedPlatform.IntegratedPlatformManagementFlags flagsAsIntegratedPlatformManagementFlags(List<string> flags)
-        {
-            int toReturn = 0;
- 
-            foreach (var flagAsCString in flags)
-            {
-                if (StringIsEqualToAny(flagAsCString, "EOS_IPMF_Disabled", "Disabled"))
-                {
-                    toReturn |= (int)Epic.OnlineServices.IntegratedPlatform.IntegratedPlatformManagementFlags.Disabled;
-                }
-                else if (StringIsEqualToAny(flagAsCString, "EOS_IPMF_ManagedByApplication", "ManagedByApplication", "EOS_IPMF_LibraryManagedByApplication", "LibraryManagedByApplication"))
-                {
-                    toReturn |= (int)Epic.OnlineServices.IntegratedPlatform.IntegratedPlatformManagementFlags.LibraryManagedByApplication;
-                }
-                else if (StringIsEqualToAny(flagAsCString,"EOS_IPMF_ManagedBySDK", "ManagedBySDK", "EOS_IPMF_LibraryManagedBySDK", "LibraryManagedBySDK" ))
-                {
-                    toReturn |= (int)Epic.OnlineServices.IntegratedPlatform.IntegratedPlatformManagementFlags.LibraryManagedBySDK;
-                }
-                else if (StringIsEqualToAny(flagAsCString, "EOS_IPMF_DisableSharedPresence", "DisableSharedPresence", "EOS_IPMF_DisablePresenceMirroring", "DisablePresenceMirroring"))
-                {
-                    toReturn |= (int)Epic.OnlineServices.IntegratedPlatform.IntegratedPlatformManagementFlags.DisablePresenceMirroring;
-                }
-                else if (StringIsEqualToAny(flagAsCString, "EOS_IPMF_DisableSessions", "DisableSessions", "EOS_IPMF_DisableSDKManagedSessions", "DisableSDKManagedSessions"))
-                {
-                    toReturn |= (int)Epic.OnlineServices.IntegratedPlatform.IntegratedPlatformManagementFlags.DisableSDKManagedSessions;
-                }
-                else if (StringIsEqualToAny(flagAsCString, "EOS_IPMF_PreferEOS", "PreferEOS", "EOS_IPMF_PreferEOSIdentity", "PreferEOSIdentity"))
-                {
-                    toReturn |= (int)Epic.OnlineServices.IntegratedPlatform.IntegratedPlatformManagementFlags.PreferEOSIdentity;
-                }
-                else if (StringIsEqualToAny(flagAsCString, "EOS_IPMF_PreferIntegrated", "PreferIntegrated", "EOS_IPMF_PreferIntegratedIdentity", "PreferIntegratedIdentity"))
-                {
-                    toReturn |= (int)Epic.OnlineServices.IntegratedPlatform.IntegratedPlatformManagementFlags.PreferIntegratedIdentity;
-                }
-                else if (StringIsEqualToAny(flagAsCString, "EOS_IPMF_ApplicationManagedIdentityLogin", "ApplicationManagedIdentityLogin"))
-                {
-                    toReturn |= (int)Epic.OnlineServices.IntegratedPlatform.IntegratedPlatformManagementFlags.ApplicationManagedIdentityLogin;
-                }
-            }
 
-            return EnumCast<Epic.OnlineServices.IntegratedPlatform.IntegratedPlatformManagementFlags, int>(toReturn);
+        public static IntegratedPlatformManagementFlags GetIntegratedPlatformManagementFlags(List<string> stringFlags)
+        {
+            return StringsToEnum<IntegratedPlatformManagementFlags>(stringFlags,
+                IntegratedPlatformManagementFlagsExtensions.TryParse);
         }
 
-        //-------------------------------------------------------------------------
-        public static PlatformFlags platformOptionsFlagsAsPlatformFlags(List<string> platformOptionsFlags)
+        /// <summary>
+        /// Returns a single PlatformFlags enum value that results from a
+        /// bitwise OR operation of all the platformOptionsFlags flags on this
+        /// config.
+        /// </summary>
+        /// <returns>A PlatformFlags enum value.</returns>
+        public PlatformFlags GetPlatformFlags()
         {
-            PlatformFlags toReturn = PlatformFlags.None;
-
-            foreach(var flagAsString in platformOptionsFlags)
-            {
-                if(flagAsString == "LoadingInEditor" || flagAsString == "EOS_PF_LOADING_IN_EDITOR")
-                {
-                    toReturn |= PlatformFlags.LoadingInEditor;
-                }
-
-                else if(flagAsString == "DisableOverlay" || flagAsString == "EOS_PF_DISABLE_OVERLAY")
-                {
-                    toReturn |= PlatformFlags.DisableOverlay;
-                }
-
-                else if(flagAsString == "DisableSocialOverlay" || flagAsString == "EOS_PF_DISABLE_SOCIAL_OVERLAY")
-                {
-                    toReturn |= PlatformFlags.DisableSocialOverlay;
-                }
-
-                else if(flagAsString == "Reserved1" || flagAsString == "EOS_PF_RESERVED1")
-                {
-                    toReturn |= PlatformFlags.Reserved1;
-                }
-
-                else if(flagAsString == "WindowsEnabledOverlayD3D9" || flagAsString == "EOS_PF_WINDOWS_ENABLE_OVERLAY_D3D9")
-                {
-                    toReturn |= PlatformFlags.WindowsEnableOverlayD3D9;
-                }
-                else if(flagAsString == "WindowsEnabledOverlayD3D10" || flagAsString == "EOS_PF_WINDOWS_ENABLE_OVERLAY_D3D10")
-                {
-                    toReturn |= PlatformFlags.WindowsEnableOverlayD3D10;
-                }
-                else if(flagAsString == "WindowsEnabledOverlayOpengl" || flagAsString == "EOS_PF_WINDOWS_ENABLE_OVERLAY_OPENGL")
-                {
-                    toReturn |= PlatformFlags.WindowsEnableOverlayOpengl;
-                }
-            }
-
-            return toReturn;
+            return StringsToEnum<PlatformFlags>(platformOptionsFlags, PlatformFlagsExtensions.TryParse);
         }
 
-        //-------------------------------------------------------------------------
-        public PlatformFlags platformOptionsFlagsAsPlatformFlags()
+        /// <summary>
+        /// Returns a single AuthScopeFlags enum value that results from a
+        /// bitwise OR operation of all the authScopeOptionsFlags flags on this
+        /// config.
+        /// </summary>
+        /// <returns>An AuthScopeFlags enum value.</returns>
+        public AuthScopeFlags GetAuthScopeFlags()
         {
-            return EOSConfig.platformOptionsFlagsAsPlatformFlags(platformOptionsFlags);
-        }
-
-        //-------------------------------------------------------------------------
-        public static AuthScopeFlags authScopeOptionsFlagsAsAuthScopeFlags(List<string> authScopeOptionsFlags)
-        {
-            AuthScopeFlags toReturn = AuthScopeFlags.NoFlags;
-
-            foreach (var flagAsString in authScopeOptionsFlags)
-            {
-                if (flagAsString == "NoFlags" || flagAsString == "EOS_AS_NoFlags")
-                {
-                }
-                else if (flagAsString == "BasicProfile" || flagAsString == "EOS_AS_BasicProfile")
-                {
-                    toReturn |= AuthScopeFlags.BasicProfile;
-                }
-                else if (flagAsString == "FriendsList" || flagAsString == "EOS_AS_FriendsList")
-                {
-                    toReturn |= AuthScopeFlags.FriendsList;
-                }
-                else if (flagAsString == "Presence" || flagAsString == "EOS_AS_Presence")
-                {
-                    toReturn |= AuthScopeFlags.Presence;
-                }
-                else if (flagAsString == "FriendsManagement" || flagAsString == "EOS_AS_FriendsManagement")
-                {
-                    toReturn |= AuthScopeFlags.FriendsManagement;
-                }
-                else if (flagAsString == "Email" || flagAsString == "EOS_AS_Email")
-                {
-                    toReturn |= AuthScopeFlags.Email;
-                }
-                else if (flagAsString == "Country" || flagAsString == "EOS_AS_Country")
-                {
-                    toReturn |= AuthScopeFlags.Country;
-                }
-            }
-
-            return toReturn;
-        }
-
-        //-------------------------------------------------------------------------
-        public AuthScopeFlags authScopeOptionsFlagsAsAuthScopeFlags()
-        {
-            return EOSConfig.authScopeOptionsFlagsAsAuthScopeFlags(authScopeOptionsFlags);
+            return StringsToEnum<AuthScopeFlags>(authScopeOptionsFlags, AuthScopeFlagsExtensions.TryParse);
         }
 #endif
 
@@ -320,91 +195,59 @@ namespace PlayEveryWare.EpicOnlineServices
         //-------------------------------------------------------------------------
         public ulong GetThreadAffinityNetworkWork(ulong defaultValue = 0)
         {
-            ulong value;
-            if (!string.IsNullOrEmpty(ThreadAffinity_networkWork))
-            {
-                value = ulong.Parse(ThreadAffinity_networkWork);
-            }
-            else
-            {
-                value = defaultValue;
-            }
-
-            return value;
+            return GetULongFromString(ThreadAffinity_networkWork, defaultValue);
         }
 
         //-------------------------------------------------------------------------
         public ulong GetThreadAffinityStorageIO(ulong defaultValue = 0)
         {
-            ulong value;
-            if (!string.IsNullOrEmpty(ThreadAffinity_storageIO))
-            {
-                value = ulong.Parse(ThreadAffinity_storageIO);
-            }
-            else
-            {
-                value = defaultValue;
-            }
-            return value;
+            return GetULongFromString(ThreadAffinity_storageIO, defaultValue);
         }
  
         //-------------------------------------------------------------------------
         public ulong GetThreadAffinityWebSocketIO(ulong defaultValue = 0)
         {
-            ulong value;
-            if (!string.IsNullOrEmpty(ThreadAffinity_webSocketIO))
-            {
-                value = ulong.Parse(ThreadAffinity_webSocketIO);
-            }
-            else
-            {
-                value = defaultValue;
-            }
-            return value;
+            return GetULongFromString(ThreadAffinity_webSocketIO, defaultValue);
         }
 
         //-------------------------------------------------------------------------
         public ulong GetThreadAffinityP2PIO(ulong defaultValue = 0)
         {
-            ulong value;
-            if (!string.IsNullOrEmpty(ThreadAffinity_P2PIO))
-            {
-                value = ulong.Parse(ThreadAffinity_P2PIO);
-            }
-            else
-            {
-                value = defaultValue;
-            }
-            return value;
+            return GetULongFromString(ThreadAffinity_P2PIO, defaultValue);
         }
 
         //-------------------------------------------------------------------------
         public ulong GetThreadAffinityHTTPRequestIO(ulong defaultValue = 0)
         {
-            ulong value;
-            if (!string.IsNullOrEmpty(ThreadAffinity_HTTPRequestIO))
-            {
-                value = ulong.Parse(ThreadAffinity_HTTPRequestIO);
-            }
-            else
-            {
-                value = defaultValue;
-            }
-            return value;
+            return GetULongFromString(ThreadAffinity_HTTPRequestIO, defaultValue);
         }
 
         //-------------------------------------------------------------------------
         public ulong GetThreadAffinityRTCIO(ulong defaultValue = 0)
         {
-            ulong value;
-            if (!string.IsNullOrEmpty(ThreadAffinity_RTCIO))
-            {
-                value = ulong.Parse(ThreadAffinity_RTCIO);
-            }
-            else
+            return GetULongFromString(ThreadAffinity_RTCIO, defaultValue);
+        }
+
+        /// <summary>
+        /// Wrapper function for ulong.Parse. Returns the result of passing that
+        /// function to the ulong.Parse method, setting the value to the given
+        /// defaultValue if the parsing fails.
+        /// </summary>
+        /// <param name="str">The string to parse into a ulong.</param>
+        /// <param name="defaultValue">
+        /// The value to return in the event parsing fails.
+        /// </param>
+        /// <returns>
+        /// The result of parsing the string to a ulong, or defaultValue if
+        /// parsing fails.
+        /// </returns>
+        private static ulong GetULongFromString(string str, ulong defaultValue)
+        {
+            if (!ulong.TryParse(str, out ulong value))
             {
                 value = defaultValue;
             }
+
             return value;
         }
 

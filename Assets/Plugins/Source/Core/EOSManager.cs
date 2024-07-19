@@ -877,7 +877,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 {
                     Credentials = loginCredentials,
                     ScopeFlags = loadedEOSConfig.authScopeOptionsFlags.Count > 0
-                        ? loadedEOSConfig.authScopeOptionsFlagsAsAuthScopeFlags()
+                        ? loadedEOSConfig.GetAuthScopeFlags()
                         : defaultScopeFlags
                 };
             }
