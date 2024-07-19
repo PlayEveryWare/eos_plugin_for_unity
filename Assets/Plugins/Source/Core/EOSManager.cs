@@ -1486,52 +1486,6 @@ namespace PlayEveryWare.EpicOnlineServices
 
             //-------------------------------------------------------------------------
             /// <summary>
-            /// Helper method to set presence
-            /// </summary>
-            /// <param name="accountId"></param>
-            /// <param name="richText"></param>
-            public void SetPresenceRichTextForUser(EpicAccountId accountId, string richText /*, string platformText */)
-            {
-                var presenceInterface = GetEOSPresenceInterface();
-                var presenceHandle = new PresenceModification();
-                var presenceModificationOption = new CreatePresenceModificationOptions();
-                presenceModificationOption.LocalUserId = accountId;
-
-                var createPresenceModificationResult =
-                    presenceInterface.CreatePresenceModification(ref presenceModificationOption, out presenceHandle);
-
-                if (createPresenceModificationResult != Result.Success)
-                {
-                    Debug.LogError("Unable to create presence modfication handle");
-                }
-
-                var presenceModificationSetStatUsOptions = new PresenceModificationSetStatusOptions();
-                presenceModificationSetStatUsOptions.Status = Status.Online;
-                var setStatusResult = presenceHandle.SetStatus(ref presenceModificationSetStatUsOptions);
-
-                if (setStatusResult != Result.Success)
-                {
-                    Debug.LogError("unable to set status");
-                }
-
-                var richTextOptions = new PresenceModificationSetRawRichTextOptions();
-                richTextOptions.RichText = richText;
-                presenceHandle.SetRawRichText(ref richTextOptions);
-
-                var options = new SetPresenceOptions();
-                options.LocalUserId = accountId;
-                options.PresenceModificationHandle = presenceHandle;
-                presenceInterface.SetPresence(ref options, null, (ref SetPresenceCallbackInfo callbackInfo) =>
-                {
-                    if (callbackInfo.ResultCode != Result.Success)
-                    {
-                        Debug.LogError("Unable to set presence: " + callbackInfo.ResultCode);
-                    }
-                });
-            }
-
-            //-------------------------------------------------------------------------
-            /// <summary>
             /// Starts a logout for Auth
             /// </summary>
             /// <param name="accountId"></param>
