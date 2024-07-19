@@ -408,7 +408,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
                 var overrideThreadAffinity = new InitializeThreadAffinity();
 
-                configData.SetOverrideThreadAffinity(ref overrideThreadAffinity);
+                configData.ConfigureOverrideThreadAffinity(ref overrideThreadAffinity);
 
                 initOptions.options.OverrideThreadAffinity = overrideThreadAffinity;
 
@@ -517,17 +517,6 @@ namespace PlayEveryWare.EpicOnlineServices
             public void Init(IEOSCoroutineOwner coroutineOwner)
             {
                 Init(coroutineOwner, EOSPackageInfo.ConfigFileName);
-            }
-
-            //-------------------------------------------------------------------------
-            private EOSConfig LoadEOSConfigFileFromPath(string eosFinalConfigPath)
-            {
-                string configDataAsString = FileUtility.ReadAllText(eosFinalConfigPath);
-
-                var configData = JsonUtility.FromJson<EOSConfig>(configDataAsString);
-
-                print("Loaded config file: " + configDataAsString);
-                return configData;
             }
 
             //-------------------------------------------------------------------------
