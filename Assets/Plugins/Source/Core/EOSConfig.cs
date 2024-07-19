@@ -230,7 +230,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <param name="affinity">
         /// The initialize thread affinity object to change the values of.
         /// </param>
-        public void SetOverrideThreadAffinity(ref InitializeThreadAffinity affinity)
+        public void ConfigureOverrideThreadAffinity(ref InitializeThreadAffinity affinity)
         {
             affinity.NetworkWork = GetULongFromString(ThreadAffinity_networkWork);
             affinity.StorageIo = GetULongFromString(ThreadAffinity_storageIO);
