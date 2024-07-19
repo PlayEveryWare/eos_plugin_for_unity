@@ -97,8 +97,7 @@ namespace PlayEveryWare.EpicOnlineServices
             ((EOSCreateOptions)createOptions).options.RTCOptions = new();
         }
 
-        public virtual void ConfigureSystemInitOptions(ref EOSInitializeOptions initializeOptionsRef,
-            EOSConfig configData)
+        public virtual void ConfigureSystemInitOptions(ref EOSInitializeOptions initializeOptionsRef)
         {
             Debug.Log("ConfigureSystemInitOptions");
 

@@ -181,7 +181,7 @@ namespace PlayEveryWare.EpicOnlineServices
             static private NotifyEventHandle s_notifyLoginStatusChangedCallbackHandle;
             static private NotifyEventHandle s_notifyConnectLoginStatusChangedCallbackHandle;
             static private NotifyEventHandle s_notifyConnectAuthExpirationCallbackHandle;
-            static private EOSConfig loadedEOSConfig;
+            //static private EOSConfig loadedEOSConfig;
 
             // Setting it twice will cause an exception
             static bool hasSetLoggingCallback;
@@ -257,51 +257,6 @@ namespace PlayEveryWare.EpicOnlineServices
                 return s_localProductUserId;
             }
 
-            private EOSConfig GetLoadedEOSConfig()
-            {
-                return loadedEOSConfig;
-            }
-
-            //-------------------------------------------------------------------------
-            /// <summary>
-            /// Get the ProductID configured from Unity Editor that was used during startup of the EOS SDK.
-            /// </summary>
-            /// <returns></returns>
-            public string GetProductId()
-            {
-                return GetLoadedEOSConfig().productID;
-            }
-
-            //-------------------------------------------------------------------------
-            /// <summary>
-            /// Get the SandboxID configured from Unity Editor that was used during startup of the EOS SDK.
-            /// </summary>
-            /// <returns></returns>
-            public string GetSandboxId()
-            {
-                return GetLoadedEOSConfig().sandboxID;
-            }
-
-            //-------------------------------------------------------------------------
-            /// <summary>
-            /// Get the DeploymentID configured from Unity Editor that was used during startup of the EOS SDK.
-            /// </summary>
-            /// <returns></returns>
-            public string GetDeploymentID()
-            {
-                return GetLoadedEOSConfig().deploymentID;
-            }
-
-            //-------------------------------------------------------------------------
-            /// <summary>
-            /// Check if encryption key is EOS config is a valid 32-byte hex string.
-            /// </summary>
-            /// <returns></returns>
-            public bool IsEncryptionKeyValid()
-            {
-                return GetLoadedEOSConfig().IsEncryptionKeyValid();
-            }
-
             //-------------------------------------------------------------------------
             private bool HasShutdown()
             {
@@ -322,7 +277,7 @@ namespace PlayEveryWare.EpicOnlineServices
             public bool ShouldOverlayReceiveInput()
             {
                 return (s_isOverlayVisible && s_DoesOverlayHaveExcusiveInput)
-                       || GetLoadedEOSConfig().alwaysSendInputToOverlay
+                       || loadedEOSConfig.alwaysSendInputToOverlay
                     ;
             }
 
@@ -433,8 +388,9 @@ namespace PlayEveryWare.EpicOnlineServices
             }
 
             //-------------------------------------------------------------------------
-            private Result InitializePlatformInterface(EOSConfig configData)
+            private Result InitializePlatformInterface()
             {
+                EOSConfig configData = Config.Get<EOSConfig>();
                 IPlatformSpecifics platformSpecifics = EOSManagerPlatformSpecificsSingleton.Instance;
 
                 print("InitializePlatformInterface: platformSpecifics.GetType() = " + platformSpecifics.GetType());
@@ -453,20 +409,16 @@ namespace PlayEveryWare.EpicOnlineServices
 
                 var overrideThreadAffinity = new InitializeThreadAffinity();
 
-                overrideThreadAffinity.NetworkWork =
-                    configData.GetThreadAffinityNetworkWork(overrideThreadAffinity.NetworkWork);
-                overrideThreadAffinity.StorageIo =
-                    configData.GetThreadAffinityStorageIO(overrideThreadAffinity.StorageIo);
-                overrideThreadAffinity.WebSocketIo =
-                    configData.GetThreadAffinityWebSocketIO(overrideThreadAffinity.WebSocketIo);
+                overrideThreadAffinity.NetworkWork = configData.GetThreadAffinityNetworkWork(overrideThreadAffinity.NetworkWork);
+                overrideThreadAffinity.StorageIo = configData.GetThreadAffinityStorageIO(overrideThreadAffinity.StorageIo);
+                overrideThreadAffinity.WebSocketIo = configData.GetThreadAffinityWebSocketIO(overrideThreadAffinity.WebSocketIo);
                 overrideThreadAffinity.P2PIo = configData.GetThreadAffinityP2PIO(overrideThreadAffinity.P2PIo);
-                overrideThreadAffinity.HttpRequestIo =
-                    configData.GetThreadAffinityHTTPRequestIO(overrideThreadAffinity.HttpRequestIo);
+                overrideThreadAffinity.HttpRequestIo = configData.GetThreadAffinityHTTPRequestIO(overrideThreadAffinity.HttpRequestIo);
                 overrideThreadAffinity.RTCIo = configData.GetThreadAffinityRTCIO(overrideThreadAffinity.RTCIo);
 
                 initOptions.options.OverrideThreadAffinity = overrideThreadAffinity;
 
-                platformSpecifics.ConfigureSystemInitOptions(ref initOptions, configData);
+                platformSpecifics.ConfigureSystemInitOptions(ref initOptions);
 
 #if UNITY_PS4 && !UNITY_EDITOR
                 // On PS4, RegisterForPlatformNotifications is called at a later time by EOSPSNManager
@@ -648,7 +600,7 @@ namespace PlayEveryWare.EpicOnlineServices
                     }
                 }
 
-                Result initResult = InitializePlatformInterface(loadedEOSConfig);
+                Result initResult = InitializePlatformInterface();
 
 
                 if (initResult != Result.Success)
@@ -675,7 +627,7 @@ namespace PlayEveryWare.EpicOnlineServices
                     if (initResult != Result.Success)
                     {
 #if UNITY_EDITOR
-                        initResult = InitializePlatformInterface(loadedEOSConfig);
+                        initResult = InitializePlatformInterface();
 #endif
 
                         if (initResult != Result.Success)

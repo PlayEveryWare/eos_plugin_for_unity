@@ -169,30 +169,6 @@ namespace PlayEveryWare.EpicOnlineServices
 #endif
 
         //-------------------------------------------------------------------------
-        public float GetInitialButtonDelayForOverlayAsFloat()
-        {
-            return float.Parse(initialButtonDelayForOverlay);
-        }
-
-        //-------------------------------------------------------------------------
-        public void SetInitialButtonDelayForOverlayFromFloat(float f)
-        {
-            initialButtonDelayForOverlay = f.ToString();
-        }
-
-        //-------------------------------------------------------------------------
-        public float GetRepeatButtonDelayForOverlayAsFloat()
-        {
-           return float.Parse(repeatButtonDelayForOverlay);
-        }
-
-        //-------------------------------------------------------------------------
-        public void SetRepeatButtonDelayForOverlayFromFloat(float f)
-        {
-            repeatButtonDelayForOverlay = f.ToString();
-        }
-
-        //-------------------------------------------------------------------------
         public ulong GetThreadAffinityNetworkWork(ulong defaultValue = 0)
         {
             return GetULongFromString(ThreadAffinity_networkWork, defaultValue);
