@@ -884,21 +884,6 @@ namespace PlayEveryWare.EpicOnlineServices
 
             //-------------------------------------------------------------------------
             /// <summary>
-            /// Helper method for getting an auth Token from an EpicAccountId
-            /// </summary>
-            /// <param name="accountId"></param>
-            /// <returns></returns>
-            public Token? GetUserAuthTokenForAccountId(EpicAccountId accountId)
-            {
-                var EOSAuthInterface = GetEOSPlatformInterface().GetAuthInterface();
-                var copyUserTokenOptions = new CopyUserAuthTokenOptions();
-
-                EOSAuthInterface.CopyUserAuthToken(ref copyUserTokenOptions, accountId, out Token? userAuthToken);
-                return userAuthToken;
-            }
-
-            //-------------------------------------------------------------------------
-            /// <summary>
             /// Struct that holds arguments to be used for <b>Epic Games Launcher</b>
             /// </summary>
             public struct EpicLauncherArgs
