@@ -242,9 +242,9 @@ namespace PlayEveryWare.EpicOnlineServices
 #endif
 
         /// <summary>
-        /// Wrapper function for ulong.Parse. Returns the result of passing that
-        /// function to the ulong.Parse method, setting the value to the given
-        /// defaultValue if the parsing fails.
+        /// Wrapper function for ulong.Parse. Returns the value from ulong.Parse
+        /// if it succeeds, otherwise sets the value to the indicated default
+        /// value.
         /// </summary>
         /// <param name="str">The string to parse into a ulong.</param>
         /// <param name="defaultValue">
