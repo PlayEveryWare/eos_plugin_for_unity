@@ -42,7 +42,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// When this is true, the next time <see cref="UIFriendsMenu.Update"/> runs,
         /// <see cref="UIFriendsMenu.RefreshFriendUI"/> will be called.
         /// </summary>
-        protected bool dirtyFlag { get; private set; } = true;
+        protected bool IsDirty { get; private set; } = true;
 
         public virtual FriendInteractionState GetFriendInteractionState(FriendData friendData)
         {
@@ -61,17 +61,17 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         //Should the friend UI update interaction state from this source?
         public virtual bool IsFriendsUIDirty()
         {
-            return dirtyFlag;
+            return IsDirty;
         }
 
         public virtual void ResetFriendsUIDirtyFlag()
         {
-            dirtyFlag = false;
+            IsDirty = false;
         }
 
         public virtual void MarkFriendsUIDirty()
         {
-            dirtyFlag = true;
+            IsDirty = true;
         }
 
         /// <summary>
