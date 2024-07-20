@@ -46,6 +46,8 @@ using Steamworks;
 //
 namespace PlayEveryWare.EpicOnlineServices.Samples.Steam
 {
+    using Epic.OnlineServices.Auth;
+
     [DisallowMultipleComponent]
     public class SteamManager : MonoBehaviour
     {
@@ -414,7 +416,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Steam
         /// NOTE: This conditional is here because if EOS_DISABLE is enabled, the members referenced
         ///       in this code block will not exist on EOSManager.
 #if !EOS_DISABLE
-        public async void StartLoginWithSteam(EOSManager.OnAuthLoginCallback onLoginCallback)
+        public async void StartLoginWithSteam(Action<LoginCallbackInfo> onLoginCallback)
         {
 #if DISABLESTEAMWORKS
             onLoginCallback?.Invoke(new Epic.OnlineServices.Auth.LoginCallbackInfo()
@@ -447,7 +449,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Steam
 #endif
         }
 
-        public void StartConnectLoginWithSteamSessionTicket(EOSManager.OnConnectLoginCallback onLoginCallback)
+        public void StartConnectLoginWithSteamSessionTicket(Action<Epic.OnlineServices.Connect.LoginCallbackInfo> onLoginCallback)
         {
 #if DISABLESTEAMWORKS
             onLoginCallback?.Invoke(new Epic.OnlineServices.Connect.LoginCallbackInfo() { ResultCode = Epic.OnlineServices.Result.UnexpectedError });
@@ -457,7 +459,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Steam
 #endif
         }
 
-        public void StartConnectLoginWithSteamAppTicket(EOSManager.OnConnectLoginCallback onLoginCallback)
+        public void StartConnectLoginWithSteamAppTicket(Action<Epic.OnlineServices.Connect.LoginCallbackInfo> onLoginCallback)
         {
 #if DISABLESTEAMWORKS
             onLoginCallback?.Invoke(new Epic.OnlineServices.Connect.LoginCallbackInfo() { ResultCode = Epic.OnlineServices.Result.UnexpectedError });

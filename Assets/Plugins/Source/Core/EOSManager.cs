@@ -104,18 +104,6 @@ namespace PlayEveryWare.EpicOnlineServices
         public bool ShouldShutdownOnApplicationQuit = true;
 
 #if !EOS_DISABLE
-        public delegate void OnAuthLoginCallback(LoginCallbackInfo loginCallbackInfo);
-
-        public delegate void OnAuthLogoutCallback(LogoutCallbackInfo data);
-
-        public delegate void OnConnectLoginCallback(Epic.OnlineServices.Connect.LoginCallbackInfo loginCallbackInfo);
-
-        public delegate void OnCreateConnectUserCallback(CreateUserCallbackInfo createUserCallbackInfo);
-
-        public delegate void OnConnectLinkExternalAccountCallback(LinkAccountCallbackInfo linkAccountCallbackInfo);
-
-        public delegate void OnAuthLinkExternalAccountCallback(
-            Epic.OnlineServices.Auth.LinkAccountCallbackInfo linkAccountCallbackInfo);
 
         /// <value>List of logged in <c>EpicAccountId</c></value>
         private static List<EpicAccountId> loggedInAccountIDs = new List<EpicAccountId>();
@@ -126,16 +114,16 @@ namespace PlayEveryWare.EpicOnlineServices
         private static Dictionary<Type, IEOSSubManager> s_subManagers = new Dictionary<Type, IEOSSubManager>();
 
         /// <value>List of Login callbacks</value>
-        private static List<OnConnectLoginCallback> s_onConnectLoginCallbacks = new List<OnConnectLoginCallback>();
+        private static List<Action<Epic.OnlineServices.Connect.LoginCallbackInfo>> s_onConnectLoginCallbacks = new();
 
         /// <value>List of Auth Login callbacks</value>
-        private static List<OnAuthLoginCallback> s_onAuthLoginCallbacks = new List<OnAuthLoginCallback>();
+        private static List<Action<LoginCallbackInfo>> s_onAuthLoginCallbacks = new();
 
         /// <value>List of Auth Logout callbacks</value>
-        private static List<OnAuthLogoutCallback> s_onAuthLogoutCallbacks = new List<OnAuthLogoutCallback>();
+        private static List<Action<LogoutCallbackInfo>> s_onAuthLogoutCallbacks = new();
 
         /// <value>List of application shutdown callbacks</value>
-        private static List<Action> s_onApplicationShutdownCallbacks = new List<Action>();
+        private static List<Action> s_onApplicationShutdownCallbacks = new();
 
         /// <value>True if EOS Overlay is visible and has exclusive input.</value>
         private static bool s_isOverlayVisible;
@@ -994,7 +982,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
             //-------------------------------------------------------------------------
             public void CreateConnectUserWithContinuanceToken(ContinuanceToken token,
-                OnCreateConnectUserCallback onCreateUserCallback)
+                Action<CreateUserCallbackInfo> onCreateUserCallback)
             {
                 var connectInterface = GetEOSPlatformInterface().GetConnectInterface();
                 var options = new CreateUserOptions();
@@ -1017,7 +1005,7 @@ namespace PlayEveryWare.EpicOnlineServices
             //-------------------------------------------------------------------------
             // May only be called after auth login was called once
             public void AuthLinkExternalAccountWithContinuanceToken(ContinuanceToken token,
-                LinkAccountFlags linkAccountFlags, OnAuthLinkExternalAccountCallback callback)
+                LinkAccountFlags linkAccountFlags, Action<Epic.OnlineServices.Auth.LinkAccountCallbackInfo> callback)
             {
                 var authInterface = GetEOSPlatformInterface().GetAuthInterface();
                 var linkOptions = new LinkAccountOptions
@@ -1047,7 +1035,7 @@ namespace PlayEveryWare.EpicOnlineServices
             //-------------------------------------------------------------------------
             // Can only be called if Connect.Login was called in before
             public void ConnectLinkExternalAccountWithContinuanceToken(ContinuanceToken token,
-                OnConnectLinkExternalAccountCallback callback)
+                Action<LinkAccountCallbackInfo> callback)
             {
                 var connectInterface = GetEOSPlatformInterface().GetConnectInterface();
                 var linkAccountOptions = new Epic.OnlineServices.Connect.LinkAccountOptions();
@@ -1071,7 +1059,7 @@ namespace PlayEveryWare.EpicOnlineServices
             /// <param name="epicAccountId"></param>
             /// <param name="onConnectLoginCallback"></param>
             public void StartConnectLoginWithEpicAccount(EpicAccountId epicAccountId,
-                OnConnectLoginCallback onConnectLoginCallback)
+                Action<Epic.OnlineServices.Connect.LoginCallbackInfo> onConnectLoginCallback)
             {
                 var EOSAuthInterface = GetEOSPlatformInterface().GetAuthInterface();
                 var copyUserTokenOptions = new CopyUserAuthTokenOptions();
@@ -1155,7 +1143,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
             //-------------------------------------------------------------------------
             public void StartConnectLoginWithOptions(ExternalCredentialType externalCredentialType, string token,
-                string displayname = null, string nsaIdToken = null, OnConnectLoginCallback onloginCallback = null)
+                string displayname = null, string nsaIdToken = null, Action<Epic.OnlineServices.Connect.LoginCallbackInfo> onloginCallback = null)
             {
                 var loginOptions = new Epic.OnlineServices.Connect.LoginOptions();
                 loginOptions.Credentials = new Epic.OnlineServices.Connect.Credentials
@@ -1202,7 +1190,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
             //-------------------------------------------------------------------------
             public void StartConnectLoginWithOptions(ExternalCredentialType externalCredentialType, string token,
-                string displayname, OnConnectLoginCallback onloginCallback)
+                string displayname, Action<Epic.OnlineServices.Connect.LoginCallbackInfo> onloginCallback)
             {
                 StartConnectLoginWithOptions(externalCredentialType, token, displayname, null, onloginCallback);
             }
@@ -1210,7 +1198,7 @@ namespace PlayEveryWare.EpicOnlineServices
             //-------------------------------------------------------------------------
             // 
             public void StartConnectLoginWithOptions(Epic.OnlineServices.Connect.LoginOptions connectLoginOptions,
-                OnConnectLoginCallback onloginCallback)
+                Action<Epic.OnlineServices.Connect.LoginCallbackInfo> onloginCallback)
             {
                 var connectInterface = GetEOSPlatformInterface().GetConnectInterface();
                 connectInterface.Login(ref connectLoginOptions, null,
@@ -1232,7 +1220,7 @@ namespace PlayEveryWare.EpicOnlineServices
             }
 
             //-------------------------------------------------------------------------
-            public void StartConnectLoginWithDeviceToken(string displayName, OnConnectLoginCallback onLoginCallback)
+            public void StartConnectLoginWithDeviceToken(string displayName, Action<Epic.OnlineServices.Connect.LoginCallbackInfo> onLoginCallback)
             {
                 var connectInterface = GetEOSPlatformInterface().GetConnectInterface();
                 var connectLoginOptions = new Epic.OnlineServices.Connect.LoginOptions();
@@ -1267,7 +1255,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
             //-------------------------------------------------------------------------
             // Helper method
-            public void StartPersistentLogin(OnAuthLoginCallback onLoginCallback)
+            public void StartPersistentLogin(Action<LoginCallbackInfo> onLoginCallback)
             {
                 StartLoginWithLoginTypeAndToken(LoginCredentialType.PersistentAuth, null, null, callbackInfo =>
                 {
@@ -1306,7 +1294,7 @@ namespace PlayEveryWare.EpicOnlineServices
             /// <param name="token"></param>
             /// <param name="onLoginCallback"></param>
             public void StartLoginWithLoginTypeAndToken(LoginCredentialType loginType, string id, string token,
-                OnAuthLoginCallback onLoginCallback)
+                Action<LoginCallbackInfo> onLoginCallback)
             {
                 StartLoginWithLoginTypeAndToken(loginType, ExternalCredentialType.Epic, id, token, onLoginCallback);
             }
@@ -1314,7 +1302,7 @@ namespace PlayEveryWare.EpicOnlineServices
             //-------------------------------------------------------------------------
             public void StartLoginWithLoginTypeAndToken(LoginCredentialType loginType,
                 ExternalCredentialType externalCredentialType, string id, string token,
-                OnAuthLoginCallback onLoginCallback)
+                Action<LoginCallbackInfo> onLoginCallback)
             {
                 var loginOptions = MakeLoginOptions(loginType, externalCredentialType, id, token);
                 StartLoginWithLoginOptions(loginOptions, onLoginCallback);
@@ -1399,34 +1387,32 @@ namespace PlayEveryWare.EpicOnlineServices
             }
 
             //-------------------------------------------------------------------------
-            private void CallOnAuthLogin(LoginCallbackInfo loginCallbackInfo)
+            private static void CallOnAuthLogin(LoginCallbackInfo loginCallbackInfo)
             {
-                //create a copy of the callback list to iterate on in case the original list is modified during iteration
-                var callbacks = new List<OnAuthLoginCallback>(s_onAuthLoginCallbacks);
-
-                foreach (var callback in callbacks)
-                {
-                    callback?.Invoke(loginCallbackInfo);
-                }
+                InvokeCallbacks(s_onAuthLoginCallbacks, loginCallbackInfo);
             }
 
-            private void CallOnConnectLogin(Epic.OnlineServices.Connect.LoginCallbackInfo connectLoginData)
+            private static void CallOnConnectLogin(Epic.OnlineServices.Connect.LoginCallbackInfo connectLoginData)
             {
-                var callbacks = new List<OnConnectLoginCallback>(s_onConnectLoginCallbacks);
-
-                foreach (var callback in callbacks)
-                {
-                    callback?.Invoke(connectLoginData);
-                }
+                InvokeCallbacks(s_onConnectLoginCallbacks, connectLoginData);
             }
 
-            private void CallOnAuthLogout(LogoutCallbackInfo logoutCallbackInfo)
+            private static void CallOnAuthLogout(LogoutCallbackInfo logoutCallbackInfo)
             {
-                var callbacks = new List<OnAuthLogoutCallback>(s_onAuthLogoutCallbacks);
+                InvokeCallbacks(s_onAuthLogoutCallbacks, logoutCallbackInfo);
+            }
 
-                foreach (var callback in callbacks)
+            private static void InvokeCallbacks<TCallbackParams>(IEnumerable<Action<TCallbackParams>> callbacks,
+                TCallbackParams callbackParams)
+            {
+                // Make a copy of the callbacks so that altering the list of 
+                // callbacks during their invokation does not inadvertently 
+                // alter the list itself.
+                List<Action<TCallbackParams>> callbacksListCopy = new(callbacks);
+
+                foreach (Action<TCallbackParams> callback in callbacksListCopy)
                 {
-                    callback?.Invoke(logoutCallbackInfo);
+                    callback(callbackParams);
                 }
             }
 
@@ -1440,7 +1426,7 @@ namespace PlayEveryWare.EpicOnlineServices
             /// <param name="id"></param>
             /// <param name="token"> might be a password</param>
             /// <param name="onLoginCallback"></param>
-            public void StartLoginWithLoginOptions(LoginOptions loginOptions, OnAuthLoginCallback onLoginCallback)
+            public void StartLoginWithLoginOptions(LoginOptions loginOptions, Action<LoginCallbackInfo> onLoginCallback)
             {
                 // start login things
                 var EOSAuthInterface = GetEOSPlatformInterface().GetAuthInterface();
