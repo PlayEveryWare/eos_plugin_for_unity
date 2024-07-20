@@ -106,10 +106,10 @@ namespace PlayEveryWare.EpicOnlineServices
 #if !EOS_DISABLE
 
         /// <value>List of logged in <c>EpicAccountId</c></value>
-        private static List<EpicAccountId> s_loggedInAccountIDs = new List<EpicAccountId>();
+        private static List<EpicAccountId> s_loggedInAccountIDs = new();
 
         /// <value>Stores instances of feature managers</value>
-        private static Dictionary<Type, IEOSSubManager> s_subManagers = new Dictionary<Type, IEOSSubManager>();
+        private static Dictionary<Type, IEOSSubManager> s_subManagers = new();
 
         /// <value>List of Login callbacks</value>
         private static List<Action<Epic.OnlineServices.Connect.LoginCallbackInfo>> s_onConnectLoginCallbacks = new();
@@ -425,7 +425,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
                 print("InitializePlatformInterface: platformSpecifics.GetType() = " + platformSpecifics.GetType());
 
-                EOSInitializeOptions initOptions = new EOSInitializeOptions();
+                EOSInitializeOptions initOptions = new();
 
                 print("InitializePlatformInterface: initOptions.GetType() = " + initOptions.GetType());
 
@@ -468,7 +468,7 @@ namespace PlayEveryWare.EpicOnlineServices
             {
                 IPlatformSpecifics platformSpecifics = EOSManagerPlatformSpecificsSingleton.Instance;
 
-                EOSCreateOptions platformOptions = new EOSCreateOptions();
+                EOSCreateOptions platformOptions = new();
 
                 platformOptions.options.CacheDirectory = platformSpecifics.GetTempDir();
                 platformOptions.options.IsServer = configData.isServer;
@@ -539,8 +539,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
                 EOSManagerPlatformSpecificsSingleton.Instance.InitializeOverlay(coroutineOwner);
 
-                AddNotifyDisplaySettingsUpdatedOptions addNotificationData =
-                    new AddNotifyDisplaySettingsUpdatedOptions();
+                AddNotifyDisplaySettingsUpdatedOptions addNotificationData = new();
 
                 GetEOSUIInterface().AddNotifyDisplaySettingsUpdated(ref addNotificationData, null,
                     (ref OnDisplaySettingsUpdatedCallbackInfo data) =>
@@ -1523,7 +1522,7 @@ namespace PlayEveryWare.EpicOnlineServices
             public void StartLogout(EpicAccountId accountId, OnLogoutCallback onLogoutCallback)
             {
                 var EOSAuthInterface = GetEOSPlatformInterface().GetAuthInterface();
-                LogoutOptions options = new LogoutOptions { LocalUserId = accountId };
+                LogoutOptions options = new() { LocalUserId = accountId };
 
                 EOSAuthInterface.Logout(ref options, null, (ref LogoutCallbackInfo data) =>
                 {
