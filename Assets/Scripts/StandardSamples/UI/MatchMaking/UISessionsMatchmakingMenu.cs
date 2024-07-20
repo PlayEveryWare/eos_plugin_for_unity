@@ -39,7 +39,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     {
         /// <summary>
         /// An enum to record the local state of whether the local user can invite users to their Session.
-        /// <see cref="ownInvitationState"/>
+        /// <see cref="OwnInvitationState"/>
         /// </summary>
         protected enum OwnSessionInvitationAbilityState
         {
@@ -64,7 +64,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// Processed in <see cref="ProcessInformationBeforeFriendsRefresh"/>,
         /// and utilized in <see cref="GetFriendInteractionState(FriendData)"/>.
         /// </summary>
-        protected OwnSessionInvitationAbilityState ownInvitationState { get; set; } = OwnSessionInvitationAbilityState.NoSessionToInviteTo;
+        protected OwnSessionInvitationAbilityState OwnInvitationState { get; set; } = OwnSessionInvitationAbilityState.NoSessionToInviteTo;
 
         public GameObject SessionsMatchmakingUIParent;
 
@@ -478,12 +478,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 return FriendInteractionState.Hidden;
             }
 
-            if (ownInvitationState == OwnSessionInvitationAbilityState.NoSessionToInviteTo)
+            if (OwnInvitationState == OwnSessionInvitationAbilityState.NoSessionToInviteTo)
             {
                 return FriendInteractionState.Hidden;
             }
 
-            if (ownInvitationState == OwnSessionInvitationAbilityState.InvalidSessionToInviteTo)
+            if (OwnInvitationState == OwnSessionInvitationAbilityState.InvalidSessionToInviteTo)
             {
                 return FriendInteractionState.Disabled;
             }
@@ -498,14 +498,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             if (!GetEOSSessionsManager.TryGetPresenceSession(out Session foundSession) || foundSession.ActiveSession == null)
             {
                 // Didn't find a presence session, so nothing to invite to
-                ownInvitationState = OwnSessionInvitationAbilityState.NoSessionToInviteTo;
+                OwnInvitationState = OwnSessionInvitationAbilityState.NoSessionToInviteTo;
                 return;
             }
 
             // Does this Session allow for invites? If not, you can't invite users to it.
             if (!foundSession.InvitesAllowed)
             {
-                ownInvitationState = OwnSessionInvitationAbilityState.InvalidSessionToInviteTo;
+                OwnInvitationState = OwnSessionInvitationAbilityState.InvalidSessionToInviteTo;
                 return;
             }
 
@@ -516,7 +516,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             if (copyResult != Result.Success || !foundInfo.HasValue || !foundInfo.Value.SessionDetails.HasValue)
             {
-                ownInvitationState = OwnSessionInvitationAbilityState.InvalidSessionToInviteTo;
+                OwnInvitationState = OwnSessionInvitationAbilityState.InvalidSessionToInviteTo;
                 return;
             }
 
@@ -524,7 +524,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             if (!foundSession.AllowJoinInProgress && (foundInfo.Value.State == OnlineSessionState.Starting || foundInfo.Value.State == OnlineSessionState.InProgress))
             {
                 EOSSessionsManager.Log($"{nameof(UISessionsMatchmakingMenu)} ({nameof(GetFriendInteractionState)}): The current Presence-enabled Session cannot be invited to because it is {foundInfo.Value.State} and {nameof(Session.AllowJoinInProgress)} is false.");
-                ownInvitationState = OwnSessionInvitationAbilityState.InvalidSessionToInviteTo;
+                OwnInvitationState = OwnSessionInvitationAbilityState.InvalidSessionToInviteTo;
                 return;
             }
 
@@ -532,11 +532,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             if (foundInfo.Value.SessionDetails.Value.NumOpenPublicConnections == 0)
             {
                 EOSSessionsManager.Log($"{nameof(UISessionsMatchmakingMenu)} ({nameof(GetFriendInteractionState)}): The current Presence-enabled Session cannot be invited to because the Session already has reached its {nameof(Session.MaxPlayers)} count.");
-                ownInvitationState = OwnSessionInvitationAbilityState.InvalidSessionToInviteTo;
+                OwnInvitationState = OwnSessionInvitationAbilityState.InvalidSessionToInviteTo;
                 return;
             }
 
-            ownInvitationState = OwnSessionInvitationAbilityState.ValidSessionToInviteTo;
+            OwnInvitationState = OwnSessionInvitationAbilityState.ValidSessionToInviteTo;
             return;
         }
 
