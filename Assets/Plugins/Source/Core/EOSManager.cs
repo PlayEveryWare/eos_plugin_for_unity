@@ -106,7 +106,7 @@ namespace PlayEveryWare.EpicOnlineServices
 #if !EOS_DISABLE
 
         /// <value>List of logged in <c>EpicAccountId</c></value>
-        private static List<EpicAccountId> loggedInAccountIDs = new List<EpicAccountId>();
+        private static List<EpicAccountId> s_loggedInAccountIDs = new List<EpicAccountId>();
 
         /// <value>Stores instances of feature managers</value>
         private static Dictionary<Type, IEOSSubManager> s_subManagers = new Dictionary<Type, IEOSSubManager>();
@@ -126,10 +126,10 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <value>True if EOS Overlay is visible and has exclusive input.</value>
         private static bool s_isOverlayVisible;
 
-        private static bool s_DoesOverlayHaveExcusiveInput;
+        private static bool s_DoesOverlayHaveExclusiveInput;
 
         //cached log levels for retrieving later
-        private static Dictionary<LogCategory, LogLevel> logLevels;
+        private static Dictionary<LogCategory, LogLevel> s_logLevels;
 
         enum EOSState
         {
@@ -170,7 +170,7 @@ namespace PlayEveryWare.EpicOnlineServices
             static private EOSConfig loadedEOSConfig;
 
             // Setting it twice will cause an exception
-            static bool hasSetLoggingCallback;
+            private static bool s_hasSetLoggingCallback;
 
             // Need to keep track for shutting down EOS after a successful platform initialization
             static private bool s_hasInitializedPlatform;
@@ -307,14 +307,14 @@ namespace PlayEveryWare.EpicOnlineServices
             //-------------------------------------------------------------------------
             public bool ShouldOverlayReceiveInput()
             {
-                return (s_isOverlayVisible && s_DoesOverlayHaveExcusiveInput)
+                return (s_isOverlayVisible && s_DoesOverlayHaveExclusiveInput)
                        || GetLoadedEOSConfig().alwaysSendInputToOverlay
                     ;
             }
 
             public bool IsOverlayOpenWithExclusiveInput()
             {
-                return s_isOverlayVisible && s_DoesOverlayHaveExcusiveInput;
+                return s_isOverlayVisible && s_DoesOverlayHaveExclusiveInput;
             }
 
             //-------------------------------------------------------------------------
@@ -546,7 +546,7 @@ namespace PlayEveryWare.EpicOnlineServices
                     (ref OnDisplaySettingsUpdatedCallbackInfo data) =>
                     {
                         s_isOverlayVisible = data.IsVisible;
-                        s_DoesOverlayHaveExcusiveInput = data.IsExclusiveInput;
+                        s_DoesOverlayHaveExclusiveInput = data.IsExclusiveInput;
                     });
             }
 
@@ -582,10 +582,10 @@ namespace PlayEveryWare.EpicOnlineServices
                 {
                     print("Init completed with existing EOS PlatformInterface");
 
-                    if (!hasSetLoggingCallback)
+                    if (!s_hasSetLoggingCallback)
                     {
                         LoggingInterface.SetCallback(SimplePrintCallback);
-                        hasSetLoggingCallback = true;
+                        s_hasSetLoggingCallback = true;
                     }
 
                     InitializeOverlay(coroutineOwner);
@@ -757,10 +757,10 @@ namespace PlayEveryWare.EpicOnlineServices
             public void SetLogLevel(LogCategory Category, LogLevel Level)
             {
                 LoggingInterface.SetLogLevel(Category, Level);
-                if (logLevels == null)
+                if (s_logLevels == null)
                 {
                     //don't construct logLevels until it's needed
-                    logLevels = new Dictionary<LogCategory, LogLevel>();
+                    s_logLevels = new Dictionary<LogCategory, LogLevel>();
                 }
 
                 if (Category == LogCategory.AllCategories)
@@ -769,13 +769,13 @@ namespace PlayEveryWare.EpicOnlineServices
                     {
                         if (cat != LogCategory.AllCategories)
                         {
-                            logLevels[cat] = Level;
+                            s_logLevels[cat] = Level;
                         }
                     }
                 }
                 else
                 {
-                    logLevels[Category] = Level;
+                    s_logLevels[Category] = Level;
                 }
             }
 
@@ -802,7 +802,7 @@ namespace PlayEveryWare.EpicOnlineServices
             /// <returns><c>LogLevel</c> for the given <c>LogCategory</c>. Returns -1 if Category is AllCategories and not all categories are set to the same level.</returns>
             public LogLevel GetLogLevel(LogCategory Category)
             {
-                if (logLevels == null)
+                if (s_logLevels == null)
                 {
                     //logLevels will only be null if log level was never set, so it should be off
                     return LogLevel.Off;
@@ -826,9 +826,9 @@ namespace PlayEveryWare.EpicOnlineServices
                     return level;
                 }
 
-                if (logLevels.ContainsKey(Category))
+                if (s_logLevels.ContainsKey(Category))
                 {
-                    return logLevels[Category];
+                    return s_logLevels[Category];
                 }
 
                 return LogLevel.Off;
@@ -1324,7 +1324,7 @@ namespace PlayEveryWare.EpicOnlineServices
                             if (callbackInfo.CurrentStatus == LoginStatus.NotLoggedIn &&
                                 callbackInfo.PrevStatus == LoginStatus.LoggedIn)
                             {
-                                loggedInAccountIDs.Remove(callbackInfo.LocalUserId);
+                                s_loggedInAccountIDs.Remove(callbackInfo.LocalUserId);
                             }
                         });
                     s_notifyLoginStatusChangedCallbackHandle = new NotifyEventHandle(callbackHandle, handle =>
@@ -1452,7 +1452,7 @@ namespace PlayEveryWare.EpicOnlineServices
                     print("LoginCallBackResult : " + data.ResultCode);
                     if (data.ResultCode == Result.Success)
                     {
-                        loggedInAccountIDs.Add(data.LocalUserId);
+                        s_loggedInAccountIDs.Add(data.LocalUserId);
 
                         SetLocalUserId(data.LocalUserId);
 
@@ -1616,7 +1616,7 @@ namespace PlayEveryWare.EpicOnlineServices
                     // makes a copy each time LogOut is called.
                     var logoutOptions = new LogoutOptions();
 
-                    foreach (var epicUserID in loggedInAccountIDs)
+                    foreach (var epicUserID in s_loggedInAccountIDs)
                     {
                         logoutOptions.LocalUserId = epicUserID;
                         EOSAuthInterface.Logout(ref logoutOptions, null, (ref LogoutCallbackInfo data) =>
