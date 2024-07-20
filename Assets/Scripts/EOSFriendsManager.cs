@@ -437,7 +437,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             };
 
             // If the user has a Presence JoinInfo, set that in this incoming Presence.
-            // NotFound just implies the user does not have an active joinable activity, it is not an error.
             PresenceInfo presenceInfo = new PresenceInfo()
             {
                 Application = presence?.ProductId,
@@ -449,6 +448,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             Result joinInfoResult = PresenceHandle.GetJoinInfo(ref joinInfoOptions, out Utf8String joinInfo);
 
+            // If the result of getting join info is "Result.NotFound", that implies the user does not have an active joinable activity.
+            // Only on a Success can the JoinInfo be used, but otherwise the JoinInfo is to be ignored.
             if (joinInfoResult == Result.Success)
             {
                 presenceInfo.JoinInfo = joinInfo;

@@ -443,7 +443,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
          * The UIFriendsMenu popout uses the base class UIFriendInteractionSource to facilitate interactions.
          * 
          * NOTE: This current implementation is not complete.
-         * There is functionality suggested by the existance of this window that need to be added.
+         * There is functionality suggested by the existance of this window that needs to be added.
          * 
          * - Users should be able to Join Sessions their friends are in, if that friend is in a Session, and that Session has invites enabled.
          * - Users that are in a Session who want to interact with a friend that is also in a Session should have UX for choosing Invite or Join
