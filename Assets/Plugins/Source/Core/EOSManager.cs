@@ -146,17 +146,12 @@ namespace PlayEveryWare.EpicOnlineServices
 
         // Application is paused? (ie. suspended)
         static private bool s_isPaused;
-        static public bool ApplicationIsPaused { get => s_isPaused; }
 
         // Application is in focus? (ie. is the foreground application)
         static private bool s_hasFocus = true;
-        static public bool ApplicationHasFocus { get => s_hasFocus; }
 
         // When not in focus, is the application running in a constrained capacity? (ie. reduced CPU/GPU resources)
         static private bool s_isConstrained = true;
-        static public bool ApplicationIsConstrained { get => s_isConstrained; }
-
-        //private static List
 
         //-------------------------------------------------------------------------
         public partial class EOSSingleton
