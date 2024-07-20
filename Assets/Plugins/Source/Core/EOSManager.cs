@@ -257,6 +257,46 @@ namespace PlayEveryWare.EpicOnlineServices
             }
 
             //-------------------------------------------------------------------------
+            /// <summary>
+            /// Get the ProductID configured from Unity Editor that was used during startup of the EOS SDK.
+            /// </summary>
+            /// <returns></returns>
+            public string GetProductId()
+            {
+                return Config.Get<EOSConfig>().productID;
+            }
+
+            //-------------------------------------------------------------------------
+            /// <summary>
+            /// Get the SandboxID configured from Unity Editor that was used during startup of the EOS SDK.
+            /// </summary>
+            /// <returns></returns>
+            public string GetSandboxId()
+            {
+                return Config.Get<EOSConfig>().sandboxID;
+            }
+
+            //-------------------------------------------------------------------------
+            /// <summary>
+            /// Get the DeploymentID configured from Unity Editor that was used during startup of the EOS SDK.
+            /// </summary>
+            /// <returns></returns>
+            public string GetDeploymentID()
+            {
+                return Config.Get<EOSConfig>().deploymentID;
+            }
+
+            //-------------------------------------------------------------------------
+            /// <summary>
+            /// Check if encryption key is EOS config is a valid 32-byte hex string.
+            /// </summary>
+            /// <returns></returns>
+            public bool IsEncryptionKeyValid()
+            {
+                return Config.Get<EOSConfig>().IsEncryptionKeyValid();
+            }
+
+            //-------------------------------------------------------------------------
             private bool HasShutdown()
             {
                 return s_state == EOSState.Shutdown;
