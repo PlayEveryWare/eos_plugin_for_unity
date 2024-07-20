@@ -108,8 +108,6 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <value>List of logged in <c>EpicAccountId</c></value>
         private static List<EpicAccountId> loggedInAccountIDs = new List<EpicAccountId>();
 
-        //private static Dictionary<EpicAccountId, ProductUserId> accountIDToProductId = new Dictionary<EpicAccountId, ProductUserId>();
-
         /// <value>Stores instances of feature managers</value>
         private static Dictionary<Type, IEOSSubManager> s_subManagers = new Dictionary<Type, IEOSSubManager>();
 
