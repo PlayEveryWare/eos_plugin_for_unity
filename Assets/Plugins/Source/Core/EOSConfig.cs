@@ -336,7 +336,12 @@ namespace PlayEveryWare.EpicOnlineServices
             return value;
         }
 
-        //-------------------------------------------------------------------------
+        /// <summary>
+        /// Determines whether the encryption key for the config is valid.
+        /// </summary>
+        /// <returns>
+        /// True if the encryption key is valid, false otherwise.
+        /// </returns>
         public bool IsEncryptionKeyValid()
         {
             return IsEncryptionKeyValid(encryptionKey);
