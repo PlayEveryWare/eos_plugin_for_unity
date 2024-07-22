@@ -57,8 +57,8 @@ namespace PlayEveryWare.EpicOnlineServices.Extensions
             {
                 PlatformFlags.None => "No flags.",
                 PlatformFlags.LoadingInEditor => "A bit that indicates the SDK is being loaded in a game editor, like Unity or UE4 Play-in-Editor",
-                PlatformFlags.DisableOverlay => "A bit that indicates the SDK should skip initialization of the overlay, which is used by the in-app purchase flow and social overlay. This bit is implied by <see cref=\"LoadingInEditor\" />.",
-                PlatformFlags.DisableSocialOverlay => "A bit that indicates the SDK should skip initialization of the social overlay, which provides an overlay UI for social features. This bit is implied by <see cref=\"LoadingInEditor\" /> or <see cref=\"DisableOverlay\" />.",
+                PlatformFlags.DisableOverlay => "A bit that indicates the SDK should skip initialization of the overlay, which is used by the in-app purchase flow and social overlay. This bit is implied by LoadingInEditor.",
+                PlatformFlags.DisableSocialOverlay => "A bit that indicates the SDK should skip initialization of the social overlay, which provides an overlay UI for social features. This bit is implied by LoadingInEditor or DisableOverlay.",
                 PlatformFlags.Reserved1 => "A reserved bit.",
                 PlatformFlags.WindowsEnableOverlayD3D9 => "A bit that indicates your game would like to opt-in to experimental Direct3D 9 support for the overlay. This flag is only relevant on Windows.",
                 PlatformFlags.WindowsEnableOverlayD3D10 => "A bit that indicates your game would like to opt-in to experimental Direct3D 10 support for the overlay. This flag is only relevant on Windows.",
