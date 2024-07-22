@@ -52,7 +52,7 @@ namespace PlayEveryWare.EpicOnlineServices
             // TODO: This is a key area where it is clear that the mechanism
             // of config value override by having a set of override values is 
             // potentially very very confusing.
-            return StringsToEnum< IntegratedPlatformManagementFlags>(flags, 
+            return StringsToEnum<IntegratedPlatformManagementFlags>(flags, 
                 IntegratedPlatformManagementFlagsExtensions.TryParse);
         }
 #endif
