@@ -27,39 +27,39 @@ namespace PlayEveryWare.EpicOnlineServices.Tests
     using Epic.OnlineServices.Platform;
     using Extensions;
     using System;
-	using System.Collections.Generic;
-
-	public class PlatformFlagsExtensionsTests
-	{
-		/// <summary>
-		/// Tests to make sure that there is a description defined for each of
-		/// the enum values.
-		/// </summary>
-		[Test]
-		public static void AllValues_HaveDescription()
-		{
+    using System.Collections.Generic;
+    
+    public class PlatformFlagsExtensionsTests 
+    { 
+        /// <summary>
+        /// Tests to make sure that there is a description defined for each of
+        /// the enum values.
+        /// </summary>
+        [Test]
+        public static void AllValues_HaveDescription()
+        {
             PlatformFlags[] allFlags = (PlatformFlags[])Enum.GetValues(typeof(PlatformFlags));
-			foreach (PlatformFlags flag in allFlags)
-			{
-				Assert.DoesNotThrow(() => flag.GetDescription());
-			}
-		}
+            foreach (PlatformFlags flag in allFlags)
+            {
+                Assert.DoesNotThrow(() => flag.GetDescription());
+            }
+        }
 
         /// <summary>
         /// Guarantees that there is a custom mapping entry for each of the
         /// PlatformFlags enum values.
         /// </summary>
         [Test]
-		public static void CustomMappings_Exists()
-		{
-			// Get the custom mappings for the auth scope flags
-			Dictionary<string, PlatformFlags> customMappings = PlatformFlagsExtensions.CustomMappings;
+        public static void CustomMappings_Exists()
+        {
+            // Get the custom mappings for the auth scope flags
+            Dictionary<string, PlatformFlags> customMappings = PlatformFlagsExtensions.CustomMappings;
 
             PlatformFlags[] allFlags = (PlatformFlags[])Enum.GetValues(typeof(PlatformFlags));
-			foreach (PlatformFlags flag in allFlags)
-			{
-				Assert.IsTrue(customMappings.ContainsValue(flag));
-			}
-		}
-	}
+            foreach (PlatformFlags flag in allFlags)
+            {
+                Assert.IsTrue(customMappings.ContainsValue(flag));
+            }
+        }
+    }
 }
