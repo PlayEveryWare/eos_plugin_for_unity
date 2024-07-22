@@ -22,7 +22,13 @@
 
 namespace PlayEveryWare.EpicOnlineServices
 {
+#if !EOS_DISABLE
+    using Epic.OnlineServices.IntegratedPlatform;
+    using Extensions;
+#endif
+
     using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Represents a set of configuration data for use by the EOS Plugin for Unity
@@ -31,6 +37,7 @@ namespace PlayEveryWare.EpicOnlineServices
     public abstract class PlatformConfig : Config
     {
         protected PlatformManager.Platform Platform;
+        public List<string> flags;
         public EOSConfig overrideValues;
 
         protected PlatformConfig(PlatformManager.Platform platform) : 
@@ -38,5 +45,16 @@ namespace PlayEveryWare.EpicOnlineServices
         {
             this.Platform = platform;
         }
+
+#if !EOS_DISABLE
+        public IntegratedPlatformManagementFlags GetIntegratedPlatformManagementFlags()
+        {
+            // TODO: This is a key area where it is clear that the mechanism
+            // of config value override by having a set of override values is 
+            // potentially very very confusing.
+            return StringsToEnum< IntegratedPlatformManagementFlags>(flags, 
+                IntegratedPlatformManagementFlagsExtensions.TryParse);
+        }
+#endif
     }
 }

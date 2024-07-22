@@ -38,7 +38,7 @@ namespace PlayEveryWare.EpicOnlineServices.Extensions
         /// Contains a mapping of the alternative string values for each of the
         /// PlatformFlag enum values.
         /// </summary>
-        private static readonly Dictionary<string, PlatformFlags> s_customMappings =
+        public static Dictionary<string, PlatformFlags> CustomMappings { get; } =
             new()
             {
                 {"EOS_PF_NONE",                          PlatformFlags.None},
@@ -50,6 +50,23 @@ namespace PlayEveryWare.EpicOnlineServices.Extensions
                 {"EOS_PF_WINDOWS_ENABLE_OVERLAY_OPENGL", PlatformFlags.WindowsEnableOverlayOpengl},
                 {"EOS_PF_RESERVED1",                     PlatformFlags.Reserved1},
             };
+
+        public static string GetDescription(this PlatformFlags platformFlags)
+        {
+            return platformFlags switch
+            {
+                PlatformFlags.None => "No flags.",
+                PlatformFlags.LoadingInEditor => "A bit that indicates the SDK is being loaded in a game editor, like Unity or UE4 Play-in-Editor",
+                PlatformFlags.DisableOverlay => "A bit that indicates the SDK should skip initialization of the overlay, which is used by the in-app purchase flow and social overlay. This bit is implied by <see cref=\"LoadingInEditor\" />.",
+                PlatformFlags.DisableSocialOverlay => "A bit that indicates the SDK should skip initialization of the social overlay, which provides an overlay UI for social features. This bit is implied by <see cref=\"LoadingInEditor\" /> or <see cref=\"DisableOverlay\" />.",
+                PlatformFlags.Reserved1 => "A reserved bit.",
+                PlatformFlags.WindowsEnableOverlayD3D9 => "A bit that indicates your game would like to opt-in to experimental Direct3D 9 support for the overlay. This flag is only relevant on Windows.",
+                PlatformFlags.WindowsEnableOverlayD3D10 => "A bit that indicates your game would like to opt-in to experimental Direct3D 10 support for the overlay. This flag is only relevant on Windows.",
+                PlatformFlags.WindowsEnableOverlayOpengl => "A bit that indicates your game would like to opt-in to experimental OpenGL support for the overlay. This flag is only relevant on Windows.",
+                PlatformFlags.ConsoleEnableOverlayAutomaticUnloading => "A bit that indicates your game would like to opt-in to automatic unloading of the overlay module when possible. This flag is only relevant on Consoles.",
+                _ => throw new ArgumentOutOfRangeException(nameof(platformFlags), platformFlags, null),
+            };
+        }
 
         /// <summary>
         /// Tries to parse the given list of strings representing individual
@@ -69,7 +86,7 @@ namespace PlayEveryWare.EpicOnlineServices.Extensions
         /// </returns>
         public static bool TryParse(IList<string> stringFlags, out PlatformFlags result)
         {
-            return EnumUtility<PlatformFlags>.TryParse(stringFlags, s_customMappings, out result);
+            return EnumUtility<PlatformFlags>.TryParse(stringFlags, CustomMappings, out result);
         }
     }
 }
