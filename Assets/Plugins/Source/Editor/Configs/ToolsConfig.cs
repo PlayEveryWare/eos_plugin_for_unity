@@ -35,7 +35,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Config
         /// <summary>
         /// The path to find the tool used for generating EAC certs.
         /// </summary>
-        [FilePathField("Path to EAC Integrity Tool", "*", "EOS SDK tool used to generate EAC certificate from file hashes.")]
+        [FilePathField("Path to EAC Integrity Tool", "", "EOS SDK tool used to generate EAC certificate from file hashes.")]
         public string pathToEACIntegrityTool;
 
         [FilePathField("Path to EAC Integrity Tool Config", "cfg", "Config file used by integrity tool. Defaults to anticheat_integritytool.cfg in same directory.")]
