@@ -966,7 +966,7 @@ static LogLevelConfig log_config_from_json_value(json_value_s* config_json)
 
     while (iter != nullptr)
     {
-        if (!strcmp("logCategoryLevelPairs", iter->name->string))
+        if (!strcmp("LogCategoryLevelPairs", iter->name->string))
         {
             json_array_s* pairs = json_value_as_array(iter->value);
             for (auto e = pairs->start; e != nullptr; e = e->next)
@@ -975,11 +975,11 @@ static LogLevelConfig log_config_from_json_value(json_value_s* config_json)
                 struct json_object_element_s* pairs_iter = pairs_json_object->start;
                 while (pairs_iter != nullptr)
                 {
-                    if (!strcmp("category", pairs_iter->name->string))
+                    if (!strcmp("Category", pairs_iter->name->string))
                     {
                         log_config.category.push_back(json_value_as_string(pairs_iter->value)->string);
                     }
-                    else if (!strcmp("level", pairs_iter->name->string))
+                    else if (!strcmp("Level", pairs_iter->name->string))
                     {
                         log_config.level.push_back(json_value_as_string(pairs_iter->value)->string);
                     }
