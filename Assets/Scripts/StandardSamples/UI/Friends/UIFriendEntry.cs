@@ -43,12 +43,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public Action<FriendData> FriendInteractOnClick;
         public Action<ProductUserId, String> ReportOnClick;
 
-        private void Awake()
-        {
-            FriendInteractButton.gameObject.SetActive(false);
-            friendData = null;
-        }
-
         public void SetFriendData(FriendData data)
         {
             friendData = data;
