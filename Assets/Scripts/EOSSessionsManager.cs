@@ -47,6 +47,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public Epic.OnlineServices.Sessions.SessionSearch SearchHandle;
         private Dictionary<Session, SessionDetails> SearchResults = new Dictionary<Session, SessionDetails>();
 
+        /// <summary>
+        /// Action to run when search results are successfully retrieved.
+        /// Set in <see cref="SetNewSearch(Epic.OnlineServices.Sessions.SessionSearch, Action{SessionSearch})"/>,
+        /// unset in <see cref="Release"/> or when a new search is set without the argument.
+        /// </summary>
+        private Action<SessionSearch> runOnSearchResultReceived { get; set; }
+
         public SessionSearch()
         {
             Release();
@@ -61,11 +68,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 SearchHandle.Release();
                 SearchHandle = null;
             }
+
+            runOnSearchResultReceived = null;
         }
 
-        public void SetNewSearch(Epic.OnlineServices.Sessions.SessionSearch handle)
+        public void SetNewSearch(Epic.OnlineServices.Sessions.SessionSearch handle, Action<SessionSearch> actionToRunOnResultsReceived = null)
         {
             Release();
+            runOnSearchResultReceived = actionToRunOnResultsReceived;
             SearchHandle = handle;
         }
 
@@ -79,22 +89,26 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             return SearchResults;
         }
 
-        public SessionDetails GetSessionHandleById(string sessionId)
+        public bool TryGetSessionHandleById(string sessionId, out SessionDetails sessionHandle)
         {
+            sessionHandle = null;
+
             foreach (KeyValuePair<Session, SessionDetails> kvp in SearchResults)
             {
                 if (kvp.Key.Id.Equals(sessionId, StringComparison.OrdinalIgnoreCase))
                 {
-                    return kvp.Value;
+                    sessionHandle = kvp.Value;
+                    return true;
                 }
             }
 
-            return null;
+            return false;
         }
 
         public void OnSearchResultReceived(Dictionary<Session, SessionDetails> results)
         {
             SearchResults = results;
+            runOnSearchResultReceived?.Invoke(this);
         }
     }
 
@@ -439,8 +453,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         private Dictionary<string, Session> CurrentSessions;
 
         private SessionSearch CurrentSearch;
-        private string JoinPresenceSessionId = string.Empty;
-        private ulong JoinUiEvent;
         private string KnownPresenceSessionId = string.Empty;
 
         private Dictionary<Session, SessionDetails> Invites;
@@ -1447,11 +1459,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// <see cref="OnFindSessionsCompleteCallback"/> is called with the results.
         /// A handle for retriving results will be stored in <see cref="CurrentSearch"/>.
         /// This is the EOS Game Services id, shared for all users.
-        /// 
-        /// TODO: This should also have a callback or return type to indicate successful search attempt.
         /// </summary>
         /// <param name="sessionId">The Session Id to search for.</param>
-        public void SearchById(string sessionId)
+        /// <param name="onSearchCompleted">Optional action to run when the search results are received.</param>
+        public void SearchById(string sessionId, Action<SessionSearch> onSearchCompleted = null)
         {
             // Clear previous search
             CurrentSearch.Release();
@@ -1468,7 +1479,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 return;
             }
 
-            CurrentSearch.SetNewSearch(sessionSearchHandle);
+            CurrentSearch.SetNewSearch(sessionSearchHandle, onSearchCompleted);
 
             SessionSearchSetSessionIdOptions sessionIdOptions = new SessionSearchSetSessionIdOptions();
             sessionIdOptions.SessionId = sessionId;
@@ -1508,13 +1519,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// <summary>
         /// Handler method for dispatching search results for use.
         /// A handle is received from <see cref="CurrentSearch"/>, which was set when calling a Search-starting function.
-        /// If <see cref="JoinPresenceSessionId"/> is set, and one of the Search results is that Id, it will be immediately joined.
         /// 
         /// TODO: This should handle any <see cref="SessionSearch"/>, not just <see cref="CurrentSearch"/>.
         /// TODO: What happens if a Presence Session is already joined, and it gets rejoined?
         /// TODO: Shouldn't log errors if no Presence Session is set.
         /// </summary>
-        private void OnSearchResultsReceived()
+        private void OnSearchResultsReceived(Action onSearchResultsRecevied = null)
         {
             if (CurrentSearch == null)
             {
@@ -1569,16 +1579,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
 
             CurrentSearch.OnSearchResultReceived(searchResults);
-            if (JoinPresenceSessionId.Length > 0)
-            {
-                SessionDetails sessionHandle = CurrentSearch.GetSessionHandleById(JoinPresenceSessionId);
-                if (sessionHandle != null)
-                {
-                    // Clear Session Id
-                    JoinPresenceSessionId = string.Empty;
-                    JoinSession(sessionHandle, true);
-                }
-            }
         }
 
         /// <summary>
@@ -2003,17 +2003,21 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         }
 
         /// <summary>
-        /// Sets the local <see cref="JoinPresenceSessionId"/>, and then attempts to <see cref="SearchById(string)"/>.
-        /// If the indicated Session is found, it'll join it, and then set the <see cref="KnownPresenceSessionId"/> to that Id.
+        /// Searches for a Session online with the id <paramref name="sessionId"/>, then joins it as a presence Session.
         /// This can only find Sessions that have their <see cref="Session.PermissionLevel"/> set to either
         /// <see cref="OnlineSessionPermissionLevel.JoinViaPresence"/> or <see cref="OnlineSessionPermissionLevel.PublicAdvertised"/>.
         /// </summary>
         /// <param name="sessionId">The EOS Game Services Session Id.</param>
         private void JoinPresenceSessionById(string sessionId)
         {
-            JoinPresenceSessionId = sessionId;
-            Log($"{nameof(EOSSessionsManager)} ({nameof(JoinPresenceSessionById)}): looking for Session ID: {JoinPresenceSessionId}");
-            SearchById(JoinPresenceSessionId);
+            Log($"{nameof(EOSSessionsManager)} ({nameof(JoinPresenceSessionById)}): looking for Session ID: {sessionId}");
+            SearchById(sessionId, (SessionSearch searchResults) =>
+            {
+                if (searchResults.TryGetSessionHandleById(sessionId, out SessionDetails sessionDetails))
+                {
+                    JoinSession(sessionDetails, true);
+                }
+            });
         }
 
         /// <summary>
@@ -2032,7 +2036,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
             else
             {
-                JoinUiEvent = uiEventId;
                 AcknowledgeEventId(uiEventId, Result.UnexpectedError);
                 Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(OnJoinGameAcceptedByEventId)}): unable to get details for event ID: {uiEventId}");
             }
