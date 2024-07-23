@@ -797,14 +797,16 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         /// <summary>
         /// Informs the <see cref="UIInterface"/> that a UI Event has been processed.
-        /// Some functions in the EOS SDK return a UIEventId. When this happens, it is required that this function be called to released by the SDK.
+        /// Some functions in the EOS SDK return a UIEventId. When this happens, it is required that this function be called to release the event in the SDK.
         /// For example, if a subscription is made to <see cref="OnJoinSessionAcceptedListener(ref JoinSessionAcceptedCallbackInfo)"/>, after a successful call to <see cref="SessionsInterface.JoinSession(ref JoinSessionOptions, object, OnJoinSessionCallback)"/>,
         /// the notification function will receive a <see cref="JoinSessionAcceptedCallbackInfo.UiEventId"/>.
         /// This event id can be used to create a <see cref="SessionDetails"/> object by calling <see cref="MakeSessionHandleByEventId(ulong)"/>.
         /// After doing so, or if the handle will not be utilized, this function must call this function to release the handle in the EOS SDK.
         /// Most of the functions in the EOS SDK that require this will mention it in the comments of the callback function. Anything with a UiEventId should have this called.
+        /// All functions in the <see cref="EOSSessionsManager"/> will call AcknowledgeEventId after the end of the event's useful lifecycle,
+        /// as well as immediately after an error relating to processing the event.
         /// </summary>
-        /// <param name="UiEventId">
+        /// <param name="uiEventId">
         /// The id of the event to acknowledge.
         /// All functions requiring AcknowledgeEventId to be called will return this as part of the callback info.
         /// </param>
@@ -813,10 +815,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// Most API calls will return a Result, which can be used as this argument.
         /// In the case where no Result has been provided by the EOS SDK, any Result code can be used in its place, such as <see cref="Result.UnexpectedError"/>.
         /// </param>
-        private void AcknowledgeEventId(ulong UiEventId, Result result)
+        private void AcknowledgeEventId(ulong uiEventId, Result result)
         {
             AcknowledgeEventIdOptions options = new AcknowledgeEventIdOptions();
-            options.UiEventId = UiEventId;
+            options.UiEventId = uiEventId;
             options.Result = result;
 
             UIInterface uiInterface = EOSManager.Instance.GetEOSPlatformInterface().GetUIInterface();
@@ -1462,7 +1464,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             if (result != Result.Success)
             {
-                AcknowledgeEventId(result);
                 Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(SearchById)}): failed create Session search. Error code: {result}");
                 return;
             }
@@ -1476,7 +1477,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             if (result != Result.Success)
             {
-                AcknowledgeEventId(result);
                 Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(SearchById)}): failed to update Session search with Session ID. Error code: {result}");
                 return;
             }
@@ -1498,7 +1498,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             if (data.ResultCode != Result.Success)
             {
-                AcknowledgeEventId(data.ResultCode);
                 Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(OnFindSessionsCompleteCallback)}): error code: {data.ResultCode}");
                 return;
             }
@@ -1579,14 +1578,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     JoinPresenceSessionId = string.Empty;
                     JoinSession(sessionHandle, true);
                 }
-                else
-                {
-                    AcknowledgeEventId(Result.NotFound);
-                }
-            }
-            else
-            {
-                AcknowledgeEventId(Result.NotFound);
             }
         }
 
@@ -1631,7 +1622,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             if (result != Result.Success)
             {
                 Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(RefreshSession)}): Failed create Session search. Error code: {result}");
-                AcknowledgeEventId(result);
                 return;
             }
 
@@ -1645,7 +1635,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             if (result != Result.Success)
             {
                 Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(RefreshSession)}): Failed to update Session search with Session ID. Error code: {result}");
-                AcknowledgeEventId(result);
                 return;
             }
 
@@ -1905,7 +1894,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             if (data.ResultCode != Result.Success)
             {
-                AcknowledgeEventId(data.ResultCode);
                 Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(OnJoinSessionListener)}): error code: {data.ResultCode}");
                 callback?.Invoke(data.ResultCode);
                 return;
@@ -1915,8 +1903,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             // Add joined Session to list of current sessions
             OnJoinSessionFinished(callback);
-
-            AcknowledgeEventId(data.ResultCode);
         }
 
         /// <summary>
@@ -2006,12 +1992,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             {
                 if (joinInfo.Length == 2)
                 {
+                    AcknowledgeEventId(uiEventId, Result.Success);
                     JoinPresenceSessionById(joinInfo.Substring(1, 1));
                     return;
                 }
             }
 
-            AcknowledgeEventId(Result.UnexpectedError);
+            AcknowledgeEventId(uiEventId, Result.UnexpectedError);
             Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(OnJoinGameAcceptedByJoinInfo)}): unable to parse location string: {joinInfo}");
         }
 
@@ -2046,7 +2033,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             else
             {
                 JoinUiEvent = uiEventId;
-                AcknowledgeEventId(Result.UnexpectedError);
+                AcknowledgeEventId(uiEventId, Result.UnexpectedError);
                 Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(OnJoinGameAcceptedByEventId)}): unable to get details for event ID: {uiEventId}");
             }
         }
