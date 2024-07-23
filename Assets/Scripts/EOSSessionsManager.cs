@@ -50,7 +50,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// <summary>
         /// Action to run when search results are successfully retrieved.
         /// Set in <see cref="SetNewSearch(Epic.OnlineServices.Sessions.SessionSearch, Action{SessionSearch})"/>,
-        /// unset in <see cref="Release"/> or when a new search is set without the argument.
+        /// unset in <see cref="Release"/>, when a new search is set without the argument,
+        /// or after <see cref="OnSearchResultReceived(Dictionary{Session, SessionDetails})"/> is called.
         /// </summary>
         private Action<SessionSearch> runOnSearchResultReceived { get; set; }
 
@@ -109,6 +110,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             SearchResults = results;
             runOnSearchResultReceived?.Invoke(this);
+            runOnSearchResultReceived = null;
         }
     }
 
@@ -458,7 +460,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         private Dictionary<Session, SessionDetails> Invites;
         private Session CurrentInvite;
 
-        private SessionDetails JoiningSessionDetails = null;
         private ulong JoinedSessionIndex = 0;
 
         /// <summary>
@@ -789,7 +790,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             CurrentSessions.Clear();
             Invites.Clear();
             CurrentInvite = null;
-            JoiningSessionDetails = null;
 
             userLoggedIn = false;
         }
@@ -1876,22 +1876,17 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             joinOptions.PresenceEnabled = presenceSession;
 
             SessionsInterface sessionInterface = EOSManager.Instance.GetEOSPlatformInterface().GetSessionsInterface();
-            sessionInterface.JoinSession(ref joinOptions, callback, OnJoinSessionListener);
-
-            //SetJoinSessionDetails
-            JoiningSessionDetails = sessionHandle;
+            sessionInterface.JoinSession(ref joinOptions, null, (ref JoinSessionCallbackInfo callbackInfo) => OnJoinSessionListener(ref callbackInfo, sessionHandle, callback));
         }
 
         /// <summary>
         /// Callback handler for joining a Session.
-        /// If the joining failed, invokes the <paramref name="data"/>'s ClientData as an Action<Result>.
-        /// If it succeeds, calls <see cref="OnJoinSessionFinished(Action{Result})"/> with the above callback.
         /// </summary>
         /// <param name="data">Callback information indicating success.</param>
-        private void OnJoinSessionListener(ref JoinSessionCallbackInfo data) // OnJoinSessionCallback
+        /// <param name="sessionHandle">The Session's Detail handler.</param>
+        /// <param name="callback">Optional callback to run with the result of joining.</param>
+        private void OnJoinSessionListener(ref JoinSessionCallbackInfo data, SessionDetails sessionHandle, Action<Result> callback = null) // OnJoinSessionCallback
         {
-            var callback = data.ClientData as Action<Result>;
-
             if (data.ResultCode != Result.Success)
             {
                 Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(OnJoinSessionListener)}): error code: {data.ResultCode}");
@@ -1902,7 +1897,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             Log($"{nameof(EOSSessionsManager)} ({nameof(OnJoinSessionListener)}): joined Session successfully.");
 
             // Add joined Session to list of current sessions
-            OnJoinSessionFinished(callback);
+            OnJoinSessionFinished(sessionHandle, callback);
         }
 
         /// <summary>
@@ -1910,41 +1905,47 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// Uses the handle in <see cref="JoiningSessionDetails"/> to determine the Session that was joined.
         /// Uses Peer2Peer messages to inform the Owner that this user has joined the Session.
         /// </summary>
-        /// <param name="callback">Callback to run with the status, perhaps used to inform the UI to update.</param>
-        private void OnJoinSessionFinished(Action<Result> callback)
+        /// <param name="joinedSessionDetailsHandle">
+        /// SessionDetails object with metadata about the Session.
+        /// This function can only be called if the SessionDetails are available, and cannot be retrieved inside this function.
+        /// <see cref="SessionsInterface.CopySessionHandleByInviteId(ref CopySessionHandleByInviteIdOptions, out SessionDetails)"/>
+        /// <see cref="SessionsInterface.CopySessionHandleByUiEventId(ref CopySessionHandleByUiEventIdOptions, out SessionDetails)"/>
+        /// <see cref="SessionsInterface.CopySessionHandleForPresence(ref CopySessionHandleForPresenceOptions, out SessionDetails)"/>
+        /// <see cref="Epic.OnlineServices.Sessions.SessionSearch.CopySearchResultByIndex(ref SessionSearchCopySearchResultByIndexOptions, out SessionDetails)"/>
+        /// </param>
+        /// <param name="callback">Optional callback to run with the joining status, perhaps used to inform the UI to update.</param>
+        private void OnJoinSessionFinished(SessionDetails joinedSessionDetailsHandle, Action<Result> callback = null)
         {
-            if (JoiningSessionDetails != null)
+            var sessionDetailsCopyInfoOptions = new SessionDetailsCopyInfoOptions();
+            Result result = joinedSessionDetailsHandle.CopyInfo(ref sessionDetailsCopyInfoOptions, out SessionDetailsInfo? sessionInfo);
+
+            if (result == Result.Success)
             {
-                var sessionDetailsCopyInfoOptions = new SessionDetailsCopyInfoOptions();
-                Result result = JoiningSessionDetails.CopyInfo(ref sessionDetailsCopyInfoOptions, out SessionDetailsInfo? sessionInfo);
+                Session session = new Session();
+                session.Name = GenerateJoinedSessionName(true);
+                session.InitFromSessionInfo(joinedSessionDetailsHandle, sessionInfo);
 
-                if (result == Result.Success)
+                // Check if we have a local Session with same ID
+                bool localSessionFound = false;
+                foreach (Session currentSession in CurrentSessions.Values)
                 {
-                    Session session = new Session();
-                    session.Name = GenerateJoinedSessionName(true);
-                    session.InitFromSessionInfo(JoiningSessionDetails, sessionInfo);
-
-                    // Check if we have a local Session with same ID
-                    bool localSessionFound = false;
-                    foreach (Session currentSession in CurrentSessions.Values)
+                    if (currentSession.Id == session.Id)
                     {
-                        if (currentSession.Id == session.Id)
-                        {
-                            localSessionFound = true;
-                            break;
-                        }
+                        localSessionFound = true;
+                        break;
                     }
-
-                    if (!localSessionFound)
-                    {
-                        CurrentSessions[session.Name] = session;
-                    }
-
-                    OnPresenceChange?.Invoke();
-                    InformSessionOwnerWithMessage(session.Name, P2P_JOINING_SESSION_MESSAGE_ELEMENT);
                 }
-                callback?.Invoke(result);
+
+                if (!localSessionFound)
+                {
+                    CurrentSessions[session.Name] = session;
+                }
+
+                OnPresenceChange?.Invoke();
+                InformSessionOwnerWithMessage(session.Name, P2P_JOINING_SESSION_MESSAGE_ELEMENT);
             }
+
+            callback?.Invoke(result);
         }
 
         /// <summary>
@@ -2947,7 +2948,18 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             Log($"{nameof(EOSSessionsManager)} ({nameof(OnSessionInviteAcceptedListener)}): joined Session successfully.");
 
-            OnJoinSessionFinished(null);
+            CopySessionHandleByInviteIdOptions options = new()
+            {
+                InviteId = data.InviteId
+            };
+
+            Result copyResult = EOSManager.Instance.GetEOSPlatformInterface().GetSessionsInterface().CopySessionHandleByInviteId(ref options, out SessionDetails handle);
+            if (copyResult != Result.Success)
+            {
+                return;
+            }
+
+            OnJoinSessionFinished(handle);
         }
 
         #endregion
