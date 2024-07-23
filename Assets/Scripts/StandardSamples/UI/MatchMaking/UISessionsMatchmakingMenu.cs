@@ -376,7 +376,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public void ShowMenu()
         {
             GetEOSSessionsManager.OnLoggedIn();
-            GetEOSSessionsManager.UIOnPresenceAffectingChange.AddListener(MarkFriendsUIDirty);
+            GetEOSSessionsManager.OnPresenceChange.AddListener(MarkFriendsUIDirty);
 
             SessionsMatchmakingUIParent.gameObject.SetActive(true);
 
@@ -391,7 +391,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             if (GetEOSSessionsManager.IsUserLoggedIn)//check to prevent warnings when done unnecessarily during Sessions & Matchmaking startup
             {
-                GetEOSSessionsManager.UIOnPresenceAffectingChange.RemoveListener(MarkFriendsUIDirty);
+                GetEOSSessionsManager.OnPresenceChange.RemoveListener(MarkFriendsUIDirty);
                 GetEOSSessionsManager.OnLoggedOut();
             }
 
