@@ -803,23 +803,24 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// This event id can be used to create a <see cref="SessionDetails"/> object by calling <see cref="MakeSessionHandleByEventId(ulong)"/>.
         /// After doing so, or if the handle will not be utilized, this function must call this function to release the handle in the EOS SDK.
         /// Most of the functions in the EOS SDK that require this will mention it in the comments of the callback function. Anything with a UiEventId should have this called.
-        /// 
-        /// TODO: This is hard coded to only handle the <see cref="JoinUiEvent"/> case. It must be changed to also accept the event's id in order to function properly.
         /// </summary>
-        /// <param name="result">A result indicating the success or failure of the event id to acknowledge.</param>
-        private void AcknowledgeEventId(Result result)
+        /// <param name="UiEventId">
+        /// The id of the event to acknowledge.
+        /// All functions requiring AcknowledgeEventId to be called will return this as part of the callback info.
+        /// </param>
+        /// <param name="result">
+        /// A result indicating the success or failure of the event id to acknowledge.
+        /// Most API calls will return a Result, which can be used as this argument.
+        /// In the case where no Result has been provided by the EOS SDK, any Result code can be used in its place, such as <see cref="Result.UnexpectedError"/>.
+        /// </param>
+        private void AcknowledgeEventId(ulong UiEventId, Result result)
         {
-            if (JoinUiEvent != 0)
-            {
-                AcknowledgeEventIdOptions options = new AcknowledgeEventIdOptions();
-                options.UiEventId = JoinUiEvent;
-                options.Result = result;
+            AcknowledgeEventIdOptions options = new AcknowledgeEventIdOptions();
+            options.UiEventId = UiEventId;
+            options.Result = result;
 
-                UIInterface uiInterface = EOSManager.Instance.GetEOSPlatformInterface().GetUIInterface();
-                uiInterface.AcknowledgeEventId(ref options);
-
-                JoinUiEvent = 0;
-            }
+            UIInterface uiInterface = EOSManager.Instance.GetEOSPlatformInterface().GetUIInterface();
+            uiInterface.AcknowledgeEventId(ref options);
         }
 
         /// <summary>
