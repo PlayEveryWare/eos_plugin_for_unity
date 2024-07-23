@@ -376,7 +376,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public void ShowMenu()
         {
             GetEOSSessionsManager.OnLoggedIn();
-            GetEOSSessionsManager.OnPresenceChange.AddListener(MarkFriendsUIDirty);
+            GetEOSSessionsManager.OnPresenceChange.AddListener(SetDirtyFlagAction);
 
             SessionsMatchmakingUIParent.gameObject.SetActive(true);
 
@@ -391,7 +391,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             if (GetEOSSessionsManager.IsUserLoggedIn)//check to prevent warnings when done unnecessarily during Sessions & Matchmaking startup
             {
-                GetEOSSessionsManager.OnPresenceChange.RemoveListener(MarkFriendsUIDirty);
+                GetEOSSessionsManager.OnPresenceChange.RemoveListener(SetDirtyFlagAction);
                 GetEOSSessionsManager.OnLoggedOut();
             }
 
@@ -538,6 +538,15 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             OwnInvitationState = OwnSessionInvitationAbilityState.ValidSessionToInviteTo;
             return;
+        }
+
+        /// <summary>
+        /// <see cref="EOSSessionsManager.OnPresenceChange"/> accepts a function with zero arguments.
+        /// This methods gives a consistent method to AddListener and RemoveListener to that event.
+        /// </summary>
+        private void SetDirtyFlagAction()
+        {
+            SetDirtyFlag();
         }
 
         #endregion

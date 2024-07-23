@@ -290,7 +290,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
                 isHost = true;
                 SetSessionUIActive(true);
                 SetJoinInfo(EOSManager.Instance.GetProductUserId());
-                MarkFriendsUIDirty();
+                SetDirtyFlag();
             }
             else
             {
@@ -318,7 +318,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             isClient = false;
             SetSessionUIActive(false);
             EOSSessionsManager.SetJoinInfo(null);
-            MarkFriendsUIDirty();
+            SetDirtyFlag();
         }
 
         public void TakeControlOnClick()
@@ -384,7 +384,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             isClient = false;
             SetSessionUIActive(false);
             EOSSessionsManager.SetJoinInfo(null);
-            MarkFriendsUIDirty();
+            SetDirtyFlag();
             NetworkSamplePlayer.UnregisterDisconnectCallback(OnDisconnect);
         }
 
@@ -399,7 +399,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
                     SetSessionUIActive(true);
                     isClient = true;
                     SetJoinInfo(hostId);
-                    MarkFriendsUIDirty();
+                    SetDirtyFlag();
                 }
                 else
                 {

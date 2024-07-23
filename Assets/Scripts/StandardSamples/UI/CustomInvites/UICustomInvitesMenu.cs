@@ -167,7 +167,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 CustomInvitesManager.SetPayload(payloadText);
                 PayloadSet = true;
             }
-            MarkFriendsUIDirty();
+            SetDirtyFlag();
         }
 
         public override FriendInteractionState GetFriendInteractionState(FriendData friendData)

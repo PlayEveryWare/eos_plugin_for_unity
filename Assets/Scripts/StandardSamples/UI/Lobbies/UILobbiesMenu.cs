@@ -624,7 +624,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             LeaveLobbyButton.gameObject.SetActive(true);
             AddMemberAttributeButton.gameObject.SetActive(true);
 
-            MarkFriendsUIDirty();
+            SetDirtyFlag();
         }
 
         private void UIOnLeaveLobby(Result result)
