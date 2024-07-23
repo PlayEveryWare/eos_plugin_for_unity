@@ -61,7 +61,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         /// <summary>
         /// Cached state that indicates if the local user can send invitations for a Session.
-        /// Processed in <see cref="ProcessInformationBeforeFriendsRefresh"/>,
+        /// Processed in <see cref="OnFriendStateChanged"/>,
         /// and utilized in <see cref="GetFriendInteractionState(FriendData)"/>.
         /// </summary>
         protected OwnSessionInvitationAbilityState OwnInvitationState { get; set; } = OwnSessionInvitationAbilityState.NoSessionToInviteTo;
@@ -492,7 +492,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             return FriendInteractionState.Enabled;
         }
 
-        public override void ProcessInformationBeforeFriendsRefresh()
+        public override void OnFriendStateChanged()
         {
             // Determine if the local user has an active, presence-enabled Session
             if (!GetEOSSessionsManager.TryGetPresenceSession(out Session foundSession) || foundSession.ActiveSession == null)

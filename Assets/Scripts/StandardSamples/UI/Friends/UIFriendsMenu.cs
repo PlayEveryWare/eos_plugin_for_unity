@@ -176,7 +176,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 GameObject.Destroy(child.gameObject);
             }
 
-            UIFriendInteractionSource?.ProcessInformationBeforeFriendsRefresh();
+            UIFriendInteractionSource?.OnFriendStateChanged();
 
             foreach (FriendData friend in friendDataList)
             {

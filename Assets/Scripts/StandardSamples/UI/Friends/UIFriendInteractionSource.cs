@@ -74,7 +74,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// This is an opportunity to refresh any caches or do processing work that should be done once,
         /// instead of processed for each call of <see cref="GetFriendInteractionState(FriendData)"/>.
         /// </summary>
-        public virtual void ProcessInformationBeforeFriendsRefresh()
+        protected virtual void OnFriendStateChanged()
         {
 
         }
