@@ -143,7 +143,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 if (UIFriendInteractionSource != null && UIFriendInteractionSource.IsFriendsUIDirty())
                 {
                     RenderFriendsList(true);
-                    UIFriendInteractionSource.ResetFriendsUIDirtyFlag();
+                    UIFriendInteractionSource.SetDirtyFlag(false);
                 }
                 else
                 {

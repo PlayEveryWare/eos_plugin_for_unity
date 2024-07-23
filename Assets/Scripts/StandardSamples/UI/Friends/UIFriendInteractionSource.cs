@@ -64,14 +64,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             return IsDirty;
         }
 
-        public virtual void ResetFriendsUIDirtyFlag()
+        public virtual void SetDirtyFlag(bool isDirty = true)
         {
-            IsDirty = false;
-        }
-
-        public virtual void MarkFriendsUIDirty()
-        {
-            IsDirty = true;
+            IsDirty = isDirty;
         }
 
         /// <summary>
