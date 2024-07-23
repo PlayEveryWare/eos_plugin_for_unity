@@ -492,7 +492,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             return FriendInteractionState.Enabled;
         }
 
-        protected override void OnFriendStateChanged()
+        public override void OnFriendStateChanged()
         {
             // Determine if the local user has an active, presence-enabled Session
             if (!GetEOSSessionsManager.TryGetPresenceSession(out Session foundSession) || foundSession.ActiveSession == null)
