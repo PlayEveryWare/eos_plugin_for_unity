@@ -493,7 +493,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// <summary>
         /// Event to inform UI that it should refresh displayed Friends and Joining/Inviting buttons.
         /// </summary>
-        public UnityEvent UIOnPresenceAffectingChange = new UnityEvent();
+        public UnityEvent OnPresenceChange = new UnityEvent();
 
         public const ulong INVALID_NOTIFICATIONID = 0;
 
@@ -1729,7 +1729,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             existingLocalSession.InitFromSessionInfo(sessionDetails, sessionInfo);
 
             UIOnSessionRefresh?.Invoke(existingLocalSession, sessionDetails);
-            UIOnPresenceAffectingChange?.Invoke();
+            OnPresenceChange?.Invoke();
         }
 
         #endregion
@@ -1827,7 +1827,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 }
             }
 
-            UIOnPresenceAffectingChange?.Invoke();
+            OnPresenceChange?.Invoke();
         }
 
         /// <summary>
@@ -1953,7 +1953,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                         CurrentSessions[session.Name] = session;
                     }
 
-                    UIOnPresenceAffectingChange?.Invoke();
+                    OnPresenceChange?.Invoke();
                     InformSessionOwnerWithMessage(session.Name, P2P_JOINING_SESSION_MESSAGE_ELEMENT);
                 }
                 callback?.Invoke(result);
@@ -2655,7 +2655,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 }
 
                 InformSessionMembers(sessionName, P2P_REFRESH_SESSION_MESSAGE_ELEMENT);
-                UIOnPresenceAffectingChange?.Invoke();
+                OnPresenceChange?.Invoke();
             }
         }
 
