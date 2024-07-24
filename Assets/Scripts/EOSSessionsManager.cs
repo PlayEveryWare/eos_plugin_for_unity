@@ -90,6 +90,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             return SearchResults;
         }
 
+        /// <summary>
+        /// Looks through the Sessions stored in <see cref="SearchResults"/> for a Session with a matching id.
+        /// If found, outputs the <see cref="SessionDetails"/> handle object.
+        /// This can only find Sessions that are part of this search's results, and only if <see cref="OnSearchResultReceived(Dictionary{Session, SessionDetails})"/> has stored those values.
+        /// </summary>
+        /// <param name="sessionId">The id of the Session to find.</param>
+        /// <param name="sessionHandle">Output parameter for the SessionDetails handle.</param>
+        /// <returns>True if a Session was found with the Id. False otherwise.</returns>
         public bool TryGetSessionHandleById(string sessionId, out SessionDetails sessionHandle)
         {
             sessionHandle = null;
@@ -106,6 +114,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             return false;
         }
 
+        /// <summary>
+        /// Sets the <see cref="SearchResults"/> for this search.
+        /// <see cref="runOnSearchResultReceived"/> is invoked upon calling this, and then unset.
+        /// </summary>
+        /// <param name="results">A Session-to-SessionDetails dictionary with the results.</param>
         public void OnSearchResultReceived(Dictionary<Session, SessionDetails> results)
         {
             SearchResults = results;
@@ -1854,8 +1867,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         /// <summary>
         /// Attempts to join an online Session.
-        /// The results are handled by <see cref="OnJoinSessionListener(ref JoinSessionCallbackInfo)"/>.
-        /// Sets <see cref="JoiningSessionDetails"/> with the handle, so that it can be used to inform which Session was joined.
+        /// The results are handled by <see cref="OnJoinSessionListener(ref JoinSessionCallbackInfo, SessionDetails, Action{Result})"/>.
         /// </summary>
         /// <param name="sessionHandle">A handle to the Session to join.</param>
         /// <param name="presenceSession">
@@ -1864,7 +1876,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// </param>
         /// <param name="callback">
         /// Additional callback to run with the results of the operation.
-        /// Executed as ClientData in <see cref="OnJoinSessionListener(ref JoinSessionCallbackInfo)"/>.
+        /// Invoked in <see cref="OnJoinSessionListener(ref JoinSessionCallbackInfo, SessionDetails, Action{Result})"/>
         /// </param>
         public void JoinSession(SessionDetails sessionHandle, bool presenceSession, Action<Result> callback = null)
         {
@@ -1911,6 +1923,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// <see cref="SessionsInterface.CopySessionHandleByUiEventId(ref CopySessionHandleByUiEventIdOptions, out SessionDetails)"/>
         /// <see cref="SessionsInterface.CopySessionHandleForPresence(ref CopySessionHandleForPresenceOptions, out SessionDetails)"/>
         /// <see cref="Epic.OnlineServices.Sessions.SessionSearch.CopySearchResultByIndex(ref SessionSearchCopySearchResultByIndexOptions, out SessionDetails)"/>
+        /// <see cref="SessionSearch.TryGetSessionHandleById(string, out SessionDetails)"/>
         /// </param>
         /// <param name="callback">Optional callback to run with the joining status, perhaps used to inform the UI to update.</param>
         private void OnJoinSessionFinished(SessionDetails joinedSessionDetailsHandle, Action<Result> callback = null)
