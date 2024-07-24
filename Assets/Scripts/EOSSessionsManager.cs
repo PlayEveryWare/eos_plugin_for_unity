@@ -37,6 +37,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     using Epic.OnlineServices.P2P;
     using System.Text.RegularExpressions;
     using System.Text;
+    using UnityEngine.Events;
 
     /// <summary>
     /// Class represents a Session search and search results
@@ -488,6 +489,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         Queue<Action> UIOnJoinSession;
         Queue<Action> UIOnLeaveSession;
         Queue<Action> UIOnSessionSearchCompleted;
+
+        /// <summary>
+        /// Event to inform UI that it should refresh displayed Friends and Joining/Inviting buttons.
+        /// </summary>
+        public UnityEvent OnPresenceChange = new UnityEvent();
 
         public const ulong INVALID_NOTIFICATIONID = 0;
 
@@ -1194,6 +1200,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// <returns>Returns true if there is a local Session with Presence enabled.</returns>
         public bool HasPresenceSession()
         {
+            // Can't have a presence session if we're not even logged in
+            if (!IsUserLoggedIn)
+            {
+                KnownPresenceSessionId = string.Empty;
+                return false;
+            }
+
             if (KnownPresenceSessionId.Length > 0)
             {
                 if (CurrentSessions.ContainsKey(KnownPresenceSessionId)) // TODO: validate
@@ -1299,6 +1312,38 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             // TODO if needed
             return null;
+        }
+
+        /// <summary>
+        /// Attempts to get a locally joined Presence enabled Session.
+        /// Users can only be in one Presence enabled Session at a time.
+        /// The current Id is stored in <see cref="KnownPresenceSessionId"/>.
+        /// </summary>
+        /// <param name="foundSession">Out parameter with the Session, if found.</param>
+        /// <returns>True if a Presence Session is found. False otherwise.</returns>
+        public bool TryGetPresenceSession(out Session foundSession)
+        {
+            foundSession = null;
+
+            // This function will determine which Session is the active Presence Session
+            if (!HasPresenceSession())
+            {
+                return false;
+            }
+
+            if (string.IsNullOrEmpty(KnownPresenceSessionId))
+            {
+                // No known presence session, so exit
+                return false;
+            }
+
+            if (TryGetSessionById(KnownPresenceSessionId, out foundSession))
+            {
+                return true;
+            }
+
+            // If this has been reached, then none was found
+            return false;
         }
 
         #endregion
@@ -1684,6 +1729,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             existingLocalSession.InitFromSessionInfo(sessionDetails, sessionInfo);
 
             UIOnSessionRefresh?.Invoke(existingLocalSession, sessionDetails);
+            OnPresenceChange?.Invoke();
         }
 
         #endregion
@@ -1780,6 +1826,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     CurrentSessions.Remove(sessionName);
                 }
             }
+
+            OnPresenceChange?.Invoke();
         }
 
         /// <summary>
@@ -1905,6 +1953,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                         CurrentSessions[session.Name] = session;
                     }
 
+                    OnPresenceChange?.Invoke();
                     InformSessionOwnerWithMessage(session.Name, P2P_JOINING_SESSION_MESSAGE_ELEMENT);
                 }
                 callback?.Invoke(result);
@@ -2606,6 +2655,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 }
 
                 InformSessionMembers(sessionName, P2P_REFRESH_SESSION_MESSAGE_ELEMENT);
+                OnPresenceChange?.Invoke();
             }
         }
 

@@ -35,8 +35,37 @@ using PlayEveryWare.EpicOnlineServices;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
-    public class UISessionsMatchmakingMenu : MonoBehaviour, ISampleSceneUI
+    public class UISessionsMatchmakingMenu : UIFriendInteractionSource, ISampleSceneUI
     {
+        /// <summary>
+        /// An enum to record the local state of whether the local user can invite users to their Session.
+        /// <see cref="OwnInvitationState"/>
+        /// </summary>
+        protected enum OwnSessionInvitationAbilityState
+        {
+            /// <summary>
+            /// Indicates the user has not joined any Session, therefore can't invite anyone.
+            /// </summary>
+            NoSessionToInviteTo,
+
+            /// <summary>
+            /// Indicates the user has joined a Session, but for some reason it can't have invitations sent for it.
+            /// </summary>
+            InvalidSessionToInviteTo,
+
+            /// <summary>
+            /// Indicates the user has joined a Session that can have invitations sent for it correctly.
+            /// </summary>
+            ValidSessionToInviteTo
+        }
+
+        /// <summary>
+        /// Cached state that indicates if the local user can send invitations for a Session.
+        /// Processed in <see cref="OnFriendStateChanged"/>,
+        /// and utilized in <see cref="GetFriendInteractionState(FriendData)"/>.
+        /// </summary>
+        protected OwnSessionInvitationAbilityState OwnInvitationState { get; set; } = OwnSessionInvitationAbilityState.NoSessionToInviteTo;
+
         public GameObject SessionsMatchmakingUIParent;
 
         [Header("Sessions/Matchmaking UI - Create Options")]
@@ -347,6 +376,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public void ShowMenu()
         {
             GetEOSSessionsManager.OnLoggedIn();
+            GetEOSSessionsManager.OnPresenceChange.AddListener(SetDirtyFlagAction);
 
             SessionsMatchmakingUIParent.gameObject.SetActive(true);
 
@@ -361,6 +391,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             if (GetEOSSessionsManager.IsUserLoggedIn)//check to prevent warnings when done unnecessarily during Sessions & Matchmaking startup
             {
+                GetEOSSessionsManager.OnPresenceChange.RemoveListener(SetDirtyFlagAction);
                 GetEOSSessionsManager.OnLoggedOut();
             }
 
@@ -403,5 +434,121 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             uiEntry.SetUIElementsFromSessionAndDetails(session, details, this);
         }
+
+        #region UIFriendInteractionSource Implementations
+
+        /* 
+         * REGION NOTES:
+         * 
+         * The UIFriendsMenu popout uses the base class UIFriendInteractionSource to facilitate interactions.
+         * 
+         * NOTE: This current implementation is not complete.
+         * There is functionality suggested by the existance of this window that needs to be added.
+         * 
+         * - Users should be able to Join Sessions their friends are in, if that friend is in a Session, and that Session has invites enabled.
+         * - Users that are in a Session who want to interact with a friend that is also in a Session should have UX for choosing Invite or Join
+         * - Users in multiple Sessions should be able to choose which Session to invite their friend to. Currently it uses the most recently joined Session only.
+         * - Users who have friends in multiple Sessions should be able to choose which Session to join
+         * 
+         */
+
+        public override string GetFriendInteractButtonText()
+        {
+            return "Invite";
+        }
+
+        public override void OnFriendInteractButtonClicked(FriendData friendData)
+        {
+            // Get the local Presence Session to invite to
+            if (!GetEOSSessionsManager.TryGetPresenceSession(out Session foundSession) || foundSession.ActiveSession == null)
+            {
+                // Didn't find a presence session, so nothing to invite to
+                Debug.LogError($"{nameof(UISessionsMatchmakingMenu)} ({nameof(OnFriendInteractButtonClicked)}): A friend was chosen to invite to a Session, but no local Presence-enabled Session detected.");
+                return;
+            }
+
+            GetEOSSessionsManager.InviteToSession(foundSession.Name, friendData.UserProductUserId);
+        }
+
+        public override FriendInteractionState GetFriendInteractionState(FriendData friendData)
+        {
+            // First determine if the user is both a friend and online
+            if (!friendData.IsFriend() || !friendData.IsOnline())
+            {
+                return FriendInteractionState.Hidden;
+            }
+
+            if (OwnInvitationState == OwnSessionInvitationAbilityState.NoSessionToInviteTo)
+            {
+                return FriendInteractionState.Hidden;
+            }
+
+            if (OwnInvitationState == OwnSessionInvitationAbilityState.InvalidSessionToInviteTo)
+            {
+                return FriendInteractionState.Disabled;
+            }
+
+            // The only thing remaining is yes, this user can be interacted with
+            return FriendInteractionState.Enabled;
+        }
+
+        public override void OnFriendStateChanged()
+        {
+            // Determine if the local user has an active, presence-enabled Session
+            if (!GetEOSSessionsManager.TryGetPresenceSession(out Session foundSession) || foundSession.ActiveSession == null)
+            {
+                // Didn't find a presence session, so nothing to invite to
+                OwnInvitationState = OwnSessionInvitationAbilityState.NoSessionToInviteTo;
+                return;
+            }
+
+            // Does this Session allow for invites? If not, you can't invite users to it.
+            if (!foundSession.InvitesAllowed)
+            {
+                OwnInvitationState = OwnSessionInvitationAbilityState.InvalidSessionToInviteTo;
+                return;
+            }
+
+            // Is this Session in a state that can accept more users?
+            // To answer questions about this, fetch the ActiveSessionInfo
+            ActiveSessionCopyInfoOptions copyInfoOption = new();
+            Result copyResult = foundSession.ActiveSession.CopyInfo(ref copyInfoOption, out ActiveSessionInfo? foundInfo);
+
+            if (copyResult != Result.Success || !foundInfo.HasValue || !foundInfo.Value.SessionDetails.HasValue)
+            {
+                OwnInvitationState = OwnSessionInvitationAbilityState.InvalidSessionToInviteTo;
+                return;
+            }
+
+            // If users can't join an in-progress Session, then check the status of the Session
+            if (!foundSession.AllowJoinInProgress && (foundInfo.Value.State == OnlineSessionState.Starting || foundInfo.Value.State == OnlineSessionState.InProgress))
+            {
+                EOSSessionsManager.Log($"{nameof(UISessionsMatchmakingMenu)} ({nameof(GetFriendInteractionState)}): The current Presence-enabled Session cannot be invited to because it is {foundInfo.Value.State} and {nameof(Session.AllowJoinInProgress)} is false.");
+                OwnInvitationState = OwnSessionInvitationAbilityState.InvalidSessionToInviteTo;
+                return;
+            }
+
+            // Check that the Session doesn't already have the maximum number of users
+            if (foundInfo.Value.SessionDetails.Value.NumOpenPublicConnections == 0)
+            {
+                EOSSessionsManager.Log($"{nameof(UISessionsMatchmakingMenu)} ({nameof(GetFriendInteractionState)}): The current Presence-enabled Session cannot be invited to because the Session already has reached its {nameof(Session.MaxPlayers)} count.");
+                OwnInvitationState = OwnSessionInvitationAbilityState.InvalidSessionToInviteTo;
+                return;
+            }
+
+            OwnInvitationState = OwnSessionInvitationAbilityState.ValidSessionToInviteTo;
+            return;
+        }
+
+        /// <summary>
+        /// <see cref="EOSSessionsManager.OnPresenceChange"/> accepts a function with zero arguments.
+        /// This methods gives a consistent method to AddListener and RemoveListener to that event.
+        /// </summary>
+        private void SetDirtyFlagAction()
+        {
+            SetDirtyFlag();
+        }
+
+        #endregion
     }
 }

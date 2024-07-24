@@ -42,7 +42,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         private EOSFriendsManager FriendsManager;
         private List<UICustomInviteEntry> PendingInviteEntries;
         private bool PayloadSet = false;
-        private bool UIDirty = false;
 
         private void Awake()
         {
@@ -168,7 +167,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 CustomInvitesManager.SetPayload(payloadText);
                 PayloadSet = true;
             }
-            UIDirty = true;
+            SetDirtyFlag();
         }
 
         public override FriendInteractionState GetFriendInteractionState(FriendData friendData)
@@ -179,16 +178,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public override string GetFriendInteractButtonText()
         {
             return "Invite";
-        }
-
-        public override bool IsDirty()
-        {
-            return UIDirty;
-        }
-
-        public override void ResetDirtyFlag()
-        {
-            UIDirty = false;
         }
 
         public override void OnFriendInteractButtonClicked(FriendData friendData)

@@ -140,10 +140,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
             else
             {
-                if (UIFriendInteractionSource != null && UIFriendInteractionSource.IsDirty())
+                if (UIFriendInteractionSource != null && UIFriendInteractionSource.IsFriendsUIDirty())
                 {
                     RenderFriendsList(true);
-                    UIFriendInteractionSource.ResetDirtyFlag();
+                    UIFriendInteractionSource.SetDirtyFlag(false);
                 }
                 else
                 {
@@ -175,6 +175,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             {
                 GameObject.Destroy(child.gameObject);
             }
+
+            UIFriendInteractionSource?.OnFriendStateChanged();
 
             foreach (FriendData friend in friendDataList)
             {
