@@ -31,7 +31,6 @@ using System.Text.RegularExpressions;
 
 namespace PlayEveryWare.EpicOnlineServices
 {
-    using Epic.OnlineServices.IntegratedPlatform;
     using Extensions;
 
     /// <summary>
