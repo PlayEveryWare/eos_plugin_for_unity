@@ -53,7 +53,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// unset in <see cref="Release"/>, when a new search is set without the argument,
         /// or after <see cref="OnSearchResultReceived(Dictionary{Session, SessionDetails})"/> is called.
         /// </summary>
-        private Action<SessionSearch> runOnSearchResultReceived { get; set; }
+        private Action<SessionSearch> RunOnSearchResultReceived { get; set; }
 
         public SessionSearch()
         {
@@ -70,13 +70,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 SearchHandle = null;
             }
 
-            runOnSearchResultReceived = null;
+            RunOnSearchResultReceived = null;
         }
 
         public void SetNewSearch(Epic.OnlineServices.Sessions.SessionSearch handle, Action<SessionSearch> actionToRunOnResultsReceived = null)
         {
             Release();
-            runOnSearchResultReceived = actionToRunOnResultsReceived;
+            RunOnSearchResultReceived = actionToRunOnResultsReceived;
             SearchHandle = handle;
         }
 
@@ -116,14 +116,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         /// <summary>
         /// Sets the <see cref="SearchResults"/> for this search.
-        /// <see cref="runOnSearchResultReceived"/> is invoked upon calling this, and then unset.
+        /// <see cref="RunOnSearchResultReceived"/> is invoked upon calling this, and then unset.
         /// </summary>
         /// <param name="results">A Session-to-SessionDetails dictionary with the results.</param>
         public void OnSearchResultReceived(Dictionary<Session, SessionDetails> results)
         {
             SearchResults = results;
-            runOnSearchResultReceived?.Invoke(this);
-            runOnSearchResultReceived = null;
+            RunOnSearchResultReceived?.Invoke(this);
+            RunOnSearchResultReceived = null;
         }
     }
 
