@@ -198,6 +198,23 @@ namespace PlayEveryWare.EpicOnlineServices.Extensions
             throw new ArgumentException($"Unsupported enum underlying type: \"{underlyingType.FullName}.\"");
         }
 
+        /// <summary>
+        /// Enum types that have the attribute [Flags], and have a compatible
+        /// underlying type can be combined using bitwise operations. This
+        /// utility function will take that combined value and decompose it into
+        /// the individual Enum values represented by the value.
+        ///
+        /// This is mostly useful for debugging and for displaying the value in
+        /// user interfaces, such as instances where the user can change the
+        /// values.
+        /// </summary>
+        /// <param name="bitFlag">
+        /// The possible result of combining enum values using bitwise
+        /// operations.
+        /// </param>
+        /// <returns>
+        /// The discrete values of which this combined flag is composed of.
+        /// </returns>
         public static IEnumerable<TEnum> Decompose(TEnum bitFlag)
         {
             IList<TEnum> compositeParts = new List<TEnum>();
