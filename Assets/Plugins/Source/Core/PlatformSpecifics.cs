@@ -29,11 +29,8 @@ namespace PlayEveryWare.EpicOnlineServices
 {
     using System;
     using System.Collections.Generic;
-    using System.IO;
     using UnityEngine;
-    using UnityEngine.Scripting;
-    using Utility;
-    using JsonUtility = PlayEveryWare.EpicOnlineServices.Utility.JsonUtility;
+    using JsonUtility = Utility.JsonUtility;
 
     public abstract class PlatformSpecifics<T> : IPlatformSpecifics where T : PlatformConfig
     {
@@ -97,8 +94,7 @@ namespace PlayEveryWare.EpicOnlineServices
             ((EOSCreateOptions)createOptions).options.RTCOptions = new();
         }
 
-        public virtual void ConfigureSystemInitOptions(ref EOSInitializeOptions initializeOptionsRef,
-            EOSConfig configData)
+        public virtual void ConfigureSystemInitOptions(ref EOSInitializeOptions initializeOptionsRef)
         {
             Debug.Log("ConfigureSystemInitOptions");
 
@@ -115,12 +111,9 @@ namespace PlayEveryWare.EpicOnlineServices
             {
                 Debug.Log($"Assigning thread affinity override values for platform \"{Platform}\".");
                 var overrideThreadAffinity = initializeOptions.options.OverrideThreadAffinity.Value;
-                overrideThreadAffinity.NetworkWork = config.overrideValues.GetThreadAffinityNetworkWork(overrideThreadAffinity.NetworkWork);
-                overrideThreadAffinity.StorageIo = config.overrideValues.GetThreadAffinityStorageIO(overrideThreadAffinity.StorageIo);
-                overrideThreadAffinity.WebSocketIo = config.overrideValues.GetThreadAffinityWebSocketIO(overrideThreadAffinity.WebSocketIo);
-                overrideThreadAffinity.P2PIo = config.overrideValues.GetThreadAffinityP2PIO(overrideThreadAffinity.P2PIo);
-                overrideThreadAffinity.HttpRequestIo = config.overrideValues.GetThreadAffinityHTTPRequestIO(overrideThreadAffinity.HttpRequestIo);
-                overrideThreadAffinity.RTCIo = config.overrideValues.GetThreadAffinityRTCIO(overrideThreadAffinity.RTCIo);
+
+                config.overrideValues.ConfigureOverrideThreadAffinity(ref overrideThreadAffinity);
+
                 initializeOptions.options.OverrideThreadAffinity = overrideThreadAffinity;
             }
         }

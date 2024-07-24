@@ -66,7 +66,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
             GUIEditorUtility.AssigningULongToStringField("Thread Affinity: P2PIO", ref config.overrideValues.ThreadAffinity_P2PIO);
             GUIEditorUtility.AssigningULongToStringField("Thread Affinity: HTTPRequestIO", ref config.overrideValues.ThreadAffinity_HTTPRequestIO);
             GUIEditorUtility.AssigningULongToStringField("Thread Affinity: RTCIO", ref config.overrideValues.ThreadAffinity_RTCIO);
-
         }
 
         public virtual void RenderPlatformSpecificOptions() { }

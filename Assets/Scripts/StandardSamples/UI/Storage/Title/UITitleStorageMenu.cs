@@ -69,7 +69,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public void OnEnable()
         {
-            if (EOSManager.Instance.IsEncryptionKeyValid())
+            if (Config.Get<EOSConfig>().IsEncryptionKeyValid())
             {
                 FileContent.text = string.Empty;
             }

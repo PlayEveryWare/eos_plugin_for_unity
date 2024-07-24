@@ -96,7 +96,7 @@ namespace PlayEveryWare.EpicOnlineServices
         void LoadDelegatesWithEOSBindingAPI();
 //#endif
 
-        void ConfigureSystemInitOptions(ref EOSInitializeOptions initializeOptions, EOSConfig configData);
+        void ConfigureSystemInitOptions(ref EOSInitializeOptions initializeOptions);
 
         void ConfigureSystemPlatformCreateOptions(ref EOSCreateOptions createOptions);
 
