@@ -1,1 +1,2 @@
 EOS/Windows/EOSBootstrapper.exe filter=lfs diff=lfs merge=lfs binary
+*.aar filter=lfs diff=lfs merge=lfs binary
