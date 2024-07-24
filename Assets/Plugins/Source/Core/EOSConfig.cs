@@ -275,52 +275,6 @@ namespace PlayEveryWare.EpicOnlineServices
 #if !EOS_DISABLE
 
         /// <summary>
-        /// Uses the current values of the EOSConfig to create a RuntimeConfig
-        /// struct that contains readonly values with the appropriate types.
-        ///
-        /// This _can_ serve as a means of data validation, in that if the
-        /// corresponding string values are not parseable into the expected data
-        /// type. Future work will be done to expose this validation in an
-        /// appropriately user-friendly manner.
-        /// 
-        /// The result of this function should be used when assigning the values
-        /// to structures that aid in the creation and initialization of the EOS
-        /// SDK.
-        /// </summary>
-        /// <returns>RuntimeConfig with readonly values.</returns>
-        public RuntimeConfig GetRuntimeConfig()
-        {
-            // Use the configure override thread affinity helper function to
-            // set the thread affinity parameter for the RuntimeConfig object.
-            InitializeThreadAffinity threadAffinity = new();
-            ConfigureOverrideThreadAffinity(ref threadAffinity);
-
-            // try parse the float values from string so that they default to
-            // zero if the strings are empty.
-            float initialButtonDelayForOverlayFloat = GetULongFromString(initialButtonDelayForOverlay);
-            float repeatButtonDelayForOverlayFloat = GetULongFromString(repeatButtonDelayForOverlay);
-
-            return new RuntimeConfig(
-                Guid.Parse(productID),
-                productName,
-                Version.Parse(productVersion),
-                Guid.Parse(sandboxID),
-                Guid.Parse(deploymentID),
-                new ClientCredentials() { ClientId = clientID, ClientSecret = clientSecret },
-                encryptionKey,
-                GetPlatformFlags(),
-                GetAuthScopeFlags(),
-                IntegratedPlatformManagementFlags.Disabled,
-                tickBudgetInMilliseconds,
-                threadAffinity,
-                isServer,
-                alwaysSendInputToOverlay,
-                initialButtonDelayForOverlayFloat,
-                repeatButtonDelayForOverlayFloat,
-                hackForceSendInputDirectlyToSDK);
-        }
-
-        /// <summary>
         /// Returns a single PlatformFlags enum value that results from a
         /// bitwise OR operation of all the platformOptionsFlags flags on this
         /// config.

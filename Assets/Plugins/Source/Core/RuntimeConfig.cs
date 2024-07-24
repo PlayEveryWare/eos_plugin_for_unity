@@ -28,6 +28,7 @@ namespace PlayEveryWare.EpicOnlineServices
     using Epic.OnlineServices.IntegratedPlatform;
     using Epic.OnlineServices.Platform;
     using System;
+    using System.Runtime.CompilerServices;
     using UnityEditor.PackageManager;
 
 #if EOS_RUNTIME_NEW_CONFIG_SYSTEM
@@ -199,6 +200,60 @@ namespace PlayEveryWare.EpicOnlineServices
             InitialButtonDelayForOverlay = initialButtonDelayForOverlay;
             RepeatButtonDelayForOverlay = repeatButtonDelayForOverlay;
             SendInputDirectlyToSDK = sendInputDirectlyToSdk;
+        }
+
+        /// <summary>
+        /// Uses the values in the given EOSConfig class to create a
+        /// RuntimeConfig struct that contains readonly values with the
+        /// appropriate types.
+        ///
+        /// The result of using this for setting EOS SDK config values is a sort
+        /// of data validation, in that if the corresponding string values are
+        /// not parseable into the expected data type. Future work will be done
+        /// to expose this validation in an appropriately user-friendly manner.
+        ///
+        /// The result of this conversion should be used when assigning the
+        /// values to structures that aid in the creation and initialization of
+        /// the EOS SDK.
+        /// </summary>
+        /// <param name="config">
+        /// The EOSConfig to convert into RuntimeConfig.
+        /// </param>
+        public static implicit operator RuntimeConfig(EOSConfig config)
+        {
+            if (null == config)
+            {
+                throw new ArgumentNullException($"Cannot convert from a null \"EOSConfig\" to \"RuntimeConfig\".");
+            }
+
+            // Use the configure override thread affinity helper function to
+            // set the thread affinity parameter for the RuntimeConfig object.
+            InitializeThreadAffinity threadAffinity = new();
+            config.ConfigureOverrideThreadAffinity(ref threadAffinity);
+
+            // try parse the float values from string so that they default to
+            // zero if the strings are empty.
+            _ = float.TryParse(config.initialButtonDelayForOverlay, out float initialButtonDelayForOverlayFloat);
+            _ = float.TryParse(config.repeatButtonDelayForOverlay, out float repeatButtonDelayForOverlayFloat);
+
+            return new RuntimeConfig(
+                Guid.Parse(config.productID),
+                config.productName,
+                Version.Parse(config.productVersion),
+                Guid.Parse(config.sandboxID),
+                Guid.Parse(config.deploymentID),
+                new ClientCredentials() { ClientId = config.clientID, ClientSecret = config.clientSecret },
+                config.encryptionKey,
+                config.GetPlatformFlags(),
+                config.GetAuthScopeFlags(),
+                IntegratedPlatformManagementFlags.Disabled,
+                config.tickBudgetInMilliseconds,
+                threadAffinity,
+                config.isServer,
+                config.alwaysSendInputToOverlay,
+                initialButtonDelayForOverlayFloat,
+                repeatButtonDelayForOverlayFloat,
+                config.hackForceSendInputDirectlyToSDK);
         }
     }
 #endif
