@@ -197,5 +197,20 @@ namespace PlayEveryWare.EpicOnlineServices.Extensions
 
             throw new ArgumentException($"Unsupported enum underlying type: \"{underlyingType.FullName}.\"");
         }
+
+        public static IEnumerable<TEnum> Decompose(TEnum bitFlag)
+        {
+            IList<TEnum> compositeParts = new List<TEnum>();
+
+            foreach (TEnum enumValue in Enum.GetValues(typeof(TEnum)))
+            {
+                if (bitFlag.HasFlag(enumValue))
+                {
+                    compositeParts.Add(enumValue);
+                }
+            }
+            
+            return compositeParts;
+        }
     }
 }

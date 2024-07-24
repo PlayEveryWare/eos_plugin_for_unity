@@ -20,117 +20,119 @@
  * SOFTWARE.
  */
 
-#define EOS_RUNTIME_NEW_CONFIG_SYSTEM
+//#define EOS_RUNTIME_NEW_CONFIG_SYSTEM
 
 namespace PlayEveryWare.EpicOnlineServices
 {
+    using Epic.OnlineServices.Auth;
+    using Epic.OnlineServices.IntegratedPlatform;
+    using Epic.OnlineServices.Platform;
     using System;
-    using System.Collections.Generic;
+
 #if EOS_RUNTIME_NEW_CONFIG_SYSTEM
-    public class RuntimeConfig : Config
+    /// <summary>
+    /// Contains the information necessary to configure the EOS SDK to connect
+    /// properly to Epic Online Services. Is ignorant of platform, because it
+    /// _only_ represents the _current_ runtime values to use. The values of the
+    /// field members defined within will need to be determined at runtime.
+    ///
+    /// _Project Settings_ is the area where there will be options to define
+    /// configuration values on a platform by platform basis. The EOS Plugin
+    /// allows users who are making their game with EOS to define different
+    /// properties for each platform, and to store sandbox / deployment
+    /// overrides so that it is easy to switch between deployment environments
+    /// during development. Those settings are distinct from these set of
+    /// values.
+    ///
+    /// Most of the values for these field members come from the
+    /// [Development Portal](https://dev.epicgames.com/portal/)
+    /// </summary>
+    public struct RuntimeConfig
     {
+
+        /*
+         * The following region contains values that are required in order to
+         * use the EOS SDK.
+         */
+        #region EOS SDK Configuration Values
+
         /// <summary>
         /// Product Name defined in the
-        /// [Development Portal](https://dev.epicgames.com/portal/)
+        /// 
         /// </summary>
-        public string productName;
+        public readonly string ProductName;
 
         /// <summary>
         /// Version of Product.
         /// </summary>
-        public Version productVersion;
+        public readonly Version ProductVersion;
 
         /// <summary>
-        /// Product Id defined in the
-        /// [Development Portal](https://dev.epicgames.com/portal/)
+        /// Product Id
         /// </summary>
-        public Guid productID;
+        public readonly Guid ProductId;
 
         /// <summary>
-        /// Deployment Id defined in the
-        /// [Development Portal](https://dev.epicgames.com/portal/)
+        /// Sandbox Id
         /// </summary>
-        public (Guid sandbox, Guid deployment) sandboxDeployment;
+        public readonly Guid SandboxId;
 
         /// <summary>
-        /// Sandbox deployments pairs used to override Deployment ID when
-        /// a given Sandbox ID is used.
-        ///
-        /// The key is the sandbox ID, because sandboxes can have multiple
-        /// deployments. The value (the array of Guid values) represents the
-        /// deployments available for that sandbox.
+        /// Deployment Id
         /// </summary>
-        public Dictionary<Guid, Guid[]> sandboxDeploymentOverrides;
+        public readonly Guid DeploymentId;
 
         /// <summary>
-        /// Client Secret defined in the
-        /// [Development Portal](https://dev.epicgames.com/portal/)
+        /// Stores the ClientSecret and ClientId
         /// </summary>
-        public string clientSecret;
+        public readonly ClientCredentials ClientCredentials;
 
-        /// <summary>
-        /// Client Id defined in the
-        /// [Development Portal](https://dev.epicgames.com/portal/)
-        /// </summary>
-        public string clientID;
-        
         /// <summary>
         /// Encryption Key&lt; used by default to decode files previously
         /// encoded and stored in EOS.
         /// </summary>
-        public string encryptionKey;
+        public readonly string EncryptionKey;
 
         /// <summary>
         /// Flags; used to initialize the EOS platform.
         /// </summary>
-        public List<PlatformOptionsFalgs> platformOptionsFlags;
+        public readonly PlatformFlags PlatformFlags;
 
         /// <summary>
         /// Flags; used to set user auth when logging in.
         /// </summary>
-        public List<string> authScopeOptionsFlags;
+        public readonly AuthScopeFlags AuthScopeFlags;
+
+        /// <summary>
+        /// Flags for options related to integrated platform management.
+        /// </summary>
+        public readonly IntegratedPlatformManagementFlags IntegratedPlatformManagementFlags;
 
         /// <summary>
         /// Tick Budget; used to define the maximum amount of execution time the
         /// EOS SDK can use each frame.
         /// </summary>
-        public uint tickBudgetInMilliseconds;
+        public readonly uint TickBudgetInMilliseconds;
 
         /// <summary>
-        /// Network Work Affinity; specifies thread affinity for network
-        /// management that is not IO.
+        /// When the EOS SDK initializes threads for usage, the affinity for
+        /// each thread is set based on the value of this struct.
         /// </summary>
-        public string ThreadAffinity_networkWork;
+        public readonly InitializeThreadAffinity ThreadAffinity;
 
         /// <summary>
-        /// Storage IO Affinity; specifies affinity for threads that will
-        /// interact with a storage device.
+        /// Determines whether or not the application is running as a server.
         /// </summary>
-        public string ThreadAffinity_storageIO;
+        public readonly bool IsServer;
 
-        /// <summary>
-        /// Web Socket IO Affinity; specifies affinity for threads that generate
-        /// web socket IO.
-        /// </summary>
-        public string ThreadAffinity_webSocketIO;
+        #endregion
 
-        /// <summary>
-        /// P2P IO Affinity; specifies affinity for any thread that will
-        /// generate IO related to P2P traffic and management.
-        /// </summary>
-        public string ThreadAffinity_P2PIO;
-
-        /// <summary>
-        /// HTTP Request IO Affinity; specifies affinity for any thread that
-        /// will generate http request IO.
-        /// </summary>
-        public string ThreadAffinity_HTTPRequestIO;
-
-        /// <summary>
-        /// RTC IO Affinity&lt;/c&gt; specifies affinity for any thread that
-        /// will generate IO related to RTC traffic and management.
-        /// </summary>
-        public string ThreadAffinity_RTCIO;
+        /*
+         * The following region contains configuration values that pertain to
+         * the EOS Plugin, distinct from configuration values that pertain more
+         * specifically to the function of the EOS SDK.
+         */
+        #region Plugin Configuration Values
 
         /// <summary>
         /// Always Send Input to Overlay &lt;/c&gt;If true, the plugin will
@@ -138,36 +140,27 @@ namespace PlayEveryWare.EpicOnlineServices
         /// handle showing the overlay. This doesn't always mean input makes
         /// it to the EOS SDK.
         /// </summary>
-        public bool alwaysSendInputToOverlay;
+        public readonly bool AlwaysSendInputToOverlay;
 
         /// <summary>
-        /// Initial Button Delay; Stored as a string so it can be 'empty'
+        /// Initial Button Delay.
         /// </summary>
-        public string initialButtonDelayForOverlay;
+        public readonly float InitialButtonDelayForOverlay;
 
         /// <summary>
-        /// Repeat button delay for overlay; Stored as a string so it can be
-        /// 'empty'.
+        /// Repeat button delay for overlay
         /// </summary>
-        public string repeatButtonDelayForOverlay;
+        public readonly float RepeatButtonDelayForOverlay;
 
         /// <summary>
-        /// HACK: send force send input without delay&lt;/c&gt;If true, the
+        /// Force send input without delay&lt;/c&gt;If true, the
         /// native plugin will always send input received directly to the SDK.
         /// If set to false, the plugin will attempt to delay the input to
         /// mitigate CPU spikes caused by spamming the SDK.
         /// </summary>
-        public bool hackForceSendInputDirectlyToSDK;
+        public readonly bool SendInputDirectlyToSDK;
 
-        /// <summary>
-        /// Set to 'true' if the application is a dedicated game server.
-        /// </summary>
-        public bool isServer;
-
-        public RuntimeConfig(string filename) : base(filename)
-        {
-         
-        }
+        #endregion
     }
 #endif
 }
