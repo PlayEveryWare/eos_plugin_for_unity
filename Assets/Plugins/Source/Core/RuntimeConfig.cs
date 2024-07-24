@@ -20,7 +20,7 @@
  * SOFTWARE.
  */
 
-//#define EOS_RUNTIME_NEW_CONFIG_SYSTEM
+#define EOS_RUNTIME_NEW_CONFIG_SYSTEM
 
 namespace PlayEveryWare.EpicOnlineServices
 {
@@ -28,6 +28,7 @@ namespace PlayEveryWare.EpicOnlineServices
     using Epic.OnlineServices.IntegratedPlatform;
     using Epic.OnlineServices.Platform;
     using System;
+    using UnityEditor.PackageManager;
 
 #if EOS_RUNTIME_NEW_CONFIG_SYSTEM
     /// <summary>
@@ -161,6 +162,44 @@ namespace PlayEveryWare.EpicOnlineServices
         public readonly bool SendInputDirectlyToSDK;
 
         #endregion
+
+        public RuntimeConfig(
+            Guid productId, 
+            string productName, 
+            Version productVersion, 
+            Guid sandboxId,
+            Guid deploymentId,
+            ClientCredentials clientCredentials,
+            string encryptionKey,
+            PlatformFlags platformFlags,
+            AuthScopeFlags authScopeFlags,
+            IntegratedPlatformManagementFlags integratedPlatformManagementFlags,
+            uint tickBudgetInMilliseconds,
+            InitializeThreadAffinity threadAffinity,
+            bool isServer,
+            bool alwaysSendInputToOverlay,
+            float initialButtonDelayForOverlay,
+            float repeatButtonDelayForOverlay,
+            bool sendInputDirectlyToSdk)
+        {
+            ProductId = productId;
+            ProductName = productName;
+            ProductVersion = productVersion;
+            SandboxId = sandboxId;
+            DeploymentId = deploymentId;
+            ClientCredentials = clientCredentials;
+            EncryptionKey = encryptionKey;
+            PlatformFlags = platformFlags;
+            AuthScopeFlags = authScopeFlags;
+            IntegratedPlatformManagementFlags = integratedPlatformManagementFlags;
+            TickBudgetInMilliseconds = tickBudgetInMilliseconds;
+            ThreadAffinity = threadAffinity;
+            IsServer = isServer;
+            AlwaysSendInputToOverlay = alwaysSendInputToOverlay;
+            InitialButtonDelayForOverlay = initialButtonDelayForOverlay;
+            RepeatButtonDelayForOverlay = repeatButtonDelayForOverlay;
+            SendInputDirectlyToSDK = sendInputDirectlyToSdk;
+        }
     }
 #endif
 }

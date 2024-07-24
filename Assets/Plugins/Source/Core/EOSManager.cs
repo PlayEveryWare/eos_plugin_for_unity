@@ -430,6 +430,7 @@ namespace PlayEveryWare.EpicOnlineServices
             private Result InitializePlatformInterface()
             {
                 EOSConfig configData = Config.Get<EOSConfig>();
+
                 IPlatformSpecifics platformSpecifics = EOSManagerPlatformSpecificsSingleton.Instance;
 
                 print("InitializePlatformInterface: platformSpecifics.GetType() = " + platformSpecifics.GetType());
