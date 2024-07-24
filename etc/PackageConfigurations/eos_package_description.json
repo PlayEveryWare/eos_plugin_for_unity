@@ -14,10 +14,9 @@
         {"src": "Assets/EOS/*.png", "dest": "Runtime/EOS/" },
                              
         {"src": "Assets/Plugins/*",                                "dest": "Runtime/"                             },
-        {"src": "Assets/Plugins/Source/Core.meta",                 "dest": "Runtime/"                             },
-        {"src": "Assets/Plugins/Source/Core/*",                    "dest": "Runtime/Core/"                        },
-        {"src": "Assets/Plugins/Source/Core/Utility/*",            "dest": "Runtime/Core/Utility/"                },
-        {"src": "Assets/Plugins/Source/Core/Utility/Extensions/*", "dest": "Runtime/Core/Utility/Extensions/"     },
+        {"src": "com.playeveryware.com/Runtime/Core/*",                    "dest": "Runtime/Core/"                        },
+        {"src": "com.playeveryware.com/Runtime/Core/Utility/*",            "dest": "Runtime/Core/Utility/"                },
+        {"src": "com.playeveryware.com/Runtime/Core/Utility/Extensions/*", "dest": "Runtime/Core/Utility/Extensions/"     },
         
         {"src": "Assets/Plugins/Source/Editor/*",                  "dest": "Editor/"                },
         {"src": "Assets/Plugins/Source/Editor/Build/*",            "dest": "Editor/Build/"          },
