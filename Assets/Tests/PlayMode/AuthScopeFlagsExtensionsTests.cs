@@ -24,13 +24,13 @@ using NUnit.Framework;
 
 namespace PlayEveryWare.EpicOnlineServices.Tests
 {
-    using Epic.OnlineServices.Platform;
+    using Epic.OnlineServices.Auth;
     using Extensions;
     using System;
     using System.Collections.Generic;
-    
-    public class PlatformFlagsExtensionsTests 
-    { 
+
+    public class AuthScopeFlagsExtensionsTests
+    {
         /// <summary>
         /// Tests to make sure that there is a description defined for each of
         /// the enum values.
@@ -38,8 +38,8 @@ namespace PlayEveryWare.EpicOnlineServices.Tests
         [Test]
         public static void AllValues_HaveDescription()
         {
-            PlatformFlags[] allFlags = (PlatformFlags[])Enum.GetValues(typeof(PlatformFlags));
-            foreach (PlatformFlags flag in allFlags)
+            AuthScopeFlags[] allFlags = (AuthScopeFlags[])Enum.GetValues(typeof(AuthScopeFlags));
+            foreach (AuthScopeFlags flag in allFlags)
             {
                 Assert.DoesNotThrow(() => flag.GetDescription());
             }
@@ -47,16 +47,16 @@ namespace PlayEveryWare.EpicOnlineServices.Tests
 
         /// <summary>
         /// Guarantees that there is a custom mapping entry for each of the
-        /// PlatformFlags enum values.
+        /// AuthScopeFlags enum values.
         /// </summary>
         [Test]
         public static void CustomMappings_Exists()
         {
             // Get the custom mappings for the auth scope flags
-            Dictionary<string, PlatformFlags> customMappings = PlatformFlagsExtensions.CustomMappings;
+            Dictionary<string, AuthScopeFlags> customMappings = AuthScopeFlagsExtensions.CustomMappings;
 
-            PlatformFlags[] allFlags = (PlatformFlags[])Enum.GetValues(typeof(PlatformFlags));
-            foreach (PlatformFlags flag in allFlags)
+            AuthScopeFlags[] allFlags = (AuthScopeFlags[])Enum.GetValues(typeof(AuthScopeFlags));
+            foreach (AuthScopeFlags flag in allFlags)
             {
                 Assert.IsTrue(customMappings.ContainsValue(flag));
             }

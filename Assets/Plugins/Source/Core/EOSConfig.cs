@@ -31,6 +31,8 @@ using System.Text.RegularExpressions;
 
 namespace PlayEveryWare.EpicOnlineServices
 {
+    using Extensions;
+
     /// <summary>
     /// Represents the default deployment ID to use when a given sandbox ID is active.
     /// </summary>
@@ -55,74 +57,146 @@ namespace PlayEveryWare.EpicOnlineServices
 
         protected EOSConfig() : base("EpicOnlineServicesConfig.json") { }
 
-        /// <value><c>Product Name</c> defined in the [Development Portal](https://dev.epicgames.com/portal/)</value>
+        /// <summary>
+        /// Product Name defined in the
+        /// [Development Portal](https://dev.epicgames.com/portal/)
+        /// </summary>
         public string productName;
 
-        /// <value>Version of Product</value>
+        /// <summary>
+        /// Version of Product.
+        /// </summary>
         public string productVersion;
 
-        /// <value><c>Product Id</c> defined in the [Development Portal](https://dev.epicgames.com/portal/)</value>
+        /// <summary>
+        /// Product Id defined in the
+        /// [Development Portal](https://dev.epicgames.com/portal/)
+        /// </summary>
         public string productID;
 
-        /// <value><c>Sandbox Id</c> defined in the [Development Portal](https://dev.epicgames.com/portal/)</value>
+        /// <summary>
+        /// Sandbox Id defined in the
+        /// [Development Portal](https://dev.epicgames.com/portal/)
+        /// </summary>
         public string sandboxID;
 
-        /// <value><c>Deployment Id</c> defined in the [Development Portal](https://dev.epicgames.com/portal/)</value>
+        /// <summary>
+        /// Deployment Id defined in the
+        /// [Development Portal](https://dev.epicgames.com/portal/)
+        /// </summary>
         public string deploymentID;
 
-        /// <value><c>SandboxDeploymentOverride</c> pairs used to override Deployment ID when a given Sandbox ID is used</value>
+        /// <summary>
+        /// SandboxDeploymentOverride pairs used to override Deployment ID when
+        /// a given Sandbox ID is used.
+        /// </summary>
         public List<SandboxDeploymentOverride> sandboxDeploymentOverrides;
 
-        /// <value><c>Client Secret</c> defined in the [Development Portal](https://dev.epicgames.com/portal/)</value>
+        /// <summary>
+        /// Client Secret defined in the
+        /// [Development Portal](https://dev.epicgames.com/portal/)
+        /// </summary>
         public string clientSecret;
 
-        /// <value><c>Client Id</c> defined in the [Development Portal](https://dev.epicgames.com/portal/)</value>
+        /// <summary>
+        /// Client Id defined in the
+        /// [Development Portal](https://dev.epicgames.com/portal/)
+        /// </summary>
         public string clientID;
 
-        /// <value><c>Encryption Key</c> used by default to decode files previously encoded and stored in EOS</value>
+        /// <summary>
+        /// Encryption Key&lt; used by default to decode files previously
+        /// encoded and stored in EOS.
+        /// </summary>
         public string encryptionKey;
 
-        /// <value><c>Flags</c> used to initilize the EOS platform.</value>
+        /// <summary>
+        /// Flags; used to initialize the EOS platform.
+        /// </summary>
         public List<string> platformOptionsFlags;
 
-        /// <value><c>Flags</c> used to set user auth when logging in.</value>
+        /// <summary>
+        /// Flags; used to set user auth when logging in.
+        /// </summary>
         public List<string> authScopeOptionsFlags;
 
-        /// <value><c>Tick Budget</c> used to define the maximum amount of execution time the EOS SDK can use each frame.</value>
+        /// <summary>
+        /// Tick Budget; used to define the maximum amount of execution time the
+        /// EOS SDK can use each frame.
+        /// </summary>
         public uint tickBudgetInMilliseconds;
 
-        /// <value><c>Network Work Affinity</c> specifies thread affinity for network management that is not IO.</value>
+        /// <summary>
+        /// Network Work Affinity; specifies thread affinity for network
+        /// management that is not IO.
+        /// </summary>
         public string ThreadAffinity_networkWork;
-        /// <value><c>Storage IO Affinity</c> specifies affinity for threads that will interact with a storage device.</value>
+        
+        /// <summary>
+        /// Storage IO Affinity; specifies affinity for threads that will
+        /// interact with a storage device.
+        /// </summary>
         public string ThreadAffinity_storageIO;
-        /// <value><c>Web Socket IO Affinity</c> specifies affinity for threads that generate web socket IO.</value>
+        
+        /// <summary>
+        /// Web Socket IO Affinity; specifies affinity for threads that generate
+        /// web socket IO.
+        /// </summary>
         public string ThreadAffinity_webSocketIO;
-        /// <value><c>P2P IO Affinity</c> specifies affinity for any thread that will generate IO related to P2P traffic and management.</value>
+        
+        /// <summary>
+        /// P2P IO Affinity; specifies affinity for any thread that will
+        /// generate IO related to P2P traffic and management.
+        /// </summary>
         public string ThreadAffinity_P2PIO;
-        /// <value><c>HTTP Request IO Affinity</c> specifies affinity for any thread that will generate http request IO.</value>
+        
+        /// <summary>
+        /// HTTP Request IO Affinity; specifies affinity for any thread that
+        /// will generate http request IO.
+        /// </summary>
         public string ThreadAffinity_HTTPRequestIO;
-        /// <value><c>RTC IO Affinity</c> specifies affinity for any thread that will generate IO related to RTC traffic and management.</value>
+
+        /// <summary>
+        /// RTC IO Affinity&lt;/c&gt; specifies affinity for any thread that
+        /// will generate IO related to RTC traffic and management.
+        /// </summary>
         public string ThreadAffinity_RTCIO;
 
-
-        /// <value><c>Always Send Input to Overlay </c>If true, the plugin will always send input to the overlay from the C# side to native, and handle showing the overlay. This doesn't always mean input makes it to the EOS SDK</value>
+        /// <summary>
+        /// Always Send Input to Overlay &lt;/c&gt;If true, the plugin will
+        /// always send input to the overlay from the C# side to native, and
+        /// handle showing the overlay. This doesn't always mean input makes
+        /// it to the EOS SDK.
+        /// </summary>
         public bool alwaysSendInputToOverlay;
 
-        /// <value><c>Initial Button Delay</c> Stored as a string so it can be 'empty'</value>
+        /// <summary>
+        /// Initial Button Delay; Stored as a string so it can be 'empty'
+        /// </summary>
         public string initialButtonDelayForOverlay;
 
-        /// <value><c>Repeat button delay for overlay</c> Stored as a string so it can be 'empty' </value>
+        /// <summary>
+        /// Repeat button delay for overlay; Stored as a string so it can be
+        /// 'empty'.
+        /// </summary>
         public string repeatButtonDelayForOverlay;
 
-        /// <value><c>HACK: send force send input without delay</c>If true, the native plugin will always send input received directly to the SDK. If set to false, the plugin will attempt to delay the input to mitigate CPU spikes caused by spamming the SDK </value>
+        /// <summary>
+        /// HACK: send force send input without delay&lt;/c&gt;If true, the
+        /// native plugin will always send input received directly to the SDK.
+        /// If set to false, the plugin will attempt to delay the input to
+        /// mitigate CPU spikes caused by spamming the SDK.
+        /// </summary>
         public bool hackForceSendInputDirectlyToSDK;
 
-        /// <value><c> set to 'true' if the application is a dedicated game server</c>>
+        /// <summary>
+        /// Set to 'true' if the application is a dedicated game server.
+        /// </summary>
         public bool isServer;
 
         public static Regex InvalidEncryptionKeyRegex;
         
-        public static bool IsEncryptionKeyValid(string key)
+        private static bool IsEncryptionKeyValid(string key)
         {
             return
                 //key not null
@@ -133,199 +207,128 @@ namespace PlayEveryWare.EpicOnlineServices
                 !InvalidEncryptionKeyRegex.Match(key).Success;
         }
 
-        //-------------------------------------------------------------------------
-        //TODO: Move this to a shared place
-        public static bool StringIsEqualToAny(string flagAsCString, params string[] parameters)
+        /// <summary>
+        /// Override the default sandbox and deployment id. Uses the sandboxId
+        /// as a key to determine the corresponding deploymentId that has been
+        /// set by the user in the configuration window.
+        /// </summary>
+        /// <param name="sandboxId">The sandbox id to use.</param>
+        public void OverrideDeployment(string sandboxId)
         {
-            foreach(string s in parameters)
+            // Confirm that the sandboxId is stored in the list of overrides
+            if (!TryGetDeploymentOverride(sandboxDeploymentOverrides, sandboxId,
+                    out SandboxDeploymentOverride overridePair))
             {
-                if (flagAsCString == s)
-                {
-                    return true;
-                }
+                Debug.LogError($"The given sandboxId \"{sandboxId}\" could not be found in the configured list of deployment override values.");
+                return;
             }
+
+            Debug.Log($"Sandbox ID overridden to: \"{overridePair.sandboxID}\".");
+            Debug.Log($"Deployment ID overridden to: \"{overridePair.deploymentID}\".");
+
+            // Override the sandbox and deployment Ids
+            sandboxID = overridePair.sandboxID;
+            deploymentID = overridePair.deploymentID;
+
+            // TODO: This will trigger a need to re-validate the config values
+        }
+
+        /// <summary>
+        /// Given a specified SandboxId, try and retrieve the pair of values for
+        /// the deployment override from the given list of deployment overrides.
+        /// </summary>
+        /// <param name="deploymentOverrides">
+        /// The deployment overrides to search for the pair within.
+        /// </param>
+        /// <param name="sandboxId">
+        /// The sandboxId of the pair to find.
+        /// </param>
+        /// <param name="deploymentOverride">
+        /// The sandboxId and deploymentId override pair that matches the given
+        /// sandboxId.
+        /// </param>
+        /// <returns>
+        /// True if the pair was retrieved, false otherwise.
+        /// </returns>
+        private static bool TryGetDeploymentOverride(
+            List<SandboxDeploymentOverride> deploymentOverrides,
+            string sandboxId,
+            out SandboxDeploymentOverride deploymentOverride)
+        {
+            deploymentOverride = null;
+            foreach (var overridePair in deploymentOverrides)
+            {
+                if (overridePair.sandboxID != sandboxId)
+                {
+                    continue;
+                }
+
+                deploymentOverride = overridePair;
+                return true;
+            }
+
             return false;
         }
 
-        public static T EnumCast<T, V>(V value)
-        {
-            return (T)Enum.ToObject(typeof(T), value);
-        }
 
 #if !EOS_DISABLE
-        //-------------------------------------------------------------------------
-        public static Epic.OnlineServices.IntegratedPlatform.IntegratedPlatformManagementFlags flagsAsIntegratedPlatformManagementFlags(List<string> flags)
-        {
-            int toReturn = 0;
- 
-            foreach (var flagAsCString in flags)
-            {
-                if (StringIsEqualToAny(flagAsCString, "EOS_IPMF_Disabled", "Disabled"))
-                {
-                    toReturn |= (int)Epic.OnlineServices.IntegratedPlatform.IntegratedPlatformManagementFlags.Disabled;
-                }
-                else if (StringIsEqualToAny(flagAsCString, "EOS_IPMF_ManagedByApplication", "ManagedByApplication", "EOS_IPMF_LibraryManagedByApplication", "LibraryManagedByApplication"))
-                {
-                    toReturn |= (int)Epic.OnlineServices.IntegratedPlatform.IntegratedPlatformManagementFlags.LibraryManagedByApplication;
-                }
-                else if (StringIsEqualToAny(flagAsCString,"EOS_IPMF_ManagedBySDK", "ManagedBySDK", "EOS_IPMF_LibraryManagedBySDK", "LibraryManagedBySDK" ))
-                {
-                    toReturn |= (int)Epic.OnlineServices.IntegratedPlatform.IntegratedPlatformManagementFlags.LibraryManagedBySDK;
-                }
-                else if (StringIsEqualToAny(flagAsCString, "EOS_IPMF_DisableSharedPresence", "DisableSharedPresence", "EOS_IPMF_DisablePresenceMirroring", "DisablePresenceMirroring"))
-                {
-                    toReturn |= (int)Epic.OnlineServices.IntegratedPlatform.IntegratedPlatformManagementFlags.DisablePresenceMirroring;
-                }
-                else if (StringIsEqualToAny(flagAsCString, "EOS_IPMF_DisableSessions", "DisableSessions", "EOS_IPMF_DisableSDKManagedSessions", "DisableSDKManagedSessions"))
-                {
-                    toReturn |= (int)Epic.OnlineServices.IntegratedPlatform.IntegratedPlatformManagementFlags.DisableSDKManagedSessions;
-                }
-                else if (StringIsEqualToAny(flagAsCString, "EOS_IPMF_PreferEOS", "PreferEOS", "EOS_IPMF_PreferEOSIdentity", "PreferEOSIdentity"))
-                {
-                    toReturn |= (int)Epic.OnlineServices.IntegratedPlatform.IntegratedPlatformManagementFlags.PreferEOSIdentity;
-                }
-                else if (StringIsEqualToAny(flagAsCString, "EOS_IPMF_PreferIntegrated", "PreferIntegrated", "EOS_IPMF_PreferIntegratedIdentity", "PreferIntegratedIdentity"))
-                {
-                    toReturn |= (int)Epic.OnlineServices.IntegratedPlatform.IntegratedPlatformManagementFlags.PreferIntegratedIdentity;
-                }
-                else if (StringIsEqualToAny(flagAsCString, "EOS_IPMF_ApplicationManagedIdentityLogin", "ApplicationManagedIdentityLogin"))
-                {
-                    toReturn |= (int)Epic.OnlineServices.IntegratedPlatform.IntegratedPlatformManagementFlags.ApplicationManagedIdentityLogin;
-                }
-            }
 
-            return EnumCast<Epic.OnlineServices.IntegratedPlatform.IntegratedPlatformManagementFlags, int>(toReturn);
+        /// <summary>
+        /// Returns a single PlatformFlags enum value that results from a
+        /// bitwise OR operation of all the platformOptionsFlags flags on this
+        /// config.
+        /// </summary>
+        /// <returns>A PlatformFlags enum value.</returns>
+        public PlatformFlags GetPlatformFlags()
+        {
+            return StringsToEnum<PlatformFlags>(platformOptionsFlags, PlatformFlagsExtensions.TryParse);
         }
 
-        //-------------------------------------------------------------------------
-        public static PlatformFlags platformOptionsFlagsAsPlatformFlags(List<string> platformOptionsFlags)
+        /// <summary>
+        /// Returns a single AuthScopeFlags enum value that results from a
+        /// bitwise OR operation of all the authScopeOptionsFlags flags on this
+        /// config.
+        /// </summary>
+        /// <returns>An AuthScopeFlags enum value.</returns>
+        public AuthScopeFlags GetAuthScopeFlags()
         {
-            PlatformFlags toReturn = PlatformFlags.None;
-
-            foreach(var flagAsString in platformOptionsFlags)
-            {
-                if(flagAsString == "LoadingInEditor" || flagAsString == "EOS_PF_LOADING_IN_EDITOR")
-                {
-                    toReturn |= PlatformFlags.LoadingInEditor;
-                }
-
-                else if(flagAsString == "DisableOverlay" || flagAsString == "EOS_PF_DISABLE_OVERLAY")
-                {
-                    toReturn |= PlatformFlags.DisableOverlay;
-                }
-
-                else if(flagAsString == "DisableSocialOverlay" || flagAsString == "EOS_PF_DISABLE_SOCIAL_OVERLAY")
-                {
-                    toReturn |= PlatformFlags.DisableSocialOverlay;
-                }
-
-                else if(flagAsString == "Reserved1" || flagAsString == "EOS_PF_RESERVED1")
-                {
-                    toReturn |= PlatformFlags.Reserved1;
-                }
-
-                else if(flagAsString == "WindowsEnabledOverlayD3D9" || flagAsString == "EOS_PF_WINDOWS_ENABLE_OVERLAY_D3D9")
-                {
-                    toReturn |= PlatformFlags.WindowsEnableOverlayD3D9;
-                }
-                else if(flagAsString == "WindowsEnabledOverlayD3D10" || flagAsString == "EOS_PF_WINDOWS_ENABLE_OVERLAY_D3D10")
-                {
-                    toReturn |= PlatformFlags.WindowsEnableOverlayD3D10;
-                }
-                else if(flagAsString == "WindowsEnabledOverlayOpengl" || flagAsString == "EOS_PF_WINDOWS_ENABLE_OVERLAY_OPENGL")
-                {
-                    toReturn |= PlatformFlags.WindowsEnableOverlayOpengl;
-                }
-            }
-
-            return toReturn;
+            return StringsToEnum<AuthScopeFlags>(authScopeOptionsFlags, AuthScopeFlagsExtensions.TryParse);
         }
 
-        //-------------------------------------------------------------------------
-        public PlatformFlags platformOptionsFlagsAsPlatformFlags()
+        /// <summary>
+        /// Given a reference to an InitializeThreadAffinity struct, set the
+        /// member fields contained within to match the values of this config.
+        /// </summary>
+        /// <param name="affinity">
+        /// The initialize thread affinity object to change the values of.
+        /// </param>
+        public void ConfigureOverrideThreadAffinity(ref InitializeThreadAffinity affinity)
         {
-            return EOSConfig.platformOptionsFlagsAsPlatformFlags(platformOptionsFlags);
-        }
-
-        //-------------------------------------------------------------------------
-        public static AuthScopeFlags authScopeOptionsFlagsAsAuthScopeFlags(List<string> authScopeOptionsFlags)
-        {
-            AuthScopeFlags toReturn = AuthScopeFlags.NoFlags;
-
-            foreach (var flagAsString in authScopeOptionsFlags)
-            {
-                if (flagAsString == "NoFlags" || flagAsString == "EOS_AS_NoFlags")
-                {
-                }
-                else if (flagAsString == "BasicProfile" || flagAsString == "EOS_AS_BasicProfile")
-                {
-                    toReturn |= AuthScopeFlags.BasicProfile;
-                }
-                else if (flagAsString == "FriendsList" || flagAsString == "EOS_AS_FriendsList")
-                {
-                    toReturn |= AuthScopeFlags.FriendsList;
-                }
-                else if (flagAsString == "Presence" || flagAsString == "EOS_AS_Presence")
-                {
-                    toReturn |= AuthScopeFlags.Presence;
-                }
-                else if (flagAsString == "FriendsManagement" || flagAsString == "EOS_AS_FriendsManagement")
-                {
-                    toReturn |= AuthScopeFlags.FriendsManagement;
-                }
-                else if (flagAsString == "Email" || flagAsString == "EOS_AS_Email")
-                {
-                    toReturn |= AuthScopeFlags.Email;
-                }
-                else if (flagAsString == "Country" || flagAsString == "EOS_AS_Country")
-                {
-                    toReturn |= AuthScopeFlags.Country;
-                }
-            }
-
-            return toReturn;
-        }
-
-        //-------------------------------------------------------------------------
-        public AuthScopeFlags authScopeOptionsFlagsAsAuthScopeFlags()
-        {
-            return EOSConfig.authScopeOptionsFlagsAsAuthScopeFlags(authScopeOptionsFlags);
+            affinity.NetworkWork = GetULongFromString(ThreadAffinity_networkWork);
+            affinity.StorageIo = GetULongFromString(ThreadAffinity_storageIO);
+            affinity.WebSocketIo = GetULongFromString(ThreadAffinity_webSocketIO);
+            affinity.P2PIo = GetULongFromString(ThreadAffinity_P2PIO);
+            affinity.HttpRequestIo = GetULongFromString(ThreadAffinity_HTTPRequestIO);
+            affinity.RTCIo = GetULongFromString(ThreadAffinity_RTCIO);
         }
 #endif
 
-        //-------------------------------------------------------------------------
-        public float GetInitialButtonDelayForOverlayAsFloat()
+        /// <summary>
+        /// Wrapper function for ulong.Parse. Returns the value from ulong.Parse
+        /// if it succeeds, otherwise sets the value to the indicated default
+        /// value.
+        /// </summary>
+        /// <param name="str">The string to parse into a ulong.</param>
+        /// <param name="defaultValue">
+        /// The value to return in the event parsing fails.
+        /// </param>
+        /// <returns>
+        /// The result of parsing the string to a ulong, or defaultValue if
+        /// parsing fails.
+        /// </returns>
+        private static ulong GetULongFromString(string str, ulong defaultValue = 0)
         {
-            return float.Parse(initialButtonDelayForOverlay);
-        }
-
-        //-------------------------------------------------------------------------
-        public void SetInitialButtonDelayForOverlayFromFloat(float f)
-        {
-            initialButtonDelayForOverlay = f.ToString();
-        }
-
-        //-------------------------------------------------------------------------
-        public float GetRepeatButtonDelayForOverlayAsFloat()
-        {
-           return float.Parse(repeatButtonDelayForOverlay);
-        }
-
-        //-------------------------------------------------------------------------
-        public void SetRepeatButtonDelayForOverlayFromFloat(float f)
-        {
-            repeatButtonDelayForOverlay = f.ToString();
-        }
-
-        //-------------------------------------------------------------------------
-        public ulong GetThreadAffinityNetworkWork(ulong defaultValue = 0)
-        {
-            ulong value;
-            if (!string.IsNullOrEmpty(ThreadAffinity_networkWork))
-            {
-                value = ulong.Parse(ThreadAffinity_networkWork);
-            }
-            else
+            if (!ulong.TryParse(str, out ulong value))
             {
                 value = defaultValue;
             }
@@ -333,82 +336,12 @@ namespace PlayEveryWare.EpicOnlineServices
             return value;
         }
 
-        //-------------------------------------------------------------------------
-        public ulong GetThreadAffinityStorageIO(ulong defaultValue = 0)
-        {
-            ulong value;
-            if (!string.IsNullOrEmpty(ThreadAffinity_storageIO))
-            {
-                value = ulong.Parse(ThreadAffinity_storageIO);
-            }
-            else
-            {
-                value = defaultValue;
-            }
-            return value;
-        }
- 
-        //-------------------------------------------------------------------------
-        public ulong GetThreadAffinityWebSocketIO(ulong defaultValue = 0)
-        {
-            ulong value;
-            if (!string.IsNullOrEmpty(ThreadAffinity_webSocketIO))
-            {
-                value = ulong.Parse(ThreadAffinity_webSocketIO);
-            }
-            else
-            {
-                value = defaultValue;
-            }
-            return value;
-        }
-
-        //-------------------------------------------------------------------------
-        public ulong GetThreadAffinityP2PIO(ulong defaultValue = 0)
-        {
-            ulong value;
-            if (!string.IsNullOrEmpty(ThreadAffinity_P2PIO))
-            {
-                value = ulong.Parse(ThreadAffinity_P2PIO);
-            }
-            else
-            {
-                value = defaultValue;
-            }
-            return value;
-        }
-
-        //-------------------------------------------------------------------------
-        public ulong GetThreadAffinityHTTPRequestIO(ulong defaultValue = 0)
-        {
-            ulong value;
-            if (!string.IsNullOrEmpty(ThreadAffinity_HTTPRequestIO))
-            {
-                value = ulong.Parse(ThreadAffinity_HTTPRequestIO);
-            }
-            else
-            {
-                value = defaultValue;
-            }
-            return value;
-        }
-
-        //-------------------------------------------------------------------------
-        public ulong GetThreadAffinityRTCIO(ulong defaultValue = 0)
-        {
-            ulong value;
-            if (!string.IsNullOrEmpty(ThreadAffinity_RTCIO))
-            {
-                value = ulong.Parse(ThreadAffinity_RTCIO);
-            }
-            else
-            {
-                value = defaultValue;
-            }
-            return value;
-        }
-
-        //-------------------------------------------------------------------------
+        /// <summary>
+        /// Determines whether the encryption key for the config is valid.
+        /// </summary>
+        /// <returns>
+        /// True if the encryption key is valid, false otherwise.
+        /// </returns>
         public bool IsEncryptionKeyValid()
         {
             return IsEncryptionKeyValid(encryptionKey);
