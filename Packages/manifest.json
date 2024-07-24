@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "com.playeveryware.eos": "file:../com.playeveryware.eos",
     "com.unity.burst": "1.8.8",
     "com.unity.collab-proxy": "1.17.1",
     "com.unity.editorcoroutines": "1.0.0",
