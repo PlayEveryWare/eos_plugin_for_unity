@@ -28,8 +28,6 @@ namespace PlayEveryWare.EpicOnlineServices
     using Epic.OnlineServices.IntegratedPlatform;
     using Epic.OnlineServices.Platform;
     using System;
-    using System.Runtime.CompilerServices;
-    using UnityEditor.PackageManager;
 
 #if EOS_RUNTIME_NEW_CONFIG_SYSTEM
     /// <summary>
