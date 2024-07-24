@@ -497,6 +497,10 @@ namespace PlayEveryWare.EpicOnlineServices
 
                 platformOptions.options.TickBudgetInMilliseconds = configData.tickBudgetInMilliseconds;
 
+                // configData has to serialize to JSON, so it doesn't represent null
+                // If the value is <= 0, then set it to null, which the EOS SDK will handle by using default of 30 seconds.
+                platformOptions.options.TaskNetworkTimeoutSeconds = configData.taskNetworkTimeoutSeconds > 0 ? configData.taskNetworkTimeoutSeconds : null;
+
                 var clientCredentials = new ClientCredentials
                 {
                     ClientId = configData.clientID,

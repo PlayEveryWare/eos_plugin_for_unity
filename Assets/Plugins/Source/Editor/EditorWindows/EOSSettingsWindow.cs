@@ -256,21 +256,21 @@ _WIN32 || _WIN64
                 tooltip:
                 "(Optional) Specifies affinity for any thread that will generate IO related to RTC traffic and management");
 
-            string timeBudgetAsSting = "";
+            string timeBudgetAsString = "";
 
             if (mainEOSConfigFile.tickBudgetInMilliseconds != 0)
             {
-                timeBudgetAsSting = mainEOSConfigFile.tickBudgetInMilliseconds.ToString();
+                timeBudgetAsString = mainEOSConfigFile.tickBudgetInMilliseconds.ToString();
             }
 
-            GUIEditorUtility.AssigningTextField("Time Budget in milliseconds", ref timeBudgetAsSting,
+            GUIEditorUtility.AssigningTextField("Time Budget in milliseconds", ref timeBudgetAsString,
                 tooltip: "(Optional) Define the maximum amount of execution time the EOS SDK can use each frame");
 
-            if (timeBudgetAsSting.Length != 0)
+            if (timeBudgetAsString.Length != 0)
             {
                 try
                 {
-                    mainEOSConfigFile.tickBudgetInMilliseconds = Convert.ToUInt32(timeBudgetAsSting, 10);
+                    mainEOSConfigFile.tickBudgetInMilliseconds = Convert.ToUInt32(timeBudgetAsString, 10);
                 }
                 catch
                 {
@@ -280,6 +280,32 @@ _WIN32 || _WIN64
             else
             {
                 mainEOSConfigFile.tickBudgetInMilliseconds = 0;
+            }
+
+            string taskNetworkTimeoutSecondsAsString = "";
+
+            if (mainEOSConfigFile.taskNetworkTimeoutSeconds != 0)
+            {
+                taskNetworkTimeoutSecondsAsString = mainEOSConfigFile.taskNetworkTimeoutSeconds.ToString();
+            }
+
+            GUIEditorUtility.AssigningTextField("Task Network Timeout Seconds", ref taskNetworkTimeoutSecondsAsString,
+                tooltip: $"(Optional) Define the maximum amount of time network calls will run in the EOS SDK before timing out while the {nameof(Epic.OnlineServices.Platform.NetworkStatus)} is not {nameof(Epic.OnlineServices.Platform.NetworkStatus.Online)}. Defaults to 30 seconds if not set or less than or equal to zero.");
+
+            if (taskNetworkTimeoutSecondsAsString.Length != 0)
+            {
+                try
+                {
+                    mainEOSConfigFile.taskNetworkTimeoutSeconds = Convert.ToDouble(taskNetworkTimeoutSecondsAsString);
+                }
+                catch
+                {
+
+                }
+            }
+            else
+            {
+                mainEOSConfigFile.taskNetworkTimeoutSeconds = 0;
             }
 
             EditorGUIUtility.labelWidth = originalLabelWidth;

@@ -153,6 +153,7 @@ struct EOSConfig
     uint64_t flags = 0;
 
     uint32_t tickBudgetInMilliseconds = 0;
+    double taskNetworkTimeoutSeconds = 0;
 
     uint64_t ThreadAffinity_networkWork = 0;
     uint64_t ThreadAffinity_storageIO = 0;
@@ -358,6 +359,36 @@ static uint32_t json_value_as_uint32(json_value_s* value, uint32_t default_value
         else
         {
             val = strtoul(val_as_str->string, &end, 10);
+        }
+    }
+
+    return val;
+}
+
+//-------------------------------------------------------------------------
+static double json_value_as_double(json_value_s* value, double default_value = 0)
+{
+    double val = 0;
+    json_number_s* n = json_value_as_number(value);
+
+    if (n != nullptr)
+    {
+        char* end = nullptr;
+        val = strtod(n->number, &end);
+    }
+    else
+    {
+        // try to treat it as a string, then parse as long
+        char* end = nullptr;
+        json_string_s* val_as_str = json_value_as_string(value);
+
+        if (val_as_str == nullptr || strlen(val_as_str->string) == 0)
+        {
+            val = default_value;
+        }
+        else
+        {
+            val = strtod(val_as_str->string, &end);
         }
     }
 
@@ -915,6 +946,10 @@ static EOSConfig eos_config_from_json_value(json_value_s* config_json)
         {
             eos_config.tickBudgetInMilliseconds = json_value_as_uint32(iter->value);
         }
+        else if (!strcmp("taskNetworkTimeoutSeconds", iter->name->string))
+        {
+            eos_config.taskNetworkTimeoutSeconds = json_value_as_double(iter->value);
+        }
         else if (!strcmp("ThreadAffinity_networkWork", iter->name->string))
         {
             eos_config.ThreadAffinity_networkWork = json_value_as_uint64(iter->value);
@@ -1271,6 +1306,11 @@ void eos_create(EOSConfig& eosConfig)
     platform_options.ClientCredentials.ClientSecret = eosConfig.clientSecret.c_str();
 
     platform_options.TickBudgetInMilliseconds = eosConfig.tickBudgetInMilliseconds;
+
+    if (eosConfig.taskNetworkTimeoutSeconds > 0)
+    {
+        platform_options.TaskNetworkTimeoutSeconds = &eosConfig.taskNetworkTimeoutSeconds;
+    }
 
     EOS_Platform_RTCOptions rtc_options = { 0 };
 
