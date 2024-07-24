@@ -75,14 +75,20 @@ namespace PlayEveryWare.EpicOnlineServices.Extensions
 
             // Try to parse the string using the Enum.TryParse method, fall back
             // on the custom mapping dictionary declared above if that fails.
-            if (!Enum.TryParse(enumValueString, out result))
+            if (Enum.TryParse(enumValueString, out result))
             {
-                Debug.LogError($"\"{enumValueString}\" was not recognized as a valid {nameof(TEnum)} value, and parsing failed.");
-                return false;
+                return true;
             }
 
             // Attempt to parse the enum using the provided custom mappings map.
-            return customMappings.TryGetValue(enumValueString, out result);
+            if (customMappings.TryGetValue(enumValueString, out result))
+            {
+                return true;
+            }
+
+            Debug.LogError($"\"{enumValueString}\" was not recognized as a valid {nameof(TEnum)} value, and parsing failed.");
+            return false;
+
         }
 
         /// <summary>
@@ -163,18 +169,33 @@ namespace PlayEveryWare.EpicOnlineServices.Extensions
                 int toAddInt = Convert.ToInt32(toAdd);
                 int resultInt = currentInt | toAddInt;
                 return (TEnum)Enum.ToObject(typeof(TEnum), resultInt);
-            } 
-            else if (underlyingType == typeof(ulong))
+            }
+            
+            if (underlyingType == typeof(uint))
+            {
+                uint currentUInt = Convert.ToUInt32(current);
+                uint toAddUInt = Convert.ToUInt32(toAdd);
+                uint resultUInt = currentUInt | toAddUInt;
+                return (TEnum)Enum.ToObject(typeof(TEnum), resultUInt);
+            }
+
+            if (underlyingType == typeof(long))
+            {
+                long currentLong = Convert.ToInt64(current);
+                long toAddLong = Convert.ToInt64(toAdd);
+                long resultLong = currentLong | toAddLong;
+                return (TEnum)Enum.ToObject(typeof(TEnum), resultLong);
+            }
+
+            if (underlyingType == typeof(ulong))
             {
                 ulong currentULong = Convert.ToUInt64(current);
                 ulong toAddULong = Convert.ToUInt64(toAdd);
                 ulong resultULong = currentULong | toAddULong;
                 return (TEnum)Enum.ToObject(typeof(TEnum), resultULong);
             }
-            else
-            {
-                throw new ArgumentException($"Unsupported enum underlying type: \"{underlyingType.FullName}.\"");
-            }
+
+            throw new ArgumentException($"Unsupported enum underlying type: \"{underlyingType.FullName}.\"");
         }
     }
 }
