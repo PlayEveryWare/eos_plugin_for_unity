@@ -20,17 +20,20 @@
 * SOFTWARE.
 */
 
-#if !EOS_DISABLE
-using Epic.OnlineServices.Platform;
-using Epic.OnlineServices.Auth;
-#endif
-using System;
-using System.Collections.Generic;
-using UnityEngine;
-using System.Text.RegularExpressions;
-
 namespace PlayEveryWare.EpicOnlineServices
 {
+    // This compile conditional is here so that when EOS_DISABLE is defined, and
+    // subsequently the Epic namespace is not available, it's exclusion does not
+    // cause compile errors.
+#if !EOS_DISABLE
+    using Epic.OnlineServices.Auth;
+    using Epic.OnlineServices.Platform;
+    using Epic.OnlineServices.IntegratedPlatform;
+#endif
+    using System;
+    using System.Collections.Generic;
+    using UnityEngine;
+    using System.Text.RegularExpressions;
     using Extensions;
 
     /// <summary>
@@ -119,6 +122,11 @@ namespace PlayEveryWare.EpicOnlineServices
         /// Flags; used to set user auth when logging in.
         /// </summary>
         public List<string> authScopeOptionsFlags;
+
+        /// <summary>
+        /// Flags used to configure platform integration management flags.
+        /// </summary>
+        public List<string> integratedPlatformManagementFlags;
 
         /// <summary>
         /// Tick Budget; used to define the maximum amount of execution time the
@@ -213,10 +221,10 @@ namespace PlayEveryWare.EpicOnlineServices
         /// set by the user in the configuration window.
         /// </summary>
         /// <param name="sandboxId">The sandbox id to use.</param>
-        public void OverrideDeployment(string sandboxId)
+        public void SetDeployment(string sandboxId)
         {
             // Confirm that the sandboxId is stored in the list of overrides
-            if (!TryGetDeploymentOverride(sandboxDeploymentOverrides, sandboxId,
+            if (!TryGetDeployment(sandboxDeploymentOverrides, sandboxId,
                     out SandboxDeploymentOverride overridePair))
             {
                 Debug.LogError($"The given sandboxId \"{sandboxId}\" could not be found in the configured list of deployment override values.");
@@ -250,7 +258,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <returns>
         /// True if the pair was retrieved, false otherwise.
         /// </returns>
-        private static bool TryGetDeploymentOverride(
+        private static bool TryGetDeployment(
             List<SandboxDeploymentOverride> deploymentOverrides,
             string sandboxId,
             out SandboxDeploymentOverride deploymentOverride)
@@ -269,7 +277,6 @@ namespace PlayEveryWare.EpicOnlineServices
 
             return false;
         }
-
 
 #if !EOS_DISABLE
 
@@ -293,6 +300,20 @@ namespace PlayEveryWare.EpicOnlineServices
         public AuthScopeFlags GetAuthScopeFlags()
         {
             return StringsToEnum<AuthScopeFlags>(authScopeOptionsFlags, AuthScopeFlagsExtensions.TryParse);
+        }
+
+        /// <summary>
+        /// Returns a single IntegratedPlatformManagementFlags enum value that
+        /// results from a bitwise OR operation of all the
+        /// integratedPlatformManagementFlags flags on this config.
+        /// </summary>
+        /// <returns>An IntegratedPlatformManagementFlags enum value.</returns>
+        public IntegratedPlatformManagementFlags GetIntegratedPlatformManagementFlags()
+        {
+            return StringsToEnum<IntegratedPlatformManagementFlags>(
+                integratedPlatformManagementFlags,
+                IntegratedPlatformManagementFlagsExtensions.TryParse
+            );
         }
 
         /// <summary>
