@@ -245,7 +245,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 config.encryptionKey,
                 config.GetPlatformFlags(),
                 config.GetAuthScopeFlags(),
-                IntegratedPlatformManagementFlags.Disabled,
+                config.GetIntegratedPlatformManagementFlags(),
                 config.tickBudgetInMilliseconds,
                 threadAffinity,
                 config.isServer,
