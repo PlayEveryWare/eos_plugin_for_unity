@@ -293,7 +293,7 @@ MonoBehaviour:
   FriendOverlayContent: {fileID: 5638139344369718672}
   SearchFriendsInput: {fileID: 8536654852504131419}
   FriendsListContentParent: {fileID: 2211920899434422386}
-  UIFriendEntryPrefab: {fileID: 5374375564194558839, guid: 72716240d2b498c47bb1f155ea26e072,
+  UIFriendEntryPrefab: {fileID: 3086061603075623266, guid: 72716240d2b498c47bb1f155ea26e072,
     type: 3}
   CollapseOnStart: 0
   UIFirstSelected: {fileID: 6946016340423810877}

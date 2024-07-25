@@ -47,6 +47,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public Epic.OnlineServices.Sessions.SessionSearch SearchHandle;
         private Dictionary<Session, SessionDetails> SearchResults = new Dictionary<Session, SessionDetails>();
 
+        /// <summary>
+        /// Action to run when search results are successfully retrieved.
+        /// Set in <see cref="SetNewSearch(Epic.OnlineServices.Sessions.SessionSearch, Action{SessionSearch})"/>,
+        /// unset in <see cref="Release"/>, when a new search is set without the argument,
+        /// or after <see cref="OnSearchResultReceived(Dictionary{Session, SessionDetails})"/> is called.
+        /// </summary>
+        private Action<SessionSearch> RunOnSearchResultReceived { get; set; }
+
         public SessionSearch()
         {
             Release();
@@ -61,11 +69,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 SearchHandle.Release();
                 SearchHandle = null;
             }
+
+            RunOnSearchResultReceived = null;
         }
 
-        public void SetNewSearch(Epic.OnlineServices.Sessions.SessionSearch handle)
+        public void SetNewSearch(Epic.OnlineServices.Sessions.SessionSearch handle, Action<SessionSearch> actionToRunOnResultsReceived = null)
         {
             Release();
+            RunOnSearchResultReceived = actionToRunOnResultsReceived;
             SearchHandle = handle;
         }
 
@@ -79,22 +90,40 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             return SearchResults;
         }
 
-        public SessionDetails GetSessionHandleById(string sessionId)
+        /// <summary>
+        /// Looks through the Sessions stored in <see cref="SearchResults"/> for a Session with a matching id.
+        /// If found, outputs the <see cref="SessionDetails"/> handle object.
+        /// This can only find Sessions that are part of this search's results, and only if <see cref="OnSearchResultReceived(Dictionary{Session, SessionDetails})"/> has stored those values.
+        /// </summary>
+        /// <param name="sessionId">The id of the Session to find.</param>
+        /// <param name="sessionHandle">Output parameter for the SessionDetails handle.</param>
+        /// <returns>True if a Session was found with the Id. False otherwise.</returns>
+        public bool TryGetSessionHandleById(string sessionId, out SessionDetails sessionHandle)
         {
+            sessionHandle = null;
+
             foreach (KeyValuePair<Session, SessionDetails> kvp in SearchResults)
             {
                 if (kvp.Key.Id.Equals(sessionId, StringComparison.OrdinalIgnoreCase))
                 {
-                    return kvp.Value;
+                    sessionHandle = kvp.Value;
+                    return true;
                 }
             }
 
-            return null;
+            return false;
         }
 
+        /// <summary>
+        /// Sets the <see cref="SearchResults"/> for this search.
+        /// <see cref="RunOnSearchResultReceived"/> is invoked upon calling this, and then unset.
+        /// </summary>
+        /// <param name="results">A Session-to-SessionDetails dictionary with the results.</param>
         public void OnSearchResultReceived(Dictionary<Session, SessionDetails> results)
         {
             SearchResults = results;
+            RunOnSearchResultReceived?.Invoke(this);
+            RunOnSearchResultReceived = null;
         }
     }
 
@@ -439,14 +468,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         private Dictionary<string, Session> CurrentSessions;
 
         private SessionSearch CurrentSearch;
-        private string JoinPresenceSessionId = string.Empty;
-        private ulong JoinUiEvent;
         private string KnownPresenceSessionId = string.Empty;
 
         private Dictionary<Session, SessionDetails> Invites;
         private Session CurrentInvite;
 
-        private SessionDetails JoiningSessionDetails = null;
         private ulong JoinedSessionIndex = 0;
 
         /// <summary>
@@ -499,7 +525,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public ulong SessionInviteNotificationHandle = INVALID_NOTIFICATIONID;
         public ulong SessionInviteAcceptedNotificationHandle = INVALID_NOTIFICATIONID;
-        public ulong JoinGameNotificationHandle = INVALID_NOTIFICATIONID;
         public ulong SessionJoinGameNotificationHandle = INVALID_NOTIFICATIONID;
 
         private bool subscribtedToGameInvites = false;
@@ -777,7 +802,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             CurrentSessions.Clear();
             Invites.Clear();
             CurrentInvite = null;
-            JoiningSessionDetails = null;
 
             userLoggedIn = false;
         }
@@ -797,29 +821,32 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         /// <summary>
         /// Informs the <see cref="UIInterface"/> that a UI Event has been processed.
-        /// Some functions in the EOS SDK return a UIEventId. When this happens, it is required that this function be called to released by the SDK.
+        /// Some functions in the EOS SDK return a UIEventId. When this happens, it is required that this function be called to release the event in the SDK.
         /// For example, if a subscription is made to <see cref="OnJoinSessionAcceptedListener(ref JoinSessionAcceptedCallbackInfo)"/>, after a successful call to <see cref="SessionsInterface.JoinSession(ref JoinSessionOptions, object, OnJoinSessionCallback)"/>,
         /// the notification function will receive a <see cref="JoinSessionAcceptedCallbackInfo.UiEventId"/>.
         /// This event id can be used to create a <see cref="SessionDetails"/> object by calling <see cref="MakeSessionHandleByEventId(ulong)"/>.
         /// After doing so, or if the handle will not be utilized, this function must call this function to release the handle in the EOS SDK.
         /// Most of the functions in the EOS SDK that require this will mention it in the comments of the callback function. Anything with a UiEventId should have this called.
-        /// 
-        /// TODO: This is hard coded to only handle the <see cref="JoinUiEvent"/> case. It must be changed to also accept the event's id in order to function properly.
+        /// All functions in the <see cref="EOSSessionsManager"/> will call AcknowledgeEventId after the end of the event's useful lifecycle,
+        /// as well as immediately after an error relating to processing the event.
         /// </summary>
-        /// <param name="result">A result indicating the success or failure of the event id to acknowledge.</param>
-        private void AcknowledgeEventId(Result result)
+        /// <param name="uiEventId">
+        /// The id of the event to acknowledge.
+        /// All functions requiring AcknowledgeEventId to be called will return this as part of the callback info.
+        /// </param>
+        /// <param name="result">
+        /// A result indicating the success or failure of the event id to acknowledge.
+        /// Most API calls will return a Result, which can be used as this argument.
+        /// In the case where no Result has been provided by the EOS SDK, any Result code can be used in its place, such as <see cref="Result.UnexpectedError"/>.
+        /// </param>
+        private void AcknowledgeEventId(ulong uiEventId, Result result)
         {
-            if (JoinUiEvent != 0)
-            {
-                AcknowledgeEventIdOptions options = new AcknowledgeEventIdOptions();
-                options.UiEventId = JoinUiEvent;
-                options.Result = result;
+            AcknowledgeEventIdOptions options = new AcknowledgeEventIdOptions();
+            options.UiEventId = uiEventId;
+            options.Result = result;
 
-                UIInterface uiInterface = EOSManager.Instance.GetEOSPlatformInterface().GetUIInterface();
-                uiInterface.AcknowledgeEventId(ref options);
-
-                JoinUiEvent = 0;
-            }
+            UIInterface uiInterface = EOSManager.Instance.GetEOSPlatformInterface().GetUIInterface();
+            uiInterface.AcknowledgeEventId(ref options);
         }
 
         /// <summary>
@@ -1444,11 +1471,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// <see cref="OnFindSessionsCompleteCallback"/> is called with the results.
         /// A handle for retriving results will be stored in <see cref="CurrentSearch"/>.
         /// This is the EOS Game Services id, shared for all users.
-        /// 
-        /// TODO: This should also have a callback or return type to indicate successful search attempt.
         /// </summary>
         /// <param name="sessionId">The Session Id to search for.</param>
-        public void SearchById(string sessionId)
+        /// <param name="onSearchCompleted">Optional action to run when the search results are received.</param>
+        public void SearchById(string sessionId, Action<SessionSearch> onSearchCompleted = null)
         {
             // Clear previous search
             CurrentSearch.Release();
@@ -1461,12 +1487,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             if (result != Result.Success)
             {
-                AcknowledgeEventId(result);
                 Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(SearchById)}): failed create Session search. Error code: {result}");
                 return;
             }
 
-            CurrentSearch.SetNewSearch(sessionSearchHandle);
+            CurrentSearch.SetNewSearch(sessionSearchHandle, onSearchCompleted);
 
             SessionSearchSetSessionIdOptions sessionIdOptions = new SessionSearchSetSessionIdOptions();
             sessionIdOptions.SessionId = sessionId;
@@ -1475,7 +1500,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             if (result != Result.Success)
             {
-                AcknowledgeEventId(result);
                 Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(SearchById)}): failed to update Session search with Session ID. Error code: {result}");
                 return;
             }
@@ -1497,7 +1521,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             if (data.ResultCode != Result.Success)
             {
-                AcknowledgeEventId(data.ResultCode);
                 Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(OnFindSessionsCompleteCallback)}): error code: {data.ResultCode}");
                 return;
             }
@@ -1508,13 +1531,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// <summary>
         /// Handler method for dispatching search results for use.
         /// A handle is received from <see cref="CurrentSearch"/>, which was set when calling a Search-starting function.
-        /// If <see cref="JoinPresenceSessionId"/> is set, and one of the Search results is that Id, it will be immediately joined.
         /// 
         /// TODO: This should handle any <see cref="SessionSearch"/>, not just <see cref="CurrentSearch"/>.
         /// TODO: What happens if a Presence Session is already joined, and it gets rejoined?
         /// TODO: Shouldn't log errors if no Presence Session is set.
         /// </summary>
-        private void OnSearchResultsReceived()
+        private void OnSearchResultsReceived(Action onSearchResultsRecevied = null)
         {
             if (CurrentSearch == null)
             {
@@ -1569,24 +1591,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
 
             CurrentSearch.OnSearchResultReceived(searchResults);
-            if (JoinPresenceSessionId.Length > 0)
-            {
-                SessionDetails sessionHandle = CurrentSearch.GetSessionHandleById(JoinPresenceSessionId);
-                if (sessionHandle != null)
-                {
-                    // Clear Session Id
-                    JoinPresenceSessionId = string.Empty;
-                    JoinSession(sessionHandle, true);
-                }
-                else
-                {
-                    AcknowledgeEventId(Result.NotFound);
-                }
-            }
-            else
-            {
-                AcknowledgeEventId(Result.NotFound);
-            }
         }
 
         /// <summary>
@@ -1630,7 +1634,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             if (result != Result.Success)
             {
                 Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(RefreshSession)}): Failed create Session search. Error code: {result}");
-                AcknowledgeEventId(result);
                 return;
             }
 
@@ -1644,7 +1647,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             if (result != Result.Success)
             {
                 Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(RefreshSession)}): Failed to update Session search with Session ID. Error code: {result}");
-                AcknowledgeEventId(result);
                 return;
             }
 
@@ -1865,8 +1867,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         /// <summary>
         /// Attempts to join an online Session.
-        /// The results are handled by <see cref="OnJoinSessionListener(ref JoinSessionCallbackInfo)"/>.
-        /// Sets <see cref="JoiningSessionDetails"/> with the handle, so that it can be used to inform which Session was joined.
+        /// The results are handled by <see cref="OnJoinSessionListener(ref JoinSessionCallbackInfo, SessionDetails, Action{Result})"/>.
         /// </summary>
         /// <param name="sessionHandle">A handle to the Session to join.</param>
         /// <param name="presenceSession">
@@ -1875,7 +1876,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// </param>
         /// <param name="callback">
         /// Additional callback to run with the results of the operation.
-        /// Executed as ClientData in <see cref="OnJoinSessionListener(ref JoinSessionCallbackInfo)"/>.
+        /// Invoked in <see cref="OnJoinSessionListener(ref JoinSessionCallbackInfo, SessionDetails, Action{Result})"/>
         /// </param>
         public void JoinSession(SessionDetails sessionHandle, bool presenceSession, Action<Result> callback = null)
         {
@@ -1886,25 +1887,19 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             joinOptions.PresenceEnabled = presenceSession;
 
             SessionsInterface sessionInterface = EOSManager.Instance.GetEOSPlatformInterface().GetSessionsInterface();
-            sessionInterface.JoinSession(ref joinOptions, callback, OnJoinSessionListener);
-
-            //SetJoinSessionDetails
-            JoiningSessionDetails = sessionHandle;
+            sessionInterface.JoinSession(ref joinOptions, null, (ref JoinSessionCallbackInfo callbackInfo) => OnJoinSessionListener(ref callbackInfo, sessionHandle, callback));
         }
 
         /// <summary>
         /// Callback handler for joining a Session.
-        /// If the joining failed, invokes the <paramref name="data"/>'s ClientData as an Action<Result>.
-        /// If it succeeds, calls <see cref="OnJoinSessionFinished(Action{Result})"/> with the above callback.
         /// </summary>
         /// <param name="data">Callback information indicating success.</param>
-        private void OnJoinSessionListener(ref JoinSessionCallbackInfo data) // OnJoinSessionCallback
+        /// <param name="sessionHandle">The Session's Detail handler.</param>
+        /// <param name="callback">Optional callback to run with the result of joining.</param>
+        private void OnJoinSessionListener(ref JoinSessionCallbackInfo data, SessionDetails sessionHandle, Action<Result> callback = null) // OnJoinSessionCallback
         {
-            var callback = data.ClientData as Action<Result>;
-
             if (data.ResultCode != Result.Success)
             {
-                AcknowledgeEventId(data.ResultCode);
                 Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(OnJoinSessionListener)}): error code: {data.ResultCode}");
                 callback?.Invoke(data.ResultCode);
                 return;
@@ -1913,9 +1908,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             Log($"{nameof(EOSSessionsManager)} ({nameof(OnJoinSessionListener)}): joined Session successfully.");
 
             // Add joined Session to list of current sessions
-            OnJoinSessionFinished(callback);
-
-            AcknowledgeEventId(data.ResultCode);
+            OnJoinSessionFinished(sessionHandle, callback);
         }
 
         /// <summary>
@@ -1923,41 +1916,48 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// Uses the handle in <see cref="JoiningSessionDetails"/> to determine the Session that was joined.
         /// Uses Peer2Peer messages to inform the Owner that this user has joined the Session.
         /// </summary>
-        /// <param name="callback">Callback to run with the status, perhaps used to inform the UI to update.</param>
-        private void OnJoinSessionFinished(Action<Result> callback)
+        /// <param name="joinedSessionDetailsHandle">
+        /// SessionDetails object with metadata about the Session.
+        /// This function can only be called if the SessionDetails are available, and cannot be retrieved inside this function.
+        /// <see cref="SessionsInterface.CopySessionHandleByInviteId(ref CopySessionHandleByInviteIdOptions, out SessionDetails)"/>
+        /// <see cref="SessionsInterface.CopySessionHandleByUiEventId(ref CopySessionHandleByUiEventIdOptions, out SessionDetails)"/>
+        /// <see cref="SessionsInterface.CopySessionHandleForPresence(ref CopySessionHandleForPresenceOptions, out SessionDetails)"/>
+        /// <see cref="Epic.OnlineServices.Sessions.SessionSearch.CopySearchResultByIndex(ref SessionSearchCopySearchResultByIndexOptions, out SessionDetails)"/>
+        /// <see cref="SessionSearch.TryGetSessionHandleById(string, out SessionDetails)"/>
+        /// </param>
+        /// <param name="callback">Optional callback to run with the joining status, perhaps used to inform the UI to update.</param>
+        private void OnJoinSessionFinished(SessionDetails joinedSessionDetailsHandle, Action<Result> callback = null)
         {
-            if (JoiningSessionDetails != null)
+            var sessionDetailsCopyInfoOptions = new SessionDetailsCopyInfoOptions();
+            Result result = joinedSessionDetailsHandle.CopyInfo(ref sessionDetailsCopyInfoOptions, out SessionDetailsInfo? sessionInfo);
+
+            if (result != Result.Success || !sessionInfo.HasValue)
             {
-                var sessionDetailsCopyInfoOptions = new SessionDetailsCopyInfoOptions();
-                Result result = JoiningSessionDetails.CopyInfo(ref sessionDetailsCopyInfoOptions, out SessionDetailsInfo? sessionInfo);
-
-                if (result == Result.Success)
-                {
-                    Session session = new Session();
-                    session.Name = GenerateJoinedSessionName(true);
-                    session.InitFromSessionInfo(JoiningSessionDetails, sessionInfo);
-
-                    // Check if we have a local Session with same ID
-                    bool localSessionFound = false;
-                    foreach (Session currentSession in CurrentSessions.Values)
-                    {
-                        if (currentSession.Id == session.Id)
-                        {
-                            localSessionFound = true;
-                            break;
-                        }
-                    }
-
-                    if (!localSessionFound)
-                    {
-                        CurrentSessions[session.Name] = session;
-                    }
-
-                    OnPresenceChange?.Invoke();
-                    InformSessionOwnerWithMessage(session.Name, P2P_JOINING_SESSION_MESSAGE_ELEMENT);
-                }
                 callback?.Invoke(result);
+                return;
             }
+
+            string sessionName = string.Empty;
+
+            // Check if we have a local Session with same ID
+            if (TryGetSession(sessionInfo.Value.SessionId, out Session existingSession))
+            {
+                sessionName = existingSession.Name;
+                existingSession.InitFromSessionInfo(joinedSessionDetailsHandle, sessionInfo);
+            }
+            else
+            {
+                Session newSession = new Session();
+                newSession.Name = GenerateJoinedSessionName(true);
+                sessionName = newSession.Name;
+                newSession.InitFromSessionInfo(joinedSessionDetailsHandle, sessionInfo);
+                CurrentSessions[newSession.Name] = newSession;
+            }
+
+            OnPresenceChange?.Invoke();
+            InformSessionOwnerWithMessage(sessionName, P2P_JOINING_SESSION_MESSAGE_ELEMENT);
+
+            callback?.Invoke(result);
         }
 
         /// <summary>
@@ -1984,48 +1984,21 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         }
 
         /// <summary>
-        /// Upon successfully joining a Session by Presence, handles joining the local Session and setting Presence.
-        /// 
-        /// TODO: This is incorrectly implemented and will not function properly. Need to change how <paramref name="joinInfo"/> is utilized.
-        /// </summary>
-        /// <param name="joinInfo">
-        /// Information containing a Session id to join off of.
-        /// TODO: Determine an example string and post in this comment.
-        /// </param>
-        /// <param name="uiEventId">
-        /// An Id that the EOS SDK can use to create a handle.
-        /// Once used or no longer needed, call <see cref="AcknowledgeEventId(Result)"/>.
-        /// <see cref="MakeSessionHandleByEventId(ulong)"/>
-        /// </param>
-        private void OnJoinGameAcceptedByJoinInfo(string joinInfo, ulong uiEventId)
-        {
-            JoinUiEvent = uiEventId;
-
-            if (joinInfo.Contains("SessionId")) // TODO: Validate with Regex, this probably won't work
-            {
-                if (joinInfo.Length == 2)
-                {
-                    JoinPresenceSessionById(joinInfo.Substring(1, 1));
-                    return;
-                }
-            }
-
-            AcknowledgeEventId(Result.UnexpectedError);
-            Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(OnJoinGameAcceptedByJoinInfo)}): unable to parse location string: {joinInfo}");
-        }
-
-        /// <summary>
-        /// Sets the local <see cref="JoinPresenceSessionId"/>, and then attempts to <see cref="SearchById(string)"/>.
-        /// If the indicated Session is found, it'll join it, and then set the <see cref="KnownPresenceSessionId"/> to that Id.
+        /// Searches for a Session online with the id <paramref name="sessionId"/>, then joins it as a presence Session.
         /// This can only find Sessions that have their <see cref="Session.PermissionLevel"/> set to either
         /// <see cref="OnlineSessionPermissionLevel.JoinViaPresence"/> or <see cref="OnlineSessionPermissionLevel.PublicAdvertised"/>.
         /// </summary>
         /// <param name="sessionId">The EOS Game Services Session Id.</param>
         private void JoinPresenceSessionById(string sessionId)
         {
-            JoinPresenceSessionId = sessionId;
-            Log($"{nameof(EOSSessionsManager)} ({nameof(JoinPresenceSessionById)}): looking for Session ID: {JoinPresenceSessionId}");
-            SearchById(JoinPresenceSessionId);
+            Log($"{nameof(EOSSessionsManager)} ({nameof(JoinPresenceSessionById)}): looking for Session ID: {sessionId}");
+            SearchById(sessionId, (SessionSearch searchResults) =>
+            {
+                if (searchResults.TryGetSessionHandleById(sessionId, out SessionDetails sessionDetails))
+                {
+                    JoinSession(sessionDetails, true);
+                }
+            });
         }
 
         /// <summary>
@@ -2044,8 +2017,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
             else
             {
-                JoinUiEvent = uiEventId;
-                AcknowledgeEventId(Result.UnexpectedError);
+                AcknowledgeEventId(uiEventId, Result.UnexpectedError);
                 Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(OnJoinGameAcceptedByEventId)}): unable to get details for event ID: {uiEventId}");
             }
         }
@@ -2076,22 +2048,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         }
 
         #region Notifications
-
-        /// <summary>
-        /// Listener notification method for when a game is joined.
-        /// Upon firing, this calls <see cref="OnJoinGameAcceptedByJoinInfo(string, ulong)"/> to join the Game.
-        /// 
-        /// TODO: When is this called versus <see cref="OnJoinSessionAcceptedListener(ref JoinSessionAcceptedCallbackInfo)"/>?
-        /// TODO: At what point does this get called in joining life cycle?
-        /// TODO: What is a Game versus a Session?
-        /// </summary>
-        /// <param name="data">Callback information from the attempted join.</param>
-        public void OnJoinGameAcceptedListener(ref JoinGameAcceptedCallbackInfo data) // OnPresenceJoinGameAcceptedListener
-        {
-            Debug.Log($"{nameof(EOSSessionsManager)} ({nameof(OnJoinGameAcceptedListener)}): join game accepted successfully.");
-
-            OnJoinGameAcceptedByJoinInfo(data.JoinInfo, data.UiEventId);
-        }
 
         /// <summary>
         /// Listener notification method for when a Session is joined.
@@ -2692,11 +2648,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             var addNotifySessionInviteReceivedOptions = new AddNotifySessionInviteReceivedOptions();
             var addNotifySessionInviteAcceptedOptions = new AddNotifySessionInviteAcceptedOptions();
             var addNotifyJoinSessionAcceptedOptions = new AddNotifyJoinSessionAcceptedOptions();
-            var addNotifyJoinGameAcceptedOptions = new AddNotifyJoinGameAcceptedOptions();
 
             SessionInviteNotificationHandle = sessionInterface.AddNotifySessionInviteReceived(ref addNotifySessionInviteReceivedOptions, null, OnSessionInviteReceivedListener);
             SessionInviteAcceptedNotificationHandle = sessionInterface.AddNotifySessionInviteAccepted(ref addNotifySessionInviteAcceptedOptions, null, OnSessionInviteAcceptedListener);
-            JoinGameNotificationHandle = presenceInterface.AddNotifyJoinGameAccepted(ref addNotifyJoinGameAcceptedOptions, null, OnJoinGameAcceptedListener);
             SessionJoinGameNotificationHandle = sessionInterface.AddNotifyJoinSessionAccepted(ref addNotifyJoinSessionAcceptedOptions, null, OnJoinSessionAcceptedListener);
 
             subscribtedToGameInvites = true;
@@ -2726,12 +2680,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             {
                 sessionInterface.RemoveNotifySessionInviteAccepted(SessionInviteAcceptedNotificationHandle);
                 SessionInviteAcceptedNotificationHandle = INVALID_NOTIFICATIONID;
-            }
-
-            if (JoinGameNotificationHandle != INVALID_NOTIFICATIONID)
-            {
-                presenceInterface.RemoveNotifyJoinGameAccepted(JoinGameNotificationHandle);
-                JoinGameNotificationHandle = INVALID_NOTIFICATIONID;
             }
 
             if (SessionJoinGameNotificationHandle != INVALID_NOTIFICATIONID)
@@ -2951,12 +2899,23 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// <summary>
         /// Notification handler for a Session Invite being accepted by the local user.
         /// </summary>
-        /// <param name="data">Callback informationa bout the most recent invitation.</param>
+        /// <param name="data">Callback information about the most recent invitation.</param>
         public void OnSessionInviteAcceptedListener(ref SessionInviteAcceptedCallbackInfo data) // OnSessionInviteAcceptedCallback
         {
             Log($"{nameof(EOSSessionsManager)} ({nameof(OnSessionInviteAcceptedListener)}): joined Session successfully.");
 
-            OnJoinSessionFinished(null);
+            CopySessionHandleByInviteIdOptions options = new()
+            {
+                InviteId = data.InviteId
+            };
+
+            Result copyResult = EOSManager.Instance.GetEOSPlatformInterface().GetSessionsInterface().CopySessionHandleByInviteId(ref options, out SessionDetails handle);
+            if (copyResult != Result.Success)
+            {
+                return;
+            }
+
+            JoinSession(handle, true);
         }
 
         #endregion
