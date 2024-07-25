@@ -20,20 +20,21 @@
 * SOFTWARE.
 */
 
-#if !EOS_DISABLE
-using Epic.OnlineServices.Platform;
-using Epic.OnlineServices.Auth;
-#endif
-using System;
-using System.Collections.Generic;
-using UnityEngine;
-using System.Text.RegularExpressions;
-
 namespace PlayEveryWare.EpicOnlineServices
 {
+    // This compile conditional is here so that when EOS_DISABLE is defined, and
+    // subsequently the Epic namespace is not available, it's exclusion does not
+    // cause compile errors.
+#if !EOS_DISABLE
+    using Epic.OnlineServices.Auth;
+    using Epic.OnlineServices.Platform;
     using Epic.OnlineServices.IntegratedPlatform;
+#endif
+    using System;
+    using System.Collections.Generic;
+    using UnityEngine;
+    using System.Text.RegularExpressions;
     using Extensions;
-    using static Unity.IO.LowLevel.Unsafe.AsyncReadManagerMetrics;
 
     /// <summary>
     /// Represents the default deployment ID to use when a given sandbox ID is active.
