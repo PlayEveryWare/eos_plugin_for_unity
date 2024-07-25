@@ -49,12 +49,12 @@ namespace PlayEveryWare.EpicOnlineServices
     /// </summary>
     public readonly struct RuntimeConfig
     {
+        #region EOS SDK Configuration Values
 
         /*
          * The following region contains values that are required in order to
          * use the EOS SDK.
          */
-        #region EOS SDK Configuration Values
 
         /// <summary>
         /// Product Name defined in the
@@ -127,12 +127,13 @@ namespace PlayEveryWare.EpicOnlineServices
 
         #endregion
 
+        #region Plugin Configuration Values
+
         /*
          * The following region contains configuration values that pertain to
          * the EOS Plugin, distinct from configuration values that pertain more
          * specifically to the function of the EOS SDK.
          */
-        #region Plugin Configuration Values
 
         /// <summary>
         /// Always Send Input to Overlay &lt;/c&gt;If true, the plugin will
@@ -163,9 +164,9 @@ namespace PlayEveryWare.EpicOnlineServices
         #endregion
 
         public RuntimeConfig(
-            Guid productId, 
-            string productName, 
-            Version productVersion, 
+            Guid productId,
+            string productName,
+            Version productVersion,
             Guid sandboxId,
             Guid deploymentId,
             ClientCredentials clientCredentials,
