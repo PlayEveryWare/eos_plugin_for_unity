@@ -145,6 +145,11 @@ namespace PlayEveryWare.EpicOnlineServices
         //cached log levels for retrieving later
         private static Dictionary<LogCategory, LogLevel> logLevels;
 
+        /// <summary>
+        /// If provided, this configuration file will be used when the Platform Interface is created.
+        /// </summary>
+        public EOSConfig OverridingEOSConfigForPlatformCreate { get; set; } = null;
+
         enum EOSState
         {
             NotStarted,
@@ -427,9 +432,20 @@ namespace PlayEveryWare.EpicOnlineServices
             }
 
             //-------------------------------------------------------------------------
-            private Result InitializePlatformInterface()
+            private Result InitializePlatformInterface(EOSConfig overridingConfig = null)
             {
-                EOSConfig configData = Config.Get<EOSConfig>();
+                EOSConfig configData;
+                
+                if (overridingConfig == null)
+                {
+                    configData = Config.Get<EOSConfig>();
+                }
+                else
+                {
+                    print("InitializePlatformInterface: overridingConfig provided, using this for platform create");
+                    configData = overridingConfig;
+                }
+                
                 IPlatformSpecifics platformSpecifics = EOSManagerPlatformSpecificsSingleton.Instance;
 
                 print("InitializePlatformInterface: platformSpecifics.GetType() = " + platformSpecifics.GetType());
@@ -464,9 +480,19 @@ namespace PlayEveryWare.EpicOnlineServices
             }
 
             //-------------------------------------------------------------------------
-            private PlatformInterface CreatePlatformInterface()
+            private PlatformInterface CreatePlatformInterface(EOSConfig overridingConfig = null)
             {
-                EOSConfig configData = Config.Get<EOSConfig>();
+                EOSConfig configData;
+                
+                if (overridingConfig == null)
+                {
+                    configData = Config.Get<EOSConfig>();
+                }
+                else
+                {
+                    configData = overridingConfig;
+                }
+
                 IPlatformSpecifics platformSpecifics = EOSManagerPlatformSpecificsSingleton.Instance;
 
                 EOSCreateOptions platformOptions = new EOSCreateOptions();
@@ -477,7 +503,7 @@ namespace PlayEveryWare.EpicOnlineServices
 #if UNITY_EDITOR
                     PlatformFlags.LoadingInEditor;
 #else
-                configData.platformOptionsFlagsAsPlatformFlags();
+                configData.GetPlatformFlags();
 #endif
                 if (configData.IsEncryptionKeyValid())
                 {
@@ -558,13 +584,13 @@ namespace PlayEveryWare.EpicOnlineServices
             //-------------------------------------------------------------------------
             // NOTE: on some platforms the EOS platform is init'd by a native dynamic library. In
             // those cases, this code will early out.
-            public void Init(IEOSCoroutineOwner coroutineOwner)
+            public void Init(IEOSCoroutineOwner coroutineOwner, EOSConfig overridingConfig = null)
             {
-                Init(coroutineOwner, EOSPackageInfo.ConfigFileName);
+                Init(coroutineOwner, EOSPackageInfo.ConfigFileName, overridingConfig);
             }
 
             //-------------------------------------------------------------------------
-            public void Init(IEOSCoroutineOwner coroutineOwner, string configFileName)
+            public void Init(IEOSCoroutineOwner coroutineOwner, string configFileName, EOSConfig overridingConfig = null)
             {
                 if (GetEOSPlatformInterface() != null)
                 {
@@ -599,8 +625,7 @@ namespace PlayEveryWare.EpicOnlineServices
                     Config.Get<EOSConfig>().OverrideDeployment(epicArgs.epicSandboxID);
                 }
 
-                Result initResult = InitializePlatformInterface();
-
+                Result initResult = InitializePlatformInterface(overridingConfig);
 
                 if (initResult != Result.Success)
                 {
@@ -626,7 +651,7 @@ namespace PlayEveryWare.EpicOnlineServices
                     if (initResult != Result.Success)
                     {
 #if UNITY_EDITOR
-                        initResult = InitializePlatformInterface();
+                        initResult = InitializePlatformInterface(overridingConfig);
 #endif
 
                         if (initResult != Result.Success)
@@ -644,7 +669,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 LoggingInterface.SetCallback(SimplePrintCallback);
 
 
-                var eosPlatformInterface = CreatePlatformInterface();
+                var eosPlatformInterface = CreatePlatformInterface(overridingConfig);
 
                 if (eosPlatformInterface == null)
                 {
@@ -1651,8 +1676,10 @@ namespace PlayEveryWare.EpicOnlineServices
             /// </summary>
             private void ShutdownPlatformInterface()
             {
+                Debug.Log($"[MINT] {nameof(ShutdownPlatformInterface)}");
                 if (s_hasInitializedPlatform)
                 {
+                    Debug.Log($"[MINT] {nameof(ShutdownPlatformInterface)} will Shutdown");
                     PlatformInterface.Shutdown();
                 }
 

@@ -38,7 +38,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests
         /// <summary>
         /// Common constants used in the tests.
         /// </summary>
-        protected class TestCategories
+        public class TestCategories
         {
             public const string SoloCategory = "Solo";
             public const string ClientCategory = "Client";
@@ -69,6 +69,24 @@ namespace PlayEveryWare.EpicOnlineServices.Tests
             }
         }
 
+        public class CoroutineRunner : MonoBehaviour, IEOSCoroutineOwner
+        {
+            public Coroutine CreationCoroutine;
+            public bool CoroutineRunning = false;
+
+            void IEOSCoroutineOwner.StartCoroutine(IEnumerator routine)
+            {
+                CreationCoroutine = StartCoroutine(InnerCoroutine(routine));
+            }
+
+            IEnumerator InnerCoroutine(IEnumerator routine)
+            {
+                CoroutineRunning = true;
+                yield return routine;
+                CoroutineRunning = false;
+            }
+        }
+
         protected const float GlobalTestTimeout = 5f;
         protected const float LoginTestTimeout = 30f;
 
@@ -77,6 +95,8 @@ namespace PlayEveryWare.EpicOnlineServices.Tests
         private bool _initialized;
         private bool _successfulLogin;
 
+        protected EOSManager EOSManager { get; set; }
+
         /// <summary>
         /// Initialize the EOSManager once before attempting to log in.
         /// </summary>
@@ -84,13 +104,14 @@ namespace PlayEveryWare.EpicOnlineServices.Tests
         public void SetupScene()
         {
             eosObject = new GameObject();
-            var eosManager = eosObject.AddComponent<EOSManager>();
-            EOSManager.Instance.Init(eosManager);
+            EOSManager = eosObject.AddComponent<EOSManager>();
+            EOSManager.Instance.Init(EOSManager);
         }
 
         /// <summary>
         /// Initial setup for logging into Epic before starting the tests as all test rely on connecting online. If this setup step
         /// fails, it will immediately cancel the rest of the tests as there's no reason to continue running without a connection online.
+        /// Calls <see cref="StaticSetupDevAuthLogin"/>, while also handling <see cref="_initialized"/> and <see cref="_successfulLogin"/> state.
         /// </summary>
         [UnitySetUp]
         public IEnumerator SetupDevAuthLogin()
@@ -113,6 +134,18 @@ namespace PlayEveryWare.EpicOnlineServices.Tests
 
             _initialized = true;
 
+            yield return EOSTestBase.StaticSetupDevAuthLogin();
+
+            _successfulLogin = true;
+        }
+
+        /// <summary>
+        /// Attempts to log in to Epic. Does not retain state information about already being logged in or initialized.
+        /// Static available login method for tests that don't inherit from this class, but still want login functionality.
+        /// </summary>
+        /// <returns></returns>
+        public static IEnumerator StaticSetupDevAuthLogin()
+        {
             UnitTestConfig config = EpicOnlineServices.Config.Get<UnitTestConfig>();
 
             // Using DevAuth for local testing.
@@ -139,8 +172,6 @@ namespace PlayEveryWare.EpicOnlineServices.Tests
             Assert.IsNotNull(callbackInfo, "Could not connect with Epic account, callbackInfo was not set.");
             Assert.AreEqual(Result.Success, callbackInfo.Value.ResultCode, $"Could not connect with Epic account: {callbackInfo.Value.ResultCode}");
             Assert.That(EOSManager.Instance.GetProductUserId().IsValid(), "Current player is invalid.");
-
-            _successfulLogin = true;
         }
 
         /// <summary>
