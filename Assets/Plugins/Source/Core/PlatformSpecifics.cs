@@ -103,16 +103,12 @@ namespace PlayEveryWare.EpicOnlineServices
                 throw new Exception("ConfigureSystemInitOptions: initializeOptions is null!");
             }
 
-            string configPath = PlatformManager.GetConfigFilePath(Platform);
-            
-            T config = JsonUtility.FromJsonFile<T>(configPath);
-
-            if (config != null && initializeOptions.options.OverrideThreadAffinity.HasValue)
+            if (initializeOptions.options.OverrideThreadAffinity.HasValue)
             {
                 Debug.Log($"Assigning thread affinity override values for platform \"{Platform}\".");
                 var overrideThreadAffinity = initializeOptions.options.OverrideThreadAffinity.Value;
 
-                config.overrideValues.ConfigureOverrideThreadAffinity(ref overrideThreadAffinity);
+                Config.Get<T>().overrideValues.ConfigureOverrideThreadAffinity(ref overrideThreadAffinity);
 
                 initializeOptions.options.OverrideThreadAffinity = overrideThreadAffinity;
             }
