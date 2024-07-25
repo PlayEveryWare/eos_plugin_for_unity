@@ -305,7 +305,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <summary>
         /// Returns a single IntegratedPlatformManagementFlags enum value that
         /// results from a bitwise OR operation of all the
-        /// platformIntegrationManagementFlags flags on this config.
+        /// integratedPlatformManagementFlags flags on this config.
         /// </summary>
         /// <returns>An IntegratedPlatformManagementFlags enum value.</returns>
         public IntegratedPlatformManagementFlags GetIntegratedPlatformManagementFlags()
