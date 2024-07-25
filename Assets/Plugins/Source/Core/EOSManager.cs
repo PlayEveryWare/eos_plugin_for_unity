@@ -1676,10 +1676,8 @@ namespace PlayEveryWare.EpicOnlineServices
             /// </summary>
             private void ShutdownPlatformInterface()
             {
-                Debug.Log($"[MINT] {nameof(ShutdownPlatformInterface)}");
                 if (s_hasInitializedPlatform)
                 {
-                    Debug.Log($"[MINT] {nameof(ShutdownPlatformInterface)} will Shutdown");
                     PlatformInterface.Shutdown();
                 }
 
