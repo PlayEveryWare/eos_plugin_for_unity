@@ -20,7 +20,7 @@
  * SOFTWARE.
  */
 
-//#define EOS_RUNTIME_NEW_CONFIG_SYSTEM
+#define EOS_RUNTIME_NEW_CONFIG_SYSTEM
 
 namespace PlayEveryWare.EpicOnlineServices
 {
@@ -57,8 +57,7 @@ namespace PlayEveryWare.EpicOnlineServices
          */
 
         /// <summary>
-        /// Product Name defined in the
-        /// 
+        /// Product Name defined in the dev portal.
         /// </summary>
         public readonly string ProductName;
 
@@ -73,9 +72,10 @@ namespace PlayEveryWare.EpicOnlineServices
         public readonly Guid ProductId;
 
         /// <summary>
-        /// Sandbox Id
+        /// Sandbox Id. Non-private sandboxes are Guid. Private sandboxes
+        /// have the prefix "p-", and are not otherwise Guids.
         /// </summary>
-        public readonly Guid SandboxId;
+        public readonly string SandboxId;
 
         /// <summary>
         /// Deployment Id
@@ -167,7 +167,7 @@ namespace PlayEveryWare.EpicOnlineServices
             Guid productId,
             string productName,
             Version productVersion,
-            Guid sandboxId,
+            string sandboxId,
             Guid deploymentId,
             ClientCredentials clientCredentials,
             string encryptionKey,
@@ -239,7 +239,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 Guid.Parse(config.productID),
                 config.productName,
                 Version.Parse(config.productVersion),
-                Guid.Parse(config.sandboxID),
+                config.sandboxID,
                 Guid.Parse(config.deploymentID),
                 new ClientCredentials() { ClientId = config.clientID, ClientSecret = config.clientSecret },
                 config.encryptionKey,
