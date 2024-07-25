@@ -124,7 +124,7 @@ namespace PlayEveryWare.EpicOnlineServices
         public List<string> authScopeOptionsFlags;
 
         /// <summary>
-        /// Flags used to configure platform integration management flags for.
+        /// Flags used to configure platform integration management flags.
         /// </summary>
         public List<string> integratedPlatformManagementFlags;
 
