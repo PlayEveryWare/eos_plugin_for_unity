@@ -341,9 +341,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
 
             // FPS
-            deltaTime_FPS += (Time.deltaTime - deltaTime_FPS) * 0.1f;
-            float fps = 1.0f / deltaTime_FPS;
-            FPSValue.text = Mathf.Ceil(fps).ToString();
+            if (FPSValue != null)
+            {
+                deltaTime_FPS += (Time.deltaTime - deltaTime_FPS) * 0.1f;
+                float fps = 1.0f / deltaTime_FPS;
+                FPSValue.text = Mathf.Ceil(fps).ToString();
+            }
         }
 
         private void ScrollToBottom()
