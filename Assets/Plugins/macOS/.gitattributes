@@ -1,3 +1,1 @@
-libEOSSDK-Mac-Shipping.dylib filter=lfs diff=lfs merge=lfs binary
-libDynamicLibraryLoaderHelper.dylib filter=lfs diff=lfs merge=lfs binary
-MicrophoneUtility_macos.dylib filter=lfs diff=lfs merge=lfs binary
+*.dylib filter=lfs diff=lfs merge=lfs binary
