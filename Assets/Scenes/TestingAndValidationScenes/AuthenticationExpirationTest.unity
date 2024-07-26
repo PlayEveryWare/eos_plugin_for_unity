@@ -1629,11 +1629,11 @@ MonoBehaviour:
     m_Options:
     - m_Text: Select Provider
       m_Image: {fileID: 0}
-    - m_Text: Steam
+    - m_Text: Steam Session Ticket
+      m_Image: {fileID: 0}
+    - m_Text: Steam App Ticket
       m_Image: {fileID: 0}
     - m_Text: Discord
-      m_Image: {fileID: 0}
-    - m_Text: OpenID
       m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:

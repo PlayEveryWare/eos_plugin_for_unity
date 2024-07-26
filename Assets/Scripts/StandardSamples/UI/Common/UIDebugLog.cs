@@ -77,7 +77,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             logLevelMenuItems = new List<UIDebugLogLevelMenuItem>();
             BuildLogLevelMenu();
             ignoreLogLevelChange = false;
-            LogLevelScrollView.gameObject.SetActive(false);
+
+            if (LogLevelScrollView != null)
+            { 
+                LogLevelScrollView.gameObject.SetActive(false);
+            }            
         }
 
         public void OnScollDragBegin()
@@ -102,6 +106,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private void BuildLogLevelMenu()
         {
+            if (LogLevelTemplate == null)
+            {
+                return;
+            }
+
             LogLevelTemplate.InitDropdown();
 
             allCategoriesMenuItem = CreateLogCategoryItem(LogCategory.AllCategories);
