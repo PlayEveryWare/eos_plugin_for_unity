@@ -215,7 +215,7 @@ namespace PlayEveryWare.EpicOnlineServices.Extensions
         /// <returns>
         /// The discrete values of which this combined flag is composed of.
         /// </returns>
-        public static IEnumerable<TEnum> Decompose(TEnum bitFlag)
+        public static IEnumerable<TEnum> GetEnumerator(TEnum bitFlag)
         {
             IList<TEnum> compositeParts = new List<TEnum>();
 
