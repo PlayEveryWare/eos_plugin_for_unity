@@ -22,11 +22,11 @@
 
 using NUnit.Framework;
 
-namespace PlayEveryWare.EpicOnlineServices.Tests
+namespace PlayEveryWare.EpicOnlineServices.Tests.Utility.Extensions
 {
     using Epic.OnlineServices.Platform;
-    using Extensions;
-    
+    using EpicOnlineServices.Extensions;
+
     public class PlatformFlagsExtensionsTests : CustomMappedEnumTestBase<PlatformFlags>
     { 
         /// <summary>

@@ -20,11 +20,11 @@
  * SOFTWARE.
  */
 
-namespace PlayEveryWare.EpicOnlineServices.Tests
+namespace PlayEveryWare.EpicOnlineServices.Tests.Utility.Extensions
 {
     using NUnit.Framework;
     using Epic.OnlineServices.Auth;
-    using Extensions;
+    using EpicOnlineServices.Extensions;
 
     public class AuthScopeFlagsExtensionsTests : CustomMappedEnumTestBase<AuthScopeFlags>
     {

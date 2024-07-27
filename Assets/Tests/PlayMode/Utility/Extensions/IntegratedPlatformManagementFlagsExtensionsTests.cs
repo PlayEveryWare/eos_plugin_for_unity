@@ -20,12 +20,11 @@
  * SOFTWARE.
  */
 
-namespace PlayEveryWare.EpicOnlineServices.Tests
+namespace PlayEveryWare.EpicOnlineServices.Tests.Utility.Extensions
 {
-    using NUnit.Framework;
-
     using Epic.OnlineServices.IntegratedPlatform;
-    using Extensions;
+    using EpicOnlineServices.Extensions;
+    using NUnit.Framework;
 
     public class IntegratedPlatformManagementFlagsTests : CustomMappedEnumTestBase<IntegratedPlatformManagementFlags>
     {
