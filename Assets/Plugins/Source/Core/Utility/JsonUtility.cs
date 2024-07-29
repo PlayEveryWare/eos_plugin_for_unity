@@ -22,13 +22,110 @@
 
 namespace PlayEveryWare.EpicOnlineServices.Utility
 {
+    using Epic.OnlineServices.Platform;
+    using System;
     using UnityEngine;
+    using Unity.Plastic.Newtonsoft.Json;
 
     /// <summary>
     /// Contains functions to interact with various json data.
     /// </summary>
     public static class JsonUtility
     {
+        #region JsonConverters for custom types
+
+        private class GuidConverter : JsonConverter<System.Guid>
+        {
+            public override void WriteJson(JsonWriter writer, Guid value, JsonSerializer serializer)
+            {
+                writer.WriteValue(value.ToString());
+            }
+
+            public override Guid ReadJson(JsonReader reader, Type objectType, Guid existingValue, bool hasExistingValue, JsonSerializer serializer)
+            {
+                return Guid.Parse((string)reader.Value ?? string.Empty);
+            }
+        }
+
+        private class VersionConverter : JsonConverter<System.Version>
+        {
+            public override void WriteJson(JsonWriter writer, System.Version value, JsonSerializer serializer)
+            {
+                writer.WriteValue(value.ToString());
+            }
+
+            public override System.Version ReadJson(JsonReader reader, Type objectType, System.Version existingValue, bool hasExistingValue,
+                JsonSerializer serializer)
+            {
+                return System.Version.Parse((string)reader.Value ?? string.Empty);
+            }
+        }
+
+        private class ClientCredentialsConverter : JsonConverter<ClientCredentials>
+        {
+            public override void WriteJson(JsonWriter writer, ClientCredentials value, JsonSerializer serializer)
+            {
+                writer.WriteStartObject();
+                writer.WritePropertyName("ClientId");
+                writer.WriteValue(value.ClientId);
+                writer.WritePropertyName("ClientSecret");
+                writer.WriteValue(value.ClientSecret);
+                writer.WriteEndObject();
+            }
+
+            public override ClientCredentials ReadJson(JsonReader reader, Type objectType, ClientCredentials existingValue, bool hasExistingValue,
+                JsonSerializer serializer)
+            {
+                ClientCredentials returnValue;
+
+                if (reader.TokenType == JsonToken.Null)
+                    return returnValue;
+
+                while (reader.Read())
+                {
+                    if (reader.TokenType == JsonToken.PropertyName)
+                    {
+                        string propertyName = (string)reader.Value;
+
+                        if (!reader.Read())
+                            continue;
+
+                        switch (propertyName)
+                        {
+                            case "ClientId":
+                                returnValue.ClientId = new((string)reader.Value);
+                                break;
+                            case "ClientSecret":
+                                returnValue.ClientSecret = new((string)reader.Value);
+                                break;
+                        }
+                    }
+                    else if (reader.TokenType == JsonToken.EndObject)
+                    {
+                        break;
+                    }
+                }
+
+                return returnValue;
+            }
+        }
+
+        #endregion
+
+        /// <summary>
+        /// Used to contain the various custom JsonConverters that are needed
+        /// throughout the project.
+        /// </summary>
+        private static readonly JsonSerializerSettings s_serializerSettings;
+
+        static JsonUtility()
+        {
+            s_serializerSettings = new JsonSerializerSettings();
+            s_serializerSettings.Converters.Add(new VersionConverter());
+            s_serializerSettings.Converters.Add(new GuidConverter());
+            s_serializerSettings.Converters.Add(new ClientCredentialsConverter());
+        }
+
         /// <summary>
         /// Tries to parse the given JSON into an object.
         /// </summary>
@@ -47,7 +144,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
             obj = default;
             try
             {
-                obj = UnityEngine.JsonUtility.FromJson<T>(json);
+                obj = JsonConvert.DeserializeObject<T>(json, s_serializerSettings);
                 return true;
             }
             catch
@@ -79,7 +176,8 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         /// </returns>
         public static string ToJson(object obj, bool pretty = false)
         {
-            return UnityEngine.JsonUtility.ToJson(obj, pretty);
+            return JsonConvert.SerializeObject(obj, 
+                pretty ? Formatting.Indented : Formatting.None, s_serializerSettings);
         }
 
         /// <summary>
@@ -147,7 +245,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
             // this check.
             if (typeof(T).IsAbstract || TryFromJson(json, out T _))
             {
-                UnityEngine.JsonUtility.FromJsonOverwrite(json, obj);
+                JsonConvert.PopulateObject(json, obj);
             }
         }
     }

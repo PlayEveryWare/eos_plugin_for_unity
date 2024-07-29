@@ -20,7 +20,7 @@
  * SOFTWARE.
  */
 
-//#define EOS_RUNTIME_NEW_CONFIG_SYSTEM
+#define EOS_RUNTIME_NEW_CONFIG_SYSTEM
 
 namespace PlayEveryWare.EpicOnlineServices
 {
@@ -49,6 +49,12 @@ namespace PlayEveryWare.EpicOnlineServices
     /// </summary>
     public readonly struct RuntimeConfig
     {
+        /// <summary>
+        /// Used when comparing two floating point numbers. Numbers that are
+        /// within 1x10^(-6) of each other are considered to be equal.
+        /// </summary>
+        private const float FloatEqualityTolerance = 1e-6f;
+
         #region EOS SDK Configuration Values
 
         /*
@@ -57,7 +63,7 @@ namespace PlayEveryWare.EpicOnlineServices
          */
 
         /// <summary>
-        /// Product Name defined in the dev portal.
+        /// Product Name defined in the dev portal. 
         /// </summary>
         public readonly string ProductName;
 
@@ -201,6 +207,13 @@ namespace PlayEveryWare.EpicOnlineServices
             SendInputDirectlyToSDK = sendInputDirectlyToSdk;
         }
 
+        #region Operators
+
+        /*
+         * The following region contains implementation of operators used with
+         * the struct.
+         */
+
         /// <summary>
         /// Uses the values in the given EOSConfig class to create a
         /// RuntimeConfig struct that contains readonly values with the
@@ -222,7 +235,7 @@ namespace PlayEveryWare.EpicOnlineServices
         {
             if (null == config)
             {
-                throw new ArgumentNullException($"Cannot convert from a null \"EOSConfig\" to \"RuntimeConfig\".");
+                throw new ArgumentNullException($"Cannot convert from a null \"{typeof(EOSConfig)}\" to \"RuntimeConfig\".");
             }
 
             // Use the configure override thread affinity helper function to
@@ -254,6 +267,66 @@ namespace PlayEveryWare.EpicOnlineServices
                 repeatButtonDelayForOverlayFloat,
                 config.hackForceSendInputDirectlyToSDK);
         }
+        
+        public override bool Equals(object obj)
+        {
+            if (obj is RuntimeConfig other)
+            {
+                return ProductName == other.ProductName &&
+                       ProductVersion.Equals(other.ProductVersion) &&
+                       ProductId.Equals(other.ProductId) &&
+                       SandboxId == other.SandboxId &&
+                       DeploymentId.Equals(other.DeploymentId) &&
+                       ClientCredentials.Equals(other.ClientCredentials) &&
+                       EncryptionKey == other.EncryptionKey &&
+                       PlatformFlags == other.PlatformFlags &&
+                       AuthScopeFlags == other.AuthScopeFlags &&
+                       IntegratedPlatformManagementFlags == other.IntegratedPlatformManagementFlags &&
+                       TickBudgetInMilliseconds == other.TickBudgetInMilliseconds &&
+                       ThreadAffinity.Equals(other.ThreadAffinity) &&
+                       IsServer == other.IsServer &&
+                       AlwaysSendInputToOverlay == other.AlwaysSendInputToOverlay &&
+                       Math.Abs(InitialButtonDelayForOverlay - other.InitialButtonDelayForOverlay) < FloatEqualityTolerance &&
+                       Math.Abs(RepeatButtonDelayForOverlay - other.RepeatButtonDelayForOverlay) < FloatEqualityTolerance &&
+                       SendInputDirectlyToSDK == other.SendInputDirectlyToSDK;
+            }
+            return false;
+        }
+
+        public override int GetHashCode()
+        {
+            HashCode hash = new();
+            hash.Add(ProductName);
+            hash.Add(ProductVersion);
+            hash.Add(ProductId);
+            hash.Add(SandboxId);
+            hash.Add(DeploymentId);
+            hash.Add(ClientCredentials);
+            hash.Add(EncryptionKey);
+            hash.Add(PlatformFlags);
+            hash.Add(AuthScopeFlags);
+            hash.Add(IntegratedPlatformManagementFlags);
+            hash.Add(TickBudgetInMilliseconds);
+            hash.Add(ThreadAffinity);
+            hash.Add(IsServer);
+            hash.Add(AlwaysSendInputToOverlay);
+            hash.Add(InitialButtonDelayForOverlay);
+            hash.Add(RepeatButtonDelayForOverlay);
+            hash.Add(SendInputDirectlyToSDK);
+            return hash.ToHashCode();
+        }
+
+        // Add the equality operator overloads
+        public static bool operator ==(RuntimeConfig left, RuntimeConfig right)
+        {
+            return left.Equals(right);
+        }
+
+        public static bool operator !=(RuntimeConfig left, RuntimeConfig right)
+        {
+            return !(left == right);
+        }
+        #endregion
     }
 #endif
 }

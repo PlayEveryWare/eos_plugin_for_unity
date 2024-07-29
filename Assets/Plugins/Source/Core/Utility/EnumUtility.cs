@@ -129,6 +129,12 @@ namespace PlayEveryWare.EpicOnlineServices.Extensions
         {
             result = defaultValue;
 
+            // Parsing a null list of enum values as strings is acceptable
+            // because it will be interpreted as the default value being
+            // applied.
+            if (null == enumValuesAsStrings)
+                return true;
+
             foreach (string enumValueAsString in enumValuesAsStrings)
             {
                 if (!TryParse(enumValueAsString, customMappings, out TEnum enumValue, defaultValue))
