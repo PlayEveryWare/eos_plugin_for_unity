@@ -262,12 +262,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             session.Attributes.Add(attribute);
 
-            GetEOSSessionsManager.CreateSession(session, PresenceVal.isOn, UIOnSessionCreated);
+            GetEOSSessionsManager.UIOnSessionCreated.AddListener(UIOnSessionCreated);
+            GetEOSSessionsManager.CreateSession(session, PresenceVal.isOn);
         }
 
-        private void UIOnSessionCreated()
+        private void UIOnSessionCreated(string createdSessionName, Result creationResult)
         {
             // Update() already enumerates ActiveSessions.  Here you can do any UI related calls after session is created.
+            GetEOSSessionsManager.UIOnSessionCreated.RemoveListener(UIOnSessionCreated);
         }
 
         //Search Result
