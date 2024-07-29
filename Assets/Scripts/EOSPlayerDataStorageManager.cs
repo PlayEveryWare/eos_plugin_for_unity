@@ -32,6 +32,8 @@ using Epic.OnlineServices.PlayerDataStorage;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
+    using Editor.Utility;
+
     /// <summary>Class <c>EOSPlayerDataStorageManager</c> is a simplified wrapper for EOS [PlayerDataStorage Interface](https://dev.epicgames.com/docs/services/en-US/Interfaces/PlayerDataStorage/index.html).</summary>
     public class EOSPlayerDataStorageManager : IEOSSubManager
     {
@@ -487,7 +489,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 }
                 else if (transfer.TotalSize > 0)
                 {
-                    fileData = System.Text.Encoding.UTF8.GetString(transfer.Data);
+                    fileData = System.Text.Encoding.UTF8.GetString(transfer.Data, 0, (int)transfer.TotalSize);
                 }
                 else
                 {
