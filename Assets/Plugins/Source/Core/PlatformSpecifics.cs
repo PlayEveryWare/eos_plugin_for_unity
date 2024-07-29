@@ -103,9 +103,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 throw new Exception("ConfigureSystemInitOptions: initializeOptions is null!");
             }
 
-            string configPath = PlatformManager.GetConfigFilePath(Platform);
-            
-            T config = JsonUtility.FromJsonFile<T>(configPath);
+            T config = Config.Get<T>();
 
             if (config != null && initializeOptions.options.OverrideThreadAffinity.HasValue)
             {

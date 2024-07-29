@@ -280,6 +280,18 @@ namespace PlayEveryWare.EpicOnlineServices
             return false;
         }
 
+        /// <summary>
+        /// Used to override the values in the EOSConfig using the config that
+        /// is specific to a given platform.
+        /// </summary>
+        /// <param name="platformConfig">
+        /// The PlatformConfig to use to selectively override values of the
+        /// EOSConfig.
+        /// </param>
+        public void ApplyPlatformOverrides(PlatformConfig platformConfig)
+        {
+
+        }
 
 #if !EOS_DISABLE
 
