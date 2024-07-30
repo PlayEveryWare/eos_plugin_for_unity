@@ -31,6 +31,8 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Epic.OnlineServices;
+using Epic.OnlineServices.Connect;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples.Discord
 {

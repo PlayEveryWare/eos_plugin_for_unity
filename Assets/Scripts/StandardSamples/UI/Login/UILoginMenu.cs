@@ -20,32 +20,31 @@
 * SOFTWARE.
 */
 
-using Epic.OnlineServices;
-using Epic.OnlineServices.Auth;
-using Epic.OnlineServices.UI;
-using Epic.OnlineServices.Ecom;
-using Epic.OnlineServices.Logging;
+namespace PlayEveryWare.EpicOnlineServices.Samples
+{
+    using Epic.OnlineServices;
+    using Epic.OnlineServices.Auth;
+    using Epic.OnlineServices.UI;
+    using Epic.OnlineServices.Ecom;
+    using Epic.OnlineServices.Logging;
 
-using System;
-using System.Collections;
-using System.Collections.Generic;
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
 
-using UnityEngine;
-using UnityEngine.Events;
-using UnityEngine.EventSystems;
-using UnityEngine.SceneManagement;
-using UnityEngine.UI;
+    using UnityEngine;
+    using UnityEngine.Events;
+    using UnityEngine.EventSystems;
+    using UnityEngine.SceneManagement;
+    using UnityEngine.UI;
 
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
 #endif
 
-using PlayEveryWare.EpicOnlineServices;
-
-namespace PlayEveryWare.EpicOnlineServices.Samples
-{
-    using System.IO;
-    using System.Linq;
+    using PlayEveryWare.EpicOnlineServices;
 
     public class UILoginMenu : MonoBehaviour
     {
@@ -1205,27 +1204,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 string password = tokenParts[1].Trim();
                 if (!string.IsNullOrEmpty(username) && !string.IsNullOrEmpty(password))
                 {
-                    OpenId.OpenIdRequestManager.Instance.RequestToken(username, password, OnOpenIdTokenReceived);
+                    OpenId.OpenIdRequestManager.Instance.StartConnectLoginWithOpenID(username, password, ConnectLoginTokenCallback);
+                    
                     return;
                 }
             }
 
             Debug.LogError("Connect Login failed: OpenID credentials should be entered as \"username:password\"");
             ConfigureUIForLogin();
-        }
-
-        private void OnOpenIdTokenReceived(string username, string token)
-        {
-            if (token == null)
-            {
-                Debug.LogError("Connect Login failed: Unable to acquire OpenID token");
-                ConfigureUIForLogin();
-            }
-            else
-            {
-                EOSManager.Instance.StartConnectLoginWithOptions(ExternalCredentialType.OpenidAccessToken, token, onloginCallback: ConnectLoginTokenCallback);
-            }
-
         }
 
         private void ConnectOculus()
