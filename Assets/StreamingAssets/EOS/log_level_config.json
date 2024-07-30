@@ -1,136 +1,136 @@
 {
-    "logCategoryLevelPairs": [
+    "LogCategoryLevelPairs": [
         {
-            "category": "Core",
-            "level": "Warning"
+            "Category": "Core",
+            "Level": "Warning"
         },
         {
-            "category": "Auth",
-            "level": "Warning"
+            "Category": "Auth",
+            "Level": "Warning"
         },
         {
-            "category": "Friends",
-            "level": "Warning"
+            "Category": "Friends",
+            "Level": "Warning"
         },
         {
-            "category": "Presence",
-            "level": "Warning"
+            "Category": "Presence",
+            "Level": "Warning"
         },
         {
-            "category": "UserInfo",
-            "level": "Warning"
+            "Category": "UserInfo",
+            "Level": "Warning"
         },
         {
-            "category": "HttpSerialization",
-            "level": "Warning"
+            "Category": "HttpSerialization",
+            "Level": "Warning"
         },
         {
-            "category": "Ecom",
-            "level": "Warning"
+            "Category": "Ecom",
+            "Level": "Warning"
         },
         {
-            "category": "P2P",
-            "level": "Warning"
+            "Category": "P2P",
+            "Level": "Warning"
         },
         {
-            "category": "Sessions",
-            "level": "Warning"
+            "Category": "Sessions",
+            "Level": "Warning"
         },
         {
-            "category": "RateLimiter",
-            "level": "Warning"
+            "Category": "RateLimiter",
+            "Level": "Warning"
         },
         {
-            "category": "PlayerDataStorage",
-            "level": "Warning"
+            "Category": "PlayerDataStorage",
+            "Level": "Warning"
         },
         {
-            "category": "Analytics",
-            "level": "Warning"
+            "Category": "Analytics",
+            "Level": "Warning"
         },
         {
-            "category": "Messaging",
-            "level": "Warning"
+            "Category": "Messaging",
+            "Level": "Warning"
         },
         {
-            "category": "Connect",
-            "level": "Warning"
+            "Category": "Connect",
+            "Level": "Warning"
         },
         {
-            "category": "Overlay",
-            "level": "Warning"
+            "Category": "Overlay",
+            "Level": "Warning"
         },
         {
-            "category": "Achievements",
-            "level": "Warning"
+            "Category": "Achievements",
+            "Level": "Warning"
         },
         {
-            "category": "Stats",
-            "level": "Warning"
+            "Category": "Stats",
+            "Level": "Warning"
         },
         {
-            "category": "Ui",
-            "level": "Warning"
+            "Category": "Ui",
+            "Level": "Warning"
         },
         {
-            "category": "Lobby",
-            "level": "Warning"
+            "Category": "Lobby",
+            "Level": "Warning"
         },
         {
-            "category": "Leaderboards",
-            "level": "Warning"
+            "Category": "Leaderboards",
+            "Level": "Warning"
         },
         {
-            "category": "Keychain",
-            "level": "Warning"
+            "Category": "Keychain",
+            "Level": "Warning"
         },
         {
-            "category": "IntegratedPlatform",
-            "level": "Warning"
+            "Category": "IntegratedPlatform",
+            "Level": "Warning"
         },
         {
-            "category": "TitleStorage",
-            "level": "Warning"
+            "Category": "TitleStorage",
+            "Level": "Warning"
         },
         {
-            "category": "Mods",
-            "level": "Warning"
+            "Category": "Mods",
+            "Level": "Warning"
         },
         {
-            "category": "AntiCheat",
-            "level": "Warning"
+            "Category": "AntiCheat",
+            "Level": "Warning"
         },
         {
-            "category": "Reports",
-            "level": "Warning"
+            "Category": "Reports",
+            "Level": "Warning"
         },
         {
-            "category": "Sanctions",
-            "level": "Warning"
+            "Category": "Sanctions",
+            "Level": "Warning"
         },
         {
-            "category": "ProgressionSnapshots",
-            "level": "Warning"
+            "Category": "ProgressionSnapshots",
+            "Level": "Warning"
         },
         {
-            "category": "Kws",
-            "level": "Warning"
+            "Category": "Kws",
+            "Level": "Warning"
         },
         {
-            "category": "Rtc",
-            "level": "Warning"
+            "Category": "Rtc",
+            "Level": "Warning"
         },
         {
-            "category": "RTCAdmin",
-            "level": "Warning"
+            "Category": "RTCAdmin",
+            "Level": "Warning"
         },
         {
-            "category": "CustomInvites",
-            "level": "Warning"
+            "Category": "CustomInvites",
+            "Level": "Warning"
         },
         {
-            "category": "AllCategories",
-            "level": "Warning"
+            "Category": "AllCategories",
+            "Level": "Warning"
         }
     ]
 }
