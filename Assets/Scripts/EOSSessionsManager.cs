@@ -53,7 +53,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// unset in <see cref="Release"/>, when a new search is set without the argument,
         /// or after <see cref="OnSearchResultReceived(Dictionary{Session, SessionDetails})"/> is called.
         /// </summary>
-        private Action<SessionSearch> RunOnSearchResultReceived { get; set; }
+        public Action<SessionSearch> RunOnSearchResultReceived { get; set; }
 
         public SessionSearch()
         {
@@ -835,7 +835,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         [Obsolete]
         private void OnShutDown()
         {
-            DestroyAllSessions();
+            LeaveAllSessions();
             UnsubscribeFromGameInvites();
             UnsubscribeToSessionMessageConnectionRequests();
         }
@@ -1024,7 +1024,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
 
             CreateSessionModificationOptions createOptions = new CreateSessionModificationOptions();
-            createOptions.BucketId = BUCKET_ID;
+            createOptions.BucketId = string.IsNullOrEmpty(session.BucketId) ? BUCKET_ID : session.BucketId;
             createOptions.MaxPlayers = session.MaxPlayers;
             createOptions.SessionName = session.Name;
             createOptions.SanctionsEnabled = session.SanctionsEnabled;
@@ -1080,7 +1080,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             attrData.Key = EOS_SESSIONS_SEARCH_BUCKET_ID;
             attrData.Value = new AttributeDataValue()
             {
-                AsUtf8 = BUCKET_ID
+                AsUtf8 = string.IsNullOrEmpty(session.BucketId) ? BUCKET_ID : session.BucketId
             };
 
             SessionModificationAddAttributeOptions attrOptions = new SessionModificationAddAttributeOptions();
@@ -1408,7 +1408,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// <param name="attributes">
         /// A list of Session Attributes to act as filters.
         /// </param>
-        public void Search(List<SessionAttribute> attributes)
+        /// <param name="bucketId">
+        /// The BucketID to search for.
+        /// Results will only include Sessions created with this as their exact <see cref="Session.BucketId"/>.
+        /// </param>
+        public void Search(List<SessionAttribute> attributes, string bucketId = BUCKET_ID)
         {
             // Clear previous search
             CurrentSearch.Release();
@@ -1431,7 +1435,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             attrData.Key = EOS_SESSIONS_SEARCH_BUCKET_ID;
             attrData.Value = new AttributeDataValue()
             {
-                AsUtf8 = BUCKET_ID
+                AsUtf8 = string.IsNullOrEmpty(bucketId) ? BUCKET_ID : bucketId
             };
 
             SessionSearchSetParameterOptions paramOptions = new SessionSearchSetParameterOptions();
@@ -1494,7 +1498,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// </summary>
         /// <param name="sessionId">The Session Id to search for.</param>
         /// <param name="onSearchCompleted">Optional action to run when the search results are received.</param>
-        public void SearchById(string sessionId, Action<SessionSearch> onSearchCompleted = null)
+        public void SearchById(string sessionId, Action<Samples.SessionSearch> onSearchCompleted = null)
         {
             // Clear previous search
             CurrentSearch.Release();
@@ -1819,29 +1823,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// <summary>
         /// Leaves all Sessions currently joined by using <see cref="DestroySession(string)"/>.
         /// </summary>
-        private void LeaveAllSessions()
+        public void LeaveAllSessions()
         {
             // Enumerate Session entries in UI
             foreach (KeyValuePair<string, Session> kvp in GetCurrentSessions())
             {
                 DestroySession(kvp.Key);
-            }
-        }
-
-        /// <summary>
-        /// Leaves all Sessions currently joined by using <see cref="DestroySession(string)"/>.
-        /// Only applies to Sessions not owned.
-        /// 
-        /// TODO: This seems redundant and misleading. Should remove.
-        /// </summary>
-        public void DestroyAllSessions()
-        {
-            foreach (KeyValuePair<string, Session> Session in CurrentSessions)
-            {
-                if (!Session.Key.Contains(JOINED_SESSION_NAME))
-                {
-                    DestroySession(Session.Key);
-                }
             }
         }
 
