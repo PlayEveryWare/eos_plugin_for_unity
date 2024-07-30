@@ -1193,20 +1193,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 return;
             }
 
-            Discord.DiscordManager.Instance.RequestOAuth2Token(OnDiscordAuthReceived);
-        }
-
-        private void OnDiscordAuthReceived(string token)
-        {
-            if (token == null)
-            {
-                Debug.LogError("Connect Login failed: Unable to get Discord OAuth2 token");
-                ConfigureUIForLogin();
-            }
-            else
-            {
-                EOSManager.Instance.StartConnectLoginWithOptions(ExternalCredentialType.DiscordAccessToken, token, onloginCallback: ConnectLoginTokenCallback);
-            }
+            Discord.DiscordManager.Instance.StartConnectLoginWithDiscord(ConnectLoginTokenCallback);
         }
 
         private void ConnectOpenId()

@@ -130,6 +130,45 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Discord
 
         private event Action<string> onTokenReceived;
 
+        public void StartConnectLoginWithDiscord(EOSManager.OnConnectLoginCallback onLoginCallback)
+        {
+            StartConnectLoginWithDiscord(onLoginCallback, false);
+        }
+
+        private void StartConnectLoginWithDiscord(EOSManager.OnConnectLoginCallback onLoginCallback, bool isRetry = false)
+        {
+            // First acquire an auth token
+            // If it's invalid, end here. If a valid was returned, attempt to login.
+            // If the result code is exactly Result.ConnectExternalTokenValidationFailed, then reacquire the token and try again
+            // Then otherwise if the login succeeds or fails, call the onLoginCallback with the result.
+
+            Discord.DiscordManager.Instance.RequestOAuth2Token((string returnedToken) =>
+            {
+                // Without a token, end here
+                if (string.IsNullOrEmpty(returnedToken))
+                {
+                    onLoginCallback?.Invoke(new Epic.OnlineServices.Connect.LoginCallbackInfo() { ResultCode = Epic.OnlineServices.Result.InvalidAuth });
+                    return;
+                }
+
+                // Attempt to login to Discord
+                EOSManager.Instance.StartConnectLoginWithOptions(ExternalCredentialType.DiscordAccessToken, returnedToken, onloginCallback: (LoginCallbackInfo callbackInfo) =>
+                {
+                    if (!isRetry && callbackInfo.ResultCode == Result.ConnectExternalTokenValidationFailed)
+                    {
+                        // If the auth failed for exactly this reason, then try logging in again, doing the whole process again to acquire a new token
+                        cachedToken = null;
+                        StartConnectLoginWithDiscord(onLoginCallback, true);
+                    }
+                    else
+                    {
+                        // Otherwise report results
+                        onLoginCallback?.Invoke(callbackInfo);
+                    }
+                });
+            });
+        }
+
         public void RequestOAuth2Token(Action<string> callback)
         {
             //return cached token or begin login flow to acquire new one
