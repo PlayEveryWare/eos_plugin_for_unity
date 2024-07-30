@@ -30,6 +30,9 @@ public class AuthenticationExpirationTestManager : MonoBehaviour
     AuthenticationProviderToTest RunningTest { get; set; } = AuthenticationProviderToTest.Unset;
 
     public UIDebugLog Log;
+    public Text NextAction;
+    public Text OriginalToken;
+    public Text CurrentToken;
 
     private Coroutine Probe { get; set; }
 
@@ -41,125 +44,44 @@ public class AuthenticationExpirationTestManager : MonoBehaviour
     public void SetAuthenticationProviderAndLogin(AuthenticationProviderToTest toSet)
     {
         RunningTest = toSet;
-
-        switch (toSet)
-        {
-            case AuthenticationProviderToTest.SteamSession:
-                TestSteamSession();
-                break;
-            case AuthenticationProviderToTest.SteamApp:
-                TestSteamApp();
-                break;
-            case AuthenticationProviderToTest.Discord:
-                TestDiscord();
-                break;
-        }
-    }
-
-    void TestSteamSession()
-    {
-        EndProbeAndLogout(() =>
-        {
-            PlayEveryWare.EpicOnlineServices.Samples.Steam.SteamManager.Instance.StartConnectLoginWithSteamSessionTicket(ConnectLoginTokenCallback);
-        });
-    }
-
-    void TestSteamApp()
-    {
-        EndProbeAndLogout(() =>
-        {
-            PlayEveryWare.EpicOnlineServices.Samples.Steam.SteamManager.Instance.StartConnectLoginWithSteamAppTicket(ConnectLoginTokenCallback);
-        });
-    }
-
-    void TestDiscord()
-    {
-        EndProbeAndLogout(() =>
-        {
-            PlayEveryWare.EpicOnlineServices.Samples.Discord.DiscordManager.Instance.RequestOAuth2Token(OnDiscordAuthReceived);
-        });
-    }
-
-    private void ConnectLoginTokenCallback(Epic.OnlineServices.Connect.LoginCallbackInfo connectLoginCallbackInfo)
-    {
-        if (connectLoginCallbackInfo.ResultCode == Result.Success)
-        {
-            Debug.Log($"{nameof(AuthenticationExpirationTestManager)} ({nameof(ConnectLoginTokenCallback)}): Successful login.");
-            StartProbe();
-        }
-        else if (connectLoginCallbackInfo.ResultCode == Result.InvalidUser)
-        {
-            Debug.Log($"{nameof(AuthenticationExpirationTestManager)} ({nameof(ConnectLoginTokenCallback)}): {nameof(Result.InvalidUser)} returned. Creating connect account and retrying.");
-            EOSManager.Instance.CreateConnectUserWithContinuanceToken(connectLoginCallbackInfo.ContinuanceToken, (Epic.OnlineServices.Connect.CreateUserCallbackInfo createUserCallbackInfo) =>
-            {
-                print("Creating new connect user");
-                if (createUserCallbackInfo.ResultCode == Result.Success)
-                {
-                    Debug.Log($"{nameof(AuthenticationExpirationTestManager)} ({nameof(ConnectLoginTokenCallback)}): Successfully made new connect account.");
-                    StartProbe();
-                }
-                else
-                {
-                    Debug.Log($"{nameof(AuthenticationExpirationTestManager)} ({nameof(ConnectLoginTokenCallback)}): Failed to make new connect account. Result code {createUserCallbackInfo.ResultCode}.");
-                }
-            });
-        }
-        else
-        {
-            Debug.LogError($"{nameof(AuthenticationExpirationTestManager)} ({nameof(ConnectLoginTokenCallback)}): Failed to login. Result code {connectLoginCallbackInfo.ResultCode}.");
-        }
-    }
-
-    private void OnDiscordAuthReceived(string token)
-    {
-        if (token == null)
-        {
-            Debug.LogError($"{nameof(AuthenticationExpirationTestManager)} ({nameof(ConnectLoginTokenCallback)}): Failed to acquire Discord OAuth2 token.");
-        }
-        else
-        {
-            EOSManager.Instance.StartConnectLoginWithOptions(ExternalCredentialType.DiscordAccessToken, token, onloginCallback: ConnectLoginTokenCallback);
-        }
+        StartProbe();
     }
 
     private void StartProbe()
     {
         // Placeholder implementations
         RetrieveTokenFunction retrieveTokenFunction = (Action<string> resultingString) => { resultingString?.Invoke(string.Empty); };
-        AttemptAuthenticationFunction attemptAuthenticationFunction = (Action<Result> res) => { res?.Invoke(Result.Success); };
+        AttemptAuthenticationFunction attemptAuthenticationFunction = (Action<Result, ContinuanceToken> res) => { res?.Invoke(Result.Success, null); };
 
         switch (RunningTest)
         {
             case AuthenticationProviderToTest.SteamSession:
                 retrieveTokenFunction = (Action<string> resultingString) => { resultingString?.Invoke(SteamManager.Instance.GetSessionTicket()); };
-                attemptAuthenticationFunction = (Action<Result> res) =>
+                attemptAuthenticationFunction = (Action<Result, ContinuanceToken> res) =>
                 {
                     PlayEveryWare.EpicOnlineServices.Samples.Steam.SteamManager.Instance.StartConnectLoginWithSteamSessionTicket((Epic.OnlineServices.Connect.LoginCallbackInfo info) =>
                     {
-                        res?.Invoke(info.ResultCode);
+                        res?.Invoke(info.ResultCode, info.ContinuanceToken);
                     });
                 };
                 break;
             case AuthenticationProviderToTest.SteamApp:
                 retrieveTokenFunction = SteamManager.Instance.RequestAppTicket;
-                attemptAuthenticationFunction = (Action<Result> res) =>
+                attemptAuthenticationFunction = (Action<Result, ContinuanceToken> res) =>
                 {
                     PlayEveryWare.EpicOnlineServices.Samples.Steam.SteamManager.Instance.StartConnectLoginWithSteamAppTicket((Epic.OnlineServices.Connect.LoginCallbackInfo info) =>
                     {
-                        res?.Invoke(info.ResultCode);
+                        res?.Invoke(info.ResultCode, info.ContinuanceToken);
                     });
                 };
                 break;
             case AuthenticationProviderToTest.Discord:
                 retrieveTokenFunction = PlayEveryWare.EpicOnlineServices.Samples.Discord.DiscordManager.Instance.RequestOAuth2Token;
-                attemptAuthenticationFunction = (Action<Result> res) =>
+                attemptAuthenticationFunction = (Action<Result,ContinuanceToken> res) =>
                 {
-                    retrieveTokenFunction((string resultingString) => 
+                    PlayEveryWare.EpicOnlineServices.Samples.Discord.DiscordManager.Instance.StartConnectLoginWithDiscord((Epic.OnlineServices.Connect.LoginCallbackInfo info) =>
                     {
-                        EOSManager.Instance.StartConnectLoginWithOptions(ExternalCredentialType.DiscordAccessToken, resultingString, onloginCallback: (Epic.OnlineServices.Connect.LoginCallbackInfo info) =>
-                        {
-                            res?.Invoke(info.ResultCode);
-                        });
+                        res?.Invoke(info.ResultCode, info.ContinuanceToken);
                     });
                 };
                 break;
@@ -183,29 +105,175 @@ public class AuthenticationExpirationTestManager : MonoBehaviour
                 afterLogout?.Invoke();
             });
         }
+        else
+        {
+            afterLogout?.Invoke();
+        }
+
     }
 
     private IEnumerator ContinuouslyProbeTicket(RetrieveTokenFunction retrieveTokenFunction, AttemptAuthenticationFunction attemptAuthenticationFunction)
     {
-        const float secondsBetweenTests = 20f;
+        // Attempt to login after each hour
+        const float secondsBetweenTests = 60f * 60f;
+        const float secondsWaitTimeBeforeLogout = 2f;
+        const float secondsWaitTimeAfterFailedLoginAttemptBetweenAttempts = 5f;
+
+        // If while logging in there is a Result.UnexpectedError, try logging in up to this many times
+        const int unexpectedErrorRetryCount = 3;
+
         float startTime = Time.realtimeSinceStartup;
 
+        NextAction.text = $"Getting initial token";
         string tokenAtStart = string.Empty;
-        retrieveTokenFunction((string result) => { tokenAtStart = result; });
+        bool waiting = true;
+        retrieveTokenFunction((string result) => { tokenAtStart = result; waiting = false; });
 
-        while (string.IsNullOrEmpty(tokenAtStart))
+        while (waiting)
         {
             yield return new WaitForEndOfFrame();
+        }
+
+        OriginalToken.text = tokenAtStart;
+
+        if (string.IsNullOrEmpty(tokenAtStart))
+        {
+            Debug.LogError($"{nameof(AuthenticationExpirationTestManager)} ({nameof(ContinuouslyProbeTicket)}): Initial token is null.");
+            yield break;
         }
 
         Debug.Log($"{nameof(AuthenticationExpirationTestManager)} ({nameof(ContinuouslyProbeTicket)}): Ticket at start is {tokenAtStart}.");
 
         while (true)
         {
-            yield return new WaitForSeconds(secondsBetweenTests);
+            // First log in
+            Result resultCode = Result.NotConfigured;
+            bool errorHit = false;
 
-            // First, log out. We're assuming we won't re-fetch a new ticket.
-            bool waiting = true;
+            // For my own aesthetic sake this iterator starts at 1
+            // If unexpectedErrorRetryCount is 0, there will still be one attempt
+            for (int attempt = 1; attempt <= unexpectedErrorRetryCount + 1; attempt++)
+            {
+                waiting = true;
+                ContinuanceToken continuanceTokenReceived = default(ContinuanceToken);
+
+                NextAction.text = $"Attempt #{attempt} at authenticating";
+
+                attemptAuthenticationFunction((Result res, ContinuanceToken continuanceToken) =>
+                {
+                    waiting = false;
+                    resultCode = res;
+                    continuanceTokenReceived = continuanceToken;
+                });
+
+                while (waiting)
+                {
+                    yield return new WaitForEndOfFrame();
+                }
+
+                if (resultCode == Result.Success)
+                {
+                    Debug.Log($"{nameof(AuthenticationExpirationTestManager)} ({nameof(ContinuouslyProbeTicket)}): Login success.");
+                    errorHit = false;
+                    break;
+                }
+                else if (resultCode == Result.ConnectExternalTokenValidationFailed)
+                {
+                    Debug.LogError($"{nameof(AuthenticationExpirationTestManager)} ({nameof(ContinuouslyProbeTicket)}): Login failed with {nameof(Result.ConnectExternalTokenValidationFailed)}, which is the expected connect auth failure. Ending probe.");
+                    errorHit = true;
+                    break;
+                }
+                else if (resultCode == Result.InvalidUser)
+                {
+                    // Invalid user means you need to create an account to connect to it, so let's do that quickly
+                    NextAction.text = $"EOS account does not exist, creating connect user with continuance token";
+
+                    waiting = true;
+                    EOSManager.Instance.CreateConnectUserWithContinuanceToken(continuanceTokenReceived, (Epic.OnlineServices.Connect.CreateUserCallbackInfo createInfo) =>
+                    {
+                        resultCode = createInfo.ResultCode;
+                        waiting = false;
+                    });
+
+                    while (waiting)
+                    {
+                        yield return new WaitForEndOfFrame();
+                    }
+
+                    if (resultCode != Result.Success)
+                    {
+                        Debug.LogError($"{nameof(AuthenticationExpirationTestManager)} ({nameof(ContinuouslyProbeTicket)}): Failed to create connect user. Result code {resultCode}. Ending probe.");
+                        errorHit = true;
+                        break;
+                    }
+
+                    // If we succeeded, dial it back one and try to relogin
+                    attempt--;
+                }
+                else if (resultCode == Result.UnexpectedError)
+                {
+                    Debug.LogError($"{nameof(AuthenticationExpirationTestManager)} ({nameof(ContinuouslyProbeTicket)}): Unexpected error on attempt {attempt}. Considering retry.");
+                    errorHit = true;
+                    NextAction.text = $"Waiting before trying to log in again after failed attempt: {(DateTime.Now.AddSeconds(secondsWaitTimeAfterFailedLoginAttemptBetweenAttempts)).ToLocalTime()}";
+                    yield return new WaitForSeconds(secondsWaitTimeAfterFailedLoginAttemptBetweenAttempts);
+                    continue;
+                }
+                else
+                {
+                    Debug.LogError($"{nameof(AuthenticationExpirationTestManager)} ({nameof(ContinuouslyProbeTicket)}): Unhandled error on attempt {attempt}. Result code {resultCode}. Ending probe.");
+                    errorHit = true;
+                    break;
+                }
+            }
+
+            if (resultCode != Result.Success)
+            {
+                Debug.LogError($"{nameof(AuthenticationExpirationTestManager)} ({nameof(ContinuouslyProbeTicket)}): Could not successfully log in. Giving up.");
+                errorHit = true;
+                break;
+            }
+
+            if (errorHit)
+            {
+                break;
+            }
+
+            NextAction.text = $"Retrieving token";
+            waiting = true;
+            string currentToken = string.Empty;
+
+            // Since the login succeeded, let's check our token
+            // If it's different (and we succeeded logging in) we must have reauthorized properly
+            retrieveTokenFunction((string result) => 
+            { 
+                currentToken = result; 
+                waiting = false; 
+            });
+
+            while (waiting)
+            {
+                yield return new WaitForEndOfFrame();
+            }
+
+            if (string.IsNullOrEmpty(currentToken))
+            {
+                Debug.LogError($"{nameof(AuthenticationExpirationTestManager)} ({nameof(ContinuouslyProbeTicket)}): New authentication token is null.");
+                break;
+            }
+
+            if (!string.Equals(tokenAtStart, currentToken))
+            {
+                Debug.LogError($"{nameof(AuthenticationExpirationTestManager)} ({nameof(ContinuouslyProbeTicket)}): The current token ({currentToken}) is different than the starting token ({tokenAtStart}). It must have been reacquired successfully.");
+                break;
+            }
+
+            CurrentToken.text = currentToken;
+            NextAction.text = $"Waiting until before logging out: {(DateTime.Now.AddSeconds(secondsWaitTimeBeforeLogout)).ToLocalTime()}";
+            yield return new WaitForSeconds(secondsWaitTimeBeforeLogout);
+
+            // Logout before the next cycle, then wait a moment
+            NextAction.text = $"Logging out";
+            waiting = true;
 
             EOSManager.Instance.StartLogout(EOSManager.Instance.GetLocalUserId(), (ref Epic.OnlineServices.Auth.LogoutCallbackInfo data) =>
             {
@@ -217,52 +285,23 @@ public class AuthenticationExpirationTestManager : MonoBehaviour
                 yield return new WaitForEndOfFrame();
             }
 
-            waiting = true;
-            
-            // Now log back in, presumably using the same ticket
-            Result resultCode = Result.NotConfigured;
+            Debug.Log($"{nameof(AuthenticationExpirationTestManager)} ({nameof(ContinuouslyProbeTicket)}): Waiting for {secondsBetweenTests} seconds before next authentication recycle.");
+            NextAction.text = $"Waiting until before next cycle: {(DateTime.Now.AddSeconds(secondsBetweenTests)).ToLocalTime()}";
+            yield return new WaitForSeconds(secondsBetweenTests);
 
-            attemptAuthenticationFunction((Result res) =>
-            {
-                waiting = false;
-                resultCode = res;
-            });
-
-            while (waiting)
-            {
-                yield return new WaitForEndOfFrame();
-            }
-
-            // If the login failed, end the test
-            if (resultCode != Result.Success)
-            {
-                Debug.LogError($"{nameof(AuthenticationExpirationTestManager)} ({nameof(ContinuouslyProbeTicket)}): Result of login was {resultCode}.");
-                break;
-            }
-
-            string currentToken = string.Empty;
-
-            // Since the login succeeded, let's check our token
-            // If it's different (and we succeeded logging in) we must have reauthorized properly
-            retrieveTokenFunction((string result) => { currentToken = result; });
-
-            while (string.IsNullOrEmpty(currentToken))
-            {
-                yield return new WaitForEndOfFrame();
-            }
-
-            if (!string.Equals(tokenAtStart, currentToken))
-            {
-                Debug.Log($"{nameof(AuthenticationExpirationTestManager)} ({nameof(ContinuouslyProbeTicket)}): The current token ({currentToken}) is different than the starting token ({tokenAtStart}). It must have been reacquired successfully.");
-                break;
-            }
+            Debug.Log($"{nameof(AuthenticationExpirationTestManager)} ({nameof(ContinuouslyProbeTicket)}): Reauthentication cycle completed successfully.");
         }
 
         float endTime = Time.realtimeSinceStartup;
         float totalTime = endTime - startTime;
-        Debug.Log($"{nameof(AuthenticationExpirationTestManager)} ({nameof(ContinuouslyProbeTicket)}): This test took {totalTime}.");
+        Debug.Log($"{nameof(AuthenticationExpirationTestManager)} ({nameof(ContinuouslyProbeTicket)}): This test took {totalTime} seconds.");
     }
 
     delegate void RetrieveTokenFunction(Action<string> resultingString);
-    delegate void AttemptAuthenticationFunction(Action<Result> callbackWhenDone);
+    delegate void AttemptAuthenticationFunction(Action<Result, ContinuanceToken> callbackWhenDone);
+
+    private void OnDisable()
+    {
+        EndProbeAndLogout(() => { });
+    }
 }
