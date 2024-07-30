@@ -121,9 +121,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Discord
         {
             public string access_token;
             public float expires_in;
+            public string refresh_token;
         }
 
         private string cachedToken = null;
+        private string refresh_token = null;
         private DateTime tokenExpiration;
 
         private event Action<string> onTokenReceived;
@@ -157,8 +159,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Discord
             if (tokenContent != null)
             {
                 cachedToken = tokenContent.access_token;
-                //in a real application the refresh token would be stored as well and used to refresh the auth token
+
                 tokenExpiration = DateTime.Now + TimeSpan.FromSeconds(tokenContent.expires_in-60);
+                
+                // Set the refresh token so next grant attempt can try to use it
+                refresh_token = tokenContent.refresh_token;
             }
             else
             {
@@ -202,6 +207,32 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Discord
             }
 
             //use received auth code to request auth token
+            const string grant_type = "grant_type";
+            Dictionary<string, string> authenticationRequestData = new Dictionary<string, string> {
+                {
+                    grant_type,
+                    "authorization_code"
+                },
+                {
+                    "code",
+                    authCode
+                },
+                {
+                    "redirect_uri",
+                    redirectUri
+                }
+            };
+
+            if (!string.IsNullOrEmpty(refresh_token))
+            {
+                // If a refresh token is available, add it to the data and change the grant type
+                authenticationRequestData.Add("refresh_token", refresh_token);
+                authenticationRequestData[grant_type] = "refresh_token";
+
+                // In case this refresh token doesn't end up being useful, unset it now
+                refresh_token = null;
+            }
+
             var client = new HttpClient();
             string encodedCredentials = Convert.ToBase64String(Encoding.GetEncoding("ISO-8859-1").GetBytes(clientId + ":" + clientSecret));
             var httpRequestMessage = new HttpRequestMessage
@@ -219,20 +250,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Discord
                         "application/json"
                     }
                 },
-                Content = new FormUrlEncodedContent(new Dictionary<string, string> {
-                    {
-                        "grant_type",
-                        "authorization_code"
-                    },
-                    {
-                        "code",
-                        authCode
-                    },
-                    {
-                        "redirect_uri",
-                        redirectUri
-                    }
-                })
+                Content = new FormUrlEncodedContent(authenticationRequestData)
             };
 
             var response = await client.SendAsync(httpRequestMessage);
