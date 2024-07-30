@@ -705,20 +705,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public EOSSessionsManager()
         {
-            UIOnSessionCreated = new();
-            UIOnSessionDestroyed = new();
-
-            UIOnSessionModified = new Queue<Action>();
-            UIOnJoinSession = new Queue<Action>();
-            UIOnLeaveSession = new Queue<Action>();
-            UIOnSessionSearchCompleted = new Queue<Action>();
-
-            CurrentSessions = new Dictionary<string, Session>();
-            CurrentSearch = new SessionSearch();
-            Invites = new Dictionary<Session, SessionDetails>();
-            CurrentInvite = null;
-
-            P2PSessionRefreshSessionSearch = new SessionSearch();
+            ResetActionsAndLocalVariables();
         }
 
         /// <summary>
@@ -819,12 +806,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             LeaveAllSessions();
 
-            CurrentSearch.Release();
-            CurrentSessions.Clear();
-            Invites.Clear();
-            CurrentInvite = null;
+            ResetActionsAndLocalVariables();
 
-            userLoggedIn = false;
         }
 
         /// <summary>
@@ -838,6 +821,34 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             LeaveAllSessions();
             UnsubscribeFromGameInvites();
             UnsubscribeToSessionMessageConnectionRequests();
+
+            ResetActionsAndLocalVariables();
+        }
+
+        private void ResetActionsAndLocalVariables()
+        {
+            CurrentSearch?.Release();
+            CurrentSessions?.Clear();
+            Invites?.Clear();
+            CurrentInvite = null;
+
+            userLoggedIn = false;
+
+            UIOnSessionCreated = new();
+            UIOnSessionDestroyed = new();
+            UIOnSessionRefresh = null;
+
+            UIOnSessionModified = new Queue<Action>();
+            UIOnJoinSession = new Queue<Action>();
+            UIOnLeaveSession = new Queue<Action>();
+            UIOnSessionSearchCompleted = new Queue<Action>();
+
+            CurrentSessions = new Dictionary<string, Session>();
+            CurrentSearch = new SessionSearch();
+            Invites = new Dictionary<Session, SessionDetails>();
+            CurrentInvite = null;
+
+            P2PSessionRefreshSessionSearch = new SessionSearch();
         }
 
         /// <summary>
