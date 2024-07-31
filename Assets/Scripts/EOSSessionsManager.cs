@@ -3033,9 +3033,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             // Identify the Owner of the Session
             // Send them a packet informing them of joining status
 
-            Session localSession;
-
-            if (!TryGetSession(localSessionName, out localSession))
+            if (!TryGetSession(localSessionName, out Session localSession))
             {
                 Debug.LogWarning($"{nameof(EOSSessionsManager)} ({nameof(InformSessionOwnerWithMessage)}): No local Session with name \"{localSessionName}\" was found.");
                 return;
@@ -3099,9 +3097,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         private void InformSessionMembers(string localSessionName, string messageDetail, string additionalPayload = "")
         {
             // First find a local Session with this name
-            Session localSession;
-
-            if (!TryGetSession(localSessionName, out localSession))
+            if (!TryGetSession(localSessionName, out Session localSession))
             {
                 Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(InformSessionMembers)}): No local Session with name \"{localSessionName}\" was found.");
                 return;
@@ -3458,9 +3454,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private void InformOnDestroy(string sessionName)
         {
-            Session localSession;
-
-            if (!TryGetSession(sessionName, out localSession) || localSession.ActiveSession == null)
+            if (!TryGetSession(sessionName, out Session localSession) || localSession.ActiveSession == null)
             {
                 Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(OnDestroySessionCompleteCallback)}): Could not find local Session and associated ActiveSession, so could not inform Owner/members of destruction.");
                 return;
