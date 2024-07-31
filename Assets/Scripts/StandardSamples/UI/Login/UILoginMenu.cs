@@ -1192,7 +1192,7 @@ using UnityEngine.InputSystem;
                 return;
             }
 
-            Discord.DiscordManager.Instance.StartConnectLoginWithDiscord(ConnectLoginTokenCallback);
+            Discord.DiscordManager.Instance.StartConnectLogin(ConnectLoginTokenCallback);
         }
 
         private void ConnectOpenId()
