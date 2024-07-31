@@ -618,18 +618,6 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.IntegrationTests
             onComplete.Invoke(resultingCreationResult.Value);
         }
 
-        private IEnumerator WaitWhileUpdatingManager(float secondsToWait)
-        {
-            float startTime = Time.realtimeSinceStartup;
-            float endTime = startTime + secondsToWait;
-
-            while (Time.realtimeSinceStartup < endTime)
-            {
-                ManagerInstance.Update();
-                yield return new WaitForEndOfFrame();
-            }
-        }
-
         private IEnumerator WaitWhileUpdatingManager(WaitUntilDone waitUntilDoneInstruction)
         {
             while (waitUntilDoneInstruction.keepWaiting)
