@@ -65,6 +65,8 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
         /// A list of strings.
         /// </summary>
         TextList,
+
+        Button,
     }
 
     /// <summary>
@@ -93,6 +95,18 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
     public class DirectoryPathField : ConfigFieldAttribute
     {
         public DirectoryPathField(string label, string tooltip = null, int group = -1) : base(label, ConfigFieldType.DirectoryPath, tooltip, group) { }
+    }
+
+    /// <summary>
+    /// This attribute is used to decorate a field member within a config class
+    /// that can execute a callback on the config class.
+    /// </summary>
+    public class ButtonField : ConfigFieldAttribute
+    {
+        public ButtonField(string label, string tooltip = null, int group = -1) : base(label,
+            ConfigFieldType.Button, tooltip, group)
+        {
+        }
     }
 
     /// <summary>

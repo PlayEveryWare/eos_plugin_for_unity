@@ -27,6 +27,7 @@ namespace PlayEveryWare.EpicOnlineServices
 {
     using Editor;
     using Editor.Config;
+    using Editor.Utility;
 
     [Serializable]
     [ConfigGroup("Steam Configuration")]
@@ -54,12 +55,31 @@ namespace PlayEveryWare.EpicOnlineServices
 
         #endregion
 
+        [ButtonField("Update from Steamworks.NET")]
+        public Action UpdateFromSteamworksNET;
+
         static SteamConfig()
         {
             RegisterFactory(() => new SteamConfig());
         }
 
-        protected SteamConfig() : base("eos_steam_config.json") { }
+        protected SteamConfig() : base("eos_steam_config.json")
+        {
+            UpdateFromSteamworksNET = () =>
+            {
+                string steamworksVersion = SteamworksUtility.GetSteamworksVersion();
+
+                if (Version.TryParse(steamworksVersion, out Version version))
+                {
+                    _ = SafeTranslatorUtility.TryConvert(version.Major, out steamSDKMajorVersion);
+                    _ = SafeTranslatorUtility.TryConvert(version.Minor, out steamSDKMinorVersion);
+
+                    steamApiInterfaceVersionsArray = SteamworksUtility.GetSteamInterfaceVersions();
+                }
+            };
+        }
+
+
     }
 }
 

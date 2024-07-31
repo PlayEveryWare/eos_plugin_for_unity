@@ -95,7 +95,8 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
                     new ConfigEditor<AndroidBuildConfig>(),
                     new ConfigEditor<LibraryBuildConfig>(),
                     new ConfigEditor<SigningConfig>(),
-                    new ConfigEditor<PackagingConfig>()
+                    new ConfigEditor<PackagingConfig>(),
+                    new ConfigEditor<SteamConfig>()
                 };
 
             foreach (var editor in configEditors)

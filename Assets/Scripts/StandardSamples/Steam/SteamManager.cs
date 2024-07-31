@@ -65,7 +65,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Steam
         string sessionTicketString = null;
 
         TaskCompletionSource<string> authTicketResponseTaskCompletionSource;
-        Callback<GetTicketForWebApiResponse_t> authTicketForWebApiResponseCallback { get; set; }
+        //Callback<GetTicketForWebApiResponse_t> authTicketForWebApiResponseCallback { get; set; }
 
         CallResult<EncryptedAppTicketResponse_t> appTicketCallResult = new CallResult<EncryptedAppTicketResponse_t>();
         private event Action<string> appTicketEvent;
@@ -151,23 +151,23 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Steam
                 SteamClient.SetWarningMessageHook(m_SteamAPIWarningMessageHook);
             }
 
-            if (authTicketForWebApiResponseCallback == null)
-            {
-                authTicketForWebApiResponseCallback = Callback<GetTicketForWebApiResponse_t>.Create(
-                    (GetTicketForWebApiResponse_t pCallback) =>
-                    {
-                        if (pCallback.m_eResult == EResult.k_EResultOK)
-                        {
-                            sessionTicketHandle = pCallback.m_hAuthTicket;
-                            sessionTicketString = System.BitConverter.ToString(pCallback.m_rgubTicket).Replace("-", "");
-                            authTicketResponseTaskCompletionSource.SetResult(sessionTicketString);
-                        }
-                        else
-                        {
-                            Debug.LogError($"GetAuthTicketForWebApi Result : {pCallback.m_eResult}");
-                        }
-                    });
-            }
+            //if (authTicketForWebApiResponseCallback == null)
+            //{
+            //    authTicketForWebApiResponseCallback = Callback<GetTicketForWebApiResponse_t>.Create(
+            //        (GetTicketForWebApiResponse_t pCallback) =>
+            //        {
+            //            if (pCallback.m_eResult == EResult.k_EResultOK)
+            //            {
+            //                sessionTicketHandle = pCallback.m_hAuthTicket;
+            //                sessionTicketString = System.BitConverter.ToString(pCallback.m_rgubTicket).Replace("-", "");
+            //                authTicketResponseTaskCompletionSource.SetResult(sessionTicketString);
+            //            }
+            //            else
+            //            {
+            //                Debug.LogError($"GetAuthTicketForWebApi Result : {pCallback.m_eResult}");
+            //            }
+            //        });
+            //}
         }
 
         // OnApplicationQuit gets called too early to shutdown the SteamAPI.
@@ -368,7 +368,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Steam
             authId.m_eType = ESteamNetworkingIdentityType.k_ESteamNetworkingIdentityType_GenericString;
             authId.SetSteamID(SteamUser.GetSteamID());
             authId.SetGenericString("epiconlineservices");
-            sessionTicketHandle = SteamUser.GetAuthSessionTicket(buffer, bufferSize, out ticketSize, ref authId);
+            sessionTicketHandle = SteamUser.GetAuthSessionTicket(buffer, bufferSize, out ticketSize);//, ref authId);
 
             if ((int)ticketSize > bufferSize)
             {
@@ -376,7 +376,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Steam
                 bufferSize = (int)ticketSize;
                 buffer = new byte[bufferSize];
 
-                sessionTicketHandle = SteamUser.GetAuthSessionTicket(buffer, bufferSize, out ticketSize, ref authId);
+                sessionTicketHandle = SteamUser.GetAuthSessionTicket(buffer, bufferSize, out ticketSize);//, ref authId);
             }
 
             // Resize buffer to be the _exact_ ticketsize

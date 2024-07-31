@@ -28,6 +28,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
     using System.Linq;
     using System.Reflection;
     using UnityEditor;
+    using UnityEditor.VersionControl;
     using UnityEngine;
     using Utility;
     using Task = System.Threading.Tasks.Task;
@@ -147,6 +148,12 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
                             break;
                         case ConfigFieldType.Uint:
                             field.FieldInfo.SetValue(config, GUIEditorUtility.RenderInputField(field.FieldDetails, (uint)field.FieldInfo.GetValue(config), labelWidth));
+                            break;
+                        case ConfigFieldType.Button:
+                            if (GUILayout.Button(field.FieldDetails.Label))
+                            {
+                                ((Action)field.FieldInfo.GetValue(config))();
+                            }
                             break;
                         default:
                             throw new ArgumentOutOfRangeException();
