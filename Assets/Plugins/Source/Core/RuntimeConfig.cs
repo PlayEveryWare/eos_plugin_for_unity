@@ -47,7 +47,7 @@ namespace PlayEveryWare.EpicOnlineServices
     /// Most of the values for these field members come from the
     /// [Development Portal](https://dev.epicgames.com/portal/)
     /// </summary>
-    public readonly struct RuntimeConfig
+    public struct RuntimeConfig
     {
         /// <summary>
         /// Used when comparing two floating point numbers. Numbers that are
@@ -63,73 +63,80 @@ namespace PlayEveryWare.EpicOnlineServices
          */
 
         /// <summary>
-        /// Product Name defined in the dev portal. 
+        /// Product Name defined in the dev portal.
+        /// This value should be common to all platforms.
         /// </summary>
-        public readonly string ProductName;
+        public string ProductName;
 
         /// <summary>
         /// Version of Product.
         /// </summary>
-        public readonly Version ProductVersion;
+        public Version ProductVersion;
 
         /// <summary>
         /// Product Id
+        /// This value should be common to all platforms.
         /// </summary>
-        public readonly Guid ProductId;
+        public Guid ProductId;
 
         /// <summary>
         /// Sandbox Id. Non-private sandboxes are Guid. Private sandboxes
-        /// have the prefix "p-", and are not otherwise Guids.
+        /// have the prefix "p-", and are not otherwise Guids. The dev portal
+        /// allows for more than one of these to be defined, but during runtime
+        /// only one of them can be specified.
         /// </summary>
-        public readonly string SandboxId;
+        public string SandboxId;
 
         /// <summary>
-        /// Deployment Id
+        /// Deployment Id. The dev portal allows for more than one of these to
+        /// be defined, but during runtime only one of them can be specified.
         /// </summary>
-        public readonly Guid DeploymentId;
+        public Guid DeploymentId;
 
         /// <summary>
-        /// Stores the ClientSecret and ClientId
+        /// Stores the ClientSecret and ClientId. The dev portal allows for more
+        /// than one of these to be defined, but during runtime only one of them
+        /// can be specified.
         /// </summary>
-        public readonly ClientCredentials ClientCredentials;
+        public ClientCredentials ClientCredentials;
 
         /// <summary>
         /// Encryption Key&lt; used by default to decode files previously
         /// encoded and stored in EOS.
         /// </summary>
-        public readonly string EncryptionKey;
+        public string EncryptionKey;
 
         /// <summary>
         /// Flags; used to initialize the EOS platform.
         /// </summary>
-        public readonly PlatformFlags PlatformFlags;
+        public PlatformFlags PlatformFlags;
 
         /// <summary>
         /// Flags; used to set user auth when logging in.
         /// </summary>
-        public readonly AuthScopeFlags AuthScopeFlags;
+        public AuthScopeFlags AuthScopeFlags;
 
         /// <summary>
         /// Flags for options related to integrated platform management.
         /// </summary>
-        public readonly IntegratedPlatformManagementFlags IntegratedPlatformManagementFlags;
+        public IntegratedPlatformManagementFlags IntegratedPlatformManagementFlags;
 
         /// <summary>
         /// Tick Budget; used to define the maximum amount of execution time the
         /// EOS SDK can use each frame.
         /// </summary>
-        public readonly uint TickBudgetInMilliseconds;
+        public uint TickBudgetInMilliseconds;
 
         /// <summary>
         /// When the EOS SDK initializes threads for usage, the affinity for
         /// each thread is set based on the value of this struct.
         /// </summary>
-        public readonly InitializeThreadAffinity ThreadAffinity;
+        public InitializeThreadAffinity ThreadAffinity;
 
         /// <summary>
         /// Determines whether or not the application is running as a server.
         /// </summary>
-        public readonly bool IsServer;
+        public bool IsServer;
 
         #endregion
 
@@ -147,17 +154,17 @@ namespace PlayEveryWare.EpicOnlineServices
         /// handle showing the overlay. This doesn't always mean input makes
         /// it to the EOS SDK.
         /// </summary>
-        public readonly bool AlwaysSendInputToOverlay;
+        public bool AlwaysSendInputToOverlay;
 
         /// <summary>
         /// Initial Button Delay.
         /// </summary>
-        public readonly float InitialButtonDelayForOverlay;
+        public float InitialButtonDelayForOverlay;
 
         /// <summary>
         /// Repeat button delay for overlay
         /// </summary>
-        public readonly float RepeatButtonDelayForOverlay;
+        public float RepeatButtonDelayForOverlay;
 
         /// <summary>
         /// Force send input without delay&lt;/c&gt;If true, the
@@ -165,7 +172,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// If set to false, the plugin will attempt to delay the input to
         /// mitigate CPU spikes caused by spamming the SDK.
         /// </summary>
-        public readonly bool SendInputDirectlyToSDK;
+        public bool SendInputDirectlyToSDK;
 
         #endregion
 

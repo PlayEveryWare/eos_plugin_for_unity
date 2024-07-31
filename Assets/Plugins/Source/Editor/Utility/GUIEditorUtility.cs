@@ -121,8 +121,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             }
         }
 
-        private delegate T InputRenderDelegate<T>(string label, T value, float labelWidth, string tooltip);
-
         public static void AssigningULongField(string label, ref ulong value, float labelWidth = -1, string tooltip = null)
         {
             float originalLabelWidth = EditorGUIUtility.labelWidth;
@@ -226,6 +224,104 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
 
             EditorGUIUtility.labelWidth = originalLabelWidth;
         }
+        
+        public static void AssigningBoolField(string label, ref bool value, float labelWidth = -1, string tooltip = null)
+        {
+            float originalLabelWidth = EditorGUIUtility.labelWidth;
+            if (labelWidth >= 0)
+            {
+                EditorGUIUtility.labelWidth = labelWidth;
+            }
+
+            var newValue = EditorGUILayout.Toggle(CreateGUIContent(label, tooltip), value, GUILayout.ExpandWidth(true));
+            value = newValue;
+
+            EditorGUIUtility.labelWidth = originalLabelWidth;
+        }
+
+        public static void AssigningFloatToStringField(string label, ref string value, float labelWidth = -1, string tooltip = null)
+        {
+            float originalLabelWidth = EditorGUIUtility.labelWidth;
+            if (labelWidth >= 0)
+            {
+                EditorGUIUtility.labelWidth = labelWidth;
+            }
+
+            try
+            {
+                EditorGUILayout.BeginHorizontal();
+                var newValueAsString = EditorGUILayout.TextField(CreateGUIContent(label, tooltip), value == null ? "" : value, GUILayout.ExpandWidth(true));
+
+                if (GUILayout.Button("Clear", GUILayout.MaxWidth(50)))
+                {
+                    value = null;
+                }
+                else
+                {
+                    if (string.IsNullOrWhiteSpace(newValueAsString))
+                    {
+                        value = null;
+                        return;
+                    }
+
+                    var valueAsFloat = float.Parse(newValueAsString);
+                    value = valueAsFloat.ToString();
+                }
+            }
+            catch (FormatException)
+            {
+                value = null;
+            }
+            catch (OverflowException)
+            {
+            }
+            finally
+            {
+                EditorGUILayout.EndHorizontal();
+            }
+
+            EditorGUIUtility.labelWidth = originalLabelWidth;
+        }
+
+        public static void HorizontalLine(Color color)
+        {
+            var defaultHorizontalLineStyle = new GUIStyle();
+            defaultHorizontalLineStyle.normal.background = EditorGUIUtility.whiteTexture;
+            defaultHorizontalLineStyle.margin = new RectOffset(0, 0, 4, 4);
+            defaultHorizontalLineStyle.fixedHeight = 1;
+            HorizontalLine(color, defaultHorizontalLineStyle);
+        }
+
+        public static void HorizontalLine(Color color, GUIStyle guiStyle)
+        {
+            var currentColor = GUI.color;
+            GUI.color = color;
+            GUILayout.Box(GUIContent.none, guiStyle);
+            GUI.color = currentColor;
+        }
+
+        #region Newer Input Rendering Functionality
+
+        /// <summary>
+        /// Delegate used to describe the rendering of an input field given
+        /// a label width, a tooltip to display, the value to display, and a
+        /// label for the field.
+        /// </summary>
+        /// <typeparam name="T">
+        /// The type of input a field should be rendered for.
+        /// </typeparam>
+        /// <param name="label">The label for the field.</param>
+        /// <param name="value">
+        /// The value to populate the input field with.
+        /// </param>
+        /// <param name="labelWidth">
+        /// The width of the label for the input field.
+        /// </param>
+        /// <param name="tooltip">
+        /// The tooltip to display when the input field has been moused over.
+        /// </param>
+        /// <returns>The value that has been input to the input field.</returns>
+        private delegate T InputRenderDelegate<T>(string label, T value, float labelWidth, string tooltip);
 
         public static List<string> RenderInputField(ConfigFieldAttribute configFieldDetails, List<string> value,
             float labelWidth, string tooltip = null)
@@ -399,80 +495,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             return newValue;
         }
 
-        public static void AssigningBoolField(string label, ref bool value, float labelWidth = -1, string tooltip = null)
-        {
-            float originalLabelWidth = EditorGUIUtility.labelWidth;
-            if (labelWidth >= 0)
-            {
-                EditorGUIUtility.labelWidth = labelWidth;
-            }
-
-            var newValue = EditorGUILayout.Toggle(CreateGUIContent(label, tooltip), value, GUILayout.ExpandWidth(true));
-            value = newValue;
-
-            EditorGUIUtility.labelWidth = originalLabelWidth;
-        }
-
-        public static void AssigningFloatToStringField(string label, ref string value, float labelWidth = -1, string tooltip = null)
-        {
-            float originalLabelWidth = EditorGUIUtility.labelWidth;
-            if (labelWidth >= 0)
-            {
-                EditorGUIUtility.labelWidth = labelWidth;
-            }
-
-            try
-            {
-                EditorGUILayout.BeginHorizontal();
-                var newValueAsString = EditorGUILayout.TextField(CreateGUIContent(label, tooltip), value == null ? "" : value, GUILayout.ExpandWidth(true));
-
-                if (GUILayout.Button("Clear", GUILayout.MaxWidth(50)))
-                {
-                    value = null;
-                }
-                else
-                {
-                    if (string.IsNullOrWhiteSpace(newValueAsString))
-                    {
-                        value = null;
-                        return;
-                    }
-
-                    var valueAsFloat = float.Parse(newValueAsString);
-                    value = valueAsFloat.ToString();
-                }
-            }
-            catch (FormatException)
-            {
-                value = null;
-            }
-            catch (OverflowException)
-            {
-            }
-            finally
-            {
-                EditorGUILayout.EndHorizontal();
-            }
-
-            EditorGUIUtility.labelWidth = originalLabelWidth;
-        }
-
-        public static void HorizontalLine(Color color)
-        {
-            var defaultHorizontalLineStyle = new GUIStyle();
-            defaultHorizontalLineStyle.normal.background = EditorGUIUtility.whiteTexture;
-            defaultHorizontalLineStyle.margin = new RectOffset(0, 0, 4, 4);
-            defaultHorizontalLineStyle.fixedHeight = 1;
-            HorizontalLine(color, defaultHorizontalLineStyle);
-        }
-
-        public static void HorizontalLine(Color color, GUIStyle guiStyle)
-        {
-            var currentColor = GUI.color;
-            GUI.color = color;
-            GUILayout.Box(GUIContent.none, guiStyle);
-            GUI.color = currentColor;
-        }
-
+        #endregion
     }
 }
