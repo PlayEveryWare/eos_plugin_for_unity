@@ -120,8 +120,8 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.IntegrationTests
 
             SessionsManagerDestroySessionCallback handleDestructionResult = (SessionsManagerDestroySessionCallbackInfo info) =>
             {
-                resultingCreationSessionName = info.SessionToDestroyName;
-                resultingCreationResult = info.ResultCode;
+                resultingDeletionSessionName = info.SessionToDestroyName;
+                resultingDeletionResult = info.ResultCode;
             };
 
             ManagerInstance.DestroySession(sessionName, handleDestructionResult);
