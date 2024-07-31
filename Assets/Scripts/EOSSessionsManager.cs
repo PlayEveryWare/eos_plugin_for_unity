@@ -698,8 +698,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
          * 
          * This region contains meta-management for this Manager class.
          * This Manager isn't a MonoBehaviour, so its state management needs to be called by the program using it.
-         * OnLoggedIn should be run *after* a successful authentication, and either OnLoggedOut or OnShutDown should be called when it's time to clean up the class,
-         * and Update must be called every frame to receive messages.
+         * OnLoggedIn should be run *after* a successful authentication.
+         * OnLoggedOut should be called when it's time to clean up the class or exit this Manager's domain.
+         * Update must be called every frame to receive messages, perhaps from a MonoBehaviour.
          * If the application implements its own custom manager, the actions and broadstrokes of the implementation within should be considered.
          * */
 
@@ -805,22 +806,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             UnsubscribeToSessionMessageConnectionRequests();
 
             LeaveAllSessions();
-
-            ResetActionsAndLocalVariables();
-
-        }
-
-        /// <summary>
-        /// Unsubscribes from invitations and Peer2Peer message requests.
-        /// This should be called before the application finishes shutting down in order to properly remove Native notifications.
-        /// TODO: This function has no references, and is incomplete in its implementation. This will likely be removed.
-        /// </summary>
-        [Obsolete]
-        private void OnShutDown()
-        {
-            LeaveAllSessions();
-            UnsubscribeFromGameInvites();
-            UnsubscribeToSessionMessageConnectionRequests();
 
             ResetActionsAndLocalVariables();
         }
