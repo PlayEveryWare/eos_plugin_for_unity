@@ -127,18 +127,20 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Discord
         }
 
         private string cachedToken = null;
-        private string refresh_token = null;
+        private string refreshToken = null;
         private DateTime tokenExpiration;
 
         private event Action<string> onTokenReceived;
 
-        public void StartConnectLoginWithDiscord(EOSManager.OnConnectLoginCallback onLoginCallback)
+        public void StartConnectLogin(EOSManager.OnConnectLoginCallback onLoginCallback)
         {
-            StartConnectLoginWithDiscord(onLoginCallback, false);
+            StartConnectLogin(onLoginCallback, 0);
         }
 
-        private void StartConnectLoginWithDiscord(EOSManager.OnConnectLoginCallback onLoginCallback, bool isRetry = false)
+        private void StartConnectLogin(EOSManager.OnConnectLoginCallback onLoginCallback, int retryAttemptNumber = 0)
         {
+            const int MaximumNumberOfRetries = 1;
+
             // First acquire an auth token
             // If it's invalid, end here. If a valid was returned, attempt to login.
             // If the result code is exactly Result.ConnectExternalTokenValidationFailed, then reacquire the token and try again
@@ -156,11 +158,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Discord
                 // Attempt to login to Discord
                 EOSManager.Instance.StartConnectLoginWithOptions(ExternalCredentialType.DiscordAccessToken, returnedToken, onloginCallback: (LoginCallbackInfo callbackInfo) =>
                 {
-                    if (!isRetry && callbackInfo.ResultCode == Result.ConnectExternalTokenValidationFailed)
+                    if (retryAttemptNumber < MaximumNumberOfRetries && callbackInfo.ResultCode == Result.ConnectExternalTokenValidationFailed)
                     {
                         // If the auth failed for exactly this reason, then try logging in again, doing the whole process again to acquire a new token
                         cachedToken = null;
-                        StartConnectLoginWithDiscord(onLoginCallback, true);
+                        StartConnectLogin(onLoginCallback, retryAttemptNumber++);
                     }
                     else
                     {
@@ -204,7 +206,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Discord
                 tokenExpiration = DateTime.Now + TimeSpan.FromSeconds(tokenContent.expires_in-60);
                 
                 // Set the refresh token so next grant attempt can try to use it
-                refresh_token = tokenContent.refresh_token;
+                refreshToken = tokenContent.refresh_token;
             }
             else
             {
@@ -264,14 +266,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Discord
                 }
             };
 
-            if (!string.IsNullOrEmpty(refresh_token))
+            if (!string.IsNullOrEmpty(refreshToken))
             {
                 // If a refresh token is available, add it to the data and change the grant type
-                authenticationRequestData.Add("refresh_token", refresh_token);
+                authenticationRequestData.Add("refresh_token", refreshToken);
                 authenticationRequestData[grant_type] = "refresh_token";
 
                 // In case this refresh token doesn't end up being useful, unset it now
-                refresh_token = null;
+                refreshToken = null;
             }
 
             var client = new HttpClient();

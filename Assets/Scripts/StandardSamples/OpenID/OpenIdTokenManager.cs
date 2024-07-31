@@ -148,11 +148,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.OpenId
 
         public void StartConnectLoginWithOpenID(string username, string password, OnConnectLoginCallback onLoginCallback)
         {
-            StartConnectLoginWithOpenID(username, password, onLoginCallback, isRetry: false);
+            StartConnectLoginWithOpenID(username, password, onLoginCallback, retryAttemptNumber: 0);
         }
 
-        private void StartConnectLoginWithOpenID(string username, string password, OnConnectLoginCallback onLoginCallback, bool isRetry = false)
+        private void StartConnectLoginWithOpenID(string username, string password, OnConnectLoginCallback onLoginCallback, int retryAttemptNumber = 0)
         {
+            const int MaximumNumberOfRetries = 1;
+
             OpenId.OpenIdRequestManager.Instance.RequestToken(username, password, (string username, string id_token) =>
             {
                 if (string.IsNullOrEmpty(id_token))
@@ -166,11 +168,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.OpenId
                     // If the error message is exactly ConnectExternalAtokenValidationFailed,
                     // that may be a sign this is an expired token
                     // If this isn't a retry, retry and reacquire a new token
-                    if (!isRetry && info.ResultCode == Result.ConnectExternalTokenValidationFailed)
+                    if (retryAttemptNumber < MaximumNumberOfRetries && info.ResultCode == Result.ConnectExternalTokenValidationFailed)
                     {
                         // Remove the cached token so that it re-acquired on retry
                         cachedTokens.Remove(username);
-                        StartConnectLoginWithOpenID(username, password, onLoginCallback, isRetry: true);
+                        StartConnectLoginWithOpenID(username, password, onLoginCallback, retryAttemptNumber: retryAttemptNumber++);
                     }
                     else
                     {

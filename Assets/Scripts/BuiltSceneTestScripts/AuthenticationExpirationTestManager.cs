@@ -79,7 +79,7 @@ public class AuthenticationExpirationTestManager : MonoBehaviour
                 retrieveTokenFunction = PlayEveryWare.EpicOnlineServices.Samples.Discord.DiscordManager.Instance.RequestOAuth2Token;
                 attemptAuthenticationFunction = (Action<Result,ContinuanceToken> res) =>
                 {
-                    PlayEveryWare.EpicOnlineServices.Samples.Discord.DiscordManager.Instance.StartConnectLoginWithDiscord((Epic.OnlineServices.Connect.LoginCallbackInfo info) =>
+                    PlayEveryWare.EpicOnlineServices.Samples.Discord.DiscordManager.Instance.StartConnectLogin((Epic.OnlineServices.Connect.LoginCallbackInfo info) =>
                     {
                         res?.Invoke(info.ResultCode, info.ContinuanceToken);
                     });
