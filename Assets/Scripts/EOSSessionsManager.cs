@@ -1018,6 +1018,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             if (session == null)
             {
                 Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(CreateSession)}): parameter 'session' cannot be null!");
+                UIOnSessionCreated.Invoke(null, Result.InvalidParameters);
+                return false;
+            }
+
+            if (string.IsNullOrEmpty(session.Name))
+            {
+                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(CreateSession)}): Cannot create a Session with no provided name.");
+                UIOnSessionCreated.Invoke(null, Result.InvalidParameters);
                 return false;
             }
 
@@ -1025,12 +1033,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             if (sessionInterface == null)
             {
                 Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(CreateSession)}): can't get sessions interface.");
-                return false;
-            }
-
-            if (string.IsNullOrEmpty(session.Name))
-            {
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(CreateSession)}): Cannot create a Session with no provided name.");
+                UIOnSessionCreated.Invoke(session.Name, Result.InvalidState);
                 return false;
             }
 
@@ -1047,6 +1050,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             if (result != Result.Success)
             {
                 Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(CreateSession)}): could not create Session modification. Error code: {result}");
+                UIOnSessionCreated.Invoke(session.Name, result);
                 return false;
             }
 
@@ -1059,6 +1063,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             {
                 Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(CreateSession)}): failed to set permissions. Error code: {result}");
                 sessionModificationHandle.Release();
+                UIOnSessionCreated.Invoke(session.Name, result);
                 return false;
             }
 
@@ -1071,6 +1076,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             {
                 Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(CreateSession)}): failed to set 'join in progress allowed' flag. Error code: {result}");
                 sessionModificationHandle.Release();
+                UIOnSessionCreated.Invoke(session.Name, result);
                 return false;
             }
 
@@ -1083,6 +1089,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             {
                 Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(CreateSession)}): failed to set invites allowed. Error code: {result}");
                 sessionModificationHandle.Release();
+                UIOnSessionCreated.Invoke(session.Name, result);
                 return false;
             }
 
@@ -1103,6 +1110,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             {
                 Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(CreateSession)}): failed to set a bucket id attribute. Error code: {result}");
                 sessionModificationHandle.Release();
+                UIOnSessionCreated.Invoke(session.Name, result);
                 return false;
             }
 
@@ -1136,6 +1144,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 {
                     Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(CreateSession)}): failed to set an attribute: {sdAttrib.Key}. Error code: {result}");
                     sessionModificationHandle.Release();
+                    UIOnSessionCreated.Invoke(session.Name, result);
                     return false;
                 }
             }
@@ -1523,6 +1532,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             if (result != Result.Success)
             {
                 Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(SearchById)}): failed create Session search. Error code: {result}");
+                onSearchCompleted.Invoke(null);
                 return;
             }
 
@@ -1536,6 +1546,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             if (result != Result.Success)
             {
                 Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(SearchById)}): failed to update Session search with Session ID. Error code: {result}");
+                onSearchCompleted.Invoke(null);
                 return;
             }
 
@@ -1554,7 +1565,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// <param name="data">Callback information about the success.</param>
         private void OnFindSessionsCompleteCallback(ref SessionSearchFindCallbackInfo data)
         {
-            if (data.ResultCode != Result.Success)
+            // If the result is NotFound, that just means there were zero hits; it is not an error
+            if (data.ResultCode != Result.Success && data.ResultCode != Result.NotFound)
             {
                 Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(OnFindSessionsCompleteCallback)}): error code: {data.ResultCode}");
                 return;

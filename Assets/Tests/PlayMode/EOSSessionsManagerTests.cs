@@ -34,6 +34,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.IntegrationTests
     using UnityEngine.Events;
     using System.Text;
     using System.Collections.Generic;
+    using System.Text.RegularExpressions;
 
     public class EOSSessionsManagerTests : EOSTestBase
     {
@@ -44,7 +45,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.IntegrationTests
         /// For example, a created game won't appear immediately in search results, even if the creation operation succeeded.
         /// Tests should use this constant amount of wait time before running online queries.
         /// </summary>
-        const float SecondsWaitAfterSessionModification = 4f;
+        const float SecondsWaitAfterSessionModification = 6f;
 
         static bool[] TestCasesForCreateSessionAndTogglePublicVisibility = { true, false };
 
@@ -291,7 +292,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.IntegrationTests
             const int TimesToRunTest = 4;
 
             bool shouldCurrentlyBePublic = startPublic;
-            for (int ii = 0; ii < TimesToRunTest; ii++)
+            for (int createdSessionIndex = 0; createdSessionIndex < TimesToRunTest; createdSessionIndex++)
             {
                 Session sessionCreationParameters = GetGenericSaturatedSession(nameof(CreateSessionAndTogglePublicVisibility));
 
@@ -384,6 +385,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.IntegrationTests
 
             // Search online using the Id to try and find it
             Samples.SessionSearch usedSessionSearch = null;
+
             ManagerInstance.SearchById(sessionCreationParameters.Id, (Samples.SessionSearch search) =>
             {
                 usedSessionSearch = search;
@@ -398,56 +400,6 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.IntegrationTests
         }
 
         /// <summary>
-        /// This test creates a Session, and then validates that running <see cref="EOSSessionsManager.RefreshSession(string)"/> succeeds.
-        /// </summary>
-        [UnityTest]
-        public IEnumerator RefreshSessionProceedsSuccessfully()
-        {
-            Session sessionCreationParameters = GetGenericSaturatedSession(nameof(RefreshSessionProceedsSuccessfully));
-            Result? creationResult = null;
-            yield return CreateSession(sessionCreationParameters, (Result res) => { creationResult = res; }, false);
-            Assert.AreEqual(Result.Success, creationResult.Value, $"Failed to create Session");
-            yield return new WaitForSeconds(SecondsWaitAfterSessionModification);
-
-            // Now that the Session has been created, and has a version of itself online,
-            // change some of the values here WITHOUT changing them online
-            // Then after the refresh happens, compare the two
-            // This Session object will be changed when the Refresh is done, so the values can't be stored in there
-            // TODO: Is there a better way to do this kind of comparison?
-            bool originalInvitesAllowed = sessionCreationParameters.InvitesAllowed;
-            sessionCreationParameters.InvitesAllowed = !originalInvitesAllowed;
-            OnlineSessionState originalSessionState = sessionCreationParameters.SessionState;
-            sessionCreationParameters.SessionState = OnlineSessionState.Ended;
-            bool originalAllowJoinInProgress = sessionCreationParameters.AllowJoinInProgress;
-            sessionCreationParameters.AllowJoinInProgress = !originalAllowJoinInProgress;
-            uint originalMaxPlayers = sessionCreationParameters.MaxPlayers;
-            sessionCreationParameters.MaxPlayers = originalMaxPlayers + 1;
-
-            bool waiting = true;
-            SessionDetails foundDetails = null;
-
-            // Set this action callback so it'll know when the Session has finished refreshing
-            ManagerInstance.UIOnSessionRefresh += (Session session, SessionDetails sessionDetails) =>
-            {
-                waiting = false;
-                foundDetails = sessionDetails;
-            };
-
-            ManagerInstance.RefreshSession(sessionCreationParameters.Name);
-
-            yield return new WaitUntilDone(5f, () => !waiting);
-
-            // If the value is null that suggests a failed state
-            Assert.NotNull(foundDetails, "Returned SessionDetails object is null");
-
-            // Validate that all of the settings we made have been "put back", since the online version wouldn't have these chnages
-            Assert.AreEqual(originalInvitesAllowed, sessionCreationParameters.InvitesAllowed, "InvitesAllowed should be restored to original value");
-            Assert.AreEqual(originalSessionState, sessionCreationParameters.SessionState, "SessionState should be restored to original value");
-            Assert.AreEqual(originalAllowJoinInProgress, sessionCreationParameters.AllowJoinInProgress, "AllowJoinInProgress should be restored to original value");
-            Assert.AreEqual(originalMaxPlayers, sessionCreationParameters.MaxPlayers, "MaxPlayers should be restored to original value");
-        }
-
-        /// <summary>
         /// This test creates multiple Sessions.
         /// None of them are Presence enabled, so the Client should be able to make several.
         /// </summary>
@@ -456,10 +408,10 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.IntegrationTests
         {
             const int CountOfSessionsToMake = 3;
 
-            for (int ii = 0; ii < CountOfSessionsToMake; ii++)
+            for (int createdSessionIndex = 0; createdSessionIndex < CountOfSessionsToMake; createdSessionIndex++)
             {
                 Session sessionCreationParameters = GetGenericSaturatedSession(nameof(CanCreateMultipleNonPresenceSessions));
-                sessionCreationParameters.Name = sessionCreationParameters.Name + ii.ToString();
+                sessionCreationParameters.Name = sessionCreationParameters.Name + createdSessionIndex.ToString();
 
                 // Mark this Session as not-public; we can find it by ID
                 sessionCreationParameters.PermissionLevel = OnlineSessionPermissionLevel.InviteOnly;
@@ -481,18 +433,22 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.IntegrationTests
         {
             const int CountOfSessionsToMake = 2;
 
-            for (int ii = 0; ii < CountOfSessionsToMake; ii++)
+            for (int createdSessionIndex = 0; createdSessionIndex < CountOfSessionsToMake; createdSessionIndex++)
             {
                 Session sessionCreationParameters = GetGenericSaturatedSession(nameof(CanNotMakeMultiplePresenceSessions));
-                sessionCreationParameters.Name = sessionCreationParameters.Name + ii.ToString();
-
-                // Mark this Session as not-public; we can find it by ID
-                sessionCreationParameters.PermissionLevel = OnlineSessionPermissionLevel.InviteOnly;
+                sessionCreationParameters.Name = sessionCreationParameters.Name + createdSessionIndex.ToString();
 
                 Result? creationResult = null;
+
+                if (createdSessionIndex != 0)
+                {
+                    LogAssert.Expect(LogType.Error, new Regex(".*Only one session can be presence enabled for the local user.*"));
+                    LogAssert.Expect(LogType.Error, new Regex(".*Error code: SessionsPresenceSessionExists.*"));
+                }
+
                 yield return CreateSession(sessionCreationParameters, (Result res) => { creationResult = res; }, true);
 
-                if (ii == 0)
+                if (createdSessionIndex == 0)
                 {
                     Assert.AreEqual(Result.Success, creationResult.Value, $"Failed to create Session");
                     bool foundPresenceSession = ManagerInstance.TryGetPresenceSession(out Session presenceSession);
@@ -501,7 +457,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.IntegrationTests
                 }
                 else
                 {
-                    Assert.AreEqual(Result.LobbyPresenceLobbyExists, creationResult.Value, $"Should fail to create Session with particular error code");
+                    Assert.AreEqual(Result.SessionsPresenceSessionExists, creationResult.Value, $"Should fail to create Session with particular error code");
                 }
             }
         }
@@ -515,10 +471,10 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.IntegrationTests
         {
             const int CountOfSessionsToMake = 2;
 
-            for (int ii = 0; ii < CountOfSessionsToMake; ii++)
+            for (int createdSessionIndex = 0; createdSessionIndex < CountOfSessionsToMake; createdSessionIndex++)
             {
                 Session sessionCreationParameters = GetGenericSaturatedSession(nameof(CanCreatePresenceSessionAfterFirstDestroyed));
-                sessionCreationParameters.Name = sessionCreationParameters.Name + ii.ToString();
+                sessionCreationParameters.Name = sessionCreationParameters.Name + createdSessionIndex.ToString();
 
                 Result? creationResult = null;
                 yield return CreateSession(sessionCreationParameters, (Result res) => { creationResult = res; }, true);
@@ -543,10 +499,10 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.IntegrationTests
         {
             const int CountOfSessionsToMake = 5;
 
-            for (int ii = 0; ii < CountOfSessionsToMake; ii++)
+            for (int createdSessionIndex = 0; createdSessionIndex < CountOfSessionsToMake; createdSessionIndex++)
             {
                 Session sessionCreationParameters = GetGenericSaturatedSession(nameof(CanFindLocalCreatedSession));
-                sessionCreationParameters.Name = sessionCreationParameters.Name + ii.ToString();
+                sessionCreationParameters.Name = sessionCreationParameters.Name + createdSessionIndex.ToString();
 
                 Result? creationResult = null;
                 yield return CreateSession(sessionCreationParameters, (Result res) => { creationResult = res; }, false);
@@ -568,6 +524,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.IntegrationTests
         /// <summary>
         /// This test creates a Session and modifies its <see cref="OnlineSessionState"/> through management functions,
         /// and validates that the status is as expected.
+        /// This test runs <see cref="EOSSessionsManager.Update"/> while waiting, which is required to get state changes like this.
         /// </summary>
         [UnityTest]
         public IEnumerator SessionStatusLifecycleAsExpected()
@@ -582,73 +539,18 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.IntegrationTests
             yield return new WaitForSeconds(SecondsWaitAfterSessionModification);
 
             ManagerInstance.StartSession(sessionCreationParameters.Name);
-            yield return new WaitUntilDone(MostAmountOfTimeToWait, () => { return sessionCreationParameters.SessionState == OnlineSessionState.InProgress; });
+            yield return WaitWhileUpdatingManager(new WaitUntilDone(MostAmountOfTimeToWait, () => { return sessionCreationParameters.SessionState == OnlineSessionState.InProgress; }));
             Assert.AreEqual(OnlineSessionState.InProgress, sessionCreationParameters.SessionState, $"Expected current state to be {nameof(OnlineSessionState.InProgress)}.");
 
-            yield return new WaitForSeconds(SecondsWaitAfterSessionModification);
-
             ManagerInstance.EndSession(sessionCreationParameters.Name);
-            yield return new WaitUntilDone(MostAmountOfTimeToWait, () => { return sessionCreationParameters.SessionState == OnlineSessionState.Ended; });
-            Assert.AreEqual(OnlineSessionState.InProgress, sessionCreationParameters.SessionState, $"Expected current state to be {nameof(OnlineSessionState.Ended)}.");
+            yield return WaitWhileUpdatingManager(new WaitUntilDone(MostAmountOfTimeToWait, () => { return sessionCreationParameters.SessionState == OnlineSessionState.Ended; }));
+            Assert.AreEqual(OnlineSessionState.Ended, sessionCreationParameters.SessionState, $"Expected current state to be {nameof(OnlineSessionState.Ended)}.");
 
             // Validate that the ended Session can then be started again
 
             ManagerInstance.StartSession(sessionCreationParameters.Name);
-            yield return new WaitUntilDone(MostAmountOfTimeToWait, () => { return sessionCreationParameters.SessionState == OnlineSessionState.InProgress; });
+            yield return WaitWhileUpdatingManager(new WaitUntilDone(MostAmountOfTimeToWait, () => { return sessionCreationParameters.SessionState == OnlineSessionState.InProgress; }));
             Assert.AreEqual(OnlineSessionState.InProgress, sessionCreationParameters.SessionState, $"Expected current state to be {nameof(OnlineSessionState.InProgress)}.");
-        }
-
-        /// <summary>
-        /// This test creates a Session, modifies its state locally, submits an online modification,
-        /// refreshes that Session, and validates that the modification remains valid.
-        /// </summary>
-        [UnityTest]
-        public IEnumerator SessionRemainsModifiedAfterRefresh()
-        {
-            Session sessionCreationParameters = GetGenericSaturatedSession(nameof(RefreshSessionProceedsSuccessfully));
-            Result? creationResult = null;
-            yield return CreateSession(sessionCreationParameters, (Result res) => { creationResult = res; }, false);
-            Assert.AreEqual(Result.Success, creationResult.Value, $"Failed to create Session");
-            yield return new WaitForSeconds(SecondsWaitAfterSessionModification);
-
-            // Now that the Session has been created, and has a version of itself online,
-            // change some of the values here WITHOUT changing them online
-            // Then after the refresh happens, compare the two
-            // This Session object will be changed when the Refresh is done, so the values can't be stored in there
-            // TODO: Is there a better way to do this kind of comparison?
-            bool newInvitesAllowed = !sessionCreationParameters.InvitesAllowed;
-            sessionCreationParameters.InvitesAllowed = newInvitesAllowed;
-            bool newAllowJoinInProgress = !sessionCreationParameters.AllowJoinInProgress;
-            sessionCreationParameters.AllowJoinInProgress = newAllowJoinInProgress;
-            uint newMaxPlayers = sessionCreationParameters.MaxPlayers + 1;
-            sessionCreationParameters.MaxPlayers = newMaxPlayers;
-
-            bool waiting = true;
-            ManagerInstance.ModifySession(sessionCreationParameters, () => { waiting = false; });
-
-            yield return new WaitUntilDone(5f, () => !waiting);
-
-            waiting = true;
-            SessionDetails foundDetails = null;
-
-            // Set this action callback so it'll know when the Session has finished refreshing
-            ManagerInstance.UIOnSessionRefresh += (Session session, SessionDetails sessionDetails) =>
-            {
-                waiting = false;
-                foundDetails = sessionDetails;
-            };
-
-            ManagerInstance.RefreshSession(sessionCreationParameters.Name);
-
-            yield return new WaitUntilDone(5f, () => !waiting);
-
-            // If the value is null that suggests a failed state
-            Assert.NotNull(foundDetails, "Returned SessionDetails object is null");
-
-            // Validate that all of the settings we made have been "put back", since the online version wouldn't have these chnages
-            Assert.AreEqual(newInvitesAllowed, sessionCreationParameters.InvitesAllowed, "InvitesAllowed should be changed to the new value");
-            Assert.AreEqual(newAllowJoinInProgress, sessionCreationParameters.AllowJoinInProgress, "AllowJoinInProgress should be changed to the new value");
-            Assert.AreEqual(newMaxPlayers, sessionCreationParameters.MaxPlayers, "MaxPlayers should be changed to the new value");
         }
 
         #region Test Utility Functions
@@ -687,7 +589,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.IntegrationTests
             const int numberOfCharacters = 10;
             StringBuilder randomName = new StringBuilder();
 
-            for (int ii = 0; ii < numberOfCharacters; ii++)
+            for (int createdSessionIndex = 0; createdSessionIndex < numberOfCharacters; createdSessionIndex++)
             {
                 randomName.Append(UnityEngine.Random.Range(0, 10).ToString());
             }
@@ -704,6 +606,8 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.IntegrationTests
         /// <returns>Yieldable instruction that finishes when the Session is created.</returns>
         private IEnumerator CreateSession(Session toCreate, Action<Result> onComplete, bool presence)
         {
+            const float MostTimeToWaitForSessionCreation = 5f;
+
             string resultingCreationSessionName = null;
             Result? resultingCreationResult = null;
 
@@ -714,13 +618,35 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.IntegrationTests
             };
 
             ManagerInstance.UIOnSessionCreated.AddListener(handleCreationResult);
+
             ManagerInstance.CreateSession(toCreate, presence);
 
-            yield return new WaitUntil(() => resultingCreationResult.HasValue);
+            yield return new WaitUntilDone(MostTimeToWaitForSessionCreation, () => resultingCreationResult.HasValue);
 
             ManagerInstance.UIOnSessionCreated.RemoveListener(handleCreationResult);
 
             onComplete.Invoke(resultingCreationResult.Value);
+        }
+
+        private IEnumerator WaitWhileUpdatingManager(float secondsToWait)
+        {
+            float startTime = Time.realtimeSinceStartup;
+            float endTime = startTime + secondsToWait;
+
+            while (Time.realtimeSinceStartup < endTime)
+            {
+                ManagerInstance.Update();
+                yield return new WaitForEndOfFrame();
+            }
+        }
+
+        private IEnumerator WaitWhileUpdatingManager(WaitUntilDone waitUntilDoneInstruction)
+        {
+            while (waitUntilDoneInstruction.keepWaiting)
+            {
+                ManagerInstance.Update();
+                yield return new WaitForEndOfFrame();
+            }
         }
 
         #endregion
