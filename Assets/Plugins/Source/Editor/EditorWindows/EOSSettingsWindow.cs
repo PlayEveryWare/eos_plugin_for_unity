@@ -400,7 +400,7 @@ _WIN32 || _WIN64
 
             if (GUILayout.Button("Update from Steamworks.NET", GUILayout.MaxWidth(200)))
             {
-                var steamworksVersion = Steamworks_Utility.GetSteamworksVersion();
+                var steamworksVersion = SteamworksUtility.GetSteamworksVersion();
                 var versionParts = steamworksVersion.Split('.');
                 bool success = false;
                 if (versionParts.Length >= 2)
@@ -419,7 +419,7 @@ _WIN32 || _WIN64
                     Debug.LogError("Failed to retrieve Steamworks SDK version from Steamworks.NET");
                 }
 
-                steamEOSConfigFile.steamApiInterfaceVersionsArray = Steamworks_Utility.GetSteamInterfaceVersions();
+                steamEOSConfigFile.steamApiInterfaceVersionsArray = SteamworksUtility.GetSteamInterfaceVersions();
             }
         }
 
