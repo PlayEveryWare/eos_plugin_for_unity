@@ -45,8 +45,8 @@ namespace PlayEveryWare.EpicOnlineServices.Tests
         }
 
         /// <summary>
-        /// Custom yield that has a timeout so it will complete when either the predicate is true or
-        /// the timeout is reached.
+        /// Custom yield that has a timeout so it will complete when either the
+        /// predicate is true or the timeout is reached.
         /// </summary>
         public sealed class WaitUntilDone : CustomYieldInstruction
         {
@@ -89,20 +89,24 @@ namespace PlayEveryWare.EpicOnlineServices.Tests
         }
 
         /// <summary>
-        /// Initial setup for logging into Epic before starting the tests as all test rely on connecting online. If this setup step
-        /// fails, it will immediately cancel the rest of the tests as there's no reason to continue running without a connection online.
+        /// Initial setup for logging into Epic before starting the tests as all
+        /// tests rely on connecting online. If this setup step fails, it will
+        /// immediately cancel the rest of the tests as there's no reason to
+        /// continue running without a connection online.
         /// </summary>
         [UnitySetUp]
         public IEnumerator SetupDevAuthLogin()
         {
-            // HACK: Only initialize the login once instead of constantly logging in for each test scenario, which can cause
-            // unintentional errors.
-            // Currently, Unity unit testing doesn't have a Unity version of OneTimeSetUp that allows coroutines,
-            // so this is a hacky way to make this work.
+            // HACK: Only initialize the login once instead of constantly
+            // logging in for each test scenario, which can cause unintentional
+            // errors. Currently, Unity unit testing doesn't have a Unity
+            // version of OneTimeSetUp that allows coroutines, so this is a
+            // hacky way to make this work.
             if (_initialized)
             {
-                // If there was no successful login, the rest of the tests will fail, so fail immediately here to make it
-                // clear that there's a basic login problem that's causing everything else to fail.
+                // If there was no successful login, the rest of the tests will
+                // fail, so fail immediately here to make it clear that there's
+                // a basic login problem that's causing everything else to fail.
                 if (!_successfulLogin)
                 {
                     Assert.Fail("Initial login didn't work, so not continuing the rest of the tests.");
@@ -116,7 +120,8 @@ namespace PlayEveryWare.EpicOnlineServices.Tests
             UnitTestConfig config = EpicOnlineServices.Config.Get<UnitTestConfig>();
 
             // Using DevAuth for local testing.
-            // Need to make this use Password on a build machine to make it fully automated if possible.
+            // Need to make this use Password on a build machine to make it
+            // fully automated if possible.
             LoginCallbackInfo? loginResult = null;
             EOSManager.Instance.StartLoginWithLoginTypeAndToken(LoginCredentialType.Developer,
                                                                 $"{config.EOSDevAuthToolIP}:{config.EOSDevAuthToolPort}",
@@ -125,8 +130,11 @@ namespace PlayEveryWare.EpicOnlineServices.Tests
 
             yield return new WaitUntilDone(LoginTestTimeout, () => loginResult != null);
 
-            Assert.IsNotNull(loginResult, "Could not log into EOS, loginResult was not set.");
-            Assert.AreEqual(Result.Success, loginResult.Value.ResultCode, $"Login result failed: {loginResult.Value.ResultCode}");
+            Assert.IsNotNull(loginResult, 
+                "Could not log into EOS, loginResult was not set.");
+
+            Assert.AreEqual(Result.Success, loginResult.Value.ResultCode, 
+                $"Login result failed: {loginResult.Value.ResultCode}");
 
             Epic.OnlineServices.Connect.LoginCallbackInfo? callbackInfo = null;
             EOSManager.Instance.StartConnectLoginWithEpicAccount(loginResult.Value.LocalUserId, data =>
@@ -136,9 +144,14 @@ namespace PlayEveryWare.EpicOnlineServices.Tests
 
             yield return new WaitUntilDone(LoginTestTimeout, () => callbackInfo != null);
 
-            Assert.IsNotNull(callbackInfo, "Could not connect with Epic account, callbackInfo was not set.");
-            Assert.AreEqual(Result.Success, callbackInfo.Value.ResultCode, $"Could not connect with Epic account: {callbackInfo.Value.ResultCode}");
-            Assert.That(EOSManager.Instance.GetProductUserId().IsValid(), "Current player is invalid.");
+            Assert.IsNotNull(callbackInfo, 
+                "Could not connect with Epic account, callbackInfo was not set.");
+
+            Assert.AreEqual(Result.Success, callbackInfo.Value.ResultCode, 
+                $"Could not connect with Epic account: {callbackInfo.Value.ResultCode}");
+
+            Assert.That(EOSManager.Instance.GetProductUserId().IsValid(), 
+                "Current player is invalid.");
 
             _successfulLogin = true;
         }
