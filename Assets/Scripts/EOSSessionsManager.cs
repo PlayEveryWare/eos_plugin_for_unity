@@ -3037,7 +3037,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             if (!TryGetSession(localSessionName, out localSession))
             {
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(InformSessionOwnerWithMessage)}): No local Session with name \"{localSessionName}\" was found.");
+                Debug.LogWarning($"{nameof(EOSSessionsManager)} ({nameof(InformSessionOwnerWithMessage)}): No local Session with name \"{localSessionName}\" was found.");
                 return;
             }
 
@@ -3045,7 +3045,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             if (activeSession == null)
             {
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(InformSessionOwnerWithMessage)}): Found local Session with name \"{localSessionName}\", but there was no corresponding ActiveSession. An ActiveSession should be populated in InitActiveSession.");
+                Debug.LogWarning($"{nameof(EOSSessionsManager)} ({nameof(InformSessionOwnerWithMessage)}): Found local Session with name \"{localSessionName}\", but there was no corresponding ActiveSession. An ActiveSession should be populated in InitActiveSession.");
                 return;
             }
 
