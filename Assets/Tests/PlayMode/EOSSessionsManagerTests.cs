@@ -88,9 +88,9 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.IntegrationTests
         /// Creates a Session, observes that it was created successfully, leaves the Session.
         /// </summary>
         [UnityTest]
-        public IEnumerator CreateSessionLeaveSession()
+        public IEnumerator CreateThenDestroy_Succeeds()
         {
-            Session randomTestSession = GetGenericSaturatedSession(nameof(CreateSessionLeaveSession));
+            Session randomTestSession = GetGenericSaturatedSession(nameof(CreateThenDestroy_Succeeds));
             string sessionName = randomTestSession.Name;
 
             string resultingCreationSessionName = null;
@@ -141,9 +141,9 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.IntegrationTests
         /// It then searches for that Session, and should be able to find it.
         /// </summary>
         [UnityTest]
-        public IEnumerator CreatePublicSessionFindSessionWithPublicSearch()
+        public IEnumerator Search_PublicVisibility_CanFind()
         {
-            Session sessionCreationParameters = GetGenericSaturatedSession(nameof(CreatePublicSessionFindSessionWithPublicSearch));
+            Session sessionCreationParameters = GetGenericSaturatedSession(nameof(Search_PublicVisibility_CanFind));
 
             // Mark this Session as public
             sessionCreationParameters.PermissionLevel = OnlineSessionPermissionLevel.PublicAdvertised;
@@ -186,9 +186,9 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.IntegrationTests
         /// It then searches for that Session, and should not be able to find it.
         /// </summary>
         [UnityTest]
-        public IEnumerator CreatePrivateSessionFailToFindFindSessionWithPublicSearch()
+        public IEnumerator Search_PrivateVisibility_CannotFind()
         {
-            Session sessionCreationParameters = GetGenericSaturatedSession(nameof(CreatePrivateSessionFailToFindFindSessionWithPublicSearch));
+            Session sessionCreationParameters = GetGenericSaturatedSession(nameof(Search_PrivateVisibility_CannotFind));
 
             // Mark this Session as not-public
             sessionCreationParameters.PermissionLevel = OnlineSessionPermissionLevel.InviteOnly;
@@ -230,9 +230,9 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.IntegrationTests
         /// That Session should then be able to be located by searching for a Session by its exact Id.
         /// </summary>
         [UnityTest]
-        public IEnumerator CreatePrivateSessionThenFindById()
+        public IEnumerator SearchById_PrivateVisibility_CanFind()
         {
-            Session sessionCreationParameters = GetGenericSaturatedSession(nameof(CreatePrivateSessionThenFindById));
+            Session sessionCreationParameters = GetGenericSaturatedSession(nameof(SearchById_PrivateVisibility_CanFind));
 
             // Mark this Session as not-public
             sessionCreationParameters.PermissionLevel = OnlineSessionPermissionLevel.InviteOnly;
@@ -281,14 +281,14 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.IntegrationTests
         /// Then the opposite of this variable is used to determine next run's setting, and so on.
         /// </param>
         [UnityTest]
-        public IEnumerator CreateSessionAndTogglePublicVisibility([ValueSource(nameof(TestCasesForCreateSessionAndTogglePublicVisibility))] bool startPublic)
+        public IEnumerator Search_ToggleVisibility_FindAsExpected([ValueSource(nameof(TestCasesForCreateSessionAndTogglePublicVisibility))] bool startPublic)
         {
             const int TimesToRunTest = 4;
 
             bool shouldCurrentlyBePublic = startPublic;
             for (int createdSessionIndex = 0; createdSessionIndex < TimesToRunTest; createdSessionIndex++)
             {
-                Session sessionCreationParameters = GetGenericSaturatedSession(nameof(CreateSessionAndTogglePublicVisibility));
+                Session sessionCreationParameters = GetGenericSaturatedSession(nameof(Search_ToggleVisibility_FindAsExpected));
 
                 // Mark this Session to the appropriate public status
                 sessionCreationParameters.PermissionLevel = shouldCurrentlyBePublic ? OnlineSessionPermissionLevel.PublicAdvertised : OnlineSessionPermissionLevel.InviteOnly;
@@ -358,9 +358,9 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.IntegrationTests
         /// A search online looks for this Session, and it should be absent.
         /// </summary>
         [UnityTest]
-        public IEnumerator DestroyedSessionsAreDestroyed()
+        public IEnumerator Destroy_SessionIsUnavailable()
         {
-            Session sessionCreationParameters = GetGenericSaturatedSession(nameof(DestroyedSessionsAreDestroyed));
+            Session sessionCreationParameters = GetGenericSaturatedSession(nameof(Destroy_SessionIsUnavailable));
 
             // Mark this Session as not-public; we can find it by ID
             sessionCreationParameters.PermissionLevel = OnlineSessionPermissionLevel.InviteOnly;
@@ -398,13 +398,13 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.IntegrationTests
         /// None of them are Presence enabled, so the Client should be able to make several.
         /// </summary>
         [UnityTest]
-        public IEnumerator CanCreateMultipleNonPresenceSessions()
+        public IEnumerator CreateMultiple_NonPresence_Succeeds()
         {
             const int CountOfSessionsToMake = 3;
 
             for (int createdSessionIndex = 0; createdSessionIndex < CountOfSessionsToMake; createdSessionIndex++)
             {
-                Session sessionCreationParameters = GetGenericSaturatedSession(nameof(CanCreateMultipleNonPresenceSessions));
+                Session sessionCreationParameters = GetGenericSaturatedSession(nameof(CreateMultiple_NonPresence_Succeeds));
                 sessionCreationParameters.Name = sessionCreationParameters.Name + createdSessionIndex.ToString();
 
                 // Mark this Session as not-public; we can find it by ID
@@ -423,13 +423,13 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.IntegrationTests
         /// The first creation should succeed, but subsequent attempts should fail.
         /// </summary>
         [UnityTest]
-        public IEnumerator CanNotMakeMultiplePresenceSessions()
+        public IEnumerator CreateMultiple_Presence_Fails()
         {
             const int CountOfSessionsToMake = 2;
 
             for (int createdSessionIndex = 0; createdSessionIndex < CountOfSessionsToMake; createdSessionIndex++)
             {
-                Session sessionCreationParameters = GetGenericSaturatedSession(nameof(CanNotMakeMultiplePresenceSessions));
+                Session sessionCreationParameters = GetGenericSaturatedSession(nameof(CreateMultiple_Presence_Fails));
                 sessionCreationParameters.Name = sessionCreationParameters.Name + createdSessionIndex.ToString();
 
                 Result? creationResult = null;
@@ -461,13 +461,13 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.IntegrationTests
         /// It then tries to make another Presence enabled Session, which should succeed.
         /// </summary>
         [UnityTest]
-        public IEnumerator CanCreatePresenceSessionAfterFirstDestroyed()
+        public IEnumerator Presence_CanCreateAfterDestroy()
         {
             const int CountOfSessionsToMake = 2;
 
             for (int createdSessionIndex = 0; createdSessionIndex < CountOfSessionsToMake; createdSessionIndex++)
             {
-                Session sessionCreationParameters = GetGenericSaturatedSession(nameof(CanCreatePresenceSessionAfterFirstDestroyed));
+                Session sessionCreationParameters = GetGenericSaturatedSession(nameof(Presence_CanCreateAfterDestroy));
                 sessionCreationParameters.Name = sessionCreationParameters.Name + createdSessionIndex.ToString();
 
                 Result? creationResult = null;
@@ -489,13 +489,13 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.IntegrationTests
         /// Creates multiple Sessions to run the test by, and validates that the returned value is as expected.
         /// </summary>
         [UnityTest]
-        public IEnumerator CanFindLocalCreatedSession()
+        public IEnumerator TryGetSession_Succeeds()
         {
             const int CountOfSessionsToMake = 5;
 
             for (int createdSessionIndex = 0; createdSessionIndex < CountOfSessionsToMake; createdSessionIndex++)
             {
-                Session sessionCreationParameters = GetGenericSaturatedSession(nameof(CanFindLocalCreatedSession));
+                Session sessionCreationParameters = GetGenericSaturatedSession(nameof(TryGetSession_Succeeds));
                 sessionCreationParameters.Name = sessionCreationParameters.Name + createdSessionIndex.ToString();
 
                 Result? creationResult = null;
@@ -521,10 +521,10 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.IntegrationTests
         /// This test runs <see cref="EOSSessionsManager.Update"/> while waiting, which is required to get state changes like this.
         /// </summary>
         [UnityTest]
-        public IEnumerator SessionStatusLifecycleAsExpected()
+        public IEnumerator StartEnd_OnlineSessionState_AsExpected()
         {
             const float MostAmountOfTimeToWait = 5f;
-            Session sessionCreationParameters = GetGenericSaturatedSession(nameof(SessionStatusLifecycleAsExpected));
+            Session sessionCreationParameters = GetGenericSaturatedSession(nameof(StartEnd_OnlineSessionState_AsExpected));
 
             Result? creationResult = null;
             yield return CreateSession(sessionCreationParameters, (Result res) => { creationResult = res; }, false);
