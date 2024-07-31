@@ -356,72 +356,72 @@ _WIN32 || _WIN64
                 "If true, the plugin will always send input to the overlay from the C# side to native, and handle showing the overlay. This doesn't always mean input makes it to the EOS SDK.");
         }
 
-        private void OnSteamGUI()
-        {
-            GUILayout.Label("Steam Configuration Values", EditorStyles.boldLabel);
-            GUIEditorUtility.AssigningFlagTextField("Steam Flags (Seperated by '|')", ref steamEOSConfigFile.flags,
-                190);
-            GUIEditorUtility.AssigningTextField("Override Library path", ref steamEOSConfigFile.overrideLibraryPath);
-            GUIEditorUtility.AssigningUintField("Steamworks SDK major version",
-                ref steamEOSConfigFile.steamSDKMajorVersion, 190);
-            GUIEditorUtility.AssigningUintField("Steamworks SDK minor version",
-                ref steamEOSConfigFile.steamSDKMinorVersion, 190);
+        //private void OnSteamGUI()
+        //{
+        //    GUILayout.Label("Steam Configuration Values", EditorStyles.boldLabel);
+        //    GUIEditorUtility.AssigningFlagTextField("Steam Flags (Seperated by '|')", ref steamEOSConfigFile.flags,
+        //        190);
+        //    GUIEditorUtility.AssigningTextField("Override Library path", ref steamEOSConfigFile.overrideLibraryPath);
+        //    GUIEditorUtility.AssigningUintField("Steamworks SDK major version",
+        //        ref steamEOSConfigFile.steamSDKMajorVersion, 190);
+        //    GUIEditorUtility.AssigningUintField("Steamworks SDK minor version",
+        //        ref steamEOSConfigFile.steamSDKMinorVersion, 190);
 
-            EditorGUILayout.LabelField("Steamworks Interface Versions");
-            if (steamEOSConfigFile.steamApiInterfaceVersionsArray == null)
-            {
-                steamEOSConfigFile.steamApiInterfaceVersionsArray = new List<string>();
-            }
+        //    EditorGUILayout.LabelField("Steamworks Interface Versions");
+        //    if (steamEOSConfigFile.steamApiInterfaceVersionsArray == null)
+        //    {
+        //        steamEOSConfigFile.steamApiInterfaceVersionsArray = new List<string>();
+        //    }
 
-            for (int i = 0; i < steamEOSConfigFile.steamApiInterfaceVersionsArray.Count; ++i)
-            {
-                EditorGUILayout.BeginHorizontal();
+        //    for (int i = 0; i < steamEOSConfigFile.steamApiInterfaceVersionsArray.Count; ++i)
+        //    {
+        //        EditorGUILayout.BeginHorizontal();
 
-                string thisVersionValue = steamEOSConfigFile.steamApiInterfaceVersionsArray[i];
+        //        string thisVersionValue = steamEOSConfigFile.steamApiInterfaceVersionsArray[i];
 
-                GUIEditorUtility.AssigningTextField("Interface API",
-                    ref thisVersionValue,
-                    tooltip: "Identifier and version string for a Steam Interface Version. Found in steam_api.h or in Steamworks.NET's SteamConstants.cs file.", labelWidth: 80);
+        //        GUIEditorUtility.AssigningTextField("Interface API",
+        //            ref thisVersionValue,
+        //            tooltip: "Identifier and version string for a Steam Interface Version. Found in steam_api.h or in Steamworks.NET's SteamConstants.cs file.", labelWidth: 80);
 
-                steamEOSConfigFile.steamApiInterfaceVersionsArray[i] = thisVersionValue;
+        //        steamEOSConfigFile.steamApiInterfaceVersionsArray[i] = thisVersionValue;
 
-                if (GUILayout.Button("Remove", GUILayout.MaxWidth(70)))
-                {
-                    steamEOSConfigFile.steamApiInterfaceVersionsArray.RemoveAt(i);
-                }
+        //        if (GUILayout.Button("Remove", GUILayout.MaxWidth(70)))
+        //        {
+        //            steamEOSConfigFile.steamApiInterfaceVersionsArray.RemoveAt(i);
+        //        }
 
-                EditorGUILayout.EndHorizontal();
-            }
+        //        EditorGUILayout.EndHorizontal();
+        //    }
 
-            if (GUILayout.Button("Add", GUILayout.MaxWidth(100)))
-            {
-                steamEOSConfigFile.steamApiInterfaceVersionsArray.Add(string.Empty);
-            }
+        //    if (GUILayout.Button("Add", GUILayout.MaxWidth(100)))
+        //    {
+        //        steamEOSConfigFile.steamApiInterfaceVersionsArray.Add(string.Empty);
+        //    }
 
-            if (GUILayout.Button("Update from Steamworks.NET", GUILayout.MaxWidth(200)))
-            {
-                var steamworksVersion = SteamworksUtility.GetSteamworksVersion();
-                var versionParts = steamworksVersion.Split('.');
-                bool success = false;
-                if (versionParts.Length >= 2)
-                {
-                    success = uint.TryParse(versionParts[0], out uint major);
-                    success &= uint.TryParse(versionParts[1], out uint minor);
-                    if (success)
-                    {
-                        steamEOSConfigFile.steamSDKMajorVersion = major;
-                        steamEOSConfigFile.steamSDKMinorVersion = minor;
-                    }
-                }
+        //    if (GUILayout.Button("Update from Steamworks.NET", GUILayout.MaxWidth(200)))
+        //    {
+        //        var steamworksVersion = SteamworksUtility.GetSteamworksVersion();
+        //        var versionParts = steamworksVersion.Split('.');
+        //        bool success = false;
+        //        if (versionParts.Length >= 2)
+        //        {
+        //            success = uint.TryParse(versionParts[0], out uint major);
+        //            success &= uint.TryParse(versionParts[1], out uint minor);
+        //            if (success)
+        //            {
+        //                steamEOSConfigFile.steamSDKMajorVersion = major;
+        //                steamEOSConfigFile.steamSDKMinorVersion = minor;
+        //            }
+        //        }
 
-                if (!success)
-                {
-                    Debug.LogError("Failed to retrieve Steamworks SDK version from Steamworks.NET");
-                }
+        //        if (!success)
+        //        {
+        //            Debug.LogError("Failed to retrieve Steamworks SDK version from Steamworks.NET");
+        //        }
 
-                steamEOSConfigFile.steamApiInterfaceVersionsArray = SteamworksUtility.GetSteamInterfaceVersions();
-            }
-        }
+        //        steamEOSConfigFile.steamApiInterfaceVersionsArray = SteamworksUtility.GetSteamInterfaceVersions();
+        //    }
+        //}
 
         protected override void RenderWindow()
         {
@@ -432,13 +432,10 @@ _WIN32 || _WIN64
                 case 0:
                     OnDefaultGUI();
                     break;
-                case 1:
-                    OnSteamGUI();
-                    break;
                 default:
-                    if (platformSpecificConfigEditors.Count > toolbarInt - 2)
+                    if (platformSpecificConfigEditors.Count > toolbarInt - 1)
                     {
-                        platformSpecificConfigEditors[toolbarInt - 2].RenderAsync();
+                        platformSpecificConfigEditors[toolbarInt - 1].RenderAsync();
                     }
 
                     break;

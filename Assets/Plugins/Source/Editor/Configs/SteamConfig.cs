@@ -25,16 +25,34 @@ using System.Collections.Generic;
 
 namespace PlayEveryWare.EpicOnlineServices
 {
+    using Editor;
+    using Editor.Config;
+
     [Serializable]
+    [ConfigGroup("Steam Configuration")]
+    // TODO: Make SteamConfig derive from EditorConfig, and update the native code
+    //       to properly reference the correct file where appropriate.
     public class SteamConfig : Config
     {
+        [ConfigField("Steam Flags", ConfigFieldType.TextList)]
+        [Obsolete] // This is marked as obsolete because it is actually not utilized anywhere.
         public List<string> flags;
+
+        #region These fields are referenced by the native code 
+
+        [DirectoryPathField("Override Library Path")]
         public string overrideLibraryPath;
 
+        [ConfigField("Steamworks SDK Major Version", ConfigFieldType.Uint)]
         public uint steamSDKMajorVersion;
+
+        [ConfigField("Steamworks SDK Minor Version", ConfigFieldType.Uint)]
         public uint steamSDKMinorVersion;
 
+        [ConfigField("Steamworks Interface Versions", ConfigFieldType.TextList)]
         public List<string> steamApiInterfaceVersionsArray;
+
+        #endregion
 
         static SteamConfig()
         {
