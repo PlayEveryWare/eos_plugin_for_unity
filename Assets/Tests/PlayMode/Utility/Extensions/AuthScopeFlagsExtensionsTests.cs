@@ -8,8 +8,8 @@
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
  * 
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
  * 
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -20,17 +20,14 @@
  * SOFTWARE.
  */
 
-using NUnit.Framework;
-
-namespace PlayEveryWare.EpicOnlineServices.Tests
+namespace PlayEveryWare.EpicOnlineServices.Tests.Utility.Extensions
 {
-    using Epic.OnlineServices.Platform;
-    using Extensions;
-    using System;
-    using System.Collections.Generic;
-    
-    public class PlatformFlagsExtensionsTests 
-    { 
+    using NUnit.Framework;
+    using Epic.OnlineServices.Auth;
+    using EpicOnlineServices.Extensions;
+
+    public class AuthScopeFlagsExtensionsTests : CustomMappedEnumTestBase<AuthScopeFlags>
+    {
         /// <summary>
         /// Tests to make sure that there is a description defined for each of
         /// the enum values.
@@ -38,28 +35,17 @@ namespace PlayEveryWare.EpicOnlineServices.Tests
         [Test]
         public static void AllValues_HaveDescription()
         {
-            PlatformFlags[] allFlags = (PlatformFlags[])Enum.GetValues(typeof(PlatformFlags));
-            foreach (PlatformFlags flag in allFlags)
-            {
-                Assert.DoesNotThrow(() => flag.GetDescription());
-            }
+            AllValues_HaveDescription(enumValue => enumValue.GetDescription());
         }
 
         /// <summary>
-        /// Guarantees that there is a custom mapping entry for each of the
-        /// PlatformFlags enum values.
+        /// Guarantees that there is a custom mapping entry for each of the enum
+        /// values.
         /// </summary>
         [Test]
         public static void CustomMappings_Exists()
         {
-            // Get the custom mappings for the auth scope flags
-            Dictionary<string, PlatformFlags> customMappings = PlatformFlagsExtensions.CustomMappings;
-
-            PlatformFlags[] allFlags = (PlatformFlags[])Enum.GetValues(typeof(PlatformFlags));
-            foreach (PlatformFlags flag in allFlags)
-            {
-                Assert.IsTrue(customMappings.ContainsValue(flag));
-            }
+            CustomMappings_Exist(AuthScopeFlagsExtensions.CustomMappings);
         }
     }
 }
