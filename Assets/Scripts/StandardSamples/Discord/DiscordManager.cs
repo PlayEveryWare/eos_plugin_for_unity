@@ -250,10 +250,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Discord
             }
 
             //use received auth code to request auth token
-            const string grant_type = "grant_type";
+            const string grantTypeString = "grant_type";
             Dictionary<string, string> authenticationRequestData = new Dictionary<string, string> {
                 {
-                    grant_type,
+                    grantTypeString,
                     "authorization_code"
                 },
                 {
@@ -270,7 +270,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Discord
             {
                 // If a refresh token is available, add it to the data and change the grant type
                 authenticationRequestData.Add("refresh_token", refreshToken);
-                authenticationRequestData[grant_type] = "refresh_token";
+                authenticationRequestData[grantTypeString] = "refresh_token";
 
                 // In case this refresh token doesn't end up being useful, unset it now
                 refreshToken = null;

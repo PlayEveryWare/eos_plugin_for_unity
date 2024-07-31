@@ -20,16 +20,15 @@
 * SOFTWARE.
 */
 
-using Epic.OnlineServices;
-using Epic.OnlineServices.Connect;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Networking;
-
 namespace PlayEveryWare.EpicOnlineServices.Samples.OpenId
 {
+    using Epic.OnlineServices;
+    using Epic.OnlineServices.Connect;
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+    using UnityEngine;
+    using UnityEngine.Networking;
     using static PlayEveryWare.EpicOnlineServices.EOSManager;
     using JsonUtility = PlayEveryWare.EpicOnlineServices.Utility.JsonUtility;
 

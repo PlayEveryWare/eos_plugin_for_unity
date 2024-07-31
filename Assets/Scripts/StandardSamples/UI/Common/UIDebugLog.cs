@@ -78,10 +78,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             BuildLogLevelMenu();
             ignoreLogLevelChange = false;
 
-            if (LogLevelScrollView != null)
-            { 
-                LogLevelScrollView.gameObject.SetActive(false);
-            }            
+            LogLevelScrollView?.gameObject.SetActive(false);
         }
 
         public void OnScollDragBegin()
@@ -353,8 +350,16 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             if (FPSValue != null)
             {
                 deltaTime_FPS += (Time.deltaTime - deltaTime_FPS) * 0.1f;
-                float fps = 1.0f / deltaTime_FPS;
-                FPSValue.text = Mathf.Ceil(fps).ToString();
+
+                if (deltaTime_FPS != 0)
+                {
+                    float fps = 1.0f / deltaTime_FPS;
+                    FPSValue.text = Mathf.Ceil(fps).ToString();
+                }
+                else
+                {
+                    FPSValue.text = nameof(float.NaN);
+                }
             }
         }
 
