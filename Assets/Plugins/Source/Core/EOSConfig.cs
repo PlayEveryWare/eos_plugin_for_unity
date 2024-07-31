@@ -127,6 +127,16 @@ namespace PlayEveryWare.EpicOnlineServices
         public uint tickBudgetInMilliseconds;
 
         /// <summary>
+        /// TaskNetworkTimeoutSeconds; used to define the maximum number of seconds
+        /// the EOS SDK will allow network calls to run before failing with EOS_TimedOut.
+        /// This plugin treats any value that is less than or equal to zero as
+        /// using the default value for the EOS SDK, which is 30 seconds.
+        /// This value is only used when the <see cref="NetworkStatus"/> is not <see cref="NetworkStatus.Online"/>.
+        /// <seealso cref="PlatformInterface.GetNetworkStatus"/>
+        /// </summary>
+        public double taskNetworkTimeoutSeconds;
+
+        /// <summary>
         /// Network Work Affinity; specifies thread affinity for network
         /// management that is not IO.
         /// </summary>

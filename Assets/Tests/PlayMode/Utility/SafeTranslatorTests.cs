@@ -22,7 +22,7 @@
 
 using NUnit.Framework;
 
-namespace PlayEveryWare.EpicOnlineServices.Tests
+namespace PlayEveryWare.EpicOnlineServices.Tests.Utility
 {
     using EpicOnlineServices.Editor.Utility;
 
@@ -36,7 +36,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests
         /// <typeparam name="TInput">The input type.</typeparam>
         /// <typeparam name="TOutput">The output type (opposite sign of the input type).</typeparam>
         /// <param name="inputValue">The input value.</param>
-        /// <param name="expectedResult">Whether or not the conversion is successful.</param>
+        /// <param name="expectedResult">Whether the conversion is successful.</param>
         /// <param name="expectedOutput">The expected value of output after the conversion is attempted.</param>
         /// <param name="conversionMethod">The method of conversion to use.</param>
         private static void TestTryConvert<TInput, TOutput>(
