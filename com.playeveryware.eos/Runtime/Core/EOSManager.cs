@@ -576,6 +576,10 @@ namespace PlayEveryWare.EpicOnlineServices
                         hasSetLoggingCallback = true;
                     }
 
+                    // The log levels are set in the native plugin
+                    // This is here to sync the settings visually in UILogWindow
+                    InitializeLogLevels();
+
                     InitializeOverlay(coroutineOwner);
                     return;
                 }

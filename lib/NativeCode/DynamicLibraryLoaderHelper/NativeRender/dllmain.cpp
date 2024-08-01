@@ -459,17 +459,6 @@ EOS_ELogLevel eos_loglevel_str_to_enum(const std::string& str)
     }
 }
 
-void eos_set_loglevel(const LogLevelConfig& log_config)
-{
-    if (EOS_Logging_SetLogLevel_ptr != nullptr)
-    {
-        for (size_t i = 0; i < log_config.category.size() - 1; i++)
-        {
-            EOS_Logging_SetLogLevel_ptr((EOS_ELogCategory)i, eos_loglevel_str_to_enum(log_config.level[i]));
-        }
-    }
-}
-
 //-------------------------------------------------------------------------
 static void show_log_as_dialog(const char* log_string)
 {
@@ -1288,6 +1277,49 @@ static void eos_call_steam_init(const std::string& steam_dll_path)
 }
 
 //-------------------------------------------------------------------------
+void eos_set_loglevel_via_config()
+{
+    if (EOS_Logging_SetLogLevel_ptr == nullptr)
+    {
+        return;
+    }
+
+    auto path_to_log_config_json = get_path_for_eos_service_config(EOS_LOGLEVEL_CONFIG_FILENAME);
+
+    if (!std::filesystem::exists(path_to_log_config_json))
+    {
+        log_inform("Log level config not found, using default log levels");
+        return;
+    }
+
+    json_value_s* log_config_as_json = read_config_json_as_json_from_path(path_to_log_config_json);
+    LogLevelConfig log_config = log_config_from_json_value(log_config_as_json);
+    free(log_config_as_json);
+
+    // Validation to prevent out of range exception
+    if (log_config.category.size() != log_config.level.size())
+    {
+        log_warn("Log level config entries out of range");
+        return;
+    }
+
+    // Last in the vector is AllCategories, and will not be set
+    size_t individual_category_size = log_config.category.size() > 0 ? log_config.category.size() - 1 : 0;
+    if (individual_category_size == 0)
+    {
+        log_warn("Log level config entries empty");
+        return;
+    }
+
+    for (size_t i = 0; i < individual_category_size; i++)
+    {
+        EOS_Logging_SetLogLevel_ptr((EOS_ELogCategory)i, eos_loglevel_str_to_enum(log_config.level[i]));
+    }
+
+    log_inform("Log levels set according to config");
+}
+
+//-------------------------------------------------------------------------
 void eos_create(EOSConfig& eosConfig)
 {
     EOS_Platform_Options platform_options = {0};
@@ -1559,12 +1591,6 @@ DLL_EXPORT(void) UnityPluginLoad(void*)
     EOSConfig eos_config = eos_config_from_json_value(eos_config_as_json);
     free(eos_config_as_json);
 
-    auto path_to_log_config_json = get_path_for_eos_service_config(EOS_LOGLEVEL_CONFIG_FILENAME);
-    json_value_s* log_config_as_json = read_config_json_as_json_from_path(path_to_log_config_json);
-    LogLevelConfig log_config = log_config_from_json_value(log_config_as_json);
-    free(log_config_as_json);
-    global_logf("NativePlugin log sonfig size (%d)", log_config.category.size());
-
 #if PLATFORM_WINDOWS
     //support sandbox and deployment id override via command line arguments
     std::stringstream argStream = std::stringstream(GetCommandLineA());
@@ -1666,7 +1692,7 @@ DLL_EXPORT(void) UnityPluginLoad(void*)
 
             eos_init(eos_config);
 
-            eos_set_loglevel(log_config);
+            eos_set_loglevel_via_config();
             //log_warn("start eos create");
             eos_create(eos_config);
 
