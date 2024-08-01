@@ -4,6 +4,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 # Changelog
 
+## [3.3.1] - 2024-07-30
+
+### Fixed
+- fix(native,log) : log config error handling to prevent crashing
+- fix(ui,log) : show correct log levels in UILogWindow on native initialized platforms
+- chore(log,config) : update log config fields to Pascal case
+- chore(native,windows) : rebuild libs after fixing log config crash
+
 ## [3.3.0] - 2024-07-03
 
 ### Fixed
