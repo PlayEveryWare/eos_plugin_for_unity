@@ -34,8 +34,14 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
         /// <returns>String representing the section this config controls.</returns>
         string GetLabelText();
 
+        /// <summary>
+        /// Affect the expansion of the ConfigEditor.
+        /// </summary>
         public void Expand();
 
+        /// <summary>
+        /// Affect the collapse of the ConfigEditor.
+        /// </summary>
         public void Collapse();
 
         /// <summary>
