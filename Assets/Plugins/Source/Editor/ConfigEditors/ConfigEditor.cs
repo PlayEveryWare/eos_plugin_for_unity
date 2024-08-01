@@ -39,16 +39,41 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
     /// <typeparam name="T">Intended to be a type accepted by the templated class EOSConfigFile.</typeparam>
     public class ConfigEditor<T> : IConfigEditor where T : EpicOnlineServices.Config
     {
+        /// <summary>
+        /// The string to use for the label for the config editor.
+        /// </summary>
         private readonly string _labelText;
 
+        /// <summary>
+        /// Action that is called when the config editor is expanded.
+        /// </summary>
         public Action<ConfigEditor<T>> OnExpanded;
 
+        /// <summary>
+        /// Used to animate the expansion and collapse of the config editor if
+        /// doing so is enabled.
+        /// </summary>
         public AnimBool _animExpanded;
 
+        /// <summary>
+        /// Stores the state of whether the config editor is expanded or
+        /// collapsed.
+        /// </summary>
         private bool _expanded;
 
+        /// <summary>
+        /// A copy of the config that this config editor edits.
+        /// </summary>
         protected T config;
 
+        /// <summary>
+        /// Create a new config editor.
+        /// </summary>
+        /// <param name="repaintFn">
+        /// The repaint function, used for ConfigEditors that can be expanded or
+        /// collapsed, as animating that requires calling the repaint function
+        /// that is typically called from within EditorWindow.
+        /// </param>
         public ConfigEditor(UnityAction repaintFn = null)
         {
             Type configType = typeof(T);
@@ -62,11 +87,20 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
                 _animExpanded.valueChanged.AddListener(repaintFn);
         }
 
+        /// <summary>
+        /// Create a config editor, setting the string to use for the label
+        /// explicitly.
+        /// </summary>
+        /// <param name="labelText">The string to use for the label.</param>
         protected ConfigEditor(string labelText)
         {
             _labelText = labelText;
         }
 
+        /// <summary>
+        /// Whether the ConfigEditor is expanded or not. If value is set to
+        /// true, then the OnExpanded action will be invoked.
+        /// </summary>
         private bool Expanded
         {
             get
@@ -83,12 +117,18 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
             }
         }
 
+        /// <summary>
+        /// Affect the expansion of the ConfigEditor.
+        /// </summary>
         public void Expand()
         {
             Expanded = true;
             OnExpanded(this);
         }
 
+        /// <summary>
+        /// Affect the collapse of the ConfigEditor.
+        /// </summary>
         public void Collapse()
         {
             Expanded = false;
