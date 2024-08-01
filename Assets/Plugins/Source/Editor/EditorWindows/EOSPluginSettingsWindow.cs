@@ -109,7 +109,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 
         private IConfigEditor SetupConfigEditor<T>() where T : PlayEveryWare.EpicOnlineServices.Config
         {
-            var newEditor = new ConfigEditor<T>();
+            var newEditor = new ConfigEditor<T>(Repaint);
             newEditor.OnExpanded += expandedEditor =>
             {
                 // Close all the other config editors
@@ -125,8 +125,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 
             return newEditor;
         }
-
-        private AnimBool _testVisibility;
 
         protected override void RenderWindow()
         {
@@ -149,6 +147,12 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
         protected override void Teardown()
         {
             base.Teardown();
+
+            foreach (var editor in configEditors)
+                editor.Dispose();
+
+            configEditors.Clear();
+
             Save();
         }
 

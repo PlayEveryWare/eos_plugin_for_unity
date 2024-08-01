@@ -24,13 +24,12 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
 {
     using System;
     using System.Collections.Generic;
-    using System.IO;
     using System.Linq;
     using System.Reflection;
     using UnityEditor;
     using UnityEditor.AnimatedValues;
-    using UnityEditor.VersionControl;
     using UnityEngine;
+    using UnityEngine.Events;
     using Utility;
     using Task = System.Threading.Tasks.Task;
 
@@ -44,26 +43,29 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
 
         public Action<ConfigEditor<T>> OnExpanded;
 
+        public AnimBool _animExpanded;
+
+        private bool _expanded;
+
         protected T config;
 
-        public ConfigEditor()
+        public ConfigEditor(UnityAction repaintFn = null)
         {
             Type configType = typeof(T);
 
             ConfigGroupAttribute attribute = configType.GetCustomAttribute<ConfigGroupAttribute>();
+            _animExpanded = new(attribute.Collapsible);
 
-            if (null != attribute)
-            {
-                _labelText = attribute.Label;
-            }
+            _labelText = attribute.Label;
+
+            if (null != repaintFn)
+                _animExpanded.valueChanged.AddListener(repaintFn);
         }
 
         protected ConfigEditor(string labelText)
         {
             _labelText = labelText;
         }
-
-        private bool _expanded;
 
         private bool Expanded
         {
@@ -201,8 +203,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
         }
 
         public async Task LoadAsync()
-        {
-
+        {   
             config = await EpicOnlineServices.Config.GetAsync<T>();
         }
 
@@ -211,27 +212,24 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
             await config.WriteAsync(prettyPrint);
         }
 
-        private AnimBool _animBool = new AnimBool(false);
-
         public virtual void RenderContents()
         {
-            //using (new GUIEditorUtility.FoldoutScope(_animBool, out bool shouldDraw, GetLabelText()))
-            //{
-            //    if (shouldDraw)
-            //    {
-            //        RenderConfigFields();
-            //    }
-            //}
-
             GUIStyle foldoutStyle = new(EditorStyles.foldout) { fontStyle = FontStyle.Bold };
             EditorGUILayout.BeginVertical(EditorStyles.helpBox);
-            Expanded = EditorGUILayout.Foldout(Expanded, GetLabelText(), true, foldoutStyle);
+            _animExpanded.target = EditorGUILayout.Foldout(Expanded, GetLabelText(), true, foldoutStyle);
+            Expanded = _animExpanded.target;
 
             if (Expanded)
             {
-                //GUIEditorUtility.HorizontalLine(Color.white);
-                RenderConfigFields();
+                if (EditorGUILayout.BeginFadeGroup(_animExpanded.faded))
+                {
+                    EditorGUILayout.BeginVertical(GUI.skin.box);
+                    RenderConfigFields();
+                    EditorGUILayout.EndVertical();
+                }
+                EditorGUILayout.EndFadeGroup();
             }
+            
             EditorGUILayout.EndVertical();
         }
 
@@ -245,5 +243,9 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
             RenderContents();
         }
 
+        public void Dispose()
+        {
+            _animExpanded?.valueChanged.RemoveAllListeners();
+        }
     }
 }

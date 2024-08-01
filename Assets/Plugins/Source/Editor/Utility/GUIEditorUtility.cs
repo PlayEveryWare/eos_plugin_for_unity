@@ -329,11 +329,19 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
                 ? configFieldDetails.Label
                 : configFieldDetails.Label + ":";
 
-            GUILayout.Label(CreateGUIContent(listLabel, configFieldDetails.ToolTip));
+            List<string> newValue = new(value);
 
             EditorGUIUtility.labelWidth = currentLabelWidth;
 
-            List<string> newValue = new(value);
+            EditorGUILayout.BeginHorizontal();
+            GUILayout.Label(CreateGUIContent(listLabel, configFieldDetails.ToolTip));
+            GUILayout.FlexibleSpace();
+            if (GUILayout.Button("Add", GUILayout.MaxWidth(MaximumButtonWidth)))
+            {
+                newValue.Add(string.Empty);
+            }
+            EditorGUILayout.EndHorizontal();
+            
             for (var i = 0; i < newValue.Count; ++i)
             {
                 bool itemRemoved = false;
@@ -352,12 +360,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
 
                 if (itemRemoved)
                     break;
-            }
-
-            // render add button
-            if (GUILayout.Button("Add", GUILayout.MaxWidth(MaximumButtonWidth)))
-            {
-                newValue.Add(string.Empty);
             }
 
             return newValue;
