@@ -22,14 +22,43 @@
 
 namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
 {
+    using Microsoft.SqlServer.Server;
     using System;
     using System.Collections.Generic;
+    using System.Drawing.Printing;
     using UnityEditor;
+    using UnityEditor.AnimatedValues;
     using UnityEngine;
+    using UnityEngine.UIElements;
 
     public static class GUIEditorUtility
     {
         private const float MaximumButtonWidth = 100f;
+
+        private const int One = 5;
+        private const int Two = 2;
+
+        // Initialize the rounded box style
+        public static GUIStyle RoundedBoxStyle = new(GUI.skin.box)
+        {
+            padding = new RectOffset(One, One, One, One),
+            margin = new RectOffset(One, One, One, One),
+            border = new RectOffset(Two, Two, Two, Two),   
+            normal = { background = MakeTexture(Two, Two, new Color(0.0f, 0.0f, 0.0f, 1.0f)),  }
+        };
+
+        private static Texture2D MakeTexture(int width, int height, Color col)
+        {
+            Color[] pix = new Color[width * height];
+            for (int i = 0; i < pix.Length; i++)
+            {
+                pix[i] = col;
+            }
+            Texture2D result = new(width, height);
+            result.SetPixels(pix);
+            result.Apply();
+            return result;
+        }
 
         private static GUIContent CreateGUIContent(string label, string tooltip = null)
         {
@@ -225,6 +254,66 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             }
 
             EditorGUIUtility.labelWidth = originalLabelWidth;
+        }
+        public readonly struct FoldoutScope : IDisposable
+        {
+            public FoldoutScope(AnimBool value, out bool shouldDraw, string label, SerializedProperty toggle = null)
+            {
+                value.target = Foldout(value.target, label, toggle);
+                shouldDraw = EditorGUILayout.BeginFadeGroup(value.faded);
+            }
+
+            public void Dispose()
+            {
+                EditorGUILayout.EndFadeGroup();
+            }
+        }
+
+        public static bool Foldout(bool value, string label, SerializedProperty toggle = null)
+        {
+            bool _value;
+            EditorGUILayout.BeginVertical(EditorStyles.helpBox);
+            EditorGUILayout.BeginHorizontal();
+
+            if (toggle != null && !toggle.boolValue)
+            {
+                EditorGUI.BeginDisabledGroup(true);
+                _value = EditorGUILayout.Toggle(value, EditorStyles.foldout);
+                EditorGUI.EndDisabledGroup();
+
+                _value = false;
+            }
+            else
+            {
+                _value = EditorGUILayout.Toggle(value, EditorStyles.foldout);
+            }
+
+            if (toggle != null)
+            {
+                EditorGUI.BeginChangeCheck();
+                EditorGUILayout.PropertyField(toggle, GUIContent.none, GUILayout.Width(20));
+                if (EditorGUI.EndChangeCheck() && toggle.boolValue)
+                    _value = true;
+            }
+
+            EditorGUILayout.EndHorizontal();
+            EditorGUILayout.EndVertical();
+
+            var rect = GUILayoutUtility.GetLastRect();
+            rect.x += 20;
+            rect.width -= 20;
+
+            if (toggle != null && !toggle.boolValue)
+            {
+                EditorGUI.BeginDisabledGroup(true);
+                EditorGUI.LabelField(rect, label, EditorStyles.boldLabel);
+                EditorGUI.EndDisabledGroup();
+            }
+            else
+            {
+                EditorGUI.LabelField(rect, label, EditorStyles.boldLabel);
+            }
+            return _value;
         }
 
         public static List<string> RenderInputField(ConfigFieldAttribute configFieldDetails, List<string> value,

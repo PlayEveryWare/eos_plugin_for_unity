@@ -69,10 +69,13 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
         Button,
     }
 
+    #region Custom attribute classes that derive from ConfigFieldAttribute
+
     /// <summary>
     /// This attribute is used to decorate a field member within a config class
     /// that represents a path to a file.
     /// </summary>
+    [AttributeUsage(AttributeTargets.Field)]
     public class FilePathField : ConfigFieldAttribute
     {
         /// <summary>
@@ -92,6 +95,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
     /// This attribute is used to decorate a field member within a config class
     /// that represents a path to a directory.
     /// </summary>
+    [AttributeUsage(AttributeTargets.Field)]
     public class DirectoryPathField : ConfigFieldAttribute
     {
         public DirectoryPathField(string label, string tooltip = null, int group = -1) : base(label, ConfigFieldType.DirectoryPath, tooltip, group) { }
@@ -101,6 +105,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
     /// This attribute is used to decorate a field member within a config class
     /// that can execute a callback on the config class.
     /// </summary>
+    [AttributeUsage(AttributeTargets.Field)]
     public class ButtonField : ConfigFieldAttribute
     {
         public ButtonField(string label, string tooltip = null, int group = -1) : base(label,
@@ -108,6 +113,8 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
         {
         }
     }
+
+    #endregion
 
     /// <summary>
     /// This attribute is used to decorate a config class that represents a

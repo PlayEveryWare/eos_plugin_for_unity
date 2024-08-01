@@ -28,6 +28,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
     using System.Linq;
     using System.Reflection;
     using UnityEditor;
+    using UnityEditor.AnimatedValues;
     using UnityEditor.VersionControl;
     using UnityEngine;
     using Utility;
@@ -40,7 +41,9 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
     public class ConfigEditor<T> : IConfigEditor where T : EpicOnlineServices.Config
     {
         private readonly string _labelText;
-        private bool _expanded;
+
+        public Action<ConfigEditor<T>> OnExpanded;
+
         protected T config;
 
         public ConfigEditor()
@@ -58,6 +61,35 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
         protected ConfigEditor(string labelText)
         {
             _labelText = labelText;
+        }
+
+        private bool _expanded;
+
+        private bool Expanded
+        {
+            get
+            {
+                return _expanded;
+            }
+            set
+            {
+                _expanded = value;
+                if (_expanded)
+                {
+                    OnExpanded(this);
+                }
+            }
+        }
+
+        public void Expand()
+        {
+            Expanded = true;
+            OnExpanded(this);
+        }
+
+        public void Collapse()
+        {
+            Expanded = false;
         }
 
         /// <summary>
@@ -179,36 +211,28 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
             await config.WriteAsync(prettyPrint);
         }
 
-        private GUIStyle descriptionStyle;
+        private AnimBool _animBool = new AnimBool(false);
 
         public virtual void RenderContents()
         {
-            GUIStyle foldoutStyle = new(EditorStyles.foldout)
-            {
-                fontStyle = FontStyle.Bold, 
-                fontSize = 16
-            };
+            //using (new GUIEditorUtility.FoldoutScope(_animBool, out bool shouldDraw, GetLabelText()))
+            //{
+            //    if (shouldDraw)
+            //    {
+            //        RenderConfigFields();
+            //    }
+            //}
 
-            EditorGUILayout.BeginHorizontal();
-            _expanded = EditorGUILayout.Foldout(_expanded, GetLabelText(), true, foldoutStyle);
-            if (!_expanded)
-            {
-                descriptionStyle = new GUIStyle(EditorStyles.label);
-                descriptionStyle.fontStyle = FontStyle.Normal;
-                descriptionStyle.fontSize = 12; // Set the font size for the description
-                descriptionStyle.margin = new RectOffset(5, 0, 0, 0); // Add some margin to the left
-                GUILayout.Label("Description of what the section contains.", descriptionStyle);
-            }
-            EditorGUILayout.EndHorizontal();
+            GUIStyle foldoutStyle = new(EditorStyles.foldout) { fontStyle = FontStyle.Bold };
+            EditorGUILayout.BeginVertical(EditorStyles.helpBox);
+            Expanded = EditorGUILayout.Foldout(Expanded, GetLabelText(), true, foldoutStyle);
 
-            if (_expanded)
+            if (Expanded)
             {
-                EditorGUILayout.BeginVertical("box");
-                GUIEditorUtility.HorizontalLine(Color.white);
+                //GUIEditorUtility.HorizontalLine(Color.white);
                 RenderConfigFields();
-                EditorGUILayout.EndVertical();
             }
-            EditorGUILayout.Space();
+            EditorGUILayout.EndVertical();
         }
 
         public async Task RenderAsync()

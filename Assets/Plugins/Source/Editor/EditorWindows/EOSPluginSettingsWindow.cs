@@ -30,7 +30,9 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 {
     using Config;
     using System.Threading.Tasks;
+    using UnityEditor.AnimatedValues;
     using Utility;
+    using Config = EpicOnlineServices.Config;
 
     /// <summary>
     /// Creates the view for showing the eos plugin editor config values.
@@ -90,13 +92,13 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
         {
             configEditors ??= new List<IConfigEditor>
                 {
-                    new ConfigEditor<PrebuildConfig>(),
-                    new ConfigEditor<ToolsConfig>(),
-                    new ConfigEditor<AndroidBuildConfig>(),
-                    new ConfigEditor<LibraryBuildConfig>(),
-                    new ConfigEditor<SigningConfig>(),
-                    new ConfigEditor<PackagingConfig>(),
-                    new ConfigEditor<SteamConfig>()
+                    SetupConfigEditor<PrebuildConfig>(),
+                    SetupConfigEditor<ToolsConfig>(),
+                    SetupConfigEditor<AndroidBuildConfig>(),
+                    SetupConfigEditor<LibraryBuildConfig>(),
+                    SetupConfigEditor<SigningConfig>(),
+                    SetupConfigEditor<PackagingConfig>(),
+                    SetupConfigEditor<SteamConfig>()
                 };
 
             foreach (var editor in configEditors)
@@ -104,6 +106,27 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
                 await editor.LoadAsync();
             }
         }
+
+        private IConfigEditor SetupConfigEditor<T>() where T : PlayEveryWare.EpicOnlineServices.Config
+        {
+            var newEditor = new ConfigEditor<T>();
+            newEditor.OnExpanded += expandedEditor =>
+            {
+                // Close all the other config editors
+                foreach (var editor in configEditors)
+                {
+                    // Skip if this is the one that just expanded
+                    if (editor == expandedEditor)
+                        continue;
+
+                    editor.Collapse();
+                }
+            };
+
+            return newEditor;
+        }
+
+        private AnimBool _testVisibility;
 
         protected override void RenderWindow()
         {

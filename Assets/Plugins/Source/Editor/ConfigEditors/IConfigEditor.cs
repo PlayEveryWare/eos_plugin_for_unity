@@ -33,6 +33,10 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
         /// <returns>String representing the section this config controls.</returns>
         string GetLabelText();
 
+        public void Expand();
+
+        public void Collapse();
+
         /// <summary>
         /// Loads the config values from disk.
         /// </summary>
