@@ -262,10 +262,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             session.Attributes.Add(attribute);
 
-            GetEOSSessionsManager.CreateSession(session, PresenceVal.isOn, UIOnSessionCreated);
+            GetEOSSessionsManager.CreateSession(session, UIOnSessionCreated);
         }
 
-        private void UIOnSessionCreated()
+        private void UIOnSessionCreated(SessionsManagerCreateSessionCallbackInfo info)
         {
             // Update() already enumerates ActiveSessions.  Here you can do any UI related calls after session is created.
         }

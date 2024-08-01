@@ -53,7 +53,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// unset in <see cref="Release"/>, when a new search is set without the argument,
         /// or after <see cref="OnSearchResultReceived(Dictionary{Session, SessionDetails})"/> is called.
         /// </summary>
-        private Action<SessionSearch> RunOnSearchResultReceived { get; set; }
+        public Action<SessionSearch> RunOnSearchResultReceived { get; set; }
 
         public SessionSearch()
         {
@@ -203,6 +203,34 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             return base.GetHashCode();
         }
     }
+
+    public struct SessionsManagerCreateSessionCallbackInfo
+    {
+        public string SessionToCreateName;
+        public Result ResultCode;
+
+        public SessionsManagerCreateSessionCallbackInfo(string sessionToCreateName, Result resultCode)
+        {
+            SessionToCreateName = sessionToCreateName;
+            ResultCode = resultCode;
+        }
+    }
+
+    public delegate void SessionsManagerCreateSessionCallback(SessionsManagerCreateSessionCallbackInfo info);
+
+    public struct SessionsManagerDestroySessionCallbackInfo
+    {
+        public string SessionToDestroyName;
+        public Result ResultCode;
+
+        public SessionsManagerDestroySessionCallbackInfo(string sessionToDestroyName, Result resultCode)
+        {
+            SessionToDestroyName = sessionToDestroyName;
+            ResultCode = resultCode;
+        }
+    }
+
+    public delegate void SessionsManagerDestroySessionCallback(SessionsManagerDestroySessionCallbackInfo info);
 
     /// <summary>
     /// Class represents a single Session attribute
@@ -507,7 +535,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         private const string EOS_SESSIONS_SEARCH_MINSLOTSAVAILABLE = "minslotsavailable";
 
         // UI Parameterized Callbacks
-        Queue<Action> UIOnSessionCreated;
 
         // TODO: Because the following four UI Action Queues are never set,
         // they should either be wired up fully, or removed.
@@ -679,14 +706,31 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
          * 
          * This region contains meta-management for this Manager class.
          * This Manager isn't a MonoBehaviour, so its state management needs to be called by the program using it.
-         * OnLoggedIn should be run *after* a successful authentication, and either OnLoggedOut or OnShutDown should be called when it's time to clean up the class,
-         * and Update must be called every frame to receive messages.
+         * OnLoggedIn should be run *after* a successful authentication.
+         * OnLoggedOut should be called when it's time to clean up the class or exit this Manager's domain.
+         * Update must be called every frame to receive messages, perhaps from a MonoBehaviour.
          * If the application implements its own custom manager, the actions and broadstrokes of the implementation within should be considered.
          * */
 
         public EOSSessionsManager()
         {
-            UIOnSessionCreated = new Queue<Action>();
+            Init();
+        }
+
+        /// <summary>
+        /// Initializes the class, resetting and removing all local variables and states.
+        /// </summary>
+        private void Init()
+        {
+            CurrentSearch?.Release();
+            CurrentSessions?.Clear();
+            Invites?.Clear();
+            CurrentInvite = null;
+
+            userLoggedIn = false;
+
+            UIOnSessionRefresh = null;
+
             UIOnSessionModified = new Queue<Action>();
             UIOnJoinSession = new Queue<Action>();
             UIOnLeaveSession = new Queue<Action>();
@@ -798,25 +842,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             LeaveAllSessions();
 
-            CurrentSearch.Release();
-            CurrentSessions.Clear();
-            Invites.Clear();
-            CurrentInvite = null;
-
-            userLoggedIn = false;
+            Reset();
         }
 
-        /// <summary>
-        /// Unsubscribes from invitations and Peer2Peer message requests.
-        /// This should be called before the application finishes shutting down in order to properly remove Native notifications.
-        /// TODO: This function has no references, and is incomplete in its implementation. This will likely be removed.
-        /// </summary>
-        [Obsolete]
-        private void OnShutDown()
+        private void Reset()
         {
-            DestroyAllSessions();
-            UnsubscribeFromGameInvites();
-            UnsubscribeToSessionMessageConnectionRequests();
+            Init();
         }
 
         /// <summary>
@@ -962,6 +993,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// If all local modifications and handle retrieving succeed, <see cref="OnUpdateSessionCompleteCallback_ForCreate"/> will be called with results.
         /// Even before getting a response for creating the Session, this function sets local information about the Session for use in displaying UI in <see cref="CurrentSessions"/>.
         /// This should only be called to create a Session on Epic Online Services, not to create a local copy of a joined Session.
+        /// If this function successfully runs, <see cref="UIOnSessionCreated"/> can be observed for the results of its creation.
+        /// If this function has any errors, <see cref="UIOnSessionCreated"/> will not be run. It will only be run in <see cref="OnUpdateSessionCompleteCallback_ForCreate(ref UpdateSessionCallbackInfo)"/>.
         /// </summary>
         /// <param name="session">An object containing information about the Session to create.
         /// Some values are expected to be set by the caller, and some values are updated when the Session is actually created.
@@ -973,17 +1006,30 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// - <see cref="Session.AllowJoinInProgress"/>
         /// - <see cref="Session.InvitesAllowed"/>
         /// The application should also set any <see cref="SessionAttribute"/>s inside <see cref="Session.Attributes"/> that should be in the initial Session creation.
+        /// <param name="createSessionCallback">
+        /// Callback to run with the results of the Creation attempt.
+        /// If the attempt to Create a Session succeeds, this is passed to <see cref="OnUpdateSessionCompleteCallback_ForCreate"/>
+        /// through a ClientData parameter in <see cref="SessionsInterface.UpdateSession(ref UpdateSessionOptions, object, OnUpdateSessionCallback)"/>,
+        /// which will then run with the results of the creation with EOS.
+        /// </param>
         /// <param name="presence">Determines if this created Session should be tied with the local user's presence information.
         /// Only one local Session can be Presence enabled at one time.
         /// <seealso cref="CreateSessionModificationOptions.PresenceEnabled"/></param>
-        /// <param name="callback">Callback to add to <see cref="UIOnSessionCreated"/>. Invoked in <see cref="OnUpdateSessionCompleteCallback_ForCreate"/>.</param>
         /// <returns>True if the configuration and attempt to create a Session succeed. Does not indicate that the Session was created successfully in Epic Online Services,
         /// only that the program was able to attempt its creation and without running in to an error.</returns>
-        public bool CreateSession(Session session, bool presence = false, Action callback = null)
+        public bool CreateSession(Session session, SessionsManagerCreateSessionCallback createSessionCallback = null, bool presence = false)
         {
             if (session == null)
             {
                 Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(CreateSession)}): parameter 'session' cannot be null!");
+                createSessionCallback?.Invoke(new (null, Result.InvalidParameters));
+                return false;
+            }
+
+            if (string.IsNullOrEmpty(session.Name))
+            {
+                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(CreateSession)}): Cannot create a Session with no provided name.");
+                createSessionCallback?.Invoke(new(null, Result.InvalidParameters));
                 return false;
             }
 
@@ -991,11 +1037,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             if (sessionInterface == null)
             {
                 Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(CreateSession)}): can't get sessions interface.");
+                createSessionCallback?.Invoke(new(session.Name, Result.InvalidState));
                 return false;
             }
 
             CreateSessionModificationOptions createOptions = new CreateSessionModificationOptions();
-            createOptions.BucketId = BUCKET_ID;
+            createOptions.BucketId = string.IsNullOrEmpty(session.BucketId) ? BUCKET_ID : session.BucketId;
             createOptions.MaxPlayers = session.MaxPlayers;
             createOptions.SessionName = session.Name;
             createOptions.SanctionsEnabled = session.SanctionsEnabled;
@@ -1007,6 +1054,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             if (result != Result.Success)
             {
                 Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(CreateSession)}): could not create Session modification. Error code: {result}");
+                createSessionCallback?.Invoke(new(session.Name, result));
                 return false;
             }
 
@@ -1019,6 +1067,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             {
                 Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(CreateSession)}): failed to set permissions. Error code: {result}");
                 sessionModificationHandle.Release();
+                createSessionCallback?.Invoke(new(session.Name, result));
                 return false;
             }
 
@@ -1031,6 +1080,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             {
                 Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(CreateSession)}): failed to set 'join in progress allowed' flag. Error code: {result}");
                 sessionModificationHandle.Release();
+                createSessionCallback?.Invoke(new(session.Name, result));
                 return false;
             }
 
@@ -1043,6 +1093,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             {
                 Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(CreateSession)}): failed to set invites allowed. Error code: {result}");
                 sessionModificationHandle.Release();
+                createSessionCallback?.Invoke(new(session.Name, result));
                 return false;
             }
 
@@ -1051,7 +1102,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             attrData.Key = EOS_SESSIONS_SEARCH_BUCKET_ID;
             attrData.Value = new AttributeDataValue()
             {
-                AsUtf8 = BUCKET_ID
+                AsUtf8 = string.IsNullOrEmpty(session.BucketId) ? BUCKET_ID : session.BucketId
             };
 
             SessionModificationAddAttributeOptions attrOptions = new SessionModificationAddAttributeOptions();
@@ -1063,6 +1114,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             {
                 Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(CreateSession)}): failed to set a bucket id attribute. Error code: {result}");
                 sessionModificationHandle.Release();
+                createSessionCallback?.Invoke(new(session.Name, result));
                 return false;
             }
 
@@ -1096,18 +1148,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 {
                     Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(CreateSession)}): failed to set an attribute: {sdAttrib.Key}. Error code: {result}");
                     sessionModificationHandle.Release();
+                    createSessionCallback?.Invoke(new(session.Name, result));
                     return false;
                 }
             }
 
-            if (callback != null)
-            {
-                UIOnSessionCreated.Enqueue(callback);
-            }
-
             UpdateSessionOptions updateOptions = new UpdateSessionOptions();
             updateOptions.SessionModificationHandle = sessionModificationHandle;
-            sessionInterface.UpdateSession(ref updateOptions, null, OnUpdateSessionCompleteCallback_ForCreate);
+            sessionInterface.UpdateSession(ref updateOptions, createSessionCallback, OnUpdateSessionCompleteCallback_ForCreate);
 
             sessionModificationHandle.Release();
 
@@ -1135,6 +1183,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// <param name="data">Callback information provided by Epic Online Services about the success of the operation.</param>
         private void OnUpdateSessionCompleteCallback_ForCreate(ref UpdateSessionCallbackInfo data)
         {
+            SessionsManagerCreateSessionCallback callback = data.ClientData as SessionsManagerCreateSessionCallback;
+
             bool removeSession = true;
             bool success = (data.ResultCode == Result.Success);
 
@@ -1158,12 +1208,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(OnUpdateSessionCompleteCallback_ForCreate)}): error code: {data.ResultCode}");
             }
 
-            if (UIOnSessionCreated.Count > 0)
-            {
-                UIOnSessionCreated.Dequeue().Invoke();
-            }
-
             OnSessionUpdateFinished(success, data.SessionName, data.SessionId, removeSession);
+            callback?.Invoke(new(data.SessionName, data.ResultCode));
         }
 
         #endregion
@@ -1388,7 +1434,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// <param name="attributes">
         /// A list of Session Attributes to act as filters.
         /// </param>
-        public void Search(List<SessionAttribute> attributes)
+        /// <param name="bucketId">
+        /// The BucketID to search for.
+        /// Results will only include Sessions created with this as their exact <see cref="Session.BucketId"/>.
+        /// </param>
+        public void Search(List<SessionAttribute> attributes, string bucketId = BUCKET_ID)
         {
             // Clear previous search
             CurrentSearch.Release();
@@ -1411,7 +1461,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             attrData.Key = EOS_SESSIONS_SEARCH_BUCKET_ID;
             attrData.Value = new AttributeDataValue()
             {
-                AsUtf8 = BUCKET_ID
+                AsUtf8 = string.IsNullOrEmpty(bucketId) ? BUCKET_ID : bucketId
             };
 
             SessionSearchSetParameterOptions paramOptions = new SessionSearchSetParameterOptions();
@@ -1474,7 +1524,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// </summary>
         /// <param name="sessionId">The Session Id to search for.</param>
         /// <param name="onSearchCompleted">Optional action to run when the search results are received.</param>
-        public void SearchById(string sessionId, Action<SessionSearch> onSearchCompleted = null)
+        public void SearchById(string sessionId, Action<Samples.SessionSearch> onSearchCompleted = null)
         {
             // Clear previous search
             CurrentSearch.Release();
@@ -1488,6 +1538,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             if (result != Result.Success)
             {
                 Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(SearchById)}): failed create Session search. Error code: {result}");
+                onSearchCompleted.Invoke(null);
                 return;
             }
 
@@ -1501,6 +1552,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             if (result != Result.Success)
             {
                 Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(SearchById)}): failed to update Session search with Session ID. Error code: {result}");
+                onSearchCompleted.Invoke(null);
                 return;
             }
 
@@ -1519,7 +1571,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// <param name="data">Callback information about the success.</param>
         private void OnFindSessionsCompleteCallback(ref SessionSearchFindCallbackInfo data)
         {
-            if (data.ResultCode != Result.Success)
+            // If the result is NotFound, that just means there were zero hits; it is not an error
+            if (data.ResultCode != Result.Success && data.ResultCode != Result.NotFound)
             {
                 Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(OnFindSessionsCompleteCallback)}): error code: {data.ResultCode}");
                 return;
@@ -1739,20 +1792,38 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         #region Session Leaving
 
         /// <summary>
+        /// The ClientData parameter of <see cref="SessionsInterface.DestroySession(ref DestroySessionOptions, object, OnDestroySessionCallback)"/>
+        /// needs to be passed both the name of the Session, and the Callback desired.
+        /// This class serves exactly that purpose internally.
+        /// This is a class so that it can be unboxed.
+        /// </summary>
+        private class DestroySessionClientData
+        {
+            public SessionsManagerDestroySessionCallback DestroyCallback;
+            public string SessionToDestroyName;
+
+            public DestroySessionClientData(SessionsManagerDestroySessionCallback callback, string sessionToDestroyName)
+            {
+                DestroyCallback = callback;
+                SessionToDestroyName = sessionToDestroyName;
+            }
+        }
+
+        /// <summary>
         /// Indicates that a Session should be "destroyed".
         /// This informs Epic Game Services that this local user is leaving a Session.
         /// <see cref="OnDestroySessionCompleteCallback"/> runs with results, which should then locally remove all of the Session's information.
         /// If this user is the Owner of the Session, the Session is destroyed with EOS Game Services, and every member should leave it.
         /// </summary>
         /// <param name="name">The local name of the Session to destroy.</param>
-        public void DestroySession(string name)
+        public void DestroySession(string name, SessionsManagerDestroySessionCallback destroySessionCallback = null)
         {
             SessionsInterface sessionInterface = EOSManager.Instance.GetEOSPlatformInterface().GetSessionsInterface();
 
             DestroySessionOptions destroyOptions = new DestroySessionOptions();
             destroyOptions.SessionName = name;
 
-            sessionInterface.DestroySession(ref destroyOptions, name, OnDestroySessionCompleteCallback);
+            sessionInterface.DestroySession(ref destroyOptions, new DestroySessionClientData(destroySessionCallback, name), OnDestroySessionCompleteCallback);
         }
 
         /// <summary>
@@ -1767,97 +1838,56 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             if (data.ClientData == null)
             {
                 Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(OnDestroySessionCompleteCallback)}): data.ClientData is null!");
+                // This function counts on there being ClientData holding the callback and the name of the destroyed Session
+                // Without that it is not possible to inform the caller of the status of the call,
+                // as well as making it not possible to remove the Session locally
+                return;
+            }
+
+            // Before removing the Session from our local data, the local user needs to inform the Owner of the Session that the Session has been left
+            DestroySessionClientData sessionData = data.ClientData as DestroySessionClientData;
+
+            if (sessionData == null)
+            {
+                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(OnDestroySessionCompleteCallback)}): data.ClientData is not an instance of {nameof(DestroySessionClientData)}.");
+                // Without the information, this cannot be informed properly.
+                return;
+            }
+
+            if (string.IsNullOrEmpty(sessionData.SessionToDestroyName))
+            {
+                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(OnDestroySessionCompleteCallback)}): ClientData did not include the name of the Session to destroy. Cannot remove local Session.");
+                sessionData.DestroyCallback?.Invoke(new(null, data.ResultCode));
                 return;
             }
 
             if (data.ResultCode != Result.Success)
             {
                 Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(OnDestroySessionCompleteCallback)}): error code: {data.ResultCode}");
+                sessionData.DestroyCallback?.Invoke(new(sessionData.SessionToDestroyName, data.ResultCode));
                 return;
             }
+            
+            InformOnDestroy(sessionData.SessionToDestroyName);
 
-            // Before removing the Session from our local data, the local user needs to inform the Owner of the Session that the Session has been left
-            // TODO: Validate that this gets to the members/owners of the Session in time, and that the local information needed to get Session information has not already been deleted.
-            string sessionName = (string)data.ClientData;
-            Session localSession;
-
-            if (!TryGetSession(sessionName, out localSession) || localSession.ActiveSession == null)
+            if (CurrentSessions.TryGetValue(sessionData.SessionToDestroyName, out Session Session))
             {
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(OnDestroySessionCompleteCallback)}): Could not find local Session and associated ActiveSession, so could not inform Owner/members of destruction.");
-                return;
-            }
-
-            ActiveSessionCopyInfoOptions copyOptions = new ActiveSessionCopyInfoOptions() { };
-            Result localCopyResult = localSession.ActiveSession.CopyInfo(ref copyOptions, out ActiveSessionInfo? outActiveSessionInfo);
-
-            // If we were unable to copy the active Session's information, or it failed to populate the SessionDetails inside the ActiveSessionInfo, then we can't get the Owner
-            // If we can't get the Owner, we can't determine who should be messaged, or if we are the Owner of this Session
-            if (localCopyResult != Result.Success || !outActiveSessionInfo.HasValue || !outActiveSessionInfo.Value.SessionDetails.HasValue)
-            {
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(OnDestroySessionCompleteCallback)}): Failed to copy local information for Session {sessionName}, so could not inform Owner/members of destruction. Result code {localCopyResult}");
-                return;
-            }
-
-            if (localSession.DoesLocalUserOwnSession())
-            {
-                // We're the Owner of the Session, inform everyone that it was destroyed
-                InformSessionMembers(sessionName, P2P_SESSION_OWNER_DESTROYED_SESSION_MESSAGE_ELEMENT);
-            }
-            else
-            {
-                // Inform the Owner that we've left the Session
-                InformSessionOwnerWithMessage(sessionName, P2P_LEAVING_SESSION_MESSAGE_ELEMENT);
-            }
-
-            if (!string.IsNullOrEmpty(sessionName))
-            {
-                OnSessionDestroyed(sessionName);
-            }
-        }
-
-        /// <summary>
-        /// Removes local information about the Session.
-        /// </summary>
-        /// <param name="sessionName">The local Session's name to remove.</param>
-        private void OnSessionDestroyed(string sessionName)
-        {
-            if (!string.IsNullOrEmpty(sessionName))
-            {
-                if (CurrentSessions.TryGetValue(sessionName, out Session Session))
-                {
-                    CurrentSessions.Remove(sessionName);
-                }
+                CurrentSessions.Remove(sessionData.SessionToDestroyName);
             }
 
             OnPresenceChange?.Invoke();
+            sessionData.DestroyCallback?.Invoke(new(sessionData.SessionToDestroyName, data.ResultCode));
         }
 
         /// <summary>
         /// Leaves all Sessions currently joined by using <see cref="DestroySession(string)"/>.
         /// </summary>
-        private void LeaveAllSessions()
+        public void LeaveAllSessions()
         {
             // Enumerate Session entries in UI
             foreach (KeyValuePair<string, Session> kvp in GetCurrentSessions())
             {
                 DestroySession(kvp.Key);
-            }
-        }
-
-        /// <summary>
-        /// Leaves all Sessions currently joined by using <see cref="DestroySession(string)"/>.
-        /// Only applies to Sessions not owned.
-        /// 
-        /// TODO: This seems redundant and misleading. Should remove.
-        /// </summary>
-        public void DestroyAllSessions()
-        {
-            foreach (KeyValuePair<string, Session> Session in CurrentSessions)
-            {
-                if (!Session.Key.Contains(JOINED_SESSION_NAME))
-                {
-                    DestroySession(Session.Key);
-                }
             }
         }
 
@@ -3003,11 +3033,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             // Identify the Owner of the Session
             // Send them a packet informing them of joining status
 
-            Session localSession;
-
-            if (!TryGetSession(localSessionName, out localSession))
+            if (!TryGetSession(localSessionName, out Session localSession))
             {
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(InformSessionOwnerWithMessage)}): No local Session with name \"{localSessionName}\" was found.");
+                Debug.LogWarning($"{nameof(EOSSessionsManager)} ({nameof(InformSessionOwnerWithMessage)}): No local Session with name \"{localSessionName}\" was found.");
                 return;
             }
 
@@ -3015,7 +3043,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             if (activeSession == null)
             {
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(InformSessionOwnerWithMessage)}): Found local Session with name \"{localSessionName}\", but there was no corresponding ActiveSession. An ActiveSession should be populated in InitActiveSession.");
+                Debug.LogWarning($"{nameof(EOSSessionsManager)} ({nameof(InformSessionOwnerWithMessage)}): Found local Session with name \"{localSessionName}\", but there was no corresponding ActiveSession. An ActiveSession should be populated in InitActiveSession.");
                 return;
             }
 
@@ -3069,9 +3097,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         private void InformSessionMembers(string localSessionName, string messageDetail, string additionalPayload = "")
         {
             // First find a local Session with this name
-            Session localSession;
-
-            if (!TryGetSession(localSessionName, out localSession))
+            if (!TryGetSession(localSessionName, out Session localSession))
             {
                 Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(InformSessionMembers)}): No local Session with name \"{localSessionName}\" was found.");
                 return;
@@ -3424,6 +3450,37 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 }
             }
             UnregisterPlayers(session.Name, usersToRegister.ToArray());
+        }
+
+        private void InformOnDestroy(string sessionName)
+        {
+            if (!TryGetSession(sessionName, out Session localSession) || localSession.ActiveSession == null)
+            {
+                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(OnDestroySessionCompleteCallback)}): Could not find local Session and associated ActiveSession, so could not inform Owner/members of destruction.");
+                return;
+            }
+
+            ActiveSessionCopyInfoOptions copyOptions = new ActiveSessionCopyInfoOptions() { };
+            Result localCopyResult = localSession.ActiveSession.CopyInfo(ref copyOptions, out ActiveSessionInfo? outActiveSessionInfo);
+
+            // If we were unable to copy the active Session's information, or it failed to populate the SessionDetails inside the ActiveSessionInfo, then we can't get the Owner
+            // If we can't get the Owner, we can't determine who should be messaged, or if we are the Owner of this Session
+            if (localCopyResult != Result.Success || !outActiveSessionInfo.HasValue || !outActiveSessionInfo.Value.SessionDetails.HasValue)
+            {
+                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(OnDestroySessionCompleteCallback)}): Failed to copy local information for Session {sessionName}, so could not inform Owner/members of destruction. Result code {localCopyResult}");
+                return;
+            }
+
+            if (localSession.DoesLocalUserOwnSession())
+            {
+                // We're the Owner of the Session, inform everyone that it was destroyed
+                InformSessionMembers(sessionName, P2P_SESSION_OWNER_DESTROYED_SESSION_MESSAGE_ELEMENT);
+            }
+            else
+            {
+                // Inform the Owner that we've left the Session
+                InformSessionOwnerWithMessage(sessionName, P2P_LEAVING_SESSION_MESSAGE_ELEMENT);
+            }
         }
 
         #region Notifications
