@@ -40,6 +40,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
     public class ConfigEditor<T> : IConfigEditor where T : EpicOnlineServices.Config
     {
         private readonly string _labelText;
+        private bool _expanded;
         protected T config;
 
         public ConfigEditor()
@@ -178,11 +179,35 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
             await config.WriteAsync(prettyPrint);
         }
 
+        private GUIStyle descriptionStyle;
+
         public virtual void RenderContents()
         {
-            GUILayout.Label(GetLabelText(), EditorStyles.boldLabel);
-            GUIEditorUtility.HorizontalLine(Color.white);
-            RenderConfigFields();
+            GUIStyle foldoutStyle = new(EditorStyles.foldout)
+            {
+                fontStyle = FontStyle.Bold, 
+                fontSize = 16
+            };
+
+            EditorGUILayout.BeginHorizontal();
+            _expanded = EditorGUILayout.Foldout(_expanded, GetLabelText(), true, foldoutStyle);
+            if (!_expanded)
+            {
+                descriptionStyle = new GUIStyle(EditorStyles.label);
+                descriptionStyle.fontStyle = FontStyle.Normal;
+                descriptionStyle.fontSize = 12; // Set the font size for the description
+                descriptionStyle.margin = new RectOffset(5, 0, 0, 0); // Add some margin to the left
+                GUILayout.Label("Description of what the section contains.", descriptionStyle);
+            }
+            EditorGUILayout.EndHorizontal();
+
+            if (_expanded)
+            {
+                EditorGUILayout.BeginVertical("box");
+                GUIEditorUtility.HorizontalLine(Color.white);
+                RenderConfigFields();
+                EditorGUILayout.EndVertical();
+            }
             EditorGUILayout.Space();
         }
 

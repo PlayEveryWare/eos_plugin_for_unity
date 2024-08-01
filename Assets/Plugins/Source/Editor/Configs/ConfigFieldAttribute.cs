@@ -122,9 +122,16 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
         /// </summary>
         public string Label { get; }
 
-        public ConfigGroupAttribute(string label)
+        /// <summary>
+        /// Indicates whether the group of configuration values can be
+        /// collapsed.
+        /// </summary>
+        public bool Collapsible { get; }
+
+        public ConfigGroupAttribute(string label, bool collapsible = false)
         {
             Label = label;
+            Collapsible = collapsible;
         }
     }
 
