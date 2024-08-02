@@ -23,12 +23,23 @@
 namespace PlayEveryWare.EpicOnlineServices.Utility
 {
     using UnityEngine;
+    using Unity.Plastic.Newtonsoft.Json;
 
     /// <summary>
     /// Contains functions to interact with various json data.
     /// </summary>
     public static class JsonUtility
     {
+        /// <summary>
+        /// Used to store settings for the JsonSerializer.
+        /// </summary>
+        private static readonly JsonSerializerSettings s_serializerSettings;
+
+        static JsonUtility()
+        {
+            s_serializerSettings = new();
+        }
+
         /// <summary>
         /// Tries to parse the given JSON into an object.
         /// </summary>
@@ -47,7 +58,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
             obj = default;
             try
             {
-                obj = UnityEngine.JsonUtility.FromJson<T>(json);
+                obj = JsonConvert.DeserializeObject<T>(json, s_serializerSettings);
                 return true;
             }
             catch
@@ -79,7 +90,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         /// </returns>
         public static string ToJson(object obj, bool pretty = false)
         {
-            return UnityEngine.JsonUtility.ToJson(obj, pretty);
+            return JsonConvert.SerializeObject(obj, (pretty) ? Formatting.Indented : Formatting.None);
         }
 
         /// <summary>
@@ -127,27 +138,9 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         /// </param>
         public static void FromJsonOverwrite<T>(string json, T obj)
         {
-            // NOTES:
-            //
-            // If the type 'T' indicated is abstract, then it is not possible to
-            // use UnityEngine.JsonUtility to verify the validity of the
-            // incoming JSON. This is because the validation is accomplished by
-            // performing the deserialization step and catching any thrown
-            // exceptions. Therefore, if the type indicated is abstract, don't
-            // bother trying to validate, go straight to using the
-            // 'FromJsonOverwrite' function in UnityEngine.JsonUtility.
-            //
-            // If the type indicated is _not_ abstract, then it is possible to
-            // utilize the validation approach, therefore in that scenario
-            // perform validation before performing the intended operation.
-            //
-            // That this code can only validate JSON representing a non-abstract
-            // class is a limitation of the UnityEngine.JsonUtility. Most other
-            // available libraries will support this and remove the need for
-            // this check.
-            if (typeof(T).IsAbstract || TryFromJson(json, out T _))
+            if (TryFromJson(json, out T _))
             {
-                UnityEngine.JsonUtility.FromJsonOverwrite(json, obj);
+                JsonConvert.PopulateObject(json, obj);
             }
         }
     }
