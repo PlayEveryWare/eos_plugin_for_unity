@@ -87,10 +87,10 @@ namespace PlayEveryWare.EpicOnlineServices
         // This does some work to configure the Android side of things before doing the
         // 'normal' EOS init things.
         // TODO: Configure the internal and external directory
-        public override void ConfigureSystemInitOptions(ref EOSInitializeOptions initializeOptionsRef, EOSConfig configData)
+        public override void ConfigureSystemInitOptions(ref EOSInitializeOptions initializeOptionsRef)
         {
             // Do the standard overriding stuff
-            base.ConfigureSystemInitOptions(ref initializeOptionsRef, configData);
+            base.ConfigureSystemInitOptions(ref initializeOptionsRef);
 
             // check again for if it's null after coming out of the base ConfigureSystemInitOptions method
             // (it shouldn't, but check anyways to make compile-time checks happy)
