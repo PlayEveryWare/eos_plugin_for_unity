@@ -66,6 +66,13 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
         /// </summary>
         TextList,
 
+        /// <summary>
+        /// Indicates that the config has a button that needs rendering. This is
+        /// a ConfigFieldType because a Config can have a field member that is
+        /// an action (assigned functionality by the Config constructor) that is
+        /// to take place when the button is pressed, which allows injection of
+        /// arbitrary functionality within a ConfigEditor.
+        /// </summary>
         Button,
     }
 
