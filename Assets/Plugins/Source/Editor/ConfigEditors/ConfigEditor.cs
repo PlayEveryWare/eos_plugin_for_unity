@@ -53,7 +53,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
         /// Used to animate the expansion and collapse of the config editor if
         /// doing so is enabled.
         /// </summary>
-        public AnimBool _animExpanded;
+        private AnimBool _animExpanded;
 
         /// <summary>
         /// Stores the state of whether the config editor is expanded or
@@ -77,7 +77,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
         public ConfigEditor(UnityAction repaintFn = null)
         {
             Type configType = typeof(T);
-
+            
             ConfigGroupAttribute attribute = configType.GetCustomAttribute<ConfigGroupAttribute>();
             _animExpanded = new(attribute.Collapsible);
 
