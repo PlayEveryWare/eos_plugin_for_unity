@@ -22,6 +22,7 @@
 
 namespace PlayEveryWare.EpicOnlineServices.Utility
 {
+    using System;
     using UnityEngine;
     using Unity.Plastic.Newtonsoft.Json;
 
@@ -61,7 +62,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
                 obj = JsonConvert.DeserializeObject<T>(json, s_serializerSettings);
                 return true;
             }
-            catch
+            catch(Exception e)
             {
                 Debug.LogError($"Unable to parse object of type " +
                                $"\"{typeof(T).FullName}\" from " +
@@ -138,7 +139,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         /// </param>
         public static void FromJsonOverwrite<T>(string json, T obj)
         {
-            if (TryFromJson(json, out T _))
+            if (typeof(T).IsAbstract || TryFromJson(json, out T _))
             {
                 JsonConvert.PopulateObject(json, obj);
             }
