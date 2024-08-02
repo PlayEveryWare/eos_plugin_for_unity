@@ -118,7 +118,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
         }
 
         /// <summary>
-        /// Affect the expansion of the ConfigEditor.
+        /// Expands the ConfigEditor.
         /// </summary>
         public void Expand()
         {
@@ -127,7 +127,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
         }
 
         /// <summary>
-        /// Affect the collapse of the ConfigEditor.
+        /// Collapse the ConfigEditor.
         /// </summary>
         public void Collapse()
         {

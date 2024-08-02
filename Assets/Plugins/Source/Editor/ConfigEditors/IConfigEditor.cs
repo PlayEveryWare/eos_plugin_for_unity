@@ -35,12 +35,12 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
         string GetLabelText();
 
         /// <summary>
-        /// Affect the expansion of the ConfigEditor.
+        /// Expands the ConfigEditor.
         /// </summary>
         public void Expand();
 
         /// <summary>
-        /// Affect the collapse of the ConfigEditor.
+        /// Collapses the ConfigEditor.
         /// </summary>
         public void Collapse();
 
