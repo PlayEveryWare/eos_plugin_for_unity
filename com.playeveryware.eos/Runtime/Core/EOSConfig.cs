@@ -124,11 +124,6 @@ namespace PlayEveryWare.EpicOnlineServices
         public List<string> authScopeOptionsFlags;
 
         /// <summary>
-        /// Flags used to configure platform integration management flags.
-        /// </summary>
-        public List<string> integratedPlatformManagementFlags;
-
-        /// <summary>
         /// Tick Budget; used to define the maximum amount of execution time the
         /// EOS SDK can use each frame.
         /// </summary>
@@ -310,20 +305,6 @@ namespace PlayEveryWare.EpicOnlineServices
         public AuthScopeFlags GetAuthScopeFlags()
         {
             return StringsToEnum<AuthScopeFlags>(authScopeOptionsFlags, AuthScopeFlagsExtensions.TryParse);
-        }
-
-        /// <summary>
-        /// Returns a single IntegratedPlatformManagementFlags enum value that
-        /// results from a bitwise OR operation of all the
-        /// integratedPlatformManagementFlags flags on this config.
-        /// </summary>
-        /// <returns>An IntegratedPlatformManagementFlags enum value.</returns>
-        public IntegratedPlatformManagementFlags GetIntegratedPlatformManagementFlags()
-        {
-            return StringsToEnum<IntegratedPlatformManagementFlags>(
-                integratedPlatformManagementFlags,
-                IntegratedPlatformManagementFlagsExtensions.TryParse
-            );
         }
 
         /// <summary>

@@ -25,7 +25,6 @@
 namespace PlayEveryWare.EpicOnlineServices
 {
     using Epic.OnlineServices.Auth;
-    using Epic.OnlineServices.IntegratedPlatform;
     using Epic.OnlineServices.Platform;
     using System;
 
@@ -104,11 +103,6 @@ namespace PlayEveryWare.EpicOnlineServices
         public readonly AuthScopeFlags AuthScopeFlags;
 
         /// <summary>
-        /// Flags for options related to integrated platform management.
-        /// </summary>
-        public readonly IntegratedPlatformManagementFlags IntegratedPlatformManagementFlags;
-
-        /// <summary>
         /// Tick Budget; used to define the maximum amount of execution time the
         /// EOS SDK can use each frame.
         /// </summary>
@@ -127,42 +121,6 @@ namespace PlayEveryWare.EpicOnlineServices
 
         #endregion
 
-        #region Plugin Configuration Values
-
-        /*
-         * The following region contains configuration values that pertain to
-         * the EOS Plugin, distinct from configuration values that pertain more
-         * specifically to the function of the EOS SDK.
-         */
-
-        /// <summary>
-        /// Always Send Input to Overlay &lt;/c&gt;If true, the plugin will
-        /// always send input to the overlay from the C# side to native, and
-        /// handle showing the overlay. This doesn't always mean input makes
-        /// it to the EOS SDK.
-        /// </summary>
-        public readonly bool AlwaysSendInputToOverlay;
-
-        /// <summary>
-        /// Initial Button Delay.
-        /// </summary>
-        public readonly float InitialButtonDelayForOverlay;
-
-        /// <summary>
-        /// Repeat button delay for overlay
-        /// </summary>
-        public readonly float RepeatButtonDelayForOverlay;
-
-        /// <summary>
-        /// Force send input without delay&lt;/c&gt;If true, the
-        /// native plugin will always send input received directly to the SDK.
-        /// If set to false, the plugin will attempt to delay the input to
-        /// mitigate CPU spikes caused by spamming the SDK.
-        /// </summary>
-        public readonly bool SendInputDirectlyToSDK;
-
-        #endregion
-
         public RuntimeConfig(
             Guid productId,
             string productName,
@@ -173,14 +131,9 @@ namespace PlayEveryWare.EpicOnlineServices
             string encryptionKey,
             PlatformFlags platformFlags,
             AuthScopeFlags authScopeFlags,
-            IntegratedPlatformManagementFlags integratedPlatformManagementFlags,
             uint tickBudgetInMilliseconds,
             InitializeThreadAffinity threadAffinity,
-            bool isServer,
-            bool alwaysSendInputToOverlay,
-            float initialButtonDelayForOverlay,
-            float repeatButtonDelayForOverlay,
-            bool sendInputDirectlyToSdk)
+            bool isServer)
         {
             ProductId = productId;
             ProductName = productName;
@@ -191,14 +144,9 @@ namespace PlayEveryWare.EpicOnlineServices
             EncryptionKey = encryptionKey;
             PlatformFlags = platformFlags;
             AuthScopeFlags = authScopeFlags;
-            IntegratedPlatformManagementFlags = integratedPlatformManagementFlags;
             TickBudgetInMilliseconds = tickBudgetInMilliseconds;
             ThreadAffinity = threadAffinity;
             IsServer = isServer;
-            AlwaysSendInputToOverlay = alwaysSendInputToOverlay;
-            InitialButtonDelayForOverlay = initialButtonDelayForOverlay;
-            RepeatButtonDelayForOverlay = repeatButtonDelayForOverlay;
-            SendInputDirectlyToSDK = sendInputDirectlyToSdk;
         }
 
         /// <summary>
@@ -230,11 +178,6 @@ namespace PlayEveryWare.EpicOnlineServices
             InitializeThreadAffinity threadAffinity = new();
             config.ConfigureOverrideThreadAffinity(ref threadAffinity);
 
-            // try parse the float values from string so that they default to
-            // zero if the strings are empty.
-            _ = float.TryParse(config.initialButtonDelayForOverlay, out float initialButtonDelayForOverlayFloat);
-            _ = float.TryParse(config.repeatButtonDelayForOverlay, out float repeatButtonDelayForOverlayFloat);
-
             return new RuntimeConfig(
                 Guid.Parse(config.productID),
                 config.productName,
@@ -245,14 +188,9 @@ namespace PlayEveryWare.EpicOnlineServices
                 config.encryptionKey,
                 config.GetPlatformFlags(),
                 config.GetAuthScopeFlags(),
-                config.GetIntegratedPlatformManagementFlags(),
                 config.tickBudgetInMilliseconds,
                 threadAffinity,
-                config.isServer,
-                config.alwaysSendInputToOverlay,
-                initialButtonDelayForOverlayFloat,
-                repeatButtonDelayForOverlayFloat,
-                config.hackForceSendInputDirectlyToSDK);
+                config.isServer);
         }
     }
 #endif

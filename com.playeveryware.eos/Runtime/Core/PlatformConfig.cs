@@ -22,7 +22,10 @@
 
 namespace PlayEveryWare.EpicOnlineServices
 {
+    using Epic.OnlineServices.IntegratedPlatform;
+    using Extensions;
     using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Represents a set of configuration data for use by the EOS Plugin for
@@ -47,6 +50,11 @@ namespace PlayEveryWare.EpicOnlineServices
         public EOSConfig overrideValues;
 
         /// <summary>
+        /// Used to store integrated platform management flags.
+        /// </summary>
+        public List<string> flags;
+
+        /// <summary>
         /// Create a PlatformConfig by defining the platform it pertains to.
         /// </summary>
         /// <param name="platform">
@@ -56,6 +64,20 @@ namespace PlayEveryWare.EpicOnlineServices
             base(PlatformManager.GetConfigFileName(platform))
         {
             this.Platform = platform;
+        }
+
+        /// <summary>
+        /// Returns a single IntegratedPlatformManagementFlags enum value that
+        /// results from a bitwise OR operation of all the
+        /// integratedPlatformManagementFlags flags on this config.
+        /// </summary>
+        /// <returns>An IntegratedPlatformManagementFlags enum value.</returns>
+        public IntegratedPlatformManagementFlags GetIntegratedPlatformManagementFlags()
+        {
+            return StringsToEnum<IntegratedPlatformManagementFlags>(
+                flags,
+                IntegratedPlatformManagementFlagsExtensions.TryParse
+            );
         }
     }
 }
