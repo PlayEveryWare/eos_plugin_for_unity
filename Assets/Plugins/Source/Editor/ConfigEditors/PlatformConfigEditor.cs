@@ -21,6 +21,7 @@
 */
 namespace PlayEveryWare.EpicOnlineServices.Editor
 {
+    using System.Linq;
     using UnityEditor;
     using UnityEngine;
     using Utility;
@@ -29,7 +30,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
     /// Contains implementations of IConfigEditor that are common to all ConfigEditors that represent the configuration options for a specific platform.
     /// </summary>
     /// <typeparam name="T">Intended to be a type accepted by the templated class ConfigHandler.</typeparam>
-    public abstract class PlatformConfigEditor<T> : ConfigEditor<T> where T : PlatformConfig
+    public abstract class PlatformConfigEditor<T> : ConfigEditor<T>, IPlatformConfigEditor where T : PlatformConfig
     {
         /// <summary>
         /// The platform that this PlatformConfigEditor represents.
@@ -66,6 +67,11 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
             GUIEditorUtility.AssigningULongToStringField("Thread Affinity: P2PIO", ref config.overrideValues.ThreadAffinity_P2PIO);
             GUIEditorUtility.AssigningULongToStringField("Thread Affinity: HTTPRequestIO", ref config.overrideValues.ThreadAffinity_HTTPRequestIO);
             GUIEditorUtility.AssigningULongToStringField("Thread Affinity: RTCIO", ref config.overrideValues.ThreadAffinity_RTCIO);
+        }
+
+        public bool IsPlatformAvailable()
+        {
+            return PlatformManager.GetAvailableBuildTargets().Contains(Platform);
         }
 
         public virtual void RenderPlatformSpecificOptions() { }
