@@ -156,6 +156,30 @@ namespace PlayEveryWare.EpicOnlineServices
             };
 
         /// <summary>
+        /// Returns an IEnumerable of the platforms for which the current Unity
+        /// Editor is able to build projects for.
+        /// </summary>
+        /// <returns>
+        /// IEnumerable of the platforms for which the current Unity Editor is
+        /// able to build projects for.
+        /// </returns>
+        public static IEnumerable<Platform> GetAvailableBuildTargets()
+        {
+            foreach (BuildTarget target in Enum.GetValues(typeof(BuildTarget)))
+            {
+                var buildTargetGroup = BuildPipeline.GetBuildTargetGroup(target);
+
+                if (!BuildPipeline.IsBuildTargetSupported(buildTargetGroup, target))
+                    continue;
+
+                if (!TargetToPlatformsMap.TryGetValue(target, out Platform supportedPlatform))
+                    continue;
+
+                yield return supportedPlatform;
+            }
+        }
+
+        /// <summary>
         /// Get the platform that matches the given build target.
         /// </summary>
         /// <param name="target">The build target being built for.</param>
