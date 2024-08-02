@@ -73,9 +73,9 @@ namespace PlayEveryWare.EpicOnlineServices
                 {
                     _ = SafeTranslatorUtility.TryConvert(version.Major, out steamSDKMajorVersion);
                     _ = SafeTranslatorUtility.TryConvert(version.Minor, out steamSDKMinorVersion);
-
-                    steamApiInterfaceVersionsArray = SteamworksUtility.GetSteamInterfaceVersions();
                 }
+
+                steamApiInterfaceVersionsArray = SteamworksUtility.GetSteamInterfaceVersions();
             };
         }
 
