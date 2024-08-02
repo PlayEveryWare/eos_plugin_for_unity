@@ -53,8 +53,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 #endif
         bool prettyPrint;
 
-        SteamConfig steamEOSConfigFile;
-
         public EOSSettingsWindow() : base("EOS Configuration")
         {
         }
@@ -160,7 +158,6 @@ _WIN32 || _WIN64
         private async Task Save(bool usePrettyFormat)
         {
             await mainEOSConfigFile.WriteAsync(usePrettyFormat);
-            await steamEOSConfigFile.WriteAsync(usePrettyFormat);
 
             foreach (var platformSpecificConfigEditor in platformSpecificConfigEditors)
             {
