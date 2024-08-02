@@ -22,14 +22,10 @@
 
 namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
 {
-    using Microsoft.SqlServer.Server;
     using System;
     using System.Collections.Generic;
-    using System.Drawing.Printing;
     using UnityEditor;
-    using UnityEditor.AnimatedValues;
     using UnityEngine;
-    using UnityEngine.UIElements;
 
     public static class GUIEditorUtility
     {
