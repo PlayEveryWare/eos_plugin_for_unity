@@ -225,9 +225,10 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
                             field.FieldInfo.SetValue(config, GUIEditorUtility.RenderInputField(field.FieldDetails, (uint)field.FieldInfo.GetValue(config), labelWidth));
                             break;
                         case ConfigFieldType.Button:
-                            if (GUILayout.Button(field.FieldDetails.Label))
+                            if (GUILayout.Button(field.FieldDetails.Label) && 
+                                field.FieldInfo.GetValue(config) is Action onClick)
                             {
-                                ((Action)field.FieldInfo.GetValue(config))();
+                                onClick();
                             }
                             break;
                         default:
