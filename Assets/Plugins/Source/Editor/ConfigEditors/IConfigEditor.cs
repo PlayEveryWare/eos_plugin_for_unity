@@ -22,16 +22,27 @@
 
 namespace PlayEveryWare.EpicOnlineServices.Editor
 {
+    using System;
     using System.Threading.Tasks;
 
     // Interface for allowing adding additional config files to the Config editor
-    public interface IConfigEditor
+    public interface IConfigEditor : IDisposable
     {
         /// <summary>
         /// Returns the human-readable labelText for the section of configuration.
         /// </summary>
         /// <returns>String representing the section this config controls.</returns>
         string GetLabelText();
+
+        /// <summary>
+        /// Expands the ConfigEditor.
+        /// </summary>
+        public void Expand();
+
+        /// <summary>
+        /// Collapses the ConfigEditor.
+        /// </summary>
+        public void Collapse();
 
         /// <summary>
         /// Loads the config values from disk.

@@ -65,12 +65,24 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
         /// A list of strings.
         /// </summary>
         TextList,
+
+        /// <summary>
+        /// Indicates that the config has a button that needs rendering. This is
+        /// a ConfigFieldType because a Config can have a field member that is
+        /// an action (assigned functionality by the Config constructor) that is
+        /// to take place when the button is pressed, which allows injection of
+        /// arbitrary functionality within a ConfigEditor.
+        /// </summary>
+        Button,
     }
+
+    #region Custom attribute classes that derive from ConfigFieldAttribute
 
     /// <summary>
     /// This attribute is used to decorate a field member within a config class
     /// that represents a path to a file.
     /// </summary>
+    [AttributeUsage(AttributeTargets.Field)]
     public class FilePathField : ConfigFieldAttribute
     {
         /// <summary>
@@ -90,10 +102,26 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
     /// This attribute is used to decorate a field member within a config class
     /// that represents a path to a directory.
     /// </summary>
+    [AttributeUsage(AttributeTargets.Field)]
     public class DirectoryPathField : ConfigFieldAttribute
     {
         public DirectoryPathField(string label, string tooltip = null, int group = -1) : base(label, ConfigFieldType.DirectoryPath, tooltip, group) { }
     }
+
+    /// <summary>
+    /// This attribute is used to decorate a field member within a config class
+    /// that can execute a callback on the config class.
+    /// </summary>
+    [AttributeUsage(AttributeTargets.Field)]
+    public class ButtonField : ConfigFieldAttribute
+    {
+        public ButtonField(string label, string tooltip = null, int group = -1) : base(label,
+            ConfigFieldType.Button, tooltip, group)
+        {
+        }
+    }
+
+    #endregion
 
     /// <summary>
     /// This attribute is used to decorate a config class that represents a
@@ -108,9 +136,16 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
         /// </summary>
         public string Label { get; }
 
-        public ConfigGroupAttribute(string label)
+        /// <summary>
+        /// Indicates whether the group of configuration values can be
+        /// collapsed.
+        /// </summary>
+        public bool Collapsible { get; }
+
+        public ConfigGroupAttribute(string label, bool collapsible = false)
         {
             Label = label;
+            Collapsible = collapsible;
         }
     }
 

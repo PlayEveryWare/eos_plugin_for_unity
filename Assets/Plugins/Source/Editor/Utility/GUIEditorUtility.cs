@@ -226,6 +226,66 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
 
             EditorGUIUtility.labelWidth = originalLabelWidth;
         }
+        
+        public static void AssigningBoolField(string label, ref bool value, float labelWidth = -1, string tooltip = null)
+        {
+            float originalLabelWidth = EditorGUIUtility.labelWidth;
+            if (labelWidth >= 0)
+            {
+                EditorGUIUtility.labelWidth = labelWidth;
+            }
+
+            var newValue = EditorGUILayout.Toggle(CreateGUIContent(label, tooltip), value, GUILayout.ExpandWidth(true));
+            value = newValue;
+
+            EditorGUIUtility.labelWidth = originalLabelWidth;
+        }
+
+        public static void AssigningFloatToStringField(string label, ref string value, float labelWidth = -1, string tooltip = null)
+        {
+            float originalLabelWidth = EditorGUIUtility.labelWidth;
+            if (labelWidth >= 0)
+            {
+                EditorGUIUtility.labelWidth = labelWidth;
+            }
+
+            try
+            {
+                EditorGUILayout.BeginHorizontal();
+                var newValueAsString = EditorGUILayout.TextField(CreateGUIContent(label, tooltip), value == null ? "" : value, GUILayout.ExpandWidth(true));
+
+                if (GUILayout.Button("Clear", GUILayout.MaxWidth(50)))
+                {
+                    value = null;
+                }
+                else
+                {
+                    if (string.IsNullOrWhiteSpace(newValueAsString))
+                    {
+                        value = null;
+                        return;
+                    }
+
+                    var valueAsFloat = float.Parse(newValueAsString);
+                    value = valueAsFloat.ToString();
+                }
+            }
+            catch (FormatException)
+            {
+                value = null;
+            }
+            catch (OverflowException)
+            {
+            }
+            finally
+            {
+                EditorGUILayout.EndHorizontal();
+            }
+
+            EditorGUIUtility.labelWidth = originalLabelWidth;
+        }
+
+        #region New methods for rendering input fields
 
         public static List<string> RenderInputField(ConfigFieldAttribute configFieldDetails, List<string> value,
             float labelWidth, string tooltip = null)
@@ -240,11 +300,19 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
                 ? configFieldDetails.Label
                 : configFieldDetails.Label + ":";
 
-            GUILayout.Label(CreateGUIContent(listLabel, configFieldDetails.ToolTip));
+            List<string> newValue = new(value);
 
             EditorGUIUtility.labelWidth = currentLabelWidth;
 
-            List<string> newValue = new(value);
+            EditorGUILayout.BeginHorizontal();
+            GUILayout.Label(CreateGUIContent(listLabel, configFieldDetails.ToolTip));
+            GUILayout.FlexibleSpace();
+            if (GUILayout.Button("Add", GUILayout.MaxWidth(MaximumButtonWidth)))
+            {
+                newValue.Add(string.Empty);
+            }
+            EditorGUILayout.EndHorizontal();
+            
             for (var i = 0; i < newValue.Count; ++i)
             {
                 bool itemRemoved = false;
@@ -263,12 +331,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
 
                 if (itemRemoved)
                     break;
-            }
-
-            // render add button
-            if (GUILayout.Button("Add", GUILayout.MaxWidth(MaximumButtonWidth)))
-            {
-                newValue.Add(string.Empty);
             }
 
             return newValue;
@@ -399,80 +461,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             return newValue;
         }
 
-        public static void AssigningBoolField(string label, ref bool value, float labelWidth = -1, string tooltip = null)
-        {
-            float originalLabelWidth = EditorGUIUtility.labelWidth;
-            if (labelWidth >= 0)
-            {
-                EditorGUIUtility.labelWidth = labelWidth;
-            }
-
-            var newValue = EditorGUILayout.Toggle(CreateGUIContent(label, tooltip), value, GUILayout.ExpandWidth(true));
-            value = newValue;
-
-            EditorGUIUtility.labelWidth = originalLabelWidth;
-        }
-
-        public static void AssigningFloatToStringField(string label, ref string value, float labelWidth = -1, string tooltip = null)
-        {
-            float originalLabelWidth = EditorGUIUtility.labelWidth;
-            if (labelWidth >= 0)
-            {
-                EditorGUIUtility.labelWidth = labelWidth;
-            }
-
-            try
-            {
-                EditorGUILayout.BeginHorizontal();
-                var newValueAsString = EditorGUILayout.TextField(CreateGUIContent(label, tooltip), value == null ? "" : value, GUILayout.ExpandWidth(true));
-
-                if (GUILayout.Button("Clear", GUILayout.MaxWidth(50)))
-                {
-                    value = null;
-                }
-                else
-                {
-                    if (string.IsNullOrWhiteSpace(newValueAsString))
-                    {
-                        value = null;
-                        return;
-                    }
-
-                    var valueAsFloat = float.Parse(newValueAsString);
-                    value = valueAsFloat.ToString();
-                }
-            }
-            catch (FormatException)
-            {
-                value = null;
-            }
-            catch (OverflowException)
-            {
-            }
-            finally
-            {
-                EditorGUILayout.EndHorizontal();
-            }
-
-            EditorGUIUtility.labelWidth = originalLabelWidth;
-        }
-
-        public static void HorizontalLine(Color color)
-        {
-            var defaultHorizontalLineStyle = new GUIStyle();
-            defaultHorizontalLineStyle.normal.background = EditorGUIUtility.whiteTexture;
-            defaultHorizontalLineStyle.margin = new RectOffset(0, 0, 4, 4);
-            defaultHorizontalLineStyle.fixedHeight = 1;
-            HorizontalLine(color, defaultHorizontalLineStyle);
-        }
-
-        public static void HorizontalLine(Color color, GUIStyle guiStyle)
-        {
-            var currentColor = GUI.color;
-            GUI.color = color;
-            GUILayout.Box(GUIContent.none, guiStyle);
-            GUI.color = currentColor;
-        }
-
+        #endregion
     }
 }
