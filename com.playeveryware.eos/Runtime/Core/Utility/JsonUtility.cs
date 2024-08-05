@@ -62,7 +62,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
                 obj = JsonConvert.DeserializeObject<T>(json, s_serializerSettings);
                 return true;
             }
-            catch(Exception e)
+            catch
             {
                 Debug.LogError($"Unable to parse object of type " +
                                $"\"{typeof(T).FullName}\" from " +
