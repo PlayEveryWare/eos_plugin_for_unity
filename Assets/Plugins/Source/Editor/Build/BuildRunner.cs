@@ -78,7 +78,7 @@ namespace PlayEveryWare.EpicOnlineServices.Build
             SteamConfig config = SteamConfig.Get<SteamConfig>();
             if (config != null && (config.steamApiInterfaceVersionsArray == null || config.steamApiInterfaceVersionsArray.Count == 0))
             {
-                config.steamApiInterfaceVersionsArray = Steamworks_Utility.GetSteamInterfaceVersions();
+                config.steamApiInterfaceVersionsArray = SteamworksUtility.GetSteamInterfaceVersions();
 
                 if (config.steamApiInterfaceVersionsArray == null || config.steamApiInterfaceVersionsArray.Count == 0)
                 {

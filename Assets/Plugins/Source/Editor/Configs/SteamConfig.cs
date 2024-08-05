@@ -25,23 +25,60 @@ using System.Collections.Generic;
 
 namespace PlayEveryWare.EpicOnlineServices
 {
+    using Editor;
+    using Editor.Config;
+    using Editor.Utility;
+
     [Serializable]
+    [ConfigGroup("Steam Configuration")]
+    // TODO: Make SteamConfig derive from EditorConfig, and update the native code
+    //       to properly reference the correct file where appropriate.
     public class SteamConfig : Config
     {
+        [ConfigField("Steam Flags", ConfigFieldType.TextList)]
         public List<string> flags;
+
+        #region These fields are referenced by the native code 
+
+        [DirectoryPathField("Override Library Path")]
         public string overrideLibraryPath;
 
+        [ConfigField("Steamworks SDK Major Version", ConfigFieldType.Uint)]
         public uint steamSDKMajorVersion;
+
+        [ConfigField("Steamworks SDK Minor Version", ConfigFieldType.Uint)]
         public uint steamSDKMinorVersion;
 
+        [ConfigField("Steamworks Interface Versions", ConfigFieldType.TextList)]
         public List<string> steamApiInterfaceVersionsArray;
+
+        #endregion
+
+        [ButtonField("Update from Steamworks.NET")]
+        public Action UpdateFromSteamworksNET;
 
         static SteamConfig()
         {
             RegisterFactory(() => new SteamConfig());
         }
 
-        protected SteamConfig() : base("eos_steam_config.json") { }
+        protected SteamConfig() : base("eos_steam_config.json")
+        {
+            UpdateFromSteamworksNET = () =>
+            {
+                string steamworksVersion = SteamworksUtility.GetSteamworksVersion();
+
+                if (Version.TryParse(steamworksVersion, out Version version))
+                {
+                    _ = SafeTranslatorUtility.TryConvert(version.Major, out steamSDKMajorVersion);
+                    _ = SafeTranslatorUtility.TryConvert(version.Minor, out steamSDKMinorVersion);
+                }
+
+                steamApiInterfaceVersionsArray = SteamworksUtility.GetSteamInterfaceVersions();
+            };
+        }
+
+
     }
 }
 
