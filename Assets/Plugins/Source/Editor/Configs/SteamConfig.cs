@@ -36,7 +36,6 @@ namespace PlayEveryWare.EpicOnlineServices
     public class SteamConfig : Config
     {
         [ConfigField("Steam Flags", ConfigFieldType.TextList)]
-        [Obsolete] // This is marked as obsolete because it is actually not utilized anywhere.
         public List<string> flags;
 
         #region These fields are referenced by the native code 
