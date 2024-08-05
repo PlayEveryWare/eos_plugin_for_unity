@@ -77,7 +77,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             logLevelMenuItems = new List<UIDebugLogLevelMenuItem>();
             BuildLogLevelMenu();
             ignoreLogLevelChange = false;
-            LogLevelScrollView.gameObject.SetActive(false);
+
+            LogLevelScrollView?.gameObject.SetActive(false);
         }
 
         public void OnScollDragBegin()
@@ -102,6 +103,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private void BuildLogLevelMenu()
         {
+            if (LogLevelTemplate == null)
+            {
+                return;
+            }
+
             LogLevelTemplate.InitDropdown();
 
             allCategoriesMenuItem = CreateLogCategoryItem(LogCategory.AllCategories);
@@ -341,9 +347,20 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
 
             // FPS
-            deltaTime_FPS += (Time.deltaTime - deltaTime_FPS) * 0.1f;
-            float fps = 1.0f / deltaTime_FPS;
-            FPSValue.text = Mathf.Ceil(fps).ToString();
+            if (FPSValue != null)
+            {
+                deltaTime_FPS += (Time.deltaTime - deltaTime_FPS) * 0.1f;
+
+                if (deltaTime_FPS != 0)
+                {
+                    float fps = 1.0f / deltaTime_FPS;
+                    FPSValue.text = Mathf.Ceil(fps).ToString();
+                }
+                else
+                {
+                    FPSValue.text = nameof(float.NaN);
+                }
+            }
         }
 
         private void ScrollToBottom()
