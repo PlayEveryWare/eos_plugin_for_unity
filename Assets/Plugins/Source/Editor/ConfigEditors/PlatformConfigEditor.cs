@@ -26,9 +26,13 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
     using Utility;
 
     /// <summary>
-    /// Contains implementations of IConfigEditor that are common to all ConfigEditors that represent the configuration options for a specific platform.
+    /// Contains implementations of IConfigEditor that are common to all
+    /// ConfigEditors that represent the configuration options for a specific
+    /// platform.
     /// </summary>
-    /// <typeparam name="T">Intended to be a type accepted by the templated class ConfigHandler.</typeparam>
+    /// <typeparam name="T">
+    /// A PlatformConfig pertaining to a specific platform.
+    /// </typeparam>
     public abstract class PlatformConfigEditor<T> : ConfigEditor<T> where T : PlatformConfig
     {
         /// <summary>
@@ -54,11 +58,25 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
             GUILayout.Label($"{PlatformManager.GetFullName(Platform)} Override Configuration Values",
                 EditorStyles.boldLabel);
 
+            GUIEditorUtility.AssigningFlagTextField("Integrated Platform Management Flags (Separated by '|')", ref config.flags, 345);
+
             GUIEditorUtility.AssigningFlagTextField("Override Platform Flags (Separated by '|')", ref config.overrideValues.platformOptionsFlags, 250);
 
             GUIEditorUtility.AssigningFloatToStringField("Override initial button delay for overlay", ref config.overrideValues.initialButtonDelayForOverlay, 250);
 
             GUIEditorUtility.AssigningFloatToStringField("Override repeat button delay for overlay", ref config.overrideValues.repeatButtonDelayForOverlay, 250);
+
+            // TODO: As far as can be determined, it appears that the following
+            //       values are the only ones within "overrideValues" that are
+            //       actually being used to override the otherwise defined
+            //       values within EOSConfig. Changing the values in the fields
+            //       for which the input fields are rendered above does not 
+            //       seem to have any affect. 
+            // 
+            //       This is a bug, but is not relevant to the current task as 
+            //       of this writing, which is to simply add the field member
+            //       "integratedPlatformManagementFlags" to EOSConfig, and make
+            //       sure that field is editable within the editor.
 
             GUIEditorUtility.AssigningULongToStringField("Thread Affinity: networkWork", ref config.overrideValues.ThreadAffinity_networkWork);
             GUIEditorUtility.AssigningULongToStringField("Thread Affinity: storageIO", ref config.overrideValues.ThreadAffinity_storageIO);

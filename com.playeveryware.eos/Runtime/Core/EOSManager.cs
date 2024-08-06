@@ -600,7 +600,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
                 if (!string.IsNullOrWhiteSpace(epicArgs.epicSandboxID))
                 {
-                    Config.Get<EOSConfig>().OverrideDeployment(epicArgs.epicSandboxID);
+                    Config.Get<EOSConfig>().SetDeployment(epicArgs.epicSandboxID);
                 }
 
                 Result initResult = InitializePlatformInterface();
