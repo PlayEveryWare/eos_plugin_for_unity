@@ -454,11 +454,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Steam
 
         private void StartConnectLoginWithSteamSessionTicket(EOSManager.OnConnectLoginCallback onLoginCallback, int retryAttemptNumber = 0)
         {
-            const int MaximumNumberOfRetries = 1;
-
 #if DISABLESTEAMWORKS
             onLoginCallback?.Invoke(new Epic.OnlineServices.Connect.LoginCallbackInfo() { ResultCode = Epic.OnlineServices.Result.UnexpectedError });
 #else
+            const int MaximumNumberOfRetries = 1;
+
             string steamToken = GetSessionTicket();
             EOSManager.Instance.StartConnectLoginWithOptions(Epic.OnlineServices.ExternalCredentialType.SteamSessionTicket, steamToken, onloginCallback: (Epic.OnlineServices.Connect.LoginCallbackInfo callbackInfo) =>
             {
@@ -487,11 +487,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Steam
 
         private void StartConnectLoginWithSteamAppTicket(EOSManager.OnConnectLoginCallback onLoginCallback, int retryAttemptNumber = 0)
         {
-            const int MaximumNumberOfRetries = 1;
-
 #if DISABLESTEAMWORKS
             onLoginCallback?.Invoke(new Epic.OnlineServices.Connect.LoginCallbackInfo() { ResultCode = Epic.OnlineServices.Result.UnexpectedError });
 #else
+            const int MaximumNumberOfRetries = 1;
+
             RequestAppTicket((string token) => {
                 if (token == null)
                 {
