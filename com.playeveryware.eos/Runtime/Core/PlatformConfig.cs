@@ -1,4 +1,4 @@
-/*PlayEveryWare.EpicOnlineServices
+/*
  * Copyright (c) 2024 PlayEveryWare
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -22,39 +22,62 @@
 
 namespace PlayEveryWare.EpicOnlineServices
 {
-#if !EOS_DISABLE
     using Epic.OnlineServices.IntegratedPlatform;
     using Extensions;
-#endif
-
     using System;
     using System.Collections.Generic;
 
     /// <summary>
-    /// Represents a set of configuration data for use by the EOS Plugin for Unity
+    /// Represents a set of configuration data for use by the EOS Plugin for
+    /// Unity on a specific platform.
     /// </summary>
     [Serializable]
     public abstract class PlatformConfig : Config
     {
+        /// <summary>
+        /// The platform that the set of configuration data is to be applied on.
+        /// </summary>
         protected PlatformManager.Platform Platform;
-        public List<string> flags;
+
+        /// <summary>
+        /// Any overriding values that should replace the central EOSConfig. On
+        /// a platform-by-platform basis values can be overridden by setting
+        /// these values. At runtime, these values will replace the ones on the
+        /// central/main EOSConfig. This behavior is currently incomplete in
+        /// it's implementation, but the intent is documented here for the sake
+        /// of clarity and context.
+        /// </summary>
         public EOSConfig overrideValues;
 
+        /// <summary>
+        /// Used to store integrated platform management flags.
+        /// </summary>
+        public List<string> flags;
+
+        /// <summary>
+        /// Create a PlatformConfig by defining the platform it pertains to.
+        /// </summary>
+        /// <param name="platform">
+        /// The platform to apply the config values on.
+        /// </param>
         protected PlatformConfig(PlatformManager.Platform platform) : 
             base(PlatformManager.GetConfigFileName(platform))
         {
             this.Platform = platform;
         }
 
-#if !EOS_DISABLE
+        /// <summary>
+        /// Returns a single IntegratedPlatformManagementFlags enum value that
+        /// results from a bitwise OR operation of all the
+        /// integratedPlatformManagementFlags flags on this config.
+        /// </summary>
+        /// <returns>An IntegratedPlatformManagementFlags enum value.</returns>
         public IntegratedPlatformManagementFlags GetIntegratedPlatformManagementFlags()
         {
-            // TODO: This is a key area where it is clear that the mechanism
-            // of config value override by having a set of override values is 
-            // potentially very very confusing.
-            return StringsToEnum<IntegratedPlatformManagementFlags>(flags, 
-                IntegratedPlatformManagementFlagsExtensions.TryParse);
+            return StringsToEnum<IntegratedPlatformManagementFlags>(
+                flags,
+                IntegratedPlatformManagementFlagsExtensions.TryParse
+            );
         }
-#endif
     }
 }
