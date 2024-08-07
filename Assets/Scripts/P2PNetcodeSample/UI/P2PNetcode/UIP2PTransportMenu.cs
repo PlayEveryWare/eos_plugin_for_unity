@@ -64,7 +64,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
         private EOSTransportManager transportManager = null;
         private bool isHost = false;
         private bool isClient = false;
-        private bool uiDirty = false;
         private bool controllingCharacter = false;
 
         private ulong joinGameAcceptedNotifyHandle = 0;
@@ -278,16 +277,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             }
         }
 
-        public override bool IsDirty()
-        {
-            return uiDirty;
-        }
-
-        public override void ResetDirtyFlag()
-        {
-            uiDirty = false;
-        }
-
         public void StartHostOnClick()
         {
             if (isHost)
@@ -301,7 +290,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
                 isHost = true;
                 SetSessionUIActive(true);
                 SetJoinInfo(EOSManager.Instance.GetProductUserId());
-                uiDirty = true;
+                SetDirtyFlag();
             }
             else
             {
@@ -329,7 +318,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             isClient = false;
             SetSessionUIActive(false);
             EOSSessionsManager.SetJoinInfo(null);
-            uiDirty = true;
+            SetDirtyFlag();
         }
 
         public void TakeControlOnClick()
@@ -395,7 +384,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             isClient = false;
             SetSessionUIActive(false);
             EOSSessionsManager.SetJoinInfo(null);
-            uiDirty = true;
+            SetDirtyFlag();
             NetworkSamplePlayer.UnregisterDisconnectCallback(OnDisconnect);
         }
 
@@ -410,7 +399,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
                     SetSessionUIActive(true);
                     isClient = true;
                     SetJoinInfo(hostId);
-                    uiDirty = true;
+                    SetDirtyFlag();
                 }
                 else
                 {
