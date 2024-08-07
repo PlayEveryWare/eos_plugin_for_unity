@@ -497,6 +497,10 @@ namespace PlayEveryWare.EpicOnlineServices
 
                 platformOptions.options.TickBudgetInMilliseconds = configData.tickBudgetInMilliseconds;
 
+                // configData has to serialize to JSON, so it doesn't represent null
+                // If the value is <= 0, then set it to null, which the EOS SDK will handle by using default of 30 seconds.
+                platformOptions.options.TaskNetworkTimeoutSeconds = configData.taskNetworkTimeoutSeconds > 0 ? configData.taskNetworkTimeoutSeconds : null;
+
                 var clientCredentials = new ClientCredentials
                 {
                     ClientId = configData.clientID,
@@ -572,6 +576,10 @@ namespace PlayEveryWare.EpicOnlineServices
                         hasSetLoggingCallback = true;
                     }
 
+                    // The log levels are set in the native plugin
+                    // This is here to sync the settings visually in UILogWindow
+                    InitializeLogLevels();
+
                     InitializeOverlay(coroutineOwner);
                     return;
                 }
@@ -592,7 +600,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
                 if (!string.IsNullOrWhiteSpace(epicArgs.epicSandboxID))
                 {
-                    Config.Get<EOSConfig>().OverrideDeployment(epicArgs.epicSandboxID);
+                    Config.Get<EOSConfig>().SetDeployment(epicArgs.epicSandboxID);
                 }
 
                 Result initResult = InitializePlatformInterface();

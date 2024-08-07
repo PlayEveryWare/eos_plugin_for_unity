@@ -27,10 +27,11 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.ClientTests
     using Epic.OnlineServices.Sessions;
     using NUnit.Framework;
     using EpicOnlineServices;
+    using System;
     using System.Collections;
     using UnityEngine;
     using UnityEngine.TestTools;
-    using JsonUtility = Utility.JsonUtility;
+    using JsonUtility = PlayEveryWare.EpicOnlineServices.Utility.JsonUtility;
 
     /// <summary>
     /// Session connection tests that test connecting to an existing session.
@@ -40,14 +41,14 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.ClientTests
         private const ulong InvalidNotificationId = 0;
 
         private SessionsInterface _sessionInterface;
-        public ulong sessionInviteNotificationHandle = InvalidNotificationId;
+        public ulong SessionInviteNotificationHandle = InvalidNotificationId;
         private string _sessionName;
 
         [SetUp]
         public void SessionStartup()
         {
             _sessionName = null;
-            sessionInviteNotificationHandle = InvalidNotificationId;
+            SessionInviteNotificationHandle = InvalidNotificationId;
 
             _sessionInterface = EOSManager.Instance.GetEOSPlatformInterface().GetSessionsInterface();
             Assert.IsNotNull(_sessionInterface);
@@ -72,32 +73,26 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.ClientTests
                 yield return new WaitUntil(() => result != null);
             }
 
-            if (sessionInviteNotificationHandle != InvalidNotificationId)
+            if (SessionInviteNotificationHandle != InvalidNotificationId)
             {
-                _sessionInterface.RemoveNotifySessionInviteReceived(sessionInviteNotificationHandle);
-                sessionInviteNotificationHandle = InvalidNotificationId;
+                _sessionInterface.RemoveNotifySessionInviteReceived(SessionInviteNotificationHandle);
+                SessionInviteNotificationHandle = InvalidNotificationId;
             }
         }
-
-        /// <summary>
-        /// Search by the bucket id for the server preset and join it.
-        /// </summary>
-        [UnityTest]
-        [Category(TestCategories.ClientCategory)]
-        public IEnumerator FindByBucketIdAndJoin()
+        private SessionSearch CreateSessionSearch(uint maxSearchResults)
         {
-            CreateSessionSearchOptions searchOptions = new()
-            {
-                MaxSearchResults = 10
-            };
+            CreateSessionSearchOptions searchOptions = new() { MaxSearchResults = maxSearchResults };
             Result result = _sessionInterface.CreateSessionSearch(ref searchOptions, out SessionSearch sessionSearchHandle);
-            Assert.AreEqual(Result.Success, result, "Could not create a session serach.");
+            Assert.AreEqual(Result.Success, result, "Could not create a session search.");
+            return sessionSearchHandle;
+        }
 
-            // Find the session based on the bucket id
+        private static void SetSearchParameter(SessionSearch sessionSearchHandle, string key, string value)
+        {
             AttributeData attrData = new()
             {
-                Key = TestCommon.SearchBucketIdKey,
-                Value = new AttributeDataValue() { AsUtf8 = TestCommon.SessionBucketId }
+                Key = key,
+                Value = new AttributeDataValue() { AsUtf8 = value }
             };
 
             SessionSearchSetParameterOptions paramOptions = new()
@@ -105,9 +100,12 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.ClientTests
                 ComparisonOp = ComparisonOp.Equal,
                 Parameter = attrData
             };
-            result = sessionSearchHandle.SetParameter(ref paramOptions);
+            Result result = sessionSearchHandle.SetParameter(ref paramOptions);
             Assert.AreEqual(Result.Success, result, "Could not set the search parameter for bucket id.");
+        }
 
+        private static IEnumerator FindSession(SessionSearch sessionSearchHandle, Action<SessionSearchFindCallbackInfo?> callback)
+        {
             SessionSearchFindOptions findOptions = new()
             {
                 LocalUserId = EOSManager.Instance.GetProductUserId()
@@ -117,10 +115,23 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.ClientTests
             sessionSearchHandle.Find(ref findOptions, null, (ref SessionSearchFindCallbackInfo data) => { searchResult = data; });
 
             yield return new WaitUntil(() => searchResult != null);
-            if (searchResult != null)
-            {
-                Assert.AreEqual(Result.Success, searchResult.Value.ResultCode, "Failed to search for the session.");
-            }
+            callback(searchResult);
+        }
+        /// <summary>
+        /// Search by the bucket id for the server preset and join it.
+        /// </summary>
+        [UnityTest]
+        [Category(TestCategories.ClientCategory)]
+        public IEnumerator FindByBucketIdAndJoin()
+        {
+            SessionSearch sessionSearchHandle = CreateSessionSearch(10);
+            SetSearchParameter(sessionSearchHandle, TestCommon.SearchBucketIdKey, TestCommon.SessionBucketId);
+
+            SessionSearchFindCallbackInfo? searchResult = null;
+            yield return FindSession(sessionSearchHandle, result => searchResult = result);
+
+            Assert.IsNotNull(searchResult);
+            Assert.AreEqual(Result.Success, searchResult.Value.ResultCode, "Failed to search for the session.");
 
             var countOptions = new SessionSearchGetSearchResultCountOptions();
             uint numSearchResult = sessionSearchHandle.GetSearchResultCount(ref countOptions);
@@ -128,8 +139,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.ClientTests
 
             // Grab information about the session and verify it's the one created
             SessionSearchCopySearchResultByIndexOptions indexOptions = new() { SessionIndex = 0 };
-
-            result = sessionSearchHandle.CopySearchResultByIndex(ref indexOptions, out SessionDetails sessionHandle);
+            Result result = sessionSearchHandle.CopySearchResultByIndex(ref indexOptions, out SessionDetails sessionHandle);
             Assert.AreEqual(Result.Success, result, "Could not copy search results.");
             Assert.IsNotNull(sessionHandle, "Session details shouldn't be null.");
 
@@ -171,41 +181,14 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.ClientTests
         [Category(TestCategories.ClientCategory)]
         public IEnumerator TryToFindPrivateBucketId()
         {
-            CreateSessionSearchOptions searchOptions = new()
-            {
-                MaxSearchResults = 10
-            };
-            Result result = _sessionInterface.CreateSessionSearch(ref searchOptions, out SessionSearch sessionSearchHandle);
-            Assert.AreEqual(Result.Success, result, "Could not create a session search.");
-
-            // Find the session based on the bucket id
-            AttributeData attrData = new()
-            {
-                Key = TestCommon.SearchBucketIdKey,
-                Value = new AttributeDataValue() { AsUtf8 = TestCommon.SessionPrivateBucketId }
-            };
-
-            SessionSearchSetParameterOptions paramOptions = new()
-            {
-                ComparisonOp = ComparisonOp.Equal,
-                Parameter = attrData
-            };
-            result = sessionSearchHandle.SetParameter(ref paramOptions);
-            Assert.AreEqual(Result.Success, result, "Could not set the search parameter for bucket id.");
-
-            SessionSearchFindOptions findOptions = new()
-            {
-                LocalUserId = EOSManager.Instance.GetProductUserId()
-            };
+            SessionSearch sessionSearchHandle = CreateSessionSearch(10);
+            SetSearchParameter(sessionSearchHandle, TestCommon.SearchBucketIdKey, TestCommon.SessionPrivateBucketId);
 
             SessionSearchFindCallbackInfo? searchResult = null;
-            sessionSearchHandle.Find(ref findOptions, null, (ref SessionSearchFindCallbackInfo data) => { searchResult = data; });
+            yield return FindSession(sessionSearchHandle, result => searchResult = result);
 
-            yield return new WaitUntil(() => searchResult != null);
-            if (searchResult != null)
-            {
-                Assert.AreEqual(Result.Success, searchResult.Value.ResultCode, "Failed to search for the session.");
-            }
+            Assert.IsNotNull(searchResult);
+            Assert.AreEqual(Result.Success, searchResult.Value.ResultCode, "Failed to search for the session.");
 
             var countOptions = new SessionSearchGetSearchResultCountOptions();
             uint numSearchResult = sessionSearchHandle.GetSearchResultCount(ref countOptions);

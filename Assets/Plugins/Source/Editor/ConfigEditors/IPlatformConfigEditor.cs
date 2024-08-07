@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2021 PlayEveryWare
+* Copyright (c) 2024 PlayEveryWare
 * 
 * Permission is hereby granted, free of charge, to any person obtaining a copy
 * of this software and associated documentation files (the "Software"), to deal
@@ -20,28 +20,18 @@
 * SOFTWARE.
 */
 
-using System;
-using System.Collections.Generic;
-
-namespace PlayEveryWare.EpicOnlineServices
+namespace PlayEveryWare.EpicOnlineServices.Editor
 {
-    [Serializable]
-    public class SteamConfig : Config
+    // Interface for allowing adding additional config files to the Config editor
+    public interface IPlatformConfigEditor : IConfigEditor
     {
-        public List<string> flags;
-        public string overrideLibraryPath;
-
-        public uint steamSDKMajorVersion;
-        public uint steamSDKMinorVersion;
-
-        public List<string> steamApiInterfaceVersionsArray;
-
-        static SteamConfig()
-        {
-            RegisterFactory(() => new SteamConfig());
-        }
-
-        protected SteamConfig() : base("eos_steam_config.json") { }
+        /// <summary>
+        /// Determines if the platform for which the config editor is
+        /// configuring values for is available as a build target.
+        /// </summary>
+        /// <returns>
+        /// True if the platform can be targetted by the Unity Editor.
+        /// </returns>
+        bool IsPlatformAvailable();
     }
 }
-

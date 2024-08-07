@@ -261,7 +261,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             string fileData = string.Empty;
             if (transfer.TotalSize > 0)
             {
-                fileData = System.Text.Encoding.UTF8.GetString(transfer.Data);
+                fileData = System.Text.Encoding.UTF8.GetString(transfer.Data, 0, (int)transfer.TotalSize);
             }
 
             StorageData.Add(fileName, fileData);

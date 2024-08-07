@@ -153,6 +153,7 @@ struct EOSConfig
     uint64_t flags = 0;
 
     uint32_t tickBudgetInMilliseconds = 0;
+    double taskNetworkTimeoutSeconds = 0.0;
 
     uint64_t ThreadAffinity_networkWork = 0;
     uint64_t ThreadAffinity_storageIO = 0;
@@ -364,6 +365,36 @@ static uint32_t json_value_as_uint32(json_value_s* value, uint32_t default_value
     return val;
 }
 
+//-------------------------------------------------------------------------
+static double json_value_as_double(json_value_s* value, double default_value = 0.0)
+{
+    double val = 0.0;
+    json_number_s* n = json_value_as_number(value);
+
+    if (n != nullptr)
+    {
+        char* end = nullptr;
+        val = strtod(n->number, &end);
+    }
+    else
+    {
+        // try to treat it as a string, then parse as long
+        char* end = nullptr;
+        json_string_s* val_as_str = json_value_as_string(value);
+
+        if (val_as_str == nullptr || strlen(val_as_str->string) == 0)
+        {
+            val = default_value;
+        }
+        else
+        {
+            val = strtod(val_as_str->string, &end);
+        }
+    }
+
+    return val;
+}
+
 static const char* pick_if_32bit_else(const char* choice_if_32bit, const char* choice_if_else)
 {
 #if PLATFORM_32BITS
@@ -425,17 +456,6 @@ EOS_ELogLevel eos_loglevel_str_to_enum(const std::string& str)
     else
     {
         return EOS_ELogLevel::EOS_LOG_Verbose;
-    }
-}
-
-void eos_set_loglevel(const LogLevelConfig& log_config)
-{
-    if (EOS_Logging_SetLogLevel_ptr != nullptr)
-    {
-        for (size_t i = 0; i < log_config.category.size() - 1; i++)
-        {
-            EOS_Logging_SetLogLevel_ptr((EOS_ELogCategory)i, eos_loglevel_str_to_enum(log_config.level[i]));
-        }
     }
 }
 
@@ -915,6 +935,10 @@ static EOSConfig eos_config_from_json_value(json_value_s* config_json)
         {
             eos_config.tickBudgetInMilliseconds = json_value_as_uint32(iter->value);
         }
+        else if (!strcmp("taskNetworkTimeoutSeconds", iter->name->string))
+        {
+            eos_config.taskNetworkTimeoutSeconds = json_value_as_double(iter->value);
+        }
         else if (!strcmp("ThreadAffinity_networkWork", iter->name->string))
         {
             eos_config.ThreadAffinity_networkWork = json_value_as_uint64(iter->value);
@@ -1253,6 +1277,49 @@ static void eos_call_steam_init(const std::string& steam_dll_path)
 }
 
 //-------------------------------------------------------------------------
+void eos_set_loglevel_via_config()
+{
+    if (EOS_Logging_SetLogLevel_ptr == nullptr)
+    {
+        return;
+    }
+
+    auto path_to_log_config_json = get_path_for_eos_service_config(EOS_LOGLEVEL_CONFIG_FILENAME);
+
+    if (!std::filesystem::exists(path_to_log_config_json))
+    {
+        log_inform("Log level config not found, using default log levels");
+        return;
+    }
+
+    json_value_s* log_config_as_json = read_config_json_as_json_from_path(path_to_log_config_json);
+    LogLevelConfig log_config = log_config_from_json_value(log_config_as_json);
+    free(log_config_as_json);
+
+    // Validation to prevent out of range exception
+    if (log_config.category.size() != log_config.level.size())
+    {
+        log_warn("Log level config entries out of range");
+        return;
+    }
+
+    // Last in the vector is AllCategories, and will not be set
+    size_t individual_category_size = log_config.category.size() > 0 ? log_config.category.size() - 1 : 0;
+    if (individual_category_size == 0)
+    {
+        log_warn("Log level config entries empty");
+        return;
+    }
+
+    for (size_t i = 0; i < individual_category_size; i++)
+    {
+        EOS_Logging_SetLogLevel_ptr((EOS_ELogCategory)i, eos_loglevel_str_to_enum(log_config.level[i]));
+    }
+
+    log_inform("Log levels set according to config");
+}
+
+//-------------------------------------------------------------------------
 void eos_create(EOSConfig& eosConfig)
 {
     EOS_Platform_Options platform_options = {0};
@@ -1271,6 +1338,11 @@ void eos_create(EOSConfig& eosConfig)
     platform_options.ClientCredentials.ClientSecret = eosConfig.clientSecret.c_str();
 
     platform_options.TickBudgetInMilliseconds = eosConfig.tickBudgetInMilliseconds;
+
+    if (eosConfig.taskNetworkTimeoutSeconds > 0)
+    {
+        platform_options.TaskNetworkTimeoutSeconds = &eosConfig.taskNetworkTimeoutSeconds;
+    }
 
     EOS_Platform_RTCOptions rtc_options = { 0 };
 
@@ -1519,12 +1591,6 @@ DLL_EXPORT(void) UnityPluginLoad(void*)
     EOSConfig eos_config = eos_config_from_json_value(eos_config_as_json);
     free(eos_config_as_json);
 
-    auto path_to_log_config_json = get_path_for_eos_service_config(EOS_LOGLEVEL_CONFIG_FILENAME);
-    json_value_s* log_config_as_json = read_config_json_as_json_from_path(path_to_log_config_json);
-    LogLevelConfig log_config = log_config_from_json_value(log_config_as_json);
-    free(log_config_as_json);
-    global_logf("NativePlugin log sonfig size (%d)", log_config.category.size());
-
 #if PLATFORM_WINDOWS
     //support sandbox and deployment id override via command line arguments
     std::stringstream argStream = std::stringstream(GetCommandLineA());
@@ -1626,7 +1692,7 @@ DLL_EXPORT(void) UnityPluginLoad(void*)
 
             eos_init(eos_config);
 
-            eos_set_loglevel(log_config);
+            eos_set_loglevel_via_config();
             //log_warn("start eos create");
             eos_create(eos_config);
 

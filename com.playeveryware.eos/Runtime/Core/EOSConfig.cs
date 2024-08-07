@@ -20,17 +20,20 @@
 * SOFTWARE.
 */
 
-#if !EOS_DISABLE
-using Epic.OnlineServices.Platform;
-using Epic.OnlineServices.Auth;
-#endif
-using System;
-using System.Collections.Generic;
-using UnityEngine;
-using System.Text.RegularExpressions;
-
 namespace PlayEveryWare.EpicOnlineServices
 {
+    // This compile conditional is here so that when EOS_DISABLE is defined, and
+    // subsequently the Epic namespace is not available, it's exclusion does not
+    // cause compile errors.
+#if !EOS_DISABLE
+    using Epic.OnlineServices.Auth;
+    using Epic.OnlineServices.Platform;
+    using Epic.OnlineServices.IntegratedPlatform;
+#endif
+    using System;
+    using System.Collections.Generic;
+    using UnityEngine;
+    using System.Text.RegularExpressions;
     using Extensions;
 
     /// <summary>
@@ -127,6 +130,16 @@ namespace PlayEveryWare.EpicOnlineServices
         public uint tickBudgetInMilliseconds;
 
         /// <summary>
+        /// TaskNetworkTimeoutSeconds; used to define the maximum number of seconds
+        /// the EOS SDK will allow network calls to run before failing with EOS_TimedOut.
+        /// This plugin treats any value that is less than or equal to zero as
+        /// using the default value for the EOS SDK, which is 30 seconds.
+        /// This value is only used when the <see cref="NetworkStatus"/> is not <see cref="NetworkStatus.Online"/>.
+        /// <seealso cref="PlatformInterface.GetNetworkStatus"/>
+        /// </summary>
+        public double taskNetworkTimeoutSeconds;
+
+        /// <summary>
         /// Network Work Affinity; specifies thread affinity for network
         /// management that is not IO.
         /// </summary>
@@ -213,10 +226,10 @@ namespace PlayEveryWare.EpicOnlineServices
         /// set by the user in the configuration window.
         /// </summary>
         /// <param name="sandboxId">The sandbox id to use.</param>
-        public void OverrideDeployment(string sandboxId)
+        public void SetDeployment(string sandboxId)
         {
             // Confirm that the sandboxId is stored in the list of overrides
-            if (!TryGetDeploymentOverride(sandboxDeploymentOverrides, sandboxId,
+            if (!TryGetDeployment(sandboxDeploymentOverrides, sandboxId,
                     out SandboxDeploymentOverride overridePair))
             {
                 Debug.LogError($"The given sandboxId \"{sandboxId}\" could not be found in the configured list of deployment override values.");
@@ -250,7 +263,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <returns>
         /// True if the pair was retrieved, false otherwise.
         /// </returns>
-        private static bool TryGetDeploymentOverride(
+        private static bool TryGetDeployment(
             List<SandboxDeploymentOverride> deploymentOverrides,
             string sandboxId,
             out SandboxDeploymentOverride deploymentOverride)
@@ -269,7 +282,6 @@ namespace PlayEveryWare.EpicOnlineServices
 
             return false;
         }
-
 
 #if !EOS_DISABLE
 

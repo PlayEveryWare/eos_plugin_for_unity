@@ -41,14 +41,15 @@ namespace PlayEveryWare.EpicOnlineServices.Extensions
         public static Dictionary<string, PlatformFlags> CustomMappings { get; } =
             new()
             {
-                {"EOS_PF_NONE",                          PlatformFlags.None},
-                {"EOS_PF_LOADING_IN_EDITOR",             PlatformFlags.LoadingInEditor},
-                {"EOS_PF_DISABLE_OVERLAY",               PlatformFlags.DisableOverlay},
-                {"EOS_PF_DISABLE_SOCIAL_OVERLAY",        PlatformFlags.DisableOverlay},
-                {"EOS_PF_WINDOWS_ENABLE_OVERLAY_D3D9",   PlatformFlags.WindowsEnableOverlayD3D9},
-                {"EOS_PF_WINDOWS_ENABLE_OVERLAY_D3D10",  PlatformFlags.WindowsEnableOverlayD3D10},
-                {"EOS_PF_WINDOWS_ENABLE_OVERLAY_OPENGL", PlatformFlags.WindowsEnableOverlayOpengl},
-                {"EOS_PF_RESERVED1",                     PlatformFlags.Reserved1},
+                {"EOS_PF_NONE",                                       PlatformFlags.None},
+                {"EOS_PF_LOADING_IN_EDITOR",                          PlatformFlags.LoadingInEditor},
+                {"EOS_PF_DISABLE_OVERLAY",                            PlatformFlags.DisableOverlay},
+                {"EOS_PF_DISABLE_SOCIAL_OVERLAY",                     PlatformFlags.DisableSocialOverlay},
+                {"EOS_PF_WINDOWS_ENABLE_OVERLAY_D3D9",                PlatformFlags.WindowsEnableOverlayD3D9},
+                {"EOS_PF_WINDOWS_ENABLE_OVERLAY_D3D10",               PlatformFlags.WindowsEnableOverlayD3D10},
+                {"EOS_PF_WINDOWS_ENABLE_OVERLAY_OPENGL",              PlatformFlags.WindowsEnableOverlayOpengl},
+                {"EOS_PF_CONSOLE_ENABLE_OVERLAY_AUTOMATIC_UNLOADING", PlatformFlags.ConsoleEnableOverlayAutomaticUnloading},
+                {"EOS_PF_RESERVED1",                                  PlatformFlags.Reserved1},
             };
 
         public static string GetDescription(this PlatformFlags platformFlags)

@@ -33,7 +33,7 @@ using Steamworks;
 
 namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
 {
-    public class Steamworks_Utility : MonoBehaviour
+    public class SteamworksUtility : MonoBehaviour
     {
         public static string GetSteamworksVersion()
         {
