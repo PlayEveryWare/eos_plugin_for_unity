@@ -22,9 +22,6 @@
 
 namespace PlayEveryWare.EpicOnlineServices.Editor
 {
-    using System;
-    using System.Threading.Tasks;
-
     // Interface for allowing adding additional config files to the Config editor
     public interface IPlatformConfigEditor : IConfigEditor
     {
@@ -32,7 +29,9 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
         /// Determines if the platform for which the config editor is
         /// configuring values for is available as a build target.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>
+        /// True if the platform can be targetted by the Unity Editor.
+        /// </returns>
         bool IsPlatformAvailable();
     }
 }
