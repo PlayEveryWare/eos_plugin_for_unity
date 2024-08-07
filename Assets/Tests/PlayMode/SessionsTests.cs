@@ -28,7 +28,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.IntegrationTests
     using System.Collections;
     using UnityEngine;
     using UnityEngine.TestTools;
-    using PlayEveryWare.EpicOnlineServices.Samples;
+    using Samples;
     using System;
     using System.Text;
     using System.Collections.Generic;
@@ -94,17 +94,19 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.IntegrationTests
             string resultingCreationSessionName = null;
             Result? resultingCreationResult = null;
 
-            SessionsManagerCreateSessionCallback handleCreationResult = (SessionsManagerCreateSessionCallbackInfo info) =>
+            ServiceInstance.CreateSession(randomTestSession, info =>
             {
-                resultingCreationSessionName = info.SessionToCreateName;
+                resultingCreationSessionName = info.SessionName;
                 resultingCreationResult = info.ResultCode;
-            };
-
-            ServiceInstance.CreateSession(randomTestSession, handleCreationResult);
+            });
 
             yield return new WaitUntil(() => resultingCreationResult.HasValue);
 
-            Assert.AreEqual(Result.Success, resultingCreationResult.Value, $"Failed to create Session.");
+            if (resultingCreationResult != null)
+            {
+                Assert.AreEqual(Result.Success, resultingCreationResult.Value, $"Failed to create Session.");
+            }
+
             Assert.NotNull(resultingCreationSessionName, $"Created Session name is null.");
             Assert.AreEqual(sessionName, resultingCreationSessionName);
 
@@ -116,13 +118,11 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.IntegrationTests
             string resultingDeletionSessionName = null;
             Result? resultingDeletionResult = null;
 
-            SessionsManagerDestroySessionCallback handleDestructionResult = (SessionsManagerDestroySessionCallbackInfo info) =>
+            ServiceInstance.DestroySession(sessionName, info =>
             {
-                resultingDeletionSessionName = info.SessionToDestroyName;
+                resultingDeletionSessionName = info.SessionName;
                 resultingDeletionResult = info.ResultCode;
-            };
-
-            ServiceInstance.DestroySession(sessionName, handleDestructionResult);
+            });
 
             yield return new WaitUntil(() => resultingDeletionResult.HasValue);
 
@@ -603,13 +603,11 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.IntegrationTests
             string resultingCreationSessionName = null;
             Result? resultingCreationResult = null;
 
-            SessionsManagerCreateSessionCallback handleCreationResult = (SessionsManagerCreateSessionCallbackInfo info) =>
+            ServiceInstance.CreateSession(toCreate, info =>
             {
-                resultingCreationSessionName = info.SessionToCreateName;
+                resultingCreationSessionName = info.SessionName;
                 resultingCreationResult = info.ResultCode;
-            };
-
-            ServiceInstance.CreateSession(toCreate, handleCreationResult, presence);
+            }, presence);
 
             yield return new WaitUntilDone(MostTimeToWaitForSessionCreation, () => resultingCreationResult.HasValue);
 

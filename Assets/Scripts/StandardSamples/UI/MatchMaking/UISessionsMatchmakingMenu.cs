@@ -265,7 +265,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             GetSessionsService.CreateSession(session, UIOnSessionCreated);
         }
 
-        private void UIOnSessionCreated(SessionsManagerCreateSessionCallbackInfo info)
+        private void UIOnSessionCreated(SessionsTaskCallbackInfo info)
         {
             // Update() already enumerates ActiveSessions.  Here you can do any UI related calls after session is created.
         }

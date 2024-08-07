@@ -204,33 +204,21 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         }
     }
 
-    public struct SessionsManagerCreateSessionCallbackInfo
+    public struct SessionsTaskCallbackInfo
     {
-        public string SessionToCreateName;
+        public string SessionName;
         public Result ResultCode;
 
-        public SessionsManagerCreateSessionCallbackInfo(string sessionToCreateName, Result resultCode)
+        public SessionsTaskCallbackInfo(string sessionName, Result resultCode)
         {
-            SessionToCreateName = sessionToCreateName;
+            SessionName = sessionName;
             ResultCode = resultCode;
         }
     }
 
-    public delegate void SessionsManagerCreateSessionCallback(SessionsManagerCreateSessionCallbackInfo info);
+    public delegate void SessionsManagerCreateSessionCallback(SessionsTaskCallbackInfo info);
 
-    public struct SessionsManagerDestroySessionCallbackInfo
-    {
-        public string SessionToDestroyName;
-        public Result ResultCode;
-
-        public SessionsManagerDestroySessionCallbackInfo(string sessionToDestroyName, Result resultCode)
-        {
-            SessionToDestroyName = sessionToDestroyName;
-            ResultCode = resultCode;
-        }
-    }
-
-    public delegate void SessionsManagerDestroySessionCallback(SessionsManagerDestroySessionCallbackInfo info);
+    public delegate void SessionsManagerDestroySessionCallback(SessionsTaskCallbackInfo info);
 
     /// <summary>
     /// Class represents a single Session attribute
