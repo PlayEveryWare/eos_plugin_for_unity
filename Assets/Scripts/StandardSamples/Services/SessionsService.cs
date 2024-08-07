@@ -341,7 +341,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
             else
             {
-                EOSSessionsManager.Log($"{nameof(Session)} ({nameof(InitFromSessionInfo)}): SessionDetailsInfo was null, therefore unable to determine current player count.");
+                SessionsService.Log($"{nameof(Session)} ({nameof(InitFromSessionInfo)}): SessionDetailsInfo was null, therefore unable to determine current player count.");
             }
 
             InitActiveSession();
@@ -467,7 +467,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             if (activeSessionInfoCopyResult != Result.Success)
             {
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(TryGetRegisteredUsers)}): Failed to copy session information. Result code {activeSessionInfoCopyResult}.");
+                Debug.LogError($"{nameof(SessionsService)} ({nameof(TryGetRegisteredUsers)}): Failed to copy session information. Result code {activeSessionInfoCopyResult}.");
                 return false;
             }
 
@@ -491,7 +491,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     /// <summary>
     /// Class <c>EOSSessionsManager</c> is a simplified wrapper for EOS [Sessions Interface](https://dev.epicgames.com/docs/services/en-US/Interfaces/Sessions/index.html).
     /// </summary>
-    public class EOSSessionsManager : IEOSSubManager
+    public class SessionsService : IEOSSubManager
     {
         private Dictionary<string, Session> CurrentSessions;
 
@@ -712,7 +712,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
          * If the application implements its own custom manager, the actions and broadstrokes of the implementation within should be considered.
          * */
 
-        public EOSSessionsManager()
+        public SessionsService()
         {
             Init();
         }
@@ -794,7 +794,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                         }
                         else
                         {
-                            Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(Update)}): ActiveSessionCopyInfo failed. Errors code: {result}");
+                            Debug.LogError($"{nameof(SessionsService)} ({nameof(Update)}): ActiveSessionCopyInfo failed. Errors code: {result}");
                         }
                     }
                 }
@@ -811,7 +811,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             if (userLoggedIn)
             {
-                Debug.LogWarning($"{nameof(EOSSessionsManager)} ({nameof(OnLoggedIn)}): Already logged in.");
+                Debug.LogWarning($"{nameof(SessionsService)} ({nameof(OnLoggedIn)}): Already logged in.");
                 return;
             }
 
@@ -833,7 +833,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             if (!userLoggedIn)
             {
-                Debug.LogWarning($"{nameof(EOSSessionsManager)} ({nameof(OnLoggedOut)}): Not logged in.");
+                Debug.LogWarning($"{nameof(SessionsService)} ({nameof(OnLoggedOut)}): Not logged in.");
                 return;
             }
 
@@ -858,7 +858,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// This event id can be used to create a <see cref="SessionDetails"/> object by calling <see cref="MakeSessionHandleByEventId(ulong)"/>.
         /// After doing so, or if the handle will not be utilized, this function must call this function to release the handle in the EOS SDK.
         /// Most of the functions in the EOS SDK that require this will mention it in the comments of the callback function. Anything with a UiEventId should have this called.
-        /// All functions in the <see cref="EOSSessionsManager"/> will call AcknowledgeEventId after the end of the event's useful lifecycle,
+        /// All functions in the <see cref="SessionsService"/> will call AcknowledgeEventId after the end of the event's useful lifecycle,
         /// as well as immediately after an error relating to processing the event.
         /// </summary>
         /// <param name="uiEventId">
@@ -909,7 +909,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             if (userId?.IsValid() != true)
             {
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(SetJoinInfo)}): Current player is invalid");
+                Debug.LogError($"{nameof(SessionsService)} ({nameof(SetJoinInfo)}): Current player is invalid");
                 return;
             }
 
@@ -923,12 +923,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             {
                 if (onLoggingOut)
                 {
-                    Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(SetJoinInfo)}): Create presence modification during logOut, ignore.");
+                    Debug.LogError($"{nameof(SessionsService)} ({nameof(SetJoinInfo)}): Create presence modification during logOut, ignore.");
                     return;
                 }
                 else
                 {
-                    Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(SetJoinInfo)}): Create presence modification failed: {result}");
+                    Debug.LogError($"{nameof(SessionsService)} ({nameof(SetJoinInfo)}): Create presence modification failed: {result}");
                     return;
                 }
             }
@@ -948,7 +948,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             result = presenceModification.SetJoinInfo(ref joinOptions);
             if (result != Result.Success)
             {
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(SetJoinInfo)}): SetJoinInfo failed: {result}");
+                Debug.LogError($"{nameof(SessionsService)} ({nameof(SetJoinInfo)}): SetJoinInfo failed: {result}");
                 return;
             }
 
@@ -970,11 +970,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             if (data.ResultCode != Result.Success)
             {
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(OnSetPresenceCompleteCallback)}): error code: {data.ResultCode}");
+                Debug.LogError($"{nameof(SessionsService)} ({nameof(OnSetPresenceCompleteCallback)}): error code: {data.ResultCode}");
             }
             else
             {
-                Log($"{nameof(EOSSessionsManager)} ({nameof(OnSetPresenceCompleteCallback)}): set presence successfully.");
+                Log($"{nameof(SessionsService)} ({nameof(OnSetPresenceCompleteCallback)}): set presence successfully.");
             }
         }
 
@@ -1021,14 +1021,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             if (session == null)
             {
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(CreateSession)}): parameter 'session' cannot be null!");
+                Debug.LogError($"{nameof(SessionsService)} ({nameof(CreateSession)}): parameter 'session' cannot be null!");
                 createSessionCallback?.Invoke(new (null, Result.InvalidParameters));
                 return false;
             }
 
             if (string.IsNullOrEmpty(session.Name))
             {
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(CreateSession)}): Cannot create a Session with no provided name.");
+                Debug.LogError($"{nameof(SessionsService)} ({nameof(CreateSession)}): Cannot create a Session with no provided name.");
                 createSessionCallback?.Invoke(new(null, Result.InvalidParameters));
                 return false;
             }
@@ -1036,7 +1036,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             SessionsInterface sessionInterface = EOSManager.Instance.GetEOSPlatformInterface().GetSessionsInterface();
             if (sessionInterface == null)
             {
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(CreateSession)}): can't get sessions interface.");
+                Debug.LogError($"{nameof(SessionsService)} ({nameof(CreateSession)}): can't get sessions interface.");
                 createSessionCallback?.Invoke(new(session.Name, Result.InvalidState));
                 return false;
             }
@@ -1053,7 +1053,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             if (result != Result.Success)
             {
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(CreateSession)}): could not create Session modification. Error code: {result}");
+                Debug.LogError($"{nameof(SessionsService)} ({nameof(CreateSession)}): could not create Session modification. Error code: {result}");
                 createSessionCallback?.Invoke(new(session.Name, result));
                 return false;
             }
@@ -1065,7 +1065,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             if (result != Result.Success)
             {
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(CreateSession)}): failed to set permissions. Error code: {result}");
+                Debug.LogError($"{nameof(SessionsService)} ({nameof(CreateSession)}): failed to set permissions. Error code: {result}");
                 sessionModificationHandle.Release();
                 createSessionCallback?.Invoke(new(session.Name, result));
                 return false;
@@ -1078,7 +1078,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             if (result != Result.Success)
             {
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(CreateSession)}): failed to set 'join in progress allowed' flag. Error code: {result}");
+                Debug.LogError($"{nameof(SessionsService)} ({nameof(CreateSession)}): failed to set 'join in progress allowed' flag. Error code: {result}");
                 sessionModificationHandle.Release();
                 createSessionCallback?.Invoke(new(session.Name, result));
                 return false;
@@ -1091,7 +1091,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             if (result != Result.Success)
             {
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(CreateSession)}): failed to set invites allowed. Error code: {result}");
+                Debug.LogError($"{nameof(SessionsService)} ({nameof(CreateSession)}): failed to set invites allowed. Error code: {result}");
                 sessionModificationHandle.Release();
                 createSessionCallback?.Invoke(new(session.Name, result));
                 return false;
@@ -1112,7 +1112,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             if (result != Result.Success)
             {
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(CreateSession)}): failed to set a bucket id attribute. Error code: {result}");
+                Debug.LogError($"{nameof(SessionsService)} ({nameof(CreateSession)}): failed to set a bucket id attribute. Error code: {result}");
                 sessionModificationHandle.Release();
                 createSessionCallback?.Invoke(new(session.Name, result));
                 return false;
@@ -1146,7 +1146,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
                 if (result != Result.Success)
                 {
-                    Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(CreateSession)}): failed to set an attribute: {sdAttrib.Key}. Error code: {result}");
+                    Debug.LogError($"{nameof(SessionsService)} ({nameof(CreateSession)}): failed to set an attribute: {sdAttrib.Key}. Error code: {result}");
                     sessionModificationHandle.Release();
                     createSessionCallback?.Invoke(new(session.Name, result));
                     return false;
@@ -1200,12 +1200,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 }
                 else
                 {
-                    Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(OnUpdateSessionCompleteCallback_ForCreate)}): player is null, can't register the local user in created Session.");
+                    Debug.LogError($"{nameof(SessionsService)} ({nameof(OnUpdateSessionCompleteCallback_ForCreate)}): player is null, can't register the local user in created Session.");
                 }
             }
             else
             {
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(OnUpdateSessionCompleteCallback_ForCreate)}): error code: {data.ResultCode}");
+                Debug.LogError($"{nameof(SessionsService)} ({nameof(OnUpdateSessionCompleteCallback_ForCreate)}): error code: {data.ResultCode}");
             }
 
             OnSessionUpdateFinished(success, data.SessionName, data.SessionId, removeSession);
@@ -1434,7 +1434,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             if (result != Result.Success)
             {
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(Search)}): failed to create Session search. Error code: {result}");
+                Debug.LogError($"{nameof(SessionsService)} ({nameof(Search)}): failed to create Session search. Error code: {result}");
                 return;
             }
 
@@ -1455,7 +1455,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             if (result != Result.Success)
             {
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(Search)}): failed to update Session search with bucket id parameter. Error code: {result}");
+                Debug.LogError($"{nameof(SessionsService)} ({nameof(Search)}): failed to update Session search with bucket id parameter. Error code: {result}");
                 return;
             }
 
@@ -1486,7 +1486,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
                 if (result != Result.Success)
                 {
-                    Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(Search)}): failed to update Session search with parameter. Error code: {result}");
+                    Debug.LogError($"{nameof(SessionsService)} ({nameof(Search)}): failed to update Session search with parameter. Error code: {result}");
                     return;
                 }
             }
@@ -1520,7 +1520,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             if (result != Result.Success)
             {
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(SearchById)}): failed create Session search. Error code: {result}");
+                Debug.LogError($"{nameof(SessionsService)} ({nameof(SearchById)}): failed create Session search. Error code: {result}");
                 onSearchCompleted.Invoke(null);
                 return;
             }
@@ -1534,7 +1534,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             if (result != Result.Success)
             {
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(SearchById)}): failed to update Session search with Session ID. Error code: {result}");
+                Debug.LogError($"{nameof(SessionsService)} ({nameof(SearchById)}): failed to update Session search with Session ID. Error code: {result}");
                 onSearchCompleted.Invoke(null);
                 return;
             }
@@ -1557,7 +1557,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             // If the result is NotFound, that just means there were zero hits; it is not an error
             if (data.ResultCode != Result.Success && data.ResultCode != Result.NotFound)
             {
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(OnFindSessionsCompleteCallback)}): error code: {data.ResultCode}");
+                Debug.LogError($"{nameof(SessionsService)} ({nameof(OnFindSessionsCompleteCallback)}): error code: {data.ResultCode}");
                 return;
             }
 
@@ -1576,7 +1576,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             if (CurrentSearch == null)
             {
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(OnSearchResultsReceived)}): CurrentSearch is null");
+                Debug.LogError($"{nameof(SessionsService)} ({nameof(OnSearchResultsReceived)}): CurrentSearch is null");
                 return;
             }
 
@@ -1584,7 +1584,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             if (searchHandle == null)
             {
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(OnSearchResultsReceived)}): searchHandle is null");
+                Debug.LogError($"{nameof(SessionsService)} ({nameof(OnSearchResultsReceived)}): searchHandle is null");
                 return;
             }
 
@@ -1645,17 +1645,17 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             // First ensure that we have this local Session
             if (!TryGetSession(localSessionName, out Session localSession))
             {
-                Log($"{nameof(EOSSessionsManager)} ({nameof(RefreshSession)}): Asked to refresh a Session with {nameof(localSessionName)} \"{localSessionName}\", but could not find a local Session with that name. Unable to refresh.");
+                Log($"{nameof(SessionsService)} ({nameof(RefreshSession)}): Asked to refresh a Session with {nameof(localSessionName)} \"{localSessionName}\", but could not find a local Session with that name. Unable to refresh.");
                 return;
             }
 
             if (string.IsNullOrEmpty(localSession.Id))
             {
-                Log($"{nameof(EOSSessionsManager)} ({nameof(RefreshSession)}): Asked to refresh a Session with {nameof(localSessionName)} \"{localSessionName}\", but the found local Session did not have an {nameof(Session.Id)} assigned. Unable to refresh.");
+                Log($"{nameof(SessionsService)} ({nameof(RefreshSession)}): Asked to refresh a Session with {nameof(localSessionName)} \"{localSessionName}\", but the found local Session did not have an {nameof(Session.Id)} assigned. Unable to refresh.");
                 return;
             }
 
-            Log($"{nameof(EOSSessionsManager)} ({nameof(RefreshSession)}): Requested to refresh Session with local name {localSessionName} and {nameof(Session.Id)} {localSession.Id}.");
+            Log($"{nameof(SessionsService)} ({nameof(RefreshSession)}): Requested to refresh Session with local name {localSessionName} and {nameof(Session.Id)} {localSession.Id}.");
 
             // Clear previous search
             P2PSessionRefreshSessionSearch.Release();
@@ -1669,7 +1669,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             if (result != Result.Success)
             {
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(RefreshSession)}): Failed create Session search. Error code: {result}");
+                Debug.LogError($"{nameof(SessionsService)} ({nameof(RefreshSession)}): Failed create Session search. Error code: {result}");
                 return;
             }
 
@@ -1682,7 +1682,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             if (result != Result.Success)
             {
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(RefreshSession)}): Failed to update Session search with Session ID. Error code: {result}");
+                Debug.LogError($"{nameof(SessionsService)} ({nameof(RefreshSession)}): Failed to update Session search with Session ID. Error code: {result}");
                 return;
             }
 
@@ -1701,13 +1701,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             if (info.ClientData is not string localSessionName)
             {
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(OnRefreshSessionFindSessionsCompleteCallback)}): When constructing the search, the local Session name should be included in the ClientData of the Find method. Without it, the Session that should be updated cannot be determined.");
+                Debug.LogError($"{nameof(SessionsService)} ({nameof(OnRefreshSessionFindSessionsCompleteCallback)}): When constructing the search, the local Session name should be included in the ClientData of the Find method. Without it, the Session that should be updated cannot be determined.");
                 return;
             }
 
             if (P2PSessionRefreshSessionSearch == null)
             {
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(OnRefreshSessionFindSessionsCompleteCallback)}): {nameof(P2PSessionRefreshSessionSearch)} is null. This callback should not be run without this search being set.");
+                Debug.LogError($"{nameof(SessionsService)} ({nameof(OnRefreshSessionFindSessionsCompleteCallback)}): {nameof(P2PSessionRefreshSessionSearch)} is null. This callback should not be run without this search being set.");
                 return;
             }
 
@@ -1715,7 +1715,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             if (searchHandle == null)
             {
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(OnRefreshSessionFindSessionsCompleteCallback)}): searchHandle is null");
+                Debug.LogError($"{nameof(SessionsService)} ({nameof(OnRefreshSessionFindSessionsCompleteCallback)}): searchHandle is null");
                 return;
             }
 
@@ -1724,13 +1724,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             if (numSearchResult == 0)
             {
-                Log($"{nameof(EOSSessionsManager)} ({nameof(OnRefreshSessionFindSessionsCompleteCallback)}): Search for refresh completed successfully, but found no sessions with the associated id.");
+                Log($"{nameof(SessionsService)} ({nameof(OnRefreshSessionFindSessionsCompleteCallback)}): Search for refresh completed successfully, but found no sessions with the associated id.");
                 return;
             }
 
             if (numSearchResult > 1)
             {
-                Log($"{nameof(EOSSessionsManager)} ({nameof(OnRefreshSessionFindSessionsCompleteCallback)}): Search for refresh completed successfully, but somehow found multiple Sessions. Only the first Session in the list will be used.");
+                Log($"{nameof(SessionsService)} ({nameof(OnRefreshSessionFindSessionsCompleteCallback)}): Search for refresh completed successfully, but somehow found multiple Sessions. Only the first Session in the list will be used.");
             }
 
 
@@ -1743,7 +1743,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             if (result != Result.Success || sessionDetails == null)
             {
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(OnRefreshSessionFindSessionsCompleteCallback)}): Failed to copy search results. Result code {result}.");
+                Debug.LogError($"{nameof(SessionsService)} ({nameof(OnRefreshSessionFindSessionsCompleteCallback)}): Failed to copy search results. Result code {result}.");
                 return;
             }
 
@@ -1752,18 +1752,18 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             if (result != Result.Success || !sessionInfo.HasValue)
             {
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(OnRefreshSessionFindSessionsCompleteCallback)}): Failed to copy information out of the Session handle. Result code {result}.");
+                Debug.LogError($"{nameof(SessionsService)} ({nameof(OnRefreshSessionFindSessionsCompleteCallback)}): Failed to copy information out of the Session handle. Result code {result}.");
                 return;
             }
 
             // Now that we have the EOS Game Services Session information, update the existing Session
             if (!TryGetSessionById(sessionInfo.Value.SessionId, out Session existingLocalSession))
             {
-                Log($"{nameof(EOSSessionsManager)} ({nameof(OnRefreshSessionFindSessionsCompleteCallback)}): Successfully queried Epic Online Services for Session, but was unable to find a local Session with {nameof(Session.Id)} \"{sessionInfo.Value.SessionId}\".");
+                Log($"{nameof(SessionsService)} ({nameof(OnRefreshSessionFindSessionsCompleteCallback)}): Successfully queried Epic Online Services for Session, but was unable to find a local Session with {nameof(Session.Id)} \"{sessionInfo.Value.SessionId}\".");
                 return;
             }
 
-            Log($"{nameof(EOSSessionsManager)} ({nameof(OnRefreshSessionFindSessionsCompleteCallback)}): Successfully queried Epic Online Services for Session. Attempting to update found local Session with {nameof(Session.Name)} \"{existingLocalSession.Name}\".");
+            Log($"{nameof(SessionsService)} ({nameof(OnRefreshSessionFindSessionsCompleteCallback)}): Successfully queried Epic Online Services for Session. Attempting to update found local Session with {nameof(Session.Name)} \"{existingLocalSession.Name}\".");
             existingLocalSession.InitFromSessionInfo(sessionDetails, sessionInfo);
 
             UIOnSessionRefresh?.Invoke(existingLocalSession, sessionDetails);
@@ -1820,7 +1820,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             if (data.ClientData == null)
             {
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(OnDestroySessionCompleteCallback)}): data.ClientData is null!");
+                Debug.LogError($"{nameof(SessionsService)} ({nameof(OnDestroySessionCompleteCallback)}): data.ClientData is null!");
                 // This function counts on there being ClientData holding the callback and the name of the destroyed Session
                 // Without that it is not possible to inform the caller of the status of the call,
                 // as well as making it not possible to remove the Session locally
@@ -1832,21 +1832,21 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             if (sessionData == null)
             {
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(OnDestroySessionCompleteCallback)}): data.ClientData is not an instance of {nameof(DestroySessionClientData)}.");
+                Debug.LogError($"{nameof(SessionsService)} ({nameof(OnDestroySessionCompleteCallback)}): data.ClientData is not an instance of {nameof(DestroySessionClientData)}.");
                 // Without the information, this cannot be informed properly.
                 return;
             }
 
             if (string.IsNullOrEmpty(sessionData.SessionToDestroyName))
             {
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(OnDestroySessionCompleteCallback)}): ClientData did not include the name of the Session to destroy. Cannot remove local Session.");
+                Debug.LogError($"{nameof(SessionsService)} ({nameof(OnDestroySessionCompleteCallback)}): ClientData did not include the name of the Session to destroy. Cannot remove local Session.");
                 sessionData.DestroyCallback?.Invoke(new(null, data.ResultCode));
                 return;
             }
 
             if (data.ResultCode != Result.Success)
             {
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(OnDestroySessionCompleteCallback)}): error code: {data.ResultCode}");
+                Debug.LogError($"{nameof(SessionsService)} ({nameof(OnDestroySessionCompleteCallback)}): error code: {data.ResultCode}");
                 sessionData.DestroyCallback?.Invoke(new(sessionData.SessionToDestroyName, data.ResultCode));
                 return;
             }
@@ -1913,12 +1913,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             if (data.ResultCode != Result.Success)
             {
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(OnJoinSessionListener)}): error code: {data.ResultCode}");
+                Debug.LogError($"{nameof(SessionsService)} ({nameof(OnJoinSessionListener)}): error code: {data.ResultCode}");
                 callback?.Invoke(data.ResultCode);
                 return;
             }
 
-            Log($"{nameof(EOSSessionsManager)} ({nameof(OnJoinSessionListener)}): joined Session successfully.");
+            Log($"{nameof(SessionsService)} ({nameof(OnJoinSessionListener)}): joined Session successfully.");
 
             // Add joined Session to list of current sessions
             OnJoinSessionFinished(sessionHandle, callback);
@@ -2004,7 +2004,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// <param name="sessionId">The EOS Game Services Session Id.</param>
         private void JoinPresenceSessionById(string sessionId)
         {
-            Log($"{nameof(EOSSessionsManager)} ({nameof(JoinPresenceSessionById)}): looking for Session ID: {sessionId}");
+            Log($"{nameof(SessionsService)} ({nameof(JoinPresenceSessionById)}): looking for Session ID: {sessionId}");
             SearchById(sessionId, (SessionSearch searchResults) =>
             {
                 if (searchResults.TryGetSessionHandleById(sessionId, out SessionDetails sessionDetails))
@@ -2031,7 +2031,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             else
             {
                 AcknowledgeEventId(uiEventId, Result.UnexpectedError);
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(OnJoinGameAcceptedByEventId)}): unable to get details for event ID: {uiEventId}");
+                Debug.LogError($"{nameof(SessionsService)} ({nameof(OnJoinGameAcceptedByEventId)}): unable to get details for event ID: {uiEventId}");
             }
         }
 
@@ -2072,7 +2072,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// <param name="data">Callback information from the attempted join.</param>
         public void OnJoinSessionAcceptedListener(ref JoinSessionAcceptedCallbackInfo data) // OnSessionsJoinSessionAcceptedCallback
         {
-            Log($"{nameof(EOSSessionsManager)} ({nameof(OnJoinSessionAcceptedListener)}): join game accepted successfully.");
+            Log($"{nameof(SessionsService)} ({nameof(OnJoinSessionAcceptedListener)}): join game accepted successfully.");
 
             OnJoinGameAcceptedByEventId(data.UiEventId);
         }
@@ -2121,7 +2121,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
             else
             {
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(StartSession)}): can't start Session: no active Session with specified name.");
+                Debug.LogError($"{nameof(SessionsService)} ({nameof(StartSession)}): can't start Session: no active Session with specified name.");
                 return;
             }
         }
@@ -2138,7 +2138,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             if (data.ClientData == null)
             {
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(OnStartSessionCompleteCallBack)}): data.ClientData is null");
+                Debug.LogError($"{nameof(SessionsService)} ({nameof(OnStartSessionCompleteCallBack)}): data.ClientData is null");
                 return;
             }
 
@@ -2146,11 +2146,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             if (data.ResultCode != Result.Success)
             {
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(OnStartSessionCompleteCallBack)}): Session name: '{sessionName}' error code: {data.ResultCode}");
+                Debug.LogError($"{nameof(SessionsService)} ({nameof(OnStartSessionCompleteCallBack)}): Session name: '{sessionName}' error code: {data.ResultCode}");
                 return;
             }
 
-            Log($"{nameof(EOSSessionsManager)} ({nameof(OnStartSessionCompleteCallBack)}): Started Session: {sessionName}");
+            Log($"{nameof(SessionsService)} ({nameof(OnStartSessionCompleteCallBack)}): Started Session: {sessionName}");
 
             //OnSessionStarted(sessionName); // Needed for C# wrapper?
 
@@ -2180,7 +2180,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             if (!CurrentSessions.TryGetValue(name, out Session session))
             {
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(EndSession)}): can't end session: no active session with specified name: {name}");
+                Debug.LogError($"{nameof(SessionsService)} ({nameof(EndSession)}): can't end session: no active session with specified name: {name}");
                 return;
             }
 
@@ -2205,11 +2205,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             if (data.ResultCode != Result.Success)
             {
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(OnEndSessionCompleteCallback)}): Session name: '{sessionName}' error code: {data.ResultCode}");
+                Debug.LogError($"{nameof(SessionsService)} ({nameof(OnEndSessionCompleteCallback)}): Session name: '{sessionName}' error code: {data.ResultCode}");
                 return;
             }
 
-            Log($"{nameof(EOSSessionsManager)} ({nameof(OnEndSessionCompleteCallback)}): Ended Session: {sessionName}");
+            Log($"{nameof(SessionsService)} ({nameof(OnEndSessionCompleteCallback)}): Ended Session: {sessionName}");
 
             //OnSessionEnded(sessionName); // Not used in C# wrapper
 
@@ -2283,7 +2283,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             if (data.ResultCode != Result.Success)
             {
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(OnRegisterCompleteCallback)}): error code: {data.ResultCode}");
+                Debug.LogError($"{nameof(SessionsService)} ({nameof(OnRegisterCompleteCallback)}): error code: {data.ResultCode}");
                 return;
             }
 
@@ -2359,7 +2359,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             if (data.ResultCode != Result.Success)
             {
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(OnUnregisterCompleteCallback)}): error code: {data.ResultCode}");
+                Debug.LogError($"{nameof(SessionsService)} ({nameof(OnUnregisterCompleteCallback)}): error code: {data.ResultCode}");
                 return;
             }
 
@@ -2396,7 +2396,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             if (session == null)
             {
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(ModifySession)}): pamater Session is null.");
+                Debug.LogError($"{nameof(SessionsService)} ({nameof(ModifySession)}): pamater Session is null.");
                 return false;
             }
 
@@ -2404,13 +2404,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             if (sessionInterface == null)
             {
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(ModifySession)}): can't get sessions interface.");
+                Debug.LogError($"{nameof(SessionsService)} ({nameof(ModifySession)}): can't get sessions interface.");
                 return false;
             }
 
             if (!CurrentSessions.TryGetValue(session.Name, out Session currentSession))
             {
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(ModifySession)}): can't modify Session: no active Session with specified name.");
+                Debug.LogError($"{nameof(SessionsService)} ({nameof(ModifySession)}): can't modify Session: no active Session with specified name.");
                 return false;
             }
 
@@ -2421,7 +2421,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             if (result != Result.Success)
             {
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(ModifySession)}): failed create session modification. Error code: {result}");
+                Debug.LogError($"{nameof(SessionsService)} ({nameof(ModifySession)}): failed create session modification. Error code: {result}");
                 return false;
             }
 
@@ -2435,7 +2435,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
                 if (result != Result.Success)
                 {
-                    Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(ModifySession)}): failed to set maxp layers. Error code: {result}");
+                    Debug.LogError($"{nameof(SessionsService)} ({nameof(ModifySession)}): failed to set maxp layers. Error code: {result}");
                     sessionModificationHandle.Release();
                     return false;
                 }
@@ -2454,7 +2454,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
                 if (result != Result.Success)
                 {
-                    Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(ModifySession)}): failed to set permission level. Error code: {result}");
+                    Debug.LogError($"{nameof(SessionsService)} ({nameof(ModifySession)}): failed to set permission level. Error code: {result}");
                     sessionModificationHandle.Release();
                     return false;
                 }
@@ -2473,7 +2473,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
                 if (result != Result.Success)
                 {
-                    Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(ModifySession)}): failed to set 'join in progress allowed' flag. Error code: {result}");
+                    Debug.LogError($"{nameof(SessionsService)} ({nameof(ModifySession)}): failed to set 'join in progress allowed' flag. Error code: {result}");
                     sessionModificationHandle.Release();
                     return false;
                 }
@@ -2535,7 +2535,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
                 if (result != Result.Success)
                 {
-                    Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(ModifySession)}): failed to set an attribute: {nextAttribute.Key}. Error code: {result}");
+                    Debug.LogError($"{nameof(SessionsService)} ({nameof(ModifySession)}): failed to set an attribute: {nextAttribute.Key}. Error code: {result}");
                     sessionModificationHandle.Release();
                     return false;
                 }
@@ -2575,12 +2575,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             if (data.ResultCode != Result.Success)
             {
                 OnSessionUpdateFinished(false, data.SessionName, data.SessionId);
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(OnUpdateSessionCompleteCallback)}): error code: {data.ResultCode}");
+                Debug.LogError($"{nameof(SessionsService)} ({nameof(OnUpdateSessionCompleteCallback)}): error code: {data.ResultCode}");
             }
             else
             {
                 OnSessionUpdateFinished(true, data.SessionName, data.SessionId);
-                Log($"{nameof(EOSSessionsManager)} ({nameof(OnUpdateSessionCompleteCallback)}): game Session updated successfully.");
+                Log($"{nameof(SessionsService)} ({nameof(OnUpdateSessionCompleteCallback)}): game Session updated successfully.");
 
                 if (UIOnSessionModified.Count > 0)
                 {
@@ -2651,7 +2651,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             if (subscribtedToGameInvites)
             {
-                Debug.LogWarning($"{nameof(EOSSessionsManager)} ({nameof(SubscribeToGameInvites)}): Already subscribed.");
+                Debug.LogWarning($"{nameof(SessionsService)} ({nameof(SubscribeToGameInvites)}): Already subscribed.");
                 return;
             }
 
@@ -2676,7 +2676,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             if (!subscribtedToGameInvites)
             {
-                Debug.LogWarning($"{nameof(EOSSessionsManager)} ({nameof(UnsubscribeFromGameInvites)}): Not subscribed yet.");
+                Debug.LogWarning($"{nameof(SessionsService)} ({nameof(UnsubscribeFromGameInvites)}): Not subscribed yet.");
                 return;
             }
 
@@ -2734,14 +2734,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             if (!friendId.IsValid())
             {
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(InviteToSession)}): friend's product user id is invalid!");
+                Debug.LogError($"{nameof(SessionsService)} ({nameof(InviteToSession)}): friend's product user id is invalid!");
                 return;
             }
 
             ProductUserId currentUserId = EOSManager.Instance.GetProductUserId();
             if (!currentUserId.IsValid())
             {
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(InviteToSession)}): current user's product user id is invalid!");
+                Debug.LogError($"{nameof(SessionsService)} ({nameof(InviteToSession)}): current user's product user id is invalid!");
                 return;
             }
 
@@ -2762,11 +2762,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             if (data.ResultCode != Result.Success)
             {
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(OnSendInviteCompleteCallback)}): error code: {data.ResultCode}");
+                Debug.LogError($"{nameof(SessionsService)} ({nameof(OnSendInviteCompleteCallback)}): error code: {data.ResultCode}");
                 return;
             }
 
-            Log($"{nameof(EOSSessionsManager)} ({nameof(OnSendInviteCompleteCallback)}): invite to Session sent successfully.");
+            Log($"{nameof(SessionsService)} ({nameof(OnSendInviteCompleteCallback)}): invite to Session sent successfully.");
         }
 
         /// <summary>
@@ -2840,7 +2840,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
             else
             {
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(AcceptLobbyInvite)}): CurrentInvite not found.");
+                Debug.LogError($"{nameof(SessionsService)} ({nameof(AcceptLobbyInvite)}): CurrentInvite not found.");
             }
         }
 
@@ -2885,13 +2885,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// <param name="data">Callback information about the most recent invitation.</param>
         public void OnSessionInviteReceivedListener(ref SessionInviteReceivedCallbackInfo data) // OnSessionInviteReceivedCallback
         {
-            Log($"{nameof(EOSSessionsManager)} ({nameof(OnSessionInviteReceivedListener)}): invite to Session received. Invite id: {data.InviteId}");
+            Log($"{nameof(SessionsService)} ({nameof(OnSessionInviteReceivedListener)}): invite to Session received. Invite id: {data.InviteId}");
 
             SessionDetails sessionDetails = MakeSessionHandleByInviteId(data.InviteId);
 
             if (sessionDetails == null)
             {
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(OnSessionInviteReceivedListener)}): Could not copy Session information for invite id {data.InviteId}");
+                Debug.LogError($"{nameof(SessionsService)} ({nameof(OnSessionInviteReceivedListener)}): Could not copy Session information for invite id {data.InviteId}");
                 return;
             }
 
@@ -2901,11 +2901,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 SetInviteSession(inviteSession, sessionDetails);
 
                 // Show invite popup
-                Log($"{nameof(EOSSessionsManager)} ({nameof(OnSessionInviteReceivedListener)}): Invite received id =  {data.InviteId}");
+                Log($"{nameof(SessionsService)} ({nameof(OnSessionInviteReceivedListener)}): Invite received id =  {data.InviteId}");
             }
             else
             {
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(OnSessionInviteReceivedListener)}): Could not copy Session information for invite id {data.InviteId}");
+                Debug.LogError($"{nameof(SessionsService)} ({nameof(OnSessionInviteReceivedListener)}): Could not copy Session information for invite id {data.InviteId}");
             }
         }
 
@@ -2915,7 +2915,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// <param name="data">Callback information about the most recent invitation.</param>
         public void OnSessionInviteAcceptedListener(ref SessionInviteAcceptedCallbackInfo data) // OnSessionInviteAcceptedCallback
         {
-            Log($"{nameof(EOSSessionsManager)} ({nameof(OnSessionInviteAcceptedListener)}): joined Session successfully.");
+            Log($"{nameof(SessionsService)} ({nameof(OnSessionInviteAcceptedListener)}): joined Session successfully.");
 
             CopySessionHandleByInviteIdOptions options = new()
             {
@@ -2962,7 +2962,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             if (P2PSessionPeerRequestConnectionNotificationId == 0)
             {
-                Log($"{nameof(EOSSessionsManager)} ({nameof(SubscribeToSessionMessageConnectionRequests)}): Failed to subscribe to P2P Messages, bad Notification Id was returned.");
+                Log($"{nameof(SessionsService)} ({nameof(SubscribeToSessionMessageConnectionRequests)}): Failed to subscribe to P2P Messages, bad Notification Id was returned.");
             }
 
             AddNotifyPeerConnectionClosedOptions closedOptions = new AddNotifyPeerConnectionClosedOptions()
@@ -3018,7 +3018,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             if (!TryGetSession(localSessionName, out Session localSession))
             {
-                Debug.LogWarning($"{nameof(EOSSessionsManager)} ({nameof(InformSessionOwnerWithMessage)}): No local Session with name \"{localSessionName}\" was found.");
+                Debug.LogWarning($"{nameof(SessionsService)} ({nameof(InformSessionOwnerWithMessage)}): No local Session with name \"{localSessionName}\" was found.");
                 return;
             }
 
@@ -3026,7 +3026,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             if (activeSession == null)
             {
-                Debug.LogWarning($"{nameof(EOSSessionsManager)} ({nameof(InformSessionOwnerWithMessage)}): Found local Session with name \"{localSessionName}\", but there was no corresponding ActiveSession. An ActiveSession should be populated in InitActiveSession.");
+                Debug.LogWarning($"{nameof(SessionsService)} ({nameof(InformSessionOwnerWithMessage)}): Found local Session with name \"{localSessionName}\", but there was no corresponding ActiveSession. An ActiveSession should be populated in InitActiveSession.");
                 return;
             }
 
@@ -3038,13 +3038,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             if (activeSessionInfoCopyResult != Result.Success)
             {
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(InformSessionOwnerWithMessage)}): Found local and active Session with name \"{localSessionName}\", but failed to copy its info. Result code {activeSessionInfoCopyResult}");
+                Debug.LogError($"{nameof(SessionsService)} ({nameof(InformSessionOwnerWithMessage)}): Found local and active Session with name \"{localSessionName}\", but failed to copy its info. Result code {activeSessionInfoCopyResult}");
                 return;
             }
 
             if (!copiedInfo.Value.SessionDetails.HasValue)
             {
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(InformSessionOwnerWithMessage)}): Found local and active Session with name \"{localSessionName}\", but the SessionDetails in the object is null. Cannot determine Session Owner or Session id.");
+                Debug.LogError($"{nameof(SessionsService)} ({nameof(InformSessionOwnerWithMessage)}): Found local and active Session with name \"{localSessionName}\", but the SessionDetails in the object is null. Cannot determine Session Owner or Session id.");
                 return;
             }
 
@@ -3082,7 +3082,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             // First find a local Session with this name
             if (!TryGetSession(localSessionName, out Session localSession))
             {
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(InformSessionMembers)}): No local Session with name \"{localSessionName}\" was found.");
+                Debug.LogError($"{nameof(SessionsService)} ({nameof(InformSessionMembers)}): No local Session with name \"{localSessionName}\" was found.");
                 return;
             }
 
@@ -3095,7 +3095,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             if (activeSession == null)
             {
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(InformSessionMembers)}): Found local Session with name \"{localSessionName}\", but there was no corresponding ActiveSession. An ActiveSession should be populated in InitActiveSession.");
+                Debug.LogError($"{nameof(SessionsService)} ({nameof(InformSessionMembers)}): Found local Session with name \"{localSessionName}\", but there was no corresponding ActiveSession. An ActiveSession should be populated in InitActiveSession.");
                 return;
             }
 
@@ -3107,13 +3107,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             if (activeSessionInfoCopyResult != Result.Success)
             {
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(InformSessionMembers)}): Found local and active Session with name \"{localSessionName}\", but failed to copy its info. Result code {activeSessionInfoCopyResult}.");
+                Debug.LogError($"{nameof(SessionsService)} ({nameof(InformSessionMembers)}): Found local and active Session with name \"{localSessionName}\", but failed to copy its info. Result code {activeSessionInfoCopyResult}.");
                 return;
             }
 
             if (!copiedInfo.Value.SessionDetails.HasValue)
             {
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(InformSessionMembers)}): Found local and active Session with name \"{localSessionName}\", but the SessionDetails in the object is null. Cannot determine Session id.");
+                Debug.LogError($"{nameof(SessionsService)} ({nameof(InformSessionMembers)}): Found local and active Session with name \"{localSessionName}\", but the SessionDetails in the object is null. Cannot determine Session id.");
                 return;
             }
 
@@ -3129,7 +3129,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 return;
             }
 
-            Log($"{nameof(EOSSessionsManager)} ({nameof(InformSessionMembers)}): There are {registeredUsers.Count} registered members in {localSession.Name}, informing users of {messageDetail} (excluding self)");
+            Log($"{nameof(SessionsService)} ({nameof(InformSessionMembers)}): There are {registeredUsers.Count} registered members in {localSession.Name}, informing users of {messageDetail} (excluding self)");
 
             string messageToSend = string.Format(P2P_INFORM_SESSION_MESSAGE_FORMAT, copiedInfo.Value.SessionDetails.Value.SessionId, EOSManager.Instance.GetProductUserId(), messageDetail, additionalPayload);
             foreach (ProductUserId user in registeredUsers)
@@ -3173,11 +3173,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             if (result != Result.Success)
             {
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(SendP2PMessage)}): Error while sending data, code: {result}.");
+                Debug.LogError($"{nameof(SessionsService)} ({nameof(SendP2PMessage)}): Error while sending data, code: {result}.");
             }
             else
             {
-                Log($"{nameof(EOSSessionsManager)} ({nameof(SendP2PMessage)}): Sending \"{message}\" to {userToSendTo}");
+                Log($"{nameof(SessionsService)} ({nameof(SendP2PMessage)}): Sending \"{message}\" to {userToSendTo}");
             }
         }
 
@@ -3226,23 +3226,23 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
                 if (receivePacketResult != Result.Success)
                 {
-                    Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(HandleReceivedP2PMessages)}): error while reading received packet data, code: {nextPacketSizeResult}.");
+                    Debug.LogError($"{nameof(SessionsService)} ({nameof(HandleReceivedP2PMessages)}): error while reading received packet data, code: {nextPacketSizeResult}.");
                     return;
                 }
 
                 if (!peerId.IsValid())
                 {
-                    Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(HandleReceivedP2PMessages)}): ProductUserId peerId is not valid!");
+                    Debug.LogError($"{nameof(SessionsService)} ({nameof(HandleReceivedP2PMessages)}): ProductUserId peerId is not valid!");
                     return;
                 }
 
                 string message = System.Text.Encoding.UTF8.GetString(data);
 
-                Log($"{nameof(EOSSessionsManager)} ({nameof(HandleReceivedP2PMessages)}): Received a message: {message}");
+                Log($"{nameof(SessionsService)} ({nameof(HandleReceivedP2PMessages)}): Received a message: {message}");
 
                 if (!message.StartsWith(P2P_INFORM_SESSION_MESSAGE_BASE))
                 {
-                    Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(HandleReceivedP2PMessages)}): This function is handling a received message that it wasn't intended to. Perhaps there's a socket or channel conflict? Message: {message}");
+                    Debug.LogError($"{nameof(SessionsService)} ({nameof(HandleReceivedP2PMessages)}): This function is handling a received message that it wasn't intended to. Perhaps there's a socket or channel conflict? Message: {message}");
                     return;
                 }
 
@@ -3252,7 +3252,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 // The Regex match must have five "groups"; the 0th Group is the entire message, then four groups representing the four additional elements of the message
                 if (regexMatchOfMessage.Groups.Count != 5)
                 {
-                    Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(HandleReceivedP2PMessages)}): Message received, but it didn't contain the expected three parts. Message: {message}");
+                    Debug.LogError($"{nameof(SessionsService)} ({nameof(HandleReceivedP2PMessages)}): Message received, but it didn't contain the expected three parts. Message: {message}");
                     return;
                 }
 
@@ -3261,7 +3261,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 string messageElement = regexMatchOfMessage.Groups[3].Value;
                 string additionalPayload = regexMatchOfMessage.Groups[4].Value;
 
-                Log($"{nameof(EOSSessionsManager)} ({nameof(HandleReceivedP2PMessages)}): Message parts: [{nameof(sessionId)}: {sessionId}] [{nameof(userId)}: {userId}] [{nameof(messageElement)}: {messageElement}] [{nameof(additionalPayload)}: {additionalPayload}]");
+                Log($"{nameof(SessionsService)} ({nameof(HandleReceivedP2PMessages)}): Message parts: [{nameof(sessionId)}: {sessionId}] [{nameof(userId)}: {userId}] [{nameof(messageElement)}: {messageElement}] [{nameof(additionalPayload)}: {additionalPayload}]");
 
                 if (!TryGetSessionById(sessionId, out Session session))
                 {
@@ -3269,7 +3269,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     // The Owner of a Session might receive leaving messages after they've already destroyed the Session
                     if (messageElement != P2P_LEAVING_SESSION_MESSAGE_ELEMENT)
                     {
-                        Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(HandleReceivedP2PMessages)}): Message received regarding sessionId {sessionId}, but no local sessions have that id. Message: {message}");
+                        Debug.LogError($"{nameof(SessionsService)} ({nameof(HandleReceivedP2PMessages)}): Message received regarding sessionId {sessionId}, but no local sessions have that id. Message: {message}");
                     }
                     
                     return;
@@ -3302,7 +3302,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                         HandleRegistrationChangeMessage(sessionId, additionalPayload);
                         break;
                     default:
-                        Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(HandleReceivedP2PMessages)}): Unrecognized message element, unclear what action to take. Message: {message}");
+                        Debug.LogError($"{nameof(SessionsService)} ({nameof(HandleReceivedP2PMessages)}): Unrecognized message element, unclear what action to take. Message: {message}");
                         break;
                 }
             }
@@ -3439,7 +3439,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             if (!TryGetSession(sessionName, out Session localSession) || localSession.ActiveSession == null)
             {
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(OnDestroySessionCompleteCallback)}): Could not find local Session and associated ActiveSession, so could not inform Owner/members of destruction.");
+                Debug.LogError($"{nameof(SessionsService)} ({nameof(OnDestroySessionCompleteCallback)}): Could not find local Session and associated ActiveSession, so could not inform Owner/members of destruction.");
                 return;
             }
 
@@ -3450,7 +3450,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             // If we can't get the Owner, we can't determine who should be messaged, or if we are the Owner of this Session
             if (localCopyResult != Result.Success || !outActiveSessionInfo.HasValue || !outActiveSessionInfo.Value.SessionDetails.HasValue)
             {
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(OnDestroySessionCompleteCallback)}): Failed to copy local information for Session {sessionName}, so could not inform Owner/members of destruction. Result code {localCopyResult}");
+                Debug.LogError($"{nameof(SessionsService)} ({nameof(OnDestroySessionCompleteCallback)}): Failed to copy local information for Session {sessionName}, so could not inform Owner/members of destruction. Result code {localCopyResult}");
                 return;
             }
 
@@ -3477,7 +3477,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             if (data.SocketId?.SocketName != P2P_SESSION_STATUS_SOCKET_NAME)
             {
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(OnIncomingSessionsConnectionRequest)}): This function should not be handling this message, its socket is not '{P2P_SESSION_STATUS_SOCKET_NAME}'. Socket name is '{(data.SocketId?.SocketName)}'.");
+                Debug.LogError($"{nameof(SessionsService)} ({nameof(OnIncomingSessionsConnectionRequest)}): This function should not be handling this message, its socket is not '{P2P_SESSION_STATUS_SOCKET_NAME}'. Socket name is '{(data.SocketId?.SocketName)}'.");
                 return;
             }
 
@@ -3497,11 +3497,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             if (result != Result.Success)
             {
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(OnIncomingSessionsConnectionRequest)}): Error while accepting connection, code: {result}");
+                Debug.LogError($"{nameof(SessionsService)} ({nameof(OnIncomingSessionsConnectionRequest)}): Error while accepting connection, code: {result}");
             }
             else
             {
-                Log($"{nameof(EOSSessionsManager)} ({nameof(OnIncomingSessionsConnectionRequest)}): Successfully accepted connection from {options.RemoteUserId} on socket {P2P_SESSION_STATUS_SOCKET_NAME}");
+                Log($"{nameof(SessionsService)} ({nameof(OnIncomingSessionsConnectionRequest)}): Successfully accepted connection from {options.RemoteUserId} on socket {P2P_SESSION_STATUS_SOCKET_NAME}");
             }
         }
 
@@ -3527,11 +3527,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             if (result != Result.Success)
             {
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(OnIncomingSessionsDisconnect)}): Error while closing connection, code: {result}");
+                Debug.LogError($"{nameof(SessionsService)} ({nameof(OnIncomingSessionsDisconnect)}): Error while closing connection, code: {result}");
             }
             else
             {
-                Log($"{nameof(EOSSessionsManager)} ({nameof(OnIncomingSessionsDisconnect)}): Successfully closed connection with {closeOptions.RemoteUserId} on socket {P2P_SESSION_STATUS_SOCKET_NAME}");
+                Log($"{nameof(SessionsService)} ({nameof(OnIncomingSessionsDisconnect)}): Successfully closed connection with {closeOptions.RemoteUserId} on socket {P2P_SESSION_STATUS_SOCKET_NAME}");
             }
         }
 

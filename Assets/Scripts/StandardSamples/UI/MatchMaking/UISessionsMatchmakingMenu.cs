@@ -96,9 +96,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         [Header("Controller")]
         public GameObject UIFirstSelected;
 
-        private EOSSessionsManager GetEOSSessionsManager
+        private SessionsService GetSessionsService
         {
-            get { return EOSManager.Instance.GetOrCreateManager<EOSSessionsManager>(); }
+            get { return EOSManager.Instance.GetOrCreateManager<SessionsService>(); }
         }
 
         public void Awake()
@@ -109,7 +109,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             HideMenu();
 
-            GetEOSSessionsManager.UIOnSessionRefresh = OnSessionRefresh;
+            GetSessionsService.UIOnSessionRefresh = OnSessionRefresh;
         }
 
         /*private void Start()
@@ -123,23 +123,23 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             //HideMenu();
             // Unity crashes if you try to access EOSSinglton OnDestroy
-            EOSManager.Instance.RemoveManager<EOSSessionsManager>();
+            EOSManager.Instance.RemoveManager<SessionsService>();
         }
 
         public void Update()
         {
-            EOSSessionsManager sessionsManager = GetEOSSessionsManager;
-            bool stateUpdates = sessionsManager.Update();
+            SessionsService sessionsService = GetSessionsService;
+            bool stateUpdates = sessionsService.Update();
 
 
             // Invites UI Prompt
-            if (sessionsManager.GetCurrentInvite() != null)
+            if (sessionsService.GetCurrentInvite() != null)
             {
                 UIInvitePanel.SetActive(true);
 
                 if (string.IsNullOrEmpty(InviteFromVal.text))
                 {
-                    SessionAttribute attributeFound = sessionsManager.GetCurrentInvite().Attributes.Find(x => string.Equals(x.Key, "Level", StringComparison.OrdinalIgnoreCase));
+                    SessionAttribute attributeFound = sessionsService.GetCurrentInvite().Attributes.Find(x => string.Equals(x.Key, "Level", StringComparison.OrdinalIgnoreCase));
 
                     if (attributeFound != null)
                     {
@@ -157,7 +157,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             {
                 previousFrameSessionCount = 0;
 
-                if (sessionsManager.GetCurrentSearch() == null)
+                if (sessionsService.GetCurrentSearch() == null)
                 {
                     Debug.LogError("Sessions Matchmaking (Update): ShowSearchResults is true, but CurrentSearch is null!");
                     ShowSearchResults = false;
@@ -165,7 +165,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
                 CurrentSessionsHeader.text = "Search Results:";
 
-                Dictionary<Session, SessionDetails> results = sessionsManager.GetCurrentSearch().GetResults();
+                Dictionary<Session, SessionDetails> results = sessionsService.GetCurrentSearch().GetResults();
 
                 if (previousFrameResultCount == results.Count)
                 {
@@ -185,7 +185,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 // Render Sessions State changes
                 previousFrameResultCount = results.Count;
 
-                foreach (KeyValuePair<Session, SessionDetails> kvp in sessionsManager.GetCurrentSearch().GetResults())
+                foreach (KeyValuePair<Session, SessionDetails> kvp in sessionsService.GetCurrentSearch().GetResults())
                 {
                     Session sessionResult = kvp.Key;
 
@@ -204,9 +204,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
                 CurrentSessionsHeader.text = "Current Sessions:";
 
-                if (!stateUpdates && previousFrameSessionCount == sessionsManager.GetCurrentSessions().Count)
+                if (!stateUpdates && previousFrameSessionCount == sessionsService.GetCurrentSessions().Count)
                 {
-                    if (sessionsManager.GetCurrentSessions().Count == 0)
+                    if (sessionsService.GetCurrentSessions().Count == 0)
                     {
                         // Destroy current UI member list
                         foreach (Transform child in SessionContentParent.transform)
@@ -220,7 +220,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 }
 
                 // Render Sessions State changes
-                previousFrameSessionCount = sessionsManager.GetCurrentSessions().Count;
+                previousFrameSessionCount = sessionsService.GetCurrentSessions().Count;
 
                 // Destroy current UI member list
                 foreach (Transform child in SessionContentParent.transform)
@@ -229,7 +229,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 }
 
                 // Enumerate session entries in UI
-                foreach (KeyValuePair<string, Session> kvp in sessionsManager.GetCurrentSessions())
+                foreach (KeyValuePair<string, Session> kvp in sessionsService.GetCurrentSessions())
                 {
                     Session session = kvp.Value;
 
@@ -262,7 +262,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             session.Attributes.Add(attribute);
 
-            GetEOSSessionsManager.CreateSession(session, UIOnSessionCreated);
+            GetSessionsService.CreateSession(session, UIOnSessionCreated);
         }
 
         private void UIOnSessionCreated(SessionsManagerCreateSessionCallbackInfo info)
@@ -273,7 +273,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         //Search Result
         public void JoinButtonOnClick(SessionDetails sessionHandle)
         {
-            GetEOSSessionsManager.JoinSession(sessionHandle, true, OnJoinSessionFinished); // Default Presence True
+            GetSessionsService.JoinSession(sessionHandle, true, OnJoinSessionFinished); // Default Presence True
         }
 
         private void OnJoinSessionFinished(Result result)
@@ -291,12 +291,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         // Session Member
         public void StartButtonOnClick(string sessionName)
         {
-            GetEOSSessionsManager.StartSession(sessionName);
+            GetSessionsService.StartSession(sessionName);
         }
 
         public void EndButtonOnClick(string sessionName)
         {
-            GetEOSSessionsManager.EndSession(sessionName);
+            GetSessionsService.EndSession(sessionName);
         }
 
         public void ModifyButtonOnClick(string sessionName)
@@ -316,7 +316,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             attr.Advertisement = SessionAttributeAdvertisementType.Advertise;
             session.Attributes.Add(attr);
 
-            GetEOSSessionsManager.ModifySession(session, OnModifySessionCompleted);
+            GetSessionsService.ModifySession(session, OnModifySessionCompleted);
         }
 
         private void OnModifySessionCompleted()
@@ -326,7 +326,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public void LeaveButtonOnClick(string sessionName)
         {
-            GetEOSSessionsManager.DestroySession(sessionName);
+            GetSessionsService.DestroySession(sessionName);
         }
 
         public void RefreshSearch()
@@ -351,7 +351,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             List<SessionAttribute> attributes = new List<SessionAttribute>() { levelAttribute };
 
-            GetEOSSessionsManager.Search(attributes);
+            GetSessionsService.Search(attributes);
 
             previousFrameResultCount = 0;
             ShowSearchResults = true;
@@ -362,7 +362,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             bool invitePresenceToggled = InvitePresence.isOn;
 
-            GetEOSSessionsManager.AcceptLobbyInvite(invitePresenceToggled);
+            GetSessionsService.AcceptLobbyInvite(invitePresenceToggled);
 
             // Make sure UI is showing current sessions
             ShowSearchResults = false;
@@ -370,13 +370,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public void DeclineInviteButtonOnClick()
         {
-            GetEOSSessionsManager.DeclineLobbyInvite();
+            GetSessionsService.DeclineLobbyInvite();
         }
 
         public void ShowMenu()
         {
-            GetEOSSessionsManager.OnLoggedIn();
-            GetEOSSessionsManager.OnPresenceChange.AddListener(SetDirtyFlagAction);
+            GetSessionsService.OnLoggedIn();
+            GetSessionsService.OnPresenceChange.AddListener(SetDirtyFlagAction);
 
             SessionsMatchmakingUIParent.gameObject.SetActive(true);
 
@@ -389,10 +389,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public void HideMenu()
         {
-            if (GetEOSSessionsManager.IsUserLoggedIn)//check to prevent warnings when done unnecessarily during Sessions & Matchmaking startup
+            if (GetSessionsService.IsUserLoggedIn)//check to prevent warnings when done unnecessarily during Sessions & Matchmaking startup
             {
-                GetEOSSessionsManager.OnPresenceChange.RemoveListener(SetDirtyFlagAction);
-                GetEOSSessionsManager.OnLoggedOut();
+                GetSessionsService.OnPresenceChange.RemoveListener(SetDirtyFlagAction);
+                GetSessionsService.OnLoggedOut();
             }
 
             SessionsMatchmakingUIParent.gameObject.SetActive(false);
@@ -460,14 +460,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public override void OnFriendInteractButtonClicked(FriendData friendData)
         {
             // Get the local Presence Session to invite to
-            if (!GetEOSSessionsManager.TryGetPresenceSession(out Session foundSession) || foundSession.ActiveSession == null)
+            if (!GetSessionsService.TryGetPresenceSession(out Session foundSession) || foundSession.ActiveSession == null)
             {
                 // Didn't find a presence session, so nothing to invite to
                 Debug.LogError($"{nameof(UISessionsMatchmakingMenu)} ({nameof(OnFriendInteractButtonClicked)}): A friend was chosen to invite to a Session, but no local Presence-enabled Session detected.");
                 return;
             }
 
-            GetEOSSessionsManager.InviteToSession(foundSession.Name, friendData.UserProductUserId);
+            GetSessionsService.InviteToSession(foundSession.Name, friendData.UserProductUserId);
         }
 
         public override FriendInteractionState GetFriendInteractionState(FriendData friendData)
@@ -495,7 +495,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public override void OnFriendStateChanged()
         {
             // Determine if the local user has an active, presence-enabled Session
-            if (!GetEOSSessionsManager.TryGetPresenceSession(out Session foundSession) || foundSession.ActiveSession == null)
+            if (!GetSessionsService.TryGetPresenceSession(out Session foundSession) || foundSession.ActiveSession == null)
             {
                 // Didn't find a presence session, so nothing to invite to
                 OwnInvitationState = OwnSessionInvitationAbilityState.NoSessionToInviteTo;
@@ -523,7 +523,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             // If users can't join an in-progress Session, then check the status of the Session
             if (!foundSession.AllowJoinInProgress && (foundInfo.Value.State == OnlineSessionState.Starting || foundInfo.Value.State == OnlineSessionState.InProgress))
             {
-                EOSSessionsManager.Log($"{nameof(UISessionsMatchmakingMenu)} ({nameof(GetFriendInteractionState)}): The current Presence-enabled Session cannot be invited to because it is {foundInfo.Value.State} and {nameof(Session.AllowJoinInProgress)} is false.");
+                SessionsService.Log($"{nameof(UISessionsMatchmakingMenu)} ({nameof(GetFriendInteractionState)}): The current Presence-enabled Session cannot be invited to because it is {foundInfo.Value.State} and {nameof(Session.AllowJoinInProgress)} is false.");
                 OwnInvitationState = OwnSessionInvitationAbilityState.InvalidSessionToInviteTo;
                 return;
             }
@@ -531,7 +531,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             // Check that the Session doesn't already have the maximum number of users
             if (foundInfo.Value.SessionDetails.Value.NumOpenPublicConnections == 0)
             {
-                EOSSessionsManager.Log($"{nameof(UISessionsMatchmakingMenu)} ({nameof(GetFriendInteractionState)}): The current Presence-enabled Session cannot be invited to because the Session already has reached its {nameof(Session.MaxPlayers)} count.");
+                SessionsService.Log($"{nameof(UISessionsMatchmakingMenu)} ({nameof(GetFriendInteractionState)}): The current Presence-enabled Session cannot be invited to because the Session already has reached its {nameof(Session.MaxPlayers)} count.");
                 OwnInvitationState = OwnSessionInvitationAbilityState.InvalidSessionToInviteTo;
                 return;
             }
@@ -541,7 +541,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         }
 
         /// <summary>
-        /// <see cref="EOSSessionsManager.OnPresenceChange"/> accepts a function with zero arguments.
+        /// <see cref="SessionsService.OnPresenceChange"/> accepts a function with zero arguments.
         /// This methods gives a consistent method to AddListener and RemoveListener to that event.
         /// </summary>
         private void SetDirtyFlagAction()

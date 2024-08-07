@@ -25,20 +25,18 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.IntegrationTests
     using Epic.OnlineServices;
     using Epic.OnlineServices.Sessions;
     using NUnit.Framework;
-    using EpicOnlineServices;
     using System.Collections;
     using UnityEngine;
     using UnityEngine.TestTools;
     using PlayEveryWare.EpicOnlineServices.Samples;
     using System;
-    using UnityEngine.Events;
     using System.Text;
     using System.Collections.Generic;
     using System.Text.RegularExpressions;
 
-    public class EOSSessionsManagerTests : EOSTestBase
+    public class SessionsServiceTests : EOSTestBase
     {
-        protected EOSSessionsManager ManagerInstance { get; set; } = null;
+        protected SessionsService ServiceInstance { get; set; } = null;
 
         /// <summary>
         /// The Epic Online Services Game Services back end takes some fuzzy amount of time to process changes.
@@ -52,14 +50,14 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.IntegrationTests
         [OneTimeSetUp]
         public void OneTimeSetUpEOSSessionsManager()
         {
-            ManagerInstance = new EOSSessionsManager();
+            ServiceInstance = new SessionsService();
             Debug.Log($"{nameof(OneTimeSetUpEOSSessionsManager)}");
         }
 
         [SetUp]
         public void SetUpLogIn()
         {
-            ManagerInstance.OnLoggedIn();
+            ServiceInstance.OnLoggedIn();
             Debug.Log($"{nameof(SetUpLogIn)}");
         }
 
@@ -68,18 +66,18 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.IntegrationTests
         {
             // If there are any Sessions that are remaining locally, they all need to be left
             // This may not successfully destroy all Sessions, but should at least attempt
-            if (ManagerInstance.GetCurrentSessions().Count > 0)
+            if (ServiceInstance.GetCurrentSessions().Count > 0)
             {
-                ManagerInstance.LeaveAllSessions();
+                ServiceInstance.LeaveAllSessions();
 
                 yield return new WaitUntilDone(60f, () =>
                 {
-                    return ManagerInstance.GetCurrentSessions().Count == 0;
+                    return ServiceInstance.GetCurrentSessions().Count == 0;
                 });
 
                 yield return new WaitForSeconds(SecondsWaitAfterSessionModification);
 
-                ManagerInstance.OnLoggedOut();
+                ServiceInstance.OnLoggedOut();
             }
         }
 
@@ -102,7 +100,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.IntegrationTests
                 resultingCreationResult = info.ResultCode;
             };
 
-            ManagerInstance.CreateSession(randomTestSession, handleCreationResult);
+            ServiceInstance.CreateSession(randomTestSession, handleCreationResult);
 
             yield return new WaitUntil(() => resultingCreationResult.HasValue);
 
@@ -110,7 +108,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.IntegrationTests
             Assert.NotNull(resultingCreationSessionName, $"Created Session name is null.");
             Assert.AreEqual(sessionName, resultingCreationSessionName);
 
-            bool canFindSession = ManagerInstance.TryGetSession(sessionName, out Session foundLocalSession);
+            bool canFindSession = ServiceInstance.TryGetSession(sessionName, out Session foundLocalSession);
             Assert.True(canFindSession, $"Could not find Session that was created in local Sessions.");
             Assert.AreEqual(randomTestSession, foundLocalSession, $"Created Session is not identical to resultant created Session.");
             Assert.NotNull(foundLocalSession.ActiveSession, "Created Session does not have ActiveSession information populated after joining.");
@@ -124,7 +122,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.IntegrationTests
                 resultingDeletionResult = info.ResultCode;
             };
 
-            ManagerInstance.DestroySession(sessionName, handleDestructionResult);
+            ServiceInstance.DestroySession(sessionName, handleDestructionResult);
 
             yield return new WaitUntil(() => resultingDeletionResult.HasValue);
 
@@ -132,7 +130,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.IntegrationTests
             Assert.NotNull(resultingDeletionSessionName, $"Deleted Session name is null.");
             Assert.AreEqual(sessionName, resultingDeletionSessionName);
 
-            bool triedToFindSession = ManagerInstance.TryGetSession(sessionName, out Session _);
+            bool triedToFindSession = ServiceInstance.TryGetSession(sessionName, out Session _);
             Assert.IsFalse(triedToFindSession, $"Found local Session that should be destroyed.");
         }
 
@@ -154,13 +152,13 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.IntegrationTests
 
             yield return new WaitForSeconds(SecondsWaitAfterSessionModification);
 
-            ManagerInstance.Search(sessionCreationParameters.Attributes, sessionCreationParameters.BucketId);
+            ServiceInstance.Search(sessionCreationParameters.Attributes, sessionCreationParameters.BucketId);
 
             bool waiting = true;
-            ManagerInstance.GetCurrentSearch().RunOnSearchResultReceived += (Samples.SessionSearch search) => { waiting = false; };
+            ServiceInstance.GetCurrentSearch().RunOnSearchResultReceived += (Samples.SessionSearch search) => { waiting = false; };
             yield return new WaitUntilDone(10f, () => !waiting);
 
-            PlayEveryWare.EpicOnlineServices.Samples.SessionSearch search = ManagerInstance.GetCurrentSearch();
+            PlayEveryWare.EpicOnlineServices.Samples.SessionSearch search = ServiceInstance.GetCurrentSearch();
 
             Assert.NotNull(search, $"Current search is null.");
 
@@ -199,13 +197,13 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.IntegrationTests
 
             yield return new WaitForSeconds(SecondsWaitAfterSessionModification);
 
-            ManagerInstance.Search(sessionCreationParameters.Attributes, sessionCreationParameters.BucketId);
+            ServiceInstance.Search(sessionCreationParameters.Attributes, sessionCreationParameters.BucketId);
 
             bool waiting = true;
-            ManagerInstance.GetCurrentSearch().RunOnSearchResultReceived += (Samples.SessionSearch search) => { waiting = false; };
+            ServiceInstance.GetCurrentSearch().RunOnSearchResultReceived += (Samples.SessionSearch search) => { waiting = false; };
             yield return new WaitUntilDone(10f, () => { return !waiting; });
 
-            PlayEveryWare.EpicOnlineServices.Samples.SessionSearch search = ManagerInstance.GetCurrentSearch();
+            PlayEveryWare.EpicOnlineServices.Samples.SessionSearch search = ServiceInstance.GetCurrentSearch();
 
             Assert.NotNull(search, $"Current search is null.");
 
@@ -244,7 +242,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.IntegrationTests
             yield return new WaitForSeconds(SecondsWaitAfterSessionModification);
 
             Samples.SessionSearch usedSessionSearch = null;
-            ManagerInstance.SearchById(sessionCreationParameters.Id, (Samples.SessionSearch search) =>
+            ServiceInstance.SearchById(sessionCreationParameters.Id, (Samples.SessionSearch search) =>
             {
                 usedSessionSearch = search;
             });
@@ -299,13 +297,13 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.IntegrationTests
 
                 yield return new WaitForSeconds(SecondsWaitAfterSessionModification);
 
-                ManagerInstance.Search(sessionCreationParameters.Attributes, sessionCreationParameters.BucketId);
+                ServiceInstance.Search(sessionCreationParameters.Attributes, sessionCreationParameters.BucketId);
 
                 bool waiting = true;
-                ManagerInstance.GetCurrentSearch().RunOnSearchResultReceived += (Samples.SessionSearch search) => { waiting = false; };
+                ServiceInstance.GetCurrentSearch().RunOnSearchResultReceived += (Samples.SessionSearch search) => { waiting = false; };
                 yield return new WaitUntilDone(10f, () => !waiting);
 
-                PlayEveryWare.EpicOnlineServices.Samples.SessionSearch search = ManagerInstance.GetCurrentSearch();
+                PlayEveryWare.EpicOnlineServices.Samples.SessionSearch search = ServiceInstance.GetCurrentSearch();
 
                 Assert.NotNull(search, $"Current search is null.");
 
@@ -345,7 +343,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.IntegrationTests
                     Assert.Null(createdLocalSession, $"Found created Session in Search Results, should not be able to find this Session using public search.");
                 }
 
-                ManagerInstance.DestroySession(sessionCreationParameters.Name);
+                ServiceInstance.DestroySession(sessionCreationParameters.Name);
                 yield return new WaitForSeconds(SecondsWaitAfterSessionModification);
 
                 shouldCurrentlyBePublic = !shouldCurrentlyBePublic;
@@ -371,16 +369,16 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.IntegrationTests
 
             yield return new WaitForSeconds(SecondsWaitAfterSessionModification);
 
-            ManagerInstance.DestroySession(sessionCreationParameters.Name);
+            ServiceInstance.DestroySession(sessionCreationParameters.Name);
 
             yield return new WaitForSeconds(SecondsWaitAfterSessionModification);
 
-            Assert.AreEqual(0, ManagerInstance.GetCurrentSessions().Count, "There are local Sessions remaining, but there should be none.");
+            Assert.AreEqual(0, ServiceInstance.GetCurrentSessions().Count, "There are local Sessions remaining, but there should be none.");
 
             // Search online using the Id to try and find it
             Samples.SessionSearch usedSessionSearch = null;
 
-            ManagerInstance.SearchById(sessionCreationParameters.Id, (Samples.SessionSearch search) =>
+            ServiceInstance.SearchById(sessionCreationParameters.Id, (Samples.SessionSearch search) =>
             {
                 usedSessionSearch = search;
             });
@@ -415,7 +413,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.IntegrationTests
                 Assert.AreEqual(Result.Success, creationResult.Value, $"Failed to create Session");
             }
 
-            Assert.AreEqual(CountOfSessionsToMake, ManagerInstance.GetCurrentSessions().Count, $"Expected exactly {CountOfSessionsToMake} Sessions, found a different count");
+            Assert.AreEqual(CountOfSessionsToMake, ServiceInstance.GetCurrentSessions().Count, $"Expected exactly {CountOfSessionsToMake} Sessions, found a different count");
         }
 
         /// <summary>
@@ -445,7 +443,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.IntegrationTests
                 if (createdSessionIndex == 0)
                 {
                     Assert.AreEqual(Result.Success, creationResult.Value, $"Failed to create Session");
-                    bool foundPresenceSession = ManagerInstance.TryGetPresenceSession(out Session presenceSession);
+                    bool foundPresenceSession = ServiceInstance.TryGetPresenceSession(out Session presenceSession);
                     Assert.IsTrue(foundPresenceSession, "Expected to find presence Session");
                     Assert.AreEqual(sessionCreationParameters, presenceSession, "Expected found presence session to be the one that was created");
                 }
@@ -475,11 +473,11 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.IntegrationTests
 
                 Assert.AreEqual(Result.Success, creationResult.Value, $"Failed to create Session");
 
-                ManagerInstance.DestroySession(sessionCreationParameters.Name);
+                ServiceInstance.DestroySession(sessionCreationParameters.Name);
 
                 yield return new WaitForSeconds(SecondsWaitAfterSessionModification);
 
-                bool foundPresenceSession = ManagerInstance.TryGetPresenceSession(out Session presenceSession);
+                bool foundPresenceSession = ServiceInstance.TryGetPresenceSession(out Session presenceSession);
                 Assert.IsFalse(foundPresenceSession, "Expected to not find any presence Session");
             }
         }
@@ -503,22 +501,22 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.IntegrationTests
 
                 Assert.AreEqual(Result.Success, creationResult.Value, $"Failed to create Session");
 
-                bool canGetSessionByName = ManagerInstance.TryGetSession(sessionCreationParameters.Name, out Session foundSessionByName);
+                bool canGetSessionByName = ServiceInstance.TryGetSession(sessionCreationParameters.Name, out Session foundSessionByName);
                 Assert.IsTrue(canGetSessionByName, "Expected that the Session could be found by name locally");
                 Assert.AreEqual(sessionCreationParameters, foundSessionByName, "Retrieved Session was not as expected");
 
-                bool canGetSessionById = ManagerInstance.TryGetSessionById(sessionCreationParameters.Id, out Session foundSessionById);
+                bool canGetSessionById = ServiceInstance.TryGetSessionById(sessionCreationParameters.Id, out Session foundSessionById);
                 Assert.IsTrue(canGetSessionById, "Expected that the Session could be found by id locally");
                 Assert.AreEqual(sessionCreationParameters, foundSessionById, "Retrieved Session was not as expected");
             }
 
-            Assert.AreEqual(CountOfSessionsToMake, ManagerInstance.GetCurrentSessions().Count, $"Expected {CountOfSessionsToMake} local Sessions, found a different count");
+            Assert.AreEqual(CountOfSessionsToMake, ServiceInstance.GetCurrentSessions().Count, $"Expected {CountOfSessionsToMake} local Sessions, found a different count");
         }
 
         /// <summary>
         /// This test creates a Session and modifies its <see cref="OnlineSessionState"/> through management functions,
         /// and validates that the status is as expected.
-        /// This test runs <see cref="EOSSessionsManager.Update"/> while waiting, which is required to get state changes like this.
+        /// This test runs <see cref="SessionsService.Update"/> while waiting, which is required to get state changes like this.
         /// </summary>
         [UnityTest]
         public IEnumerator StartEnd_OnlineSessionState_AsExpected()
@@ -532,17 +530,17 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.IntegrationTests
 
             yield return new WaitForSeconds(SecondsWaitAfterSessionModification);
 
-            ManagerInstance.StartSession(sessionCreationParameters.Name);
+            ServiceInstance.StartSession(sessionCreationParameters.Name);
             yield return WaitWhileUpdatingManager(new WaitUntilDone(MostAmountOfTimeToWait, () => { return sessionCreationParameters.SessionState == OnlineSessionState.InProgress; }));
             Assert.AreEqual(OnlineSessionState.InProgress, sessionCreationParameters.SessionState, $"Expected current state to be {nameof(OnlineSessionState.InProgress)}.");
 
-            ManagerInstance.EndSession(sessionCreationParameters.Name);
+            ServiceInstance.EndSession(sessionCreationParameters.Name);
             yield return WaitWhileUpdatingManager(new WaitUntilDone(MostAmountOfTimeToWait, () => { return sessionCreationParameters.SessionState == OnlineSessionState.Ended; }));
             Assert.AreEqual(OnlineSessionState.Ended, sessionCreationParameters.SessionState, $"Expected current state to be {nameof(OnlineSessionState.Ended)}.");
 
             // Validate that the ended Session can then be started again
 
-            ManagerInstance.StartSession(sessionCreationParameters.Name);
+            ServiceInstance.StartSession(sessionCreationParameters.Name);
             yield return WaitWhileUpdatingManager(new WaitUntilDone(MostAmountOfTimeToWait, () => { return sessionCreationParameters.SessionState == OnlineSessionState.InProgress; }));
             Assert.AreEqual(OnlineSessionState.InProgress, sessionCreationParameters.SessionState, $"Expected current state to be {nameof(OnlineSessionState.InProgress)}.");
         }
@@ -611,7 +609,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.IntegrationTests
                 resultingCreationResult = info.ResultCode;
             };
 
-            ManagerInstance.CreateSession(toCreate, handleCreationResult, presence);
+            ServiceInstance.CreateSession(toCreate, handleCreationResult, presence);
 
             yield return new WaitUntilDone(MostTimeToWaitForSessionCreation, () => resultingCreationResult.HasValue);
 
@@ -622,7 +620,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.IntegrationTests
         {
             while (waitUntilDoneInstruction.keepWaiting)
             {
-                ManagerInstance.Update();
+                ServiceInstance.Update();
                 yield return new WaitForEndOfFrame();
             }
         }

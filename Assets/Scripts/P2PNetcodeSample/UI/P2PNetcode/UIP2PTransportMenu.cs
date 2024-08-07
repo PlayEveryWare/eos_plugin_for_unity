@@ -308,7 +308,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
 
             string joinString = JsonUtility.ToJson(joinData);
 
-            EOSSessionsManager.SetJoinInfo(joinString);
+            SessionsService.SetJoinInfo(joinString);
         }
 
         public void DisconnectOnClick()
@@ -317,7 +317,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             isHost = false;
             isClient = false;
             SetSessionUIActive(false);
-            EOSSessionsManager.SetJoinInfo(null);
+            SessionsService.SetJoinInfo(null);
             SetDirtyFlag();
         }
 
@@ -383,7 +383,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             Debug.LogWarning("UIP2PTransportMenu (OnDisconnect): server disconnected");
             isClient = false;
             SetSessionUIActive(false);
-            EOSSessionsManager.SetJoinInfo(null);
+            SessionsService.SetJoinInfo(null);
             SetDirtyFlag();
             NetworkSamplePlayer.UnregisterDisconnectCallback(OnDisconnect);
         }
