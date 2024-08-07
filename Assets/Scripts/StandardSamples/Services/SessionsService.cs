@@ -216,9 +216,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         }
     }
 
-    public delegate void SessionsManagerCreateSessionCallback(SessionsTaskCallbackInfo info);
-
-    public delegate void SessionsManagerDestroySessionCallback(SessionsTaskCallbackInfo info);
+    public delegate void SessionTaskCallback(SessionsTaskCallbackInfo info);
 
     /// <summary>
     /// Class represents a single Session attribute
@@ -1005,7 +1003,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// <seealso cref="CreateSessionModificationOptions.PresenceEnabled"/></param>
         /// <returns>True if the configuration and attempt to create a Session succeed. Does not indicate that the Session was created successfully in Epic Online Services,
         /// only that the program was able to attempt its creation and without running in to an error.</returns>
-        public bool CreateSession(Session session, SessionsManagerCreateSessionCallback createSessionCallback = null, bool presence = false)
+        public bool CreateSession(Session session, SessionTaskCallback createSessionCallback = null, bool presence = false)
         {
             if (session == null)
             {
@@ -1171,7 +1169,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// <param name="data">Callback information provided by Epic Online Services about the success of the operation.</param>
         private void OnUpdateSessionCompleteCallback_ForCreate(ref UpdateSessionCallbackInfo data)
         {
-            SessionsManagerCreateSessionCallback callback = data.ClientData as SessionsManagerCreateSessionCallback;
+            SessionTaskCallback callback = data.ClientData as SessionTaskCallback;
 
             bool removeSession = true;
             bool success = (data.ResultCode == Result.Success);
@@ -1770,10 +1768,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// </summary>
         private class DestroySessionClientData
         {
-            public SessionsManagerDestroySessionCallback DestroyCallback;
+            public SessionTaskCallback DestroyCallback;
             public string SessionToDestroyName;
 
-            public DestroySessionClientData(SessionsManagerDestroySessionCallback callback, string sessionToDestroyName)
+            public DestroySessionClientData(SessionTaskCallback callback, string sessionToDestroyName)
             {
                 DestroyCallback = callback;
                 SessionToDestroyName = sessionToDestroyName;
@@ -1787,7 +1785,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// If this user is the Owner of the Session, the Session is destroyed with EOS Game Services, and every member should leave it.
         /// </summary>
         /// <param name="name">The local name of the Session to destroy.</param>
-        public void DestroySession(string name, SessionsManagerDestroySessionCallback destroySessionCallback = null)
+        public void DestroySession(string name, SessionTaskCallback destroySessionCallback = null)
         {
             SessionsInterface sessionInterface = EOSManager.Instance.GetEOSPlatformInterface().GetSessionsInterface();
 
