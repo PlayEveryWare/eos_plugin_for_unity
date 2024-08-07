@@ -39,7 +39,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
     [Serializable]
     public class EOSSettingsWindow : EOSEditorWindow
     {
-        private List<IConfigEditor> platformSpecificConfigEditors;
+        private List<IPlatformConfigEditor> platformSpecificConfigEditors;
 
         private static readonly string ConfigDirectory = Path.Combine("Assets", "StreamingAssets", "EOS");
 
@@ -133,12 +133,13 @@ _WIN32 || _WIN64
 
             mainEOSConfigFile = await Config.GetAsync<EOSConfig>();
 
-            platformSpecificConfigEditors ??= new List<IConfigEditor>();
+            platformSpecificConfigEditors ??= new List<IPlatformConfigEditor>();
             var configEditors = ReflectionUtility.CreateInstancesOfDerivedGenericClasses(typeof(PlatformConfigEditor<>));
 
             foreach (var editor in configEditors)
             {
-                platformSpecificConfigEditors.Add(editor as IConfigEditor);
+                if (editor is IPlatformConfigEditor platformConfigEditor && platformConfigEditor.IsPlatformAvailable())
+                    platformSpecificConfigEditors.Add(platformConfigEditor);
             }
 
             toolbarTitleStrings = new string[1 + platformSpecificConfigEditors.Count];
