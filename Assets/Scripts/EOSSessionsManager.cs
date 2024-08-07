@@ -1371,23 +1371,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         }
 
         /// <summary>
-        /// Gets a Session from the most recent <see cref="CurrentSearch"/> with the provided id.
-        /// 
-        /// TODO: This is unimplemented. Either implement fully or remove.
-        /// </summary>
-        /// <param name="sessionId">
-        /// The id of the Session to try to get.
-        /// This is the EOS Game Services id, shared for all users.
-        /// Can only get results from the most recent search.
-        /// </param>
-        /// <returns>Session Details handle, if found.</returns>
-        public SessionDetails MakeSessionHandleFromSearch(string sessionId)
-        {
-            // TODO if needed
-            return null;
-        }
-
-        /// <summary>
         /// Attempts to get a locally joined Presence enabled Session.
         /// Users can only be in one Presence enabled Session at a time.
         /// The current Id is stored in <see cref="KnownPresenceSessionId"/>.
