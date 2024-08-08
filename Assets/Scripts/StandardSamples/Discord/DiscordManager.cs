@@ -41,6 +41,50 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Discord
     [DisallowMultipleComponent]
     public class DiscordManager : MonoBehaviour
     {
+        public void StartConnectLogin(EOSManager.OnConnectLoginCallback onLoginCallback)
+        {
+            StartConnectLogin(onLoginCallback, 0);
+        }
+
+        private void StartConnectLogin(EOSManager.OnConnectLoginCallback onLoginCallback, int retryAttemptNumber = 0)
+        {
+#if !DISABLEDISCORD
+            const int MaximumNumberOfRetries = 1;
+
+            // First acquire an auth token
+            // If it's invalid, end here. If a valid was returned, attempt to login.
+            // If the result code is exactly Result.ConnectExternalTokenValidationFailed, then reacquire the token and try again
+            // Then otherwise if the login succeeds or fails, call the onLoginCallback with the result.
+
+            Discord.DiscordManager.Instance.RequestOAuth2Token((string returnedToken) =>
+            {
+                // Without a token, end here
+                if (string.IsNullOrEmpty(returnedToken))
+                {
+                    onLoginCallback?.Invoke(new Epic.OnlineServices.Connect.LoginCallbackInfo() { ResultCode = Epic.OnlineServices.Result.InvalidAuth });
+                    return;
+                }
+
+                // Attempt to login to Discord
+                EOSManager.Instance.StartConnectLoginWithOptions(ExternalCredentialType.DiscordAccessToken, returnedToken, onloginCallback: (LoginCallbackInfo callbackInfo) =>
+                {
+                    if (retryAttemptNumber < MaximumNumberOfRetries && callbackInfo.ResultCode == Result.ConnectExternalTokenValidationFailed)
+                    {
+                        // If the auth failed for exactly this reason, then try logging in again, doing the whole process again to acquire a new token
+                        cachedToken = null;
+                        StartConnectLogin(onLoginCallback, retryAttemptNumber++);
+                    }
+                    else
+                    {
+                        // Otherwise report results
+                        onLoginCallback?.Invoke(callbackInfo);
+                    }
+                });
+            });
+#else
+            Debug.LogError("Discord not supported on this platform");
+#endif
+        }
 #if !DISABLEDISCORD
         protected static DiscordManager s_instance;
         public static DiscordManager Instance
@@ -131,47 +175,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Discord
         private DateTime tokenExpiration;
 
         private event Action<string> onTokenReceived;
-
-        public void StartConnectLogin(EOSManager.OnConnectLoginCallback onLoginCallback)
-        {
-            StartConnectLogin(onLoginCallback, 0);
-        }
-
-        private void StartConnectLogin(EOSManager.OnConnectLoginCallback onLoginCallback, int retryAttemptNumber = 0)
-        {
-            const int MaximumNumberOfRetries = 1;
-
-            // First acquire an auth token
-            // If it's invalid, end here. If a valid was returned, attempt to login.
-            // If the result code is exactly Result.ConnectExternalTokenValidationFailed, then reacquire the token and try again
-            // Then otherwise if the login succeeds or fails, call the onLoginCallback with the result.
-
-            Discord.DiscordManager.Instance.RequestOAuth2Token((string returnedToken) =>
-            {
-                // Without a token, end here
-                if (string.IsNullOrEmpty(returnedToken))
-                {
-                    onLoginCallback?.Invoke(new Epic.OnlineServices.Connect.LoginCallbackInfo() { ResultCode = Epic.OnlineServices.Result.InvalidAuth });
-                    return;
-                }
-
-                // Attempt to login to Discord
-                EOSManager.Instance.StartConnectLoginWithOptions(ExternalCredentialType.DiscordAccessToken, returnedToken, onloginCallback: (LoginCallbackInfo callbackInfo) =>
-                {
-                    if (retryAttemptNumber < MaximumNumberOfRetries && callbackInfo.ResultCode == Result.ConnectExternalTokenValidationFailed)
-                    {
-                        // If the auth failed for exactly this reason, then try logging in again, doing the whole process again to acquire a new token
-                        cachedToken = null;
-                        StartConnectLogin(onLoginCallback, retryAttemptNumber++);
-                    }
-                    else
-                    {
-                        // Otherwise report results
-                        onLoginCallback?.Invoke(callbackInfo);
-                    }
-                });
-            });
-        }
 
         public void RequestOAuth2Token(Action<string> callback)
         {

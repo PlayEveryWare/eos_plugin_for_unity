@@ -284,10 +284,10 @@ _WIN32 || _WIN64
             {
                 taskNetworkTimeoutSecondsAsString = mainEOSConfigFile.taskNetworkTimeoutSeconds.ToString();
             }
-
+#if !EOS_DISABLE
             GUIEditorUtility.AssigningTextField("Task Network Timeout Seconds", ref taskNetworkTimeoutSecondsAsString,
                 tooltip: $"(Optional) Define the maximum amount of time network calls will run in the EOS SDK before timing out while the {nameof(Epic.OnlineServices.Platform.NetworkStatus)} is not {nameof(Epic.OnlineServices.Platform.NetworkStatus.Online)}. Defaults to 30 seconds if not set or less than or equal to zero.");
-
+#endif
             if (taskNetworkTimeoutSecondsAsString.Length != 0)
             {
                 try

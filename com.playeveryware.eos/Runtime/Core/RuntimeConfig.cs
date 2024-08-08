@@ -24,6 +24,7 @@
 
 namespace PlayEveryWare.EpicOnlineServices
 {
+#if !EOS_DISABLE
     using Epic.OnlineServices.Auth;
     using Epic.OnlineServices.Platform;
     using System;
@@ -48,7 +49,7 @@ namespace PlayEveryWare.EpicOnlineServices
     /// </summary>
     public readonly struct RuntimeConfig
     {
-        #region EOS SDK Configuration Values
+    #region EOS SDK Configuration Values
 
         /*
          * The following region contains values that are required in order to
@@ -119,7 +120,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </summary>
         public readonly bool IsServer;
 
-        #endregion
+    #endregion
 
         public RuntimeConfig(
             Guid productId,
@@ -193,5 +194,6 @@ namespace PlayEveryWare.EpicOnlineServices
                 config.isServer);
         }
     }
+#endif
 #endif
 }
