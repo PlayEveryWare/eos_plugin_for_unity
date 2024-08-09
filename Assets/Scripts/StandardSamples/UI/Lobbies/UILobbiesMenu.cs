@@ -37,7 +37,7 @@ using UnityEngine.Android;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
-    public class UILobbiesMenu : UIFriendInteractionSource, ISampleSceneUI
+    public class UILobbiesMenu : SampleSceneWithFriends
     {
         [Header("Lobbies UI - Create Options")]
         public GameObject LobbiesUIParent;
@@ -793,7 +793,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
      
-        public void ShowMenu()
+        public override void ShowMenu()
         {
             EOSManager.Instance.GetOrCreateManager<EOSLobbyManager>().OnLoggedIn();
 
@@ -803,7 +803,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             EventSystem.current.SetSelectedGameObject(UIFirstSelected);
         }
 
-        public void HideMenu()
+        public override void HideMenu()
         {
             LobbyManager?.OnLoggedOut();
 

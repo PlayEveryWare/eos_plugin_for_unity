@@ -20,15 +20,11 @@
 * SOFTWARE.
 */
 
-using Epic.OnlineServices;
-using UnityEngine;
-
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
-    /// <summary>
-    /// Class <c>UIFriendInteractionSource</c> is the base class for sample UIs that interact with the friend list UI.
-    /// </summary>
-    public class UIFriendInteractionSource : MonoBehaviour
+    using UnityEngine;
+
+    public abstract class SampleSceneWithFriends : SampleScene
     {
         public enum FriendInteractionState
         {
@@ -78,5 +74,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
 
         }
+    }
+
+
+    public abstract class SampleScene : MonoBehaviour
+    {
+        public abstract void ShowMenu();
+        public abstract void HideMenu();
     }
 }

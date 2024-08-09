@@ -42,7 +42,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     /// Unity UI sample that uses <c>AchievementManager</c> to demo features.  Can be used as a template or starting point for implementing Achievement features.
     /// </summary>
 
-    public class UIAchievementsMenu : MonoBehaviour, ISampleSceneUI
+    public class UIAchievementsMenu : SampleScene
     {
         [Header("Achievements UI")]
         public Button refreshDataButton;
@@ -109,7 +109,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             Debug.Log("Nothing currently selected, default to UIFirstSelected: EventSystem.current.currentSelectedGameObject = " + EventSystem.current.currentSelectedGameObject);
         }
 
-        public void ShowMenu()
+        public override void ShowMenu()
         {
             refreshDataButton.gameObject.SetActive(true);
             loginIncreaseButton.gameObject.SetActive(true);
@@ -119,7 +119,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             EventSystem.current.SetSelectedGameObject(UIFirstSelected);
         }
 
-        public void HideMenu()
+        public override void HideMenu()
         {
             refreshDataButton.gameObject.SetActive(false);
             loginIncreaseButton.gameObject.SetActive(false);

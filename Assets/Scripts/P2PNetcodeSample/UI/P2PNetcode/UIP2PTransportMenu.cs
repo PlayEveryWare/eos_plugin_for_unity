@@ -48,7 +48,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
         }
     }
 
-    public class UIP2PTransportMenu : UIFriendInteractionSource, ISampleSceneUI
+    public class UIP2PTransportMenu : SampleSceneWithFriends
     {
         public UIFriendsMenu FriendUI;
         public GameObject PlayerNetworkPrefab;
@@ -433,7 +433,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             }
         }
 
-        public void HideMenu()
+        public override void HideMenu()
         {
             if (isClient || isHost)
             {
@@ -451,7 +451,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             RemoveJoinListener();
         }
 
-        public void ShowMenu()
+        public override void ShowMenu()
         {
             Background.enabled = false;
 

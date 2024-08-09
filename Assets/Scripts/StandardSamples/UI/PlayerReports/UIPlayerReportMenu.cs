@@ -34,7 +34,7 @@ using PlayEveryWare.EpicOnlineServices;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
-    public class UIPlayerReportMenu : UIFriendInteractionSource, ISampleSceneUI
+    public class UIPlayerReportMenu : SampleSceneWithFriends
     {
         [Header("Reports")]
         public GameObject CrashReportUIParent;
@@ -198,12 +198,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             ReportButtonOnClick(friendData.UserProductUserId, friendData.Name);
         }
 
-        public void ShowMenu()
+        public override void ShowMenu()
         {
             ResetPopUp();
         }
 
-        public void HideMenu()
+        public override void HideMenu()
         {
             ResetPopUp();
         }

@@ -42,7 +42,7 @@ using PlayEveryWare.EpicOnlineServices;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
-    public class UIFriendsMenu : MonoBehaviour, ISampleSceneUI
+    public class UIFriendsMenu : SampleScene
     {
         [Header("Friends UI")]
         public GameObject FriendsUIParent;
@@ -71,7 +71,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         // Lobbies, P2P Chat, etc.
         [Header("Friend Interaction Source (Optional)")]
         [Tooltip("UI for Lobbies, P2P Chat, Reports, etc.")]
-        public UIFriendInteractionSource UIFriendInteractionSource;
+        public SampleSceneWithFriends FriendsSampleScene;
 
         private float initialPanelAnchoredPosX;
 
@@ -140,10 +140,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
             else
             {
-                if (UIFriendInteractionSource != null && UIFriendInteractionSource.IsFriendsUIDirty())
+                if (FriendsSampleScene != null && FriendsSampleScene.IsFriendsUIDirty())
                 {
                     RenderFriendsList(true);
-                    UIFriendInteractionSource.SetDirtyFlag(false);
+                    FriendsSampleScene.SetDirtyFlag(false);
                 }
                 else
                 {
@@ -176,7 +176,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 GameObject.Destroy(child.gameObject);
             }
 
-            UIFriendInteractionSource?.OnFriendStateChanged();
+            FriendsSampleScene?.OnFriendStateChanged();
 
             foreach (FriendData friend in friendDataList)
             {
@@ -185,23 +185,23 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
                 uiEntry.SetFriendData(friend);
 
-                if (UIFriendInteractionSource != null)
+                if (FriendsSampleScene != null)
                 {
-                    var friendButtonState = UIFriendInteractionSource.GetFriendInteractionState(friend);
-                    uiEntry.SetFriendbuttonText(UIFriendInteractionSource.GetFriendInteractButtonText());
-                    uiEntry.FriendInteractOnClick = UIFriendInteractionSource.OnFriendInteractButtonClicked;
+                    var friendButtonState = FriendsSampleScene.GetFriendInteractionState(friend);
+                    uiEntry.SetFriendbuttonText(FriendsSampleScene.GetFriendInteractButtonText());
+                    uiEntry.FriendInteractOnClick = FriendsSampleScene.OnFriendInteractButtonClicked;
                     switch (friendButtonState)
                     {
-                        case UIFriendInteractionSource.FriendInteractionState.Hidden:
+                        case SampleSceneWithFriends.FriendInteractionState.Hidden:
                             uiEntry.EnableFriendButton(false);
                             break;
 
-                        case UIFriendInteractionSource.FriendInteractionState.Disabled:
+                        case SampleSceneWithFriends.FriendInteractionState.Disabled:
                             uiEntry.EnableFriendButtonInteraction(false);
                             uiEntry.EnableFriendButton(true);
                             break;
 
-                        case UIFriendInteractionSource.FriendInteractionState.Enabled:
+                        case SampleSceneWithFriends.FriendInteractionState.Enabled:
                             uiEntry.EnableFriendButtonInteraction(true);
                             uiEntry.EnableFriendButton(true);
                             break;
@@ -301,7 +301,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             FriendsManager.QueryFriends(null);
         }
 
-        public void ShowMenu()
+        public override void ShowMenu()
         {
             EOSManager.Instance.GetOrCreateManager<EOSFriendsManager>().OnLoggedIn();
 
@@ -314,7 +314,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 
-        public void HideMenu()
+        public override void HideMenu()
         {
             FriendsManager?.OnLoggedOut();
 

@@ -35,7 +35,7 @@ using PlayEveryWare.EpicOnlineServices;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
-    public class UIStoreMenu : MonoBehaviour, ISampleSceneUI
+    public class UIStoreMenu : SampleScene
     {
         [Header("Store UI")]
         public GameObject StoreUIParent;
@@ -96,7 +96,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             StoreManager.CheckOutOverlay(index);
         }
 
-        public void ShowMenu()
+        public override void ShowMenu()
         {
             EOSManager.Instance.GetOrCreateManager<EOSStoreManager>().OnLoggedIn();
 
@@ -112,7 +112,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             EventSystem.current.SetSelectedGameObject(UIFirstSelected);
         }
 
-        public void HideMenu()
+        public override void HideMenu()
         {
             StoreManager?.OnLoggedOut();
 

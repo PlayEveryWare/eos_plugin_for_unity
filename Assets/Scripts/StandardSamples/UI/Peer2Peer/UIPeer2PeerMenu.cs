@@ -36,7 +36,7 @@ using Epic.OnlineServices.Presence;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
-    public class UIPeer2PeerMenu : UIFriendInteractionSource, ISampleSceneUI
+    public class UIPeer2PeerMenu : SampleSceneWithFriends
     {
         [Header("Peer 2 Peer UI")]
         public GameObject Peer2PeerUIParent;
@@ -289,7 +289,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             ChatMessageInput.InputField.text = string.Empty;
         }
 
-        public void ShowMenu()
+        public override void ShowMenu()
         {
             EOSManager.Instance.GetOrCreateManager<EOSPeer2PeerManager>().OnLoggedIn();
 
@@ -328,7 +328,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         }
 
-        public void HideMenu()
+        public override void HideMenu()
         {
             Peer2PeerManager?.OnLoggedOut();
 

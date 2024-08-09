@@ -55,7 +55,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         }
     }
 
-    public class UIPlayerDataStorageMenu : MonoBehaviour, ISampleSceneUI
+    public class UIPlayerDataStorageMenu : SampleScene
     {
         [Header("Player Data Storage UI")]
         public GameObject PlayerDataStorageUIParent;
@@ -312,7 +312,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             LocalViewText.text = JsonUtility.ToJson(currentInventory, true);
         }
 
-        public void ShowMenu()
+        public override void ShowMenu()
         {
             UpdateFileListUI();
             PlayerDataStorageManager.AddNotifyFileListUpdated(UpdateFileListUI);
@@ -324,7 +324,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             EventSystem.current.SetSelectedGameObject(UIFirstSelected);
         }
 
-        public void HideMenu()
+        public override void HideMenu()
         {
             PlayerDataStorageManager?.RemoveNotifyFileListUpdated(UpdateFileListUI);
             PlayerDataStorageManager?.OnLoggedOut();

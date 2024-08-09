@@ -33,7 +33,7 @@ using Epic.OnlineServices.Stats;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
-    public class UILeaderboardMenu : MonoBehaviour, ISampleSceneUI
+    public class UILeaderboardMenu : SampleScene
     {
         private enum LeaderboardGroup
         {
@@ -363,7 +363,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             refreshLeaderboardCoroutine = StartCoroutine(RefreshCurrentLeaderboardAfterWait(SecondsAfterStatIngestedToRefresh));
         }
 
-        public void ShowMenu()
+        public override void ShowMenu()
         {
             LeaderboardUIParent.gameObject.SetActive(true);
 
@@ -380,7 +380,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             RefreshDefinitionsOnClick();
         }
 
-        public void HideMenu()
+        public override void HideMenu()
         {
             LeaderboardManager?.OnLoggedOut();
 
