@@ -40,7 +40,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     public class UILobbiesMenu : SampleSceneWithFriends
     {
         [Header("Lobbies UI - Create Options")]
-        public GameObject LobbiesUIParent;
         public UIConsoleInputField BucketIdVal;
         public Dropdown MaxPlayersVal;
         public Dropdown LevelVal;
@@ -794,7 +793,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             EOSManager.Instance.GetOrCreateManager<EOSLobbyManager>().OnLoggedIn();
 
-            LobbiesUIParent.gameObject.SetActive(true);
+            UIParent.gameObject.SetActive(true);
 
             // Controller
             EventSystem.current.SetSelectedGameObject(UIFirstSelected);
@@ -804,7 +803,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             LobbyManager?.OnLoggedOut();
 
-            LobbiesUIParent.gameObject.SetActive(false);
+            UIParent.gameObject.SetActive(false);
         }
 
         private void ClearSearchResults()

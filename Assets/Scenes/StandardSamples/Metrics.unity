@@ -2396,6 +2396,16 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4648317576911501075, guid: fdc90ec5ac6a273489c507aa6823f1d4,
+        type: 3}
+      propertyPath: UIParent
+      value: 
+      objectReference: {fileID: 805463064423389512}
+    - target: {fileID: 4648317576911501075, guid: fdc90ec5ac6a273489c507aa6823f1d4,
+        type: 3}
+      propertyPath: UIFirstSelected
+      value: 
+      objectReference: {fileID: 805463064423389511}
     - target: {fileID: 4815128514147587238, guid: fdc90ec5ac6a273489c507aa6823f1d4,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -2578,3 +2588,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fdc90ec5ac6a273489c507aa6823f1d4, type: 3}
+--- !u!1 &805463064423389511 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1251088013977758596, guid: fdc90ec5ac6a273489c507aa6823f1d4,
+    type: 3}
+  m_PrefabInstance: {fileID: 805463064423389510}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &805463064423389512 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 750486745583495277, guid: fdc90ec5ac6a273489c507aa6823f1d4,
+    type: 3}
+  m_PrefabInstance: {fileID: 805463064423389510}
+  m_PrefabAsset: {fileID: 0}

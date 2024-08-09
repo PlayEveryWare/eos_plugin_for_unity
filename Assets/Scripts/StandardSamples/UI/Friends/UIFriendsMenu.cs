@@ -45,7 +45,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     public class UIFriendsMenu : SampleScene
     {
         [Header("Friends UI")]
-        public GameObject FriendsUIParent;
 
         public GameObject FriendsPanel;
         private bool collapsed = false;
@@ -303,7 +302,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             EOSManager.Instance.GetOrCreateManager<EOSFriendsManager>().OnLoggedIn();
 
-            FriendsUIParent.SetActive(true);
+            UIParent.SetActive(true);
 
             // Controller
             if(UIFirstSelected.activeInHierarchy)
@@ -316,7 +315,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             FriendsManager?.OnLoggedOut();
 
-            FriendsUIParent.SetActive(false);
+            UIParent.SetActive(false);
         }
     }
 }

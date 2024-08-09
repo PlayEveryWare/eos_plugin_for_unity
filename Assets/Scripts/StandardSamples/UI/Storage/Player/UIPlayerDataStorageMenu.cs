@@ -58,7 +58,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     public class UIPlayerDataStorageMenu : SampleScene
     {
         [Header("Player Data Storage UI")]
-        public GameObject PlayerDataStorageUIParent;
 
         public UIConsoleInputField NewFileNameTextBox;
 
@@ -315,7 +314,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             PlayerDataStorageManager.AddNotifyFileListUpdated(UpdateFileListUI);
             PlayerDataStorageManager.OnLoggedIn();
 
-            PlayerDataStorageUIParent.gameObject.SetActive(true);
+            UIParent.gameObject.SetActive(true);
 
             // Controller
             EventSystem.current.SetSelectedGameObject(UIFirstSelected);
@@ -326,7 +325,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             PlayerDataStorageManager?.RemoveNotifyFileListUpdated(UpdateFileListUI);
             PlayerDataStorageManager?.OnLoggedOut();
 
-            PlayerDataStorageUIParent.gameObject.SetActive(false);
+            UIParent.gameObject.SetActive(false);
             currentSelectedFile = string.Empty;
             currentInventory = null;
         }

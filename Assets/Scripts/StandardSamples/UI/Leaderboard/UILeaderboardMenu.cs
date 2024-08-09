@@ -42,8 +42,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         }
 
         [Header("Leaderboard UI")]
-        public GameObject LeaderboardUIParent;
-
         public GameObject LeaderboardDefinitionsContentParent;
         public GameObject UIFileNameEntryPrefab;
 
@@ -362,7 +360,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public override void ShowMenu()
         {
-            LeaderboardUIParent.gameObject.SetActive(true);
+            UIParent.gameObject.SetActive(true);
 
             //EOSManager.Instance.GetOrCreateManager<EOSLeaderboardManager>().OnLoggedIn();
             Invoke("InitFriends",0);
@@ -381,7 +379,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             LeaderboardManager?.OnLoggedOut();
 
-            LeaderboardUIParent.gameObject.SetActive(false);
+            UIParent.gameObject.SetActive(false);
         }
 
         private void SetCurrentLeaderboardDescription()

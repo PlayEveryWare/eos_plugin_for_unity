@@ -82,6 +82,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         [Header("Controller")]
         public GameObject UIFirstSelected;
 
+        public GameObject UIParent;
+
         public abstract void ShowMenu();
         public abstract void HideMenu();
     }

@@ -37,7 +37,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     public class UIPlayerReportMenu : SampleSceneWithFriends
     {
         [Header("Reports")]
-        public GameObject CrashReportUIParent;
         public Text PlayerName;
         public Dropdown CategoryList;
         public InputField Message;
@@ -83,7 +82,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             EOSManager.Instance.GetOrCreateManager<EOSReportsManager>().QueryActivePlayerSanctions(userId, QueryActivePlayerSanctionsCompleted);
 
             // Show PopUp
-            CrashReportUIParent.gameObject.SetActive(true);
+            UIParent.gameObject.SetActive(true);
 
             // Controller
             if(UIFirstSelected.activeInHierarchy)
@@ -177,7 +176,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             Message.text = string.Empty;
 
             currentProdcutUserId = null;
-            CrashReportUIParent.gameObject.SetActive(false);
+            UIParent.gameObject.SetActive(false);
         }
 
         public override FriendInteractionState GetFriendInteractionState(FriendData friendData)
