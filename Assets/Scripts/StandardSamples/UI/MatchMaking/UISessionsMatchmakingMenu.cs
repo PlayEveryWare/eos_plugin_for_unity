@@ -93,9 +93,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public Text InviteFromVal;
         public Toggle InvitePresence;
 
-        [Header("Controller")]
-        public GameObject UIFirstSelected;
-
         private EOSSessionsManager GetEOSSessionsManager
         {
             get { return EOSManager.Instance.GetOrCreateManager<EOSSessionsManager>(); }

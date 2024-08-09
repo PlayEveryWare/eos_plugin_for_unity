@@ -71,9 +71,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public Dropdown AddItemDropdown;
 
-        [Header("Controller")]
-        public GameObject UIFirstSelected;
-
         private string currentSelectedFile = string.Empty;
 
         private EOSPlayerDataStorageManager PlayerDataStorageManager;

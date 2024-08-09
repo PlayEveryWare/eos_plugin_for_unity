@@ -81,9 +81,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public Text InviteLevelVal;
         public Toggle InvitePresence;
 
-        [Header("Controller")]
-        public GameObject UIFirstSelected;
-
         // UI Cache
         private int lastMemberCount = 0;
         private ProductUserId currentLobbyOwnerCache;

@@ -54,9 +54,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public UIConsoleInputField ingestStatValueInput;
 
-        [Header("Controller")]
-        public GameObject UIFirstSelected;
-
         private string currentSelectedDefinitionLeaderboardId = string.Empty;
         private string currentSelectedDefinitionStatName = string.Empty;
         private LeaderboardGroup currentGroup = LeaderboardGroup.Global;

@@ -59,8 +59,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public bool CollapseOnStart = false;
 
-        [Header("Controller")]
-        public GameObject UIFirstSelected;
         public GameObject[] ControllerUIObjects;
         public GameObject SelectedButtonOnClose;
 

@@ -56,9 +56,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public RawImage achievementUnlockedIcon;
         public RawImage achievementLockedIcon;
 
-        [Header("Controller")]
-        public GameObject UIFirstSelected;
-
         private List<UIAchievementButton> achievementListItems;
 
         private bool displayDefinition = false;

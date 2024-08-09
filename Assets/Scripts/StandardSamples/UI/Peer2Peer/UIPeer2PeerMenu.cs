@@ -56,9 +56,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public UIPeer2PeerParticleController ParticleManager;
 
-        [Header("Controller")]
-        public GameObject UIFirstSelected;
-
         // Private
 
         private EOSPeer2PeerManager Peer2PeerManager;

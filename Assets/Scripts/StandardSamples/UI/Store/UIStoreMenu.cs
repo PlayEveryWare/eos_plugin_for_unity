@@ -48,9 +48,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public Text catalogueItem1;
         public Button checkOutButton1;
 
-        [Header("Controller")]
-        public GameObject UIFirstSelected;
-
         private EOSStoreManager StoreManager;
 
         public void Start()

@@ -79,6 +79,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
     public abstract class SampleScene : MonoBehaviour
     {
+        [Header("Controller")]
+        public GameObject UIFirstSelected;
+
         public abstract void ShowMenu();
         public abstract void HideMenu();
     }
