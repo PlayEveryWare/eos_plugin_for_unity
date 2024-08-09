@@ -39,7 +39,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     /// Unity UI sample that uses <c>TitleStoragemanager</c> to demo features.  Can be used as a template or starting point for implementing Title Storage features.
     /// </summary>
 
-    public class UITitleStorageMenu : SampleScene
+    public class UITitleStorageMenu : SampleMenu
     {
         [Header("Title Storage UI")]
         
@@ -60,7 +60,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public void Awake()
         {
-            HideMenu();
+            HideInternal();
         }
 
         public void OnEnable()
@@ -263,20 +263,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 
-        public override void ShowMenu()
+        protected override void ShowInternal()
         {
             EOSManager.Instance.GetOrCreateManager<EOSTitleStorageManager>().OnLoggedOut();
-
-            UIParent.gameObject.SetActive(true);
-
-            // Controller
-            EventSystem.current.SetSelectedGameObject(UIFirstSelected);
         }
 
-        public override void HideMenu()
+        protected override void HideInternal()
         {
-            UIParent.gameObject.SetActive(false);
-
             TitleStorageManager?.OnLoggedOut();
         }
     }

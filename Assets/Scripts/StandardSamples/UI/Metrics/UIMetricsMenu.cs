@@ -31,7 +31,7 @@ using Epic.OnlineServices.Metrics;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
-    public class UIMetricsMenu : SampleScene
+    public class UIMetricsMenu : SampleMenu
     {
         public UIConsoleInputField DisplayNameVal;
         public Dropdown ControllerTypeDropdown;
@@ -152,15 +152,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             UpdateButtons();
         }
 
-        public override void HideMenu()
+        protected override void HideInternal()
         {
-            gameObject.SetActive(false);
             UpdateButtons();
         }
 
-        public override void ShowMenu()
+        protected override void ShowInternal()
         {
-            gameObject.SetActive(true);
             var localUserInfo = UserInfoManager.GetLocalUserInfo();
             if (localUserInfo.UserId?.IsValid() == true)
             {

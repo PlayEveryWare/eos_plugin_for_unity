@@ -33,7 +33,7 @@ using Epic.OnlineServices.Stats;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
-    public class UILeaderboardMenu : SampleScene
+    public class UILeaderboardMenu : SampleMenu
     {
         private enum LeaderboardGroup
         {
@@ -358,15 +358,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             refreshLeaderboardCoroutine = StartCoroutine(RefreshCurrentLeaderboardAfterWait(SecondsAfterStatIngestedToRefresh));
         }
 
-        public override void ShowMenu()
+        protected override void ShowInternal()
         {
-            UIParent.gameObject.SetActive(true);
-
-            //EOSManager.Instance.GetOrCreateManager<EOSLeaderboardManager>().OnLoggedIn();
             Invoke("InitFriends",0);
-
-            // Controller
-            EventSystem.current.SetSelectedGameObject(UIFirstSelected);
         }
 
         private void InitFriends()
@@ -375,11 +369,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             RefreshDefinitionsOnClick();
         }
 
-        public override void HideMenu()
+        protected override void HideInternal()
         {
             LeaderboardManager?.OnLoggedOut();
-
-            UIParent.gameObject.SetActive(false);
         }
 
         private void SetCurrentLeaderboardDescription()

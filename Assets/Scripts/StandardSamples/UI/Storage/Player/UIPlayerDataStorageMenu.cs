@@ -55,7 +55,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         }
     }
 
-    public class UIPlayerDataStorageMenu : SampleScene
+    public class UIPlayerDataStorageMenu : SampleMenu
     {
         [Header("Player Data Storage UI")]
 
@@ -308,24 +308,18 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             LocalViewText.text = JsonUtility.ToJson(currentInventory, true);
         }
 
-        public override void ShowMenu()
+        protected override void ShowInternal()
         {
             UpdateFileListUI();
             PlayerDataStorageManager.AddNotifyFileListUpdated(UpdateFileListUI);
             PlayerDataStorageManager.OnLoggedIn();
-
-            UIParent.gameObject.SetActive(true);
-
-            // Controller
-            EventSystem.current.SetSelectedGameObject(UIFirstSelected);
         }
 
-        public override void HideMenu()
+        protected override void HideInternal()
         {
             PlayerDataStorageManager?.RemoveNotifyFileListUpdated(UpdateFileListUI);
             PlayerDataStorageManager?.OnLoggedOut();
 
-            UIParent.gameObject.SetActive(false);
             currentSelectedFile = string.Empty;
             currentInventory = null;
         }

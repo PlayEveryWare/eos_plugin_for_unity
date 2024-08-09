@@ -37,7 +37,7 @@ using UnityEngine.Android;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
-    public class UILobbiesMenu : SampleSceneWithFriends
+    public class UILobbiesMenu : SampleMenuWithFriends
     {
         [Header("Lobbies UI - Create Options")]
         public UIConsoleInputField BucketIdVal;
@@ -104,7 +104,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             // Hide Invite Pop-up (Default)
             UIInvitePanel.SetActive(false);
 
-            HideMenu();
+            HideInternal();
         }
 
         private void Start()
@@ -789,21 +789,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
      
-        public override void ShowMenu()
+        protected override void ShowInternal()
         {
             EOSManager.Instance.GetOrCreateManager<EOSLobbyManager>().OnLoggedIn();
-
-            UIParent.gameObject.SetActive(true);
-
-            // Controller
-            EventSystem.current.SetSelectedGameObject(UIFirstSelected);
         }
 
-        public override void HideMenu()
+        protected override void HideInternal()
         {
             LobbyManager?.OnLoggedOut();
-
-            UIParent.gameObject.SetActive(false);
         }
 
         private void ClearSearchResults()

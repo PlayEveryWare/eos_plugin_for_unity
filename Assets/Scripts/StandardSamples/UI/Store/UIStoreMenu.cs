@@ -35,7 +35,7 @@ using PlayEveryWare.EpicOnlineServices;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
-    public class UIStoreMenu : SampleScene
+    public class UIStoreMenu : SampleMenu
     {
         [Header("Store UI")]
         
@@ -53,7 +53,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             StoreManager = EOSManager.Instance.GetOrCreateManager<EOSStoreManager>();
 
-            HideMenu();
+            HideInternal();
         }
 
         private void OnDestroy()
@@ -92,23 +92,18 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             StoreManager.CheckOutOverlay(index);
         }
 
-        public override void ShowMenu()
+        protected override void ShowInternal()
         {
             EOSManager.Instance.GetOrCreateManager<EOSStoreManager>().OnLoggedIn();
-
-            queryOffersButton.gameObject.SetActive(true);
 
             catalogueItem0.gameObject.SetActive(true);
             checkOutButton0.gameObject.SetActive(true);
 
             catalogueItem1.gameObject.SetActive(true);
             checkOutButton1.gameObject.SetActive(true);
-
-            // Controller
-            EventSystem.current.SetSelectedGameObject(UIFirstSelected);
         }
 
-        public override void HideMenu()
+        protected override void HideInternal()
         {
             StoreManager?.OnLoggedOut();
 

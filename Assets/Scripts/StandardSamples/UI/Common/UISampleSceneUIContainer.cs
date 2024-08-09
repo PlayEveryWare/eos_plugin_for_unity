@@ -28,7 +28,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     using System.Collections.Generic;
     using System.Linq;
 
-    public class UISampleSceneUIContainer : SampleScene
+    public class UISampleSceneUIContainer : SampleMenu
     {
         /// <summary>
         /// Container for the sample scene UI.
@@ -46,29 +46,29 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             InitialFlexHeight = ContainerLayout.flexibleHeight;
         }
 
-        public override void ShowMenu()
+        protected override void ShowInternal()
         {
             foreach (var scene in GetContainedSampleScenes())
             {
-                scene.ShowMenu();
+                scene.Show();
             }
         }
 
-        public override void HideMenu()
+        protected override void HideInternal()
         {
             foreach (var scene in GetContainedSampleScenes())
             {
-                scene.HideMenu();
+                scene.Hide();
             }
         }
 
         /// <summary>
-        /// Gets all children ISampleSceneUI objects that are not this one.
+        /// Gets all children SampleMenu objects that are not this one.
         /// </summary>
         /// <returns>Enumerable of sample scenes contained within.</returns>
-        private IEnumerable<SampleScene> GetContainedSampleScenes()
+        private IEnumerable<SampleMenu> GetContainedSampleScenes()
         {
-            return GetComponentsInChildren<SampleScene>(true).Where(element =>
+            return GetComponentsInChildren<SampleMenu>(true).Where(element =>
                 element is MonoBehaviour behaviour && behaviour.gameObject != gameObject);
         }
 

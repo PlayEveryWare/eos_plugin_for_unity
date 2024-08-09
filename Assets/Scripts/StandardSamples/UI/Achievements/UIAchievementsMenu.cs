@@ -42,7 +42,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     /// Unity UI sample that uses <c>AchievementManager</c> to demo features.  Can be used as a template or starting point for implementing Achievement features.
     /// </summary>
 
-    public class UIAchievementsMenu : SampleScene
+    public class UIAchievementsMenu : SampleMenu
     {
         [Header("Achievements UI")]
         public Button refreshDataButton;
@@ -73,7 +73,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             achievementDataList = new List<AchievementData>();
             achievementListItems = new List<UIAchievementButton>();
 
-            HideMenu();
+            HideInternal();
         }
 
         private void OnEnable()
@@ -106,17 +106,18 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             Debug.Log("Nothing currently selected, default to UIFirstSelected: EventSystem.current.currentSelectedGameObject = " + EventSystem.current.currentSelectedGameObject);
         }
 
-        public override void ShowMenu()
+        protected override void ShowInternal()
         {
+            // PR-NOTE: Considering that the UIParent's gameObject is set to be
+            //          inactive, doesn't that mean that we don't need to change
+            //          any of these? Because they will be set as inactive by 
+            //          nature of being lower in the hierarchy?
             refreshDataButton.gameObject.SetActive(true);
             loginIncreaseButton.gameObject.SetActive(true);
             showDefinitionToggle.gameObject.SetActive(true);
-
-            // Controller
-            EventSystem.current.SetSelectedGameObject(UIFirstSelected);
         }
 
-        public override void HideMenu()
+        protected override void HideInternal()
         {
             refreshDataButton.gameObject.SetActive(false);
             loginIncreaseButton.gameObject.SetActive(false);

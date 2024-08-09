@@ -34,7 +34,7 @@ using PlayEveryWare.EpicOnlineServices;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
-    public class UIPlayerReportMenu : SampleSceneWithFriends
+    public class UIPlayerReportMenu : SampleMenuWithFriends
     {
         [Header("Reports")]
         public Text PlayerName;
@@ -194,12 +194,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             ReportButtonOnClick(friendData.UserProductUserId, friendData.Name);
         }
 
-        public override void ShowMenu()
+        protected override void ShowInternal()
         {
             ResetPopUp();
         }
 
-        public override void HideMenu()
+        protected override void HideInternal()
         {
             ResetPopUp();
         }

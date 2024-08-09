@@ -30,7 +30,7 @@ using Epic.OnlineServices.Presence;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
-    public class UICustomInvitesMenu : SampleSceneWithFriends
+    public class UICustomInvitesMenu : SampleMenuWithFriends
     {
         [Header("Custom Invites UI")]
         public UIConsoleInputField PayloadInputField;
@@ -51,7 +51,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             CustomInvitesManager.AddNotifyCustomInviteReceived(OnInviteReceived);
             CustomInvitesManager.AddNotifyCustomInviteAccepted(OnInviteAccepted);
             CustomInvitesManager.AddNotifyCustomInviteRejected(OnInviteRejected);
-            HideMenu();
+            HideInternal();
         }
 
         private void OnDestroy()
@@ -64,21 +64,19 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             EOSManager.Instance.RemoveManager<EOSCustomInvitesManager>();
         }
 
-        public override void HideMenu()
+        protected override void HideInternal()
         {
-            gameObject.SetActive(false);
             if (EOSManager.Instance.GetProductUserId()?.IsValid() == true)
             {
                 CustomInvitesManager?.ClearPayload();
             }
         }
 
-        public override void ShowMenu()
+        protected override void ShowInternal()
         {
             PayloadInputField.InputField.text = string.Empty;
             CustomInvitesManager.ClearPayload();
-            gameObject.SetActive(true);
-
+            
             var presenceInterface = EOSManager.Instance.GetEOSPresenceInterface();
             var presenceModificationOptions = new CreatePresenceModificationOptions();
             presenceModificationOptions.LocalUserId = EOSManager.Instance.GetLocalUserId();

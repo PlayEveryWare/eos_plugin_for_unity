@@ -23,8 +23,9 @@
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
     using UnityEngine;
+    using UnityEngine.EventSystems;
 
-    public abstract class SampleSceneWithFriends : SampleScene
+    public abstract class SampleMenuWithFriends : SampleMenu
     {
         public enum FriendInteractionState
         {
@@ -77,14 +78,49 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     }
 
 
-    public abstract class SampleScene : MonoBehaviour
+    public abstract class SampleMenu : MonoBehaviour
     {
         [Header("Controller")]
         public GameObject UIFirstSelected;
 
         public GameObject UIParent;
 
-        public abstract void ShowMenu();
-        public abstract void HideMenu();
+        protected bool _startsVisible;
+
+        /// <summary>
+        /// Creates a new SampleScene.
+        /// </summary>
+        /// <param name="startsVisible">
+        /// If true, the scene is visible once it is added, if false, then the
+        /// menu is hidden by default.
+        /// </param>
+        protected SampleMenu(bool startsVisible = true)
+        {
+            _startsVisible = startsVisible;
+        }
+
+        public virtual void Show()
+        {
+            UIParent.SetActive(true);
+            gameObject.SetActive(true);
+
+            if (null != UIFirstSelected && UIFirstSelected.activeInHierarchy)
+            {
+                EventSystem.current.SetSelectedGameObject(UIFirstSelected);
+            }
+
+            ShowInternal();
+        }
+
+        public void Hide()
+        {
+            UIParent.SetActive(false);
+            gameObject.SetActive(false);
+
+            HideInternal();
+        }
+
+        protected abstract void ShowInternal();
+        protected abstract void HideInternal();
     }
 }

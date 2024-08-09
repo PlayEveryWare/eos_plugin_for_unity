@@ -35,7 +35,7 @@ using PlayEveryWare.EpicOnlineServices;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
-    public class UISessionsMatchmakingMenu : SampleSceneWithFriends
+    public class UISessionsMatchmakingMenu : SampleMenuWithFriends
     {
         /// <summary>
         /// An enum to record the local state of whether the local user can invite users to their Session.
@@ -102,7 +102,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             UIInvitePanel.SetActive(false);
             InviteFromVal.text = string.Empty;
 
-            HideMenu();
+            HideInternal();
 
             GetEOSSessionsManager.UIOnSessionRefresh = OnSessionRefresh;
         }
@@ -368,21 +368,16 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             GetEOSSessionsManager.DeclineLobbyInvite();
         }
 
-        public override void ShowMenu()
+        protected override void ShowInternal()
         {
             GetEOSSessionsManager.OnLoggedIn();
             GetEOSSessionsManager.OnPresenceChange.AddListener(SetDirtyFlagAction);
-
-            UIParent.gameObject.SetActive(true);
-
-            // Controller
-            EventSystem.current.SetSelectedGameObject(UIFirstSelected);
 
             EOSManager.Instance.SetLogLevel(Epic.OnlineServices.Logging.LogCategory.AllCategories, Epic.OnlineServices.Logging.LogLevel.Warning);
             EOSManager.Instance.SetLogLevel(Epic.OnlineServices.Logging.LogCategory.Sessions, Epic.OnlineServices.Logging.LogLevel.Verbose);
         }
 
-        public override void HideMenu()
+        protected override void HideInternal()
         {
             if (GetEOSSessionsManager.IsUserLoggedIn)//check to prevent warnings when done unnecessarily during Sessions & Matchmaking startup
             {

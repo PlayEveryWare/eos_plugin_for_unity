@@ -42,7 +42,7 @@ using PlayEveryWare.EpicOnlineServices;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
-    public class UIFriendsMenu : SampleScene
+    public class UIFriendsMenu : SampleMenu
     {
         [Header("Friends UI")]
 
@@ -68,7 +68,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         // Lobbies, P2P Chat, etc.
         [Header("Friend Interaction Source (Optional)")]
         [Tooltip("UI for Lobbies, P2P Chat, Reports, etc.")]
-        public SampleSceneWithFriends FriendsSampleScene;
+        public SampleMenuWithFriends FriendsSampleScene;
 
         private float initialPanelAnchoredPosX;
 
@@ -189,16 +189,16 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     uiEntry.FriendInteractOnClick = FriendsSampleScene.OnFriendInteractButtonClicked;
                     switch (friendButtonState)
                     {
-                        case SampleSceneWithFriends.FriendInteractionState.Hidden:
+                        case SampleMenuWithFriends.FriendInteractionState.Hidden:
                             uiEntry.EnableFriendButton(false);
                             break;
 
-                        case SampleSceneWithFriends.FriendInteractionState.Disabled:
+                        case SampleMenuWithFriends.FriendInteractionState.Disabled:
                             uiEntry.EnableFriendButtonInteraction(false);
                             uiEntry.EnableFriendButton(true);
                             break;
 
-                        case SampleSceneWithFriends.FriendInteractionState.Enabled:
+                        case SampleMenuWithFriends.FriendInteractionState.Enabled:
                             uiEntry.EnableFriendButtonInteraction(true);
                             uiEntry.EnableFriendButton(true);
                             break;
@@ -298,24 +298,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             FriendsManager.QueryFriends(null);
         }
 
-        public override void ShowMenu()
+        protected override void ShowInternal()
         {
             EOSManager.Instance.GetOrCreateManager<EOSFriendsManager>().OnLoggedIn();
-
-            UIParent.SetActive(true);
-
-            // Controller
-            if(UIFirstSelected.activeInHierarchy)
-            {
-                EventSystem.current.SetSelectedGameObject(UIFirstSelected);
-            }
         }
 
-        public override void HideMenu()
+        protected override void HideInternal()
         {
             FriendsManager?.OnLoggedOut();
-
-            UIParent.SetActive(false);
         }
     }
 }

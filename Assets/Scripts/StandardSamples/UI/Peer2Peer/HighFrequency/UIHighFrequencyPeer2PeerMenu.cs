@@ -36,7 +36,7 @@ using Epic.OnlineServices.Presence;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
-    public class UIHighFrequencyPeer2PeerMenu : SampleSceneWithFriends
+    public class UIHighFrequencyPeer2PeerMenu : SampleMenuWithFriends
     {
         [Header("Peer 2 Peer UI")]
         public GameObject ChatWindow;
@@ -241,14 +241,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             ChatMessageInput.InputField.text = string.Empty;
         }
 
-        public override void ShowMenu()
+        protected override void ShowInternal()
         {
             EOSManager.Instance.GetOrCreateManager<EOSPeer2PeerManager>().OnLoggedIn();
-
-            UIParent.gameObject.SetActive(true);
-
-            // Controller
-            EventSystem.current.SetSelectedGameObject(UIFirstSelected);
 
             var presenceInterface = EOSManager.Instance.GetEOSPresenceInterface();
             var presenceModificationOptions = new CreatePresenceModificationOptions();
@@ -279,6 +274,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         }
 
+        protected override void HideInternal()
+        {
+            Peer2PeerManager?.OnLoggedOut();
+        }
+
         public void SetRefreshRate(string hz)
         {
             Peer2PeerManager.refreshRate = int.Parse(hz);
@@ -290,12 +290,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             Peer2PeerManager.packetSizeMB = float.Parse(mb);
             Peer2PeerManager.updatePacketSize();
             Debug.Log("UIPeer2PeerMenu (SetPacketSize):Updated packet size to " + Peer2PeerManager.packetSizeMB + " Mb.");
-        }
-        public override void HideMenu()
-        {
-            Peer2PeerManager?.OnLoggedOut();
-
-            UIParent.gameObject.SetActive(false);
         }
 
         public void ParticlesOnClick()
