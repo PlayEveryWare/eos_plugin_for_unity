@@ -58,11 +58,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private List<string> CurrentTags = new List<string>();
 
-        public void Awake()
-        {
-            HideInternal();
-        }
-
         public void OnEnable()
         {
             if (Config.Get<EOSConfig>().IsEncryptionKeyValid())

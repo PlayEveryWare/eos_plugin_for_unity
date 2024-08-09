@@ -82,10 +82,19 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     {
         [Header("Controller")]
         public GameObject UIFirstSelected;
-
+         
         public GameObject UIParent;
 
+        /// <summary>
+        /// Indicates whether the menu starts visible or not (most start
+        /// hidden).
+        /// </summary>
         protected bool _startsVisible;
+
+        /// <summary>
+        /// Indicates whether the menu is currently visible.
+        /// </summary>
+        protected bool _isVisible = false;
 
         /// <summary>
         /// Creates a new SampleScene.
@@ -94,33 +103,90 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// If true, the scene is visible once it is added, if false, then the
         /// menu is hidden by default.
         /// </param>
-        protected SampleMenu(bool startsVisible = true)
+        protected SampleMenu(bool startsVisible = false)
         {
             _startsVisible = startsVisible;
         }
 
+        public void Awake()
+        {
+            if (_startsVisible)
+            {
+                Show();
+            }
+            else
+            {
+                Hide();
+            }
+        }
+
+        public void Update()
+        {
+            // There shouldn't be any update if the menu is not showing.
+            // Nominally, this should be handled by the built-in lifecycle
+            // methods for MonoBehaviour.
+            if (!_isVisible)
+                return;
+
+            // Controller: Detect if nothing is selected and controller input detected, and set default
+            if (UIFirstSelected.activeSelf != true
+                || EventSystem.current == null || EventSystem.current.currentSelectedGameObject != null
+                || !InputUtility.WasGamepadUsedLastFrame())
+            {
+                return;
+            }
+
+            // Controller
+            EventSystem.current.SetSelectedGameObject(UIFirstSelected);
+        }
+
         public virtual void Show()
         {
-            UIParent.SetActive(true);
+            if (_isVisible)
+                return;
+            
+            if (null != UIParent)
+            {
+                UIParent.SetActive(true);
+            }
+            
             gameObject.SetActive(true);
 
-            if (null != UIFirstSelected && UIFirstSelected.activeInHierarchy)
+            if (null != UIFirstSelected && UIFirstSelected.activeInHierarchy &&
+                null != EventSystem.current)
             {
                 EventSystem.current.SetSelectedGameObject(UIFirstSelected);
             }
 
             ShowInternal();
+
+            _isVisible = true;
         }
 
         public void Hide()
         {
-            UIParent.SetActive(false);
+            if (!_isVisible)
+                return;
+
+            if (null != UIParent)
+            {
+                UIParent.SetActive(false);
+            }
+
             gameObject.SetActive(false);
 
             HideInternal();
+
+            _isVisible = false;
+        }
+
+        protected virtual void UpdateInternal()
+        {
+            // Default behavior is to do nothing
         }
 
         protected abstract void ShowInternal();
+
         protected abstract void HideInternal();
     }
 }

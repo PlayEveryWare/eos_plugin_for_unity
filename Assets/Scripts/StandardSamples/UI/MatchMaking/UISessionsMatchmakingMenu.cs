@@ -96,20 +96,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             get { return EOSManager.Instance.GetOrCreateManager<EOSSessionsManager>(); }
         }
 
-        public void Awake()
+        public void Start()
         {
-            // Hide Invite Pop-up (Default)
             UIInvitePanel.SetActive(false);
             InviteFromVal.text = string.Empty;
 
-            HideInternal();
-
             GetEOSSessionsManager.UIOnSessionRefresh = OnSessionRefresh;
         }
-
-        /*private void Start()
-        {
-        }*/
 
         private int previousFrameSessionCount = 0;
         private int previousFrameResultCount = 0;
@@ -121,11 +114,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             EOSManager.Instance.RemoveManager<EOSSessionsManager>();
         }
 
-        public void Update()
+        protected override void UpdateInternal()
         {
             EOSSessionsManager sessionsManager = GetEOSSessionsManager;
             bool stateUpdates = sessionsManager.Update();
-
 
             // Invites UI Prompt
             if (sessionsManager.GetCurrentInvite() != null)

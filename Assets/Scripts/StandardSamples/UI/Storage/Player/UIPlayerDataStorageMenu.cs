@@ -78,24 +78,20 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         private HashSet<string> fileNames;
         private List<UIFileNameEntry> fileNameUIEntries;
 
-        private void Awake()
+        public UIPlayerDataStorageMenu() : base(true)
         {
             fileNames = new HashSet<string>();
             fileNameUIEntries = new List<UIFileNameEntry>();
-            fileNameUIEntries.AddRange(FilesContentParent.GetComponentsInChildren<UIFileNameEntry>(true));
+            
             PlayerDataStorageManager = EOSManager.Instance.GetOrCreateManager<EOSPlayerDataStorageManager>();
         }
 
         private void Start()
         {
+            fileNameUIEntries.AddRange(FilesContentParent.GetComponentsInChildren<UIFileNameEntry>(true));
             RemoteViewText.text = string.Empty;
             LocalViewText.text = string.Empty;
             CurrentFileNameText.text = "*No File Selected*";
-        }
-
-        private void OnDestroy()
-        {
-            EOSManager.Instance.RemoveManager<EOSPlayerDataStorageManager>();
         }
 
         private void UpdateFileListUI()

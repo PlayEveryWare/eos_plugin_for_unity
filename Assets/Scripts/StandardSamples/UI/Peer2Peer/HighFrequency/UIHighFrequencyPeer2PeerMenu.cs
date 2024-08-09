@@ -92,7 +92,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 Peer2PeerManager.sendActive = !Peer2PeerManager.sendActive;
             }
         }
-        private void Update()
+        protected override void UpdateInternal()
         {
             ProductUserId messageFromPlayer = Peer2PeerManager.HandleReceivedMessages();
             if (messageFromPlayer != null)

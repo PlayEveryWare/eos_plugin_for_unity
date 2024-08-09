@@ -46,6 +46,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             InitialFlexHeight = ContainerLayout.flexibleHeight;
         }
 
+        public UISampleSceneUIContainer() : base(true)
+        {
+
+        }
+
         protected override void ShowInternal()
         {
             foreach (var scene in GetContainedSampleScenes())

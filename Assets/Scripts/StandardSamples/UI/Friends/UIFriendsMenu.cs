@@ -58,7 +58,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public bool CollapseOnStart = false;
 
-        public GameObject[] ControllerUIObjects;
         public GameObject SelectedButtonOnClose;
 
         private EOSFriendsManager FriendsManager;
@@ -71,17 +70,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public SampleMenuWithFriends FriendsSampleScene;
 
         private float initialPanelAnchoredPosX;
-
-#if !ENABLE_INPUT_SYSTEM
-        private void Awake()
-        {
-            // Ensure Disable Controller UI
-            foreach(GameObject o in ControllerUIObjects)
-            {
-                o.SetActive(false);
-            }
-        }
-#endif
 
         public void Start()
         {
@@ -122,7 +110,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             RenderFriendsList(true);
         }
 
-        private void Update()
+        protected override void UpdateInternal()
         {
 #if ENABLE_INPUT_SYSTEM
             var gamepad = Gamepad.current;

@@ -50,11 +50,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         private EOSReportsManager ReportsManager;
         private EOSFriendsManager FriendsManager;
 
-        private void Awake()
-        {
-            ResetPopUp();
-        }
-
         private void Start()
         {
             ReportsManager = EOSManager.Instance.GetOrCreateManager<EOSReportsManager>();

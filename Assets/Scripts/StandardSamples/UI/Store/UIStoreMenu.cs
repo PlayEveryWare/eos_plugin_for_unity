@@ -61,7 +61,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             EOSManager.Instance.RemoveManager<EOSStoreManager>();
         }
 
-        private void Update()
+        protected override void UpdateInternal()
         {
             if (StoreManager.GetCatalogOffers(out List<CatalogOffer> CatalogOffers))
             {

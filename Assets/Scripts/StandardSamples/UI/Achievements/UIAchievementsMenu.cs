@@ -56,7 +56,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public RawImage achievementUnlockedIcon;
         public RawImage achievementLockedIcon;
 
-        private List<UIAchievementButton> achievementListItems;
+        private List<UIAchievementButton> achievementListItems = new();
 
         private bool displayDefinition = false;
         private int displayIndex = -1;
@@ -66,15 +66,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             public DefinitionV2 Definition;
             public PlayerAchievement? PlayerData;
         }
-        List<AchievementData> achievementDataList;
-
-        private void Awake()
-        {
-            achievementDataList = new List<AchievementData>();
-            achievementListItems = new List<UIAchievementButton>();
-
-            HideInternal();
-        }
+        List<AchievementData> achievementDataList = new();
 
         private void OnEnable()
         {
@@ -84,26 +76,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         private void OnDisable()
         {
             AchievementsService.Instance.RemoveUpdateCallback(OnAchievementDataUpdated);
-        }
-
-        private void OnDestroy()
-        {
-            EOSManager.Instance.RemoveManager<AchievementsService>();
-        }
-
-        private void Update()
-        {
-            // Controller: Detect if nothing is selected and controller input detected, and set default
-            if (UIFirstSelected.activeSelf != true
-                || EventSystem.current == null || EventSystem.current.currentSelectedGameObject != null
-                || !InputUtility.WasGamepadUsedLastFrame())
-            {
-                return;
-            }
-
-            // Controller
-            EventSystem.current.SetSelectedGameObject(UIFirstSelected);
-            Debug.Log("Nothing currently selected, default to UIFirstSelected: EventSystem.current.currentSelectedGameObject = " + EventSystem.current.currentSelectedGameObject);
         }
 
         protected override void ShowInternal()
