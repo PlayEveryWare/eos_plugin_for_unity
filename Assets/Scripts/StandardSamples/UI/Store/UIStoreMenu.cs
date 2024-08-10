@@ -48,16 +48,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public Text catalogueItem1;
         public Button checkOutButton1;
 
-        
-        
-
         private EOSStoreManager StoreManager;
 
-        public void Start()
+        protected override void InternalAwake()
         {
             StoreManager = EOSManager.Instance.GetOrCreateManager<EOSStoreManager>();
-
-            HideMenu();
         }
 
         private void OnDestroy()
