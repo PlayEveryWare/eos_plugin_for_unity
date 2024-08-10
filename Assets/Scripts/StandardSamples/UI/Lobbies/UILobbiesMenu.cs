@@ -101,14 +101,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         const bool ONANDROIDPLATFORM = false;
 #endif
 
-        public void Awake()
+        protected override void InternalAwake()
         {
             UIActions.OnCollapseFriendsTab += EnableInterferingUIForFriendsTab;
             UIActions.OnExpandFriendsTab += DisableInterferingUIForFriendsTab;
             // Hide Invite Pop-up (Default)
             UIInvitePanel.SetActive(false);
-
-            HideMenu();
         }
 
         private void Start()
