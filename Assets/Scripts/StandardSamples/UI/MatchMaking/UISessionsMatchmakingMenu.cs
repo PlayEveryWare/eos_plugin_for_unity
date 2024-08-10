@@ -66,8 +66,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// </summary>
         protected OwnSessionInvitationAbilityState OwnInvitationState { get; set; } = OwnSessionInvitationAbilityState.NoSessionToInviteTo;
 
-        public GameObject SessionsMatchmakingUIParent;
-
         [Header("Sessions/Matchmaking UI - Create Options")]
         public Text SessionNameVal;
         public Dropdown MaxPlayersVal;
@@ -375,7 +373,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             GetEOSSessionsManager.OnLoggedIn();
             GetEOSSessionsManager.OnPresenceChange.AddListener(SetDirtyFlagAction);
 
-            SessionsMatchmakingUIParent.gameObject.SetActive(true);
+            UIParent.SetActive(true);
 
             // Controller
             EventSystem.current.SetSelectedGameObject(UIFirstSelected);
@@ -392,7 +390,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 GetEOSSessionsManager.OnLoggedOut();
             }
 
-            SessionsMatchmakingUIParent.gameObject.SetActive(false);
+            UIParent.SetActive(false);
         }
 
         public bool TryGetExistingUISessionEntryById(string sessionId, out UISessionEntry entry)

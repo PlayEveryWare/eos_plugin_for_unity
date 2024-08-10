@@ -39,7 +39,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     public class UIHighFrequencyPeer2PeerMenu : SampleMenuWithFriends
     {
         [Header("Peer 2 Peer UI")]
-        public GameObject Peer2PeerUIParent;
         public GameObject ChatWindow;
 
         // UI
@@ -248,7 +247,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             EOSManager.Instance.GetOrCreateManager<EOSPeer2PeerManager>().OnLoggedIn();
 
-            Peer2PeerUIParent.gameObject.SetActive(true);
+            UIParent.SetActive(true);
 
             // Controller
             EventSystem.current.SetSelectedGameObject(UIFirstSelected);
@@ -298,7 +297,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             Peer2PeerManager?.OnLoggedOut();
 
-            Peer2PeerUIParent.gameObject.SetActive(false);
+            UIParent.SetActive(false);
         }
 
         public void ParticlesOnClick()

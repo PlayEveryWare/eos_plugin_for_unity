@@ -216,6 +216,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1520068606371974356, guid: 6a62934fd9ee35d49bf4f84f329793d1,
         type: 3}
+      propertyPath: UIParent
+      value: 
+      objectReference: {fileID: 610007859}
+    - target: {fileID: 1520068606371974356, guid: 6a62934fd9ee35d49bf4f84f329793d1,
+        type: 3}
       propertyPath: EnableP2PChat
       value: 0
       objectReference: {fileID: 0}
@@ -426,6 +431,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6a62934fd9ee35d49bf4f84f329793d1, type: 3}
+--- !u!1 &610007859 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1520068607348101689, guid: 6a62934fd9ee35d49bf4f84f329793d1,
+    type: 3}
+  m_PrefabInstance: {fileID: 610007858}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &617334194
 PrefabInstance:
   m_ObjectHideFlags: 0

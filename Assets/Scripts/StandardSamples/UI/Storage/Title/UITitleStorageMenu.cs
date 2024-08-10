@@ -42,7 +42,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     public class UITitleStorageMenu : SampleMenu
     {
         [Header("Title Storage UI")]
-        public GameObject TitleStorageUIParent;
 
         public UIConsoleInputField AddTagTextBox;
         public UIConsoleInputField FileNameTextBox;
@@ -261,7 +260,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             EOSManager.Instance.GetOrCreateManager<EOSTitleStorageManager>().OnLoggedOut();
 
-            TitleStorageUIParent.gameObject.SetActive(true);
+            UIParent.SetActive(true);
 
             // Controller
             EventSystem.current.SetSelectedGameObject(UIFirstSelected);
@@ -269,7 +268,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public override void HideMenu()
         {
-            TitleStorageUIParent.gameObject.SetActive(false);
+            UIParent.SetActive(false);
 
             TitleStorageManager?.OnLoggedOut();
         }

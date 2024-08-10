@@ -83,6 +83,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         [Header("Controller")] 
         public GameObject UIFirstSelected;
 
+        public GameObject UIParent;
+        
         public bool StartsHidden { get; private set; }
 
         protected SampleMenu(bool startsHidden = true)

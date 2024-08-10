@@ -38,8 +38,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     public class UIStoreMenu : SampleMenu
     {
         [Header("Store UI")]
-        public GameObject StoreUIParent;
-
         public Button queryOffersButton;
 
         public Text catalogueItem0;
