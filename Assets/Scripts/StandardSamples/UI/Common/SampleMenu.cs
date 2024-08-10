@@ -92,11 +92,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         protected bool _startsVisible;
 
         /// <summary>
-        /// Indicates whether the menu is currently visible.
-        /// </summary>
-        protected bool _isVisible = false;
-
-        /// <summary>
         /// Creates a new SampleScene.
         /// </summary>
         /// <param name="startsVisible">
@@ -122,14 +117,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public void Update()
         {
-            // There shouldn't be any update if the menu is not showing.
-            // Nominally, this should be handled by the built-in lifecycle
-            // methods for MonoBehaviour.
-            if (!_isVisible)
-                return;
-
             // Controller: Detect if nothing is selected and controller input detected, and set default
-            if (UIFirstSelected.activeSelf != true
+            if (UIFirstSelected == null 
+                || UIFirstSelected.activeSelf != true
                 || EventSystem.current == null || EventSystem.current.currentSelectedGameObject != null
                 || !InputUtility.WasGamepadUsedLastFrame())
             {
@@ -142,9 +132,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public virtual void Show()
         {
-            if (_isVisible)
-                return;
-            
             if (null != UIParent)
             {
                 UIParent.SetActive(true);
@@ -159,15 +146,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
 
             ShowInternal();
-
-            _isVisible = true;
         }
 
         public void Hide()
         {
-            if (!_isVisible)
-                return;
-
             if (null != UIParent)
             {
                 UIParent.SetActive(false);
@@ -176,8 +158,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             gameObject.SetActive(false);
 
             HideInternal();
-
-            _isVisible = false;
         }
 
         protected virtual void UpdateInternal()
