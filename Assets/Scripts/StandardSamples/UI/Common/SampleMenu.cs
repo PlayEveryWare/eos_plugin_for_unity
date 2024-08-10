@@ -25,7 +25,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     using UnityEngine;
     using UnityEngine.EventSystems;
 
-    public abstract class ISampleSceneUIWithFriends : ISampleSceneUI
+    public abstract class SampleMenuWithFriends : SampleMenu
     {
         public enum FriendInteractionState
         {
@@ -33,7 +33,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             Disabled,
             Enabled
         }
-        protected ISampleSceneUIWithFriends(bool startsHidden = true) : base(startsHidden) { }
+        protected SampleMenuWithFriends(bool startsHidden = true) : base(startsHidden) { }
 
         /// <summary>
         /// Indicates that this object needs to refresh its UI.
@@ -78,14 +78,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         }
     }
 
-    public abstract class ISampleSceneUI : MonoBehaviour
+    public abstract class SampleMenu : MonoBehaviour
     {
         [Header("Controller")] 
         public GameObject UIFirstSelected;
 
         public bool StartsHidden { get; private set; }
 
-        protected ISampleSceneUI(bool startsHidden = true)
+        protected SampleMenu(bool startsHidden = true)
         {
             StartsHidden = startsHidden;
         }

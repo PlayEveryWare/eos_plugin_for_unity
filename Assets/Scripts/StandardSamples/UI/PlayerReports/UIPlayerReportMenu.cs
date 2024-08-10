@@ -34,7 +34,7 @@ using PlayEveryWare.EpicOnlineServices;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
-    public class UIPlayerReportMenu : ISampleSceneUIWithFriends
+    public class UIPlayerReportMenu : SampleMenuWithFriends
     {
         [Header("Reports")]
         public GameObject CrashReportUIParent;

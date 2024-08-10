@@ -31,7 +31,7 @@ using Epic.OnlineServices.Metrics;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
-    public class UIMetricsMenu : ISampleSceneUI
+    public class UIMetricsMenu : SampleMenu
     {
         public UIConsoleInputField DisplayNameVal;
         public Dropdown ControllerTypeDropdown;

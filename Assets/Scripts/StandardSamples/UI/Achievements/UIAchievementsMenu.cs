@@ -42,7 +42,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     /// Unity UI sample that uses <c>AchievementManager</c> to demo features.  Can be used as a template or starting point for implementing Achievement features.
     /// </summary>
 
-    public class UIAchievementsMenu : ISampleSceneUI
+    public class UIAchievementsMenu : SampleMenu
     {
         [Header("Achievements UI")]
         public Button refreshDataButton;

@@ -35,7 +35,7 @@ using PlayEveryWare.EpicOnlineServices;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
-    public class UISessionsMatchmakingMenu : ISampleSceneUIWithFriends
+    public class UISessionsMatchmakingMenu : SampleMenuWithFriends
     {
         /// <summary>
         /// An enum to record the local state of whether the local user can invite users to their Session.

@@ -48,7 +48,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
         }
     }
 
-    public class UIP2PTransportMenu : ISampleSceneUIWithFriends
+    public class UIP2PTransportMenu : SampleMenuWithFriends
     {
         public UIFriendsMenu FriendUI;
         public GameObject PlayerNetworkPrefab;

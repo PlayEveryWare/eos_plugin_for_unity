@@ -55,7 +55,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         }
     }
 
-    public class UIPlayerDataStorageMenu : ISampleSceneUI
+    public class UIPlayerDataStorageMenu : SampleMenu
     {
         [Header("Player Data Storage UI")]
         public GameObject PlayerDataStorageUIParent;

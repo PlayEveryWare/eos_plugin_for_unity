@@ -37,7 +37,7 @@ using UnityEngine.Android;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
-    public class UILobbiesMenu : ISampleSceneUIWithFriends
+    public class UILobbiesMenu : SampleMenuWithFriends
     {
         [Header("Lobbies UI - Create Options")]
         public GameObject LobbiesUIParent;

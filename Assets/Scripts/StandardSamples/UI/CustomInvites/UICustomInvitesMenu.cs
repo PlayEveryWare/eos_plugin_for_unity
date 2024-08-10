@@ -30,7 +30,7 @@ using Epic.OnlineServices.Presence;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
-    public class UICustomInvitesMenu : ISampleSceneUIWithFriends
+    public class UICustomInvitesMenu : SampleMenuWithFriends
     {
         [Header("Custom Invites UI")]
         public UIConsoleInputField PayloadInputField;

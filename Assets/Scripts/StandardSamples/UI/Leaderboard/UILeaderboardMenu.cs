@@ -33,7 +33,7 @@ using Epic.OnlineServices.Stats;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
-    public class UILeaderboardMenu : ISampleSceneUI
+    public class UILeaderboardMenu : SampleMenu
     {
         private enum LeaderboardGroup
         {

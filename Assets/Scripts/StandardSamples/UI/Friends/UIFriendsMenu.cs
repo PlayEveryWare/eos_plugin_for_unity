@@ -42,7 +42,7 @@ using PlayEveryWare.EpicOnlineServices;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
-    public class UIFriendsMenu : ISampleSceneUI
+    public class UIFriendsMenu : SampleMenu
     {
         [Header("Friends UI")]
         public GameObject FriendsUIParent;
@@ -71,7 +71,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         // Lobbies, P2P Chat, etc.
         [Header("Friend Interaction Source (Optional)")]
         [Tooltip("UI for Lobbies, P2P Chat, Reports, etc.")]
-        public ISampleSceneUIWithFriends UIFriendInteractionSource;
+        public SampleMenuWithFriends UIFriendInteractionSource;
 
         private float initialPanelAnchoredPosX;
 
@@ -192,16 +192,16 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     uiEntry.FriendInteractOnClick = UIFriendInteractionSource.OnFriendInteractButtonClicked;
                     switch (friendButtonState)
                     {
-                        case ISampleSceneUIWithFriends.FriendInteractionState.Hidden:
+                        case SampleMenuWithFriends.FriendInteractionState.Hidden:
                             uiEntry.EnableFriendButton(false);
                             break;
 
-                        case ISampleSceneUIWithFriends.FriendInteractionState.Disabled:
+                        case SampleMenuWithFriends.FriendInteractionState.Disabled:
                             uiEntry.EnableFriendButtonInteraction(false);
                             uiEntry.EnableFriendButton(true);
                             break;
 
-                        case ISampleSceneUIWithFriends.FriendInteractionState.Enabled:
+                        case SampleMenuWithFriends.FriendInteractionState.Enabled:
                             uiEntry.EnableFriendButtonInteraction(true);
                             uiEntry.EnableFriendButton(true);
                             break;
