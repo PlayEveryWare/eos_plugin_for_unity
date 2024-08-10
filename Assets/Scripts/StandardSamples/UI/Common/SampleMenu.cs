@@ -117,9 +117,21 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public void Update()
         {
-            // Controller: Detect if nothing is selected and controller input detected, and set default
-            if (UIFirstSelected == null 
-                || UIFirstSelected.activeSelf != true
+            SetSelected();
+            UpdateInternal();
+        }
+
+        /// <summary>
+        /// Determines and sets the currently selected game object based on a
+        /// number of factors (primarily state).
+        /// </summary>
+        private void SetSelected()
+        {
+            // Various conditions in which the currently selected GameObject 
+            // cannot be set.
+            if (UIFirstSelected == null
+                || UIFirstSelected.activeSelf == false
+                || UIFirstSelected.activeInHierarchy == false
                 || EventSystem.current == null || EventSystem.current.currentSelectedGameObject != null
                 || !InputUtility.WasGamepadUsedLastFrame())
             {
@@ -138,12 +150,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
             
             gameObject.SetActive(true);
-
-            if (null != UIFirstSelected && UIFirstSelected.activeInHierarchy &&
-                null != EventSystem.current)
-            {
-                EventSystem.current.SetSelectedGameObject(UIFirstSelected);
-            }
 
             ShowInternal();
         }
