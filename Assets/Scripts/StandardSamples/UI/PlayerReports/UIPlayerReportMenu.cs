@@ -46,18 +46,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public GameObject SanctionsListContentParent;
         public GameObject UISanctionsEntryPrefab;
 
-        
-        
-
         private ProductUserId currentProdcutUserId;
 
         private EOSReportsManager ReportsManager;
         private EOSFriendsManager FriendsManager;
-
-        private void Awake()
-        {
-            ResetPopUp();
-        }
+        
 
         private void Start()
         {
