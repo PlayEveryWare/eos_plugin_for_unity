@@ -56,10 +56,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public RawImage achievementUnlockedIcon;
         public RawImage achievementLockedIcon;
 
-        
-        
-
-        private List<UIAchievementButton> achievementListItems;
+        private List<UIAchievementButton> achievementListItems = new();
 
         private bool displayDefinition = false;
         private int displayIndex = -1;
@@ -69,15 +66,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             public DefinitionV2 Definition;
             public PlayerAchievement? PlayerData;
         }
-        List<AchievementData> achievementDataList;
-
-        private void Awake()
-        {
-            achievementDataList = new List<AchievementData>();
-            achievementListItems = new List<UIAchievementButton>();
-
-            HideMenu();
-        }
+        List<AchievementData> achievementDataList = new();
 
         private void OnEnable()
         {
