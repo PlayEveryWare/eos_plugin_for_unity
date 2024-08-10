@@ -71,21 +71,16 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public Dropdown AddItemDropdown;
 
-        
-        
-
         private string currentSelectedFile = string.Empty;
 
         private EOSPlayerDataStorageManager PlayerDataStorageManager;
         private PlayerDataInventory currentInventory = null;
 
-        private HashSet<string> fileNames;
-        private List<UIFileNameEntry> fileNameUIEntries;
+        private HashSet<string> fileNames = new();
+        private List<UIFileNameEntry> fileNameUIEntries = new();
 
-        private void Awake()
+        protected override void InternalAwake()
         {
-            fileNames = new HashSet<string>();
-            fileNameUIEntries = new List<UIFileNameEntry>();
             fileNameUIEntries.AddRange(FilesContentParent.GetComponentsInChildren<UIFileNameEntry>(true));
             PlayerDataStorageManager = EOSManager.Instance.GetOrCreateManager<EOSPlayerDataStorageManager>();
         }
