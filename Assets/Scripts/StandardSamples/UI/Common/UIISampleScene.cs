@@ -33,6 +33,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             Disabled,
             Enabled
         }
+        protected ISampleSceneUIWithFriends(bool startsHidden = true) : base(startsHidden) { }
 
         /// <summary>
         /// Indicates that this object needs to refresh its UI.
@@ -82,9 +83,21 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         [Header("Controller")] 
         public GameObject UIFirstSelected;
 
+        public bool StartsHidden { get; private set; }
+
+        protected ISampleSceneUI(bool startsHidden = true)
+        {
+            StartsHidden = startsHidden;
+        }
+
         public void Awake()
         {
+            InternalAwake();
 
+            if (StartsHidden)
+            {
+                HideMenu();
+            }
         }
 
         public void Update()

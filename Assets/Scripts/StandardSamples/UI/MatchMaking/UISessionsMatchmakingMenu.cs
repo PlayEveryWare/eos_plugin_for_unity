@@ -93,8 +93,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public Text InviteFromVal;
         public Toggle InvitePresence;
 
-        
-        
+
+        public UISessionsMatchmakingMenu() : base(false)
+        {
+
+        }
 
         private EOSSessionsManager GetEOSSessionsManager
         {
