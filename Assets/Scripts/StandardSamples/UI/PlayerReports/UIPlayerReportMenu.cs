@@ -46,8 +46,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public GameObject SanctionsListContentParent;
         public GameObject UISanctionsEntryPrefab;
 
-        [Header("Controller")]
-        public GameObject UIFirstSelected;
+        
+        
 
         private ProductUserId currentProdcutUserId;
 

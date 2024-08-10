@@ -58,8 +58,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
 
         public Slider refreshRateSlider;
-        [Header("Controller")]
-        public GameObject UIFirstSelected;
+        
+        
 
         // Private
 

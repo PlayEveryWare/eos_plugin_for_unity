@@ -55,8 +55,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public Text FileContent;
 
-        [Header("Controller")]
-        public GameObject UIFirstSelected;
+        
+        
 
         private EOSTitleStorageManager TitleStorageManager;
 
