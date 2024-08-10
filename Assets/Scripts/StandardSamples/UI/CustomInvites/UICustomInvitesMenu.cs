@@ -30,7 +30,7 @@ using Epic.OnlineServices.Presence;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
-    public class UICustomInvitesMenu : UIFriendInteractionSource, ISampleSceneUI
+    public class UICustomInvitesMenu : ISampleSceneUIWithFriends
     {
         [Header("Custom Invites UI")]
         public UIConsoleInputField PayloadInputField;
@@ -64,7 +64,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             EOSManager.Instance.RemoveManager<EOSCustomInvitesManager>();
         }
 
-        public void HideMenu()
+        public override void HideMenu()
         {
             gameObject.SetActive(false);
             if (EOSManager.Instance.GetProductUserId()?.IsValid() == true)
@@ -73,7 +73,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 
-        public void ShowMenu()
+        public override void ShowMenu()
         {
             PayloadInputField.InputField.text = string.Empty;
             CustomInvitesManager.ClearPayload();

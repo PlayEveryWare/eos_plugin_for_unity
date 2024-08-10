@@ -37,7 +37,7 @@ using UnityEngine.Android;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
-    public class UILobbiesMenu : UIFriendInteractionSource, ISampleSceneUI
+    public class UILobbiesMenu : ISampleSceneUIWithFriends
     {
         [Header("Lobbies UI - Create Options")]
         public GameObject LobbiesUIParent;
@@ -205,32 +205,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             if (currentLobby.IsValid())
             {
                 bool ownerChanged = false;
-
-                /* TODO: Cache external/non-friend accounts
-                if(!currentLobby.LobbyOwnerAccountId.IsValid())
-                {
-                    currentLobby.LobbyOwnerAccountId = FriendsManager.GetAccountMapping(currentLobby.LobbyOwner);
-
-                    if(!currentLobby.LobbyOwnerAccountId.IsValid())
-                    {
-                        Debug.LogWarning("UILobbiesMenu (Update): LobbyOwner EpicAccountId not found in cache, need to query...");
-                        // If still invalid, need to query for account information
-                        // TODO query non cached
-                    }
-                }
-
-                if(currentLobby.LobbyOwnerAccountId.IsValid() && string.IsNullOrEmpty(currentLobby.LobbyOwnerDisplayName))
-                {
-                    currentLobby.LobbyOwnerDisplayName = FriendsManager.GetDisplayName(currentLobby.LobbyOwnerAccountId);
-
-                    if(string.IsNullOrEmpty(currentLobby.LobbyOwnerDisplayName))
-                    {
-                        Debug.LogWarning("UILobbiesMenu (Update): LobbyOwner DisplayName not found in cache, need to query...");
-                        // No cached display name found for user, need to query for account information
-                        // TODO query non cached
-                    }
-                }
-                */
 
                 // Cache LobbyOwner
                 if (currentLobbyOwnerCache != currentLobby.LobbyOwner)
@@ -793,7 +767,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
      
-        public void ShowMenu()
+        public override void ShowMenu()
         {
             EOSManager.Instance.GetOrCreateManager<EOSLobbyManager>().OnLoggedIn();
 
@@ -803,7 +777,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             EventSystem.current.SetSelectedGameObject(UIFirstSelected);
         }
 
-        public void HideMenu()
+        public override void HideMenu()
         {
             LobbyManager?.OnLoggedOut();
 

@@ -22,9 +22,63 @@
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
-    public interface ISampleSceneUI
+    using UnityEngine;
+
+    public abstract class ISampleSceneUIWithFriends : ISampleSceneUI
     {
-        void ShowMenu();
-        void HideMenu();
+        public enum FriendInteractionState
+        {
+            Hidden,
+            Disabled,
+            Enabled
+        }
+
+        /// <summary>
+        /// Indicates that this object needs to refresh its UI.
+        /// When this is true, the next time <see cref="UIFriendsMenu.Update"/> runs,
+        /// <see cref="UIFriendsMenu.RefreshFriendUI"/> will be called.
+        /// </summary>
+        protected bool IsDirty { get; private set; } = true;
+
+        public virtual FriendInteractionState GetFriendInteractionState(FriendData friendData)
+        {
+            return FriendInteractionState.Hidden;
+        }
+
+        public virtual string GetFriendInteractButtonText()
+        {
+            return string.Empty;
+        }
+
+        public virtual void OnFriendInteractButtonClicked(FriendData friendData)
+        {
+        }
+
+        //Should the friend UI update interaction state from this source?
+        public virtual bool IsFriendsUIDirty()
+        {
+            return IsDirty;
+        }
+
+        public virtual void SetDirtyFlag(bool isDirty = true)
+        {
+            IsDirty = isDirty;
+        }
+
+        /// <summary>
+        /// This function is called before refreshing the <see cref="UIFriendsMenu"/>.
+        /// This is an opportunity to refresh any caches or do processing work that should be done once,
+        /// instead of processed for each call of <see cref="GetFriendInteractionState(FriendData)"/>.
+        /// </summary>
+        public virtual void OnFriendStateChanged()
+        {
+
+        }
+    }
+
+    public abstract class ISampleSceneUI : MonoBehaviour
+    {
+        public abstract void ShowMenu();
+        public abstract void HideMenu();
     }
 }

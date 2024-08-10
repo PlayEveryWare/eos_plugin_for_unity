@@ -28,7 +28,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     using System.Collections.Generic;
     using System.Linq;
 
-    public class UISampleSceneUIContainer : MonoBehaviour, ISampleSceneUI
+    public class UISampleSceneUIContainer : ISampleSceneUI
     {
         /// <summary>
         /// Container for the sample scene UI.
@@ -46,7 +46,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             InitialFlexHeight = ContainerLayout.flexibleHeight;
         }
 
-        public void ShowMenu()
+        public override void ShowMenu()
         {
             foreach (var scene in GetContainedSampleScenes())
             {
@@ -54,7 +54,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 
-        public void HideMenu()
+        public override void HideMenu()
         {
             foreach (var scene in GetContainedSampleScenes())
             {

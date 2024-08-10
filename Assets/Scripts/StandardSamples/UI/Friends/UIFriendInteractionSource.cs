@@ -25,58 +25,58 @@ using UnityEngine;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
-    /// <summary>
-    /// Class <c>UIFriendInteractionSource</c> is the base class for sample UIs that interact with the friend list UI.
-    /// </summary>
-    public class UIFriendInteractionSource : MonoBehaviour
-    {
-        public enum FriendInteractionState
-        {
-            Hidden,
-            Disabled,
-            Enabled
-        }
+    ///// <summary>
+    ///// Class <c>UIFriendInteractionSource</c> is the base class for sample UIs that interact with the friend list UI.
+    ///// </summary>
+    //public class UIFriendInteractionSource : MonoBehaviour
+    //{
+    //    public enum FriendInteractionState
+    //    {
+    //        Hidden,
+    //        Disabled,
+    //        Enabled
+    //    }
 
-        /// <summary>
-        /// Indicates that this object needs to refresh its UI.
-        /// When this is true, the next time <see cref="UIFriendsMenu.Update"/> runs,
-        /// <see cref="UIFriendsMenu.RefreshFriendUI"/> will be called.
-        /// </summary>
-        protected bool IsDirty { get; private set; } = true;
+    //    /// <summary>
+    //    /// Indicates that this object needs to refresh its UI.
+    //    /// When this is true, the next time <see cref="UIFriendsMenu.Update"/> runs,
+    //    /// <see cref="UIFriendsMenu.RefreshFriendUI"/> will be called.
+    //    /// </summary>
+    //    protected bool IsDirty { get; private set; } = true;
 
-        public virtual FriendInteractionState GetFriendInteractionState(FriendData friendData)
-        {
-            return FriendInteractionState.Hidden;
-        }
+    //    public virtual FriendInteractionState GetFriendInteractionState(FriendData friendData)
+    //    {
+    //        return FriendInteractionState.Hidden;
+    //    }
 
-        public virtual string GetFriendInteractButtonText()
-        {
-            return string.Empty;
-        }
+    //    public virtual string GetFriendInteractButtonText()
+    //    {
+    //        return string.Empty;
+    //    }
 
-        public virtual void OnFriendInteractButtonClicked(FriendData friendData)
-        {
-        }
+    //    public virtual void OnFriendInteractButtonClicked(FriendData friendData)
+    //    {
+    //    }
 
-        //Should the friend UI update interaction state from this source?
-        public virtual bool IsFriendsUIDirty()
-        {
-            return IsDirty;
-        }
+    //    //Should the friend UI update interaction state from this source?
+    //    public virtual bool IsFriendsUIDirty()
+    //    {
+    //        return IsDirty;
+    //    }
 
-        public virtual void SetDirtyFlag(bool isDirty = true)
-        {
-            IsDirty = isDirty;
-        }
+    //    public virtual void SetDirtyFlag(bool isDirty = true)
+    //    {
+    //        IsDirty = isDirty;
+    //    }
 
-        /// <summary>
-        /// This function is called before refreshing the <see cref="UIFriendsMenu"/>.
-        /// This is an opportunity to refresh any caches or do processing work that should be done once,
-        /// instead of processed for each call of <see cref="GetFriendInteractionState(FriendData)"/>.
-        /// </summary>
-        public virtual void OnFriendStateChanged()
-        {
+    //    /// <summary>
+    //    /// This function is called before refreshing the <see cref="UIFriendsMenu"/>.
+    //    /// This is an opportunity to refresh any caches or do processing work that should be done once,
+    //    /// instead of processed for each call of <see cref="GetFriendInteractionState(FriendData)"/>.
+    //    /// </summary>
+    //    public virtual void OnFriendStateChanged()
+    //    {
 
-        }
-    }
+    //    }
+    //}
 }

@@ -42,7 +42,7 @@ using PlayEveryWare.EpicOnlineServices;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
-    public class UIFriendsMenu : MonoBehaviour, ISampleSceneUI
+    public class UIFriendsMenu : ISampleSceneUI
     {
         [Header("Friends UI")]
         public GameObject FriendsUIParent;
@@ -71,7 +71,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         // Lobbies, P2P Chat, etc.
         [Header("Friend Interaction Source (Optional)")]
         [Tooltip("UI for Lobbies, P2P Chat, Reports, etc.")]
-        public UIFriendInteractionSource UIFriendInteractionSource;
+        public ISampleSceneUIWithFriends UIFriendInteractionSource;
 
         private float initialPanelAnchoredPosX;
 
@@ -192,16 +192,16 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     uiEntry.FriendInteractOnClick = UIFriendInteractionSource.OnFriendInteractButtonClicked;
                     switch (friendButtonState)
                     {
-                        case UIFriendInteractionSource.FriendInteractionState.Hidden:
+                        case ISampleSceneUIWithFriends.FriendInteractionState.Hidden:
                             uiEntry.EnableFriendButton(false);
                             break;
 
-                        case UIFriendInteractionSource.FriendInteractionState.Disabled:
+                        case ISampleSceneUIWithFriends.FriendInteractionState.Disabled:
                             uiEntry.EnableFriendButtonInteraction(false);
                             uiEntry.EnableFriendButton(true);
                             break;
 
-                        case UIFriendInteractionSource.FriendInteractionState.Enabled:
+                        case ISampleSceneUIWithFriends.FriendInteractionState.Enabled:
                             uiEntry.EnableFriendButtonInteraction(true);
                             uiEntry.EnableFriendButton(true);
                             break;
@@ -301,7 +301,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             FriendsManager.QueryFriends(null);
         }
 
-        public void ShowMenu()
+        public override void ShowMenu()
         {
             EOSManager.Instance.GetOrCreateManager<EOSFriendsManager>().OnLoggedIn();
 
@@ -314,7 +314,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 
-        public void HideMenu()
+        public override void HideMenu()
         {
             FriendsManager?.OnLoggedOut();
 
