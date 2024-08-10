@@ -82,10 +82,20 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         [Header("Controller")] 
         public GameObject UIFirstSelected;
 
+        public void Awake()
+        {
+
+        }
+
         public void Update()
         {
             SetSelected();
             InternalUpdate();
+        }
+
+        protected virtual void InternalAwake()
+        {
+            // Default behavior is empty.
         }
 
         private void SetSelected()

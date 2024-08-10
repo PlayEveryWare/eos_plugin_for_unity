@@ -101,20 +101,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             get { return EOSManager.Instance.GetOrCreateManager<EOSSessionsManager>(); }
         }
 
-        public void Awake()
+        protected override void InternalAwake()
         {
             // Hide Invite Pop-up (Default)
             UIInvitePanel.SetActive(false);
             InviteFromVal.text = string.Empty;
 
-            HideMenu();
-
             GetEOSSessionsManager.UIOnSessionRefresh = OnSessionRefresh;
         }
-
-        /*private void Start()
-        {
-        }*/
 
         private int previousFrameSessionCount = 0;
         private int previousFrameResultCount = 0;
