@@ -126,7 +126,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             EOSManager.Instance.RemoveManager<EOSSessionsManager>();
         }
 
-        public void Update()
+        protected override void InternalUpdate()
         {
             EOSSessionsManager sessionsManager = GetEOSSessionsManager;
             bool stateUpdates = sessionsManager.Update();

@@ -23,6 +23,7 @@
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
     using UnityEngine;
+    using UnityEngine.EventSystems;
 
     public abstract class ISampleSceneUIWithFriends : ISampleSceneUI
     {
@@ -80,7 +81,31 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     {
         [Header("Controller")] 
         public GameObject UIFirstSelected;
-        
+
+        public void Update()
+        {
+            SetSelected();
+            InternalUpdate();
+        }
+
+        private void SetSelected()
+        {
+            // Controller: Detect if nothing is selected and controller input detected, and set default
+            if (UIFirstSelected == null 
+                || UIFirstSelected.activeSelf == false
+                || UIFirstSelected.activeInHierarchy == false
+                || EventSystem.current == null || EventSystem.current.currentSelectedGameObject != null
+                || !InputUtility.WasGamepadUsedLastFrame())
+            {
+                return;
+            }
+
+            // Controller
+            EventSystem.current.SetSelectedGameObject(UIFirstSelected);
+            Debug.Log("Nothing currently selected, default to UIFirstSelected: EventSystem.current.currentSelectedGameObject = " + EventSystem.current.currentSelectedGameObject);
+        }
+
+        protected virtual void InternalUpdate() { }
 
         public abstract void ShowMenu();
         public abstract void HideMenu();

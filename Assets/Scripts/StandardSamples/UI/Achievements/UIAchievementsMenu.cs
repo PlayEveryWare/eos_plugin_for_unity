@@ -94,21 +94,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             EOSManager.Instance.RemoveManager<AchievementsService>();
         }
 
-        private void Update()
-        {
-            // Controller: Detect if nothing is selected and controller input detected, and set default
-            if (UIFirstSelected.activeSelf != true
-                || EventSystem.current == null || EventSystem.current.currentSelectedGameObject != null
-                || !InputUtility.WasGamepadUsedLastFrame())
-            {
-                return;
-            }
-
-            // Controller
-            EventSystem.current.SetSelectedGameObject(UIFirstSelected);
-            Debug.Log("Nothing currently selected, default to UIFirstSelected: EventSystem.current.currentSelectedGameObject = " + EventSystem.current.currentSelectedGameObject);
-        }
-
         public override void ShowMenu()
         {
             refreshDataButton.gameObject.SetActive(true);

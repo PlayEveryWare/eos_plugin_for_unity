@@ -138,7 +138,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             }
         }
 #else
-        public void Update()
+        protected override void InternalUpdate()
         {
             if (controllingCharacter)
             {

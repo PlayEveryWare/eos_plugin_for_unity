@@ -125,7 +125,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             RenderFriendsList(true);
         }
 
-        private void Update()
+        protected override void InternalUpdate()
         {
 #if ENABLE_INPUT_SYSTEM
             var gamepad = Gamepad.current;

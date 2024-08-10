@@ -86,7 +86,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             SendOnClick();
         }
 
-        private void Update()
+        protected override void InternalUpdate()
         {
             ProductUserId messageFromPlayer = Peer2PeerManager.HandleReceivedMessages();
 

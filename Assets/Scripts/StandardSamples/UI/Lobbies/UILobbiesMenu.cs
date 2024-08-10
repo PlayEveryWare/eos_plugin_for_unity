@@ -187,7 +187,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 
-        private void Update()
+        protected override void InternalUpdate()
         {
             ProductUserId productUserId = EOSManager.Instance.GetProductUserId();
             if (productUserId == null || !productUserId.IsValid())
