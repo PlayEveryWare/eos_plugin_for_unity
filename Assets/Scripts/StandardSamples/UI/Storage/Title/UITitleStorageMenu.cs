@@ -54,18 +54,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public GameObject UIFileNameEntryPrefab;
 
         public Text FileContent;
-
-        
-        
-
         private EOSTitleStorageManager TitleStorageManager;
-
         private List<string> CurrentTags = new List<string>();
-
-        public void Awake()
-        {
-            HideMenu();
-        }
 
         public void OnEnable()
         {
