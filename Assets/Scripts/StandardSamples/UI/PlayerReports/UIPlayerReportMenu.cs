@@ -20,20 +20,18 @@
 * SOFTWARE.
 */
 
-using System;
-using System.Collections.Generic;
-
-using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.UI;
-
-using Epic.OnlineServices;
-using Epic.OnlineServices.Reports;
-
-using PlayEveryWare.EpicOnlineServices;
-
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
+    using System;
+    using System.Collections.Generic;
+
+    using UnityEngine;
+    using UnityEngine.EventSystems;
+    using UnityEngine.UI;
+
+    using Epic.OnlineServices;
+    using Epic.OnlineServices.Reports;
+
     public class UIPlayerReportMenu : SampleMenuWithFriends
     {
         [Header("Reports")]

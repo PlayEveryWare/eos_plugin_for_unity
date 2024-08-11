@@ -20,23 +20,20 @@
 * SOFTWARE.
 */
 
-using System;
-using System.Collections;
-using System.Collections.Generic;
-
-using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.EventSystems;
-
-using Epic.OnlineServices;
-using Epic.OnlineServices.Platform;
-using Epic.OnlineServices.Lobby;
-
-using PlayEveryWare.EpicOnlineServices;
-using UnityEngine.Android;
-
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
+    using System;
+    using System.Collections.Generic;
+
+    using UnityEngine;
+    using UnityEngine.UI;
+    using UnityEngine.EventSystems;
+
+    using Epic.OnlineServices;
+    using Epic.OnlineServices.Lobby;
+
+    using UnityEngine.Android;
+
     public class UILobbiesMenu : SampleMenuWithFriends
     {
         [Header("Lobbies UI - Create Options")]

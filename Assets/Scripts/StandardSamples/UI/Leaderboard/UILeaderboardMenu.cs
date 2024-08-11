@@ -20,19 +20,18 @@
 * SOFTWARE.
 */
 
-using System;
-using System.Collections.Generic;
-
-using Epic.OnlineServices;
-using Epic.OnlineServices.Leaderboards;
-
-using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.EventSystems;
-using Epic.OnlineServices.Stats;
-
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
+    using System;
+    using System.Collections.Generic;
+
+    using Epic.OnlineServices;
+    using Epic.OnlineServices.Leaderboards;
+
+    using UnityEngine;
+    using UnityEngine.UI;
+    using UnityEngine.EventSystems;
+
     public class UILeaderboardMenu : SampleMenu
     {
         private enum LeaderboardGroup

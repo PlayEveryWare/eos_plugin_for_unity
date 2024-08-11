@@ -20,23 +20,13 @@
 * SOFTWARE.
 */
 
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
-
-using Epic.OnlineServices;
-using Epic.OnlineServices.PlayerDataStorage;
-
-using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.EventSystems;
-
-using PlayEveryWare.EpicOnlineServices;
-
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
+    using System;
+    using System.Collections.Generic;
+    using UnityEngine;
+    using UnityEngine.UI;
+    using UnityEngine.EventSystems;
     using JsonUtility = PlayEveryWare.EpicOnlineServices.Utility.JsonUtility;
 
     [Serializable]

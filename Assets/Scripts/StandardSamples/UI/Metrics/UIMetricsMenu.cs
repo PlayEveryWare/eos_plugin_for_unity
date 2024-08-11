@@ -20,17 +20,16 @@
 * SOFTWARE.
 */
 
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Text.RegularExpressions;
-using UnityEngine.UI;
-using UnityEngine;
-using Epic.OnlineServices;
-using Epic.OnlineServices.Metrics;
-
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Text.RegularExpressions;
+    using UnityEngine.UI;
+    using UnityEngine;
+    using Epic.OnlineServices;
+    using Epic.OnlineServices.Metrics;
+
     public class UIMetricsMenu : SampleMenu
     {
         public UIConsoleInputField DisplayNameVal;

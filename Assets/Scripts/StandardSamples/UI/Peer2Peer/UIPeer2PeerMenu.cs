@@ -20,22 +20,19 @@
 * SOFTWARE.
 */
 
-using System;
-using System.Collections;
-using System.Collections.Generic;
-
-using Epic.OnlineServices;
-using Epic.OnlineServices.P2P;
-
-using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.EventSystems;
-
-using PlayEveryWare.EpicOnlineServices;
-using Epic.OnlineServices.Presence;
-
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
+    using System.Collections.Generic;
+
+    using Epic.OnlineServices;
+    using Epic.OnlineServices.P2P;
+
+    using UnityEngine;
+    using UnityEngine.UI;
+    using UnityEngine.EventSystems;
+
+    using Epic.OnlineServices.Presence;
+
     public class UIPeer2PeerMenu : SampleMenuWithFriends
     {
         [Header("Peer 2 Peer UI")]
@@ -50,15 +47,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public GameObject ChatEntryPrefab;
 
         public UIConsoleInputField ChatMessageInput;
-
         public UIConsoleInputField ProductUserIdInput;
-
         public UIPeer2PeerParticleController ParticleManager;
-
-        
-        
-
-        // Private
 
         private EOSPeer2PeerManager Peer2PeerManager;
         private EOSFriendsManager FriendsManager;

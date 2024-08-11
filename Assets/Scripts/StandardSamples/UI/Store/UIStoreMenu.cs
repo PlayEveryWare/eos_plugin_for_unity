@@ -20,21 +20,14 @@
 * SOFTWARE.
 */
 
-﻿using System.Collections;
-using System.Collections.Generic;
-
-using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.EventSystems;
-
-using Epic.OnlineServices;
-using Epic.OnlineServices.UI;
-using Epic.OnlineServices.Ecom;
-
-using PlayEveryWare.EpicOnlineServices;
-
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
+    using System.Collections.Generic;
+    using UnityEngine;
+    using UnityEngine.UI;
+    using UnityEngine.EventSystems;
+    using Epic.OnlineServices.Ecom;
+
     public class UIStoreMenu : SampleMenu
     {
         [Header("Store UI")]

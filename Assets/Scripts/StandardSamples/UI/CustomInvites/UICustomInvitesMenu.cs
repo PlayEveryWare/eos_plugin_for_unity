@@ -20,16 +20,14 @@
 * SOFTWARE.
 */
 
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
-using Epic.OnlineServices;
-using Epic.OnlineServices.CustomInvites;
-using Epic.OnlineServices.Presence;
-
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
+    using System.Collections.Generic;
+    using UnityEngine;
+    using UnityEngine.UI;
+    using Epic.OnlineServices;
+    using Epic.OnlineServices.Presence;
+
     public class UICustomInvitesMenu : SampleMenuWithFriends
     {
         [Header("Custom Invites UI")]

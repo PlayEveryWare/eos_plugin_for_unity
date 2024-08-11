@@ -20,24 +20,17 @@
 * SOFTWARE.
 */
 
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-
-using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.UI;
-
-using Epic.OnlineServices;
-using Epic.OnlineServices.Achievements;
-using Epic.OnlineServices.Ecom;
-using Epic.OnlineServices.UI;
-using Epic.OnlineServices.Stats;
-
-using PlayEveryWare.EpicOnlineServices;
-
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
+    using System;
+    using System.Collections.Generic;
+
+    using UnityEngine;
+    using UnityEngine.EventSystems;
+    using UnityEngine.UI;
+
+    using Epic.OnlineServices.Achievements;
+
     /// <summary>
     /// Unity UI sample that uses <c>AchievementManager</c> to demo features.  Can be used as a template or starting point for implementing Achievement features.
     /// </summary>

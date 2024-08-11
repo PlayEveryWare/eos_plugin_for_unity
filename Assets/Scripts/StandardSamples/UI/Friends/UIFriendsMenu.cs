@@ -20,28 +20,20 @@
 * SOFTWARE.
 */
 
-using System;
-using System.Collections;
-using System.Collections.Generic;
-
-using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.UI;
-
-#if ENABLE_INPUT_SYSTEM
-using UnityEngine.InputSystem;
-#endif
-
-using Epic.OnlineServices;
-using Epic.OnlineServices.Friends;
-using Epic.OnlineServices.P2P;
-using Epic.OnlineServices.Presence;
-using Epic.OnlineServices.UI;
-
-using PlayEveryWare.EpicOnlineServices;
-
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
+    using System.Collections.Generic;
+    using UnityEngine;
+    using UnityEngine.EventSystems;
+
+#if ENABLE_INPUT_SYSTEM
+    using UnityEngine.InputSystem;
+#endif
+
+    using Epic.OnlineServices;
+    using Epic.OnlineServices.Friends;
+    using Epic.OnlineServices.Presence;
+
     public class UIFriendsMenu : SampleMenu
     {
         [Header("Friends UI")]

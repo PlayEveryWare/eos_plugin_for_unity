@@ -20,19 +20,19 @@
 * SOFTWARE.
 */
 
-using System;
-using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.UI;
-using Epic.OnlineServices;
-using Epic.OnlineServices.Presence;
-
-#if ENABLE_INPUT_SYSTEM
-using UnityEngine.InputSystem;
-#endif
-
 namespace PlayEveryWare.EpicOnlineServices.Samples.Network
 {
+    using System;
+    using UnityEngine;
+    using UnityEngine.EventSystems;
+    using UnityEngine.UI;
+    using Epic.OnlineServices;
+    using Epic.OnlineServices.Presence;
+
+#if ENABLE_INPUT_SYSTEM
+    using UnityEngine.InputSystem;
+#endif
+
     using JsonUtility = PlayEveryWare.EpicOnlineServices.Utility.JsonUtility;
 
     public class P2PTransportPresenceData
