@@ -45,19 +45,19 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             InitialFlexHeight = ContainerLayout.flexibleHeight;
         }
 
-        public override void ShowMenu()
+        public override void Show()
         {
             foreach (var scene in GetContainedSampleScenes())
             {
-                scene.ShowMenu();
+                scene.Show();
             }
         }
 
-        public override void HideMenu()
+        public override void Hide()
         {
             foreach (var scene in GetContainedSampleScenes())
             {
-                scene.HideMenu();
+                scene.Hide();
             }
         }
 

@@ -252,7 +252,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 
-        public override void ShowMenu()
+        public override void Show()
         {
             EOSManager.Instance.GetOrCreateManager<EOSTitleStorageManager>().OnLoggedOut();
 
@@ -262,7 +262,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             EventSystem.current.SetSelectedGameObject(UIFirstSelected);
         }
 
-        public override void HideMenu()
+        public override void Hide()
         {
             UIParent.SetActive(false);
 

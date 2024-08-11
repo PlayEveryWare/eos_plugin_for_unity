@@ -433,7 +433,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             }
         }
 
-        public override void HideMenu()
+        public override void Hide()
         {
             if (isClient || isHost)
             {
@@ -451,7 +451,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             RemoveJoinListener();
         }
 
-        public override void ShowMenu()
+        public override void Show()
         {
             Background.enabled = false;
 

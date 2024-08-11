@@ -228,7 +228,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             ChatMessageInput.InputField.text = string.Empty;
         }
 
-        public override void ShowMenu()
+        public override void Show()
         {
             EOSManager.Instance.GetOrCreateManager<EOSPeer2PeerManager>().OnLoggedIn();
 
@@ -278,7 +278,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             Peer2PeerManager.updatePacketSize();
             Debug.Log("UIPeer2PeerMenu (SetPacketSize):Updated packet size to " + Peer2PeerManager.packetSizeMB + " Mb.");
         }
-        public override void HideMenu()
+        public override void Hide()
         {
             Peer2PeerManager?.OnLoggedOut();
 

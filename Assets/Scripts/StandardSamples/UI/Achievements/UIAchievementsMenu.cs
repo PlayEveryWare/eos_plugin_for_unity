@@ -76,7 +76,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             EOSManager.Instance.RemoveManager<AchievementsService>();
         }
 
-        public override void ShowMenu()
+        public override void Show()
         {
             refreshDataButton.gameObject.SetActive(true);
             loginIncreaseButton.gameObject.SetActive(true);
@@ -86,7 +86,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             EventSystem.current.SetSelectedGameObject(UIFirstSelected);
         }
 
-        public override void HideMenu()
+        public override void Hide()
         {
             refreshDataButton.gameObject.SetActive(false);
             loginIncreaseButton.gameObject.SetActive(false);

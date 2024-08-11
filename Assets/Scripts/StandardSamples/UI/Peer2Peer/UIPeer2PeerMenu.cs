@@ -278,7 +278,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             ChatMessageInput.InputField.text = string.Empty;
         }
 
-        public override void ShowMenu()
+        public override void Show()
         {
             EOSManager.Instance.GetOrCreateManager<EOSPeer2PeerManager>().OnLoggedIn();
 
@@ -317,7 +317,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         }
 
-        public override void HideMenu()
+        public override void Hide()
         {
             Peer2PeerManager?.OnLoggedOut();
 

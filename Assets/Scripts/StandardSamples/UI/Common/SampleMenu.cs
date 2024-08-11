@@ -98,7 +98,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             if (StartsHidden)
             {
-                HideMenu();
+                Hide();
             }
         }
 
@@ -132,7 +132,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         protected virtual void InternalUpdate() { }
 
-        public abstract void ShowMenu();
-        public abstract void HideMenu();
+        public abstract void Show();
+        public abstract void Hide();
     }
 }

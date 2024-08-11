@@ -296,7 +296,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             LocalViewText.text = JsonUtility.ToJson(currentInventory, true);
         }
 
-        public override void ShowMenu()
+        public override void Show()
         {
             UpdateFileListUI();
             PlayerDataStorageManager.AddNotifyFileListUpdated(UpdateFileListUI);
@@ -308,7 +308,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             EventSystem.current.SetSelectedGameObject(UIFirstSelected);
         }
 
-        public override void HideMenu()
+        public override void Hide()
         {
             PlayerDataStorageManager?.RemoveNotifyFileListUpdated(UpdateFileListUI);
             PlayerDataStorageManager?.OnLoggedOut();

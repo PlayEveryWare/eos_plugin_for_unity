@@ -292,7 +292,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             FriendsManager.QueryFriends(null);
         }
 
-        public override void ShowMenu()
+        public override void Show()
         {
             EOSManager.Instance.GetOrCreateManager<EOSFriendsManager>().OnLoggedIn();
 
@@ -305,7 +305,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 
-        public override void HideMenu()
+        public override void Hide()
         {
             FriendsManager?.OnLoggedOut();
 

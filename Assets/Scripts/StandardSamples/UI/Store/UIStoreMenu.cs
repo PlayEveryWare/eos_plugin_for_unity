@@ -82,7 +82,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             StoreManager.CheckOutOverlay(index);
         }
 
-        public override void ShowMenu()
+        public override void Show()
         {
             EOSManager.Instance.GetOrCreateManager<EOSStoreManager>().OnLoggedIn();
 
@@ -98,7 +98,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             EventSystem.current.SetSelectedGameObject(UIFirstSelected);
         }
 
-        public override void HideMenu()
+        public override void Hide()
         {
             StoreManager?.OnLoggedOut();
 
