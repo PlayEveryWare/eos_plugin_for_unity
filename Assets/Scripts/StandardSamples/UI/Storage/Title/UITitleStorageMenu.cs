@@ -52,8 +52,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         private EOSTitleStorageManager TitleStorageManager;
         private List<string> CurrentTags = new List<string>();
 
-        public void OnEnable()
+        public new void OnEnable()
         {
+            base.OnEnable();
             if (Config.Get<EOSConfig>().IsEncryptionKeyValid())
             {
                 FileContent.text = string.Empty;

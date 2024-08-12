@@ -50,12 +50,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             foreach (var menu in GetContainedSampleMenus())
             {
                 menu.Show();
-                continue;
-                // Skip if the menu should start hidden
-                if (menu.StartsHidden)
-                    continue;
-
-                menu.Show();
             }
         }
 

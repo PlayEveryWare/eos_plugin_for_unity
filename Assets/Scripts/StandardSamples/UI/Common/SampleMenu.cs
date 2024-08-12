@@ -38,7 +38,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             Disabled,
             Enabled
         }
-        protected SampleMenuWithFriends(bool startsHidden = true) : base("NONE", startsHidden) { }
+
+        protected SampleMenuWithFriends(bool startsHidden = true) : base(startsHidden) { }
 
         /// <summary>
         /// Indicates that this object needs to refresh its UI.
@@ -83,8 +84,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         }
     }
 
-    
-
     public abstract class SampleMenu : AuthenticationListener
     {
         [Header("Controller")] 
@@ -108,12 +107,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public bool StartsHidden { get; private set; }
 
-        public string Label { get; private set; }
-
-        protected SampleMenu(string label = "NONE", bool startsHidden = true)
+        protected SampleMenu(bool startsHidden = true)
         {
             StartsHidden = startsHidden;
-            Label = label;
         }
 
         protected override void OnAuthenticationChanged(bool authenticated)
@@ -131,7 +127,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public new void OnEnable()
         {
             base.OnEnable();
-            Log($"{Label}: Awake");
             InternalOnEnable();
 
             if (StartsHidden)
@@ -154,14 +149,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public void Show()
         {
-            Log($"Show()");
+            Log($"Show() started");
 
             // Don't do anything if already showing.
             if (!Hidden) return;
 
             if (null == UIParent)
             {
-                Log($"UIParent for {Label} is null for some reason.");
+                Log($"UIParent for is null for some reason.");
             }
             else
             {
@@ -173,7 +168,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             if (null == gameObject)
             {
-                Log($"GameObject for {Label} is null for some reason.");
+                Log($"GameObject for is null for some reason.");
                 return;
             }
             else
@@ -197,7 +192,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public void Hide()
         {
-            Log($"Hide()");
+            Log($"Hide() started");
 
             // Don't do anything if already hidden.
             if (_hidden.HasValue && _hidden.Value) return;
@@ -261,7 +256,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         [Conditional("SAMPLE_MENU_DEBUG")]
         protected void Log(string message, [CallerMemberName] string memberName = "")
         {
-            Debug.Log($"{Label}: {message} (called from {memberName}).");
+            Debug.Log($"{GetType()}: {message} (called from {memberName}).");
         }
     }
 }

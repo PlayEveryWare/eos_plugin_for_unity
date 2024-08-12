@@ -113,7 +113,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             foreach (var item in achievementListItems)
             {
                 if (null == item)
-                    continue;
+                    continue; 
 
                 Destroy(item.gameObject);
             }
