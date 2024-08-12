@@ -41,7 +41,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private EOSStoreManager StoreManager;
 
-        protected override void InternalAwake()
+        protected override void InternalOnEnable()
         {
             StoreManager = EOSManager.Instance.GetOrCreateManager<EOSStoreManager>();
         }

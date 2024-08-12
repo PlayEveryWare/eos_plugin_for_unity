@@ -25,6 +25,7 @@
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
     using System.Diagnostics;
+    using System.Runtime.CompilerServices;
     using UnityEngine;
     using UnityEngine.EventSystems;
     using Debug = UnityEngine.Debug;
@@ -127,22 +128,24 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 
-        public void Awake()
+        public new void OnEnable()
         {
-            Log($"{Label}: Awake()");
-            InternalAwake();
+            base.OnEnable();
+            Log($"{Label}: Awake");
+            InternalOnEnable();
 
             if (StartsHidden)
             {
                 Hide();
             }
         }
-        
-        protected virtual void InternalAwake()
-        {
-            // Default behavior is empty.
-        }
 
+        public new void OnDisable()
+        {
+            base.OnDisable();
+            InternalOnDisable();
+        }
+        
         public void Update()
         {
             SetSelected();
@@ -151,7 +154,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public void Show()
         {
-            Log($"{Label}: Show()");
+            Log($"Show()");
 
             // Don't do anything if already showing.
             if (!Hidden) return;
@@ -189,12 +192,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             // Flag as showing.
             Hidden = false;
 
-            Log($"{Label}: Show() completed");
+            Log($"Show() completed");
         }
 
         public void Hide()
         {
-            Log($"{Label}: Hide()");
+            Log($"Hide()");
 
             // Don't do anything if already hidden.
             if (_hidden.HasValue && _hidden.Value) return;
@@ -210,7 +213,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             // Flag as hidden.
             Hidden = true;
 
-            Log($"{Label}: Hide() completed");
+            Log($"Hide() completed");
         }
 
         private void SetSelected()
@@ -229,17 +232,36 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             EventSystem.current.SetSelectedGameObject(UIFirstSelected);
             Debug.Log("Nothing currently selected, default to UIFirstSelected: EventSystem.current.currentSelectedGameObject = " + EventSystem.current.currentSelectedGameObject);
         }
+        
+        protected virtual void InternalOnEnable()
+        {
+            // Default behavior is to take no action.
+        }
 
-        protected virtual void InternalUpdate() { }
+        protected virtual void InternalOnDisable()
+        {
+            // Default behavior is to take no action.
+        }
 
-        protected abstract void InternalShow();
+        protected virtual void InternalUpdate()
+        {
+            // Default behavior is to take no action.
+        }
 
-        protected abstract void InternalHide();
+        protected virtual void InternalShow()
+        {
+            // Default behavior is to take no action.
+        }
+
+        protected virtual void InternalHide()
+        {
+            // Default behavior is to take no action.
+        }
 
         [Conditional("SAMPLE_MENU_DEBUG")]
-        protected void Log(string message)
+        protected void Log(string message, [CallerMemberName] string memberName = "")
         {
-            Debug.Log(message);
+            Debug.Log($"{Label}: {message} (called from {memberName}).");
         }
     }
 }

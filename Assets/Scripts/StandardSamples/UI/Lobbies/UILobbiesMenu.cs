@@ -97,7 +97,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         const bool ONANDROIDPLATFORM = false;
 #endif
 
-        protected override void InternalAwake()
+        protected override void InternalOnEnable()
         {
             UIActions.OnCollapseFriendsTab += EnableInterferingUIForFriendsTab;
             UIActions.OnExpandFriendsTab += DisableInterferingUIForFriendsTab;

@@ -35,6 +35,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     using Epic.OnlineServices;
     using Epic.OnlineServices.Achievements;
     using System.Threading.Tasks;
+    using Debug = UnityEngine.Debug;
 
     /// <summary>
     /// Class <c>AchievementsService</c> is a simplified wrapper for
@@ -255,9 +256,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 achievements.Add(definition.Value);
 
                 Log($"Achievements (CacheAchievementDef): Id={definition.Value.AchievementId}, LockedDisplayName={definition.Value.LockedDisplayName}.");
-
-                GetAndCacheData(definition.Value.LockedIconURL);
-                GetAndCacheData(definition.Value.UnlockedIconURL);
             }
 
             return achievements;
@@ -312,9 +310,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// <returns>
         /// The texture to be used when a player has unlocked the achievement.
         /// </returns>
-        public Texture2D GetAchievementUnlockedIconTexture(string achievementId)
+        public async Task<Texture2D> GetAchievementUnlockedIconTexture(string achievementId)
         {
-            return GetAchievementIconTexture(achievementId, v2 => v2.UnlockedIconURL);
+            return await GetAchievementIconTexture(achievementId, v2 => v2.UnlockedIconURL);
         }
 
         /// <summary>
@@ -328,9 +326,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// The texture to be used when a player has not unlocked the
         /// achievement.
         /// </returns>
-        public Texture2D GetAchievementLockedIconTexture(string achievementId)
+        public async Task<Texture2D> GetAchievementLockedIconTexture(string achievementId)
         {
-            return GetAchievementIconTexture(achievementId, v2 => v2.LockedIconURL);
+            return await GetAchievementIconTexture(achievementId, v2 => v2.LockedIconURL);
         }
 
         /// <summary>
@@ -348,34 +346,46 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// The icon texture associated with the given achievement ID and
         /// determined by the given URI selector.
         /// </returns>
-        private Texture2D GetAchievementIconTexture(string achievementId, Func<DefinitionV2, string> uriSelector)
+        private Task<Texture2D> GetAchievementIconTexture(string achievementId, Func<DefinitionV2, string> uriSelector)
         {
-            Texture2D iconTexture = null;
+            TaskCompletionSource<Texture2D> tcs = new();
             foreach (var achievementDef in _achievements)
             {
                 if (achievementDef.AchievementId != achievementId)
                     continue;
 
-                if (_downloadCache.TryGetValue(uriSelector(achievementDef), out byte[] iconBytes) && null != iconBytes)
+                var uri = uriSelector(achievementDef);
+
+                
+                Texture2D textureFromBytes = new(2, 2);
+
+                if (!_downloadCache.ContainsKey(uri))
                 {
-                    Texture2D textureFromBytes = new(2, 2);
-                    if (textureFromBytes.LoadImage(iconBytes))
+                    GetAndCacheData(uri, data =>
                     {
-                        iconTexture = textureFromBytes;
-                    }
-                    else
-                    {
-                        // TODO: Deal with circumstances where image could not be loaded for some reason
-                    }
-                    break;
+                        if (data.result != UnityWebRequest.Result.Success)
+                        {
+                            Debug.Log($"Could not download achievement icon: {data.result}.");
+                            tcs.SetResult(textureFromBytes);
+                        }
+                    });
                 }
-                else
+
+                if (_downloadCache.TryGetValue(uri, out byte[] iconBytes) && null != iconBytes)
                 {
-                    // TODO: Deal with circumstance where icon bytes are not cached, or are null
+                    if (!textureFromBytes.LoadImage(iconBytes))
+                    {
+                        Debug.LogWarning($"Could not load achievement icon bytes.");
+                        tcs.SetResult(textureFromBytes);
+                    }
                 }
+
+                tcs.SetResult(textureFromBytes);
+
+                break;
             }
 
-            return iconTexture;
+            return tcs.Task;
         }
 
         /// <summary>
@@ -533,7 +543,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             return collectedAchievements;
         }
 
-        
+
+        protected struct DownloadDataCallback
+        {
+            public byte[] data;
+            public UnityWebRequest.Result result;
+        }
 
         /// <summary>
         /// Gets and subsequently caches the data at the given URI.
@@ -541,7 +556,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// <param name="uri">
         /// The URI to get bytes from.
         /// </param>
-        private async void GetAndCacheData(string uri)
+        /// <param name="callback">
+        /// Action to invoke when the data has been retrieved and cached.
+        /// </param>
+        private async void GetAndCacheData(string uri, Action<DownloadDataCallback> callback)
         {
             if (_downloadCache.ContainsKey(uri))
             {
@@ -558,14 +576,27 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 await System.Threading.Tasks.Task.Yield();
             }
 
+            asyncOp.completed += operation =>
+            {
+                DownloadDataCallback callbackInfo = new()
+                {
+                    result = request.result
+                };
+
 #if UNITY_2020_1_OR_NEWER
-            if (request.result == UnityWebRequest.Result.Success)
+                if (request.result == UnityWebRequest.Result.Success)
 #else
                 if (!request.isNetworkError && !request.isHttpError)
 #endif
-            {
-                _downloadCache[uri] = downloadHandler.data;
-            }
+                {
+                    _downloadCache[uri] = downloadHandler.data;
+                    callbackInfo.data = downloadHandler.data;
+                }
+
+                callback(callbackInfo);
+            };
+
+            
         }
     }
 }

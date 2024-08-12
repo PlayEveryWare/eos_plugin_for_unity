@@ -40,7 +40,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// Stores a list of functions to be called whenever data related to
         /// the manager has been updated.
         /// </summary>
-        protected IList<Action> _updateCallbacks = new List<Action>();
+        protected Action OnUpdate;
 
         /// <summary>
         /// Indicates whether the service needs to have a user authenticated in
@@ -142,12 +142,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </summary>
         protected void NotifyUpdated()
         {
-            // Make copy of the update callbacks so that the callback cannot
-            // inadvertently remove from or add to the list, which would break
-            // the foreach loop.
-            IList<Action> updateCallBacksCopy = new List<Action>(_updateCallbacks);
-            foreach (Action action in updateCallBacksCopy)
-                action();
+            OnUpdate?.Invoke();
         }
 
         /// <summary>
@@ -160,7 +155,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </param>
         public void AddUpdateCallback(Action callback)
         {
-            _updateCallbacks.Add(callback);
+            OnUpdate += callback;
         }
 
         /// <summary>
@@ -170,7 +165,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <param name="callback">The callback to remove.</param>
         public void RemoveUpdateCallback(Action callback)
         {
-            _updateCallbacks.Remove(callback);
+            OnUpdate -= callback;
         }
     }
 }

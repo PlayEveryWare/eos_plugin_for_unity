@@ -45,15 +45,25 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             InitialFlexHeight = ContainerLayout.flexibleHeight;
         }
 
-        public void Awake()
+        public void ShowMenu()
         {
             foreach (var menu in GetContainedSampleMenus())
             {
+                menu.Show();
+                continue;
                 // Skip if the menu should start hidden
                 if (menu.StartsHidden)
                     continue;
 
                 menu.Show();
+            }
+        }
+
+        public void HideMenu()
+        {
+            foreach (var menu in GetContainedSampleMenus())
+            {
+                menu.Hide();
             }
         }
 

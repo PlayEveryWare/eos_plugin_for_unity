@@ -67,7 +67,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         private float initialPanelAnchoredPosX;
 
 #if !ENABLE_INPUT_SYSTEM
-        protected override void InternalAwake()
+        protected override void InternalOnEnable()
         {
             // Ensure Disable Controller UI
             foreach(GameObject o in ControllerUIObjects)
