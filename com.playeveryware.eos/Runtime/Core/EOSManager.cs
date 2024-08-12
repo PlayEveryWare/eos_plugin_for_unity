@@ -110,6 +110,10 @@ namespace PlayEveryWare.EpicOnlineServices
 
         public delegate void OnConnectLoginCallback(Epic.OnlineServices.Connect.LoginCallbackInfo loginCallbackInfo);
 
+        protected static event OnAuthLoginCallback OnAuthLogin;
+        protected static event OnAuthLogoutCallback OnAuthLogout;
+        protected static event OnConnectLoginCallback OnConnectLogin;
+
         public delegate void OnCreateConnectUserCallback(CreateUserCallbackInfo createUserCallbackInfo);
 
         public delegate void OnConnectLinkExternalAccountCallback(LinkAccountCallbackInfo linkAccountCallbackInfo);
@@ -124,15 +128,6 @@ namespace PlayEveryWare.EpicOnlineServices
 
         /// <value>Stores instances of feature managers</value>
         private static Dictionary<Type, IEOSSubManager> s_subManagers = new Dictionary<Type, IEOSSubManager>();
-
-        /// <value>List of Login callbacks</value>
-        private static List<OnConnectLoginCallback> s_onConnectLoginCallbacks = new List<OnConnectLoginCallback>();
-
-        /// <value>List of Auth Login callbacks</value>
-        private static List<OnAuthLoginCallback> s_onAuthLoginCallbacks = new List<OnAuthLoginCallback>();
-
-        /// <value>List of Auth Logout callbacks</value>
-        private static List<OnAuthLogoutCallback> s_onAuthLogoutCallbacks = new List<OnAuthLogoutCallback>();
 
         /// <value>List of application shutdown callbacks</value>
         private static List<Action> s_onApplicationShutdownCallbacks = new List<Action>();
@@ -335,17 +330,17 @@ namespace PlayEveryWare.EpicOnlineServices
             //-------------------------------------------------------------------------
             public void AddConnectLoginListener(IEOSOnConnectLogin connectLogin)
             {
-                s_onConnectLoginCallbacks.Add(connectLogin.OnConnectLogin);
+                OnConnectLogin += connectLogin.OnConnectLogin;
             }
 
             public void AddAuthLoginListener(IEOSOnAuthLogin authLogin)
             {
-                s_onAuthLoginCallbacks.Add(authLogin.OnAuthLogin);
+                OnAuthLogin += authLogin.OnAuthLogin;
             }
 
             public void AddAuthLogoutListener(IEOSOnAuthLogout authLogout)
             {
-                s_onAuthLogoutCallbacks.Add(authLogout.OnAuthLogout);
+                OnAuthLogout += authLogout.OnAuthLogout;
             }
 
             public void AddApplicationCloseListener(Action listener)
@@ -355,17 +350,17 @@ namespace PlayEveryWare.EpicOnlineServices
 
             public void RemoveConnectLoginListener(IEOSOnConnectLogin connectLogin)
             {
-                s_onConnectLoginCallbacks.Remove(connectLogin.OnConnectLogin);
+                OnConnectLogin -= connectLogin.OnConnectLogin;
             }
 
             public void RemoveAuthLoginListener(IEOSOnAuthLogin authLogin)
             {
-                s_onAuthLoginCallbacks.Remove(authLogin.OnAuthLogin);
+                OnAuthLogin -= authLogin.OnAuthLogin;
             }
 
             public void RemoveAuthLogoutListener(IEOSOnAuthLogout authLogout)
             {
-                s_onAuthLogoutCallbacks.Remove(authLogout.OnAuthLogout);
+                OnAuthLogout -= authLogout.OnAuthLogout;
             }
 
             //-------------------------------------------------------------------------
@@ -378,19 +373,19 @@ namespace PlayEveryWare.EpicOnlineServices
                     manager = new T();
                     s_subManagers.Add(type, manager);
 
-                    if (manager is IEOSOnConnectLogin)
+                    if (manager is IEOSOnConnectLogin connectLogin)
                     {
-                        AddConnectLoginListener(manager as IEOSOnConnectLogin);
+                        OnConnectLogin += connectLogin.OnConnectLogin;
                     }
 
-                    if (manager is IEOSOnAuthLogin)
+                    if (manager is IEOSOnAuthLogin authLogin)
                     {
-                        AddAuthLoginListener(manager as IEOSOnAuthLogin);
+                        OnAuthLogin += authLogin.OnAuthLogin;
                     }
 
-                    if (manager is IEOSOnAuthLogout)
+                    if (manager is IEOSOnAuthLogout authLogout)
                     {
-                        AddAuthLogoutListener(manager as IEOSOnAuthLogout);
+                        OnAuthLogout += authLogout.OnAuthLogout;
                     }
                 }
                 else
@@ -1176,7 +1171,8 @@ namespace PlayEveryWare.EpicOnlineServices
                             SetLocalProductUserId(connectLoginData.LocalUserId);
                             ConfigureConnectStatusCallback();
                             ConfigureConnectExpirationCallback();
-                            CallOnConnectLogin(connectLoginData);
+                            
+                            OnConnectLogin?.Invoke(connectLoginData);
                         }
 
                         if (onloginCallback != null)
@@ -1354,38 +1350,6 @@ namespace PlayEveryWare.EpicOnlineServices
             }
 
             //-------------------------------------------------------------------------
-            private void CallOnAuthLogin(LoginCallbackInfo loginCallbackInfo)
-            {
-                //create a copy of the callback list to iterate on in case the original list is modified during iteration
-                var callbacks = new List<OnAuthLoginCallback>(s_onAuthLoginCallbacks);
-
-                foreach (var callback in callbacks)
-                {
-                    callback?.Invoke(loginCallbackInfo);
-                }
-            }
-
-            private void CallOnConnectLogin(Epic.OnlineServices.Connect.LoginCallbackInfo connectLoginData)
-            {
-                var callbacks = new List<OnConnectLoginCallback>(s_onConnectLoginCallbacks);
-
-                foreach (var callback in callbacks)
-                {
-                    callback?.Invoke(connectLoginData);
-                }
-            }
-
-            private void CallOnAuthLogout(LogoutCallbackInfo logoutCallbackInfo)
-            {
-                var callbacks = new List<OnAuthLogoutCallback>(s_onAuthLogoutCallbacks);
-
-                foreach (var callback in callbacks)
-                {
-                    callback?.Invoke(logoutCallbackInfo);
-                }
-            }
-
-            //-------------------------------------------------------------------------
             /// <summary>
             /// Start an EOS Auth Login with the passed in LoginOptions. Call this instead of the method on EOSAuthInterface to ensure that 
             /// the EOSManager has it's state setup correctly.
@@ -1429,7 +1393,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
                         ConfigureAuthStatusCallback();
 
-                        CallOnAuthLogin(data);
+                        OnAuthLogin?.Invoke(data);
                     }
 
                     if (onLoginCallback != null)
@@ -1507,7 +1471,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
                     onLogoutCallback(ref data);
 
-                    CallOnAuthLogout(data);
+                    OnAuthLogout?.Invoke(data);
                 });
             }
 
