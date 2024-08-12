@@ -45,7 +45,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             InitialFlexHeight = ContainerLayout.flexibleHeight;
         }
 
-        public override void Show()
+        protected override void InternalShow()
         {
             foreach (var scene in GetContainedSampleScenes())
             {
@@ -53,7 +53,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 
-        public override void Hide()
+        protected override void InternalHide()
         {
             foreach (var scene in GetContainedSampleScenes())
             {

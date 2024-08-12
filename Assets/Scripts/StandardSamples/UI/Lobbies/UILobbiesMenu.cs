@@ -761,7 +761,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
      
-        public override void Show()
+        protected override void InternalShow()
         {
             EOSManager.Instance.GetOrCreateManager<EOSLobbyManager>().OnLoggedIn();
 
@@ -771,7 +771,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             EventSystem.current.SetSelectedGameObject(UIFirstSelected);
         }
 
-        public override void Hide()
+        protected override void InternalHide()
         {
             LobbyManager?.OnLoggedOut();
 

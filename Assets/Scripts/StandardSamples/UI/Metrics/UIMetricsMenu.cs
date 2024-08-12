@@ -145,13 +145,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             UpdateButtons();
         }
 
-        public override void Hide()
+        protected override void InternalHide()
         {
             gameObject.SetActive(false);
             UpdateButtons();
         }
 
-        public override void Show()
+        protected override void InternalShow()
         {
             gameObject.SetActive(true);
             var localUserInfo = UserInfoManager.GetLocalUserInfo();

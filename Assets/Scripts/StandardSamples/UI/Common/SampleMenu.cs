@@ -84,7 +84,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public GameObject UIFirstSelected;
 
         public GameObject UIParent;
-        
+
+        private bool _isHidden = true;
+
         public bool StartsHidden { get; private set; }
 
         protected SampleMenu(bool startsHidden = true)
@@ -101,6 +103,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 Hide();
             }
         }
+        
+        protected virtual void InternalAwake()
+        {
+            // Default behavior is empty.
+        }
 
         public void Update()
         {
@@ -108,9 +115,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             InternalUpdate();
         }
 
-        protected virtual void InternalAwake()
+        public void Show()
         {
-            // Default behavior is empty.
+            InternalShow();
+        }
+
+        public void Hide()
+        {
+            InternalHide();
         }
 
         private void SetSelected()
@@ -132,7 +144,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         protected virtual void InternalUpdate() { }
 
-        public abstract void Show();
-        public abstract void Hide();
+        protected abstract void InternalShow();
+
+        protected abstract void InternalHide();
     }
 }

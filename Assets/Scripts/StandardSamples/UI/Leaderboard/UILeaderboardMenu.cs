@@ -361,7 +361,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             refreshLeaderboardCoroutine = StartCoroutine(RefreshCurrentLeaderboardAfterWait(SecondsAfterStatIngestedToRefresh));
         }
 
-        public override void Show()
+        protected override void InternalShow()
         {
             UIParent.SetActive(true);
 
@@ -378,7 +378,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             RefreshDefinitionsOnClick();
         }
 
-        public override void Hide()
+        protected override void InternalHide()
         {
             LeaderboardManager?.OnLoggedOut();
 
