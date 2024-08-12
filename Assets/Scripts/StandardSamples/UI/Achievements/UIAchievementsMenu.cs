@@ -61,6 +61,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         }
         List<AchievementData> achievementDataList = new();
 
+        public UIAchievementsMenu() : base("Achievements", true) { }
+
         private void OnEnable()
         {
             AchievementsService.Instance.AddUpdateCallback(OnAchievementDataUpdated);
@@ -71,31 +73,26 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             AchievementsService.Instance.RemoveUpdateCallback(OnAchievementDataUpdated);
         }
 
-        private void OnDestroy()
-        {
-            EOSManager.Instance.RemoveManager<AchievementsService>();
-        }
-
         protected override void InternalShow()
         {
-            refreshDataButton.gameObject.SetActive(true);
-            loginIncreaseButton.gameObject.SetActive(true);
-            showDefinitionToggle.gameObject.SetActive(true);
+            //refreshDataButton.gameObject.SetActive(true);
+            //loginIncreaseButton.gameObject.SetActive(true);
+            //showDefinitionToggle.gameObject.SetActive(true);
 
-            // Controller
-            EventSystem.current.SetSelectedGameObject(UIFirstSelected);
+            //// Controller
+            //EventSystem.current.SetSelectedGameObject(UIFirstSelected);
         }
 
         protected override void InternalHide()
         {
-            refreshDataButton.gameObject.SetActive(false);
-            loginIncreaseButton.gameObject.SetActive(false);
-            showDefinitionToggle.gameObject.SetActive(false);
-            unlockAchievementButton.gameObject.SetActive(false);
-            definitionsDescription.gameObject.SetActive(false);
-            scrollRect.gameObject.SetActive(false);
-            achievementUnlockedIcon.gameObject.SetActive(false);
-            achievementLockedIcon.gameObject.SetActive(false);
+            //refreshDataButton.gameObject.SetActive(false);
+            //loginIncreaseButton.gameObject.SetActive(false);
+            //showDefinitionToggle.gameObject.SetActive(false);
+            //unlockAchievementButton.gameObject.SetActive(false);
+            //definitionsDescription.gameObject.SetActive(false);
+            //scrollRect.gameObject.SetActive(false);
+            //achievementUnlockedIcon.gameObject.SetActive(false);
+            //achievementLockedIcon.gameObject.SetActive(false);
         }
 
         public async void IncrementLoginStat()

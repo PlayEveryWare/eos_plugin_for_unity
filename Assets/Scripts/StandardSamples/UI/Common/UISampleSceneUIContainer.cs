@@ -27,7 +27,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     using UnityEngine;
     using UnityEngine.UI;
 
-    public class UISampleSceneUIContainer : SampleMenu
+    public class UISampleSceneUIContainer : AuthenticationListener
     {
         /// <summary>
         /// Container for the sample scene UI.
@@ -45,19 +45,15 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             InitialFlexHeight = ContainerLayout.flexibleHeight;
         }
 
-        protected override void InternalShow()
+        public void Awake()
         {
-            foreach (var scene in GetContainedSampleScenes())
+            foreach (var menu in GetContainedSampleMenus())
             {
-                scene.Show();
-            }
-        }
+                // Skip if the menu should start hidden
+                if (menu.StartsHidden)
+                    continue;
 
-        protected override void InternalHide()
-        {
-            foreach (var scene in GetContainedSampleScenes())
-            {
-                scene.Hide();
+                menu.Show();
             }
         }
 
@@ -65,7 +61,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// Gets all children ISampleSceneUI objects that are not this one.
         /// </summary>
         /// <returns>Enumerable of sample scenes contained within.</returns>
-        private IEnumerable<SampleMenu> GetContainedSampleScenes()
+        private IEnumerable<SampleMenu> GetContainedSampleMenus()
         {
             return GetComponentsInChildren<SampleMenu>(true).Where(element =>
                 element is MonoBehaviour behaviour && behaviour.gameObject != gameObject);
@@ -78,6 +74,16 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public void SetVisible(bool visible)
         {
             ContainerLayout.flexibleHeight = visible ? InitialFlexHeight : 0;
+        }
+
+        protected override void OnAuthenticationChanged(bool authenticated)
+        {
+            //// Hide the LoginMenu
+            //UILoginMenu loginMenu = GetComponentInChildren<UILoginMenu>();
+            //if (loginMenu != null)
+            //{
+            //    loginMenu.gameObject.SetActive(!authenticated);
+            //}
         }
     }
 }
