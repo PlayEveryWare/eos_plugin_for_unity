@@ -110,9 +110,9 @@ namespace PlayEveryWare.EpicOnlineServices
 
         public delegate void OnConnectLoginCallback(Epic.OnlineServices.Connect.LoginCallbackInfo loginCallbackInfo);
 
-        protected static event OnAuthLoginCallback OnAuthLogin;
-        protected static event OnAuthLogoutCallback OnAuthLogout;
-        protected static event OnConnectLoginCallback OnConnectLogin;
+        private static event OnAuthLoginCallback OnAuthLogin;
+        private static event OnAuthLogoutCallback OnAuthLogout;
+        private static event OnConnectLoginCallback OnConnectLogin;
 
         public delegate void OnCreateConnectUserCallback(CreateUserCallbackInfo createUserCallbackInfo);
 
