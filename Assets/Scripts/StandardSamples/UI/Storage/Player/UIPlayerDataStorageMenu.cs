@@ -298,24 +298,20 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             LocalViewText.text = JsonUtility.ToJson(currentInventory, true);
         }
 
-        protected override void InnerShow()
+        public override void Show()
         {
+            base.Show();
             UpdateFileListUI();
             PlayerDataStorageManager.AddNotifyFileListUpdated(UpdateFileListUI);
             PlayerDataStorageManager.OnLoggedIn();
-
-            UIParent.SetActive(true);
-
-            // Controller
-            EventSystem.current.SetSelectedGameObject(UIFirstSelected);
         }
 
-        protected override void InnerHide()
+        public override void Hide()
         {
+            base.Hide();
             PlayerDataStorageManager?.RemoveNotifyFileListUpdated(UpdateFileListUI);
             PlayerDataStorageManager?.OnLoggedOut();
 
-            UIParent.SetActive(false);
             currentSelectedFile = string.Empty;
             currentInventory = null;
         }

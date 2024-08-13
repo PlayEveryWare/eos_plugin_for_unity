@@ -214,7 +214,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             SetSelected();
         }
 
-        public void Show()
+        /// <summary>
+        /// Shows the SampleMenu. If overriding, make sure to call this base
+        /// implementation first.
+        /// </summary>
+        public virtual void Show()
         {
             Log($"Show() started");
 
@@ -232,7 +236,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             // Make the gameObject active. This should make all the relevant
             // items in the sample menu visible and interactable. 
-
             if (null == gameObject)
             {
                 Log($"GameObject for is null for some reason.");
@@ -247,30 +250,35 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             // long as that element can actually be selected.
             SetSelected();
 
-            // Call whatever custom show logic there might be for the sample 
-            // menu.
-            InnerShow();
-
             // Flag as showing.
             Hidden = false;
 
             Log($"Show() completed");
         }
 
-        public void Hide()
+        /// <summary>
+        /// Hides the SampleMenu. If overriding, make sure to call this base
+        /// implementation first.
+        /// </summary>
+        public virtual void Hide()
         {
             Log($"Hide() started");
 
             // Don't do anything if already hidden.
             if (_hidden.HasValue && _hidden.Value) return;
 
+            if (null == UIParent)
+            {
+                Log($"UIParent is null for some reason.");
+            }
+            else
+            {
+                UIParent.SetActive(false);
+            }
+
             // Make the gameObject inactive. This should make all the relevant 
             // items in the sample menu invisible and non-interactable.
             gameObject.SetActive(false);
-
-            // Call whatever custom hide logic there might be for the sample 
-            // menu.
-            InnerHide();
 
             // Flag as hidden.
             Hidden = true;
@@ -297,16 +305,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             // Controller
             EventSystem.current.SetSelectedGameObject(UIFirstSelected);
             Debug.Log("Nothing currently selected, default to UIFirstSelected: EventSystem.current.currentSelectedGameObject = " + EventSystem.current.currentSelectedGameObject);
-        }
-
-        protected virtual void InnerShow()
-        {
-            // Default behavior is to take no action.
-        }
-
-        protected virtual void InnerHide()
-        {
-            // Default behavior is to take no action.
         }
 
         [Conditional("SAMPLE_MENU_DEBUG")]

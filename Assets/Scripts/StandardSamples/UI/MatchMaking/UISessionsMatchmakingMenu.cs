@@ -367,29 +367,24 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             GetEOSSessionsManager.DeclineLobbyInvite();
         }
 
-        protected override void InnerShow()
+        public override void Show()
         {
+            base.Show();
             GetEOSSessionsManager.OnLoggedIn();
             GetEOSSessionsManager.OnPresenceChange.AddListener(SetDirtyFlagAction);
-
-            UIParent.SetActive(true);
-
-            // Controller
-            EventSystem.current.SetSelectedGameObject(UIFirstSelected);
 
             EOSManager.Instance.SetLogLevel(Epic.OnlineServices.Logging.LogCategory.AllCategories, Epic.OnlineServices.Logging.LogLevel.Warning);
             EOSManager.Instance.SetLogLevel(Epic.OnlineServices.Logging.LogCategory.Sessions, Epic.OnlineServices.Logging.LogLevel.Verbose);
         }
 
-        protected override void InnerHide()
+        public override void Hide()
         {
+            base.Hide();
             if (GetEOSSessionsManager.IsUserLoggedIn)//check to prevent warnings when done unnecessarily during Sessions & Matchmaking startup
             {
                 GetEOSSessionsManager.OnPresenceChange.RemoveListener(SetDirtyFlagAction);
                 GetEOSSessionsManager.OnLoggedOut();
             }
-
-            UIParent.SetActive(false);
         }
 
         public bool TryGetExistingUISessionEntryById(string sessionId, out UISessionEntry entry)

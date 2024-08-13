@@ -362,15 +362,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             refreshLeaderboardCoroutine = StartCoroutine(RefreshCurrentLeaderboardAfterWait(SecondsAfterStatIngestedToRefresh));
         }
 
-        protected override void InnerShow()
+        public override void Show()
         {
-            UIParent.SetActive(true);
-
-            //EOSManager.Instance.GetOrCreateManager<EOSLeaderboardManager>().OnLoggedIn();
-            Invoke("InitFriends",0);
-
-            // Controller
-            EventSystem.current.SetSelectedGameObject(UIFirstSelected);
+            base.Show();
+            Invoke(nameof(InitFriends), 0);
         }
 
         private void InitFriends()
@@ -379,11 +374,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             RefreshDefinitionsOnClick();
         }
 
-        protected override void InnerHide()
+        public override void Hide()
         {
             LeaderboardManager?.OnLoggedOut();
-
-            UIParent.SetActive(false);
         }
 
         private void SetCurrentLeaderboardDescription()

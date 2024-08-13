@@ -189,13 +189,15 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             ReportButtonOnClick(friendData.UserProductUserId, friendData.Name);
         }
 
-        protected override void InnerShow()
+        public override void Show()
         {
+            base.Show();
             ResetPopUp();
         }
 
-        protected override void InnerHide()
+        public override void Hide()
         {
+            base.Hide();
             ResetPopUp();
         }
     }

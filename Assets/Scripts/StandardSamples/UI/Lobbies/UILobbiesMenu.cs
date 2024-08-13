@@ -764,21 +764,16 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
      
-        protected override void InnerShow()
+        public override void Show()
         {
+            base.Show();
             EOSManager.Instance.GetOrCreateManager<EOSLobbyManager>().OnLoggedIn();
-
-            UIParent.SetActive(true);
-
-            // Controller
-            EventSystem.current.SetSelectedGameObject(UIFirstSelected);
         }
 
-        protected override void InnerHide()
+        public override void Hide()
         {
+            base.Hide();
             LobbyManager?.OnLoggedOut();
-
-            UIParent.SetActive(false);
         }
 
         private void ClearSearchResults()

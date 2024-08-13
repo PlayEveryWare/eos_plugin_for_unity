@@ -62,21 +62,21 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             EOSManager.Instance.RemoveManager<EOSCustomInvitesManager>();
         }
 
-        protected override void InnerHide()
+        public override void Hide()
         {
-            gameObject.SetActive(false);
+            base.Hide();
             if (EOSManager.Instance.GetProductUserId()?.IsValid() == true)
             {
                 CustomInvitesManager?.ClearPayload();
             }
         }
 
-        protected override void InnerShow()
+        public override void Show()
         {
+            base.Show();
             PayloadInputField.InputField.text = string.Empty;
             CustomInvitesManager.ClearPayload();
-            gameObject.SetActive(true);
-
+            
             var presenceInterface = EOSManager.Instance.GetEOSPresenceInterface();
             var presenceModificationOptions = new CreatePresenceModificationOptions();
             presenceModificationOptions.LocalUserId = EOSManager.Instance.GetLocalUserId();

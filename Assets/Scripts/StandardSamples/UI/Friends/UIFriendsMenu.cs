@@ -295,24 +295,16 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             FriendsManager.QueryFriends(null);
         }
 
-        protected override void InnerShow()
+        public override void Show()
         {
+            base.Show();
             EOSManager.Instance.GetOrCreateManager<EOSFriendsManager>().OnLoggedIn();
-
-            UIParent.SetActive(true);
-
-            // Controller
-            if(UIFirstSelected.activeInHierarchy)
-            {
-                EventSystem.current.SetSelectedGameObject(UIFirstSelected);
-            }
         }
 
-        protected override void InnerHide()
+        public override void Hide()
         {
+            base.Hide();
             FriendsManager?.OnLoggedOut();
-
-            UIParent.SetActive(false);
         }
     }
 }

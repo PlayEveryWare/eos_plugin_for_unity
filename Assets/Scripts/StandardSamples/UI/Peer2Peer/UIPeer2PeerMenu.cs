@@ -280,15 +280,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             ChatMessageInput.InputField.text = string.Empty;
         }
 
-        protected override void InnerShow()
+        public override void Show()
         {
+            base.Show();
             EOSManager.Instance.GetOrCreateManager<EOSPeer2PeerManager>().OnLoggedIn();
-
-            UIParent.SetActive(true);
-
-            // Controller
-            EventSystem.current.SetSelectedGameObject(UIFirstSelected);
-
 
             var presenceInterface = EOSManager.Instance.GetEOSPresenceInterface();
             var presenceModificationOptions = new CreatePresenceModificationOptions();
@@ -319,13 +314,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         }
 
-        protected override void InnerHide()
+        public override void Hide()
         {
             Peer2PeerManager?.OnLoggedOut();
 
             CloseChatOnClick();
-
-            UIParent.SetActive(false);
         }
 
         public void ParticlesOnClick()
