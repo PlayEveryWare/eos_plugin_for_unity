@@ -82,7 +82,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// Private constructor guarantees adherence to thread-safe singleton
         /// pattern.
         /// </summary>
-        private AchievementsService() : base(true) { }
+        private AchievementsService() { }
 
         #endregion
 

@@ -62,7 +62,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// Private constructor guarantees adherence to thread-safe singleton
         /// pattern.
         /// </summary>
-        private StatsService() : base(true) { }
+        private StatsService() { }
 
         #endregion
 

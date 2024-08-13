@@ -60,7 +60,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// authenticated with the Connect Interface in order to function
         /// properly.
         /// </param>
-        protected EOSService(bool requiresAuthentication)
+        protected EOSService(bool requiresAuthentication = true)
         {
             RequiresAuthentication = requiresAuthentication;
             AuthenticationListener.Instance.AuthenticationChanged += OnAuthenticationChanged;
