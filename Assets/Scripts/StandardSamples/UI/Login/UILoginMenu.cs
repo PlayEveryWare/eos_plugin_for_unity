@@ -80,7 +80,7 @@ using UnityEngine.InputSystem;
         [Header("Scene Information")] 
         public SceneData SceneInformation;
 
-
+        [Header("Controller")]
         public GameObject UIFirstSelected;
         public GameObject UIFindSelectable;
 
