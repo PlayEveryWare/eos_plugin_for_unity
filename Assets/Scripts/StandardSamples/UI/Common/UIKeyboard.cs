@@ -56,7 +56,7 @@ public class UIKeyboard : MonoBehaviour
 
     [Header("Controller")]
     public GameObject UIFirstSelected;
-    
+
     // Manager Callbacks
     private OnKeyboardCompleted KeyboardCallback;
 
