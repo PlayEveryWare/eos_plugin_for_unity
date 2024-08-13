@@ -68,8 +68,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         private HashSet<string> fileNames = new();
         private List<UIFileNameEntry> fileNameUIEntries = new();
 
-        protected override void InternalOnEnable()
+        protected override void OnEnable()
         {
+            base.OnEnable();
             fileNameUIEntries.AddRange(FilesContentParent.GetComponentsInChildren<UIFileNameEntry>(true));
             PlayerDataStorageManager = EOSManager.Instance.GetOrCreateManager<EOSPlayerDataStorageManager>();
         }
@@ -81,8 +82,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             CurrentFileNameText.text = "*No File Selected*";
         }
 
-        private void OnDestroy()
+        protected override void OnDestroy()
         {
+            base.OnDestroy();
             EOSManager.Instance.RemoveManager<EOSPlayerDataStorageManager>();
         }
 
@@ -296,7 +298,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             LocalViewText.text = JsonUtility.ToJson(currentInventory, true);
         }
 
-        protected override void InternalShow()
+        protected override void InnerShow()
         {
             UpdateFileListUI();
             PlayerDataStorageManager.AddNotifyFileListUpdated(UpdateFileListUI);
@@ -308,7 +310,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             EventSystem.current.SetSelectedGameObject(UIFirstSelected);
         }
 
-        protected override void InternalHide()
+        protected override void InnerHide()
         {
             PlayerDataStorageManager?.RemoveNotifyFileListUpdated(UpdateFileListUI);
             PlayerDataStorageManager?.OnLoggedOut();

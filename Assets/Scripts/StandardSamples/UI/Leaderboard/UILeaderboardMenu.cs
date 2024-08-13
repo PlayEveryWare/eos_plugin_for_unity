@@ -92,8 +92,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             CurrentSelectedLeaderboardTxt.text = "*select definition*";
         }
 
-        private void OnDestroy()
+        protected override void OnDestroy()
         {
+            base.OnDestroy();
             EOSManager.Instance.RemoveManager<EOSFriendsManager>();
             EOSManager.Instance.RemoveManager<EOSLeaderboardManager>();
         }
@@ -361,7 +362,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             refreshLeaderboardCoroutine = StartCoroutine(RefreshCurrentLeaderboardAfterWait(SecondsAfterStatIngestedToRefresh));
         }
 
-        protected override void InternalShow()
+        protected override void InnerShow()
         {
             UIParent.SetActive(true);
 
@@ -378,7 +379,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             RefreshDefinitionsOnClick();
         }
 
-        protected override void InternalHide()
+        protected override void InnerHide()
         {
             LeaderboardManager?.OnLoggedOut();
 

@@ -52,9 +52,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         private EOSTitleStorageManager TitleStorageManager;
         private List<string> CurrentTags = new List<string>();
 
-        public new void OnEnable()
+        protected override void Awake()
         {
-            base.OnEnable();
+            base.Awake();
             if (Config.Get<EOSConfig>().IsEncryptionKeyValid())
             {
                 FileContent.text = string.Empty;
@@ -70,8 +70,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             TitleStorageManager = EOSManager.Instance.GetOrCreateManager<EOSTitleStorageManager>();
         }
 
-        private void OnDestroy()
+        protected override void OnDestroy()
         {
+            base.OnDestroy();
             EOSManager.Instance.RemoveManager<EOSTitleStorageManager>();
         }
 
@@ -253,7 +254,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 
-        protected override void InternalShow()
+        protected override void InnerShow()
         {
             EOSManager.Instance.GetOrCreateManager<EOSTitleStorageManager>().OnLoggedOut();
 
@@ -263,7 +264,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             EventSystem.current.SetSelectedGameObject(UIFirstSelected);
         }
 
-        protected override void InternalHide()
+        protected override void InnerHide()
         {
             UIParent.SetActive(false);
 

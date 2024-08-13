@@ -97,8 +97,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         const bool ONANDROIDPLATFORM = false;
 #endif
 
-        protected override void InternalOnEnable()
+        protected override void OnEnable()
         {
+            base.OnEnable();
             UIActions.OnCollapseFriendsTab += EnableInterferingUIForFriendsTab;
             UIActions.OnExpandFriendsTab += DisableInterferingUIForFriendsTab;
             // Hide Invite Pop-up (Default)
@@ -148,8 +149,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             LobbySearchUI.SetActive(true);
         }
 
-        private void OnDestroy()
+        protected override void OnDestroy()
         {
+            base.OnDestroy();
             UIActions.OnCollapseFriendsTab -= EnableInterferingUIForFriendsTab;
             UIActions.OnExpandFriendsTab -= DisableInterferingUIForFriendsTab;
 
@@ -181,8 +183,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 
-        protected override void InternalUpdate()
+        protected override void Update()
         {
+            base.Update();
             ProductUserId productUserId = EOSManager.Instance.GetProductUserId();
             if (productUserId == null || !productUserId.IsValid())
             {
@@ -761,7 +764,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
      
-        protected override void InternalShow()
+        protected override void InnerShow()
         {
             EOSManager.Instance.GetOrCreateManager<EOSLobbyManager>().OnLoggedIn();
 
@@ -771,7 +774,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             EventSystem.current.SetSelectedGameObject(UIFirstSelected);
         }
 
-        protected override void InternalHide()
+        protected override void InnerHide()
         {
             LobbyManager?.OnLoggedOut();
 

@@ -27,7 +27,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     using UnityEngine;
     using UnityEngine.UI;
 
-    public class UISampleSceneUIContainer : AuthenticationListener
+    public class UISampleSceneUIContainer : MonoBehaviour
     {
         /// <summary>
         /// Container for the sample scene UI.
@@ -78,16 +78,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public void SetVisible(bool visible)
         {
             ContainerLayout.flexibleHeight = visible ? InitialFlexHeight : 0;
-        }
-
-        protected override void OnAuthenticationChanged(bool authenticated)
-        {
-            //// Hide the LoginMenu
-            //UILoginMenu loginMenu = GetComponentInChildren<UILoginMenu>();
-            //if (loginMenu != null)
-            //{
-            //    loginMenu.gameObject.SetActive(!authenticated);
-            //}
         }
     }
 }

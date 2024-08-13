@@ -67,8 +67,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         private float initialPanelAnchoredPosX;
 
 #if !ENABLE_INPUT_SYSTEM
-        protected override void InternalOnEnable()
+        protected override void OnEnable()
         {
+            base.OnEnable();
             // Ensure Disable Controller UI
             foreach(GameObject o in ControllerUIObjects)
             {
@@ -90,8 +91,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             isSearching = false;
         }
 
-        private void OnDestroy()
+        protected override void OnDestroy()
         {
+            base.OnDestroy();
             EOSManager.Instance.RemoveManager<EOSFriendsManager>();
         }
 
@@ -116,8 +118,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             RenderFriendsList(true);
         }
 
-        protected override void InternalUpdate()
+        protected override void Update()
         {
+            base.Update();
 #if ENABLE_INPUT_SYSTEM
             var gamepad = Gamepad.current;
             if (gamepad != null && gamepad.rightShoulder.wasPressedThisFrame)
@@ -292,7 +295,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             FriendsManager.QueryFriends(null);
         }
 
-        protected override void InternalShow()
+        protected override void InnerShow()
         {
             EOSManager.Instance.GetOrCreateManager<EOSFriendsManager>().OnLoggedIn();
 
@@ -305,7 +308,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 
-        protected override void InternalHide()
+        protected override void InnerHide()
         {
             FriendsManager?.OnLoggedOut();
 

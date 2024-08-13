@@ -99,8 +99,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             get { return EOSManager.Instance.GetOrCreateManager<EOSSessionsManager>(); }
         }
 
-        protected override void InternalOnEnable()
+        protected override void OnEnable()
         {
+            base.OnEnable();
             // Hide Invite Pop-up (Default)
             UIInvitePanel.SetActive(false);
             InviteFromVal.text = string.Empty;
@@ -111,19 +112,20 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         private int previousFrameSessionCount = 0;
         private int previousFrameResultCount = 0;
 
-        private void OnDestroy()
+        protected override void OnDestroy()
         {
-            //HideMenu();
+            base.OnDestroy();
             // Unity crashes if you try to access EOSSinglton OnDestroy
             EOSManager.Instance.RemoveManager<EOSSessionsManager>();
         }
 
-        protected override void InternalUpdate()
+        protected override void Update()
         {
+            base.Update();
+
             EOSSessionsManager sessionsManager = GetEOSSessionsManager;
             bool stateUpdates = sessionsManager.Update();
-
-
+            
             // Invites UI Prompt
             if (sessionsManager.GetCurrentInvite() != null)
             {
@@ -365,7 +367,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             GetEOSSessionsManager.DeclineLobbyInvite();
         }
 
-        protected override void InternalShow()
+        protected override void InnerShow()
         {
             GetEOSSessionsManager.OnLoggedIn();
             GetEOSSessionsManager.OnPresenceChange.AddListener(SetDirtyFlagAction);
@@ -379,7 +381,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             EOSManager.Instance.SetLogLevel(Epic.OnlineServices.Logging.LogCategory.Sessions, Epic.OnlineServices.Logging.LogLevel.Verbose);
         }
 
-        protected override void InternalHide()
+        protected override void InnerHide()
         {
             if (GetEOSSessionsManager.IsUserLoggedIn)//check to prevent warnings when done unnecessarily during Sessions & Matchmaking startup
             {

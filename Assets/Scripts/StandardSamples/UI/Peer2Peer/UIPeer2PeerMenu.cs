@@ -65,8 +65,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             CloseChatOnClick();
         }
 
-        private void OnDestroy()
+        protected override void OnDestroy()
         {
+            base.OnDestroy();
             EOSManager.Instance.RemoveManager<EOSPeer2PeerManager>();
             EOSManager.Instance.RemoveManager<EOSFriendsManager>();
         }
@@ -75,8 +76,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             SendOnClick();
         }
 
-        protected override void InternalUpdate()
+        protected override void Update()
         {
+            base.Update();
             ProductUserId messageFromPlayer = Peer2PeerManager.HandleReceivedMessages();
 
             if (messageFromPlayer != null)
@@ -278,7 +280,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             ChatMessageInput.InputField.text = string.Empty;
         }
 
-        protected override void InternalShow()
+        protected override void InnerShow()
         {
             EOSManager.Instance.GetOrCreateManager<EOSPeer2PeerManager>().OnLoggedIn();
 
@@ -317,7 +319,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         }
 
-        protected override void InternalHide()
+        protected override void InnerHide()
         {
             Peer2PeerManager?.OnLoggedOut();
 

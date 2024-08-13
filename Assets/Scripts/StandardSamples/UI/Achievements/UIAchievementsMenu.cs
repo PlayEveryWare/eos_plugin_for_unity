@@ -62,17 +62,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         }
         List<AchievementData> achievementDataList = new();
 
-        public UIAchievementsMenu() : base("Achievements", true) { }
-
-        private new void OnEnable()
+        protected override void OnEnable()
         {
             base.OnEnable();
             AchievementsService.Instance.AddUpdateCallback(OnAchievementDataUpdated);
         }
 
-        private new void OnDisable()
+        protected void OnDisable()
         {
-            base.OnDisable();
             AchievementsService.Instance.RemoveUpdateCallback(OnAchievementDataUpdated);
         }
 

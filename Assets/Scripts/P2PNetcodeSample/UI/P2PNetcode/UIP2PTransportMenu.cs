@@ -138,8 +138,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             }
         }
 #else
-        protected override void InternalUpdate()
+        protected override void Update()
         {
+            base.Update();
             if (controllingCharacter)
             {
                 if (Input.GetButtonDown("Cancel") || Input.GetButtonDown("Submit"))
@@ -433,7 +434,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             }
         }
 
-        protected override void InternalHide()
+        protected override void InnerHide()
         {
             if (isClient || isHost)
             {
@@ -451,7 +452,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             RemoveJoinListener();
         }
 
-        protected override void InternalShow()
+        protected override void InnerShow()
         {
             Background.enabled = false;
 
@@ -463,8 +464,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             NetworkSamplePlayer.DisplayNameSetter = SetDisplayNameText;
         }
 
-        private void OnDestroy()
+        protected override void OnDestroy()
         {
+            base.OnDestroy();
             transportManager?.Disconnect();
 
             NetworkSamplePlayer.DisplayNameContainer = null;

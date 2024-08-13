@@ -41,18 +41,21 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private EOSStoreManager StoreManager;
 
-        protected override void InternalOnEnable()
+        protected override void OnEnable()
         {
+            base.OnEnable();
             StoreManager = EOSManager.Instance.GetOrCreateManager<EOSStoreManager>();
         }
 
-        private void OnDestroy()
+        protected override void OnDestroy()
         {
+            base.OnDestroy();
             EOSManager.Instance.RemoveManager<EOSStoreManager>();
         }
 
-        protected override void InternalUpdate()
+        protected override void Update()
         {
+            base.Update();
             if (StoreManager.GetCatalogOffers(out List<CatalogOffer> CatalogOffers))
             {
                 // Generate UI for offers
@@ -80,34 +83,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public void CheckOutButton(int index)
         {
             StoreManager.CheckOutOverlay(index);
-        }
-
-        protected override void InternalShow()
-        {
-            EOSManager.Instance.GetOrCreateManager<EOSStoreManager>().OnLoggedIn();
-
-            queryOffersButton.gameObject.SetActive(true);
-
-            catalogueItem0.gameObject.SetActive(true);
-            checkOutButton0.gameObject.SetActive(true);
-
-            catalogueItem1.gameObject.SetActive(true);
-            checkOutButton1.gameObject.SetActive(true);
-
-            // Controller
-            EventSystem.current.SetSelectedGameObject(UIFirstSelected);
-        }
-
-        protected override void InternalHide()
-        {
-            StoreManager?.OnLoggedOut();
-
-            queryOffersButton.gameObject.SetActive(false);
-            catalogueItem0.gameObject.SetActive(false);
-            checkOutButton0.gameObject.SetActive(false);
-
-            catalogueItem1.gameObject.SetActive(false);
-            checkOutButton1.gameObject.SetActive(false);
         }
     }
 }

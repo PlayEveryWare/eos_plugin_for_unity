@@ -62,8 +62,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             UpdateButtons();
         }
 
-        private void OnDestroy()
+        protected override void OnDestroy()
         {
+            base.OnDestroy();
             EOSManager.Instance.RemoveManager<EOSMetricsManager>();
         }
 
@@ -145,13 +146,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             UpdateButtons();
         }
 
-        protected override void InternalHide()
+        protected override void InnerHide()
         {
             gameObject.SetActive(false);
             UpdateButtons();
         }
 
-        protected override void InternalShow()
+        protected override void InnerShow()
         {
             gameObject.SetActive(true);
             var localUserInfo = UserInfoManager.GetLocalUserInfo();

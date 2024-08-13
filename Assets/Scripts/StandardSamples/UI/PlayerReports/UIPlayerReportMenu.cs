@@ -55,8 +55,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             FriendsManager = EOSManager.Instance.GetOrCreateManager<EOSFriendsManager>();
         }
 
-        private void OnDestroy()
+        protected override void OnDestroy()
         {
+            base.OnDestroy();
             EOSManager.Instance.RemoveManager<EOSReportsManager>();
             EOSManager.Instance.RemoveManager<EOSFriendsManager>();
         }
@@ -188,12 +189,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             ReportButtonOnClick(friendData.UserProductUserId, friendData.Name);
         }
 
-        protected override void InternalShow()
+        protected override void InnerShow()
         {
             ResetPopUp();
         }
 
-        protected override void InternalHide()
+        protected override void InnerHide()
         {
             ResetPopUp();
         }

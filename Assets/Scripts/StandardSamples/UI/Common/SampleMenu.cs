@@ -84,15 +84,34 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         }
     }
 
-    public abstract class SampleMenu : AuthenticationListener
+    /// <summary>
+    /// Contains implementation common to all sample menus.
+    /// </summary>
+    public abstract class SampleMenu : MonoBehaviour
     {
+        /// <summary>
+        /// Editable within the Unity Editor, it should be set to the control
+        /// which should have focus when the SampleMenu first becomes visible.
+        /// </summary>
         [Header("Controller")] 
         public GameObject UIFirstSelected;
 
+        /// <summary>
+        /// Editable within the Unity Editor, it should be set to the parent
+        /// of the SampleMenu in the Scene hierarchy.
+        /// </summary>
         public GameObject UIParent;
 
+        /// <summary>
+        /// Indicates whether the SampleMenu is hidden or not. If unset (has no
+        /// value) that indicates that it should be hidden, but has not yet
+        /// been set to be hidden explicitly.
+        /// </summary>
         private bool? _hidden;
 
+        /// <summary>
+        /// Indicates whether the SampleMenu is hidden or not.
+        /// </summary>
         public bool Hidden
         {
             get
@@ -105,16 +124,45 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 
+        /// <summary>
+        /// Indicates whether the SampleMenu requires a user be authenticated
+        /// in order to interact with the scene.
+        /// </summary>
+        public bool RequiresAuthentication { get; private set; }
+
+        /// <summary>
+        /// Indicates whether the SampleMenu starts out hidden or visible.
+        /// NOTE: This Property might be something that can be removed, it
+        ///       exists primarily to maintain functionality of current scenes.
+        /// </summary>
         public bool StartsHidden { get; private set; }
 
-        protected SampleMenu(bool startsHidden = true)
+        /// <summary>
+        /// Constructor for SampleMenu.
+        /// </summary>
+        /// <param name="startsHidden">
+        /// Indicates whether the SampleMenu should be visible or hidden when it
+        /// launches. Most of them should be hidden.
+        /// </param>
+        /// <param name="requiresAuthentication">
+        /// Indicates whether the SampleMenu requires a user be authenticated in
+        /// order for it to be used. Most of them require authentication.
+        /// </param>
+        protected SampleMenu(bool startsHidden = true, bool requiresAuthentication = true)
         {
             StartsHidden = startsHidden;
+            RequiresAuthentication = requiresAuthentication;
         }
 
-        protected override void OnAuthenticationChanged(bool authenticated)
+        /// <summary>
+        /// Function that handles change in authentication.
+        /// </summary>
+        /// <param name="authenticated">
+        /// True if the state has changed to authenticated, false otherwise.
+        /// </param>
+        private void OnAuthenticationChanged(bool authenticated)
         {
-            if (authenticated)
+            if (authenticated || !RequiresAuthentication)
             {
                 Show();
             }
@@ -124,27 +172,46 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 
-        public new void OnEnable()
+        /// <summary>
+        /// When overriding, call this base implementation first.
+        /// </summary>
+        protected virtual void Awake()
         {
-            base.OnEnable();
-            InternalOnEnable();
+            // When awake is called, subscribe to the authentication change
+            // event on AuthenticationListener.
+            AuthenticationListener.Instance.AuthenticationChanged += OnAuthenticationChanged;
+        }
 
+        /// <summary>
+        /// When overriding, call this base implementation first.
+        /// </summary>
+        protected virtual void OnDestroy()
+        {
+            // When OnDestroy is called, remove the subscription from the 
+            // AuthenticationChanged event.
+            AuthenticationListener.Instance.AuthenticationChanged -= OnAuthenticationChanged;
+        }
+
+        /// <summary>
+        /// When overriding, call this base implementation first.
+        /// </summary>
+        protected virtual void OnEnable()
+        {
+            // If the scene should start hidden
             if (StartsHidden)
             {
                 Hide();
             }
         }
 
-        public new void OnDisable()
+        /// <summary>
+        /// When overriding, call this base implementation first.
+        /// </summary>
+        protected virtual void Update()
         {
-            base.OnDisable();
-            InternalOnDisable();
-        }
-        
-        public void Update()
-        {
+            // If nothing is selected, set the selected (focused) control to be
+            // UIFirstSelected (if that field has been set).
             SetSelected();
-            InternalUpdate();
         }
 
         public void Show()
@@ -182,7 +249,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             // Call whatever custom show logic there might be for the sample 
             // menu.
-            InternalShow();
+            InnerShow();
 
             // Flag as showing.
             Hidden = false;
@@ -203,7 +270,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             // Call whatever custom hide logic there might be for the sample 
             // menu.
-            InternalHide();
+            InnerHide();
 
             // Flag as hidden.
             Hidden = true;
@@ -211,6 +278,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             Log($"Hide() completed");
         }
 
+        /// <summary>
+        /// Sets the focused control to UIFirstSelected, assuming it is both
+        /// defined and active in the hierarchy.
+        /// </summary>
         private void SetSelected()
         {
             // Controller: Detect if nothing is selected and controller input detected, and set default
@@ -227,28 +298,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             EventSystem.current.SetSelectedGameObject(UIFirstSelected);
             Debug.Log("Nothing currently selected, default to UIFirstSelected: EventSystem.current.currentSelectedGameObject = " + EventSystem.current.currentSelectedGameObject);
         }
-        
-        protected virtual void InternalOnEnable()
+
+        protected virtual void InnerShow()
         {
             // Default behavior is to take no action.
         }
 
-        protected virtual void InternalOnDisable()
-        {
-            // Default behavior is to take no action.
-        }
-
-        protected virtual void InternalUpdate()
-        {
-            // Default behavior is to take no action.
-        }
-
-        protected virtual void InternalShow()
-        {
-            // Default behavior is to take no action.
-        }
-
-        protected virtual void InternalHide()
+        protected virtual void InnerHide()
         {
             // Default behavior is to take no action.
         }

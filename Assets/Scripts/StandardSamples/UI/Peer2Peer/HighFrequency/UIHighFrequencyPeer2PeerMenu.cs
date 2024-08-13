@@ -62,11 +62,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             Peer2PeerManager.parent = this.transform;
         }
 
-        private void OnDestroy()
+        protected override void OnDestroy()
         {
+            base.OnDestroy();
             EOSManager.Instance.RemoveManager<EOSHighFrequencyPeer2PeerManager>();
             EOSManager.Instance.RemoveManager<EOSFriendsManager>();
         }
+
         public void ChatMessageEndEdit(string arg0)
         {
             SendOnClick();
@@ -79,8 +81,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 Peer2PeerManager.sendActive = !Peer2PeerManager.sendActive;
             }
         }
-        protected override void InternalUpdate()
+        protected override void Update()
         {
+            base.Update();
             ProductUserId messageFromPlayer = Peer2PeerManager.HandleReceivedMessages();
             if (messageFromPlayer != null)
             {
@@ -228,7 +231,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             ChatMessageInput.InputField.text = string.Empty;
         }
 
-        protected override void InternalShow()
+        protected override void InnerShow()
         {
             EOSManager.Instance.GetOrCreateManager<EOSPeer2PeerManager>().OnLoggedIn();
 
@@ -278,7 +281,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             Peer2PeerManager.updatePacketSize();
             Debug.Log("UIPeer2PeerMenu (SetPacketSize):Updated packet size to " + Peer2PeerManager.packetSizeMB + " Mb.");
         }
-        protected override void InternalHide()
+        protected override void InnerHide()
         {
             Peer2PeerManager?.OnLoggedOut();
 

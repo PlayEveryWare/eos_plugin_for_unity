@@ -22,41 +22,146 @@
 
 namespace PlayEveryWare.EpicOnlineServices
 {
+    using Epic.OnlineServices;
     using Epic.OnlineServices.Auth;
     using System;
     using UnityEngine;
 
-    public abstract class AuthenticationListener : MonoBehaviour, IAuthInterfaceEventListener, IConnectInterfaceEventListener
+    /// <summary>
+    /// Used to listen for authentication events from EOSManager.
+    /// </summary>
+    public class AuthenticationListener: IAuthInterfaceEventListener, IConnectInterfaceEventListener, IDisposable
     {
-        public void OnEnable()
+        /// <summary>
+        /// Used to describe functions that handle change in authentication
+        /// state.
+        /// </summary>
+        /// <param name="authenticated">
+        /// True if the authentication state has changed to authenticated, False
+        /// otherwise.
+        /// </param>
+        public delegate void AuthenticationChangedEventHandler(bool authenticated);
+
+        /// <summary>
+        /// Event that triggers when the state of authentication has changed.
+        /// </summary>
+        public event AuthenticationChangedEventHandler AuthenticationChanged;
+
+        #region Singleton Pattern Implementation
+
+        /// <summary>
+        /// Lazy instance for singleton allows for thread-safe interactions with
+        /// the AuthenticationListener
+        /// </summary>
+        private static readonly Lazy<AuthenticationListener> s_LazyInstance = new(() => new AuthenticationListener());
+
+        /// <summary>
+        /// Accessor for the instance.
+        /// </summary>
+        public static AuthenticationListener Instance
+        {
+            get
+            {
+                return s_LazyInstance.Value;
+            }
+        }
+
+        /// <summary>
+        /// Private constructor ensures enforcement of the singleton pattern.
+        /// </summary>
+        private AuthenticationListener() 
         {
             EOSManager.Instance.AddAuthLoginListener(this);
             EOSManager.Instance.AddAuthLogoutListener(this);
             EOSManager.Instance.AddConnectLoginListener(this);
         }
+        
+        #endregion
 
-        public void OnDisable()
+        private bool? _isAuthenticated;
+
+        /// <summary>
+        /// Indicates whether the authentication listener has received an
+        /// AuthenticationChanged event that indicates a user has been logged
+        /// in.
+        /// </summary>
+        public bool IsAuthenticated
+        {
+            get
+            {
+                // if _isAuthenticated has no value, then we do not know if
+                // we are authenticated or not, so we should say that we are not
+                return _isAuthenticated.HasValue && _isAuthenticated.Value;
+            }
+        }
+
+        /// <summary>
+        /// Based on the given result code, determine if the authentication
+        /// state change event needs to be triggered or not, and if so trigger
+        /// it with the appropriate event args.
+        /// </summary>
+        /// <param name="attemptedState"></param>
+        /// <param name="attemptResult"></param>
+        private void TriggerAuthenticationChangedEvent(bool attemptedState, Result attemptResult)
+        {
+            // If the attempt to change the state of authentication did not 
+            // succeed, then log a warning and stop.
+            if (attemptResult != Result.Success)
+            {
+                Debug.LogWarning($"Authentication change attempt failed with following result code: {attemptResult}");
+                return;
+            }
+
+            // Keep track of whether the user is authenticated.
+            _isAuthenticated = attemptedState;
+
+            // Trigger the event indicating that the state of authentication for 
+            // the user has changed.
+            AuthenticationChanged?.Invoke(attemptedState);
+        }
+
+        /// <summary>
+        /// Called by EOSManager when auth login has taken place.
+        /// </summary>
+        /// <param name="loginCallbackInfo">
+        /// Callback parameters for the authentication operation.
+        /// </param>
+        public void OnAuthLogin(LoginCallbackInfo loginCallbackInfo)
+        {
+            TriggerAuthenticationChangedEvent(true, loginCallbackInfo.ResultCode);
+        }
+
+        /// <summary>
+        /// Called by EOSManager when auth logout has taken place.
+        /// </summary>
+        /// <param name="logoutCallbackInfo">
+        /// Callback parameters for the logout operation.
+        /// </param>
+        public void OnAuthLogout(LogoutCallbackInfo logoutCallbackInfo)
+        {
+            TriggerAuthenticationChangedEvent(false, logoutCallbackInfo.ResultCode);
+        }
+
+        /// <summary>
+        /// Called by EOSManager when connect login has taken place.
+        /// </summary>
+        /// <param name="loginCallbackInfo">
+        /// Callback parameters for the connect login operation.
+        /// </param>
+        public void OnConnectLogin(Epic.OnlineServices.Connect.LoginCallbackInfo loginCallbackInfo)
+        {
+            TriggerAuthenticationChangedEvent(true, loginCallbackInfo.ResultCode);
+        }
+
+        /// <summary>
+        /// Dispose of the AuthenticationListener, removing it as a listener
+        /// from the various ways that EOSManager keeps track of it.
+        /// </summary>
+        public void Dispose()
         {
             EOSManager.Instance.RemoveAuthLoginListener(this);
             EOSManager.Instance.RemoveAuthLogoutListener(this);
             EOSManager.Instance.RemoveConnectLoginListener(this);
         }
-
-        public void OnAuthLogin(LoginCallbackInfo loginCallbackInfo)
-        {
-            OnAuthenticationChanged(true);
-        }
-
-        public void OnAuthLogout(LogoutCallbackInfo logoutCallbackInfo)
-        {
-            OnAuthenticationChanged(false);
-        }
-
-        public void OnConnectLogin(Epic.OnlineServices.Connect.LoginCallbackInfo loginCallbackInfo)
-        {
-            OnAuthenticationChanged(true);
-        }
-
-        protected abstract void OnAuthenticationChanged(bool authenticated);
     }
 }

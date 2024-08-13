@@ -41,8 +41,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         private List<UICustomInviteEntry> PendingInviteEntries = new();
         private bool PayloadSet = false;
 
-        protected override void InternalOnEnable()
+        protected override void OnEnable()
         {
+            base.OnEnable();
             FriendsManager = EOSManager.Instance.GetOrCreateManager<EOSFriendsManager>();
             CustomInvitesManager = EOSManager.Instance.GetOrCreateManager<EOSCustomInvitesManager>();
             CustomInvitesManager.AddNotifyCustomInviteReceived(OnInviteReceived);
@@ -50,8 +51,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             CustomInvitesManager.AddNotifyCustomInviteRejected(OnInviteRejected);
         }
 
-        private void OnDestroy()
+        protected override void OnDestroy()
         {
+            base.OnDestroy();
             CustomInvitesManager?.RemoveNotifyCustomInviteReceived(OnInviteReceived);
             CustomInvitesManager?.RemoveNotifyCustomInviteAccepted(OnInviteAccepted);
             CustomInvitesManager?.RemoveNotifyCustomInviteRejected(OnInviteRejected);
@@ -60,7 +62,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             EOSManager.Instance.RemoveManager<EOSCustomInvitesManager>();
         }
 
-        protected override void InternalHide()
+        protected override void InnerHide()
         {
             gameObject.SetActive(false);
             if (EOSManager.Instance.GetProductUserId()?.IsValid() == true)
@@ -69,7 +71,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 
-        protected override void InternalShow()
+        protected override void InnerShow()
         {
             PayloadInputField.InputField.text = string.Empty;
             CustomInvitesManager.ClearPayload();
