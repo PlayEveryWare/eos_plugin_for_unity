@@ -491,7 +491,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     /// <summary>
     /// Class <c>EOSSessionsManager</c> is a simplified wrapper for EOS [Sessions Interface](https://dev.epicgames.com/docs/services/en-US/Interfaces/Sessions/index.html).
     /// </summary>
-    public class EOSSessionsManager : IEOSSubManager
+    public class EOSSessionsManager : EOSService
     {
         private Dictionary<string, Session> CurrentSessions;
 

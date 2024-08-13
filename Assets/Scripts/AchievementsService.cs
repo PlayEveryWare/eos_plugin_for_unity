@@ -107,9 +107,16 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             return buffer;
         }
 
-        protected async override void OnPlayerLogin(ProductUserId productUserId)
+        protected async override void OnLoggedIn()
         {
             await RefreshAsync();
+        }
+
+        protected override void OnLoggedOut()
+        {
+            _downloadCache.Clear();
+            _achievements.Clear();
+            _playerAchievements.Clear();
         }
 
         /// <summary>

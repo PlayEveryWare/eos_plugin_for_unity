@@ -62,15 +62,16 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         }
         List<AchievementData> achievementDataList = new();
 
-        protected override void OnEnable()
+        protected override void Awake()
         {
-            base.OnEnable();
-            AchievementsService.Instance.AddUpdateCallback(OnAchievementDataUpdated);
+            base.Awake();
+            AchievementsService.Instance.Updated += OnAchievementDataUpdated;
         }
 
-        protected void OnDisable()
+        protected override void OnDestroy()
         {
-            AchievementsService.Instance.RemoveUpdateCallback(OnAchievementDataUpdated);
+            base.OnDestroy();
+            AchievementsService.Instance.Updated -= OnAchievementDataUpdated;
         }
 
         public async void IncrementLoginStat()
@@ -192,6 +193,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 OnDefinitionIdButtonClicked(displayIndex);
             }
         }
+        
         public void RefreshDisplayingDefinition()
         {
             if (displayIndex == -1)
