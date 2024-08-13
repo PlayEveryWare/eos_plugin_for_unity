@@ -54,9 +54,9 @@ public class UIKeyboard : MonoBehaviour
     public InputField KeyboardInput;
     private string currentInput = string.Empty;
 
+    [Header("Controller")]
     public GameObject UIFirstSelected;
     
-
     // Manager Callbacks
     private OnKeyboardCompleted KeyboardCallback;
 
