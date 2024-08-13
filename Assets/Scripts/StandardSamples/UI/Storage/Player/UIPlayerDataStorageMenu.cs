@@ -20,7 +20,7 @@
 * SOFTWARE.
 */
 
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -198,7 +198,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             {
                 newInventory = JsonUtility.FromJson<PlayerDataInventory>(RemoteViewText.text);
             }
-            catch (Exception){ }
+            catch (Exception) { }
             if (newInventory != null && newInventory.IsValid())
             {
                 currentInventory = newInventory;
