@@ -366,24 +366,29 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 
                 Texture2D textureFromBytes = new(2, 2);
 
+                // Download the data
                 if (!_downloadCache.ContainsKey(uri))
                 {
                     GetAndCacheData(uri, data =>
                     {
-                        if (data.result != UnityWebRequest.Result.Success)
+                        if (data.result == UnityWebRequest.Result.Success)
                         {
-                            Debug.Log($"Could not download achievement icon: {data.result}.");
-                            tcs.SetResult(textureFromBytes);
+                            return;
                         }
+
+                        Debug.LogWarning($"Could not download achievement icon: {data.result}.");
+                        tcs.SetResult(null);
                     });
                 }
 
+                // Get the downloaded data
                 if (_downloadCache.TryGetValue(uri, out byte[] iconBytes) && null != iconBytes)
                 {
+                    // Load the data into the texture
                     if (!textureFromBytes.LoadImage(iconBytes))
                     {
                         Debug.LogWarning($"Could not load achievement icon bytes.");
-                        tcs.SetResult(textureFromBytes);
+                        tcs.SetResult(null);
                     }
                 }
 
