@@ -129,10 +129,6 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <value>Stores instances of feature managers</value>
         private static Dictionary<Type, IEOSSubManager> s_subManagers = new Dictionary<Type, IEOSSubManager>();
 
-        private static event OnConnectLoginCallback OnConnectLogin;
-        private static event OnAuthLoginCallback OnAuthLogin;
-        private static event OnAuthLogoutCallback OnAuthLogout;
-
         /// <value>List of application shutdown callbacks</value>
         private static List<Action> s_onApplicationShutdownCallbacks = new List<Action>();
 
