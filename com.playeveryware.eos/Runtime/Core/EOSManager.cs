@@ -110,6 +110,10 @@ namespace PlayEveryWare.EpicOnlineServices
 
         public delegate void OnConnectLoginCallback(Epic.OnlineServices.Connect.LoginCallbackInfo loginCallbackInfo);
 
+        private static event OnAuthLoginCallback OnAuthLogin;
+        private static event OnAuthLogoutCallback OnAuthLogout;
+        private static event OnConnectLoginCallback OnConnectLogin;
+
         public delegate void OnCreateConnectUserCallback(CreateUserCallbackInfo createUserCallbackInfo);
 
         public delegate void OnConnectLinkExternalAccountCallback(LinkAccountCallbackInfo linkAccountCallbackInfo);
@@ -373,19 +377,19 @@ namespace PlayEveryWare.EpicOnlineServices
                     manager = new T();
                     s_subManagers.Add(type, manager);
 
-                    if (manager is IEOSOnConnectLogin)
+                    if (manager is IEOSOnConnectLogin connectLogin)
                     {
-                        AddConnectLoginListener(manager as IEOSOnConnectLogin);
+                        OnConnectLogin += connectLogin.OnConnectLogin;
                     }
 
-                    if (manager is IEOSOnAuthLogin)
+                    if (manager is IEOSOnAuthLogin authLogin)
                     {
-                        AddAuthLoginListener(manager as IEOSOnAuthLogin);
+                        OnAuthLogin += authLogin.OnAuthLogin;
                     }
 
-                    if (manager is IEOSOnAuthLogout)
+                    if (manager is IEOSOnAuthLogout authLogout)
                     {
-                        AddAuthLogoutListener(manager as IEOSOnAuthLogout);
+                        OnAuthLogout += authLogout.OnAuthLogout;
                     }
                 }
                 else
@@ -1171,7 +1175,6 @@ namespace PlayEveryWare.EpicOnlineServices
                             SetLocalProductUserId(connectLoginData.LocalUserId);
                             ConfigureConnectStatusCallback();
                             ConfigureConnectExpirationCallback();
-
                             OnConnectLogin?.Invoke(connectLoginData);
                         }
 
