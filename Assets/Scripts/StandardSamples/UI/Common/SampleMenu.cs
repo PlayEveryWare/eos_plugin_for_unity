@@ -126,14 +126,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// Indicates whether the SampleMenu requires a user be authenticated
         /// in order to interact with the scene.
         /// </summary>
-        public bool RequiresAuthentication { get; private set; }
+        public bool RequiresAuthentication { get; }
 
         /// <summary>
         /// Indicates whether the SampleMenu starts out hidden or visible.
         /// NOTE: This Property might be something that can be removed, it
         ///       exists primarily to maintain functionality of current scenes.
         /// </summary>
-        public bool StartsHidden { get; private set; }
+        public bool StartsHidden { get; }
 
         /// <summary>
         /// Constructor for SampleMenu.
@@ -302,7 +302,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             // Controller
             EventSystem.current.SetSelectedGameObject(UIFirstSelected);
-            Debug.Log("Nothing currently selected, default to UIFirstSelected: EventSystem.current.currentSelectedGameObject = " + EventSystem.current.currentSelectedGameObject);
+
+            Log($"Nothing currently selected, so setting the selected object {EventSystem.current.currentSelectedGameObject} as the focused object.");
         }
 
         [Conditional("SAMPLE_MENU_DEBUG")]
