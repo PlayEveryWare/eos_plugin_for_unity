@@ -88,7 +88,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public Text InviteFromVal;
         public Toggle InvitePresence;
 
-
+        // TODO: It's unclear why this only works when startsHidden is set to
+        //       false, but only for this menu. Some investigation needs to
+        //       happen, after which it's possible that the constructor 
+        //       parameter might be able to be removed altogether.
         public UISessionsMatchmakingMenu() : base(false)
         {
 

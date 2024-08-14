@@ -571,22 +571,16 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// <param name="callback">
         /// Action to invoke when the data has been retrieved and cached.
         /// </param>
-        private async void GetAndCacheData(string uri, Action<DownloadDataCallback> callback)
+        private void GetAndCacheData(string uri, Action<DownloadDataCallback> callback)
         {
             if (_downloadCache.ContainsKey(uri))
             {
                 return;
             }
 
-            using DownloadHandlerBuffer downloadHandler = new();
-            using UnityWebRequest request = UnityWebRequest.Get(uri);
-            request.downloadHandler = downloadHandler;
+            UnityWebRequest request = UnityWebRequest.Get(uri);
 
             UnityWebRequestAsyncOperation asyncOp = request.SendWebRequest();
-            while (!asyncOp.isDone)
-            {
-                await System.Threading.Tasks.Task.Yield();
-            }
 
             asyncOp.completed += operation =>
             {
@@ -601,14 +595,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 if (!request.isNetworkError && !request.isHttpError)
 #endif
                 {
-                    _downloadCache[uri] = downloadHandler.data;
-                    callbackInfo.data = downloadHandler.data;
+                    _downloadCache[uri] = request.downloadHandler.data;
+                    callbackInfo.data = request.downloadHandler.data;
                 }
 
                 callback(callbackInfo);
-            };
 
-            
+                request.Dispose();
+            };
         }
     }
 }

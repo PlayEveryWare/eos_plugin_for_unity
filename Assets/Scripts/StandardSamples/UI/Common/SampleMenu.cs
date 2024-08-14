@@ -46,6 +46,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// </summary>
         protected bool IsDirty { get; private set; } = true;
 
+        protected SampleMenuWithFriends(bool startsHidden = true) : base(startsHidden, true) { }
+
         public virtual FriendInteractionState GetFriendInteractionState(FriendData friendData)
         {
             return FriendInteractionState.Hidden;
