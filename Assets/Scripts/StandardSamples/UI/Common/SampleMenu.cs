@@ -39,8 +39,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             Enabled
         }
 
-        protected SampleMenuWithFriends(bool startsHidden = true) : base(startsHidden) { }
-
         /// <summary>
         /// Indicates that this object needs to refresh its UI.
         /// When this is true, the next time <see cref="UIFriendsMenu.Update"/> runs,
