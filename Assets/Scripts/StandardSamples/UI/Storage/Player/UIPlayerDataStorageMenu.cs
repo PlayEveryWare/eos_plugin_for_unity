@@ -68,11 +68,16 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         private HashSet<string> fileNames = new();
         private List<UIFileNameEntry> fileNameUIEntries = new();
 
+        protected override void Awake()
+        {
+            base.Awake();
+            PlayerDataStorageManager = EOSManager.Instance.GetOrCreateManager<EOSPlayerDataStorageManager>();
+            fileNameUIEntries.AddRange(FilesContentParent.GetComponentsInChildren<UIFileNameEntry>(true));
+        }
+
         protected override void OnEnable()
         {
             base.OnEnable();
-            fileNameUIEntries.AddRange(FilesContentParent.GetComponentsInChildren<UIFileNameEntry>(true));
-            PlayerDataStorageManager = EOSManager.Instance.GetOrCreateManager<EOSPlayerDataStorageManager>();
         }
 
         private void Start()
