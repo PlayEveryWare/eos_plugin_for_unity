@@ -42,11 +42,13 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.IntegrationTests
         static int[] NumberOfFilesToMakeFor_UploadedFiles_CanBeQueried = { 1, 3, 10 };
 
         /// <summary>
-        /// When setting up tests for the first time, all files in player storage
+        /// When setting up tests, all files in player storage
         /// should be deleted to ensure a clean slate for the upcoming tests.
+        /// This cannot be a "OneTimeSetUp" because that attribute cannot be on an asynchronous or IEnumerator signature.
+        /// So instead, try to get a clean slate every time you run any test.
         /// </summary>
-        [OneTimeSetUp]
-        public IEnumerator OneTimeSetUp()
+        [UnitySetUp]
+        public IEnumerator UnitySetUp()
         {
             yield return DestroyAllFiles();
         }
@@ -113,7 +115,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.IntegrationTests
             {
                 // Generate a random name until we hit something that isn't already done
                 string randomName = "";
-                while (randomName.Contains(randomName))
+                while (randomNames.Contains(randomName))
                 {
                     randomName = UnityEngine.Random.Range(0, 9999).ToString();
                 }
@@ -158,6 +160,99 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.IntegrationTests
             for (int ii = 0; ii < fileBytes.Length; ii++)
             {
                 Assert.AreEqual(fileBytes[ii], downloadTask.Result[ii], "Downloaded file has different contents than uploaded file.");
+            }
+        }
+
+        /// <summary>
+        /// Creates a file, uploads it, then deletes it.
+        /// Checks that the file doesn't not show up in QueryFile or trying to download a specific file.
+        /// </summary>
+        [UnityTest]
+        public IEnumerator UploadedFile_CanBeDeleted()
+        {
+            byte[] fileBytes = new byte[] { 0x0, 0x1, 0x2, 0x3, 0x4, 0x5 };
+            Task uploadTask = PlayerDataStorageService.Instance.UploadFileAsync(nameof(UploadedFile_CanBeDeleted), fileBytes);
+            yield return new WaitUntil(() => uploadTask.IsCompleted);
+            Assert.IsTrue(uploadTask.IsCompletedSuccessfully, "Upload task did not complete successfully.");
+
+            Task deletionTask = PlayerDataStorageService.Instance.DeleteFile(nameof(UploadedFile_CanBeDeleted));
+            yield return new WaitUntil(() => deletionTask.IsCompleted);
+            Assert.IsTrue(deletionTask.IsCompletedSuccessfully, $"Deletion task did not complete successfully.");
+
+            // We should not see this file (or any file) in the query list
+            Task<List<string>> queryTask = PlayerDataStorageService.Instance.QueryFileList(EOSManager.Instance.GetProductUserId());
+            yield return new WaitUntil(() => queryTask.IsCompleted);
+            Assert.IsTrue(queryTask.IsCompletedSuccessfully, "Task did not complete successfully. Should not be an error, even if no entries are found.");
+            Assert.NotNull(queryTask.Result, "Task did not return an empty list as expected. Result should not be null.");
+            Assert.AreEqual(0, queryTask.Result.Count, $"Returned list is expected to be empty, has {queryTask.Result.Count} entries.");
+
+            // We should not be able to find the file when explicitly looking for it
+            Task<byte[]> querySpecificTask = PlayerDataStorageService.Instance.DownloadFileAsync(EOSManager.Instance.GetProductUserId(), nameof(UploadedFile_CanBeDeleted));
+            yield return new WaitUntil(() => querySpecificTask.IsCompleted);
+            Assert.IsTrue(querySpecificTask.IsCompletedSuccessfully, "Task did not complete successfully. Should not be an error, even if no entries are found.");
+            Assert.IsNull(querySpecificTask.Result, "Result was not null. Expected missing file to result in null.");
+        }
+
+        /// <summary>
+        /// Creates a file, uploads it, then copies it.
+        /// The copy is downloaded, and should have the same contents as the uploaded file.
+        /// </summary>
+        /// <returns></returns>
+        [UnityTest]
+        public IEnumerator CopiedFile_HasSameContents()
+        {
+            string copyName = $"{nameof(CopiedFile_HasSameContents)}_copy";
+
+            byte[] fileBytes = new byte[] { 0x0, 0x1, 0x2, 0x3, 0x4, 0x5 };
+            Task uploadTask = PlayerDataStorageService.Instance.UploadFileAsync(nameof(CopiedFile_HasSameContents), fileBytes);
+            yield return new WaitUntil(() => uploadTask.IsCompleted);
+            Assert.IsTrue(uploadTask.IsCompletedSuccessfully, "Upload task did not complete successfully.");
+
+            Task copyTask = PlayerDataStorageService.Instance.CopyFile(nameof(CopiedFile_HasSameContents), copyName);
+            yield return new WaitUntil(() => copyTask.IsCompleted);
+            Assert.IsTrue(copyTask.IsCompletedSuccessfully, "Copy task did not complete successfully.");
+
+            Task<byte[]> querySpecificTask = PlayerDataStorageService.Instance.DownloadFileAsync(EOSManager.Instance.GetProductUserId(), copyName);
+            yield return new WaitUntil(() => querySpecificTask.IsCompleted);
+            Assert.IsTrue(querySpecificTask.IsCompletedSuccessfully, "Task did not complete successfully.");
+            Assert.NotNull(querySpecificTask.Result, "Downloaded file is null.");
+            Assert.AreEqual(fileBytes.Length, querySpecificTask.Result.Length, "Downloaded copied file had a different length than the uploaded file.");
+
+            for (int ii = 0; ii < fileBytes.Length; ii++)
+            {
+                Assert.AreEqual(fileBytes[ii], querySpecificTask.Result[ii], "Downloaded copied file has different contents than uploaded file.");
+            }
+        }
+
+        /// <summary>
+        /// Creates a file, uploads it, then creates another file, and uploads it with the same name.
+        /// The resulting file is downloaded. It should have the contents of the overriding file.
+        /// Implicitly checks for any errors resulting from trying to upload a file with the same name.
+        /// </summary>
+        /// <returns></returns>
+        [UnityTest]
+        public IEnumerator UploadingFile_WithSameName_Overrides()
+        {
+            byte[] originalFileBytes = new byte[] { 0x0, 0x1, 0x2, 0x3, 0x4, 0x5 };
+            Task uploadTask = PlayerDataStorageService.Instance.UploadFileAsync(nameof(UploadingFile_WithSameName_Overrides), originalFileBytes);
+            yield return new WaitUntil(() => uploadTask.IsCompleted);
+            Assert.IsTrue(uploadTask.IsCompletedSuccessfully, "Upload task did not complete successfully.");
+
+            byte[] overridingFileBytes = new byte[] { 0x6, 0x7, 0x8, 0x9, 0xA, 0xB, 0xC };
+            Task overridingUploadTask = PlayerDataStorageService.Instance.UploadFileAsync(nameof(UploadingFile_WithSameName_Overrides), originalFileBytes);
+            yield return new WaitUntil(() => overridingUploadTask.IsCompleted);
+            Assert.IsTrue(overridingUploadTask.IsCompletedSuccessfully, "Upload task did not complete successfully.");
+
+            Task<byte[]> querySpecificTask = PlayerDataStorageService.Instance.DownloadFileAsync(EOSManager.Instance.GetProductUserId(), nameof(UploadingFile_WithSameName_Overrides));
+            yield return new WaitUntil(() => querySpecificTask.IsCompleted);
+            Assert.IsTrue(querySpecificTask.IsCompletedSuccessfully, "Task did not complete successfully.");
+            Assert.NotNull(querySpecificTask.Result, "Downloaded file is null.");
+
+            Assert.AreEqual(overridingFileBytes.Length, querySpecificTask.Result.Length, "Downloaded overridden file had a different length than the overwriting uploaded file.");
+
+            for (int ii = 0; ii < overridingFileBytes.Length; ii++)
+            {
+                Assert.AreEqual(overridingFileBytes[ii], querySpecificTask.Result[ii], "Downloaded overridden file has different contents than the overwriting uploaded file.");
             }
         }
     }
