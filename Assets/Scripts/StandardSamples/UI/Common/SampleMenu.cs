@@ -318,7 +318,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             // input.
             if (!UIFirstSelected.activeSelf || !UIFirstSelected.activeInHierarchy)
             {
-                Debug.LogWarning($"{nameof(UIFirstSelected)} is either not active, not active in the hierarchy, or both - so it does not make sense to set it as the selected control, as it cannot receive input.");
+                Debug.Log($"{nameof(UIFirstSelected)} is either not active, not active in the hierarchy, or both - so it does not make sense to set it as the selected control, as it cannot receive input.");
                 return;
             }
 

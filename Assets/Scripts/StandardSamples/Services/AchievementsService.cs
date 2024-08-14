@@ -375,6 +375,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                         if (data.result == UnityWebRequest.Result.Success)
                         {
                             downloadTcs.SetResult(data.data);
+                            return;
                         }
 
                         Debug.LogWarning($"Could not download achievement icon: {data.result}.");
