@@ -114,11 +114,12 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.IntegrationTests
             for (int fileIndex = 0; fileIndex < numberOfFilesToMake; fileIndex++)
             {
                 // Generate a random name until we hit something that isn't already done
-                string randomName = "";
-                while (randomNames.Contains(randomName))
+                string randomName;
+                do
                 {
                     randomName = UnityEngine.Random.Range(0, 9999).ToString();
                 }
+                while (randomNames.Contains(randomName));
 
                 byte[] fileBytes = new byte[] { 0x0, 0x1, 0x2, 0x3, 0x4, 0x5 };
                 Task uploadTask = PlayerDataStorageService.Instance.UploadFileAsync(randomName, fileBytes);
@@ -238,8 +239,8 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.IntegrationTests
             yield return new WaitUntil(() => uploadTask.IsCompleted);
             Assert.IsTrue(uploadTask.IsCompletedSuccessfully, "Upload task did not complete successfully.");
 
-            byte[] overridingFileBytes = new byte[] { 0x6, 0x7, 0x8, 0x9, 0xA, 0xB, 0xC };
-            Task overridingUploadTask = PlayerDataStorageService.Instance.UploadFileAsync(nameof(UploadingFile_WithSameName_Overrides), originalFileBytes);
+            byte[] overridingFileBytes = new byte[] { 0x6, 0x7, 0x8, 0x9, 0xA, 0xB, 0xC, 0xD, 0xE, 0xF };
+            Task overridingUploadTask = PlayerDataStorageService.Instance.UploadFileAsync(nameof(UploadingFile_WithSameName_Overrides), overridingFileBytes);
             yield return new WaitUntil(() => overridingUploadTask.IsCompleted);
             Assert.IsTrue(overridingUploadTask.IsCompletedSuccessfully, "Upload task did not complete successfully.");
 

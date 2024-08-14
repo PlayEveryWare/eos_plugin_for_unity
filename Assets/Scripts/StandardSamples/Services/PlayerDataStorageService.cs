@@ -241,16 +241,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     if (data.ResultCode == Result.NotFound)
                     {
                         // This file wasn't found online. It's not an error, just pass along that it was missing
-                        downloadTask.ResultCode = data.ResultCode;
-                        tcs.SetResult(null);
+                        downloadTask.SetResult(data.ResultCode);
                         _playerDataStorageSemaphore.Release();
                         return;
                     }
 
                     if (data.ResultCode != Result.Success)
                     {
-                        downloadTask.ResultCode = data.ResultCode;
-                        tcs.SetException(new Exception($"{nameof(PlayerDataStorageService)} ({nameof(DownloadFile)}): Failed to download file. Result code {data.ResultCode}"));
+                        downloadTask.SetResult(data.ResultCode, new Exception($"{nameof(PlayerDataStorageService)} ({nameof(DownloadFile)}): Failed to download file. Result code {data.ResultCode}"));
                         _playerDataStorageSemaphore.Release();
                         return;
                     }
@@ -260,8 +258,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
                     if (metadataRetrievalResult != Result.Success)
                     {
-                        downloadTask.ResultCode = metadataRetrievalResult;
-                        tcs.SetException(new Exception($"{nameof(PlayerDataStorageService)} ({nameof(DownloadFile)}): Failed to retrieve file metadata. Result code {metadataRetrievalResult}"));
+                        downloadTask.SetResult(metadataRetrievalResult, new Exception($"{nameof(PlayerDataStorageService)} ({nameof(DownloadFile)}): Failed to retrieve file metadata. Result code {metadataRetrievalResult}"));
                         _playerDataStorageSemaphore.Release();
                         return;
                     }
@@ -289,8 +286,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     // If no valid handle is returned, then error out
                     if (downloadTask.TransferRequest == null)
                     {
-                        downloadTask.ResultCode = Result.UnexpectedError;
-                        tcs.SetException(new Exception($"{nameof(PlayerDataStorageService)} ({nameof(DownloadFile)}): Bad handle returned for reading file, can not download file."));
+                        downloadTask.SetResult(Result.UnexpectedError, new Exception($"{nameof(PlayerDataStorageService)} ({nameof(DownloadFile)}): Bad handle returned for reading file, can not download file."));
                         _playerDataStorageSemaphore.Release();
                         return;
                     }
@@ -370,8 +366,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 // If no valid handle is returned, then error out
                 if (uploadTask.TransferRequest == null)
                 {
-                    uploadTask.ResultCode = Result.UnexpectedError;
-                    tcs.SetException(new Exception($"{nameof(PlayerDataStorageService)} ({nameof(UploadFile)}): Bad handle returned for uploading file, can not upload file."));
+                    uploadTask.SetResult(Result.UnexpectedError, new Exception($"{nameof(PlayerDataStorageService)} ({nameof(UploadFile)}): Bad handle returned for uploading file, can not upload file."));
                     _playerDataStorageSemaphore.Release();
                     return;
                 }

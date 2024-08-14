@@ -63,8 +63,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// <summary>
         /// If this task is a download task, this is where the data will be put when the task is complete.
         /// If this is an upload task, this is where the data should be put.
+        /// If for some reason a download fails, this should remain null.
         /// </summary>
-        public byte[] Data { get; protected set; } = new byte[] { };
+        public byte[] Data { get; protected set; } = null;
 
         /// <summary>
         /// If this task has run to completion, or encountered an error, this ResultCode should be set.
@@ -156,7 +157,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// <returns>True if the operatoin is complete.</returns>
         public bool IsDone()
         {
-            return ResultCode.HasValue || (TotalSize > 0 && TotalSize == currentIndex);
+            return ResultCode.HasValue || InnerTaskCompletionSource.Task.IsCompleted || (TotalSize > 0 && TotalSize == currentIndex);
         }
 
         /// <summary>
@@ -300,6 +301,31 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             Data = new byte[size];
             TotalSize = size;
+        }
+
+        /// <summary>
+        /// Sets the result of this transfer task.
+        /// This will set the <see cref="InnerTaskCompletionSource"/>'s result, which should resolve a task.
+        /// </summary>
+        /// <param name="result">Optional result code to set.</param>
+        /// <param name="innerTaskException">
+        /// Optional exception to set.
+        /// This is bubbled up to the <see cref="InnerTaskCompletionSource"/>.
+        /// If not provided, the result will be set as null, and the task will have considered to be successful as far as the Task itself is concerned.
+        /// Could still be handled as an error if <paramref name="result"/> is passed in as not null.
+        /// </param>
+        internal void SetResult(Result? result = null, Exception innerTaskException = null)
+        {
+            ResultCode = result;
+
+            if (innerTaskException != null)
+            {
+                InnerTaskCompletionSource.SetException(innerTaskException);
+            }
+            else
+            {
+                InnerTaskCompletionSource.SetResult(null);
+            }
         }
     }
 }
