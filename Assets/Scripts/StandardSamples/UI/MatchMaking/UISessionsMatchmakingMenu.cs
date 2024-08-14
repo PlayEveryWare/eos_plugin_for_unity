@@ -370,7 +370,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public override void Show()
         {
             base.Show();
-            GetEOSSessionsManager.OnLoggedIn();
+            
             GetEOSSessionsManager.OnPresenceChange.AddListener(SetDirtyFlagAction);
 
             EOSManager.Instance.SetLogLevel(Epic.OnlineServices.Logging.LogCategory.AllCategories, Epic.OnlineServices.Logging.LogLevel.Warning);
@@ -380,10 +380,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public override void Hide()
         {
             base.Hide();
-            if (GetEOSSessionsManager.IsUserLoggedIn)//check to prevent warnings when done unnecessarily during Sessions & Matchmaking startup
+            //check to prevent warnings when done unnecessarily during Sessions & Matchmaking startup
+            if (GetEOSSessionsManager.IsUserLoggedIn)
             {
                 GetEOSSessionsManager.OnPresenceChange.RemoveListener(SetDirtyFlagAction);
-                GetEOSSessionsManager.OnLoggedOut();
             }
         }
 

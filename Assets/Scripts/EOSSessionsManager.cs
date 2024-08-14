@@ -37,6 +37,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     using Epic.OnlineServices.P2P;
     using System.Text.RegularExpressions;
     using System.Text;
+    using System.Threading.Tasks;
     using UnityEngine.Events;
 
     /// <summary>
@@ -491,7 +492,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     /// <summary>
     /// Class <c>EOSSessionsManager</c> is a simplified wrapper for EOS [Sessions Interface](https://dev.epicgames.com/docs/services/en-US/Interfaces/Sessions/index.html).
     /// </summary>
-    public class EOSSessionsManager : IEOSSubManager
+    public class EOSSessionsManager : EOSService
     {
         private Dictionary<string, Session> CurrentSessions;
 
@@ -761,7 +762,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// This Manager is not a MonoBehaviour, so this function should be run by the program every update.
         /// </summary>
         /// <returns>Returns true if there are any detected changes to the Active Sessions. This can inform the UI to update.</returns>
-        public bool Update()
+        protected override Task InternalRefreshAsync()
         {
             bool stateUpdates = false;
             HandleReceivedP2PMessages();
@@ -794,27 +795,26 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                         }
                         else
                         {
-                            Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(Update)}): ActiveSessionCopyInfo failed. Errors code: {result}");
+                            Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(InternalRefreshAsync)}): ActiveSessionCopyInfo failed. Errors code: {result}");
                         }
                     }
                 }
             }
 
-            return stateUpdates;
+            if (stateUpdates)
+            {
+                NotifyUpdated();
+            }
+
+            return Task.CompletedTask;
         }
 
         /// <summary>
         /// Subscribes to invitations and Peer2Peer message requests and prepares internal states for this manager to be used.
         /// This should be called after a successful Connect login.
         /// </summary>
-        public void OnLoggedIn()
+        protected override void OnLoggedIn()
         {
-            if (userLoggedIn)
-            {
-                Debug.LogWarning($"{nameof(EOSSessionsManager)} ({nameof(OnLoggedIn)}): Already logged in.");
-                return;
-            }
-
             SubscribeToGameInvites();
             SubscribeToSessionMessageConnectionRequests();
 
@@ -829,14 +829,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// This must be called in order to instruct the EOS SDK to stop notifying from the messages subscribed to in <see cref="OnLoggedIn"/>.
         /// After calling this function, <see cref="OnLoggedIn"/> must be called to resume full Sessions functionality.
         /// </summary>
-        public void OnLoggedOut()
+        protected override void OnLoggedOut()
         {
-            if (!userLoggedIn)
-            {
-                Debug.LogWarning($"{nameof(EOSSessionsManager)} ({nameof(OnLoggedOut)}): Not logged in.");
-                return;
-            }
-
             UnsubscribeFromGameInvites();
             UnsubscribeToSessionMessageConnectionRequests();
 
@@ -2235,12 +2229,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// </param>
         public void RegisterPlayer(string sessionName, ProductUserId userIdToRegister)
         {
-            RegisterPlayersOptions registerOptions = new RegisterPlayersOptions();
-            registerOptions.SessionName = sessionName;
-            registerOptions.PlayersToRegister = new ProductUserId[] { userIdToRegister };
-
-            SessionsInterface sessionInterface = EOSManager.Instance.GetEOSPlatformInterface().GetSessionsInterface();
-            sessionInterface.RegisterPlayers(ref registerOptions, sessionName, OnRegisterCompleteCallback);
+            RegisterPlayers(sessionName, new[] { userIdToRegister });
         }
 
         /// <summary>
@@ -2264,12 +2253,29 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 return;
             }
 
-            RegisterPlayersOptions registerOptions = new RegisterPlayersOptions();
-            registerOptions.SessionName = sessionName;
-            registerOptions.PlayersToRegister = userIdsToRegister;
+            RegisterPlayersOptions registerOptions = new()
+            {
+                SessionName = sessionName, 
+                PlayersToRegister = userIdsToRegister
+            };
 
             SessionsInterface sessionInterface = EOSManager.Instance.GetEOSPlatformInterface().GetSessionsInterface();
             sessionInterface.RegisterPlayers(ref registerOptions, sessionName, OnRegisterCompleteCallback);
+        }
+
+        private void OnRegistrationChanged(object clientData, Result resultCode)
+        {
+            if (resultCode != Result.Success)
+            {
+                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(OnRegistrationChanged)}): error code: {resultCode}");
+                return;
+            }
+
+            if (clientData is string localSessionName)
+            {
+                RefreshSession(localSessionName);
+                InformUsersOfRegistrationStatusChange(localSessionName);
+            }
         }
 
         /// <summary>
@@ -2281,19 +2287,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// </param>
         private void OnRegisterCompleteCallback(ref RegisterPlayersCallbackInfo data)
         {
-            if (data.ResultCode != Result.Success)
-            {
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(OnRegisterCompleteCallback)}): error code: {data.ResultCode}");
-                return;
-            }
-
-            // ClientData should contain the local sessionName
-            if (data.ClientData is string localSessionName)
-            {
-                // Refresh the Owner's local UI, and also inform members
-                RefreshSession(localSessionName);
-                InformUsersOfRegistrationStatusChange(localSessionName);
-            }
+            OnRegistrationChanged(data.ClientData, data.ResultCode);
         }
 
         /// <summary>
@@ -2311,12 +2305,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// </param>
         public void UnregisterPlayer(string sessionName, ProductUserId userIdToUnRegister)
         {
-            UnregisterPlayersOptions unregisterOptions = new UnregisterPlayersOptions();
-            unregisterOptions.SessionName = sessionName;
-            unregisterOptions.PlayersToUnregister = new ProductUserId[] { userIdToUnRegister };
-
-            SessionsInterface sessionInterface = EOSManager.Instance.GetEOSPlatformInterface().GetSessionsInterface();
-            sessionInterface.UnregisterPlayers(ref unregisterOptions, sessionName, OnUnregisterCompleteCallback);
+            UnregisterPlayers(sessionName, new[] { userIdToUnRegister });
         }
 
         /// <summary>
@@ -2357,19 +2346,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// </param>
         private void OnUnregisterCompleteCallback(ref UnregisterPlayersCallbackInfo data)
         {
-            if (data.ResultCode != Result.Success)
-            {
-                Debug.LogError($"{nameof(EOSSessionsManager)} ({nameof(OnUnregisterCompleteCallback)}): error code: {data.ResultCode}");
-                return;
-            }
-
-            // ClientData should contain the local sessionName
-            if (data.ClientData is string localSessionName)
-            {
-                // Refresh the Owner's local UI, and also inform members
-                RefreshSession(localSessionName);
-                InformUsersOfRegistrationStatusChange(localSessionName);
-            }
+            OnRegistrationChanged(data.ClientData, data.ResultCode);
         }
 
         /// <summary>
