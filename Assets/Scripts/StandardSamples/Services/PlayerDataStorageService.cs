@@ -307,8 +307,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// </summary>
         /// <param name="fileName">The name of the file to download.</param>
         /// <param name="dataToUpload">The data to upload.</param>
-        /// <returns>An awaitable task containing either the result or an exception.</returns>
-        public async Task<byte[]> UploadFileAsync(string fileName, byte[] dataToUpload)
+        public async Task UploadFileAsync(string fileName, byte[] dataToUpload)
         {
             EOSPlayerDataStorageTransferTask transferTask = UploadFile(fileName, dataToUpload);
 
@@ -316,10 +315,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             if (transferTask.InnerTaskCompletionSource.Task.IsFaulted)
             {
-                return await Task<byte[]>.FromException<byte[]>(new AggregateException($"{nameof(PlayerDataStorageService)} ({nameof(UploadFileAsync)}): Failed to upload file. Result code {transferTask.ResultCode}", transferTask.InnerTaskCompletionSource.Task.Exception));
+                await Task<byte[]>.FromException<byte[]>(new AggregateException($"{nameof(PlayerDataStorageService)} ({nameof(UploadFileAsync)}): Failed to upload file. Result code {transferTask.ResultCode}", transferTask.InnerTaskCompletionSource.Task.Exception));
             }
-
-            return transferTask.Data;
         }
 
         /// <summary>
