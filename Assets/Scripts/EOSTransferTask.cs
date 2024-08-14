@@ -50,9 +50,15 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public TaskCompletionSource<byte[]> InnerTaskCompletionSource;
 
         /// <summary>
+        /// Delegate signature for <see cref="OnProgressUpdated"/>.
+        /// </summary>
+        /// <param name="progress">The current percentage completion of the task, by number of bytes to work on.</param>
+        public delegate void OnProgressUpdatedDelegate(float progress);
+
+        /// <summary>
         /// An optional task that can be utilized to inform the user of file transfer progress.
         /// </summary>
-        public Action<float> OnProgressUpdated;
+        public event OnProgressUpdatedDelegate OnProgressUpdated;
 
         /// <summary>
         /// If this task is a download task, this is where the data will be put when the task is complete.
