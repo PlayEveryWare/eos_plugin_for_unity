@@ -41,9 +41,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         private List<UICustomInviteEntry> PendingInviteEntries = new();
         private bool PayloadSet = false;
 
-        protected override void OnEnable()
+        protected override void Awake()
         {
-            base.OnEnable();
+            base.Awake();
             FriendsManager = EOSManager.Instance.GetOrCreateManager<EOSFriendsManager>();
             CustomInvitesManager = EOSManager.Instance.GetOrCreateManager<EOSCustomInvitesManager>();
             CustomInvitesManager.AddNotifyCustomInviteReceived(OnInviteReceived);
