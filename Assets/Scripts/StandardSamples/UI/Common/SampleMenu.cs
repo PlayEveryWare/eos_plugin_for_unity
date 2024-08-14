@@ -24,6 +24,7 @@
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
+    using System;
     using System.Diagnostics;
     using System.Runtime.CompilerServices;
     using UnityEngine;
@@ -227,7 +228,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             if (null == UIParent)
             {
-                Log($"UIParent for is null for some reason.");
+                Log($"UIParent is null for some reason.");
             }
             else
             {
@@ -287,25 +288,48 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         }
 
         /// <summary>
-        /// Sets the focused control to UIFirstSelected, assuming it is both
-        /// defined and active in the hierarchy.
+        /// Sets the focused control to be UIFirstSelected if doing so can be
+        /// done. If reset is true, then ignore whether there already is a
+        /// selected item. This is to maintain selected control when switching
+        /// between menus.
         /// </summary>
-        private void SetSelected()
+        /// <param name="reset">
+        /// If true, ignore whether there is already a selected control,
+        /// otherwise only set the selected to UIFirstSelected if the current
+        /// selected GameObject is null.
+        /// </param>
+        private void SetSelected(bool reset = true)
         {
-            // Controller: Detect if nothing is selected and controller input detected, and set default
-            if (UIFirstSelected == null 
-                || UIFirstSelected.activeSelf == false
-                || UIFirstSelected.activeInHierarchy == false
-                || EventSystem.current == null || EventSystem.current.currentSelectedGameObject != null
-                || !InputUtility.WasGamepadUsedLastFrame())
+            // Can't set selected if the event system is null
+            if (null == EventSystem.current)
+                return;
+
+            // If the field member that holds a reference to the control that 
+            // should be focused first is null, then it cannot be set as the
+            // focused item.
+            if (null == UIFirstSelected)
             {
+                Debug.LogWarning($"{nameof(UIFirstSelected)} has not been set in the Unity Editor's inspector window, so the default selected control cannot be explicitly set.");
                 return;
             }
+
+            // Make sure that the field member that holds a reference to the 
+            // control that should be focused first is active and can receive
+            // input.
+            if (!UIFirstSelected.activeSelf || !UIFirstSelected.activeInHierarchy)
+            {
+                Debug.LogWarning($"{nameof(UIFirstSelected)} is either not active, not active in the hierarchy, or both - so it does not make sense to set it as the selected control, as it cannot receive input.");
+                return;
+            }
+
+            // Honor the reset flag.
+            if (!reset && null != EventSystem.current.currentSelectedGameObject)
+                return;
 
             // Controller
             EventSystem.current.SetSelectedGameObject(UIFirstSelected);
 
-            Log($"Nothing currently selected, so setting the selected object {EventSystem.current.currentSelectedGameObject} as the focused object.");
+            Log($"Setting the selected object {EventSystem.current.currentSelectedGameObject} as the focused object.");
         }
 
         [Conditional("SAMPLE_MENU_DEBUG")]
