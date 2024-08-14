@@ -353,51 +353,62 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// The icon texture associated with the given achievement ID and
         /// determined by the given URI selector.
         /// </returns>
-        private Task<Texture2D> GetAchievementIconTexture(string achievementId, Func<DefinitionV2, string> uriSelector)
+        private async Task<Texture2D> GetAchievementIconTexture(string achievementId, Func<DefinitionV2, string> uriSelector)
         {
-            TaskCompletionSource<Texture2D> tcs = new();
+            Texture2D textureFromBytes = null;
+            
             foreach (var achievementDef in _achievements)
             {
                 if (achievementDef.AchievementId != achievementId)
                     continue;
 
                 var uri = uriSelector(achievementDef);
-
-                
-                Texture2D textureFromBytes = new(2, 2);
+                byte[] iconBytes = null;
 
                 // Download the data
                 if (!_downloadCache.ContainsKey(uri))
                 {
+                    TaskCompletionSource<byte[]> downloadTcs = new();
+
                     GetAndCacheData(uri, data =>
                     {
                         if (data.result == UnityWebRequest.Result.Success)
                         {
-                            return;
+                            downloadTcs.SetResult(data.data);
                         }
 
                         Debug.LogWarning($"Could not download achievement icon: {data.result}.");
-                        tcs.SetResult(null);
+                        downloadTcs.SetResult(null);
                     });
-                }
 
-                // Get the downloaded data
-                if (_downloadCache.TryGetValue(uri, out byte[] iconBytes) && null != iconBytes)
-                {
-                    // Load the data into the texture
-                    if (!textureFromBytes.LoadImage(iconBytes))
+                    iconBytes = await downloadTcs.Task;
+
+                    if (null != iconBytes)
                     {
-                        Debug.LogWarning($"Could not load achievement icon bytes.");
-                        tcs.SetResult(null);
+                        _downloadCache[uri] = iconBytes;
                     }
                 }
+                else
+                {
+                    _downloadCache.TryGetValue(uri, out iconBytes);
+                }
 
-                tcs.SetResult(textureFromBytes);
+
+                if (null != iconBytes)
+                {
+                    textureFromBytes = new Texture2D(2, 2);
+
+                    if (!textureFromBytes.LoadImage(iconBytes))
+                    {
+                        Debug.LogWarning("Could not load achievement icon bytes into texture.");
+                        textureFromBytes = null;
+                    }
+                }
 
                 break;
             }
 
-            return tcs.Task;
+            return textureFromBytes;
         }
 
         /// <summary>
