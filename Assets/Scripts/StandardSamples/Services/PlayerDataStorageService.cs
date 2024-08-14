@@ -109,7 +109,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// </returns>
         public Task<List<string>> QueryFileList(ProductUserId userId)
         {
-            if (!userId.IsValid())
+            if (userId == null || !userId.IsValid())
             {
                 return Task.FromException<List<string>>(new ArgumentException($"{nameof(PlayerDataStorageService)} ({nameof(QueryFileList)}): {nameof(userId)} is not valid."));
             }
@@ -266,7 +266,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                         return;
                     }
 
-                    downloadTask.SetDataBufferSize((uint)fileMetadata?.FileSizeBytes);
+                    // FileMetaData.FileSizeBytes includes header information, which doesn't need to be considered while downloading
+                    downloadTask.SetDataBufferSize((uint)fileMetadata?.UnencryptedDataSizeBytes);
 
                     // The returned EOSPlayerDataStorageTransferTask holds the callbacks for file progress and finishing
                     ReadFileOptions readOptions = new ReadFileOptions
