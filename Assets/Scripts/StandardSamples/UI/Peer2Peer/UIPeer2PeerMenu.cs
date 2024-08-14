@@ -316,6 +316,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public override void Hide()
         {
+            base.Hide();
+
             Peer2PeerManager?.OnLoggedOut();
 
             CloseChatOnClick();
