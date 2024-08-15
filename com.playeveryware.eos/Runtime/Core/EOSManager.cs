@@ -1848,6 +1848,47 @@ namespace PlayEveryWare.EpicOnlineServices
         {
             Instance.OnApplicationPause(pauseStatus);
         }
+
+        /// <summary>
+        /// Whenever the EOSManager becomes available and active, it subscribes
+        /// to [Application.quitting](https://docs.unity3d.com/ScriptReference/Application-quitting.html).
+        /// The event will only run when the application is definitely closing without the ability for it to be canceled.
+        /// </summary>
+        void OnEnable()
+        {
+            Application.quitting += OnApplicationQuitting;
+        }
+
+        /// <summary>
+        /// Whenever the EOSManager becomes inactive, it unsubscribes to 
+        /// to [Application.quitting](https://docs.unity3d.com/ScriptReference/Application-quitting.html).
+        /// This is in case the manager is unloaded without the application ending.
+        /// </summary>
+        void OnDisable()
+        {
+            Application.quitting -= OnApplicationQuitting;
+        }
+
+        /// <summary>
+        /// Event that should be subscribed to Application.quitting, with the event
+        /// managed by <see cref="OnEnable"/> and <see cref="OnDisable"/>.
+        /// </summary>
+        void OnApplicationQuitting()
+        {
+            if (ShouldShutdownOnApplicationQuit)
+            {
+#if EOS_CAN_SHUTDOWN
+                print($"{nameof(EOSManager)} ({nameof(OnApplicationQuitting)}): Application is quitting. {nameof(ShouldShutdownOnApplicationQuit)} is true, so the plugin is being shut down. EOS_CAN_SHUTDOWN is true, so the EOS SDK will now be shut down fully.");
+#else
+                print($"{nameof(EOSManager)} ({nameof(OnApplicationQuitting)}): Application is quitting. {nameof(ShouldShutdownOnApplicationQuit)} is true, so the plugin is being shut down. EOS_CAN_SHUTDOWN is false, so the EOS SDK will not be shut down.");
+#endif
+                Instance.OnShutdown();
+            }
+            else
+            {
+                print($"{nameof(EOSManager)} ({nameof(OnApplicationQuitting)}): Application is quitting. {nameof(ShouldShutdownOnApplicationQuit)} is false, so this manager will not shut down the EOS SDK.");
+            }
+        }
 #endif
 
         //-------------------------------------------------------------------------
