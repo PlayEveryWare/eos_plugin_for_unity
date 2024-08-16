@@ -100,7 +100,7 @@ namespace PlayEveryWare.EpicOnlineServices
         // <value>If true, EOSManager initialized itself at startup.</value>
         public bool InitializeOnAwake = true;
 
-        /// <value>If true, EOSManager will shutdown the EOS SDK when Unity dispatches OnApplicationQuit. </value>
+        /// <value>If true, EOSManager will shutdown the EOS SDK when Unity runs <see cref="Application.quitting"/>.</value>
         public bool ShouldShutdownOnApplicationQuit = true;
 
 #if !EOS_DISABLE
@@ -1814,20 +1814,6 @@ namespace PlayEveryWare.EpicOnlineServices
         }
 
         //-------------------------------------------------------------------------
-        /// <summary>Unity [OnApplicationQuit](https://docs.unity3d.com/ScriptReference/MonoBehaviour.OnApplicationQuit.html) is called before the application quits.
-        /// <list type="bullet">
-        ///     <item><description>Calls <c>OnShutdown()</c></description></item>
-        /// </list>
-        /// </summary>
-        private void OnApplicationQuit()
-        {
-            if (ShouldShutdownOnApplicationQuit)
-            {
-                Instance.OnShutdown();
-            }
-        }
-
-        //-------------------------------------------------------------------------
         /// <summary>Unity [OnApplicationFocus](https://docs.unity3d.com/ScriptReference/MonoBehaviour.OnApplicationFocus.html) is called when the application loses or gains focus.
         /// <list type="bullet">
         ///     <item><description>Calls <c>OnApplicationFocus()</c></description></item>
@@ -1872,6 +1858,10 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <summary>
         /// Event that should be subscribed to Application.quitting, with the event
         /// managed by <see cref="OnEnable"/> and <see cref="OnDisable"/>.
+        /// This is intentionally named to be different than "OnApplicationQuit", which is a Unity Message
+        /// that runs when Unity begins considering quitting.
+        /// Instead, this should be subscribed to <see cref="Application.quitting"/>, which is an event
+        /// that only fires when the Application is irreversably shutting down.
         /// </summary>
         void OnApplicationQuitting()
         {
