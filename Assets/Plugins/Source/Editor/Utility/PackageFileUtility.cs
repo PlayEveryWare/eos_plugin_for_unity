@@ -209,7 +209,11 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
 
                 FileInfo destInfo = new(destPath);
 
-                if (file.originalSrcDestPair.dest.Contains('~') && !file.originalSrcDestPair.dest.Contains("Samples~"))
+                if (src.Name == ".gitattributes") // Ignore .gitattributes as these should not be in the package
+                {
+                    continue;
+                }
+                else if (file.originalSrcDestPair.dest.Contains('~') && !file.originalSrcDestPair.dest.Contains("Samples~"))
                 {
                     // When generating a upm package, all directories that contain a 
                     // tilde character at the end of the name are ignored by Unity's
