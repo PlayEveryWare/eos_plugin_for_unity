@@ -26,39 +26,77 @@ using UnityEngine;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
+    using Editor.Utility;
+
     /// <summary>
     /// Class <c>EOSTransferInProgress</c> is used in <c>EOSTitleStorageManager</c> and <c>EOSPlayerDataStorageManager</c> to keep track of downloaded cached file data.
     /// </summary>
-
     public class EOSTransferInProgress
     {
-        // per EOS SDK documentation, the maximum size for a file is 200MB, or this many bytes.
-        public const int FileMaxSizeBytes = 200000000;
+        // Per EOS SDK documentation, the maximum size for a file is 200MB.
+        private const int FileMaxSizeBytes = 200000000;
 
+        /// <summary>
+        /// Indicates whether the transfer is a download or an upload.
+        /// </summary>
         public bool Download = true;
-        public uint CurrentIndex = 0;
-        public byte[] Data;
-        private uint transferSize = 0;
 
+        /// <summary>
+        /// Current index of the file transfer.
+        /// </summary>
+        public uint CurrentIndex = 0;
+
+        /// <summary>
+        /// Stores the data for the transfer.
+        /// </summary>
+        private byte[] _data;
+
+        /// <summary>
+        /// Property containing the Data to transfer. 
+        /// </summary>
+        public byte[] Data
+        {
+            get
+            {
+                return _data;
+            }
+            set
+            {
+                // If the data is too large, then log an error, but allow the 
+                // property to still be set, since this would be a confusing
+                // place to crash at, and because EOS will throw an error if 
+                // an attempt is made to upload the file.
+                if (null != value && value.Length > FileMaxSizeBytes)
+                {
+                    Debug.LogError($"Cannot transfer a file larger than 200MB.");
+                }
+
+                _data = value;
+            }
+        }
+
+        /// <summary>
+        /// The total size of the data to transfer, in bytes.
+        /// </summary>
         public uint TotalSize
         {
             get
             {
-                return transferSize;
-            }
-            set
-            {
-                transferSize = value;
+                if (null == Data)
+                    return 0;
 
-                if (transferSize > FileMaxSizeBytes)
-                {
-                    Debug.LogError("[EOS SDK] Player data storage: data transfer size exceeds max file size.");
-                    transferSize = FileMaxSizeBytes;
-                }
+                _ = SafeTranslatorUtility.TryConvert(Data.Length, out uint totalSize);
+                return totalSize;
             }
         }
 
-        public bool Done()
+        /// <summary>
+        /// Indicates whether the data is done being transferred.
+        /// </summary>
+        /// <returns>
+        /// True if the data base been transferred, false otherwise.
+        /// </returns>
+        public bool IsDone()
         {
             return TotalSize == CurrentIndex;
         }
