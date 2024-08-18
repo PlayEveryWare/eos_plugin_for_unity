@@ -1171,7 +1171,6 @@ namespace PlayEveryWare.EpicOnlineServices
                             SetLocalProductUserId(connectLoginData.LocalUserId);
                             ConfigureConnectStatusCallback();
                             ConfigureConnectExpirationCallback();
-                            
                             OnConnectLogin?.Invoke(connectLoginData);
                         }
 

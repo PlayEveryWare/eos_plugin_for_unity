@@ -20,19 +20,19 @@
 * SOFTWARE.
 */
 
-using System;
-using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.UI;
-using Epic.OnlineServices;
-using Epic.OnlineServices.Presence;
-
-#if ENABLE_INPUT_SYSTEM
-using UnityEngine.InputSystem;
-#endif
-
 namespace PlayEveryWare.EpicOnlineServices.Samples.Network
 {
+    using System;
+    using UnityEngine;
+    using UnityEngine.EventSystems;
+    using UnityEngine.UI;
+    using Epic.OnlineServices;
+    using Epic.OnlineServices.Presence;
+
+#if ENABLE_INPUT_SYSTEM
+    using UnityEngine.InputSystem;
+#endif
+
     using JsonUtility = PlayEveryWare.EpicOnlineServices.Utility.JsonUtility;
 
     public class P2PTransportPresenceData
@@ -48,7 +48,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
         }
     }
 
-    public class UIP2PTransportMenu : UIFriendInteractionSource, ISampleSceneUI
+    public class UIP2PTransportMenu : SampleMenuWithFriends
     {
         public UIFriendsMenu FriendUI;
         public GameObject PlayerNetworkPrefab;
@@ -138,8 +138,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             }
         }
 #else
-        public void Update()
+        protected override void Update()
         {
+            base.Update();
             if (controllingCharacter)
             {
                 if (Input.GetButtonDown("Cancel") || Input.GetButtonDown("Submit"))
@@ -433,8 +434,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             }
         }
 
-        public void HideMenu()
+        public override void Hide()
         {
+            base.Hide();
+
             if (isClient || isHost)
             {
                 DisconnectOnClick();
@@ -451,8 +454,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             RemoveJoinListener();
         }
 
-        public void ShowMenu()
+        public override void Show()
         {
+            base.Show();
+
             Background.enabled = false;
 
             SetSessionUIActive(false);
@@ -463,8 +468,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             NetworkSamplePlayer.DisplayNameSetter = SetDisplayNameText;
         }
 
-        private void OnDestroy()
+        protected override void OnDestroy()
         {
+            base.OnDestroy();
             transportManager?.Disconnect();
 
             NetworkSamplePlayer.DisplayNameContainer = null;

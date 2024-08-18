@@ -20,20 +20,19 @@
 * SOFTWARE.
 */
 
-using System;
-using System.Collections.Generic;
-
-using Epic.OnlineServices;
-using Epic.OnlineServices.Leaderboards;
-
-using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.EventSystems;
-using Epic.OnlineServices.Stats;
-
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
-    public class UILeaderboardMenu : MonoBehaviour, ISampleSceneUI
+    using System;
+    using System.Collections.Generic;
+
+    using Epic.OnlineServices;
+    using Epic.OnlineServices.Leaderboards;
+
+    using UnityEngine;
+    using UnityEngine.UI;
+    using UnityEngine.EventSystems;
+
+    public class UILeaderboardMenu : SampleMenu
     {
         private enum LeaderboardGroup
         {
@@ -42,7 +41,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         }
 
         [Header("Leaderboard UI")]
-        public GameObject LeaderboardUIParent;
 
         public GameObject LeaderboardDefinitionsContentParent;
         public GameObject UIFileNameEntryPrefab;
@@ -53,9 +51,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public GameObject UILeaderboardEntryPrefab;
 
         public UIConsoleInputField ingestStatValueInput;
-
-        [Header("Controller")]
-        public GameObject UIFirstSelected;
 
         private string currentSelectedDefinitionLeaderboardId = string.Empty;
         private string currentSelectedDefinitionStatName = string.Empty;
@@ -94,8 +89,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             CurrentSelectedLeaderboardTxt.text = "*select definition*";
         }
 
-        private void OnDestroy()
+        protected override void OnDestroy()
         {
+            base.OnDestroy();
             EOSManager.Instance.RemoveManager<EOSFriendsManager>();
             EOSManager.Instance.RemoveManager<EOSLeaderboardManager>();
         }
@@ -363,28 +359,16 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             refreshLeaderboardCoroutine = StartCoroutine(RefreshCurrentLeaderboardAfterWait(SecondsAfterStatIngestedToRefresh));
         }
 
-        public void ShowMenu()
+        public override void Show()
         {
-            LeaderboardUIParent.gameObject.SetActive(true);
-
-            //EOSManager.Instance.GetOrCreateManager<EOSLeaderboardManager>().OnLoggedIn();
-            Invoke("InitFriends",0);
-
-            // Controller
-            EventSystem.current.SetSelectedGameObject(UIFirstSelected);
+            base.Show();
+            Invoke(nameof(InitFriends), 0);
         }
 
         private void InitFriends()
         {
             PlayerManager.QueryFriends(null);
             RefreshDefinitionsOnClick();
-        }
-
-        public void HideMenu()
-        {
-            LeaderboardManager?.OnLoggedOut();
-
-            LeaderboardUIParent.gameObject.SetActive(false);
         }
 
         private void SetCurrentLeaderboardDescription()

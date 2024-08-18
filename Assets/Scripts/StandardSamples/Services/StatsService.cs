@@ -35,6 +35,7 @@ namespace PlayEveryWare.EpicOnlineServices
     using Samples;
     using System.Collections.Concurrent;
     using System.Threading.Tasks;
+    using Debug = UnityEngine.Debug;
 
     public class StatsService : EOSService
     {
@@ -61,7 +62,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// Private constructor guarantees adherence to thread-safe singleton
         /// pattern.
         /// </summary>
-        private StatsService() : base(true) { }
+        private StatsService() { }
 
         #endregion
 
@@ -80,9 +81,17 @@ namespace PlayEveryWare.EpicOnlineServices
             UnityEngine.Debug.Log(toPrint);
         }
 
-        protected async override void OnPlayerLogin(ProductUserId productUserId)
+        protected async override void OnLoggedIn()
         {
-            await RefreshPlayerStatsAsync(productUserId);
+            if (TryGetProductUserId(out ProductUserId userId))
+            {
+                await RefreshPlayerStatsAsync(userId);
+            }
+        }
+
+        protected override void OnLoggedOut()
+        {
+            _playerStats.Clear();
         }
 
         /// <summary>

@@ -1755,6 +1755,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 562367960}
     m_Modifications:
     - target: {fileID: 126780952, guid: aeac9914cf69f3e45971f52404af81a8, type: 3}
+      propertyPath: UIParent
+      value: 
+      objectReference: {fileID: 805891813}
+    - target: {fileID: 126780952, guid: aeac9914cf69f3e45971f52404af81a8, type: 3}
       propertyPath: LobbySearchUI
       value: 
       objectReference: {fileID: 1160268718}
@@ -3295,6 +3299,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: aeac9914cf69f3e45971f52404af81a8, type: 3}
+--- !u!1 &805891813 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 525090540118629950, guid: aeac9914cf69f3e45971f52404af81a8,
+    type: 3}
+  m_PrefabInstance: {fileID: 805891812}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &832381917
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3302,6 +3312,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 562367960}
     m_Modifications:
+    - target: {fileID: 1520068606371974356, guid: 6a62934fd9ee35d49bf4f84f329793d1,
+        type: 3}
+      propertyPath: UIParent
+      value: 
+      objectReference: {fileID: 832381918}
     - target: {fileID: 1520068606371974356, guid: 6a62934fd9ee35d49bf4f84f329793d1,
         type: 3}
       propertyPath: UIInviteMenu
@@ -3539,6 +3554,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6a62934fd9ee35d49bf4f84f329793d1, type: 3}
+--- !u!1 &832381918 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1520068607348101689, guid: 6a62934fd9ee35d49bf4f84f329793d1,
+    type: 3}
+  m_PrefabInstance: {fileID: 832381917}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &967009383
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3714,7 +3735,7 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 805891812}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 805891813}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a19ae3a69c6c6ae4b80c8df30dd710a8, type: 3}

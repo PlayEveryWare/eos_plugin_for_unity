@@ -20,32 +20,23 @@
 * SOFTWARE.
 */
 
-using System;
-using System.Collections;
-using System.Collections.Generic;
-
-using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.UI;
-
-#if ENABLE_INPUT_SYSTEM
-using UnityEngine.InputSystem;
-#endif
-
-using Epic.OnlineServices;
-using Epic.OnlineServices.Friends;
-using Epic.OnlineServices.P2P;
-using Epic.OnlineServices.Presence;
-using Epic.OnlineServices.UI;
-
-using PlayEveryWare.EpicOnlineServices;
-
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
-    public class UIFriendsMenu : MonoBehaviour, ISampleSceneUI
+    using System.Collections.Generic;
+    using UnityEngine;
+    using UnityEngine.EventSystems;
+
+#if ENABLE_INPUT_SYSTEM
+    using UnityEngine.InputSystem;
+#endif
+
+    using Epic.OnlineServices;
+    using Epic.OnlineServices.Friends;
+    using Epic.OnlineServices.Presence;
+
+    public class UIFriendsMenu : SampleMenu
     {
         [Header("Friends UI")]
-        public GameObject FriendsUIParent;
 
         public GameObject FriendsPanel;
         private bool collapsed = false;
@@ -59,8 +50,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public bool CollapseOnStart = false;
 
-        [Header("Controller")]
-        public GameObject UIFirstSelected;
+        
+        
         public GameObject[] ControllerUIObjects;
         public GameObject SelectedButtonOnClose;
 
@@ -71,13 +62,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         // Lobbies, P2P Chat, etc.
         [Header("Friend Interaction Source (Optional)")]
         [Tooltip("UI for Lobbies, P2P Chat, Reports, etc.")]
-        public UIFriendInteractionSource UIFriendInteractionSource;
+        public SampleMenuWithFriends UIFriendInteractionSource;
 
         private float initialPanelAnchoredPosX;
 
 #if !ENABLE_INPUT_SYSTEM
-        private void Awake()
+        protected override void OnEnable()
         {
+            base.OnEnable();
             // Ensure Disable Controller UI
             foreach(GameObject o in ControllerUIObjects)
             {
@@ -99,8 +91,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             isSearching = false;
         }
 
-        private void OnDestroy()
+        protected override void OnDestroy()
         {
+            base.OnDestroy();
             EOSManager.Instance.RemoveManager<EOSFriendsManager>();
         }
 
@@ -125,8 +118,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             RenderFriendsList(true);
         }
 
-        private void Update()
+        protected override void Update()
         {
+            base.Update();
 #if ENABLE_INPUT_SYSTEM
             var gamepad = Gamepad.current;
             if (gamepad != null && gamepad.rightShoulder.wasPressedThisFrame)
@@ -192,16 +186,16 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     uiEntry.FriendInteractOnClick = UIFriendInteractionSource.OnFriendInteractButtonClicked;
                     switch (friendButtonState)
                     {
-                        case UIFriendInteractionSource.FriendInteractionState.Hidden:
+                        case SampleMenuWithFriends.FriendInteractionState.Hidden:
                             uiEntry.EnableFriendButton(false);
                             break;
 
-                        case UIFriendInteractionSource.FriendInteractionState.Disabled:
+                        case SampleMenuWithFriends.FriendInteractionState.Disabled:
                             uiEntry.EnableFriendButtonInteraction(false);
                             uiEntry.EnableFriendButton(true);
                             break;
 
-                        case UIFriendInteractionSource.FriendInteractionState.Enabled:
+                        case SampleMenuWithFriends.FriendInteractionState.Enabled:
                             uiEntry.EnableFriendButtonInteraction(true);
                             uiEntry.EnableFriendButton(true);
                             break;
@@ -301,24 +295,16 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             FriendsManager.QueryFriends(null);
         }
 
-        public void ShowMenu()
+        public override void Show()
         {
+            base.Show();
             EOSManager.Instance.GetOrCreateManager<EOSFriendsManager>().OnLoggedIn();
-
-            FriendsUIParent.SetActive(true);
-
-            // Controller
-            if(UIFirstSelected.activeInHierarchy)
-            {
-                EventSystem.current.SetSelectedGameObject(UIFirstSelected);
-            }
         }
 
-        public void HideMenu()
+        public override void Hide()
         {
+            base.Hide();
             FriendsManager?.OnLoggedOut();
-
-            FriendsUIParent.SetActive(false);
         }
     }
 }
