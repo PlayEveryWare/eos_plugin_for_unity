@@ -20,15 +20,14 @@
 * SOFTWARE.
 */
 
-using UnityEngine;
-using UnityEngine.UI;
-
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
     using System.Collections.Generic;
     using System.Linq;
+    using UnityEngine;
+    using UnityEngine.UI;
 
-    public class UISampleSceneUIContainer : MonoBehaviour, ISampleSceneUI
+    public class UISampleSceneUIContainer : MonoBehaviour
     {
         /// <summary>
         /// Container for the sample scene UI.
@@ -48,17 +47,17 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public void ShowMenu()
         {
-            foreach (var scene in GetContainedSampleScenes())
+            foreach (var menu in GetContainedSampleMenus())
             {
-                scene.ShowMenu();
+                menu.Show();
             }
         }
 
         public void HideMenu()
         {
-            foreach (var scene in GetContainedSampleScenes())
+            foreach (var menu in GetContainedSampleMenus())
             {
-                scene.HideMenu();
+                menu.Hide();
             }
         }
 
@@ -66,9 +65,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// Gets all children ISampleSceneUI objects that are not this one.
         /// </summary>
         /// <returns>Enumerable of sample scenes contained within.</returns>
-        private IEnumerable<ISampleSceneUI> GetContainedSampleScenes()
+        private IEnumerable<SampleMenu> GetContainedSampleMenus()
         {
-            return GetComponentsInChildren<ISampleSceneUI>(true).Where(element =>
+            return GetComponentsInChildren<SampleMenu>(true).Where(element =>
                 element is MonoBehaviour behaviour && behaviour.gameObject != gameObject);
         }
 

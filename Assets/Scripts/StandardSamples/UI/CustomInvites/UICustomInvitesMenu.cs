@@ -20,17 +20,15 @@
 * SOFTWARE.
 */
 
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
-using Epic.OnlineServices;
-using Epic.OnlineServices.CustomInvites;
-using Epic.OnlineServices.Presence;
-
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
-    public class UICustomInvitesMenu : UIFriendInteractionSource, ISampleSceneUI
+    using System.Collections.Generic;
+    using UnityEngine;
+    using UnityEngine.UI;
+    using Epic.OnlineServices;
+    using Epic.OnlineServices.Presence;
+
+    public class UICustomInvitesMenu : SampleMenuWithFriends
     {
         [Header("Custom Invites UI")]
         public UIConsoleInputField PayloadInputField;
@@ -40,22 +38,22 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private EOSCustomInvitesManager CustomInvitesManager;
         private EOSFriendsManager FriendsManager;
-        private List<UICustomInviteEntry> PendingInviteEntries;
+        private List<UICustomInviteEntry> PendingInviteEntries = new();
         private bool PayloadSet = false;
 
-        private void Awake()
+        protected override void Awake()
         {
-            PendingInviteEntries = new List<UICustomInviteEntry>();
+            base.Awake();
             FriendsManager = EOSManager.Instance.GetOrCreateManager<EOSFriendsManager>();
             CustomInvitesManager = EOSManager.Instance.GetOrCreateManager<EOSCustomInvitesManager>();
             CustomInvitesManager.AddNotifyCustomInviteReceived(OnInviteReceived);
             CustomInvitesManager.AddNotifyCustomInviteAccepted(OnInviteAccepted);
             CustomInvitesManager.AddNotifyCustomInviteRejected(OnInviteRejected);
-            HideMenu();
         }
 
-        private void OnDestroy()
+        protected override void OnDestroy()
         {
+            base.OnDestroy();
             CustomInvitesManager?.RemoveNotifyCustomInviteReceived(OnInviteReceived);
             CustomInvitesManager?.RemoveNotifyCustomInviteAccepted(OnInviteAccepted);
             CustomInvitesManager?.RemoveNotifyCustomInviteRejected(OnInviteRejected);
@@ -64,21 +62,21 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             EOSManager.Instance.RemoveManager<EOSCustomInvitesManager>();
         }
 
-        public void HideMenu()
+        public override void Hide()
         {
-            gameObject.SetActive(false);
+            base.Hide();
             if (EOSManager.Instance.GetProductUserId()?.IsValid() == true)
             {
                 CustomInvitesManager?.ClearPayload();
             }
         }
 
-        public void ShowMenu()
+        public override void Show()
         {
+            base.Show();
             PayloadInputField.InputField.text = string.Empty;
             CustomInvitesManager.ClearPayload();
-            gameObject.SetActive(true);
-
+            
             var presenceInterface = EOSManager.Instance.GetEOSPresenceInterface();
             var presenceModificationOptions = new CreatePresenceModificationOptions();
             presenceModificationOptions.LocalUserId = EOSManager.Instance.GetLocalUserId();

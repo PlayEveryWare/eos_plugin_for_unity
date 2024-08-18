@@ -35,6 +35,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     using Epic.OnlineServices;
     using Epic.OnlineServices.Achievements;
     using System.Threading.Tasks;
+    using Debug = UnityEngine.Debug;
 
     /// <summary>
     /// Class <c>AchievementsService</c> is a simplified wrapper for
@@ -81,7 +82,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// Private constructor guarantees adherence to thread-safe singleton
         /// pattern.
         /// </summary>
-        private AchievementsService() : base(true) { }
+        private AchievementsService() { }
 
         #endregion
 
@@ -106,9 +107,16 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             return buffer;
         }
 
-        protected async override void OnPlayerLogin(ProductUserId productUserId)
+        protected async override void OnLoggedIn()
         {
             await RefreshAsync();
+        }
+
+        protected override void OnLoggedOut()
+        {
+            _downloadCache.Clear();
+            _achievements.Clear();
+            _playerAchievements.Clear();
         }
 
         /// <summary>
@@ -255,9 +263,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 achievements.Add(definition.Value);
 
                 Log($"Achievements (CacheAchievementDef): Id={definition.Value.AchievementId}, LockedDisplayName={definition.Value.LockedDisplayName}.");
-
-                GetAndCacheData(definition.Value.LockedIconURL);
-                GetAndCacheData(definition.Value.UnlockedIconURL);
             }
 
             return achievements;
@@ -312,9 +317,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// <returns>
         /// The texture to be used when a player has unlocked the achievement.
         /// </returns>
-        public Texture2D GetAchievementUnlockedIconTexture(string achievementId)
+        public async Task<Texture2D> GetAchievementUnlockedIconTexture(string achievementId)
         {
-            return GetAchievementIconTexture(achievementId, v2 => v2.UnlockedIconURL);
+            return await GetAchievementIconTexture(achievementId, v2 => v2.UnlockedIconURL);
         }
 
         /// <summary>
@@ -328,9 +333,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// The texture to be used when a player has not unlocked the
         /// achievement.
         /// </returns>
-        public Texture2D GetAchievementLockedIconTexture(string achievementId)
+        public async Task<Texture2D> GetAchievementLockedIconTexture(string achievementId)
         {
-            return GetAchievementIconTexture(achievementId, v2 => v2.LockedIconURL);
+            return await GetAchievementIconTexture(achievementId, v2 => v2.LockedIconURL);
         }
 
         /// <summary>
@@ -348,34 +353,63 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// The icon texture associated with the given achievement ID and
         /// determined by the given URI selector.
         /// </returns>
-        private Texture2D GetAchievementIconTexture(string achievementId, Func<DefinitionV2, string> uriSelector)
+        private async Task<Texture2D> GetAchievementIconTexture(string achievementId, Func<DefinitionV2, string> uriSelector)
         {
-            Texture2D iconTexture = null;
+            Texture2D textureFromBytes = null;
+            
             foreach (var achievementDef in _achievements)
             {
                 if (achievementDef.AchievementId != achievementId)
                     continue;
 
-                if (_downloadCache.TryGetValue(uriSelector(achievementDef), out byte[] iconBytes) && null != iconBytes)
+                var uri = uriSelector(achievementDef);
+                byte[] iconBytes = null;
+
+                // Download the data
+                if (!_downloadCache.ContainsKey(uri))
                 {
-                    Texture2D textureFromBytes = new(2, 2);
-                    if (textureFromBytes.LoadImage(iconBytes))
+                    TaskCompletionSource<byte[]> downloadTcs = new();
+
+                    GetAndCacheData(uri, data =>
                     {
-                        iconTexture = textureFromBytes;
-                    }
-                    else
+                        if (data.result == UnityWebRequest.Result.Success)
+                        {
+                            downloadTcs.SetResult(data.data);
+                            return;
+                        }
+
+                        Debug.LogWarning($"Could not download achievement icon: {data.result}.");
+                        downloadTcs.SetResult(null);
+                    });
+
+                    iconBytes = await downloadTcs.Task;
+
+                    if (null != iconBytes)
                     {
-                        // TODO: Deal with circumstances where image could not be loaded for some reason
+                        _downloadCache[uri] = iconBytes;
                     }
-                    break;
                 }
                 else
                 {
-                    // TODO: Deal with circumstance where icon bytes are not cached, or are null
+                    _downloadCache.TryGetValue(uri, out iconBytes);
                 }
+
+
+                if (null != iconBytes)
+                {
+                    textureFromBytes = new Texture2D(2, 2);
+
+                    if (!textureFromBytes.LoadImage(iconBytes))
+                    {
+                        Debug.LogWarning("Could not load achievement icon bytes into texture.");
+                        textureFromBytes = null;
+                    }
+                }
+
+                break;
             }
 
-            return iconTexture;
+            return textureFromBytes;
         }
 
         /// <summary>
@@ -533,7 +567,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             return collectedAchievements;
         }
 
-        
+
+        protected struct DownloadDataCallback
+        {
+            public byte[] data;
+            public UnityWebRequest.Result result;
+        }
 
         /// <summary>
         /// Gets and subsequently caches the data at the given URI.
@@ -541,31 +580,41 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// <param name="uri">
         /// The URI to get bytes from.
         /// </param>
-        private async void GetAndCacheData(string uri)
+        /// <param name="callback">
+        /// Action to invoke when the data has been retrieved and cached.
+        /// </param>
+        private void GetAndCacheData(string uri, Action<DownloadDataCallback> callback)
         {
             if (_downloadCache.ContainsKey(uri))
             {
                 return;
             }
 
-            using DownloadHandlerBuffer downloadHandler = new();
-            using UnityWebRequest request = UnityWebRequest.Get(uri);
-            request.downloadHandler = downloadHandler;
+            UnityWebRequest request = UnityWebRequest.Get(uri);
 
             UnityWebRequestAsyncOperation asyncOp = request.SendWebRequest();
-            while (!asyncOp.isDone)
+
+            asyncOp.completed += operation =>
             {
-                await System.Threading.Tasks.Task.Yield();
-            }
+                DownloadDataCallback callbackInfo = new()
+                {
+                    result = request.result
+                };
 
 #if UNITY_2020_1_OR_NEWER
-            if (request.result == UnityWebRequest.Result.Success)
+                if (request.result == UnityWebRequest.Result.Success)
 #else
                 if (!request.isNetworkError && !request.isHttpError)
 #endif
-            {
-                _downloadCache[uri] = downloadHandler.data;
-            }
+                {
+                    _downloadCache[uri] = request.downloadHandler.data;
+                    callbackInfo.data = request.downloadHandler.data;
+                }
+
+                callback(callbackInfo);
+
+                request.Dispose();
+            };
         }
     }
 }

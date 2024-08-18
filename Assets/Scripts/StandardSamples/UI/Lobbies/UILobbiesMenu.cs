@@ -20,27 +20,23 @@
 * SOFTWARE.
 */
 
-using System;
-using System.Collections;
-using System.Collections.Generic;
-
-using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.EventSystems;
-
-using Epic.OnlineServices;
-using Epic.OnlineServices.Platform;
-using Epic.OnlineServices.Lobby;
-
-using PlayEveryWare.EpicOnlineServices;
-using UnityEngine.Android;
-
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
-    public class UILobbiesMenu : UIFriendInteractionSource, ISampleSceneUI
+    using System;
+    using System.Collections.Generic;
+
+    using UnityEngine;
+    using UnityEngine.UI;
+    using UnityEngine.EventSystems;
+
+    using Epic.OnlineServices;
+    using Epic.OnlineServices.Lobby;
+
+    using UnityEngine.Android;
+
+    public class UILobbiesMenu : SampleMenuWithFriends
     {
         [Header("Lobbies UI - Create Options")]
-        public GameObject LobbiesUIParent;
         public UIConsoleInputField BucketIdVal;
         public Dropdown MaxPlayersVal;
         public Dropdown LevelVal;
@@ -81,8 +77,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public Text InviteLevelVal;
         public Toggle InvitePresence;
 
-        [Header("Controller")]
-        public GameObject UIFirstSelected;
+        
+        
 
         // UI Cache
         private int lastMemberCount = 0;
@@ -101,14 +97,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         const bool ONANDROIDPLATFORM = false;
 #endif
 
-        public void Awake()
+        protected override void OnEnable()
         {
+            base.OnEnable();
             UIActions.OnCollapseFriendsTab += EnableInterferingUIForFriendsTab;
             UIActions.OnExpandFriendsTab += DisableInterferingUIForFriendsTab;
             // Hide Invite Pop-up (Default)
             UIInvitePanel.SetActive(false);
-
-            HideMenu();
         }
 
         private void Start()
@@ -154,8 +149,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             LobbySearchUI.SetActive(true);
         }
 
-        private void OnDestroy()
+        protected override void OnDestroy()
         {
+            base.OnDestroy();
             UIActions.OnCollapseFriendsTab -= EnableInterferingUIForFriendsTab;
             UIActions.OnExpandFriendsTab -= DisableInterferingUIForFriendsTab;
 
@@ -187,8 +183,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 
-        private void Update()
+        protected override void Update()
         {
+            base.Update();
             ProductUserId productUserId = EOSManager.Instance.GetProductUserId();
             if (productUserId == null || !productUserId.IsValid())
             {
@@ -205,32 +202,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             if (currentLobby.IsValid())
             {
                 bool ownerChanged = false;
-
-                /* TODO: Cache external/non-friend accounts
-                if(!currentLobby.LobbyOwnerAccountId.IsValid())
-                {
-                    currentLobby.LobbyOwnerAccountId = FriendsManager.GetAccountMapping(currentLobby.LobbyOwner);
-
-                    if(!currentLobby.LobbyOwnerAccountId.IsValid())
-                    {
-                        Debug.LogWarning("UILobbiesMenu (Update): LobbyOwner EpicAccountId not found in cache, need to query...");
-                        // If still invalid, need to query for account information
-                        // TODO query non cached
-                    }
-                }
-
-                if(currentLobby.LobbyOwnerAccountId.IsValid() && string.IsNullOrEmpty(currentLobby.LobbyOwnerDisplayName))
-                {
-                    currentLobby.LobbyOwnerDisplayName = FriendsManager.GetDisplayName(currentLobby.LobbyOwnerAccountId);
-
-                    if(string.IsNullOrEmpty(currentLobby.LobbyOwnerDisplayName))
-                    {
-                        Debug.LogWarning("UILobbiesMenu (Update): LobbyOwner DisplayName not found in cache, need to query...");
-                        // No cached display name found for user, need to query for account information
-                        // TODO query non cached
-                    }
-                }
-                */
 
                 // Cache LobbyOwner
                 if (currentLobbyOwnerCache != currentLobby.LobbyOwner)
@@ -793,21 +764,16 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
      
-        public void ShowMenu()
+        public override void Show()
         {
+            base.Show();
             EOSManager.Instance.GetOrCreateManager<EOSLobbyManager>().OnLoggedIn();
-
-            LobbiesUIParent.gameObject.SetActive(true);
-
-            // Controller
-            EventSystem.current.SetSelectedGameObject(UIFirstSelected);
         }
 
-        public void HideMenu()
+        public override void Hide()
         {
+            base.Hide();
             LobbyManager?.OnLoggedOut();
-
-            LobbiesUIParent.gameObject.SetActive(false);
         }
 
         private void ClearSearchResults()

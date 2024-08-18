@@ -20,29 +20,23 @@
 * SOFTWARE.
 */
 
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-
-using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.UI;
-
-using Epic.OnlineServices;
-using Epic.OnlineServices.Achievements;
-using Epic.OnlineServices.Ecom;
-using Epic.OnlineServices.UI;
-using Epic.OnlineServices.Stats;
-
-using PlayEveryWare.EpicOnlineServices;
-
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
+    using System;
+    using System.Collections.Generic;
+
+    using UnityEngine;
+    using UnityEngine.EventSystems;
+    using UnityEngine.UI;
+
+    using Epic.OnlineServices.Achievements;
+    using System.Threading.Tasks;
+
     /// <summary>
     /// Unity UI sample that uses <c>AchievementManager</c> to demo features.  Can be used as a template or starting point for implementing Achievement features.
     /// </summary>
 
-    public class UIAchievementsMenu : MonoBehaviour, ISampleSceneUI
+    public class UIAchievementsMenu : SampleMenu
     {
         [Header("Achievements UI")]
         public Button refreshDataButton;
@@ -56,10 +50,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public RawImage achievementUnlockedIcon;
         public RawImage achievementLockedIcon;
 
-        [Header("Controller")]
-        public GameObject UIFirstSelected;
-
-        private List<UIAchievementButton> achievementListItems;
+        private List<UIAchievementButton> achievementListItems = new();
 
         private bool displayDefinition = false;
         private int displayIndex = -1;
@@ -69,66 +60,18 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             public DefinitionV2 Definition;
             public PlayerAchievement? PlayerData;
         }
-        List<AchievementData> achievementDataList;
+        List<AchievementData> achievementDataList = new();
 
-        private void Awake()
+        protected override void Awake()
         {
-            achievementDataList = new List<AchievementData>();
-            achievementListItems = new List<UIAchievementButton>();
-
-            HideMenu();
+            base.Awake();
+            AchievementsService.Instance.Updated += OnAchievementDataUpdated;
         }
 
-        private void OnEnable()
+        protected override void OnDestroy()
         {
-            AchievementsService.Instance.AddUpdateCallback(OnAchievementDataUpdated);
-        }
-
-        private void OnDisable()
-        {
-            AchievementsService.Instance.RemoveUpdateCallback(OnAchievementDataUpdated);
-        }
-
-        private void OnDestroy()
-        {
-            EOSManager.Instance.RemoveManager<AchievementsService>();
-        }
-
-        private void Update()
-        {
-            // Controller: Detect if nothing is selected and controller input detected, and set default
-            if (UIFirstSelected.activeSelf != true
-                || EventSystem.current == null || EventSystem.current.currentSelectedGameObject != null
-                || !InputUtility.WasGamepadUsedLastFrame())
-            {
-                return;
-            }
-
-            // Controller
-            EventSystem.current.SetSelectedGameObject(UIFirstSelected);
-            Debug.Log("Nothing currently selected, default to UIFirstSelected: EventSystem.current.currentSelectedGameObject = " + EventSystem.current.currentSelectedGameObject);
-        }
-
-        public void ShowMenu()
-        {
-            refreshDataButton.gameObject.SetActive(true);
-            loginIncreaseButton.gameObject.SetActive(true);
-            showDefinitionToggle.gameObject.SetActive(true);
-
-            // Controller
-            EventSystem.current.SetSelectedGameObject(UIFirstSelected);
-        }
-
-        public void HideMenu()
-        {
-            refreshDataButton.gameObject.SetActive(false);
-            loginIncreaseButton.gameObject.SetActive(false);
-            showDefinitionToggle.gameObject.SetActive(false);
-            unlockAchievementButton.gameObject.SetActive(false);
-            definitionsDescription.gameObject.SetActive(false);
-            scrollRect.gameObject.SetActive(false);
-            achievementUnlockedIcon.gameObject.SetActive(false);
-            achievementLockedIcon.gameObject.SetActive(false);
+            base.OnDestroy();
+            AchievementsService.Instance.Updated -= OnAchievementDataUpdated;
         }
 
         public async void IncrementLoginStat()
@@ -167,6 +110,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             foreach (var item in achievementListItems)
             {
+                if (null == item)
+                    continue; 
+
                 Destroy(item.gameObject);
             }
             achievementListItems.Clear();
@@ -201,33 +147,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 scrollRect.gameObject.SetActive(true);
                 scrollRect.content.sizeDelta = new Vector2(0, achievementDefCount * 30);
 
-                int i = 0;
                 List<AchievementData> achievementDataListCopy = new(achievementDataList);
                 foreach (var achievementData in achievementDataListCopy)
                 {
-                    var newButton = Instantiate(itemTemplate, achievementListContainer);
-                    newButton.SetNameText(achievementData.Definition.AchievementId);
-                    newButton.gameObject.SetActive(true);
-                    newButton.index = i;
-                    bool unlocked = achievementData.PlayerData.HasValue && achievementData.PlayerData.Value.Progress >= 1;
-                    Texture2D iconTex = null;
-                    int iconGiveupFrame = Time.frameCount + 120;
-                    while (iconTex == null)
-                    {
-                        iconTex = unlocked ?
-                            AchievementsService.Instance.GetAchievementUnlockedIconTexture(achievementData.Definition.AchievementId)
-                           : AchievementsService.Instance.GetAchievementLockedIconTexture(achievementData.Definition.AchievementId);
-                        await System.Threading.Tasks.Task.Yield();
-
-                        if (Time.frameCount > iconGiveupFrame)
-                        {
-                            UnityEngine.Debug.LogWarning("Timeout : Failed to get icon");
-                            break;
-                        }
-                    }
-                    newButton.SetIconTexture(iconTex);
-                    i += 1;
-                    achievementListItems.Add(newButton);
+                    await AddAchievementButton(achievementData);
                 }
             }
             else
@@ -239,6 +162,28 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             RefreshDisplayingDefinition();
         }
 
+        private async Task AddAchievementButton(AchievementData achievement)
+        {
+            string achievementId = achievement.Definition.AchievementId;
+            
+            var button = Instantiate(itemTemplate, achievementListContainer);
+            button.SetNameText(achievementId);
+            button.gameObject.SetActive(true);
+            button.index = achievementListItems.Count;
+
+            achievementListItems.Add(button);
+
+            bool unlocked = achievement.PlayerData.HasValue && achievement.PlayerData.Value.Progress >= 1;
+
+            Task<Texture2D> getIconTextureTask = unlocked
+                ? AchievementsService.Instance.GetAchievementUnlockedIconTexture(achievementId)
+                : AchievementsService.Instance.GetAchievementLockedIconTexture(achievementId);
+
+            var tex = await getIconTextureTask;
+            
+            button.SetIconTexture(tex);
+        }
+
         public void OnShowDefinitionChanged(bool value)
         {
             displayDefinition = value;
@@ -248,6 +193,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 OnDefinitionIdButtonClicked(displayIndex);
             }
         }
+        
         public void RefreshDisplayingDefinition()
         {
             if (displayIndex == -1)
@@ -257,7 +203,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             OnDefinitionIdButtonClicked(displayIndex);
         }
 
-        public void OnDefinitionIdButtonClicked(int i)
+        public async void OnDefinitionIdButtonClicked(int i)
         {
             if (i > AchievementsService.GetAchievementsCount())
             {
@@ -268,8 +214,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             var achievementData = achievementDataList[i];
             var definition = achievementData.Definition;
-            achievementUnlockedIcon.texture = AchievementsService.Instance.GetAchievementUnlockedIconTexture(definition.AchievementId);
-            achievementLockedIcon.texture = AchievementsService.Instance.GetAchievementLockedIconTexture(definition.AchievementId);
+            achievementUnlockedIcon.texture = await AchievementsService.Instance.GetAchievementUnlockedIconTexture(definition.AchievementId);
+            achievementLockedIcon.texture = await AchievementsService.Instance.GetAchievementLockedIconTexture(definition.AchievementId);
 
             unlockAchievementButton.gameObject.SetActive(true);
 

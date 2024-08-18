@@ -20,22 +20,19 @@
 * SOFTWARE.
 */
 
-using System;
-using System.Collections;
-using System.Collections.Generic;
-
-using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.EventSystems;
-
-using Epic.OnlineServices;
-using Epic.OnlineServices.Sessions;
-
-using PlayEveryWare.EpicOnlineServices;
-
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
-    public class UISessionsMatchmakingMenu : UIFriendInteractionSource, ISampleSceneUI
+    using System;
+    using System.Collections.Generic;
+
+    using UnityEngine;
+    using UnityEngine.UI;
+    using UnityEngine.EventSystems;
+
+    using Epic.OnlineServices;
+    using Epic.OnlineServices.Sessions;
+
+    public class UISessionsMatchmakingMenu : SampleMenuWithFriends
     {
         /// <summary>
         /// An enum to record the local state of whether the local user can invite users to their Session.
@@ -66,8 +63,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// </summary>
         protected OwnSessionInvitationAbilityState OwnInvitationState { get; set; } = OwnSessionInvitationAbilityState.NoSessionToInviteTo;
 
-        public GameObject SessionsMatchmakingUIParent;
-
         [Header("Sessions/Matchmaking UI - Create Options")]
         public Text SessionNameVal;
         public Dropdown MaxPlayersVal;
@@ -93,45 +88,47 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public Text InviteFromVal;
         public Toggle InvitePresence;
 
-        [Header("Controller")]
-        public GameObject UIFirstSelected;
+        // TODO: It's unclear why this only works when startsHidden is set to
+        //       false, but only for this menu. Some investigation needs to
+        //       happen, after which it's possible that the constructor 
+        //       parameter might be able to be removed altogether.
+        public UISessionsMatchmakingMenu() : base(false)
+        {
+
+        }
 
         private EOSSessionsManager GetEOSSessionsManager
         {
             get { return EOSManager.Instance.GetOrCreateManager<EOSSessionsManager>(); }
         }
 
-        public void Awake()
+        protected override void OnEnable()
         {
+            base.OnEnable();
             // Hide Invite Pop-up (Default)
             UIInvitePanel.SetActive(false);
             InviteFromVal.text = string.Empty;
 
-            HideMenu();
-
             GetEOSSessionsManager.UIOnSessionRefresh = OnSessionRefresh;
         }
-
-        /*private void Start()
-        {
-        }*/
 
         private int previousFrameSessionCount = 0;
         private int previousFrameResultCount = 0;
 
-        private void OnDestroy()
+        protected override void OnDestroy()
         {
-            //HideMenu();
+            base.OnDestroy();
             // Unity crashes if you try to access EOSSinglton OnDestroy
             EOSManager.Instance.RemoveManager<EOSSessionsManager>();
         }
 
-        public void Update()
+        protected override void Update()
         {
+            base.Update();
+
             EOSSessionsManager sessionsManager = GetEOSSessionsManager;
             bool stateUpdates = sessionsManager.Update();
-
-
+            
             // Invites UI Prompt
             if (sessionsManager.GetCurrentInvite() != null)
             {
@@ -373,29 +370,24 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             GetEOSSessionsManager.DeclineLobbyInvite();
         }
 
-        public void ShowMenu()
+        public override void Show()
         {
+            base.Show();
             GetEOSSessionsManager.OnLoggedIn();
             GetEOSSessionsManager.OnPresenceChange.AddListener(SetDirtyFlagAction);
-
-            SessionsMatchmakingUIParent.gameObject.SetActive(true);
-
-            // Controller
-            EventSystem.current.SetSelectedGameObject(UIFirstSelected);
 
             EOSManager.Instance.SetLogLevel(Epic.OnlineServices.Logging.LogCategory.AllCategories, Epic.OnlineServices.Logging.LogLevel.Warning);
             EOSManager.Instance.SetLogLevel(Epic.OnlineServices.Logging.LogCategory.Sessions, Epic.OnlineServices.Logging.LogLevel.Verbose);
         }
 
-        public void HideMenu()
+        public override void Hide()
         {
+            base.Hide();
             if (GetEOSSessionsManager.IsUserLoggedIn)//check to prevent warnings when done unnecessarily during Sessions & Matchmaking startup
             {
                 GetEOSSessionsManager.OnPresenceChange.RemoveListener(SetDirtyFlagAction);
                 GetEOSSessionsManager.OnLoggedOut();
             }
-
-            SessionsMatchmakingUIParent.gameObject.SetActive(false);
         }
 
         public bool TryGetExistingUISessionEntryById(string sessionId, out UISessionEntry entry)
