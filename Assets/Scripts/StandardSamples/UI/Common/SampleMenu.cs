@@ -211,9 +211,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// </summary>
         protected virtual void Update()
         {
-            // If nothing is selected, set the selected (focused) control to be
-            // UIFirstSelected (if that field has been set).
-            SetSelected();
+            // Default behavior is to take no action.
         }
 
         /// <summary>
