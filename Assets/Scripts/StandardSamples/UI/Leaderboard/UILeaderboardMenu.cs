@@ -52,9 +52,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public UIConsoleInputField ingestStatValueInput;
 
-        
-        
-
         private string currentSelectedDefinitionLeaderboardId = string.Empty;
         private string currentSelectedDefinitionStatName = string.Empty;
         private LeaderboardGroup currentGroup = LeaderboardGroup.Global;
@@ -372,11 +369,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             PlayerManager.QueryFriends(null);
             RefreshDefinitionsOnClick();
-        }
-
-        public override void Hide()
-        {
-            LeaderboardManager?.OnLoggedOut();
         }
 
         private void SetCurrentLeaderboardDescription()

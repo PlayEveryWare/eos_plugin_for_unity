@@ -20,11 +20,10 @@
  * SOFTWARE.
  */
 
-#define SAMPLE_MENU_DEBUG
+//#define SAMPLE_MENU_DEBUG
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
-    using System;
     using System.Diagnostics;
     using System.Runtime.CompilerServices;
     using UnityEngine;
@@ -153,6 +152,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             StartsHidden = startsHidden;
             RequiresAuthentication = requiresAuthentication;
+
+            Log($"SampleMenu created -> (StartsHidden = {StartsHidden}, RequiresAuthentication = {RequiresAuthentication}).");
         }
 
         /// <summary>
@@ -324,6 +325,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             // Honor the reset flag.
             if (!reset && null != EventSystem.current.currentSelectedGameObject)
+                return;
+
+            // If the currently selected game object is already UIFirstSelected
+            // then take no action
+            if (UIFirstSelected == EventSystem.current.currentSelectedGameObject)
                 return;
 
             // Controller
