@@ -55,7 +55,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 LocalUserId = localUserId
             };
 
-            EOSManager.Instance.GetPlayerDataStorageInterface().QueryFileList(ref options, null, OnFileListRetrieved);
+            EOSManager.Instance.GetPlayerDataStorageInterface().QueryFileList(ref options, null, OnQueryFileListCompleted);
         }
 
         //-------------------------------------------------------------------------
@@ -360,7 +360,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         }
 
         //-------------------------------------------------------------------------
-        private void OnFileListRetrieved(ref QueryFileListCallbackInfo data)
+        private void OnQueryFileListCompleted(ref QueryFileListCallbackInfo data)
         {
             if (data.ResultCode != Result.Success && data.ResultCode != Result.NotFound)
             {
