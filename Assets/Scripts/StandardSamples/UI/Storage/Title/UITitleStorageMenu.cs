@@ -190,7 +190,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private string GetLocalData(string entryName)
         {
-            TitleStorageManager.GetCachedStorageData().TryGetValue(entryName, out string data);
+            TitleStorageManager.GetLocallyCachedData().TryGetValue(entryName, out string data);
 
             if (!string.IsNullOrEmpty(data))
             {
@@ -243,7 +243,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 return;
             }
 
-            if (TitleStorageManager.GetCachedStorageData().TryGetValue(FileNameTextBox.InputField.text, out string fileContent))
+            if (TitleStorageManager.GetLocallyCachedData().TryGetValue(FileNameTextBox.InputField.text, out string fileContent))
             {
                 // Update UI
                 FileContent.text = fileContent;

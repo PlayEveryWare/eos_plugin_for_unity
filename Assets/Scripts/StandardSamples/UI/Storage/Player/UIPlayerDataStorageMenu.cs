@@ -95,7 +95,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private void UpdateFileListUI()
         {
-            if (PlayerDataStorageManager.GetCachedStorageData().Count != fileNameUIEntries.Count)
+            if (PlayerDataStorageManager.GetLocallyCachedData().Count != fileNameUIEntries.Count)
             {
                 // Destroy current UI member list
                 foreach (var entry in fileNameUIEntries)
@@ -105,7 +105,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 fileNameUIEntries.Clear();
                 fileNames.Clear();
 
-                foreach (string fileName in PlayerDataStorageManager.GetCachedStorageData().Keys)
+                foreach (string fileName in PlayerDataStorageManager.GetLocallyCachedData().Keys)
                 {
                     fileNames.Add(fileName);
                     GameObject fileUIObj = Instantiate(UIFileNameEntryPrefab, FilesContentParent.transform);
@@ -129,7 +129,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public void RefreshButtonOnClick()
         {
-            PlayerDataStorageManager.GetCachedStorageData().Clear();
+            PlayerDataStorageManager.GetLocallyCachedData().Clear();
 
             PlayerDataStorageManager.QueryFileList();
 

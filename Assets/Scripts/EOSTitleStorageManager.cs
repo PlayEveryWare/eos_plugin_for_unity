@@ -43,25 +43,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         private List<string> CurrentFileNames = new List<string>();
 
         // Manager Callbacks
-        public OnQueryFileListCallback QueryListCallback { get; private set; }
-        public OnReadFileCallback ReadFileCallback { get; private set; }
+        public OnQueryFileListCallback QueryListCallback { get; private set; } = null;
+        public OnReadFileCallback ReadFileCallback { get; private set; } = null;
 
         public delegate void OnQueryFileListCallback(Result result);
         public delegate void OnReadFileCallback(Result result);
-
-        public EOSTitleStorageManager()
-        {
-            _transfersInProgress = new Dictionary<string, EOSTransferInProgress>();
-            _storageData = new Dictionary<string, string>();
-
-            QueryListCallback = null;
-            ReadFileCallback = null;
-        }
-
-        public Dictionary<string, string> GetCachedStorageData()
-        {
-            return _storageData;
-        }
 
         public List<string> GetCachedCurrentFileNames()
         {
@@ -240,7 +226,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 fileData = System.Text.Encoding.UTF8.GetString(transfer.Data, 0, (int)transfer.TotalSize);
             }
 
-            _storageData.Add(fileName, fileData);
+            _locallyCachedData.Add(fileName, fileData);
 
             Debug.LogFormat("[EOS SDK] Title storage: file read finished: '{0}' Size: {1}.", fileName, fileData.Length);
 
@@ -301,50 +287,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private ReadResult OnFileDataReceived(ref ReadFileDataCallbackInfo data)
         {
-            return ReceiveData(data.Filename, data.DataChunk, data.TotalFileSizeBytes);
-        }
-
-        private ReadResult ReceiveData(string fileName, ArraySegment<byte> data, uint totalSize)
-        {
-            if (data == null)
+            return ReceiveData(data.Filename, data.DataChunk, data.TotalFileSizeBytes) switch
             {
-                Debug.LogError("[EOS SDK] Title storage: could not receive data: Data pointer is null.");
-                return ReadResult.RrFailrequest;
-            }
-
-            _transfersInProgress.TryGetValue(fileName, out EOSTransferInProgress transfer);
-
-            if (transfer != null)
-            {
-                if (!transfer.Download)
-                {
-                    Debug.LogError("[EOS SDK] Title storage: can't load file data: download/upload mismatch.");
-                    return ReadResult.RrFailrequest;
-                }
-
-                // First update
-                if (transfer.CurrentIndex == 0)
-                {
-                    transfer.Data = new byte[totalSize];
-                }
-
-                // Make sure we have enough space
-                if (transfer.TotalSize - transfer.CurrentIndex >= data.Count)
-                {
-                    data.Array.CopyTo(transfer.Data, transfer.CurrentIndex);
-                    transfer.CurrentIndex += (uint)data.Count;
-
-                    return ReadResult.RrContinuereading;
-                }
-                else
-                {
-                    Debug.LogError("[EOS SDK] Title storage: could not receive data: too much of it.");
-                    return ReadResult.RrFailrequest;
-                }
-            }
-
-            return ReadResult.RrCancelrequest;
+                FileTransferResult.FailRequest => ReadResult.RrFailrequest,
+                FileTransferResult.CancelRequest => ReadResult.RrCancelrequest,
+                FileTransferResult.ContinueReading => ReadResult.RrContinuereading,
+                _ => throw new ArgumentOutOfRangeException()
+            };
         }
-
     }
 }

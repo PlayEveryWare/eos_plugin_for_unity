@@ -40,22 +40,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     {
         private PlayerDataStorageFileTransferRequest CurrentTransferHandle;
         
-        public List<Action> FileListUpdateCallbacks;
-
-        public EOSPlayerDataStorageManager()
-        {
-            _transfersInProgress = new Dictionary<string, EOSTransferInProgress>();
-            _storageData = new Dictionary<string, string>();
-            FileListUpdateCallbacks = new List<Action>();
-        }
-
-        //-------------------------------------------------------------------------
-        /// <summary>Returns cached Storage Data list.</summary>
-        /// <returns>Dictionary(string, string) cached StorageData where FileName is key and FileContent is value.</returns>
-        public Dictionary<string, string> GetCachedStorageData()
-        {
-            return _storageData;
-        }
+        public List<Action> FileListUpdateCallbacks = new();
 
         //-------------------------------------------------------------------------
         /// <summary>(async) Query list of files.</summary>
@@ -158,7 +143,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
 
             string fileData = null;
-            if (_storageData.TryGetValue(fileName, out string entry))
+            if (_locallyCachedData.TryGetValue(fileName, out string entry))
             {
                 fileData = entry;
             }
@@ -206,17 +191,17 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             foreach (string fileName in fileNames)
             {
-                if (!_storageData.TryGetValue(fileName, out string fileData))
+                if (!_locallyCachedData.TryGetValue(fileName, out string fileData))
                 {
                     // New file, no cache data
-                    _storageData.Add(fileName, null);
+                    _locallyCachedData.Add(fileName, null);
                 }
             }
 
             // Remove files no longer in cloud
             List<string> toRemove = new List<string>();
 
-            foreach (string localFileName in _storageData.Keys)
+            foreach (string localFileName in _locallyCachedData.Keys)
             {
                 if (!fileNames.Contains(localFileName))
                 {
@@ -226,7 +211,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             foreach (string removerFile in toRemove)
             {
-                _storageData.Remove(removerFile);
+                _locallyCachedData.Remove(removerFile);
             }
         }
 
@@ -237,7 +222,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// <param name="fileCreatedCallback">Function called when file creation and upload is completed.</param>
         public void AddFile(string fileName, string fileContent, Action fileCreatedCallback = null)
         {
-            _storageData[fileName] = fileContent;
+            _locallyCachedData[fileName] = fileContent;
 
             if (!StartFileDataUpload(fileName, fileCreatedCallback))
             {
@@ -295,14 +280,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// <returns>File content</returns>
         public string GetCachedFileContent(string fileName)
         {
-            _storageData.TryGetValue(fileName, out string data);
+            _locallyCachedData.TryGetValue(fileName, out string data);
 
             return data;
         }
 
         private bool EraseLocalData(string entryName)
         {
-            return _storageData.Remove(entryName);
+            return _locallyCachedData.Remove(entryName);
         }
 
         private void CancelCurrentTransfer()
@@ -323,48 +308,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
 
             ClearCurrentTransfers();    
-        }
-
-        private ReadResult ReceiveData(string fileName, ArraySegment<byte> data, uint totalSize, bool isLastChunk)
-        {
-            if (data == null)
-            {
-                Debug.LogError("[EOS SDK] Player data storage: could not receive data: Data pointer is null.");
-                return ReadResult.FailRequest;
-            }
-
-            if (_transfersInProgress.TryGetValue(fileName, out EOSTransferInProgress transfer))
-            {
-                if (!transfer.Download)
-                {
-                    Debug.LogError("[EOS SDK] Player data storage: can't load file data: download/upload mismatch.");
-                    return ReadResult.FailRequest;
-                }
-
-                // First update
-                if (transfer.CurrentIndex == 0)
-                {
-                    transfer.Data = new byte[totalSize];
-                }
-
-                // If more data has been received than was anticipated, fail the request
-                if (transfer.TotalSize < transfer.CurrentIndex + data.Count)
-                {
-                    Debug.LogError("[EOS SDK] Player data storage: could not receive data: too much.");
-                    return ReadResult.FailRequest;
-                }
-
-                // Copy the data 
-                data.Array?.CopyTo(transfer.Data, transfer.CurrentIndex);
-
-                // Advance the index by the amount of data received.
-                transfer.CurrentIndex += (uint)data.Count;
-
-                // Keep reading
-                return ReadResult.ContinueReading;
-            }
-
-            return ReadResult.CancelRequest;
         }
 
         //-------------------------------------------------------------------------
@@ -451,7 +394,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
                 // TODO check for binary data and don't display
 
-                _storageData[fileName] = fileData;
+                _locallyCachedData[fileName] = fileData;
 
                 int fileSize = 0;
                 if (fileData != null)
@@ -578,7 +521,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         //-------------------------------------------------------------------------
         private ReadResult OnFileDataReceived(ref ReadFileDataCallbackInfo data)
         {
-            return ReceiveData(data.Filename, data.DataChunk, data.TotalFileSizeBytes, data.IsLastChunk);
+            return ReceiveData(data.Filename, data.DataChunk, data.TotalFileSizeBytes) switch
+            {
+                FileTransferResult.FailRequest => ReadResult.FailRequest,
+                FileTransferResult.CancelRequest => ReadResult.CancelRequest,
+                FileTransferResult.ContinueReading => ReadResult.ContinueReading,
+                _ => throw new ArgumentOutOfRangeException()
+            };
         }
 
         //-------------------------------------------------------------------------
