@@ -124,7 +124,7 @@ namespace PlayEveryWare.EpicOnlineServices
             // success.
             if (null == CurrentTransferHandle)
             {
-                return false;
+                return true;
             }
 
             // Cancel the transfer request handle, if it fails, then indicate
