@@ -333,61 +333,63 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private void FinishFileDownload(string fileName, bool success)
         {
-            if (_transfersInProgress.TryGetValue(fileName, out EOSTransferInProgress transfer))
+            if (!_transfersInProgress.TryGetValue(fileName, out EOSTransferInProgress transfer))
             {
-                if (!transfer.Download)
+                return;
+            }
+
+            if (!transfer.Download)
+            {
+                Debug.LogError("[EOS SDK] Player data storage: error while file read operation: can't finish because of download/upload mismatch.");
+                return;
+            }
+
+            if (!transfer.Done() || !success)
+            {
+                if (!transfer.Done())
                 {
-                    Debug.LogError("[EOS SDK] Player data storage: error while file read operation: can't finish because of download/upload mismatch.");
-                    return;
+                    Debug.LogError("[EOS SDK] Player data storage: error while file read operation: expecting more data. File can be corrupted.");
                 }
-
-                if (!transfer.Done() || !success)
-                {
-                    if (!transfer.Done())
-                    {
-                        Debug.LogError("[EOS SDK] Player data storage: error while file read operation: expecting more data. File can be corrupted.");
-                    }
-                    _transfersInProgress.Remove(fileName);
-                    if (fileName.Equals(CurrentTransferName, StringComparison.OrdinalIgnoreCase))
-                    {
-                        ClearCurrentTransfer();
-                    }
-                    return;
-                }
-
-                // Files larger than 5 MB
-                string fileData = null;
-                if (transfer.TotalSize > 5 * 1024 * 1024)
-                {
-                    fileData = "*** File is too large to be viewed in this sample. ***";
-                }
-                else if (transfer.TotalSize > 0)
-                {
-                    fileData = System.Text.Encoding.UTF8.GetString(transfer.Data, 0, (int)transfer.TotalSize);
-                }
-                else
-                {
-                    fileData = string.Empty;
-                }
-
-                // TODO check for binary data and don't display
-
-                _locallyCachedData[fileName] = fileData;
-
-                int fileSize = 0;
-                if (fileData != null)
-                {
-                    fileSize = fileData.Length;
-                }
-
-                Debug.LogFormat("[EOS SDK] Player data storage: file read finished: '{0}' Size: {1}.", fileName, fileSize);
-
                 _transfersInProgress.Remove(fileName);
-
                 if (fileName.Equals(CurrentTransferName, StringComparison.OrdinalIgnoreCase))
                 {
                     ClearCurrentTransfer();
                 }
+                return;
+            }
+
+            // Files larger than 5 MB
+            string fileData = null;
+            if (transfer.TotalSize > 5 * 1024 * 1024)
+            {
+                fileData = "*** File is too large to be viewed in this sample. ***";
+            }
+            else if (transfer.TotalSize > 0)
+            {
+                fileData = System.Text.Encoding.UTF8.GetString(transfer.Data, 0, (int)transfer.TotalSize);
+            }
+            else
+            {
+                fileData = string.Empty;
+            }
+
+            // TODO check for binary data and don't display
+
+            _locallyCachedData[fileName] = fileData;
+
+            int fileSize = 0;
+            if (fileData != null)
+            {
+                fileSize = fileData.Length;
+            }
+
+            Debug.LogFormat("[EOS SDK] Player data storage: file read finished: '{0}' Size: {1}.", fileName, fileSize);
+
+            _transfersInProgress.Remove(fileName);
+
+            if (fileName.Equals(CurrentTransferName, StringComparison.OrdinalIgnoreCase))
+            {
+                ClearCurrentTransfer();
             }
         }
 

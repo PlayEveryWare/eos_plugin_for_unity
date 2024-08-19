@@ -178,16 +178,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             if (data.ResultCode != Result.Success)
             {
                 Debug.LogErrorFormat("Title storage: OnFileReceived error: {0}", data.ResultCode);
-                FinishFileDownload(data.Filename, false, data.ResultCode);
-                return;
             }
 
-            FinishFileDownload(data.Filename, true, data.ResultCode);
+            FinishFileDownload(data.Filename, data.ResultCode);
         }
 
-        public void FinishFileDownload(string fileName, bool success, Result result)
+        public void FinishFileDownload(string fileName, Result result)
         {
-            Debug.LogFormat("Title storage: FinishFileDownload '{0}', success = {1}", fileName, success);
+            Debug.Log($"Title storage: FinishFileDownload \"{fileName},\" Result = {result}");
 
             if (!_transfersInProgress.TryGetValue(fileName, out EOSTransferInProgress transfer))
             {
@@ -203,7 +201,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 return;
             }
 
-            if (!transfer.Done() || success)
+            if (!transfer.Done() || Result.Success == result)
             {
                 if (!transfer.Done())
                 {
