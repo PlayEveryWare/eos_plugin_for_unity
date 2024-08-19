@@ -47,12 +47,12 @@ namespace PlayEveryWare.EpicOnlineServices
 
         public override Result CancelRequest()
         {
-            return _instance.CancelRequest();
+            return (null == _instance) ? Result.Success : _instance.CancelRequest();
         }
 
         protected override void DisposeInstance()
         {
-            _instance.Release();
+            _instance?.Release();
         }
     }
 }

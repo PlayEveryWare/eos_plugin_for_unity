@@ -65,7 +65,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
         public static bool operator ==(FileRequestTransferWrapper<T> wrapper, object obj)
         {
-            if (wrapper?._instance is null)
+            if (wrapper is null || wrapper._instance is null)
             {
                 return obj is null;
             }
