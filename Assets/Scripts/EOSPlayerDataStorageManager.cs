@@ -38,7 +38,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     /// <summary>Class <c>EOSPlayerDataStorageManager</c> is a simplified wrapper for EOS [PlayerDataStorage Interface](https://dev.epicgames.com/docs/services/en-US/Interfaces/PlayerDataStorage/index.html).</summary>
     public class EOSPlayerDataStorageManager : DataService<PlayerDataStorageFileTransferRequestWrapper>
     {   
-        public List<Action> FileListUpdateCallbacks = new();
+        public event Action OnFileListUpdated;
 
         //-------------------------------------------------------------------------
         /// <summary>(async) Query list of files.</summary>
@@ -56,19 +56,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             };
 
             EOSManager.Instance.GetPlayerDataStorageInterface().QueryFileList(ref options, null, OnFileListRetrieved);
-        }
-
-        //-------------------------------------------------------------------------
-        /// <summary>Add listener callback that will be called when the queried file list is updated.</summary>
-        /// <param name="downloadCompletedCallback">Function called when file list is updated.</param>
-        public void AddNotifyFileListUpdated(Action fileListUpdatedCallback)
-        {
-            FileListUpdateCallbacks.Add(fileListUpdatedCallback);
-        }
-
-        public void RemoveNotifyFileListUpdated(Action fileListUpdatedCallback)
-        {
-            FileListUpdateCallbacks.Remove(fileListUpdatedCallback);
         }
 
         //-------------------------------------------------------------------------
@@ -419,10 +406,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
 
             SetFileList(fileNames);
-            foreach (var callback in FileListUpdateCallbacks)
-            {
-                callback?.Invoke();
-            }
+            OnFileListUpdated?.Invoke();
         }
 
         //-------------------------------------------------------------------------
