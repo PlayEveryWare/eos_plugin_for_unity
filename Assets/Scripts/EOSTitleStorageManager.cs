@@ -33,6 +33,7 @@ using System.Text;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
+    using Events;
     using System.Threading.Tasks;
 
     /// <summary>Class <c>EOSTitleStorageManager</c> is a simplified wrapper for EOS [TitleStorage Interface](https://dev.epicgames.com/docs/services/en-US/Interfaces/TitleStorage/index.html).</summary>
