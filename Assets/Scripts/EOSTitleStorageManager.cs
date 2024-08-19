@@ -63,23 +63,24 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             return Task.CompletedTask;
         }
 
-        /// <summary>(async) Query list of files.</summary>
         public void QueryFileList(string[] tags, EOSResultEventHandler QueryFileListCompleted)
         {
-            Utf8String[] utf8StringTags = new Utf8String[tags.Length];
-
-            for (int i = 0; i < tags.Length; ++i)
+            Utf8String[] utf8StringTags = null;
+            if (tags != null && tags.Length > 0)
             {
-                utf8StringTags[i] = tags[i];
-            }
-            QueryFileList(utf8StringTags, QueryFileListCompleted);
-        }
+                utf8StringTags = new Utf8String[tags.Length];
 
-        public void QueryFileList(Utf8String[] tags, EOSResultEventHandler QueryFileListCompleted)
-        {
-            QueryFileListOptions queryOptions = new QueryFileListOptions();
-            queryOptions.ListOfTags = tags;
-            queryOptions.LocalUserId = EOSManager.Instance.GetProductUserId();
+                for (int i = 0; i < tags.Length; ++i)
+                {
+                    utf8StringTags[i] = tags[i];
+                }
+            }
+
+            QueryFileListOptions queryOptions = new()
+            {
+                ListOfTags = utf8StringTags, 
+                LocalUserId = EOSManager.Instance.GetProductUserId()
+            };
 
             QueryListCallback = QueryFileListCompleted;
 
