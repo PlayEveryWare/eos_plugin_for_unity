@@ -36,10 +36,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     using System.Threading.Tasks;
 
     /// <summary>Class <c>EOSPlayerDataStorageManager</c> is a simplified wrapper for EOS [PlayerDataStorage Interface](https://dev.epicgames.com/docs/services/en-US/Interfaces/PlayerDataStorage/index.html).</summary>
-    public class EOSPlayerDataStorageManager : DataService
-    {
-        private PlayerDataStorageFileTransferRequest CurrentTransferHandle;
-        
+    public class EOSPlayerDataStorageManager : DataService<PlayerDataStorageFileTransferRequestWrapper>
+    {   
         public List<Action> FileListUpdateCallbacks = new();
 
         //-------------------------------------------------------------------------
@@ -290,26 +288,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             return _locallyCachedData.Remove(entryName);
         }
 
-        private void CancelCurrentTransfer()
-        {
-            if (CurrentTransferHandle != null)
-            {
-                Result result = CurrentTransferHandle.CancelRequest();
-                CurrentTransferHandle.Release();
-                CurrentTransferHandle = null;
-
-                if (result == Result.Success)
-                {
-                    if (_transfersInProgress.TryGetValue(CurrentTransferName, out EOSTransferInProgress transfer))
-                    {
-                        _transfersInProgress.Remove(CurrentTransferName);
-                    }
-                }
-            }
-
-            ClearCurrentTransfers();    
-        }
-
         //-------------------------------------------------------------------------
         private WriteResult SendData(string fileName, out ArraySegment<byte> data)
         {
@@ -372,7 +350,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     _transfersInProgress.Remove(fileName);
                     if (fileName.Equals(CurrentTransferName, StringComparison.OrdinalIgnoreCase))
                     {
-                        ClearCurrentTransfers();
+                        ClearCurrentTransfer();
                     }
                     return;
                 }
@@ -408,7 +386,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
                 if (fileName.Equals(CurrentTransferName, StringComparison.OrdinalIgnoreCase))
                 {
-                    ClearCurrentTransfers();
+                    ClearCurrentTransfer();
                 }
             }
         }
@@ -432,7 +410,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
                 if (fileName.Equals(CurrentTransferName, StringComparison.OrdinalIgnoreCase))
                 {
-                    ClearCurrentTransfers();
+                    ClearCurrentTransfer();
                 }
 
                 fileUploadCallback?.Invoke();
@@ -452,17 +430,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             // TODO: Needs implementation
             return Task.CompletedTask;
-        }
-
-        protected override void ClearCurrentTransfers()
-        {
-            CurrentTransferName = string.Empty;
-
-            if (CurrentTransferHandle != null)
-            {
-                CurrentTransferHandle.Release();
-                CurrentTransferHandle = null;
-            }
         }
 
         //-------------------------------------------------------------------------

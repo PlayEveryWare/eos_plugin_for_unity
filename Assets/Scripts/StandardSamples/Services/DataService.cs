@@ -26,11 +26,13 @@ namespace PlayEveryWare.EpicOnlineServices
     using Samples;
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
     using Debug = UnityEngine.Debug;
+    using Epic.OnlineServices;
 
-    public abstract class DataService : EOSService
+    public abstract class DataService<T> : EOSService where T : IFileTransferRequest
     {
+        protected T CurrentTransferHandle;
+
         /// <summary>
         /// Used to describe the results of a file transfer agnostic of
         /// whether the transfer is with player storage or title storage.
@@ -67,7 +69,12 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <summary>
         /// Clears all the current transfers that the data service is managing.
         /// </summary>
-        protected abstract void ClearCurrentTransfers();
+        protected void ClearCurrentTransfer()
+        {
+            CurrentTransferName = string.Empty;
+            CurrentTransferHandle?.Release();
+            CurrentTransferHandle?.Dispose();
+        }
 
         /// <summary>
         /// Retrieves the current local cache of data.
@@ -88,7 +95,67 @@ namespace PlayEveryWare.EpicOnlineServices
         {
             // TODO: Need to clear / cancel currently active transfer tasks.
             _locallyCachedData.Clear();
-            ClearCurrentTransfers();
+            ClearCurrentTransfer();
+        }
+
+        /// <summary>
+        /// Attempts to cancel the "current" transfer handle (needs to be a
+        /// field member added to derived classes).
+        /// </summary>
+        /// <returns>
+        /// True if the transfer handle is not null, and canceling it was
+        /// successful, false otherwise.
+        /// </returns>
+        protected bool TryCancelTransferHandle()
+        {
+            // Default to success, because if the transfer handle is null, then
+            // the task of canceling the transfer can be considered to be a
+            // success.
+            if (null == CurrentTransferHandle)
+            {
+                return false;
+            }
+
+            // Cancel the transfer request handle, if it fails, then indicate
+            // as much by returning false.
+            Result cancelResult = CurrentTransferHandle.CancelRequest();
+            if (Result.Success != cancelResult)
+            {
+                Debug.LogWarning($"Failed to cancel the transfer " +
+                                 $"request. Result code: {cancelResult}.");
+                return false;
+            }
+
+            // Return true if the result of canceling the request was
+            // successful, and after releasing the handle and setting it to
+            // null.
+            CurrentTransferHandle.Release();
+            CurrentTransferHandle.Dispose();
+            return true;
+        }
+
+        protected void CancelCurrentTransfer()
+        {
+            // Log if the transfer handle could not be canceled.
+            if (!TryCancelTransferHandle())
+            {
+                Debug.LogWarning($"Could not cancel the current transfer.");
+                return;
+            }
+
+            // If the transfer does not exist in the list of transfers in 
+            // progress, then log a warning and stop.
+            if (!_transfersInProgress.TryGetValue(CurrentTransferName, out EOSTransferInProgress transfer) || null == transfer)
+            {
+                Debug.LogWarning($"Could not find a current transfer matching filename \"{CurrentTransferName}\" to cancel.");
+                return;
+            }
+
+            // Remove the transfer from the collection of current transfers
+            _transfersInProgress.Remove(CurrentTransferName);
+
+            // Clear the name of the currently transferring file name
+            ClearCurrentTransfer();
         }
 
         /// <summary>

@@ -36,10 +36,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     using System.Threading.Tasks;
 
     /// <summary>Class <c>EOSTitleStorageManager</c> is a simplified wrapper for EOS [TitleStorage Interface](https://dev.epicgames.com/docs/services/en-US/Interfaces/TitleStorage/index.html).</summary>
-    public class EOSTitleStorageManager : DataService
-    {
-        private TitleStorageFileTransferRequest CurrentTransferHandle = null;
-        
+    public class EOSTitleStorageManager : DataService<TitleStorageFileTransferRequestWrapper>
+    {   
         private List<string> CurrentFileNames = new List<string>();
 
         // Manager Callbacks
@@ -60,7 +58,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// </list>
         protected override void OnLoggedIn()
         {
-            
         }
 
         protected override Task InternalRefreshAsync()
@@ -216,7 +213,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 _transfersInProgress.Remove(fileName);
                 if (fileName == CurrentTransferName)
                 {
-                    ClearCurrentTransfers();
+                    ClearCurrentTransfer();
                 }
             }
 
@@ -234,47 +231,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             if (fileName.Equals(CurrentTransferName, StringComparison.OrdinalIgnoreCase))
             {
-                ClearCurrentTransfers();
+                ClearCurrentTransfer();
             }
 
             ReadFileCallback?.Invoke(result);
-        }
-
-        private void CancelCurrentTransfer()
-        {
-            if (CurrentTransferHandle != null)
-            {
-                Result cancelResult = CurrentTransferHandle.CancelRequest();
-
-                if (cancelResult == Result.Success)
-                {
-                    _transfersInProgress.TryGetValue(CurrentTransferName, out EOSTransferInProgress transfer);
-
-                    if (transfer != null)
-                    {
-                        if (transfer.Download)
-                        {
-                            Debug.Log("Title storage: CancelCurrentTransfer - Download is canceled");
-                        }
-                        else
-                        {
-                            Debug.Log("Title storage: CancelCurrentTransfer - Upload is canceled");
-                        }
-
-                        _transfersInProgress.Remove(CurrentTransferName);
-                    }
-
-                    // TODO: Hide Progress UI
-                }
-            }
-
-            ClearCurrentTransfers();
-        }
-
-        protected override void ClearCurrentTransfers()
-        {
-            CurrentTransferName = string.Empty;
-            CurrentTransferHandle = null;
         }
 
         private void OnFileTransferProgressUpdated(ref FileTransferProgressCallbackInfo data)
