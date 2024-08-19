@@ -301,7 +301,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     return WriteResult.FailRequest;
                 }
 
-                if (transfer.Done())
+                if (transfer.IsDone())
                 {
                     return WriteResult.CompleteRequest;
                 }
@@ -315,7 +315,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
                 transfer.CurrentIndex += bytesToWrite;
 
-                if (transfer.Done())
+                if (transfer.IsDone())
                 {
                     return WriteResult.CompleteRequest;
                 }
@@ -344,9 +344,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 return;
             }
 
-            if (!transfer.Done() || !success)
+            if (!transfer.IsDone() || !success)
             {
-                if (!transfer.Done())
+                if (!transfer.IsDone())
                 {
                     Debug.LogError("[EOS SDK] Player data storage: error while file read operation: expecting more data. File can be corrupted.");
                 }
@@ -403,7 +403,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     return;
                 }
 
-                if (!transfer.Done())
+                if (!transfer.IsDone())
                 {
                     Debug.LogError("[EOS SDK] Player data storage: error while file write operation: unexpected end of transfer.");
                 }

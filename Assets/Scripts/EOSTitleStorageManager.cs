@@ -198,9 +198,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 return;
             }
 
-            if (!transfer.Done() || Result.Success == result)
+            if (!transfer.IsDone() || Result.Success == result)
             {
-                if (!transfer.Done())
+                if (!transfer.IsDone())
                 {
                     Debug.LogError("[EOS SDK] Title storage: error while file read operation: expecting more data. File can be corrupted.");
                 }

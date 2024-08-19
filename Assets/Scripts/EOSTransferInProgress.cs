@@ -76,7 +76,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 
-        public bool Done()
+        public bool IsDone()
         {
             return TotalSize == CurrentIndex;
         }
