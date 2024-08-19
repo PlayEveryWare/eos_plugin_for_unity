@@ -75,7 +75,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <summary>
         /// Stores the name of the currently transferring file.
         /// </summary>
-        protected string CurrentTransferName;
+        protected string CurrentTransferName = string.Empty;
 
         /// <summary>
         /// Clears all the current transfers that the data service is managing.
@@ -122,7 +122,7 @@ namespace PlayEveryWare.EpicOnlineServices
             // Default to success, because if the transfer handle is null, then
             // the task of canceling the transfer can be considered to be a
             // success.
-            if (null == CurrentTransferHandle)
+            if (CurrentTransferHandle == null)
             {
                 return true;
             }
@@ -194,11 +194,20 @@ namespace PlayEveryWare.EpicOnlineServices
             OnFileDownloaded?.Invoke(result);
         }
 
+        protected bool IsTransferring()
+        {
+            return (!string.IsNullOrEmpty(CurrentTransferName) || _transfersInProgress.Count != 0);
+        }
+
         /// <summary>
         /// Cancel the current transfer.
         /// </summary>
         protected void CancelCurrentTransfer()
         {
+            // If nothing is being transferred, do not try to cancel.
+            if (!IsTransferring())
+                return;
+
             // Log if the transfer handle could not be canceled.
             if (!TryCancelTransferHandle())
             {
