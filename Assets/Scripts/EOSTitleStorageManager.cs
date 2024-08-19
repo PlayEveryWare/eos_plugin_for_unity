@@ -41,11 +41,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         private List<string> CurrentFileNames = new List<string>();
 
         // Manager Callbacks
-        public OnQueryFileListCallback QueryListCallback { get; private set; } = null;
-        public OnReadFileCallback ReadFileCallback { get; private set; } = null;
-
-        public delegate void OnQueryFileListCallback(Result result);
-        public delegate void OnReadFileCallback(Result result);
+        public EOSResultEventHandler QueryListCallback { get; private set; } = null;
+        public event EOSResultEventHandler OnFileDownloaded;
 
         public List<string> GetCachedCurrentFileNames()
         {
@@ -67,7 +64,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         }
 
         /// <summary>(async) Query list of files.</summary>
-        public void QueryFileList(string[] tags, OnQueryFileListCallback QueryFileListCompleted)
+        public void QueryFileList(string[] tags, EOSResultEventHandler QueryFileListCompleted)
         {
             Utf8String[] utf8StringTags = new Utf8String[tags.Length];
 
@@ -78,7 +75,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             QueryFileList(utf8StringTags, QueryFileListCompleted);
         }
 
-        public void QueryFileList(Utf8String[] tags, OnQueryFileListCallback QueryFileListCompleted)
+        public void QueryFileList(Utf8String[] tags, EOSResultEventHandler QueryFileListCompleted)
         {
             QueryFileListOptions queryOptions = new QueryFileListOptions();
             queryOptions.ListOfTags = tags;
@@ -125,7 +122,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             QueryListCallback?.Invoke(Result.Success);
         }
 
-        public void ReadFile(string fileName, OnReadFileCallback ReadFileCompleted)
+        public void ReadFile(string fileName, EOSResultEventHandler ReadFileCompleted)
         {
             // StartFileDataDownload
 
@@ -153,7 +150,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     fileReadOptions.FileTransferProgressCallback = OnFileTransferProgressUpdated;
 
                     // ReadFile Callback
-                    ReadFileCallback = ReadFileCompleted;
+                    OnFileDownloaded += ReadFileCompleted;
 
                     TitleStorageInterface titleStorageHandle = EOSManager.Instance.GetEOSPlatformInterface().GetTitleStorageInterface();
                     TitleStorageFileTransferRequest transferReq = titleStorageHandle.ReadFile(ref fileReadOptions, null, OnFileReceived);
@@ -190,14 +187,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             if (!_transfersInProgress.TryGetValue(fileName, out EOSTransferInProgress transfer))
             {
                 Debug.LogErrorFormat("[EOS SDK] Title storage: '{0}' was not found in TransfersInProgress.", fileName);
-                ReadFileCallback?.Invoke(result);
+                OnFileDownloaded?.Invoke(result);
                 return;
             }
 
             if (!transfer.Download)
             {
                 Debug.LogError("[EOS SDK] Title storage: error while file read operation: can't finish because of download/upload mismatch.");
-                ReadFileCallback?.Invoke(result);
+                OnFileDownloaded?.Invoke(result);
                 return;
             }
 
@@ -232,7 +229,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 ClearCurrentTransfer();
             }
 
-            ReadFileCallback?.Invoke(result);
+            OnFileDownloaded?.Invoke(result);
         }
 
         private void OnFileTransferProgressUpdated(ref FileTransferProgressCallbackInfo data)
