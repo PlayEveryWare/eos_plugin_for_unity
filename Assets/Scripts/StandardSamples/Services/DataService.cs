@@ -40,6 +40,11 @@ namespace PlayEveryWare.EpicOnlineServices
         protected T CurrentTransferHandle;
 
         /// <summary>
+        /// Stores the name of the currently transferring file.
+        /// </summary>
+        protected string CurrentTransferName = string.Empty;
+
+        /// <summary>
         /// Event is triggered when a file is finished downloading.
         /// </summary>
         public event EOSResultEventHandler OnFileDownloaded;
@@ -71,11 +76,6 @@ namespace PlayEveryWare.EpicOnlineServices
         /// Stores the locally cached copy of the data that the service manages.
         /// </summary>
         protected Dictionary<string, string> _locallyCachedData = new();
-
-        /// <summary>
-        /// Stores the name of the currently transferring file.
-        /// </summary>
-        protected string CurrentTransferName = string.Empty;
 
         /// <summary>
         /// Clears all the current transfers that the data service is managing.

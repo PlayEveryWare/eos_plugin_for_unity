@@ -26,10 +26,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 {
     using UnityEngine;
     using UnityEngine.UI;
-    using UnityEngine.EventSystems;
     using System.Collections.Generic;
     using Epic.OnlineServices;
-    using PlayEveryWare.EpicOnlineServices;
+    using EpicOnlineServices;
     using Config = Config;
 
     /// <summary>
@@ -188,18 +187,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 
-        private string GetLocalData(string entryName)
-        {
-            TitleStorageManager.GetLocallyCachedData().TryGetValue(entryName, out string data);
-
-            if (!string.IsNullOrEmpty(data))
-            {
-                return data;
-            }
-
-            return string.Empty;
-        }
-
         public void FileNameEntryOnClick(string fileName)
         {
             FileNameTextBox.InputField.text = fileName;
@@ -220,8 +207,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
 
             // Check if it's already been downloaded
-            string cachedData = GetLocalData(FileNameTextBox.InputField.text);
-            if (!string.IsNullOrEmpty(cachedData))
+            if (TitleStorageManager.GetLocallyCachedData().TryGetValue(FileNameTextBox.InputField.text, out string cachedData))
             {
                 Debug.Log("UITitleStorageMenu - FileName '{0}' already downloaded. Display content.");
 
@@ -231,8 +217,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
 
             TitleStorageManager.ReadFile(FileNameTextBox.InputField.text, UpdateFileContent);
-
-            // TODO: Show progress bar
         }
 
         public void UpdateFileContent(Result result)
