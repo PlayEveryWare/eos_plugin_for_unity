@@ -62,7 +62,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// <summary>(async) Begin file data download.</summary>
         /// <param name="fileName">Name of file.</param>
         /// <param name="downloadCompletedCallback">Function called when download is completed.</param>
-        public void StartFileDataDownload(string fileName, Action downloadCompletedCallback = null)
+        public void ReadFile(string fileName, Action downloadCompletedCallback = null)
         {
             ProductUserId localUserId = EOSManager.Instance.GetProductUserId();
             if (localUserId == null || !localUserId.IsValid())
