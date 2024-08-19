@@ -28,10 +28,20 @@ namespace PlayEveryWare.EpicOnlineServices
     using System.Collections.Generic;
     using Debug = UnityEngine.Debug;
     using Epic.OnlineServices;
+    using System.Text;
 
     public abstract class DataService<T> : EOSService where T : IFileTransferRequest
     {
+        /// <summary>
+        /// Reference to an instance of a transfer request created within the
+        /// EOS SDK.
+        /// </summary>
         protected T CurrentTransferHandle;
+
+        /// <summary>
+        /// Event is triggered when a file is finished downloading.
+        /// </summary>
+        public event EOSResultEventHandler OnFileDownloaded;
 
         /// <summary>
         /// Used to describe the results of a file transfer agnostic of
@@ -132,6 +142,46 @@ namespace PlayEveryWare.EpicOnlineServices
             CurrentTransferHandle.Release();
             CurrentTransferHandle.Dispose();
             return true;
+        }
+
+        protected void FinishFileDownload(string fileName, Result result)
+        {
+            Debug.Log($"File, \"{fileName},\" finished downloading with Result Code = {result}");
+
+            if (!_transfersInProgress.TryGetValue(fileName, out EOSTransferInProgress transfer) || null == transfer)
+            {
+                Debug.LogError($"Downloaded file, \"{fileName},\" " +
+                               $"does not appear to be in the list of " +
+                               $"transfers in progress.");
+            }
+
+            if (!transfer.Download)
+            {
+                Debug.LogError($"Downloaded file, \"{fileName},\" " +
+                               $"should have been uploaded not downloaded. " +
+                               $"Something went wrong.");
+            }
+
+
+            if (!transfer.IsDone() || Result.Success != result)
+            {
+                Debug.Log($"File transfer finished before all data " +
+                          $"was downloaded. Result code: {result}.");
+            }
+            else
+            {
+                string fileData = Encoding.UTF8.GetString(transfer.Data, 0, (int)transfer.TotalSize);
+                _locallyCachedData.Add(fileName, fileData);
+            }
+
+            _transfersInProgress.Remove(fileName);
+            
+            if (fileName.Equals(CurrentTransferName, StringComparison.OrdinalIgnoreCase))
+            {
+                ClearCurrentTransfer();
+            }
+
+            OnFileDownloaded?.Invoke(result);
         }
 
         protected void CancelCurrentTransfer()
