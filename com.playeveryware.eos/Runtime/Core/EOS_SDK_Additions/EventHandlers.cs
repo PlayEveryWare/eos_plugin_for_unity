@@ -21,7 +21,7 @@
  *
  */
 
-namespace PlayEveryWare.EpicOnlineServices
+namespace PlayEveryWare.EpicOnlineServices.Events
 {
     using Epic.OnlineServices;
 
@@ -32,4 +32,15 @@ namespace PlayEveryWare.EpicOnlineServices
     /// <param name="result">Result enum (defined within the EOS SDK).</param>
     // ReSharper disable once InconsistentNaming
     public delegate void EOSResultEventHandler(Result result);
+
+    /// <summary>
+    /// Use this delegate to describe any event or function that accepts a byte
+    /// array and a Result enum (defined by the EOS SDK) as its parameters.
+    /// </summary>
+    /// <param name="fileName">
+    /// The name of the file whose transfer request was completed.
+    /// </param>
+    /// <param name="data">The data (contents) of the file.</param>
+    /// <param name="result">The result of the file transfer request.</param>
+    public delegate void FileTransferRequestCompletedEventHandler(string fileName, byte[] data, Result result);
 }
