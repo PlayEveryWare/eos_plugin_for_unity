@@ -145,6 +145,15 @@ namespace PlayEveryWare.EpicOnlineServices
             return true;
         }
 
+        /// <summary>
+        /// Called when a file has finished downloading.
+        /// </summary>
+        /// <param name="fileName">
+        /// The file that has finished downloading.
+        /// </param>
+        /// <param name="result">
+        /// The result of the file download operation.
+        /// </param>
         protected void FinishFileDownload(string fileName, Result result)
         {
             Debug.Log($"File, \"{fileName},\" finished downloading with Result Code = {result}");
@@ -185,6 +194,9 @@ namespace PlayEveryWare.EpicOnlineServices
             OnFileDownloaded?.Invoke(result);
         }
 
+        /// <summary>
+        /// Cancel the current transfer.
+        /// </summary>
         protected void CancelCurrentTransfer()
         {
             // Log if the transfer handle could not be canceled.
