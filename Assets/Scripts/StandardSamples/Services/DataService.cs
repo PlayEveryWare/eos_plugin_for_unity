@@ -181,7 +181,7 @@ namespace PlayEveryWare.EpicOnlineServices
             else
             {
                 string fileData = Encoding.UTF8.GetString(transfer.Data, 0, (int)transfer.TotalSize);
-                _locallyCachedData.Add(fileName, fileData);
+                _locallyCachedData[fileName] = fileData;
             }
 
             _transfersInProgress.Remove(fileName);
