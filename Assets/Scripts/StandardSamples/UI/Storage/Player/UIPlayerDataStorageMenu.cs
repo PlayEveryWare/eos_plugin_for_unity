@@ -308,14 +308,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             base.Show();
             UpdateFileListUI();
             PlayerDataStorageManager.AddNotifyFileListUpdated(UpdateFileListUI);
-            PlayerDataStorageManager.OnLoggedIn();
         }
 
         public override void Hide()
         {
             base.Hide();
             PlayerDataStorageManager?.RemoveNotifyFileListUpdated(UpdateFileListUI);
-            PlayerDataStorageManager?.OnLoggedOut();
 
             currentSelectedFile = string.Empty;
             currentInventory = null;

@@ -33,24 +33,19 @@ using Epic.OnlineServices.PlayerDataStorage;
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
     using Editor.Utility;
+    using System.Threading.Tasks;
 
     /// <summary>Class <c>EOSPlayerDataStorageManager</c> is a simplified wrapper for EOS [PlayerDataStorage Interface](https://dev.epicgames.com/docs/services/en-US/Interfaces/PlayerDataStorage/index.html).</summary>
-    public class EOSPlayerDataStorageManager : IEOSSubManager
+    public class EOSPlayerDataStorageManager : DataService
     {
-        private const uint MAX_CHUNK_SIZE = 4096;
         private PlayerDataStorageFileTransferRequest CurrentTransferHandle;
-        private Dictionary<string, EOSTransferInProgress> TransfersInProgress;
-        private float CurrentTransferProgress;
-        private string CurrentTransferName;
-
-        private Dictionary<string, string> StorageData;
-
+        
         public List<Action> FileListUpdateCallbacks;
 
         public EOSPlayerDataStorageManager()
         {
-            TransfersInProgress = new Dictionary<string, EOSTransferInProgress>();
-            StorageData = new Dictionary<string, string>();
+            _transfersInProgress = new Dictionary<string, EOSTransferInProgress>();
+            _storageData = new Dictionary<string, string>();
             FileListUpdateCallbacks = new List<Action>();
         }
 
@@ -59,7 +54,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// <returns>Dictionary(string, string) cached StorageData where FileName is key and FileContent is value.</returns>
         public Dictionary<string, string> GetCachedStorageData()
         {
-            return StorageData;
+            return _storageData;
         }
 
         //-------------------------------------------------------------------------
@@ -109,7 +104,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             {
                 LocalUserId = localUserId,
                 Filename = fileName,
-                ReadChunkLengthBytes = MAX_CHUNK_SIZE,
+                ReadChunkLengthBytes = MaxChunkSize,
                 ReadFileDataCallback = OnFileDataReceived,
                 FileTransferProgressCallback = OnFileTransferProgressUpdated
             };
@@ -139,9 +134,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                         Data = new byte[(uint)fileMetadata?.FileSizeBytes],
                     };
 
-                    TransfersInProgress[fileName] = newTransfer;
+                    _transfersInProgress[fileName] = newTransfer;
 
-                    CurrentTransferProgress = 0.0f;
                     CurrentTransferName = fileName;
                 }
                 else
@@ -164,7 +158,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
 
             string fileData = null;
-            if (StorageData.TryGetValue(fileName, out string entry))
+            if (_storageData.TryGetValue(fileName, out string entry))
             {
                 fileData = entry;
             }
@@ -173,7 +167,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             {
                 LocalUserId = localUserId,
                 Filename = fileName,
-                ChunkLengthBytes = MAX_CHUNK_SIZE,
+                ChunkLengthBytes = MaxChunkSize,
                 WriteFileDataCallback = OnFileDataSend,
                 FileTransferProgressCallback = OnFileTransferProgressUpdated
             };
@@ -200,27 +194,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             newTransfer.CurrentIndex = 0;
 
-            TransfersInProgress[fileName] = newTransfer;
-
-            CurrentTransferProgress = 0.0f;
+            _transfersInProgress[fileName] = newTransfer;
+            
             CurrentTransferName = fileName;
 
             return true;
-        }
-
-        //-------------------------------------------------------------------------
-        /// <summary>Get cached file list.</summary>
-        /// <returns>List<string> fileList</string></returns>
-        public List<string> GetCachedFileList()
-        {
-            List<string> fileList = null;
-
-            if (StorageData.Count > 0)
-            {
-                fileList = new List<string>(StorageData.Keys);
-            }
-
-            return fileList;
         }
 
         //-------------------------------------------------------------------------
@@ -228,17 +206,17 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             foreach (string fileName in fileNames)
             {
-                if (!StorageData.TryGetValue(fileName, out string fileData))
+                if (!_storageData.TryGetValue(fileName, out string fileData))
                 {
                     // New file, no cache data
-                    StorageData.Add(fileName, null);
+                    _storageData.Add(fileName, null);
                 }
             }
 
             // Remove files no longer in cloud
             List<string> toRemove = new List<string>();
 
-            foreach (string localFileName in StorageData.Keys)
+            foreach (string localFileName in _storageData.Keys)
             {
                 if (!fileNames.Contains(localFileName))
                 {
@@ -248,7 +226,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             foreach (string removerFile in toRemove)
             {
-                StorageData.Remove(removerFile);
+                _storageData.Remove(removerFile);
             }
         }
 
@@ -259,7 +237,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// <param name="fileCreatedCallback">Function called when file creation and upload is completed.</param>
         public void AddFile(string fileName, string fileContent, Action fileCreatedCallback = null)
         {
-            SetLocalData(fileName, fileContent);
+            _storageData[fileName] = fileContent;
 
             if (!StartFileDataUpload(fileName, fileCreatedCallback))
             {
@@ -317,26 +295,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// <returns>File content</returns>
         public string GetCachedFileContent(string fileName)
         {
-            StorageData.TryGetValue(fileName, out string data);
+            _storageData.TryGetValue(fileName, out string data);
 
             return data;
         }
 
-        private void SetLocalData(string fileName, string data)
-        {
-            if (StorageData.ContainsKey(fileName))
-            {
-                StorageData[fileName] = data;
-            }
-            else
-            {
-                StorageData.Add(fileName, data);
-            }
-        }
-
         private bool EraseLocalData(string entryName)
         {
-            return StorageData.Remove(entryName);
+            return _storageData.Remove(entryName);
         }
 
         private void CancelCurrentTransfer()
@@ -349,14 +315,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
                 if (result == Result.Success)
                 {
-                    if (TransfersInProgress.TryGetValue(CurrentTransferName, out EOSTransferInProgress transfer))
+                    if (_transfersInProgress.TryGetValue(CurrentTransferName, out EOSTransferInProgress transfer))
                     {
-                        TransfersInProgress.Remove(CurrentTransferName);
+                        _transfersInProgress.Remove(CurrentTransferName);
                     }
                 }
             }
 
-            ClearCurrentTransfer();
+            ClearCurrentTransfers();    
         }
 
         private ReadResult ReceiveData(string fileName, ArraySegment<byte> data, uint totalSize, bool isLastChunk)
@@ -367,7 +333,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 return ReadResult.FailRequest;
             }
 
-            if (TransfersInProgress.TryGetValue(fileName, out EOSTransferInProgress transfer))
+            if (_transfersInProgress.TryGetValue(fileName, out EOSTransferInProgress transfer))
             {
                 if (!transfer.Download)
                 {
@@ -406,7 +372,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             data = new ArraySegment<byte>();
 
-            if (TransfersInProgress.TryGetValue(fileName, out EOSTransferInProgress transfer))
+            if (_transfersInProgress.TryGetValue(fileName, out EOSTransferInProgress transfer))
             {
                 if (transfer.Download)
                 {
@@ -419,7 +385,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     return WriteResult.CompleteRequest;
                 }
 
-                uint bytesToWrite = Math.Min(MAX_CHUNK_SIZE, transfer.TotalSize - transfer.CurrentIndex);
+                uint bytesToWrite = Math.Min(MaxChunkSize, transfer.TotalSize - transfer.CurrentIndex);
 
                 if (bytesToWrite > 0)
                 {
@@ -444,17 +410,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 
-        private void UpdateProgress(string fileName, float progress)
-        {
-            if (fileName.Equals(CurrentTransferName, StringComparison.OrdinalIgnoreCase))
-            {
-                CurrentTransferProgress = progress;
-            }
-        }
-
         private void FinishFileDownload(string fileName, bool success)
         {
-            if (TransfersInProgress.TryGetValue(fileName, out EOSTransferInProgress transfer))
+            if (_transfersInProgress.TryGetValue(fileName, out EOSTransferInProgress transfer))
             {
                 if (!transfer.Download)
                 {
@@ -468,10 +426,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     {
                         Debug.LogError("[EOS SDK] Player data storage: error while file read operation: expecting more data. File can be corrupted.");
                     }
-                    TransfersInProgress.Remove(fileName);
+                    _transfersInProgress.Remove(fileName);
                     if (fileName.Equals(CurrentTransferName, StringComparison.OrdinalIgnoreCase))
                     {
-                        ClearCurrentTransfer();
+                        ClearCurrentTransfers();
                     }
                     return;
                 }
@@ -493,7 +451,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
                 // TODO check for binary data and don't display
 
-                StorageData[fileName] = fileData;
+                _storageData[fileName] = fileData;
 
                 int fileSize = 0;
                 if (fileData != null)
@@ -503,18 +461,18 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
                 Debug.LogFormat("[EOS SDK] Player data storage: file read finished: '{0}' Size: {1}.", fileName, fileSize);
 
-                TransfersInProgress.Remove(fileName);
+                _transfersInProgress.Remove(fileName);
 
                 if (fileName.Equals(CurrentTransferName, StringComparison.OrdinalIgnoreCase))
                 {
-                    ClearCurrentTransfer();
+                    ClearCurrentTransfers();
                 }
             }
         }
 
         private void FinishFileUpload(string fileName, Action fileUploadCallback = null)
         {
-            if (TransfersInProgress.TryGetValue(fileName, out EOSTransferInProgress transfer))
+            if (_transfersInProgress.TryGetValue(fileName, out EOSTransferInProgress transfer))
             {
                 if (transfer.Download)
                 {
@@ -527,11 +485,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     Debug.LogError("[EOS SDK] Player data storage: error while file write operation: unexpected end of transfer.");
                 }
 
-                TransfersInProgress.Remove(fileName);
+                _transfersInProgress.Remove(fileName);
 
                 if (fileName.Equals(CurrentTransferName, StringComparison.OrdinalIgnoreCase))
                 {
-                    ClearCurrentTransfer();
+                    ClearCurrentTransfers();
                 }
 
                 fileUploadCallback?.Invoke();
@@ -542,25 +500,20 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// <list type="bullet">
         ///     <item><description><c>QueryFileList()</c></description></item>
         /// </list>
-        public void OnLoggedIn()
+        protected override void OnLoggedIn()
         {
             QueryFileList();
         }
 
-        /// <summary>User Logged Out actions</summary>
-        /// <list type="bullet">
-        ///     <item><description>Clear Cache and Current Transfer</description></item>
-        /// </list>
-        public void OnLoggedOut()
+        protected override Task InternalRefreshAsync()
         {
-            StorageData.Clear();
-            ClearCurrentTransfer();
+            // TODO: Needs implementation
+            return Task.CompletedTask;
         }
 
-        private void ClearCurrentTransfer()
+        protected override void ClearCurrentTransfers()
         {
             CurrentTransferName = string.Empty;
-            CurrentTransferProgress = 0.0f;
 
             if (CurrentTransferHandle != null)
             {
@@ -625,12 +578,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         //-------------------------------------------------------------------------
         private ReadResult OnFileDataReceived(ref ReadFileDataCallbackInfo data)
         {
-            //if (data == null)
-            //{
-            //    Debug.LogError("Player Data Storage (OnFileDataReceived): data parameter is null!");
-            //    return ReadResult.FailRequest;
-            //}
-
             return ReceiveData(data.Filename, data.DataChunk, data.TotalFileSizeBytes, data.IsLastChunk);
         }
 
@@ -638,13 +585,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         private void OnFileReceived(ref ReadFileCallbackInfo data)
         {
             var callback = data.ClientData as Action;
-            //if (data == null)
-            //{
-            //    Debug.LogError("Player Data Storage (OnFileReceived): data parameter is null!");
-            //    FinishFileDownload(data.Filename, false);
-            //    return;
-            //}
-
             if (data.ResultCode != Result.Success)
             {
                 Debug.LogErrorFormat("[EOS SDK] Player data storage: could not download file: {0}", data.ResultCode);
@@ -658,13 +598,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private WriteResult OnFileDataSend(ref WriteFileDataCallbackInfo data, out ArraySegment<byte> outDataBuffer)
         {
-            //if (data == null)
-            //{
-            //    Debug.LogError("Player Data Storage (OnFileDataSend): data parameter is null!");
-            //    outDataBuffer = new byte[0];
-            //    return WriteResult.FailRequest;
-            //}
-
             WriteResult result = SendData(data.Filename, out ArraySegment<byte> dataBuffer);
 
             if (dataBuffer != null)
@@ -682,11 +615,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         private void OnFileSent(ref WriteFileCallbackInfo data)
         {
             var callback = data.ClientData as Action;
-            //if (data == null)
-            //{
-            //    Debug.LogError("Player Data Storage (OnFileSent): data parameter is null!");
-            //    return;
-            //}
 
             if (data.ResultCode != Result.Success)
             {
@@ -700,27 +628,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private void OnFileTransferProgressUpdated(ref FileTransferProgressCallbackInfo data)
         {
-            //if (data == null)
-            //{
-            //    Debug.LogError("Player Data Storage (OnFileTransferProgressUpdated): data parameter is null!");
-            //    return;
-            //}
-
             if (data.TotalFileSizeBytes > 0)
             {
-                UpdateProgress(data.Filename, data.BytesTransferred / data.TotalFileSizeBytes);
                 Debug.LogFormat("[EOS SDK] Player data storage: transfer progress {0} / {1}", data.BytesTransferred, data.TotalFileSizeBytes);
             }
         }
 
         private void OnFileCopied(ref DuplicateFileCallbackInfo data)
         {
-            //if (data == null)
-            //{
-            //    Debug.LogError("Player Data Storage (OnFileCopied): data parameter is null!");
-            //    return;
-            //}
-
             if (data.ResultCode != Result.Success)
             {
                 Debug.LogErrorFormat("[EOS SDK] Player data storage: error while copying the file: {0}", data.ResultCode);
@@ -732,12 +647,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private void OnFileRemoved(ref DeleteFileCallbackInfo data)
         {
-            //if (data == null)
-            //{
-            //    Debug.LogError("Player Data Storage (OnFileRemoved): data parameter is null!");
-            //    return;
-            //}
-
             if (data.ResultCode != Result.Success)
             {
                 Debug.LogErrorFormat("[EOS SDK] Player data storage: error while removing file: {0}", data.ResultCode);

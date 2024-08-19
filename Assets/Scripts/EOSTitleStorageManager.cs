@@ -33,17 +33,13 @@ using System.Text;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
+    using System.Threading.Tasks;
+
     /// <summary>Class <c>EOSTitleStorageManager</c> is a simplified wrapper for EOS [TitleStorage Interface](https://dev.epicgames.com/docs/services/en-US/Interfaces/TitleStorage/index.html).</summary>
-    public class EOSTitleStorageManager : IEOSSubManager
+    public class EOSTitleStorageManager : DataService
     {
-        public const uint MAX_CHUNK_SIZE = 4 * 4 * 4096;
-
-        private string CurrentTransferName;
         private TitleStorageFileTransferRequest CurrentTransferHandle = null;
-        private float CurrentTransferProgress;  // TODO: use for progress UI
-        private Dictionary<string, string> StorageData = new Dictionary<string, string>();
-        private Dictionary<string, EOSTransferInProgress> TransfersInProgress = new Dictionary<string, EOSTransferInProgress>();
-
+        
         private List<string> CurrentFileNames = new List<string>();
 
         // Manager Callbacks
@@ -55,8 +51,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public EOSTitleStorageManager()
         {
-            TransfersInProgress = new Dictionary<string, EOSTransferInProgress>();
-            StorageData = new Dictionary<string, string>();
+            _transfersInProgress = new Dictionary<string, EOSTransferInProgress>();
+            _storageData = new Dictionary<string, string>();
 
             QueryListCallback = null;
             ReadFileCallback = null;
@@ -64,7 +60,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public Dictionary<string, string> GetCachedStorageData()
         {
-            return StorageData;
+            return _storageData;
         }
 
         public List<string> GetCachedCurrentFileNames()
@@ -76,26 +72,21 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// <list type="bullet">
         ///     <item><description><c>NA</c></description></item>
         /// </list>
-        public void OnLoggedIn()
+        protected override void OnLoggedIn()
         {
             
         }
 
-        /// <summary>User Logged Out actions</summary>
-        /// <list type="bullet">
-        ///     <item><description>Clear StorageData Cache and Current Transfer</description></item>
-        /// </list>
-        public void OnLoggedOut()
+        protected override Task InternalRefreshAsync()
         {
-            StorageData.Clear();
-            ClearCurrentTransfer();
+            // TODO: Needs implementation
+            return Task.CompletedTask;
         }
 
         /// <summary>(async) Query list of files.</summary>
         public void QueryFileList(string[] tags, OnQueryFileListCallback QueryFileListCompleted)
         {
             Utf8String[] utf8StringTags = new Utf8String[tags.Length];
-
 
             for (int i = 0; i < tags.Length; ++i)
             {
@@ -118,13 +109,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private void OnQueryFileListCompleted(ref QueryFileListCallbackInfo data)
         {
-            //if (data == null)
-            //{
-            //    Debug.LogError("Title storage: OnFileListRetrieved data == null!");
-            //    QueryListCallback?.Invoke(Result.InvalidState);
-            //    return;
-            //}
-
             if (data.ResultCode != Result.Success)
             {
                 Debug.LogErrorFormat("Title storage: file list retrieval error: {0}", data.ResultCode);
@@ -180,7 +164,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     ReadFileOptions fileReadOptions = new ReadFileOptions();
                     fileReadOptions.LocalUserId = EOSManager.Instance.GetProductUserId();
                     fileReadOptions.Filename = fileName;
-                    fileReadOptions.ReadChunkLengthBytes = MAX_CHUNK_SIZE;
+                    fileReadOptions.ReadChunkLengthBytes = MaxChunkSize;
 
                     fileReadOptions.ReadFileDataCallback = OnFileDataReceived;
                     fileReadOptions.FileTransferProgressCallback = OnFileTransferProgressUpdated;
@@ -199,9 +183,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     newTransfer.Data = new byte[(uint)fileMetadata?.FileSizeBytes];
 
 
-                    TransfersInProgress.Add(fileName, newTransfer);
+                    _transfersInProgress.Add(fileName, newTransfer);
 
-                    CurrentTransferProgress = 0.0f;
                     CurrentTransferName = fileName;
                 }
             });
@@ -209,13 +192,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private void OnFileReceived(ref ReadFileCallbackInfo data)
         {
-            //if (data == null)
-            //{
-            //    Debug.LogError("Title storage: OnReadFileComplete data == null!");
-            //    ReadFileCallback?.Invoke(Result.InvalidState);
-            //    return;
-            //}
-
             if (data.ResultCode != Result.Success)
             {
                 Debug.LogErrorFormat("Title storage: OnFileReceived error: {0}", data.ResultCode);
@@ -230,7 +206,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             Debug.LogFormat("Title storage: FinishFileDownload '{0}', success = {1}", fileName, success);
 
-            if (!TransfersInProgress.TryGetValue(fileName, out EOSTransferInProgress transfer))
+            if (!_transfersInProgress.TryGetValue(fileName, out EOSTransferInProgress transfer))
             {
                 Debug.LogErrorFormat("[EOS SDK] Title storage: '{0}' was not found in TransfersInProgress.", fileName);
                 ReadFileCallback?.Invoke(result);
@@ -251,10 +227,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     Debug.LogError("[EOS SDK] Title storage: error while file read operation: expecting more data. File can be corrupted.");
                 }
 
-                TransfersInProgress.Remove(fileName);
+                _transfersInProgress.Remove(fileName);
                 if (fileName == CurrentTransferName)
                 {
-                    ClearCurrentTransfer();
+                    ClearCurrentTransfers();
                 }
             }
 
@@ -264,15 +240,15 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 fileData = System.Text.Encoding.UTF8.GetString(transfer.Data, 0, (int)transfer.TotalSize);
             }
 
-            StorageData.Add(fileName, fileData);
+            _storageData.Add(fileName, fileData);
 
             Debug.LogFormat("[EOS SDK] Title storage: file read finished: '{0}' Size: {1}.", fileName, fileData.Length);
 
-            TransfersInProgress.Remove(fileName);
+            _transfersInProgress.Remove(fileName);
 
             if (fileName.Equals(CurrentTransferName, StringComparison.OrdinalIgnoreCase))
             {
-                ClearCurrentTransfer();
+                ClearCurrentTransfers();
             }
 
             ReadFileCallback?.Invoke(result);
@@ -286,7 +262,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
                 if (cancelResult == Result.Success)
                 {
-                    TransfersInProgress.TryGetValue(CurrentTransferName, out EOSTransferInProgress transfer);
+                    _transfersInProgress.TryGetValue(CurrentTransferName, out EOSTransferInProgress transfer);
 
                     if (transfer != null)
                     {
@@ -299,56 +275,33 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                             Debug.Log("Title storage: CancelCurrentTransfer - Upload is canceled");
                         }
 
-                        TransfersInProgress.Remove(CurrentTransferName);
+                        _transfersInProgress.Remove(CurrentTransferName);
                     }
 
                     // TODO: Hide Progress UI
                 }
             }
 
-            ClearCurrentTransfer();
+            ClearCurrentTransfers();
         }
 
-        private void ClearCurrentTransfer()
+        protected override void ClearCurrentTransfers()
         {
             CurrentTransferName = string.Empty;
-            CurrentTransferProgress = 0.0f;
-
-            if (CurrentTransferHandle != null)
-            {
-                CurrentTransferHandle = null;
-            }
+            CurrentTransferHandle = null;
         }
 
         private void OnFileTransferProgressUpdated(ref FileTransferProgressCallbackInfo data)
         {
-            //if (data == null)
-            //{
-            //    Debug.LogError("Title storage: OnFileTransferProgressUpdated data == null!");
-            //    return;
-            //}
-
             if (data.TotalFileSizeBytes > 0)
             {
-                UpdateProgress(data.Filename, data.BytesTransferred / data.TotalFileSizeBytes);
                 Debug.LogFormat("Title storage: transfer progress {0} / {1}", data.BytesTransferred, data.TotalFileSizeBytes);
-            }
-        }
-
-        private void UpdateProgress(string filename, uint progress)
-        {
-            if (filename.Equals(CurrentTransferName, StringComparison.OrdinalIgnoreCase))
-            {
-                CurrentTransferProgress = progress;
             }
         }
 
         private ReadResult OnFileDataReceived(ref ReadFileDataCallbackInfo data)
         {
-
             return ReceiveData(data.Filename, data.DataChunk, data.TotalFileSizeBytes);
-
-            //return ReadResult.RrFailrequest;
         }
 
         private ReadResult ReceiveData(string fileName, ArraySegment<byte> data, uint totalSize)
@@ -359,7 +312,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 return ReadResult.RrFailrequest;
             }
 
-            TransfersInProgress.TryGetValue(fileName, out EOSTransferInProgress transfer);
+            _transfersInProgress.TryGetValue(fileName, out EOSTransferInProgress transfer);
 
             if (transfer != null)
             {

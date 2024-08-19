@@ -253,17 +253,5 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 Debug.LogErrorFormat("UITitleStorageMenu - '{0}' file content was not found in cached data storage.", FileNameTextBox.InputField.text);
             }
         }
-
-        public override void Show()
-        {
-            base.Show();
-            EOSManager.Instance.GetOrCreateManager<EOSTitleStorageManager>().OnLoggedOut();
-        }
-
-        public override void Hide()
-        {
-            base.Hide();
-            TitleStorageManager?.OnLoggedOut();
-        }
     }
 }
