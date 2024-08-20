@@ -112,11 +112,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             await RefreshAsync();
         }
 
-        protected override void OnLoggedOut()
+        protected override void Reset()
         {
             _downloadCache.Clear();
             _achievements.Clear();
             _playerAchievements.Clear();
+
+            base.Reset();
         }
 
         /// <summary>

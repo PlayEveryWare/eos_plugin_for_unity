@@ -35,7 +35,6 @@ namespace PlayEveryWare.EpicOnlineServices
     using Samples;
     using System.Collections.Concurrent;
     using System.Threading.Tasks;
-    using Debug = UnityEngine.Debug;
 
     public class StatsService : EOSService
     {
@@ -64,12 +63,50 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </summary>
         private StatsService() { }
 
+        ~StatsService()
+        {
+            Dispose(false);
+        }
+
         #endregion
+
+        private bool _disposed = false;
 
         /// <summary>
         /// Maps a given user to a list of player statistics.
         /// </summary>
         private ConcurrentDictionary<ProductUserId, List<Stat>> _playerStats = new();
+
+        protected override void Dispose(bool disposing)
+        {
+            // If already disposed, then do nothing (this prevents the disposal
+            // pattern from becoming circular).
+            if (_disposed)
+            {
+                return;
+            }
+
+            if (disposing)
+            {
+                // NOTE: Dispose of managed resources here.
+                Reset();
+            }
+
+            // NOTE: Free unmanaged resources here, and set large fields to null.
+
+            _disposed = true;
+
+            base.Dispose(disposing);
+        }
+
+        protected override void Reset()
+        {
+            // Clear any player stats that may have been locally cached.
+            _playerStats.Clear();
+
+            // Call the base implementation.
+            base.Reset();
+        }
 
         /// <summary>
         /// Conditionally executed proxy function for Unity's log function.
@@ -87,11 +124,6 @@ namespace PlayEveryWare.EpicOnlineServices
             {
                 await RefreshPlayerStatsAsync(userId);
             }
-        }
-
-        protected override void OnLoggedOut()
-        {
-            _playerStats.Clear();
         }
 
         /// <summary>
