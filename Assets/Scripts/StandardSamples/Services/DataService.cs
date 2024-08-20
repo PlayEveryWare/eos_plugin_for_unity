@@ -26,10 +26,10 @@ namespace PlayEveryWare.EpicOnlineServices
     using Samples;
     using System;
     using System.Collections.Generic;
-    using Debug = UnityEngine.Debug;
     using Epic.OnlineServices;
     using Events;
     using System.Text;
+    using UnityEngine;
 
     public abstract class DataService<T> : EOSService where T : IFileTransferRequest
     {
