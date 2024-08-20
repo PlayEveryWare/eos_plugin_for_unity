@@ -233,7 +233,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 
-        private void OnLobbyChanged()
+        private void OnLobbyChanged(LobbyChangedEvent lobbyChangedEvent)
         {
             string previousLobbyId = CurrentLobbyId;
             var currentLobby = LobbyManager.GetCurrentLobby();
