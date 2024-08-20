@@ -527,7 +527,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
         }
 
         // Returns the ProductUserId corresponding to a given ClientId
-        private ProductUserId GetUserId(ulong clientId)
+        public ProductUserId GetUserId(ulong clientId)
         {
             Debug.Assert(IsInitialized);
 
@@ -545,7 +545,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
         }
 
         // Returns the ClientId corresponding to a given ProductUserId
-        private ulong GetClientId(ProductUserId userId)
+        public ulong GetClientId(ProductUserId userId)
         {
             Debug.Assert(IsInitialized);
 

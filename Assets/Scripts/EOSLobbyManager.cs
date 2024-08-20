@@ -32,6 +32,8 @@ using Epic.OnlineServices.RTCAudio;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
+    public enum LobbyChangedEvent { Create, Join, Leave, Kicked }
+
     /// <summary>
     /// Class represents all Lobby properties
     /// </summary>
@@ -466,7 +468,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public delegate void OnMemberUpdateCallback(string LobbyId, ProductUserId MemberId);
 
         private List<OnMemberUpdateCallback> MemberUpdateCallbacks;
-        private List<Action> LobbyChangeCallbacks;
+        private List<Action<LobbyChangedEvent>> LobbyChangeCallbacks;
         private List<Action> LobbyUpdateCallbacks;
 
         private EOSUserInfoManager UserInfoManager;
@@ -490,7 +492,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             LobbySearchCallback = null;
 
             MemberUpdateCallbacks = new List<OnMemberUpdateCallback>();
-            LobbyChangeCallbacks = new List<Action>();
+            LobbyChangeCallbacks = new List<Action<LobbyChangedEvent>>();
             LobbyUpdateCallbacks = new List<Action>();
         }
 
@@ -1331,11 +1333,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
                 LobbyCreatedCallback?.Invoke(Result.Success);
 
-                OnCurrentLobbyChanged();
+                OnCurrentLobbyChanged(LobbyChangedEvent.Create);
             }
         }
 
-        private void OnCurrentLobbyChanged()
+        private void OnCurrentLobbyChanged(LobbyChangedEvent lobbyChangedEvent)
         {
             if (CurrentLobby.IsValid())
             {
@@ -1343,7 +1345,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
             foreach (var callback in LobbyChangeCallbacks)
             {
-                callback?.Invoke();
+                callback?.Invoke(lobbyChangedEvent);
             }
         }
 
@@ -1590,7 +1592,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 
-        private void OnRTCRoomUpdateSendingCompleted(ref UpdateSendingCallbackInfo data)
+        public void OnRTCRoomUpdateSendingCompleted(ref UpdateSendingCallbackInfo data)
         {
             OnLobbyCallback ToggleMuteCallback = data.ClientData as OnLobbyCallback;
 
@@ -1645,7 +1647,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             ToggleMuteCallback?.Invoke(data.ResultCode);
         }
 
-        private void OnRTCRoomUpdateReceivingCompleted(ref UpdateReceivingCallbackInfo data)
+        public void OnRTCRoomUpdateReceivingCompleted(ref UpdateReceivingCallbackInfo data)
         {
             OnLobbyCallback ToggleMuteCallback = data.ClientData as OnLobbyCallback;
 
@@ -1756,7 +1758,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 CurrentLobby.Clear();
                 _Dirty = true;
 
-                OnCurrentLobbyChanged();
+                OnCurrentLobbyChanged(LobbyChangedEvent.Kicked);
             }
         }
 
@@ -1902,12 +1904,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// The callback will only run if a listener is subscribed, which is done in <see cref="SubscribeToLobbyUpdates"/>.
         /// </summary>
         /// <param name="Callback">Callback to receive notification when lobby is changed</param>
-        public void AddNotifyLobbyChange(Action Callback)
+        public void AddNotifyLobbyChange(Action<LobbyChangedEvent> Callback)
         {
             LobbyChangeCallbacks.Add(Callback);
         }
 
-        public void RemoveNotifyLobbyChange(Action Callback)
+        public void RemoveNotifyLobbyChange(Action<LobbyChangedEvent> Callback)
         {
             LobbyChangeCallbacks.Remove(Callback);
         }
@@ -2410,7 +2412,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             JoinLobbyCallback?.Invoke(Result.Success);
 
-            OnCurrentLobbyChanged();
+            OnCurrentLobbyChanged(LobbyChangedEvent.Join);
         }
 
         private void OnLeaveLobbyCompleted(ref LeaveLobbyCallbackInfo data)
@@ -2437,7 +2439,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
                 LeaveLobbyCallback?.Invoke(Result.Success);
 
-                OnCurrentLobbyChanged();
+                OnCurrentLobbyChanged(LobbyChangedEvent.Leave);
             }
         }
 
