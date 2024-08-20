@@ -31,6 +31,12 @@ namespace PlayEveryWare.EpicOnlineServices
     using System.Text;
     using UnityEngine;
 
+    /// <summary>
+    /// Contains generic functionality common to data related service classes.
+    /// </summary>
+    /// <typeparam name="T">
+    /// The type of file transfer request that this data service makes use of.
+    /// </typeparam>
     public abstract class DataService<T> : EOSService where T : IFileTransferRequest
     {
         /// <summary>
@@ -55,8 +61,19 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </summary>
         protected enum FileTransferResult
         {
+            /// <summary>
+            /// Indicates that the file transfer failed.
+            /// </summary>
             FailRequest,
+
+            /// <summary>
+            /// Indicates that the file transfer was canceled.
+            /// </summary>
             CancelRequest,
+
+            /// <summary>
+            /// Indicates that the file transfer is still happening.
+            /// </summary>
             ContinueReading
         }
 
@@ -194,6 +211,10 @@ namespace PlayEveryWare.EpicOnlineServices
             OnFileDownloaded?.Invoke(result);
         }
 
+        /// <summary>
+        /// Indicates whether or not there is a current transfer.
+        /// </summary>
+        /// <returns>True if a file is transferring, false otherwise.</returns>
         protected bool IsTransferring()
         {
             return (!string.IsNullOrEmpty(CurrentTransferName) || _transfersInProgress.Count != 0);
