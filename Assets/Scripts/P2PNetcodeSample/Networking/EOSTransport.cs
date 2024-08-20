@@ -526,8 +526,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             }
         }
 
-        // Returns the ProductUserId corresponding to a given ClientId
-        private ProductUserId GetUserId(ulong clientId)
+        /// <summary>
+        /// Returns the ProductUserId corresponding to a given ClientId
+        /// </summary>
+        /// <param name="clientId">ClientId to use to search for the corresponding ProductUserId</param>
+        /// <returns></returns>
+        public ProductUserId GetUserId(ulong clientId)
         {
             Debug.Assert(IsInitialized);
 
@@ -544,8 +548,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             }
         }
 
-        // Returns the ClientId corresponding to a given ProductUserId
-        private ulong GetClientId(ProductUserId userId)
+        /// <summary>
+        /// Returns the ClientId corresponding to a given ProductUserId
+        /// </summary>
+        /// <param name="userId">ProductUserId to use to search for the corresponding ClientId</param>
+        /// <returns></returns>
+        public ulong GetClientId(ProductUserId userId)
         {
             Debug.Assert(IsInitialized);
 
@@ -559,6 +567,44 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             else
             {
                 return UserIdToClientId[userId];
+            }
+        }
+
+        /// <summary>
+        /// Check if the specified ClientID exists
+        /// </summary>
+        /// <param name="clientId">The ClientId to search for</param>
+        /// <returns></returns>
+        public bool ClientIDExist(ulong clientId) 
+        {
+            if (IsServer == false)
+            {
+                Debug.AssertFormat(clientId == ServerClientId, "EOSP2PTransport.ClientIDExist: Unexpected ClientId='{0}' given - We're a Client so we should only be dealing with the Server by definition (Server ClientId='{1}').",
+                                   clientId, ServerClientId);
+                return true;
+            }
+            else
+            {
+                return ClientIdToUserId.ContainsKey(clientId);
+            }
+        }
+
+        /// <summary>
+        /// Check if the specified UserID exists
+        /// </summary>
+        /// <param name="userId">The ProductUserId to search for</param>
+        /// <returns></returns>
+        public bool UserIDExist(ProductUserId userId)
+        {
+            if (IsServer == false)
+            {
+                Debug.AssertFormat(userId == ServerUserId, "EOSP2PTransport.UserIDExist: Unexpected UserId='{0}' given - We're a Client so we should only be dealing with the Server by definition (Server UserId='{1}').",
+                                   userId, ServerUserId);
+                return true;
+            }
+            else
+            {
+                return UserIdToClientId.ContainsKey(userId);
             }
         }
     }
