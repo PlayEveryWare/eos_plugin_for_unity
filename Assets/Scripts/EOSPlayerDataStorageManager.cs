@@ -20,20 +20,14 @@
 * SOFTWARE.
 */
 
-﻿using System;
-using System.Collections.Generic;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.IO;
-
-using UnityEngine;
-
-using Epic.OnlineServices;
-using Epic.OnlineServices.PlayerDataStorage;
-
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
-    using Editor.Utility;
     using System.Threading.Tasks;
+    using System;
+    using System.Collections.Generic;
+    using UnityEngine;
+    using Epic.OnlineServices;
+    using Epic.OnlineServices.PlayerDataStorage;
 
     /// <summary>Class <c>EOSPlayerDataStorageManager</c> is a simplified wrapper for EOS [PlayerDataStorage Interface](https://dev.epicgames.com/docs/services/en-US/Interfaces/PlayerDataStorage/index.html).</summary>
     public class EOSPlayerDataStorageManager : DataService<PlayerDataStorageFileTransferRequestWrapper>
@@ -74,7 +68,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             {
                 LocalUserId = localUserId,
                 Filename = fileName,
-                ReadChunkLengthBytes = MaxChunkSize,
+                ReadChunkLengthBytes = MAX_CHUNK_SIZE,
                 ReadFileDataCallback = OnFileDataReceived,
                 FileTransferProgressCallback = OnFileTransferProgressUpdated
             };
@@ -137,7 +131,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             {
                 LocalUserId = localUserId,
                 Filename = fileName,
-                ChunkLengthBytes = MaxChunkSize,
+                ChunkLengthBytes = MAX_CHUNK_SIZE,
                 WriteFileDataCallback = OnFileDataSend,
                 FileTransferProgressCallback = OnFileTransferProgressUpdated
             };
@@ -293,7 +287,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     return WriteResult.CompleteRequest;
                 }
 
-                uint bytesToWrite = Math.Min(MaxChunkSize, transfer.TotalSize - transfer.CurrentIndex);
+                uint bytesToWrite = Math.Min(MAX_CHUNK_SIZE, transfer.TotalSize - transfer.CurrentIndex);
 
                 if (bytesToWrite > 0)
                 {

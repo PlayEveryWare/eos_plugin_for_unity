@@ -20,21 +20,15 @@
 * SOFTWARE.
 */
 
-﻿using System;
-using System.Collections.Generic;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.IO;
-
-using UnityEngine;
-
-using Epic.OnlineServices;
-using Epic.OnlineServices.TitleStorage;
-using System.Text;
-
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
     using Events;
     using System.Threading.Tasks;
+    using System;
+    using System.Collections.Generic;
+    using UnityEngine;
+    using Epic.OnlineServices;
+    using Epic.OnlineServices.TitleStorage;
 
     /// <summary>Class <c>EOSTitleStorageManager</c> is a simplified wrapper for EOS [TitleStorage Interface](https://dev.epicgames.com/docs/services/en-US/Interfaces/TitleStorage/index.html).</summary>
     public class EOSTitleStorageManager : DataService<TitleStorageFileTransferRequestWrapper>
@@ -143,7 +137,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     ReadFileOptions fileReadOptions = new ReadFileOptions();
                     fileReadOptions.LocalUserId = EOSManager.Instance.GetProductUserId();
                     fileReadOptions.Filename = fileName;
-                    fileReadOptions.ReadChunkLengthBytes = MaxChunkSize;
+                    fileReadOptions.ReadChunkLengthBytes = MAX_CHUNK_SIZE;
 
                     fileReadOptions.ReadFileDataCallback = OnFileDataReceived;
                     fileReadOptions.FileTransferProgressCallback = OnFileTransferProgressUpdated;

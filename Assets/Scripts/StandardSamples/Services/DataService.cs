@@ -64,7 +64,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// Indicates the maximum number of bytes that can be read at a time
         /// during data transfer operations.
         /// </summary>
-        protected const uint MaxChunkSize = 4096;
+        protected const uint MAX_CHUNK_SIZE = 4096;
 
         /// <summary>
         /// Stores the file transfers that are currently in progress for the
