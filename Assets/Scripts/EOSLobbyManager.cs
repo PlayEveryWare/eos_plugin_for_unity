@@ -1590,6 +1590,102 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 
+        /// <summary>
+        /// Mute a Member in the Lobby. This only affects the Local Member, other remote Members in the Lobby will still be able to hear them.
+        /// </summary>
+        /// <param name="isMicOn">Active status of the mic</param>
+        /// <param name="targetProductUserId">The Product User ID of the target member to mute</param>
+        /// <param name="MuteMemberCompleted">Callback when MuteMember is completed</param>
+        public void MuteMember(bool isMicOn, ProductUserId targetProductUserId, OnLobbyCallback MuteMemberCompleted)
+        {
+            RTCInterface rtcHandle = EOSManager.Instance.GetEOSRTCInterface();
+            RTCAudioInterface rtcAudioHandle = rtcHandle.GetAudioInterface();
+
+            LobbyMember lobbyMember = GetCurrentLobby().Members.Find(x => x.ProductId == targetProductUserId);
+            if (lobbyMember != null)
+            {
+                // Do not allow multiple local mute toggles at the same time
+                if (lobbyMember.RTCState.MuteActionInProgress)
+                {
+                    Debug.LogWarningFormat("Lobbies (MuteMember): 'MuteActionInProgress' for productUserId {0}.", targetProductUserId);
+                    MuteMemberCompleted?.Invoke(Result.RequestInProgress);
+                    return;
+                }
+
+                // Set mute action as in progress
+                lobbyMember.RTCState.MuteActionInProgress = true;
+            }
+
+            // Check if muting ourselves vs other member
+            if (EOSManager.Instance.GetProductUserId() == targetProductUserId)
+            {
+                // Toggle our mute status
+                UpdateSendingOptions sendOptions = new UpdateSendingOptions()
+                {
+                    LocalUserId = EOSManager.Instance.GetProductUserId(),
+                    RoomName = GetCurrentLobby().RTCRoomName,
+                    AudioStatus = isMicOn ? RTCAudioStatus.Enabled : RTCAudioStatus.Disabled
+                };
+
+                Debug.LogFormat("Lobbies (MuteMember): Setting self audio output status to {0}", sendOptions.AudioStatus == RTCAudioStatus.Enabled ? "Unmuted" : "Muted");
+
+                rtcAudioHandle.UpdateSending(ref sendOptions, MuteMemberCompleted, OnRTCRoomUpdateSendingCompleted);
+            }
+            else
+            {
+                // Toggle mute for remote member (this is a local-only action and does not block the other user from receiving your audio stream)
+
+                UpdateReceivingOptions recevingOptions = new UpdateReceivingOptions()
+                {
+                    LocalUserId = EOSManager.Instance.GetProductUserId(),
+                    RoomName = GetCurrentLobby().RTCRoomName,
+                    ParticipantId = targetProductUserId,
+                    AudioEnabled = isMicOn
+                };
+
+                Debug.LogFormat("Lobbies (MuteMember): {0} remote player {1}", recevingOptions.AudioEnabled ? "Unmuting" : "Muting", targetProductUserId);
+
+                rtcAudioHandle.UpdateReceiving(ref recevingOptions, MuteMemberCompleted, OnRTCRoomUpdateReceivingCompleted);
+            }
+        }
+
+        /// <summary>
+        /// Set the Mute Status of the Local Member
+        /// </summary>
+        /// <param name="micOn">Active status of the Mic</param>
+        /// <param name="MuteLocalMemberCompleted">Callback when MuteLocalMember is completed</param>
+        public void MuteLocalMember(bool micOn, OnLobbyCallback MuteLocalMemberCompleted)
+        {
+            UpdateSendingOptions sendOptions = new UpdateSendingOptions()
+            {
+                LocalUserId = EOSManager.Instance.GetProductUserId(),
+                RoomName = GetCurrentLobby().RTCRoomName,
+                AudioStatus = micOn ? RTCAudioStatus.Enabled : RTCAudioStatus.Disabled
+            };
+
+            Debug.LogFormat("Lobbies (MuteLocalMember): Setting self audio output status to {0}", sendOptions.AudioStatus == RTCAudioStatus.Enabled ? "Unmuted" : "Muted");
+
+            EOSManager.Instance.GetEOSRTCInterface().GetAudioInterface().UpdateSending(ref sendOptions, MuteLocalMemberCompleted, OnRTCRoomUpdateSendingCompleted);
+        }
+
+        /// <summary>
+        /// Sets the Deafen Status of the Local Member
+        /// </summary>
+        /// <param name="audioActive">To hear audio in the Voice Channel or to be deafen</param>
+        /// <param name="DeafenCompleted">Callback when DeafenLocalMember is completed</param>
+        public void DeafenLocalMember(bool audioActive, OnLobbyCallback DeafenCompleted)
+        {
+            UpdateReceivingOptions recevingOptions = new UpdateReceivingOptions()
+            {
+                LocalUserId = EOSManager.Instance.GetProductUserId(),
+                RoomName = GetCurrentLobby().RTCRoomName,
+                AudioEnabled = audioActive
+            };
+            Debug.LogFormat("Lobbies (DeafenLocalMember): {0}", recevingOptions.AudioEnabled ? "Hearing" : "Deafened");
+
+            EOSManager.Instance.GetEOSRTCInterface().GetAudioInterface().UpdateReceiving(ref recevingOptions, DeafenCompleted, OnRTCRoomUpdateReceivingCompleted);
+        }
+
         private void OnRTCRoomUpdateSendingCompleted(ref UpdateSendingCallbackInfo data)
         {
             OnLobbyCallback ToggleMuteCallback = data.ClientData as OnLobbyCallback;
