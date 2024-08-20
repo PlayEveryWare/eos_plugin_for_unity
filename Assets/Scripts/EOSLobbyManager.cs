@@ -29,6 +29,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     using Epic.OnlineServices.Lobby;
     using Epic.OnlineServices.RTC;
     using Epic.OnlineServices.RTCAudio;
+	
     public enum LobbyChangedEvent { Create, Join, Leave, Kicked }
 
     /// <summary>
