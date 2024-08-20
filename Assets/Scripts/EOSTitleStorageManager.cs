@@ -123,10 +123,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             QueryListCallback?.Invoke(Result.Success);
         }
 
-        public void ReadFile(string fileName, EOSResultEventHandler ReadFileCompleted)
+        public void DownloadFile(string fileName, EOSResultEventHandler ReadFileCompleted)
         {
-            // StartFileDataDownload
-
             ProductUserId localUserId = EOSManager.Instance.GetProductUserId();
             if (localUserId == null || !localUserId.IsValid())
             {
@@ -164,7 +162,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     newTransfer.Data = new byte[(uint)fileMetadata?.FileSizeBytes];
 
 
-                    _transfersInProgress.Add(fileName, newTransfer);
+                    _transfersInProgress[fileName] = newTransfer;
 
                     CurrentTransferName = fileName;
                 }

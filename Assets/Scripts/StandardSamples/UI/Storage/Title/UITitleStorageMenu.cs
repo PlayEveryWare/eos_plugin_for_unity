@@ -216,7 +216,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 return;
             }
 
-            TitleStorageManager.ReadFile(FileNameTextBox.InputField.text, UpdateFileContent);
+            TitleStorageManager.DownloadFile(FileNameTextBox.InputField.text, UpdateFileContent);
         }
 
         public void UpdateFileContent(Result result)

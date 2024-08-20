@@ -135,7 +135,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             if (currentSelectedFile != string.Empty)
             {
-                PlayerDataStorageManager.ReadFile(currentSelectedFile, () => UpdateRemoteView(currentSelectedFile));
+                PlayerDataStorageManager.DownloadFile(currentSelectedFile, () => UpdateRemoteView(currentSelectedFile));
             }
         }
 
@@ -263,7 +263,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             if (fileContent == null)
             {
                 RemoteViewText.text = "*** Downloading content ***";
-                PlayerDataStorageManager.ReadFile(fileName, () => UpdateRemoteView(fileName));
+                PlayerDataStorageManager.DownloadFile(fileName, () => UpdateRemoteView(fileName));
             }
             else if (fileContent.Length == 0)
             {
