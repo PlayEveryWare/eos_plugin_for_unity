@@ -13,7 +13,8 @@
         {"src": "Assets/EOS.meta",  "dest": "Runtime/"     },
         {"src": "Assets/EOS/*.png", "dest": "Runtime/EOS/" },
                              
-        {"src": "Assets/Plugins/*",                                "dest": "Runtime/"                             },
+        {"src": "Assets/Plugins/*",                                        "dest": "Runtime/"                             },
+        {"src": "com.playeveryware.eos/Runtime/*",                         "dest": "Runtime/" },
         {"src": "com.playeveryware.eos/Runtime/Core/*",                    "dest": "Runtime/Core/"                        },
         {"src": "com.playeveryware.eos/Runtime/Core/Utility/*",            "dest": "Runtime/Core/Utility/"                },
         {"src": "com.playeveryware.eos/Runtime/Core/Utility/Extensions/*", "dest": "Runtime/Core/Utility/Extensions/"     },
