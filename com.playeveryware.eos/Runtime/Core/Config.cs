@@ -293,27 +293,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <returns>Task.</returns>
         protected virtual async Task ReadAsync()
         {
-            bool configFileExists = File.Exists(FilePath);
-
-            // If the file does not already exist, then save it before reading
-            // it, a default json will be put in the correct place, and
-            // therefore a default set of config values will be loaded.
-            if (!configFileExists)
-            {
-                // This conditional exists because writing a config file is only
-                // something that should ever happen in the editor.
-#if UNITY_EDITOR
-                // If the config file does not currently exist, create it 
-                // when it is being read (which is fair to do in the editor)
-                await WriteAsync();
-#else
-                // If the editor is not running, then the config file not
-                // existing should throw an error.
-                throw new FileNotFoundException(
-                    $"Config file \"{FilePath}\" does not exist.");
-#endif
-            }
-
+            await EnsureConfigFileExistsAsync(true);
             _lastReadJsonString = await FileUtility.ReadAllTextAsync(FilePath);
             JsonUtility.FromJsonOverwrite(_lastReadJsonString, this);
         }
@@ -324,19 +304,51 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </summary>
         protected virtual void Read()
         {
-            // This conditional exists because writing a config file is only
-            // something that should ever happen in the editor.
-            // This is the config writing for Editor Playmode
-            // Use WriteAsync instead on Editor Not-Playmode
-#if UNITY_EDITOR
-            if (!File.Exists(FilePath)) 
-            {
-                Write();
-            }
-#endif
-
+            EnsureConfigFileExists(false);
             _lastReadJsonString = FileUtility.ReadAllText(FilePath);
             JsonUtility.FromJsonOverwrite(_lastReadJsonString, this);
+        }
+
+        /// <summary>
+        /// Determines if the config file exists, and if it does not, and the
+        /// editor is running, then create the file.
+        /// </summary>
+        /// <param name="isAsync">
+        /// Indicates whether the operation should run synchronously or
+        /// asynchronously.
+        /// </param>
+        /// <returns>Task.</returns>
+        private async Task EnsureConfigFileExistsAsync(bool isAsync)
+        {
+            bool fileExists = isAsync ? await FileUtility.FileExistsAsync(FilePath) : FileUtility.FileExists(FilePath);
+
+#if UNITY_EDITOR
+            if (!fileExists)
+            {
+                if (isAsync)
+                    await WriteAsync();
+                else
+                    Write();
+            }
+#else
+            // If the editor is not running, then the config file not
+            // existing should throw an error.
+            throw new FileNotFoundException(
+                $"Config file \"{FilePath}\" does not exist.");
+#endif
+        }
+
+        /// <summary>
+        /// Determines if the config file exists, and if it does not, and the
+        /// editor is running, then create the file.
+        /// </summary>
+        /// <param name="isAsync">
+        /// Indicates whether the operation should run synchronously or
+        /// asynchronously.
+        /// </param>
+        private void EnsureConfigFileExists(bool isAsync)
+        {
+            EnsureConfigFileExistsAsync(isAsync).GetAwaiter().GetResult();
         }
 
         // Functions declared below should only ever be utilized in the editor.

@@ -30,6 +30,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
     using System.Threading;
     using System.Threading.Tasks;
     using UnityEngine;
+    using UnityEngine.Networking;
 
     // This compile conditional exists to ensure that the Linq namespace is
     // not utilized during runtime operations.
@@ -455,6 +456,23 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
 
         #endregion
 #endif
+
+        #region File Read Functionality
+
+        public static async Task<(bool Success, string Result)> TryReadAllTextAsync(string filePath)
+        {
+            bool fileExists = await FileExistsInternal(filePath);
+
+            if (!fileExists)
+            {
+                return (false, null);
+            }
+
+            string contents = await ReadAllTextInternal(filePath);
+
+            return null == contents ? (false, null) : (true, contents);
+        }
+
         /// <summary>
         /// Reads all text from the indicated file.
         /// </summary>
@@ -462,13 +480,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         /// <returns>The contents of the file at the indicated path as a string.</returns>
         public static string ReadAllText(string path)
         {
-            string text = string.Empty;
-#if UNITY_ANDROID && !UNITY_EDITOR
-            text = AndroidFileIOHelper.ReadAllText(path);
-#else
-            text = File.ReadAllText(path);
-#endif
-            return text;
+            return ReadAllTextInternal(path).Result;
         }
 
         /// <summary>
@@ -478,14 +490,60 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         /// <returns>Task</returns>
         public static async Task<string> ReadAllTextAsync(string path)
         {
-            string text = string.Empty;
-#if UNITY_ANDROID && !UNITY_EDITOR
-            text = AndroidFileIOHelper.ReadAllText(path);
-#else
-            text = await File.ReadAllTextAsync(path);
-#endif
-            return await Task.FromResult(text);
+            return await ReadAllTextInternal(path);
         }
+
+        /// <summary>
+        /// Internal function to read all text.
+        /// </summary>
+        /// <param name="path">The path of the file to read.</param>
+        /// <returns>A Task that has a string as a result.</returns>
+        private static async Task<string> ReadAllTextInternal(string path)
+        {
+#if UNITY_ANDROID && !UNITY_EDITOR
+            // On Android, use a custom helper to read the file synchronously
+            return await Task.FromResult(AndroidFileIOHelper.ReadAllText(path));
+#else
+            // On other platforms, read asynchronously or synchronously as
+            // appropriate.
+            return await File.ReadAllTextAsync(path);
+#endif
+        }
+
+        #endregion
+
+        #region File Exists Functionality
+
+        public static async Task<bool> FileExistsAsync(string filePath)
+        {
+            return await FileExistsInternal(filePath);
+        }
+
+        public static bool FileExists(string filePath)
+        {
+            return FileExistsInternal(filePath).Result;
+        }
+
+        private static async Task<bool> FileExistsInternal(string filePath)
+        {
+            bool fileExists = false;
+#if UNITY_ANDROID && !UNITY_EDITOR
+            using UnityWebRequest request = UnityWebRequest.Get(filePath);
+            request.SendWebRequest();
+            while (!request.isDone)
+            {
+                await Task.Yield();
+            }
+
+            fileExists = (UnityWebRequest.Result.Success == request.result);
+#else
+            // For other platforms, use File.Exists.
+            fileExists = File.Exists(filePath);
+#endif
+            return await Task.FromResult(fileExists);
+        }
+
+#endregion
 
         public static void NormalizePath(ref string path)
         {
