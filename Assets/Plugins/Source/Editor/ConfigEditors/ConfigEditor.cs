@@ -74,11 +74,14 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
         /// collapsed, as animating that requires calling the repaint function
         /// that is typically called from within EditorWindow.
         /// </param>
-        public ConfigEditor(UnityAction repaintFn = null)
+        public ConfigEditor(UnityAction repaintFn = null, bool startsExpanded = false)
         {
             Type configType = typeof(T);
             
             ConfigGroupAttribute attribute = configType.GetCustomAttribute<ConfigGroupAttribute>();
+
+            _expanded = startsExpanded;
+
             _animExpanded = new(attribute.Collapsible);
 
             _labelText = attribute.Label;
@@ -112,7 +115,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
                 _expanded = value;
                 if (_expanded)
                 {
-                    OnExpanded(this);
+                    OnExpanded?.Invoke(this);
                 }
             }
         }
@@ -123,7 +126,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
         public void Expand()
         {
             Expanded = true;
-            OnExpanded(this);
+            OnExpanded?.Invoke(this);
         }
 
         /// <summary>

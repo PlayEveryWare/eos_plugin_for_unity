@@ -188,16 +188,16 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             CancelCurrentTransfer();
             CurrentTransferHandle = req;
 
-            EOSTransferInProgress newTransfer = new EOSTransferInProgress();
-            newTransfer.Download = false;
-
-            newTransfer.TotalSize = (uint)fileData.Length;
-            if (newTransfer.TotalSize > 0)
+            EOSTransferInProgress newTransfer = new()
             {
-                byte[] utf8ByteArray = System.Text.Encoding.UTF8.GetBytes(fileData);
+                Download = false
+            };
 
-                newTransfer.Data = utf8ByteArray;
+            if (null != fileData)
+            {
+                newTransfer.Data = System.Text.Encoding.UTF8.GetBytes(fileData);
             }
+
             newTransfer.CurrentIndex = 0;
 
             TransfersInProgress[fileName] = newTransfer;
@@ -376,14 +376,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 }
 
                 // First update
-                if (transfer.CurrentIndex == 0 && transfer.TotalSize == 0)
+                if (transfer.CurrentIndex == 0)
                 {
-                    transfer.TotalSize = totalSize;
-
-                    if (transfer.TotalSize == 0)
-                    {
-                        return ReadResult.ContinueReading;
-                    }
+                    transfer.Data = new byte[totalSize];
                 }
 
                 // If more data has been received than was anticipated, fail the request
