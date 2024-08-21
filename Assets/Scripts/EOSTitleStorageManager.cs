@@ -370,14 +370,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 }
 
                 // First update
-                if (transfer.CurrentIndex == 0 && transfer.TotalSize == 0)
+                if (transfer.CurrentIndex == 0)
                 {
-                    transfer.TotalSize = totalSize;
-
-                    if (transfer.TotalSize == 0)
-                    {
-                        return ReadResult.RrContinuereading;
-                    }
+                    transfer.Data = new byte[totalSize];
                 }
 
                 // Make sure we have enough space
