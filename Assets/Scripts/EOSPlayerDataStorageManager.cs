@@ -155,7 +155,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             {
                 newTransfer.Data = System.Text.Encoding.UTF8.GetBytes(fileData);
             }
-
+            
             newTransfer.CurrentIndex = 0;
 
             _transfersInProgress[fileName] = newTransfer;
