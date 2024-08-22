@@ -36,20 +36,12 @@ namespace PlayEveryWare.EpicOnlineServices
     /// _only_ represents the _current_ runtime values to use. The values of the
     /// field members defined within will need to be determined at runtime.
     ///
-    /// _Project Settings_ is the area where there will be options to define
-    /// configuration values on a platform by platform basis. The EOS Plugin
-    /// allows users who are making their game with EOS to define different
-    /// properties for each platform, and to store sandbox / deployment
-    /// overrides so that it is easy to switch between deployment environments
-    /// during development. Those settings are distinct from these set of
-    /// values.
-    ///
     /// Most of the values for these field members come from the
     /// [Development Portal](https://dev.epicgames.com/portal/)
     /// </summary>
     public readonly struct RuntimeConfig
     {
-    #region EOS SDK Configuration Values
+        #region EOS SDK Configuration Values
 
         /*
          * The following region contains values that are required in order to
@@ -120,7 +112,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </summary>
         public readonly bool IsServer;
 
-    #endregion
+        #endregion
 
         public RuntimeConfig(
             Guid productId,
