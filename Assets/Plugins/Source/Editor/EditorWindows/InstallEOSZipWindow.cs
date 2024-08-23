@@ -249,7 +249,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
                             // This should be the correct directory
                             var projectDir = FileUtility.GetProjectPath();
                             // TODO: Async not tested here.
-                            PackageFileUtility.CopyFilesToDirectory(projectDir, fileResults);
+                            _ = PackageFileUtility.CopyFilesToDirectory(projectDir, fileResults);
                         }
                     }
 
