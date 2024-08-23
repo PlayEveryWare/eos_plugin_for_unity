@@ -128,6 +128,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// </summary>
         protected async override Task InternalRefreshAsync()
         {
+            if (!TryGetProductUserId(out ProductUserId productUser)) 
+            {
+                return;
+            }
             ProductUserId productUserId = EOSManager.Instance.GetProductUserId();
             _achievements = await QueryAchievementsAsync(productUserId);
 
