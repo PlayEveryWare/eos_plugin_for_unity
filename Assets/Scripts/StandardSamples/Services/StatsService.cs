@@ -75,29 +75,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <summary>
         /// Maps a given user to a list of player statistics.
         /// </summary>
-        private ConcurrentDictionary<ProductUserId, List<Stat>> _playerStats = new();
-
-        protected override void Dispose(bool disposing)
-        {
-            // If already disposed, then do nothing (this prevents the disposal
-            // pattern from becoming circular).
-            if (_disposed)
-            {
-                return;
-            }
-
-            if (disposing)
-            {
-                // NOTE: Dispose of managed resources here.
-                Reset();
-            }
-
-            // NOTE: Free unmanaged resources here, and set large fields to null.
-
-            _disposed = true;
-
-            base.Dispose(disposing);
-        }
+        private readonly ConcurrentDictionary<ProductUserId, List<Stat>> _playerStats = new();
 
         protected override void Reset()
         {

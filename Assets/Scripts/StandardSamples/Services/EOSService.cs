@@ -101,8 +101,12 @@ namespace PlayEveryWare.EpicOnlineServices
 
             if (disposing)
             {
+                Reset(); // Always call the Reset function first when disposing.
+
                 // NOTE: Dispose of managed resources here.
-                Reset();
+
+                // Unsubscribe from the authentication changed event
+                AuthenticationListener.Instance.AuthenticationChanged -= OnAuthenticationChanged;
             }
 
             // NOTE: Free unmanaged resources here, and set large fields to null.
@@ -120,9 +124,6 @@ namespace PlayEveryWare.EpicOnlineServices
         {
             // Set the updated event to null, which removes any subscribers.
             Updated = null;
-
-            // Unsubscribe from the authentication changed event
-            AuthenticationListener.Instance.AuthenticationChanged -= OnAuthenticationChanged;
         }
 
         /// <summary>
