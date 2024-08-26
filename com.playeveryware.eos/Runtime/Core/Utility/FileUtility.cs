@@ -23,6 +23,7 @@
 namespace PlayEveryWare.EpicOnlineServices.Utility
 {
     using Extensions;
+    using JetBrains.Annotations;
     using System;
     using System.Collections.Generic;
     using System.IO;
@@ -512,16 +513,122 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
 
         #endregion
 
+        #region Path Combination Functionality
+
+        /// <summary>
+        /// Wrapper function for calls to Path.Combine. The reason this is
+        /// implemented here is to restrict usage of the System.IO namespace to
+        /// be within this file.
+        /// </summary>
+        /// <param name="paths">A variable number of path elements.</param>
+        /// <returns>
+        /// The result of calling System.IO.Path.Combine with the provided path
+        /// components.
+        /// </returns>
+        public static string CombinePaths([NotNull] params string[] paths)
+        {
+            return Path.Combine(paths);
+        }
+
+        #endregion
+
+        #region Write Functionality
+
+        /// <summary>
+        /// Synchronously writes the given file contents to the given filepath,
+        /// optionally creating the directory structure if it does not already
+        /// exist.
+        /// </summary>
+        /// <param name="filePath">The path to write to.</param>
+        /// <param name="content">The contents to write to the file.</param>
+        /// <param name="createDirectory">
+        /// Whether or not to create the directory structure represented by the
+        /// filepath.
+        /// </param>
+        public static void WriteFile(string filePath, string content, bool createDirectory = true)
+        {
+            // Use discard in-order to call async function without awaiting.
+            _ = WriteFileInternal(filePath, content, createDirectory);
+        }
+
+        /// <summary>
+        /// Asynchronously writes the given file contents to the given filepath,
+        /// optionally creating the directory structure if it does not already
+        /// exist.
+        /// </summary>
+        /// <param name="filePath">The path to write to.</param>
+        /// <param name="content">The contents to write to the file.</param>
+        /// <param name="createDirectory">
+        /// Whether or not to create the directory structure represented by the
+        /// filepath.
+        /// </param>
+        /// <returns>Task</returns>
+        public static async Task WriteFileAsync(string filePath, string content, bool createDirectory = true)
+        {
+            await WriteFileInternal(filePath, content, createDirectory);
+        }
+
+        /// <summary>
+        /// Asynchronously writes the given file contents to the given filepath,
+        /// optionally creating the directory structure if it does not already
+        /// exist.
+        /// </summary>
+        /// <param name="filePath">The path to write to.</param>
+        /// <param name="content">The contents to write to the file.</param>
+        /// <param name="createDirectory">
+        /// Whether or not to create the directory structure represented by the
+        /// filepath.
+        /// </param>
+        /// <returns>Task</returns>
+        private static async Task WriteFileInternal(string filePath, string content, bool createDirectory = true)
+        {
+            FileInfo file = new(filePath);
+
+            // If the directory should be created, and the DirectoryInfo is not
+            // null, then create the directory.
+            if (createDirectory && null != file.Directory)
+            {
+                CreateDirectory(file.Directory);
+            }
+
+            await using StreamWriter writer = new(filePath);
+            await writer.WriteAsync(content);
+        }
+
+        /// <summary>
+        /// Helper function to create a directory. If the directory already
+        /// exists, then nothing will happen.
+        /// </summary>
+        /// <param name="dInfo">
+        /// The DirectoryInfo object that represents the directory to be
+        /// created.
+        /// </param>
+        private static void CreateDirectory([NotNull] DirectoryInfo dInfo)
+        {
+            try
+            {
+                dInfo.Create();
+            }
+            catch(Exception ex) 
+            {
+                Debug.LogError($"Could not create directory " +
+                               $"\"{dInfo.FullName}\". Exception Message: " +
+                               $"\"{ex.Message}\".");
+            }
+        }
+
+        #endregion
+
         #region File Exists Functionality
+
+        public static bool FileExists(string path)
+        {
+            return FileExistsInternal(path).Result;
+        }
 
         public static async Task<bool> FileExistsAsync(string filePath)
         {
             return await FileExistsInternal(filePath);
-        }
-
-        public static bool FileExists(string filePath)
-        {
-            return FileExistsInternal(filePath).Result;
         }
 
         private static async Task<bool> FileExistsInternal(string filePath)

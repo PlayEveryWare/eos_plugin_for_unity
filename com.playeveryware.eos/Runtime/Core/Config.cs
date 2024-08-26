@@ -29,7 +29,6 @@ namespace PlayEveryWare.EpicOnlineServices
     using UnityEngine;
     using System.Collections.Generic;
     using System.Reflection;   
-    using System.IO;
     using System.Text;
     using JsonUtility = PlayEveryWare.EpicOnlineServices.Utility.JsonUtility;
     using System.Runtime.CompilerServices;
@@ -86,7 +85,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// The name of the file containing the config values.
         /// </param>
         protected Config(string filename) : 
-            this(filename, Path.Combine(
+            this(filename, FileUtility.CombinePaths(
                 Application.streamingAssetsPath, "EOS")) { }
 
         /// <summary>
@@ -282,7 +281,7 @@ namespace PlayEveryWare.EpicOnlineServices
         {
             get
             {
-                return Path.Combine(Directory, Filename);
+                return FileUtility.CombinePaths(Directory, Filename);
             }
         }
 
@@ -369,9 +368,6 @@ namespace PlayEveryWare.EpicOnlineServices
             bool prettyPrint = true, 
             bool updateAssetDatabase = true)
         {
-            FileInfo configFile = new(FilePath);
-            configFile.Directory?.Create();
-
             var json = JsonUtility.ToJson(this, prettyPrint);
 
             // If the json hasn't changed since it was last read, then
@@ -379,8 +375,7 @@ namespace PlayEveryWare.EpicOnlineServices
             if (json == _lastReadJsonString)
                 return;
 
-            await using StreamWriter writer = new(FilePath);
-            await writer.WriteAsync(json);
+            await FileUtility.WriteFileAsync(FilePath, json);
         }
 
         /// <summary>
@@ -403,8 +398,7 @@ namespace PlayEveryWare.EpicOnlineServices
             if (json == _lastReadJsonString)
                 return;
 
-            using StreamWriter writer = new(FilePath);
-            writer.Write(json);
+            FileUtility.WriteFile(FilePath, json);
 
             if (updateAssetDatabase)
             {
@@ -412,6 +406,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 AssetDatabase.Refresh();
             }
         }
+
 
 
         /// <summary>
