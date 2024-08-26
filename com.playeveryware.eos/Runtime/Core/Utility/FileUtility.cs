@@ -513,7 +513,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
 
         #endregion
 
-        #region Path Combination Functionality
+        #region Path Functionality
 
         /// <summary>
         /// Wrapper function for calls to Path.Combine. The reason this is
@@ -528,6 +528,18 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         public static string CombinePaths([NotNull] params string[] paths)
         {
             return Path.Combine(paths);
+        }
+
+        /// <summary>
+        /// Wrapper function for calls to Path.GetFullPath. The reason this is
+        /// implemented here is to restrict usage of the System.IO namespace to
+        /// be within this file.
+        /// </summary>
+        /// <param name="path">The path (relative or full).</param>
+        /// <returns>The fully-qualified path.</returns>
+        public static string GetFullPath([NotNull] string path)
+        {
+            return Path.GetFullPath(path);
         }
 
         #endregion
