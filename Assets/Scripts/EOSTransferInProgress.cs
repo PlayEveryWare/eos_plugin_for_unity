@@ -26,6 +26,8 @@ using UnityEngine;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
+    using Editor.Utility;
+
     /// <summary>
     /// Class <c>EOSTransferInProgress</c> is used in <c>EOSTitleStorageManager</c> and <c>EOSPlayerDataStorageManager</c> to keep track of downloaded cached file data.
     /// </summary>
@@ -37,24 +39,40 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public bool Download = true;
         public uint CurrentIndex = 0;
-        public byte[] Data;
-        private uint transferSize = 0;
+        private byte[] _data;
+
+        public byte[] Data
+        {
+            get
+            {
+                return _data;
+            }
+            set
+            {
+                // If the file sizer is larger than the maximum allowable size,
+                // then log an error, but do not throw an exception, since
+                // throwing an exception from a property setter is a little
+                // confusing, and there will be an opportunity to catch the 
+                // mistake when EOS returns an error code.
+                if (null != value && value.Length > FileMaxSizeBytes)
+                {
+                    Debug.LogError($"Maximum file size is 200MB.");
+                }
+
+                _data = value;
+            }
+        }
 
         public uint TotalSize
         {
             get
             {
-                return transferSize;
-            }
-            set
-            {
-                transferSize = value;
+                if (null == _data)
+                    return 0;
 
-                if (transferSize > FileMaxSizeBytes)
-                {
-                    Debug.LogError("[EOS SDK] Player data storage: data transfer size exceeds max file size.");
-                    transferSize = FileMaxSizeBytes;
-                }
+                _ = SafeTranslatorUtility.TryConvert(_data.Length, out uint totalSize);
+
+                return totalSize;
             }
         }
 
