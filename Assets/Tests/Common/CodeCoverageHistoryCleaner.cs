@@ -23,6 +23,7 @@
 
 namespace PlayEveryWare.EpicOnlineServices.Tests
 {
+    using EpicOnlineServices.Editor.Utility;
     using System.Collections.Generic;
     using System.IO;
     using System.Xml.Linq;
@@ -31,6 +32,8 @@ namespace PlayEveryWare.EpicOnlineServices.Tests
     using System.Linq;
     using UnityEditor;
     using UnityEngine;
+    using Utility;
+    using JsonUtility = Utility.JsonUtility;
 
     /// <summary>
     /// This class consolidates any code coverage history data output from the
@@ -57,12 +60,45 @@ namespace PlayEveryWare.EpicOnlineServices.Tests
         private const string CODE_COVERAGE_CONSOLIDATED_FILE = "Consolidated_CoverageHistory.xml";
 
         /// <summary>
+        /// The file in the code coverage report from which to determine the
+        /// current percentage of lines of code covered by the unit tests. 
+        /// </summary>
+        private const string CODE_COVERAGE_REPORT_SUMMARY_FILE = "tools/coverage/results/Report/Summary.xml";
+
+        /// <summary>
+        /// The file in which to store the percentage of lines covered, to
+        /// subsequently be used to generate a code coverage badge for GitHub.
+        /// </summary>
+        private const string CODE_COVERAGE_PERCENTAGE_FILE = "tools/coverage/results/current_coverage.txt";
+
+        [MenuItem("Tools/CodeCoverageCleaner")]
+        public static void ExtractLineCoverage()
+        {
+            XDocument summaryDoc = XDocument.Load(CODE_COVERAGE_REPORT_SUMMARY_FILE);
+
+            var summaryElement = summaryDoc.Descendants("Summary").First();
+
+            ulong coveredLines = ulong.Parse(summaryElement.Descendants("Coveredlines").First()?.Value);
+            ulong coverableLines = ulong.Parse(summaryElement.Descendants("Coverablelines").First()?.Value);
+
+            double percentage = (double)coveredLines / coverableLines * 100;
+
+            // Round to the nearest whole number
+            int roundedPercentage = (int)Math.Round(percentage);
+
+            // Convert to string and output
+            string percentageString = roundedPercentage.ToString() + "%";
+
+            // Write the percentage to file
+            File.WriteAllText(CODE_COVERAGE_PERCENTAGE_FILE, percentageString);
+        }
+
+        /// <summary>
         /// Consolidates any code coverage history data output from the code
         /// coverage utility by reading all code coverage history files, and
         /// keeping only the last code coverage report for each date.
         /// </summary>
-        [MenuItem("Tools/CodeCoverageCleaner")]
-        public static void Run()
+        private static void ConsolidateCoverageHistories()
         {
             try
             {
@@ -124,6 +160,12 @@ namespace PlayEveryWare.EpicOnlineServices.Tests
             {
                 Debug.LogError($"CoverageHistoryCleaner failed: {ex.Message}");
             }
+        }
+
+        
+        public static void Run()
+        {
+            
         }
     }
 }
