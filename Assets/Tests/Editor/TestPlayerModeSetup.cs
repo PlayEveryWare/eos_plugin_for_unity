@@ -29,11 +29,11 @@ using UnityEngine.TestTools;
 namespace PlayEveryWare.EpicOnlineServices.Tests.Editor
 {
     using System;
+    using System.IO;
     using System.Linq;
     using UnityEditor;
     using UnityEditor.TestTools;
     using UnityEngine;
-    using Utility;
     using UnityEngine.TestTools;
 
     /// <summary>
@@ -56,11 +56,11 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Editor
             // non-temp path will be provided.
             if ((playerOptions.options & BuildOptions.AutoRunPlayer) > 0)
             {
-                var testBuildLocation = FileUtility.GetFullPath(FileUtility.CombinePaths(Application.dataPath, $"./../Build/PlayModeTestPlayer/{playerOptions.target}"));
-                var fileName = FileUtility.GetFileName(playerOptions.locationPathName);
+                var testBuildLocation = Path.GetFullPath(Path.Combine(Application.dataPath, $"./../Build/PlayModeTestPlayer/{playerOptions.target}"));
+                var fileName = Path.GetFileName(playerOptions.locationPathName);
                 if (!string.IsNullOrEmpty(fileName))
                 {
-                    testBuildLocation = FileUtility.CombinePaths(testBuildLocation, fileName);
+                    testBuildLocation = Path.Combine(testBuildLocation, fileName);
                 }
 
                 playerOptions.locationPathName = testBuildLocation;
