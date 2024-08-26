@@ -274,7 +274,7 @@ _WIN32 || _WIN64
                 }
                 catch
                 {
-
+                    Debug.LogWarning($"{nameof(EOSSettingsWindow)} ({nameof(OnDefaultGUI)}): {nameof(mainEOSConfigFile.tickBudgetInMilliseconds)} must be convertable to int, but string could not be parsed. The provided string is \"{timeBudgetAsString}\". This value is ignored.");
                 }
             }
             else
@@ -300,7 +300,7 @@ _WIN32 || _WIN64
                 }
                 catch
                 {
-
+                    Debug.LogWarning($"{nameof(EOSSettingsWindow)} ({nameof(OnDefaultGUI)}): {nameof(mainEOSConfigFile.taskNetworkTimeoutSeconds)} must be convertable to int, but string could not be parsed. The provided string is \"{taskNetworkTimeoutSecondsAsString}\". This value is ignored.");
                 }
             }
             else

@@ -153,7 +153,7 @@ struct EOSConfig
     uint64_t flags = 0;
 
     uint32_t tickBudgetInMilliseconds = 0;
-    double taskNetworkTimeoutSeconds = 0;
+    double taskNetworkTimeoutSeconds = 0.0;
 
     uint64_t ThreadAffinity_networkWork = 0;
     uint64_t ThreadAffinity_storageIO = 0;
@@ -366,9 +366,9 @@ static uint32_t json_value_as_uint32(json_value_s* value, uint32_t default_value
 }
 
 //-------------------------------------------------------------------------
-static double json_value_as_double(json_value_s* value, double default_value = 0)
+static double json_value_as_double(json_value_s* value, double default_value = 0.0)
 {
-    double val = 0;
+    double val = 0.0;
     json_number_s* n = json_value_as_number(value);
 
     if (n != nullptr)
