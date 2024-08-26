@@ -1,0 +1,7 @@
+# Ignore all files in this directory
+*
+# Except for this gitignore file
+!.gitignore
+# And except for the coverage badge
+!Report/badge_linecoverage.png
+!Report/
