@@ -23,7 +23,6 @@
 namespace PlayEveryWare.EpicOnlineServices.Utility
 {
     using Extensions;
-    using JetBrains.Annotations;
     using System;
     using System.Collections.Generic;
     using System.IO;
@@ -31,7 +30,13 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
     using System.Threading;
     using System.Threading.Tasks;
     using UnityEngine;
+
+    // This compile conditional exists to ensure that the UnityEngine.Networking
+    // namespace is included when not in editor and when the platform is 
+    // Android - because IO operations on Android require use of it.
+#if UNITY_ANDROID && !UNITY_EDITOR
     using UnityEngine.Networking;
+#endif
 
     // This compile conditional exists to ensure that the Linq namespace is
     // not utilized during runtime operations.
@@ -553,7 +558,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         /// The result of calling System.IO.Path.Combine with the provided path
         /// components.
         /// </returns>
-        public static string CombinePaths([NotNull] params string[] paths)
+        public static string CombinePaths(params string[] paths)
         {
             return Path.Combine(paths);
         }
@@ -565,7 +570,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         /// </summary>
         /// <param name="path">The path (relative or full).</param>
         /// <returns>The fully-qualified path.</returns>
-        public static string GetFullPath([NotNull] string path)
+        public static string GetFullPath(string path)
         {
             return Path.GetFullPath(path);
         }
@@ -577,7 +582,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         /// </summary>
         /// <param name="path">The path of the file to get the name of.</param>
         /// <returns>The filename component of the given path.</returns>
-        public static string GetFileName([NotNull] string path)
+        public static string GetFileName(string path)
         {
             return Path.GetFileName(path);
         }
@@ -655,7 +660,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         /// The DirectoryInfo object that represents the directory to be
         /// created.
         /// </param>
-        private static void CreateDirectory([NotNull] DirectoryInfo dInfo)
+        private static void CreateDirectory(DirectoryInfo dInfo)
         {
             try
             {
@@ -697,14 +702,14 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         {
             bool exists = false;
 #if UNITY_ANDROID && !UNITY_EDITOR
-    using UnityWebRequest request = UnityWebRequest.Get(path);
-    request.SendWebRequest();
-    while (!request.isDone)
-    {
-        await Task.Yield();
-    }
+            using UnityWebRequest request = UnityWebRequest.Get(path);
+            request.SendWebRequest();
+            while (!request.isDone)
+            {
+                await Task.Yield();
+            }
 
-    exists = (UnityWebRequest.Result.Success == request.result);
+            exists = (UnityWebRequest.Result.Success == request.result);
 #else
             if (isDirectory)
             {
