@@ -47,7 +47,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
     /// <summary>
     /// Utility class used for a variety of File tasks.
     /// </summary>
-    public static class FileUtility
+    public static class StorageUtility
     {
         /// <summary>
         /// Interval with which to update progress, in milliseconds

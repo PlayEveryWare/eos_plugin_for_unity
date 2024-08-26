@@ -187,7 +187,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         private static void GetFileSystemOperations(
             string destination,
             IEnumerable<FileInfoMatchingResult> matchingResults,
-            out List<FileUtility.CopyFileOperation> filesToCopy)
+            out List<StorageUtility.CopyFileOperation> filesToCopy)
         {
             filesToCopy = new();
 
@@ -266,7 +266,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         public static async Task CopyFilesToDirectory(
             string destination,
             List<FileInfoMatchingResult> matchingResults,
-            IProgress<FileUtility.CopyFileProgressInfo> progress = null,
+            IProgress<StorageUtility.CopyFileProgressInfo> progress = null,
             CancellationToken cancellationToken = default,
             Action<string> postProcessCallback = null)
         {
@@ -275,7 +275,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
             GetFileSystemOperations(
                 destination, 
                 matchingResults,
-                out List<FileUtility.CopyFileOperation> copyOperations);
+                out List<StorageUtility.CopyFileOperation> copyOperations);
 
             if (0 == copyOperations.Count)
             {
@@ -287,7 +287,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
             }
 
             // Copy the files
-            await FileUtility.CopyFilesAsync(copyOperations, cancellationToken, progress);
+            await StorageUtility.CopyFilesAsync(copyOperations, cancellationToken, progress);
             
             // Execute callback
             postProcessCallback?.Invoke(destination);
