@@ -570,6 +570,18 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
             return Path.GetFullPath(path);
         }
 
+        /// <summary>
+        /// Wrapper function for calls to Path.GetFileName. The reason this is
+        /// implemented here is to restrict usage of the System.IO namespace to
+        /// be within this file.
+        /// </summary>
+        /// <param name="path">The path of the file to get the name of.</param>
+        /// <returns>The filename component of the given path.</returns>
+        public static string GetFileName([NotNull] string path)
+        {
+            return Path.GetFileName(path);
+        }
+
         #endregion
 
         #region Write Functionality
