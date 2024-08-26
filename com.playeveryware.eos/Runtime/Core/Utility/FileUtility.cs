@@ -462,7 +462,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
 
         public static async Task<(bool Success, string Result)> TryReadAllTextAsync(string filePath)
         {
-            bool fileExists = await FileExistsInternal(filePath);
+            bool fileExists = await ExistsInternal(filePath, false);
 
             if (!fileExists)
             {
@@ -512,6 +512,34 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         }
 
         #endregion
+
+        #region Get File System Entries Functionality
+
+        /// <summary>
+        /// Wrapper function for calls to Directory.EnumerateFileSystemEntries.
+        /// The reason this is implemented here is to restrict usage of the
+        /// System.IO namespace to be within this file.
+        /// </summary>
+        /// <param name="path">
+        /// The path to enumerate file system entries from.
+        /// </param>
+        /// <param name="pattern">The pattern to match entries to.</param>
+        /// <param name="recursive">
+        /// Whether to search recursively, or in the top directory only.
+        /// </param>
+        /// <returns>
+        /// An enumerable collection of strings representing the file system
+        /// entries being retrieved.
+        /// </returns>
+        public static IEnumerable<string> GetFileSystemEntries(string path, string pattern, bool recursive = true)
+        {
+            SearchOption option = recursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
+
+            return Directory.EnumerateFileSystemEntries(path, pattern, option);
+        }
+
+        #endregion
+
 
         #region Path Functionality
 
@@ -631,38 +659,54 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
 
         #endregion
 
-        #region File Exists Functionality
+        #region Directory and File Exists functionality
+
+        public static bool DirectoryExists(string path)
+        {
+            return ExistsInternal(path, isDirectory: true).Result;
+        }
+
+        public static async Task<bool> DirectoryExistsAsync(string path)
+        {
+            return await ExistsInternal(path, isDirectory: true);
+        }
 
         public static bool FileExists(string path)
         {
-            return FileExistsInternal(path).Result;
+            return ExistsInternal(path, isDirectory: false).Result;
         }
 
-        public static async Task<bool> FileExistsAsync(string filePath)
+        public static async Task<bool> FileExistsAsync(string path)
         {
-            return await FileExistsInternal(filePath);
+            return await ExistsInternal(path, isDirectory: false);
         }
 
-        private static async Task<bool> FileExistsInternal(string filePath)
+        private static async Task<bool> ExistsInternal(string path, bool isDirectory)
         {
-            bool fileExists = false;
+            bool exists = false;
 #if UNITY_ANDROID && !UNITY_EDITOR
-            using UnityWebRequest request = UnityWebRequest.Get(filePath);
-            request.SendWebRequest();
-            while (!request.isDone)
-            {
-                await Task.Yield();
-            }
+    using UnityWebRequest request = UnityWebRequest.Get(path);
+    request.SendWebRequest();
+    while (!request.isDone)
+    {
+        await Task.Yield();
+    }
 
-            fileExists = (UnityWebRequest.Result.Success == request.result);
+    exists = (UnityWebRequest.Result.Success == request.result);
 #else
-            // For other platforms, use File.Exists.
-            fileExists = File.Exists(filePath);
+            if (isDirectory)
+            {
+                exists = Directory.Exists(path);
+            }
+            else
+            {
+                exists = File.Exists(path);
+            }
 #endif
-            return await Task.FromResult(fileExists);
+            return await Task.FromResult(exists);
         }
 
-#endregion
+        #endregion
 
         public static void NormalizePath(ref string path)
         {

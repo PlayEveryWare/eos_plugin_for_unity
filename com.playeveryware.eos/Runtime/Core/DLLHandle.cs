@@ -27,11 +27,11 @@
 namespace PlayEveryWare.EpicOnlineServices
 {
     using System;
-    using System.IO;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Runtime.InteropServices;
     using UnityEngine;
+    using Utility;
 
     public class DLLHandle : SafeHandle
     {
@@ -47,18 +47,14 @@ namespace PlayEveryWare.EpicOnlineServices
         //-------------------------------------------------------------------------
         public static List<string> GetPathsToPlugins()
         {
-            string uwpPluginsPath = Path.Combine(Application.streamingAssetsPath, "..", "..");
-            string pluginsPath = Path.Combine(Application.dataPath, "Plugins");
+            string pluginsPath = FileUtility.CombinePaths(Application.dataPath, "Plugins");
             string packagedPluginPath =
-                Path.GetFullPath(Path.Combine("Packages", EOSPackageInfo.PackageName, "Runtime"));
+                FileUtility.GetFullPath(FileUtility.CombinePaths("Packages", EOSPackageInfo.PackageName, "Runtime"));
             var pluginPaths = new List<string>();
 
             pluginPaths.Add(pluginsPath);
             pluginPaths.Add(packagedPluginPath);
 
-#if UNITY_WSA
-        pluginPaths.Add(uwpPluginsPath);
-#endif
             if (EOSManagerPlatformSpecificsSingleton.Instance != null)
             {
                 EOSManagerPlatformSpecificsSingleton.Instance.AddPluginSearchPaths(ref pluginPaths);
@@ -76,7 +72,7 @@ namespace PlayEveryWare.EpicOnlineServices
             {
                 string value = pluginPaths[i];
                 print("Evaluating " + value);
-                if (!Directory.Exists(value))
+                if (!FileUtility.DirectoryExists(value))
                 {
                     pluginPaths.RemoveAt(i);
                 }
@@ -88,126 +84,66 @@ namespace PlayEveryWare.EpicOnlineServices
         //-------------------------------------------------------------------------
         public static string GetVersionForLibrary(string libraryName)
         {
-            List<string> pluginPaths = GetPathsToPlugins();
-            string ext = ".dll";
+            FileVersionInfo info = GetLibraryVersionInfo(libraryName);
 
-            //TODO: change it to take the platform into consideration
-            //TODO: probably make this more generic?
-
-            foreach (string pluginPath in pluginPaths)
-            {
-                foreach (var filesystemEntry in Directory.EnumerateFileSystemEntries(pluginPath, libraryName + ext,
-                             SearchOption.AllDirectories))
-                {
-                    FileVersionInfo info = FileVersionInfo.GetVersionInfo(filesystemEntry);
-                    print("Found : " + filesystemEntry);
-                    if (info != null)
-                    {
-                        return string.Format("{0}.{1}.{2}", info.FileMajorPart, info.FileMinorPart, info.FileBuildPart);
-                    }
-                }
-            }
-
-            return null;
+            return null == info ? null : $"{info.FileMajorPart}.{info.FileMinorPart}.{info.FileBuildPart}";
         }
 
         //-------------------------------------------------------------------------
         public static string GetProductVersionForLibrary(string libraryName)
         {
-            List<string> pluginPaths = GetPathsToPlugins();
-            string ext = ".dll";
+            FileVersionInfo info = GetLibraryVersionInfo(libraryName);
 
-            //TODO: change it to take the platform into consideration
-            //TODO: probably make this more generic?
+            return info?.ProductVersion;
+        }
 
-            foreach (string pluginPath in pluginPaths)
-            {
-                foreach (var filesystemEntry in Directory.EnumerateFileSystemEntries(pluginPath, libraryName + ext,
-                             SearchOption.AllDirectories))
-                {
-                    FileVersionInfo info = FileVersionInfo.GetVersionInfo(filesystemEntry);
-                    print("Found : " + filesystemEntry);
-                    if (info != null)
-                    {
-                        return string.Format(info.ProductVersion);
-                    }
-                }
-            }
+        private static FileVersionInfo GetLibraryVersionInfo(string libraryName)
+        {
+            string libraryPath = GetPathForLibrary(libraryName);
 
-            return null;
+            return null == libraryPath ? null : FileVersionInfo.GetVersionInfo(libraryPath);
         }
 
         //-------------------------------------------------------------------------
         public static string GetPathForLibrary(string libraryName)
         {
             List<string> pluginPaths = GetPathsToPlugins();
-            string ext = ".dll";
+
+            string extension = EOSManagerPlatformSpecificsSingleton.Instance != null
+                ? EOSManagerPlatformSpecificsSingleton.Instance.GetDynamicLibraryExtension()
+                : ".dll";
 
             foreach (string pluginPath in pluginPaths)
             {
-                foreach (var filesystemEntry in Directory.EnumerateFileSystemEntries(pluginPath, libraryName + ext,
-                             SearchOption.AllDirectories))
+                foreach (string entry in FileUtility.GetFileSystemEntries(pluginPath, libraryName + extension))
                 {
-                    return filesystemEntry;
+                    return entry;
                 }
             }
 
             return null;
         }
-
-        //-------------------------------------------------------------------------
-#if UNITY_WSA
-    private static DLLHandle LoadDynamicLibraryForUWP(string libraryName)
-    {
-        print("UWP library load");
-        IntPtr libraryHandle = SystemDynamicLibrary.Instance.LoadLibraryAtPath(libraryName);
-        if (libraryHandle != IntPtr.Zero)
-        {
-            print("found library");
-            return new DLLHandle(libraryHandle);
-        }
-        return null;
-    }
-#endif
 
         //-------------------------------------------------------------------------
         public static DLLHandle LoadDynamicLibrary(string libraryName)
         {
             print("Loading Library " + libraryName);
-            List<string> pluginPaths = GetPathsToPlugins();
-            string ext = EOSManagerPlatformSpecificsSingleton.Instance != null
-                ? EOSManagerPlatformSpecificsSingleton.Instance.GetDynamicLibraryExtension()
-                : ".dll";
 
-            //TODO: change it to take the platform into consideration
-            //TODO: probably make this more generic?
-            foreach (string pluginPath in pluginPaths)
+            string libraryPath = GetPathForLibrary(libraryName);
+
+            if (null == libraryPath)
             {
-                foreach (var filesystemEntry in Directory.EnumerateFileSystemEntries(pluginPath, libraryName + ext,
-                             SearchOption.AllDirectories))
-                {
-                    IntPtr libraryHandle = SystemDynamicLibrary.Instance.LoadLibraryAtPath(filesystemEntry);
-                    print("Trying to load with entry " + filesystemEntry);
-
-                    if (libraryHandle != IntPtr.Zero)
-                    {
-                        print("found library in " + pluginPath);
-                        return new DLLHandle(libraryHandle);
-                    }
-                    else
-                    {
-                        throw new System.ComponentModel.Win32Exception("Searched in : " +
-                                                                       string.Join(" ", pluginPaths));
-                    }
-                }
+                return null;
             }
 
-            print("Library not found");
-            return null;
+            IntPtr libraryHandle = SystemDynamicLibrary.Instance.LoadLibraryAtPath(libraryPath);
+            print("Trying to load with entry " + libraryPath);
+
+            return libraryHandle != IntPtr.Zero ? new DLLHandle(libraryHandle) : null;
         }
 
         //-------------------------------------------------------------------------
-        public DLLHandle(IntPtr intPtr, bool value = true) : base(intPtr, true)
+        public DLLHandle(IntPtr intPtr) : base(intPtr, true)
         {
             print("Creating a dll handle");
             SetHandle(intPtr);
@@ -223,8 +159,8 @@ namespace PlayEveryWare.EpicOnlineServices
 
             bool didUnload = true;
 #if !UNITY_EDITOR
-        didUnload = SystemDynamicLibrary.Instance.UnloadLibrary(handle);
-        print("Unloading a Dll with result : " + didUnload);
+            didUnload = SystemDynamicLibrary.Instance.UnloadLibrary(handle);
+            print("Unloading a Dll with result : " + didUnload);
 #endif
             SetHandle(IntPtr.Zero);
             return didUnload;
