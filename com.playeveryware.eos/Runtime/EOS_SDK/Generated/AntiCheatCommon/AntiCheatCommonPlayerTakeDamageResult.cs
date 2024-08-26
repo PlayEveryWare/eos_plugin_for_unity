@@ -13,12 +13,24 @@ namespace Epic.OnlineServices.AntiCheatCommon
 		/// </summary>
 		None = 0,
 		/// <summary>
-		/// Player character is temporarily incapacitated and requires assistance to recover
+		/// Deprecated - use more specific values below instead
 		/// </summary>
-		Downed = 1,
+		DownedDEPRECATED = 1,
 		/// <summary>
-		/// Player character is permanently incapacitated and cannot recover (e.g. dead)
+		/// Deprecated - use more specific values below instead
 		/// </summary>
-		Eliminated = 2
+		EliminatedDEPRECATED = 2,
+		/// <summary>
+		/// Player character transitioned from a normal state to temporarily incapacitated and requires assistance to recover.
+		/// </summary>
+		NormalToDowned = 3,
+		/// <summary>
+		/// Player character transitioned from a normal state to permanently incapacitated and cannot recover (e.g. dead).
+		/// </summary>
+		NormalToEliminated = 4,
+		/// <summary>
+		/// Player character transitioned from a temporarily incapacitated state to permanently incapacitated and cannot recover (e.g. dead).
+		/// </summary>
+		DownedToEliminated = 5
 	}
 }

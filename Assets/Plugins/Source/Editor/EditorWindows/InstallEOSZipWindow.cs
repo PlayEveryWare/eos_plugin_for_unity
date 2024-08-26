@@ -239,7 +239,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
                     {
                         if (platformImportInfo.isGettingImported)
                         {
-                            string path = pathToImportDescDirectory + platformImportInfo.descPath;
+                            string path = Path.Combine(pathToImportDescDirectory, platformImportInfo.descPath);
                             var packageDescription =
                                 JsonUtility.FromJsonFile<PackageDescription>(path);
 
@@ -249,7 +249,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
                             // This should be the correct directory
                             var projectDir = FileUtility.GetProjectPath();
                             // TODO: Async not tested here.
-                            PackageFileUtility.CopyFilesToDirectory(projectDir, fileResults).Wait();
+                            _ = PackageFileUtility.CopyFilesToDirectory(projectDir, fileResults);
                         }
                     }
 

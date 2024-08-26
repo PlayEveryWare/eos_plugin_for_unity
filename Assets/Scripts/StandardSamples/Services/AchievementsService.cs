@@ -112,11 +112,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             await RefreshAsync();
         }
 
-        protected override void OnLoggedOut()
+        protected override void Reset()
         {
             _downloadCache.Clear();
             _achievements.Clear();
             _playerAchievements.Clear();
+
+            base.Reset();
         }
 
         /// <summary>
@@ -128,6 +130,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// </summary>
         protected async override Task InternalRefreshAsync()
         {
+            if (!TryGetProductUserId(out ProductUserId productUser)) 
+            {
+                return;
+            }
             ProductUserId productUserId = EOSManager.Instance.GetProductUserId();
             _achievements = await QueryAchievementsAsync(productUserId);
 
