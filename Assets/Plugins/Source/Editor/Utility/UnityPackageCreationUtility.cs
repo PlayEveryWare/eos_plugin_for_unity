@@ -42,7 +42,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
     // Helper to allow for StartCoroutine to be used from a static context
     public class CoroutineExecutor : MonoBehaviour { }
 
-    public static class UnityPackageCreationUtility
+    internal static class UnityPackageCreationUtility
     {
         /// <summary>
         /// Defines the different kinds of packages that can be created.

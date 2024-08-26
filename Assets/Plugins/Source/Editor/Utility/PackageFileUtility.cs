@@ -34,7 +34,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
     using System.Threading;
     using System.Threading.Tasks;
 
-    public class PackageFileUtility
+    internal class PackageFileUtility
     {
         /// <summary>
         /// Generates a list of FileInfoMatchingResults that represent the contents of the package to create.

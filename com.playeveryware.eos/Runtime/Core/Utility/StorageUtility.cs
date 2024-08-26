@@ -20,12 +20,16 @@
  * SOFTWARE.
  */
 
+using System.Runtime.CompilerServices;
+
+[assembly: InternalsVisibleTo("com.playeveryware.eos-Editor")]
 namespace PlayEveryWare.EpicOnlineServices.Utility
 {
     using Extensions;
     using System;
     using System.Collections.Generic;
     using System.IO;
+    using System.Runtime.CompilerServices;
     using System.Text;
     using System.Threading;
     using System.Threading.Tasks;
@@ -47,7 +51,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
     /// <summary>
     /// Utility class used for a variety of File tasks.
     /// </summary>
-    public static class StorageUtility
+    internal static class StorageUtility
     {
         /// <summary>
         /// Interval with which to update progress, in milliseconds
