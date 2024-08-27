@@ -110,7 +110,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         /// <returns>The deserialized object.</returns>
         public static T FromJsonFile<T>(string filepath)
         {
-            string json = StorageUtility.ReadAllText(filepath);
+            string json = FileSystemUtility.ReadAllText(filepath);
             return FromJson<T>(json);
         }
 

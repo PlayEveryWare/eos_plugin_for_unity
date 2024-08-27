@@ -85,7 +85,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// The name of the file containing the config values.
         /// </param>
         protected Config(string filename) : 
-            this(filename, StorageUtility.CombinePaths(
+            this(filename, FileSystemUtility.CombinePaths(
                 Application.streamingAssetsPath, "EOS")) { }
 
         /// <summary>
@@ -281,7 +281,7 @@ namespace PlayEveryWare.EpicOnlineServices
         {
             get
             {
-                return StorageUtility.CombinePaths(Directory, Filename);
+                return FileSystemUtility.CombinePaths(Directory, Filename);
             }
         }
 
@@ -293,7 +293,7 @@ namespace PlayEveryWare.EpicOnlineServices
         protected virtual async Task ReadAsync()
         {
             await EnsureConfigFileExistsAsync(true);
-            _lastReadJsonString = await StorageUtility.ReadAllTextAsync(FilePath);
+            _lastReadJsonString = await FileSystemUtility.ReadAllTextAsync(FilePath);
             JsonUtility.FromJsonOverwrite(_lastReadJsonString, this);
         }
 
@@ -304,7 +304,7 @@ namespace PlayEveryWare.EpicOnlineServices
         protected virtual void Read()
         {
             EnsureConfigFileExists(false);
-            _lastReadJsonString = StorageUtility.ReadAllText(FilePath);
+            _lastReadJsonString = FileSystemUtility.ReadAllText(FilePath);
             JsonUtility.FromJsonOverwrite(_lastReadJsonString, this);
         }
 
@@ -319,7 +319,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <returns>Task.</returns>
         private async Task EnsureConfigFileExistsAsync(bool isAsync)
         {
-            bool fileExists = isAsync ? await StorageUtility.FileExistsAsync(FilePath) : StorageUtility.FileExists(FilePath);
+            bool fileExists = isAsync ? await FileSystemUtility.FileExistsAsync(FilePath) : FileSystemUtility.FileExists(FilePath);
 
 #if UNITY_EDITOR
             if (!fileExists)
@@ -375,7 +375,7 @@ namespace PlayEveryWare.EpicOnlineServices
             if (json == _lastReadJsonString)
                 return;
 
-            await StorageUtility.WriteFileAsync(FilePath, json);
+            await FileSystemUtility.WriteFileAsync(FilePath, json);
         }
 
         /// <summary>
@@ -398,7 +398,7 @@ namespace PlayEveryWare.EpicOnlineServices
             if (json == _lastReadJsonString)
                 return;
 
-            StorageUtility.WriteFile(FilePath, json);
+            FileSystemUtility.WriteFile(FilePath, json);
 
             if (updateAssetDatabase)
             {

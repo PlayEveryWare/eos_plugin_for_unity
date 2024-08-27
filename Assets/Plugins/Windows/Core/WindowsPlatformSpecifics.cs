@@ -122,15 +122,15 @@ namespace PlayEveryWare.EpicOnlineServices
                 var rtcPlatformSpecificOptions = new WindowsRTCOptionsPlatformSpecificOptions();
                 foreach (string pluginPath in pluginPaths)
                 {
-                    string path = StorageUtility.CombinePaths(pluginPath, "Windows", pluginPlatformPath, Xaudio2DllName);
-                    if (StorageUtility.FileExists(path))
+                    string path = FileSystemUtility.CombinePaths(pluginPath, "Windows", pluginPlatformPath, Xaudio2DllName);
+                    if (FileSystemUtility.FileExists(path))
                     {
                         rtcPlatformSpecificOptions.XAudio29DllPath = path;
                         break;
                     }
 
-                    path = StorageUtility.CombinePaths(pluginPath, pluginPlatformPath, Xaudio2DllName);
-                    if (StorageUtility.FileExists(path))
+                    path = FileSystemUtility.CombinePaths(pluginPath, pluginPlatformPath, Xaudio2DllName);
+                    if (FileSystemUtility.FileExists(path))
                     {
                         rtcPlatformSpecificOptions.XAudio29DllPath = path;
                         break;

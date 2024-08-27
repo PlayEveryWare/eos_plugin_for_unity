@@ -47,9 +47,9 @@ namespace PlayEveryWare.EpicOnlineServices
         //-------------------------------------------------------------------------
         public static List<string> GetPathsToPlugins()
         {
-            string pluginsPath = StorageUtility.CombinePaths(Application.dataPath, "Plugins");
+            string pluginsPath = FileSystemUtility.CombinePaths(Application.dataPath, "Plugins");
             string packagedPluginPath =
-                StorageUtility.GetFullPath(StorageUtility.CombinePaths("Packages", EOSPackageInfo.PackageName, "Runtime"));
+                FileSystemUtility.GetFullPath(FileSystemUtility.CombinePaths("Packages", EOSPackageInfo.PackageName, "Runtime"));
             var pluginPaths = new List<string>();
 
             pluginPaths.Add(pluginsPath);
@@ -72,7 +72,7 @@ namespace PlayEveryWare.EpicOnlineServices
             {
                 string value = pluginPaths[i];
                 print("Evaluating " + value);
-                if (!StorageUtility.DirectoryExists(value))
+                if (!FileSystemUtility.DirectoryExists(value))
                 {
                     pluginPaths.RemoveAt(i);
                 }
@@ -115,7 +115,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
             foreach (string pluginPath in pluginPaths)
             {
-                foreach (string entry in StorageUtility.GetFileSystemEntries(pluginPath, libraryName + extension))
+                foreach (string entry in FileSystemUtility.GetFileSystemEntries(pluginPath, libraryName + extension))
                 {
                     return entry;
                 }
