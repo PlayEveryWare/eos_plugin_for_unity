@@ -20,6 +20,9 @@
  * SOFTWARE.
  */
 
+using System.Runtime.CompilerServices;
+
+[assembly: InternalsVisibleTo("com.playeveryware.eos.tests.playmode")]
 namespace PlayEveryWare.EpicOnlineServices.Extensions
 {
     using System;

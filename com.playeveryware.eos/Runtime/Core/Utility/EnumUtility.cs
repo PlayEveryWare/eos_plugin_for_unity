@@ -20,7 +20,7 @@
  * SOFTWARE.
  */
 
-namespace PlayEveryWare.EpicOnlineServices.Extensions
+namespace PlayEveryWare.EpicOnlineServices.Utility
 {
     using System;
     using System.Collections.Generic;
