@@ -136,10 +136,15 @@ namespace PlayEveryWare.EpicOnlineServices
                 return null;
             }
 
-            IntPtr libraryHandle = SystemDynamicLibrary.Instance.LoadLibraryAtPath(libraryPath);
             print("Trying to load with entry " + libraryPath);
+            IntPtr libraryHandle = SystemDynamicLibrary.Instance.LoadLibraryAtPath(libraryPath);
 
-            return libraryHandle != IntPtr.Zero ? new DLLHandle(libraryHandle) : null;
+            if (IntPtr.Zero == libraryHandle)
+            {
+                throw new System.ComponentModel.Win32Exception($"Could not load dynamic library from \"{libraryPath}\".");
+            }
+            
+            return new DLLHandle(libraryHandle);
         }
 
         //-------------------------------------------------------------------------
