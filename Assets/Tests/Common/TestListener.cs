@@ -21,15 +21,12 @@
  */
 
 using NUnit.Framework.Interfaces;
-using NUnit.Framework.Internal;
 using PlayEveryWare.EpicOnlineServices.Tests;
 using UnityEngine.TestRunner;
 
 [assembly: TestRunCallback(typeof(TestListener))]
 public class TestListener : ITestRunCallback
 {
-    private const string HISTORIC_COVERAGE_PATH = "tools/coverage/historic/";
-
     public void RunStarted(ITest testsToRun)
     {
         // Called when the test run starts.

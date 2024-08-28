@@ -71,7 +71,6 @@ namespace PlayEveryWare.EpicOnlineServices.Tests
         /// </summary>
         private const string CODE_COVERAGE_PERCENTAGE_FILE = "tools/coverage/results/current_coverage.txt";
 
-        [MenuItem("Tools/CodeCoverageCleaner")]
         public static void ExtractLineCoverage()
         {
             XDocument summaryDoc = XDocument.Load(CODE_COVERAGE_REPORT_SUMMARY_FILE);
@@ -162,10 +161,10 @@ namespace PlayEveryWare.EpicOnlineServices.Tests
             }
         }
 
-        
         public static void Run()
         {
-            
+            ExtractLineCoverage();
+            ConsolidateCoverageHistories();
         }
     }
 }
