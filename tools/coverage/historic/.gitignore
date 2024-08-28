@@ -2,5 +2,4 @@
 *
 # Except for _this_ .gitignore file, the consolidated coverage history file, and the gitattributes file
 !.gitignore
-!.gitattributes
 !Consolidated_CoverageHistory.xml
