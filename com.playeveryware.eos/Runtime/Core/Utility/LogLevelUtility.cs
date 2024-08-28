@@ -55,7 +55,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 }
                 catch (Exception exception)
                 {
-                    Debug.LogWarning($"{exception}");
+                    Debug.LogException(exception);
                     Debug.Log($"Exception when reading log level config, using default");
                     return null;
                 }

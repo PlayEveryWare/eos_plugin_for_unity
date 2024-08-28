@@ -756,8 +756,8 @@ namespace PlayEveryWare.EpicOnlineServices
                 {
                     SetLogLevel(LogCategory.AllCategories, LogLevel.Info);
                     return;
-
                 }
+
                 for (int logCategoryIndex = 0; logCategoryIndex < logLevelList.Count; logCategoryIndex++)
                 {
                     SetLogLevel((LogCategory)logCategoryIndex, logLevelList[logCategoryIndex]);
