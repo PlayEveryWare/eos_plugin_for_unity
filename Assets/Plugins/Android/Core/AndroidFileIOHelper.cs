@@ -63,7 +63,10 @@ namespace PlayEveryWare.EpicOnlineServices
                     text = request.downloadHandler.text;
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException();
+                    ArgumentException unknownResultException =
+                        new($"Unrecognized result returned from {nameof(UnityWebRequest)}: {request.result}.");
+                    Debug.LogException(unknownResultException);
+                    throw unknownResultException;
             }
 
             return text;
