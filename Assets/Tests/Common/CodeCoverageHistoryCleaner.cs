@@ -163,7 +163,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests
             }
             catch (Exception ex)
             {
-                Debug.LogError($"CoverageHistoryCleaner failed: {ex.Message}");
+                Debug.LogException(ex);
             }
         }
 
