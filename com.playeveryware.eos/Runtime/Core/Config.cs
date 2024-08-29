@@ -28,6 +28,7 @@ namespace PlayEveryWare.EpicOnlineServices
     using UnityEditor;
     using UnityEngine;
     using System.Collections.Generic;
+    using System.IO;
     using System.Reflection;   
     using System.Text;
     using JsonUtility = PlayEveryWare.EpicOnlineServices.Utility.JsonUtility;
@@ -197,6 +198,8 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <returns>Task<typeparam name="T">Config type.</typeparam></returns>
         public static T Get<T>() where T : Config
         {
+            T config = GetAsync<T>().GetAwaiter().GetResult();
+            return config;
             // NOTE: This block (and the corresponding one below) exists so that
             //       the config values are only cached when not in the editor.
             //       In the editor, config files can be changed, so they should

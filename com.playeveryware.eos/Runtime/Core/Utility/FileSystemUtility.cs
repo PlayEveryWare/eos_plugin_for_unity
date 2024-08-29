@@ -477,7 +477,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
                 return (false, null);
             }
 
-            string contents = await ReadAllTextInternal(filePath);
+            string contents = await ReadAllTextAsync(filePath);
 
             return null == contents ? (false, null) : (true, contents);
         }
@@ -489,7 +489,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         /// <returns>The contents of the file at the indicated path as a string.</returns>
         public static string ReadAllText(string path)
         {
-            return ReadAllTextInternal(path).Result;
+            return ReadAllTextAsync(path).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -499,23 +499,21 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         /// <returns>Task</returns>
         public static async Task<string> ReadAllTextAsync(string path)
         {
-            return await ReadAllTextInternal(path);
-        }
-
-        /// <summary>
-        /// Internal function to read all text.
-        /// </summary>
-        /// <param name="path">The path of the file to read.</param>
-        /// <returns>A Task that has a string as a result.</returns>
-        private static async Task<string> ReadAllTextInternal(string path)
-        {
 #if UNITY_ANDROID && !UNITY_EDITOR
             // On Android, use a custom helper to read the file synchronously
             return await Task.FromResult(AndroidFileIOHelper.ReadAllText(path));
 #else
             // On other platforms, read asynchronously or synchronously as
             // appropriate.
-            return await File.ReadAllTextAsync(path);
+            try
+            {
+                return await File.ReadAllTextAsync(path);
+            }
+            catch (Exception e)
+            {
+                Debug.LogException(e);
+                throw;
+            }
 #endif
         }
 
