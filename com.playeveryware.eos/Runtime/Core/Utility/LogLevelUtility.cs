@@ -43,7 +43,22 @@ namespace PlayEveryWare.EpicOnlineServices
         {
             get
             {
-                LogLevelConfig logLevelConfig = Config.Get<LogLevelConfig>();
+                LogLevelConfig logLevelConfig = null;
+                try
+                {
+                    logLevelConfig = Config.Get<LogLevelConfig>();
+                }
+                catch (System.IO.FileNotFoundException)
+                {
+                    Debug.Log($"Log level config does not exist, using default");
+                    return null; 
+                }
+                catch (Exception exception)
+                {
+                    Debug.LogException(exception);
+                    Debug.Log($"Exception when reading log level config, using default");
+                    return null;
+                }
 
                 List<LogLevel> logLevels = new List<LogLevel>();
                 for (int i = 0; i < LogCategoryStringArray.Length - 1; i++)
