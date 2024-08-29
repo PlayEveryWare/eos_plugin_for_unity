@@ -22,21 +22,20 @@
 
 namespace PlayEveryWare.EpicOnlineServices
 {
-
     using System.Runtime.InteropServices;
     using System.Reflection;
     using System;
 
-/*
- * Example of using this
-#if USE_RELOABLE_DELEGATES
-        private delegate IntPtr EOS_Platform_Create_Del(ref OptionsInternal options);
-        private static EOS_Platform_Create_Del EOS_Platform_Create;
-#else
-        [DllImport(Config.BinaryName)]
-        private static extern IntPtr EOS_Platform_Create(ref OptionsInternal options);
-#endif
-*/
+    /*
+     * Example of using this
+    #if USE_RELOABLE_DELEGATES
+            private delegate IntPtr EOS_Platform_Create_Del(ref OptionsInternal options);
+            private static EOS_Platform_Create_Del EOS_Platform_Create;
+    #else
+            [DllImport(Config.BinaryName)]
+            private static extern IntPtr EOS_Platform_Create(ref OptionsInternal options);
+    #endif
+    */
     public partial class SystemDynamicLibrary
     {
 
@@ -65,31 +64,31 @@ namespace PlayEveryWare.EpicOnlineServices
         [DllImport(Kernel32BinaryName, SetLastError = true, CharSet = CharSet.Ansi, ExactSpelling = true)]
         private static extern IntPtr GetProcAddress(IntPtr hModule, string procedureName);
 #elif UNITY_EDITOR_OSX
-    private const string DynamicLinkLibrary = "libDynamicLibraryLoaderHelper";
-    [DllImport(DynamicLinkLibrary)]
-    public static extern bool FreeLibrary(IntPtr hModule);
+        private const string DynamicLinkLibrary = "libDynamicLibraryLoaderHelper";
+        [DllImport(DynamicLinkLibrary)]
+        public static extern bool FreeLibrary(IntPtr hModule);
 
-    [DllImport(DynamicLinkLibrary)]
-    public static extern IntPtr GetModuleHandle(string moduleName);
+        [DllImport(DynamicLinkLibrary)]
+        public static extern IntPtr GetModuleHandle(string moduleName);
 
-    [DllImport(DynamicLinkLibrary)]
-    private static extern IntPtr LoadLibrary(string lpFileName);
+        [DllImport(DynamicLinkLibrary)]
+        private static extern IntPtr LoadLibrary(string lpFileName);
 
-    [DllImport(DynamicLinkLibrary)]
-    private static extern IntPtr GetProcAddress(IntPtr hModule, string procedureName);
+        [DllImport(DynamicLinkLibrary)]
+        private static extern IntPtr GetProcAddress(IntPtr hModule, string procedureName);
 #elif UNITY_EDITOR_LINUX
-    private const string DynamicLinkLibrary = "libDynamicLibraryLoaderHelper";
-    [DllImport(DynamicLinkLibrary)]
-    public static extern bool FreeLibrary(IntPtr hModule);
+        private const string DynamicLinkLibrary = "libDynamicLibraryLoaderHelper";
+        [DllImport(DynamicLinkLibrary)]
+        public static extern bool FreeLibrary(IntPtr hModule);
 
-    [DllImport(DynamicLinkLibrary)]
-    public static extern IntPtr GetModuleHandle(string moduleName);
+        [DllImport(DynamicLinkLibrary)]
+        public static extern IntPtr GetModuleHandle(string moduleName);
 
-    [DllImport(DynamicLinkLibrary)]
-    private static extern IntPtr LoadLibrary(string lpFileName);
+        [DllImport(DynamicLinkLibrary)]
+        private static extern IntPtr LoadLibrary(string lpFileName);
 
-    [DllImport(DynamicLinkLibrary)]
-    private static extern IntPtr GetProcAddress(IntPtr hModule, string procedureName);
+        [DllImport(DynamicLinkLibrary)]
+        private static extern IntPtr GetProcAddress(IntPtr hModule, string procedureName);
 #endif
 
         private static SystemDynamicLibrary s_instance;
@@ -100,11 +99,11 @@ namespace PlayEveryWare.EpicOnlineServices
 #if UNITY_WSA || UNITY_STANDALONE_WIN || UNITY_GAMECORE
             "DynamicLibraryLoaderHelper";
 #elif UNITY_ANDROID
-        "DynamicLibraryLoaderHelper_Android";
+            "DynamicLibraryLoaderHelper_Android";
 #elif UNITY_STANDALONE_OSX
-        "libDynamicLibraryLoaderHelper";
+            "libDynamicLibraryLoaderHelper";
 #else
-        "__Internal";
+            "__Internal";
 #endif
 
 
@@ -131,7 +130,7 @@ namespace PlayEveryWare.EpicOnlineServices
         private SystemDynamicLibrary()
         {
 #if !UNITY_EDITOR && !EOS_DISABLE
-        DLLHContex = DLLH_create_context();
+            DLLHContex = DLLH_create_context();
 #endif
         }
 
@@ -156,7 +155,7 @@ namespace PlayEveryWare.EpicOnlineServices
 #if (UNITY_EDITOR_WIN || (UNITY_EDITOR_OSX || UNITY_EDITOR_LINUX)) && !EOS_DISABLE
             return GetModuleHandle(moduleName);
 #else
-        return IntPtr.Zero;
+            return IntPtr.Zero;
 #endif
         }
 
@@ -167,7 +166,7 @@ namespace PlayEveryWare.EpicOnlineServices
 #if (UNITY_EDITOR_WIN || (UNITY_EDITOR_OSX || UNITY_EDITOR_LINUX)) && !EOS_DISABLE
             return FreeLibrary(libraryHandle);
 #else
-        return true;
+            return true;
 #endif
         }
 #endif
@@ -177,11 +176,11 @@ namespace PlayEveryWare.EpicOnlineServices
         public IntPtr LoadLibraryAtPath(string libraryPath)
         {
 #if EOS_DISABLE
-        return IntPtr.Zero;
+            return IntPtr.Zero;
 #elif UNITY_EDITOR_WIN || (UNITY_EDITOR_OSX || UNITY_EDITOR_LINUX)
             return LoadLibrary(libraryPath);
 #else
-        return DLLH_load_library_at_path(DLLHContex, libraryPath);
+            return DLLH_load_library_at_path(DLLHContex, libraryPath);
 #endif
         }
 
@@ -190,14 +189,14 @@ namespace PlayEveryWare.EpicOnlineServices
         {
 #if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN || UNITY_ANDROID || UNITY_IOS || ((UNITY_STANDALONE_OSX || UNITY_STANDALONE_LINUX || UNITY_EDITOR_LINUX) && EOS_PREVIEW_PLATFORM )
 #if EOS_DISABLE
-        return true;
+            return true;
 #elif (UNITY_EDITOR_WIN || (UNITY_EDITOR_OSX || UNITY_EDITOR_LINUX)) && !UNITY_ANDROID
             return FreeLibrary(libraryHandle);
 #else
-        return DLLH_unload_library_at_path(DLLHContex, libraryHandle);
+            return DLLH_unload_library_at_path(DLLHContex, libraryHandle);
 #endif
 #else
-        return true;
+            return true;
 #endif
         }
 
@@ -209,11 +208,11 @@ namespace PlayEveryWare.EpicOnlineServices
         public IntPtr LoadFunctionWithName(IntPtr libraryHandle, string functionName)
         {
 #if EOS_DISABLE
-        return IntPtr.Zero;
+            return IntPtr.Zero;
 #elif UNITY_EDITOR_WIN || (UNITY_EDITOR_OSX || UNITY_EDITOR_LINUX)
             return GetProcAddress(libraryHandle, functionName);
 #else
-        return DLLH_load_function_with_name(DLLHContex, libraryHandle, functionName);
+            return DLLH_load_function_with_name(DLLHContex, libraryHandle, functionName);
 #endif
         }
     }

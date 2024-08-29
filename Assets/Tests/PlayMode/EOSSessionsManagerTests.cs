@@ -25,13 +25,11 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Services.Sessions
     using Epic.OnlineServices;
     using Epic.OnlineServices.Sessions;
     using NUnit.Framework;
-    using EpicOnlineServices;
     using System.Collections;
     using UnityEngine;
     using UnityEngine.TestTools;
-    using PlayEveryWare.EpicOnlineServices.Samples;
+    using Samples;
     using System;
-    using UnityEngine.Events;
     using System.Text;
     using System.Collections.Generic;
     using System.Text.RegularExpressions;

@@ -24,7 +24,7 @@
 //       Alternatively, implement it so that it behaves as expected on a Linux machine (ie running the Makefile
 //       natively.
 
-namespace PlayEveryWare.EpicOnlineServices.Build
+namespace PlayEveryWare.EpicOnlineServices.Editor.Build
 {
     using PlayEveryWare.EpicOnlineServices.Utility;
     using System;

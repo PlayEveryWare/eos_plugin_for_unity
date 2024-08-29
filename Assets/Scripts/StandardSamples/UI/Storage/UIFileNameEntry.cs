@@ -20,14 +20,13 @@
 * SOFTWARE.
 */
 
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
-
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
+    using System;
+
+    using UnityEngine;
+    using UnityEngine.UI;
+
     public class UIFileNameEntry : MonoBehaviour
     {
         public Text FileNameTxt;

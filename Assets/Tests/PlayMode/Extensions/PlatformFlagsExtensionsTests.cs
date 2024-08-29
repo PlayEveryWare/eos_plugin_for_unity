@@ -20,10 +20,9 @@
  * SOFTWARE.
  */
 
-using NUnit.Framework;
-
 namespace PlayEveryWare.EpicOnlineServices.Tests.Extensions
 {
+    using NUnit.Framework;
     using Epic.OnlineServices.Platform;
     using EpicOnlineServices.Extensions;
 

@@ -26,8 +26,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     using System.Collections.Generic;
     using UnityEngine;
     using UnityEngine.UI;
-    using UnityEngine.EventSystems;
-    using JsonUtility = PlayEveryWare.EpicOnlineServices.Utility.JsonUtility;
+    using JsonUtility = Utility.JsonUtility;
 
     [Serializable]
     public class PlayerDataInventory

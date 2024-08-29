@@ -23,7 +23,6 @@
 namespace PlayEveryWare.EpicOnlineServices.Editor.Build
 {
     using Config;
-    using EpicOnlineServices.Build;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;

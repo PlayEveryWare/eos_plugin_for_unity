@@ -20,7 +20,6 @@
 * SOFTWARE.
 */
 
-
 namespace PlayEveryWare.EpicOnlineServices.Editor.Config
 {
     using System;

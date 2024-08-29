@@ -20,16 +20,16 @@
 * SOFTWARE.
 */
 
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-using Epic.OnlineServices;
-using Epic.OnlineServices.CustomInvites;
-
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
+    using System;
+    using System.Collections.Generic;
+
+    using UnityEngine;
+
+    using Epic.OnlineServices;
+    using Epic.OnlineServices.CustomInvites;
+
     public class CustomInviteData
     {
         public Utf8String InviteId;

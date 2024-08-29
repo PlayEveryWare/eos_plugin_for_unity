@@ -26,7 +26,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     using Epic.OnlineServices;
     using UnityEngine;
     using UnityEngine.UI;
-    using UnityEngine.EventSystems;
     using Epic.OnlineServices.Presence;
 
     public class UIHighFrequencyPeer2PeerMenu : SampleMenuWithFriends

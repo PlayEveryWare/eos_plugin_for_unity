@@ -30,7 +30,6 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Services.Lobby
     using System.Collections;
     using UnityEngine;
     using UnityEngine.TestTools;
-    using JsonUtility = EpicOnlineServices.Utility.JsonUtility;
 
     /// <summary>
     /// Lobby connection tests that test connecting to an existing lobby.

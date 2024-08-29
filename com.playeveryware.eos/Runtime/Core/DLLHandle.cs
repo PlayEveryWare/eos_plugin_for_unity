@@ -20,9 +20,9 @@
 * SOFTWARE.
 */
 
-//#define ENABLE_DLLHANDLE_PRINT
-
 #if !EOS_DISABLE
+
+//#define ENABLE_DLLHANDLE_PRINT
 
 namespace PlayEveryWare.EpicOnlineServices
 {
@@ -57,7 +57,7 @@ namespace PlayEveryWare.EpicOnlineServices
             pluginPaths.Add(packagedPluginPath);
 
 #if UNITY_WSA
-        pluginPaths.Add(uwpPluginsPath);
+            pluginPaths.Add(uwpPluginsPath);
 #endif
             if (EOSManagerPlatformSpecificsSingleton.Instance != null)
             {
@@ -157,17 +157,17 @@ namespace PlayEveryWare.EpicOnlineServices
 
         //-------------------------------------------------------------------------
 #if UNITY_WSA
-    private static DLLHandle LoadDynamicLibraryForUWP(string libraryName)
-    {
-        print("UWP library load");
-        IntPtr libraryHandle = SystemDynamicLibrary.Instance.LoadLibraryAtPath(libraryName);
-        if (libraryHandle != IntPtr.Zero)
+        private static DLLHandle LoadDynamicLibraryForUWP(string libraryName)
         {
-            print("found library");
-            return new DLLHandle(libraryHandle);
+            print("UWP library load");
+            IntPtr libraryHandle = SystemDynamicLibrary.Instance.LoadLibraryAtPath(libraryName);
+            if (libraryHandle != IntPtr.Zero)
+            {
+                print("found library");
+                return new DLLHandle(libraryHandle);
+            }
+            return null;
         }
-        return null;
-    }
 #endif
 
         //-------------------------------------------------------------------------
@@ -223,8 +223,8 @@ namespace PlayEveryWare.EpicOnlineServices
 
             bool didUnload = true;
 #if !UNITY_EDITOR
-        didUnload = SystemDynamicLibrary.Instance.UnloadLibrary(handle);
-        print("Unloading a Dll with result : " + didUnload);
+            didUnload = SystemDynamicLibrary.Instance.UnloadLibrary(handle);
+            print("Unloading a Dll with result : " + didUnload);
 #endif
             SetHandle(IntPtr.Zero);
             return didUnload;

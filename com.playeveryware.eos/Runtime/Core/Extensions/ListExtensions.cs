@@ -31,9 +31,6 @@ namespace PlayEveryWare.EpicOnlineServices.Extensions
     /// </summary>
     public static class ListExtensions
     {
-        /// <summary>
-        /// Threadsafe Random class.
-        /// </summary>
         private static class ThreadSafeRandom
         {
             private static readonly ThreadLocal<Random> threadLocalRandom = new(() => new Random());

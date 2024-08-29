@@ -34,16 +34,14 @@
 
 namespace PlayEveryWare.EpicOnlineServices
 {
-
     using System.Runtime.InteropServices;
     using System.Reflection;
     using System;
-    using PlayEveryWare.EpicOnlineServices;
-
+    
     using size_t = System.UIntPtr;
 
-//-------------------------------------------------------------------------
-// Generic interface for allocating native memory that conforms to the EOS SDK
+    //-------------------------------------------------------------------------
+    // Generic interface for allocating native memory that conforms to the EOS SDK
     public partial class SystemMemory
     {
         [StructLayout(LayoutKind.Sequential, Pack = 8)]
@@ -65,7 +63,7 @@ namespace PlayEveryWare.EpicOnlineServices
 #if DYNAMIC_MEMORY_ALLOCATION_AVAILABLE
             return Mem_generic_align_alloc(sizeInBytes, alignmentInBytes);
 #else
-        return IntPtr.Zero;
+            return IntPtr.Zero;
 #endif
         }
 
@@ -76,7 +74,7 @@ namespace PlayEveryWare.EpicOnlineServices
 #if DYNAMIC_MEMORY_ALLOCATION_AVAILABLE
             return Mem_generic_align_realloc(ptr, sizeInBytes, alignmentInBytes);
 #else
-        return IntPtr.Zero;
+            return IntPtr.Zero;
 #endif
         }
 
@@ -93,7 +91,7 @@ namespace PlayEveryWare.EpicOnlineServices
         static public void GetAllocatorFunctions(out IntPtr alloc, out IntPtr realloc, out IntPtr free)
         {
 #if DYNAMIC_MEMORY_ALLOCATION_AVAILABLE && ENABLE_GET_ALLOCATOR_FUNCTION
-        Mem_GetAllocatorFunctions(out alloc, out realloc, out free);
+            Mem_GetAllocatorFunctions(out alloc, out realloc, out free);
 #else
             alloc = IntPtr.Zero;
             realloc = IntPtr.Zero;
@@ -103,7 +101,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
         private const string DLLHBinaryName =
 #if DLLHELPER_HAS_INTERNAL_LINKAGE
-        "__Internal";
+            "__Internal";
 #else
             "DynamicLibraryLoaderHelper";
 
@@ -122,15 +120,14 @@ namespace PlayEveryWare.EpicOnlineServices
 
         // This is currently not implemented
 #if ENABLE_GET_ALLOCATION_COUNTERS
-    [DllImport(DLLHBinaryName)]
-    static public extern void Mem_GetAllocationCounters(out MemCounters data);
+        [DllImport(DLLHBinaryName)]
+        static public extern void Mem_GetAllocationCounters(out MemCounters data);
 #endif
 
 #if ENABLE_GET_ALLOCATOR_FUNCTION
-    [DllImport(DLLHBinaryName)]
-    private static extern void Mem_GetAllocatorFunctions(out IntPtr alloc, out IntPtr realloc, out IntPtr free);
+        [DllImport(DLLHBinaryName)]
+        private static extern void Mem_GetAllocatorFunctions(out IntPtr alloc, out IntPtr realloc, out IntPtr free);
 #endif
 #endif
-
     }
 }

@@ -20,18 +20,16 @@
 * SOFTWARE.
 */
 
-using System;
-using System.Collections.Generic;
-
-using UnityEngine;
-
-using Epic.OnlineServices;
-using Epic.OnlineServices.Lobby;
-using Epic.OnlineServices.RTC;
-using Epic.OnlineServices.RTCAudio;
-
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
+    using System;
+    using System.Collections.Generic;
+    using UnityEngine;
+    using Epic.OnlineServices;
+    using Epic.OnlineServices.Lobby;
+    using Epic.OnlineServices.RTC;
+    using Epic.OnlineServices.RTCAudio;
+
     /// <summary>
     /// Class represents all Lobby properties
     /// </summary>
