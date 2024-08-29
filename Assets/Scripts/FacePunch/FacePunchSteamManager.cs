@@ -28,7 +28,6 @@
 #if ENABLE_FACEPUNCH_STEAM && (UNITY_STANDALONE_WIN || UNITY_STANDALONE_LINUX || UNITY_STANDALONE_OSX || STEAMWORKS_WIN || STEAMWORKS_LIN_OSX)
 
 using UnityEngine;
-using System.IO;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples.Steam
 {
