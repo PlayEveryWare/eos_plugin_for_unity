@@ -80,6 +80,12 @@ namespace PlayEveryWare.EpicOnlineServices.Tests
             ulong coveredLines = ulong.Parse(summaryElement.Descendants("Coveredlines").First()?.Value);
             ulong coverableLines = ulong.Parse(summaryElement.Descendants("Coverablelines").First()?.Value);
 
+            if (coverableLines == 0)
+            {
+                Debug.LogWarning($"For some reason the coverable lines as measured by the CodeCoverage utility is zero. Please check your configuration. Disregard if you are not trying to generate Code Coverage reports.");
+                return;
+            }
+
             double percentage = (double)coveredLines / coverableLines * 100;
 
             // Round to the nearest whole number
@@ -157,7 +163,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests
             }
             catch (Exception ex)
             {
-                Debug.LogError($"CoverageHistoryCleaner failed: {ex.Message}");
+                Debug.LogException(ex);
             }
         }
 
