@@ -20,10 +20,9 @@
  * SOFTWARE.
  */
 
-namespace PlayEveryWare.EpicOnlineServices.Build
+namespace PlayEveryWare.EpicOnlineServices.Editor.Build
 {
-    using Editor;
-    using Editor.Config;
+    using Config;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
@@ -33,6 +32,7 @@ namespace PlayEveryWare.EpicOnlineServices.Build
     using UnityEditor;
     using UnityEditor.Build.Reporting;
     using UnityEngine;
+    using Config = EpicOnlineServices.Config;
 
     public class AndroidBuilder : PlatformSpecificBuilder
     {

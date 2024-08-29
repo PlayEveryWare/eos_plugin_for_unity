@@ -20,13 +20,11 @@
  * SOFTWARE.
  */
 
-namespace PlayEveryWare.EpicOnlineServices.Build
+namespace PlayEveryWare.EpicOnlineServices.Editor.Build
 {
-    using System.IO;
     using UnityEditor;
     using UnityEditor.Build.Reporting;
-    using UnityEngine;
-
+    
     public class MacOSBuilder : PlatformSpecificBuilder
     {
         public MacOSBuilder() : base("Plugins/macOS", BuildTarget.StandaloneOSX) { }

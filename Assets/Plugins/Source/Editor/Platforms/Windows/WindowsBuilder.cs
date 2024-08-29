@@ -20,17 +20,18 @@
  * SOFTWARE.
  */
 
-namespace PlayEveryWare.EpicOnlineServices.Build
+namespace PlayEveryWare.EpicOnlineServices.Editor.Build
 {
 #if !EOS_DISABLE
     using Epic.OnlineServices.Platform;
 #endif
-    using PlayEveryWare.EpicOnlineServices.Editor.Config;
+    using Config;
     using System.IO;
     using UnityEditor;
     using UnityEditor.Build;
     using UnityEditor.Build.Reporting;
     using UnityEngine;
+    using Config = EpicOnlineServices.Config;
 
     /// <summary>
     /// WindowsBuilder for 64-bit deployment.

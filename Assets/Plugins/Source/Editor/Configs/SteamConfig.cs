@@ -21,13 +21,14 @@
 */
 
 
-namespace PlayEveryWare.EpicOnlineServices
+namespace PlayEveryWare.EpicOnlineServices.Editor.Config
 {
     using System;
     using System.Collections.Generic;
     using Editor;
-    using Editor.Utility;
     using Utility;
+    using EpicOnlineServices.Utility;
+    using Config = EpicOnlineServices.Config;
 
     [Serializable]
     [ConfigGroup("Steam Configuration")]

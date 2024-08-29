@@ -20,9 +20,10 @@
  * SOFTWARE.
  */
 
-namespace PlayEveryWare.EpicOnlineServices.Build
+namespace PlayEveryWare.EpicOnlineServices.Editor.Build
 {
-    using Editor.Config;
+    using Config;
+    using EpicOnlineServices.Build;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
@@ -31,10 +32,8 @@ namespace PlayEveryWare.EpicOnlineServices.Build
     using UnityEditor.Build.Reporting;
     using Debug = UnityEngine.Debug;
     using UnityEditor;
-    using PlayEveryWare.EpicOnlineServices.Editor;
     using System;
-    using System.Threading.Tasks;
-    using Utility;
+    using Config = EpicOnlineServices.Config;
 
     public abstract class PlatformSpecificBuilder : IPlatformSpecificBuilder,
         IPreprocessBuildWithReport

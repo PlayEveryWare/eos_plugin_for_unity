@@ -20,16 +20,16 @@
 * SOFTWARE.
 */
 
-namespace PlayEveryWare.EpicOnlineServices.Build
+namespace PlayEveryWare.EpicOnlineServices.Editor.Build
 {
     using UnityEditor.Build.Reporting;
     using UnityEditor;
     using UnityEngine;
     using System.IO;
-    using PlayEveryWare.EpicOnlineServices;
+    using EpicOnlineServices;
     using System.Collections.Generic;
     using System;
-    using PlayEveryWare.EpicOnlineServices.Editor.Config;
+    using Config;
     using System.Threading.Tasks;
 
     public class EACUtility
