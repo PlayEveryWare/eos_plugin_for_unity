@@ -53,8 +53,6 @@ namespace PlayEveryWare.EpicOnlineServices
             new Dictionary<Type, Config>();
 #endif
 
-
-
         /// <summary>
         /// Contains a registration that maps config type to the constructor, to
         /// enforce usage of the factor pattern for classes that derive from the
@@ -292,7 +290,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <returns>Task.</returns>
         protected virtual async Task ReadAsync()
         {
-            await EnsureConfigFileExistsAsync(true);
+            await EnsureConfigFileExistsAsync();
             _lastReadJsonString = await FileSystemUtility.ReadAllTextAsync(FilePath);
             JsonUtility.FromJsonOverwrite(_lastReadJsonString, this);
         }
@@ -303,31 +301,23 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </summary>
         protected virtual void Read()
         {
-            EnsureConfigFileExists(false);
-            _lastReadJsonString = FileSystemUtility.ReadAllText(FilePath);
-            JsonUtility.FromJsonOverwrite(_lastReadJsonString, this);
+            // Call ReadAsync() synchronously.
+            ReadAsync().GetAwaiter().GetResult();
         }
 
         /// <summary>
         /// Determines if the config file exists, and if it does not, and the
         /// editor is running, then create the file.
         /// </summary>
-        /// <param name="isAsync">
-        /// Indicates whether the operation should run synchronously or
-        /// asynchronously.
-        /// </param>
         /// <returns>Task.</returns>
-        private async Task EnsureConfigFileExistsAsync(bool isAsync)
+        private async Task EnsureConfigFileExistsAsync()
         {
-            bool fileExists = isAsync ? await FileSystemUtility.FileExistsAsync(FilePath) : FileSystemUtility.FileExists(FilePath);
+            bool fileExists = await FileSystemUtility.FileExistsAsync(FilePath);
 
 #if UNITY_EDITOR
             if (!fileExists)
             {
-                if (isAsync)
-                    await WriteAsync();
-                else
-                    Write();
+                await WriteAsync();
             }
 #else
             // If the editor is not running, then the config file not
@@ -335,19 +325,6 @@ namespace PlayEveryWare.EpicOnlineServices
             throw new FileNotFoundException(
                 $"Config file \"{FilePath}\" does not exist.");
 #endif
-        }
-
-        /// <summary>
-        /// Determines if the config file exists, and if it does not, and the
-        /// editor is running, then create the file.
-        /// </summary>
-        /// <param name="isAsync">
-        /// Indicates whether the operation should run synchronously or
-        /// asynchronously.
-        /// </param>
-        private void EnsureConfigFileExists(bool isAsync)
-        {
-            EnsureConfigFileExistsAsync(isAsync).GetAwaiter().GetResult();
         }
 
         // Functions declared below should only ever be utilized in the editor.

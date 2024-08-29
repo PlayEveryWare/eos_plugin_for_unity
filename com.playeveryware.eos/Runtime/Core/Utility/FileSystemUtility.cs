@@ -607,8 +607,8 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         /// </param>
         public static void WriteFile(string filePath, string content, bool createDirectory = true)
         {
-            // Use discard in-order to call async function without awaiting.
-            _ = WriteFileInternal(filePath, content, createDirectory);
+            // Appropriately call the async function synchronously.
+            WriteFileAsync(filePath, content, createDirectory).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -624,23 +624,6 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         /// </param>
         /// <returns>Task</returns>
         public static async Task WriteFileAsync(string filePath, string content, bool createDirectory = true)
-        {
-            await WriteFileInternal(filePath, content, createDirectory);
-        }
-
-        /// <summary>
-        /// Asynchronously writes the given file contents to the given filepath,
-        /// optionally creating the directory structure if it does not already
-        /// exist.
-        /// </summary>
-        /// <param name="filePath">The path to write to.</param>
-        /// <param name="content">The contents to write to the file.</param>
-        /// <param name="createDirectory">
-        /// Whether or not to create the directory structure represented by the
-        /// filepath.
-        /// </param>
-        /// <returns>Task</returns>
-        private static async Task WriteFileInternal(string filePath, string content, bool createDirectory = true)
         {
             FileInfo file = new(filePath);
 
@@ -683,7 +666,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
 
         public static bool DirectoryExists(string path)
         {
-            return ExistsInternal(path, isDirectory: true).Result;
+            return DirectoryExistsAsync(path).GetAwaiter().GetResult();
         }
 
         public static async Task<bool> DirectoryExistsAsync(string path)
@@ -693,7 +676,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
 
         public static bool FileExists(string path)
         {
-            return ExistsInternal(path, isDirectory: false).Result;
+            return FileExistsAsync(path).GetAwaiter().GetResult();
         }
 
         public static async Task<bool> FileExistsAsync(string path)
