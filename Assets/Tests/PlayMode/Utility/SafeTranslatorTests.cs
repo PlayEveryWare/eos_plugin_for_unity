@@ -20,11 +20,10 @@
  * SOFTWARE.
  */
 
-using NUnit.Framework;
-
 namespace PlayEveryWare.EpicOnlineServices.Tests.Utility
 {
     using EpicOnlineServices.Utility;
+    using NUnit.Framework;
 
     public class SafeTranslatorTests
     {

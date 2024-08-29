@@ -20,18 +20,18 @@
 * SOFTWARE.
 */
 
-using System;
-using System.Collections.Generic;
-
-using UnityEngine;
-
-using Epic.OnlineServices;
-using Epic.OnlineServices.Connect;
-using Epic.OnlineServices.AntiCheatCommon;
-using Epic.OnlineServices.AntiCheatClient;
-
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
+    using System;
+    using System.Collections.Generic;
+
+    using UnityEngine;
+
+    using Epic.OnlineServices;
+    using Epic.OnlineServices.Connect;
+    using Epic.OnlineServices.AntiCheatCommon;
+    using Epic.OnlineServices.AntiCheatClient;
+
     /// <summary>
     /// Class <c>EOSAntiCheatClientManager</c> is a simplified wrapper for EOS [AntiCheat Client Interface](https://dev.epicgames.com/docs/services/en-US/GameServices/AntiCheat/index.html).
     /// </summary>

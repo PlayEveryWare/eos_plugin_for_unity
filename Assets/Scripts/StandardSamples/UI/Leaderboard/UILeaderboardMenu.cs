@@ -30,8 +30,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
     using UnityEngine;
     using UnityEngine.UI;
-    using UnityEngine.EventSystems;
-
+    
     public class UILeaderboardMenu : SampleMenu
     {
         private enum LeaderboardGroup

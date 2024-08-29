@@ -20,43 +20,46 @@
 * SOFTWARE.
 */
 
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
-
-public class UIParticleSystem : MonoBehaviour
+namespace PlayEveryWare.EpicOnlineServices.Samples
 {
-    public GameObject parent;
+    using UnityEngine;
 
-
-    public GameObject sprite;
-    public float count;
-    
-    private float timer = 0;
-
-    
-
-    private void Start()
+    public class UIParticleSystem : MonoBehaviour
     {
-        for(int i = 0; i < count; i++)
+        public GameObject parent;
+
+
+        public GameObject sprite;
+        public float count;
+
+        private float timer = 0;
+
+
+
+        private void Start()
         {
-            GameObject particle = Instantiate(sprite, new Vector3(this.transform.position.x, this.transform.position.y, -3), Quaternion.identity, this.transform);
-            UIPeer2PeerParticleLifetimer timer = particle.AddComponent<UIPeer2PeerParticleLifetimer>();
-            timer.direction = new Vector3(Random.Range(-100, 100), Random.Range(-100, 100), Random.Range(-100, 100));
-            particle.transform.Rotate(new Vector3(0, 0, Random.Range(360, 0)));
+            for (int i = 0; i < count; i++)
+            {
+                GameObject particle = Instantiate(sprite,
+                    new Vector3(this.transform.position.x, this.transform.position.y, -3), Quaternion.identity,
+                    this.transform);
+                UIPeer2PeerParticleLifetimer timer = particle.AddComponent<UIPeer2PeerParticleLifetimer>();
+                timer.direction = new Vector3(Random.Range(-100, 100), Random.Range(-100, 100),
+                    Random.Range(-100, 100));
+                particle.transform.Rotate(new Vector3(0, 0, Random.Range(360, 0)));
 
 
+            }
         }
-    }
 
-    void Update()
-    {
-        timer += Time.deltaTime;
-
-        if (timer >= 1)
+        void Update()
         {
-            Destroy(parent);
+            timer += Time.deltaTime;
+
+            if (timer >= 1)
+            {
+                Destroy(parent);
+            }
         }
     }
 }

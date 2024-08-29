@@ -20,13 +20,13 @@
 * SOFTWARE.
 */
 
-using System.Collections;
-using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.EventSystems;
-
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
+    using System.Collections;
+    using UnityEngine;
+    using UnityEngine.UI;
+    using UnityEngine.EventSystems;
+
     public enum UITooltipPosition
     {
         Auto,

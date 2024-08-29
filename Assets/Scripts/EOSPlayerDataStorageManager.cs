@@ -24,8 +24,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 {
     using System;
     using System.Collections.Generic;
-    using System.Runtime.Serialization.Formatters.Binary;
-    using System.IO;
     using UnityEngine;
     using Epic.OnlineServices;
     using Epic.OnlineServices.PlayerDataStorage;

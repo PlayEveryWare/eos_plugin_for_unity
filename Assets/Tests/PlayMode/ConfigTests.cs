@@ -20,10 +20,9 @@
  * SOFTWARE.
  */
 
-using NUnit.Framework;
-
 namespace PlayEveryWare.EpicOnlineServices.Tests.Config
 {
+    using NUnit.Framework;
     using System;
     using System.Collections.Generic;
     using System.Linq;

@@ -31,7 +31,6 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Services.Sessions
     using System.Collections;
     using UnityEngine;
     using UnityEngine.TestTools;
-    using JsonUtility = PlayEveryWare.EpicOnlineServices.Utility.JsonUtility;
 
     /// <summary>
     /// Session connection tests that test connecting to an existing session.

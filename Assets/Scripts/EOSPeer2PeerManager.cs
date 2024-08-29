@@ -20,23 +20,18 @@
 * SOFTWARE.
 */
 
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using UnityEngine;
-
-using Epic.OnlineServices;
-using Epic.OnlineServices.P2P;
-
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
+    using UnityEngine;
+    using Epic.OnlineServices;
+    using Epic.OnlineServices.P2P;
+
     /// <summary>
     /// Struct <c>ChatEntry</c> is used to store cached chat data in <c>UIPeer2PeerMenu</c>.
     /// </summary>
-
     public struct ChatEntry
     {
         /// <value>True if message was from local user</value>

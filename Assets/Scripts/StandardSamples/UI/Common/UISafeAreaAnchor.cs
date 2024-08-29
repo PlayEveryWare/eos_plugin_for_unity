@@ -20,14 +20,10 @@
 * SOFTWARE.
 */
 
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
-
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
+    using UnityEngine;
+
     /// <summary>
     /// Class <c>UISafeAreaAnchor</c> anchors UI elements to corners of the safe rendering area on mobile devices (screen notches, cutouts, etc.)
     /// </summary>

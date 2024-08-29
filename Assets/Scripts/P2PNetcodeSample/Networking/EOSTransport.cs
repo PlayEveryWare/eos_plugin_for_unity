@@ -24,19 +24,15 @@
 
 #if COM_UNITY_MODULE_NETCODE
 
-using System;
-using UnityEngine;
-using Unity.Netcode;
-using Epic.OnlineServices;
-using System.Collections.Generic;
-using Epic.OnlineServices.Auth;
-
-using PlayEveryWare.EpicOnlineServices.Samples;
-
-
 //namespace Netcode.Transports.EOSP2P
 namespace PlayEveryWare.EpicOnlineServices.Samples.Network
 {
+    using System;
+    using UnityEngine;
+    using Unity.Netcode;
+    using Epic.OnlineServices;
+    using System.Collections.Generic;
+
     public class EOSTransport : NetworkTransport
     {
         // EOS Data

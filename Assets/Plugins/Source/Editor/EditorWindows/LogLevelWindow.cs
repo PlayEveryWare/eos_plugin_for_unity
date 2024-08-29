@@ -20,9 +20,8 @@
  * SOFTWARE.
  */
 
-
-
 #if !EOS_DISABLE
+
 namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 {
     using EpicOnlineServices.Utility;
@@ -120,4 +119,5 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
         }
     }
 }
+
 #endif

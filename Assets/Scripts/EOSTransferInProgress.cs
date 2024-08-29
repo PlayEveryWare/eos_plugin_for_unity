@@ -29,7 +29,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     /// <summary>
     /// Class <c>EOSTransferInProgress</c> is used in <c>EOSTitleStorageManager</c> and <c>EOSPlayerDataStorageManager</c> to keep track of downloaded cached file data.
     /// </summary>
-
     public class EOSTransferInProgress
     {
         // per EOS SDK documentation, the maximum size for a file is 200MB, or this many bytes.

@@ -26,7 +26,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Extensions
     using EpicOnlineServices.Extensions;
     using NUnit.Framework;
 
-    public class IntegratedPlatformManagementFlagsTests : CustomMappedEnumTestBase<IntegratedPlatformManagementFlags>
+    public class IntegratedPlatformManagementFlagsExtensionsTests : CustomMappedEnumTestBase<IntegratedPlatformManagementFlags>
     {
         /// <summary>
         /// Tests to make sure that there is a description defined for each of
