@@ -20,7 +20,7 @@
  * SOFTWARE.
  */
 
-namespace PlayEveryWare.EpicOnlineServices.Tests.ClientTests
+namespace PlayEveryWare.EpicOnlineServices.Tests.Services.Lobby
 {
     using Tests;
     using Epic.OnlineServices;

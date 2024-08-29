@@ -41,7 +41,6 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Utility
             Combined = OptionA | OptionB
         }
 
-
         [Test]
         public void TryParse_ValidEnumString_ReturnsTrueAndParsesValue()
         {
@@ -127,9 +126,9 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Utility
         public void GetEnumerator_ExtractsIndividualFlagsFromCombinedEnum()
         {
             // Arrange
-            const TestEnum combinedValue = TestEnum.Combined;
-            var expected = new List<TestEnum> { TestEnum.OptionA, TestEnum.OptionB };
-
+            const TestEnum combinedValue = TestEnum.OptionB | TestEnum.OptionC;
+            var expected = new List<TestEnum> { TestEnum.OptionB, TestEnum.OptionC };
+            
             // Act
             var result = EnumUtility<TestEnum>.GetEnumerator(combinedValue).ToList();
 

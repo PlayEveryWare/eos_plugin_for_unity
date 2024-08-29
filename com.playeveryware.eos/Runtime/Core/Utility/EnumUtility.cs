@@ -20,12 +20,14 @@
  * SOFTWARE.
  */
 
+using System.Runtime.CompilerServices;
+
+[assembly: InternalsVisibleTo("com.playeveryware.eos.tests.playmode")]
 namespace PlayEveryWare.EpicOnlineServices.Utility
 {
     using System;
     using System.Collections.Generic;
-    using UnityEngine;
-
+    
     /// <summary>
     /// Provides support for alternate string parsing of enum values.
     /// </summary>
@@ -86,9 +88,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
                 return true;
             }
 
-            Debug.LogError($"\"{enumValueString}\" was not recognized as a valid {nameof(TEnum)} value, and parsing failed.");
             return false;
-
         }
 
         /// <summary>
@@ -219,8 +219,14 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         {
             IList<TEnum> compositeParts = new List<TEnum>();
 
+            ulong defaultValue = Convert.ToUInt64(default(TEnum));
+
             foreach (TEnum enumValue in Enum.GetValues(typeof(TEnum)))
             {
+                // Skip the default value
+                if (defaultValue == Convert.ToUInt64(enumValue))
+                    continue;
+
                 if (bitFlag.HasFlag(enumValue))
                 {
                     compositeParts.Add(enumValue);

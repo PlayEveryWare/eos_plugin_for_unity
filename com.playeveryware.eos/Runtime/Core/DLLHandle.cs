@@ -20,136 +20,142 @@
 * SOFTWARE.
 */
 
-﻿//#define ENABLE_DLLHANDLE_PRINT
-
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Runtime.InteropServices;
-using UnityEngine;
-
-using PlayEveryWare.EpicOnlineServices;
+//#define ENABLE_DLLHANDLE_PRINT
 
 #if !EOS_DISABLE
 
-public class DLLHandle : SafeHandle
+namespace PlayEveryWare.EpicOnlineServices
 {
-    public override bool IsInvalid => handle == IntPtr.Zero;
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.IO;
+    using System.Runtime.InteropServices;
+    using UnityEngine;
 
-    //-------------------------------------------------------------------------
-    [Conditional("ENABLE_DLLHANDLE_PRINT")]
-    private static void print(string toPrint)
+    public class DLLHandle : SafeHandle
     {
-        UnityEngine.Debug.Log(toPrint);
-    }
+        public override bool IsInvalid => handle == IntPtr.Zero;
 
-    //-------------------------------------------------------------------------
-    public static List<string> GetPathsToPlugins()
-    {
-        string uwpPluginsPath = Path.Combine(Application.streamingAssetsPath, "..", "..");
-        string pluginsPath = Path.Combine(Application.dataPath, "Plugins");
-        string packagedPluginPath = Path.GetFullPath(Path.Combine("Packages", EOSPackageInfo.PackageName, "Runtime"));
-        var pluginPaths = new List<string>();
+        //-------------------------------------------------------------------------
+        [Conditional("ENABLE_DLLHANDLE_PRINT")]
+        private static void print(string toPrint)
+        {
+            UnityEngine.Debug.Log(toPrint);
+        }
 
-        pluginPaths.Add(pluginsPath);
-        pluginPaths.Add(packagedPluginPath);
+        //-------------------------------------------------------------------------
+        public static List<string> GetPathsToPlugins()
+        {
+            string uwpPluginsPath = Path.Combine(Application.streamingAssetsPath, "..", "..");
+            string pluginsPath = Path.Combine(Application.dataPath, "Plugins");
+            string packagedPluginPath =
+                Path.GetFullPath(Path.Combine("Packages", EOSPackageInfo.PackageName, "Runtime"));
+            var pluginPaths = new List<string>();
+
+            pluginPaths.Add(pluginsPath);
+            pluginPaths.Add(packagedPluginPath);
 
 #if UNITY_WSA
         pluginPaths.Add(uwpPluginsPath);
 #endif
-        if (EOSManagerPlatformSpecificsSingleton.Instance != null)
-        {
-            EOSManagerPlatformSpecificsSingleton.Instance.AddPluginSearchPaths(ref pluginPaths);
-        }
-
-        for (int i = pluginPaths.Count - 1; i >= 0; --i)
-        {
-            string value = pluginPaths[i];
-            print("print " + value);
-        }
-
-        // Do a validation check after giving the 
-        // EOSManagerPlatformSpecific a change to modify the list
-        for (int i = pluginPaths.Count -1; i >= 0; --i)
-        {
-            string value = pluginPaths[i];
-            print("Evaluating " + value);
-            if (!Directory.Exists(value))
+            if (EOSManagerPlatformSpecificsSingleton.Instance != null)
             {
-                pluginPaths.RemoveAt(i);
+                EOSManagerPlatformSpecificsSingleton.Instance.AddPluginSearchPaths(ref pluginPaths);
             }
-        }
 
-        return pluginPaths;
-    }
-
-    //-------------------------------------------------------------------------
-    public static string GetVersionForLibrary(string libraryName)
-    {
-        List<string> pluginPaths = GetPathsToPlugins();
-        string ext = ".dll";
-
-        //TODO: change it to take the platform into consideration
-        //TODO: probably make this more generic?
-
-        foreach (string pluginPath in pluginPaths)
-        {
-            foreach (var filesystemEntry in Directory.EnumerateFileSystemEntries(pluginPath, libraryName + ext, SearchOption.AllDirectories))
+            for (int i = pluginPaths.Count - 1; i >= 0; --i)
             {
-                FileVersionInfo info = FileVersionInfo.GetVersionInfo(filesystemEntry);
-                print("Found : " + filesystemEntry);
-                if (info != null)
+                string value = pluginPaths[i];
+                print("print " + value);
+            }
+
+            // Do a validation check after giving the 
+            // EOSManagerPlatformSpecific a change to modify the list
+            for (int i = pluginPaths.Count - 1; i >= 0; --i)
+            {
+                string value = pluginPaths[i];
+                print("Evaluating " + value);
+                if (!Directory.Exists(value))
                 {
-                    return string.Format("{0}.{1}.{2}", info.FileMajorPart, info.FileMinorPart, info.FileBuildPart);
+                    pluginPaths.RemoveAt(i);
                 }
             }
+
+            return pluginPaths;
         }
-        return null;
-    }
 
-    //-------------------------------------------------------------------------
-    public static string GetProductVersionForLibrary(string libraryName)
-    {
-        List<string> pluginPaths = GetPathsToPlugins();
-        string ext = ".dll";
-
-        //TODO: change it to take the platform into consideration
-        //TODO: probably make this more generic?
-
-        foreach (string pluginPath in pluginPaths)
+        //-------------------------------------------------------------------------
+        public static string GetVersionForLibrary(string libraryName)
         {
-            foreach (var filesystemEntry in Directory.EnumerateFileSystemEntries(pluginPath, libraryName + ext, SearchOption.AllDirectories))
+            List<string> pluginPaths = GetPathsToPlugins();
+            string ext = ".dll";
+
+            //TODO: change it to take the platform into consideration
+            //TODO: probably make this more generic?
+
+            foreach (string pluginPath in pluginPaths)
             {
-                FileVersionInfo info = FileVersionInfo.GetVersionInfo(filesystemEntry);
-                print("Found : " + filesystemEntry);
-                if (info != null)
+                foreach (var filesystemEntry in Directory.EnumerateFileSystemEntries(pluginPath, libraryName + ext,
+                             SearchOption.AllDirectories))
                 {
-                    return string.Format(info.ProductVersion);
+                    FileVersionInfo info = FileVersionInfo.GetVersionInfo(filesystemEntry);
+                    print("Found : " + filesystemEntry);
+                    if (info != null)
+                    {
+                        return string.Format("{0}.{1}.{2}", info.FileMajorPart, info.FileMinorPart, info.FileBuildPart);
+                    }
                 }
             }
+
+            return null;
         }
-        return null;
-    }
 
-    //-------------------------------------------------------------------------
-    public static string GetPathForLibrary(string libraryName)
-    {
-        List<string> pluginPaths = GetPathsToPlugins();
-        string ext = ".dll";
-
-        foreach (string pluginPath in pluginPaths)
+        //-------------------------------------------------------------------------
+        public static string GetProductVersionForLibrary(string libraryName)
         {
-            foreach (var filesystemEntry in Directory.EnumerateFileSystemEntries(pluginPath, libraryName + ext, SearchOption.AllDirectories))
-            {
-                return filesystemEntry;
-            }
-        }
-        return null;
-    }
+            List<string> pluginPaths = GetPathsToPlugins();
+            string ext = ".dll";
 
-    //-------------------------------------------------------------------------
+            //TODO: change it to take the platform into consideration
+            //TODO: probably make this more generic?
+
+            foreach (string pluginPath in pluginPaths)
+            {
+                foreach (var filesystemEntry in Directory.EnumerateFileSystemEntries(pluginPath, libraryName + ext,
+                             SearchOption.AllDirectories))
+                {
+                    FileVersionInfo info = FileVersionInfo.GetVersionInfo(filesystemEntry);
+                    print("Found : " + filesystemEntry);
+                    if (info != null)
+                    {
+                        return string.Format(info.ProductVersion);
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        //-------------------------------------------------------------------------
+        public static string GetPathForLibrary(string libraryName)
+        {
+            List<string> pluginPaths = GetPathsToPlugins();
+            string ext = ".dll";
+
+            foreach (string pluginPath in pluginPaths)
+            {
+                foreach (var filesystemEntry in Directory.EnumerateFileSystemEntries(pluginPath, libraryName + ext,
+                             SearchOption.AllDirectories))
+                {
+                    return filesystemEntry;
+                }
+            }
+
+            return null;
+        }
+
+        //-------------------------------------------------------------------------
 #if UNITY_WSA
     private static DLLHandle LoadDynamicLibraryForUWP(string libraryName)
     {
@@ -164,110 +170,119 @@ public class DLLHandle : SafeHandle
     }
 #endif
 
-    //-------------------------------------------------------------------------
-    public static DLLHandle LoadDynamicLibrary(string libraryName)
-    {
-        print("Loading Library " + libraryName);
-        List<string> pluginPaths = GetPathsToPlugins();
-        string ext = EOSManagerPlatformSpecificsSingleton.Instance != null ? EOSManagerPlatformSpecificsSingleton.Instance.GetDynamicLibraryExtension() : ".dll";
-
-        //TODO: change it to take the platform into consideration
-        //TODO: probably make this more generic?
-        foreach (string pluginPath in pluginPaths)
+        //-------------------------------------------------------------------------
+        public static DLLHandle LoadDynamicLibrary(string libraryName)
         {
-            foreach (var filesystemEntry in Directory.EnumerateFileSystemEntries(pluginPath, libraryName + ext, SearchOption.AllDirectories))
-            {
-                IntPtr libraryHandle = SystemDynamicLibrary.Instance.LoadLibraryAtPath(filesystemEntry);
-                print("Trying to load with entry " + filesystemEntry);
+            print("Loading Library " + libraryName);
+            List<string> pluginPaths = GetPathsToPlugins();
+            string ext = EOSManagerPlatformSpecificsSingleton.Instance != null
+                ? EOSManagerPlatformSpecificsSingleton.Instance.GetDynamicLibraryExtension()
+                : ".dll";
 
-                if (libraryHandle != IntPtr.Zero)
+            //TODO: change it to take the platform into consideration
+            //TODO: probably make this more generic?
+            foreach (string pluginPath in pluginPaths)
+            {
+                foreach (var filesystemEntry in Directory.EnumerateFileSystemEntries(pluginPath, libraryName + ext,
+                             SearchOption.AllDirectories))
                 {
-                    print("found library in " + pluginPath);
-                    return new DLLHandle(libraryHandle);
-                }
-                else
-                {
-                    throw new System.ComponentModel.Win32Exception("Searched in : " + string.Join(" ", pluginPaths));
+                    IntPtr libraryHandle = SystemDynamicLibrary.Instance.LoadLibraryAtPath(filesystemEntry);
+                    print("Trying to load with entry " + filesystemEntry);
+
+                    if (libraryHandle != IntPtr.Zero)
+                    {
+                        print("found library in " + pluginPath);
+                        return new DLLHandle(libraryHandle);
+                    }
+                    else
+                    {
+                        throw new System.ComponentModel.Win32Exception("Searched in : " +
+                                                                       string.Join(" ", pluginPaths));
+                    }
                 }
             }
+
+            print("Library not found");
+            return null;
         }
-        print("Library not found");
-        return null;
-    }
 
-    //-------------------------------------------------------------------------
-    public DLLHandle(IntPtr intPtr, bool value = true) : base(intPtr, true)
-    {
-        print("Creating a dll handle");
-        SetHandle(intPtr);
-    }
-
-    //-------------------------------------------------------------------------
-    protected override bool ReleaseHandle()
-    {
-        if(handle == IntPtr.Zero)
+        //-------------------------------------------------------------------------
+        public DLLHandle(IntPtr intPtr, bool value = true) : base(intPtr, true)
         {
-            return true;
+            print("Creating a dll handle");
+            SetHandle(intPtr);
         }
-        bool didUnload = true;
+
+        //-------------------------------------------------------------------------
+        protected override bool ReleaseHandle()
+        {
+            if (handle == IntPtr.Zero)
+            {
+                return true;
+            }
+
+            bool didUnload = true;
 #if !UNITY_EDITOR
         didUnload = SystemDynamicLibrary.Instance.UnloadLibrary(handle);
         print("Unloading a Dll with result : " + didUnload);
 #endif
-        SetHandle(IntPtr.Zero);
-        return didUnload;
-    }
-
-    //-------------------------------------------------------------------------
-    public Delegate LoadFunctionAsDelegate(Type functionType, string functionName)
-    {
-        return LoadFunctionAsDelegate(handle, functionType, functionName);
-    }
-
-    //-------------------------------------------------------------------------
-    public System.IntPtr LoadFunctionAsIntPtr(string functionName)
-    {
-        IntPtr functionPointer = SystemDynamicLibrary.Instance.LoadFunctionWithName(handle, functionName);
-        return functionPointer;
-    }
-
-    //-------------------------------------------------------------------------
-    public void ConfigureFromLibraryDelegateFieldOnClassWithFunctionName(Type clazz, Type delegateType, string functionName)
-    {
-        ConfigureFromLibraryDelegateFieldOnClassWithFunctionName(handle, clazz, delegateType, functionName);
-    }
-
-    //-------------------------------------------------------------------------
-    // TODO better name
-    private static void ConfigureFromLibraryDelegateFieldOnClassWithFunctionName(IntPtr libraryHandle, Type clazz, Type delegateType, string functionName)
-    {
-        var aDelegate = LoadFunctionAsDelegate(libraryHandle, delegateType, functionName);
-        //print("Delegate found is : " + aDelegate);
-        var field = clazz.GetField(functionName);
-        field.SetValue(null, aDelegate);
-    }
-
-    //-------------------------------------------------------------------------
-    static public Delegate LoadFunctionAsDelegate(IntPtr libraryHandle, Type functionType, string functionName)
-    {
-        print("Attempt to load " + functionName);
-        if (libraryHandle == IntPtr.Zero)
-        {
-            throw new Exception("libraryHandle is null");
-        }
-        if (functionType == null)
-        {
-            throw new Exception("null function type?");
+            SetHandle(IntPtr.Zero);
+            return didUnload;
         }
 
-        IntPtr functionPointer = SystemDynamicLibrary.Instance.LoadFunctionWithName(libraryHandle, functionName);
-        if (functionPointer == IntPtr.Zero)
+        //-------------------------------------------------------------------------
+        public Delegate LoadFunctionAsDelegate(Type functionType, string functionName)
         {
-            throw new Exception("Function not found: " + functionName);
+            return LoadFunctionAsDelegate(handle, functionType, functionName);
         }
 
-        return Marshal.GetDelegateForFunctionPointer(functionPointer, functionType);
+        //-------------------------------------------------------------------------
+        public System.IntPtr LoadFunctionAsIntPtr(string functionName)
+        {
+            IntPtr functionPointer = SystemDynamicLibrary.Instance.LoadFunctionWithName(handle, functionName);
+            return functionPointer;
+        }
+
+        //-------------------------------------------------------------------------
+        public void ConfigureFromLibraryDelegateFieldOnClassWithFunctionName(Type clazz, Type delegateType,
+            string functionName)
+        {
+            ConfigureFromLibraryDelegateFieldOnClassWithFunctionName(handle, clazz, delegateType, functionName);
+        }
+
+        //-------------------------------------------------------------------------
+        // TODO better name
+        private static void ConfigureFromLibraryDelegateFieldOnClassWithFunctionName(IntPtr libraryHandle, Type clazz,
+            Type delegateType, string functionName)
+        {
+            var aDelegate = LoadFunctionAsDelegate(libraryHandle, delegateType, functionName);
+            //print("Delegate found is : " + aDelegate);
+            var field = clazz.GetField(functionName);
+            field.SetValue(null, aDelegate);
+        }
+
+        //-------------------------------------------------------------------------
+        static public Delegate LoadFunctionAsDelegate(IntPtr libraryHandle, Type functionType, string functionName)
+        {
+            print("Attempt to load " + functionName);
+            if (libraryHandle == IntPtr.Zero)
+            {
+                throw new Exception("libraryHandle is null");
+            }
+
+            if (functionType == null)
+            {
+                throw new Exception("null function type?");
+            }
+
+            IntPtr functionPointer = SystemDynamicLibrary.Instance.LoadFunctionWithName(libraryHandle, functionName);
+            if (functionPointer == IntPtr.Zero)
+            {
+                throw new Exception("Function not found: " + functionName);
+            }
+
+            return Marshal.GetDelegateForFunctionPointer(functionPointer, functionType);
+        }
     }
 }
-
 #endif

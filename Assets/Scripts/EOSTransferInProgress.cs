@@ -20,13 +20,10 @@
 * SOFTWARE.
 */
 
-using System.Collections.Generic;
-using Epic.OnlineServices.PlayerDataStorage;
-using UnityEngine;
-
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
-    using Editor.Utility;
+    using Utility;
+    using UnityEngine;
 
     /// <summary>
     /// Class <c>EOSTransferInProgress</c> is used in <c>EOSTitleStorageManager</c> and <c>EOSPlayerDataStorageManager</c> to keep track of downloaded cached file data.

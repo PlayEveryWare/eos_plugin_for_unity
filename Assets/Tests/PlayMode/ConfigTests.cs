@@ -20,14 +20,15 @@
  * SOFTWARE.
  */
 
-using NUnit.Framework;
 
-namespace PlayEveryWare.EpicOnlineServices.Tests
+namespace PlayEveryWare.EpicOnlineServices.Tests.Config
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
+    using NUnit.Framework;
+    using Config = EpicOnlineServices.Config;
 
     public class ConfigTests
     {
