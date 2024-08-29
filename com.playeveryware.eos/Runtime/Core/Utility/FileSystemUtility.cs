@@ -652,11 +652,9 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
             {
                 dInfo.Create();
             }
-            catch(Exception ex) 
+            catch(Exception ex)
             {
-                Debug.LogError($"Could not create directory " +
-                               $"\"{dInfo.FullName}\". Exception Message: " +
-                               $"\"{ex.Message}\".");
+                Debug.LogException(ex);
             }
         }
 
