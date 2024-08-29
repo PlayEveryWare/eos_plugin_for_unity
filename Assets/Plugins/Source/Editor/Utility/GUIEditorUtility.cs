@@ -22,6 +22,7 @@
 
 namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
 {
+    using EpicOnlineServices.Utility;
     using System;
     using System.Collections.Generic;
     using UnityEditor;

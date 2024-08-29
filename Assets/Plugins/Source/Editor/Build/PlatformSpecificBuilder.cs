@@ -20,7 +20,7 @@
  * SOFTWARE.
  */
 
-namespace PlayEveryWare.EpicOnlineServices.Build
+namespace PlayEveryWare.EpicOnlineServices.Editor.Build
 {
     using Editor.Config;
     using System.Collections.Generic;
@@ -35,6 +35,7 @@ namespace PlayEveryWare.EpicOnlineServices.Build
     using System;
     using System.Threading.Tasks;
     using Utility;
+    using Config = EpicOnlineServices.Config;
 
     public abstract class PlatformSpecificBuilder : IPlatformSpecificBuilder,
         IPreprocessBuildWithReport

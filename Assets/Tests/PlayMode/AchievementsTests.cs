@@ -20,7 +20,7 @@
  * SOFTWARE.
  */
 
-namespace PlayEveryWare.EpicOnlineServices.Tests.IntegrationTests
+namespace PlayEveryWare.EpicOnlineServices.Tests.Services.Achievements
 {
     using Epic.OnlineServices;
     using Epic.OnlineServices.Achievements;

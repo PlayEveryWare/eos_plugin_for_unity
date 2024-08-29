@@ -20,15 +20,18 @@
  * SOFTWARE.
  */
 
-using UnityEngine;
-using UnityEditor;
-using System;
-using System.Linq;
-using System.Collections.Generic;
+
 
 #if !EOS_DISABLE
 namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 {
+    using EpicOnlineServices.Utility;
+    using UnityEngine;
+    using UnityEditor;
+    using System;
+    using System.Linq;
+    using System.Collections.Generic;
+
     public class LogLevelWindow : EOSEditorWindow
     {
         LogLevelConfig currentLogLevelConfig;

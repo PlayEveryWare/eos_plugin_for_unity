@@ -28,7 +28,6 @@ using System.Text.RegularExpressions;
 namespace PlayEveryWare.EpicOnlineServices.Editor.Build
 {
     using Config;
-    using EpicOnlineServices.Build;
     using System.Threading.Tasks;
     using Config = EpicOnlineServices.Config;
 

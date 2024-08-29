@@ -20,14 +20,15 @@
  * SOFTWARE.
  */
 
-namespace PlayEveryWare.EpicOnlineServices.Tests.Utility.Extensions
+using NUnit.Framework;
+
+namespace PlayEveryWare.EpicOnlineServices.Tests.Extensions
 {
-    using NUnit.Framework;
-    using Epic.OnlineServices.Auth;
+    using Epic.OnlineServices.Platform;
     using EpicOnlineServices.Extensions;
 
-    public class AuthScopeFlagsExtensionsTests : CustomMappedEnumTestBase<AuthScopeFlags>
-    {
+    public class PlatformFlagsExtensionsTests : CustomMappedEnumTestBase<PlatformFlags>
+    { 
         /// <summary>
         /// Tests to make sure that there is a description defined for each of
         /// the enum values.
@@ -45,7 +46,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Utility.Extensions
         [Test]
         public static void CustomMappings_Exists()
         {
-            CustomMappings_Exist(AuthScopeFlagsExtensions.CustomMappings);
+            CustomMappings_Exist(PlatformFlagsExtensions.CustomMappings);
         }
     }
 }

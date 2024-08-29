@@ -24,7 +24,7 @@ using NUnit.Framework;
 
 namespace PlayEveryWare.EpicOnlineServices.Tests.Utility
 {
-    using EpicOnlineServices.Editor.Utility;
+    using EpicOnlineServices.Utility;
 
     public class SafeTranslatorTests
     {

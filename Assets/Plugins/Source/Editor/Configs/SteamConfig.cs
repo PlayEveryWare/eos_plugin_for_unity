@@ -20,14 +20,16 @@
 * SOFTWARE.
 */
 
-using System;
-using System.Collections.Generic;
 
-namespace PlayEveryWare.EpicOnlineServices
+
+namespace PlayEveryWare.EpicOnlineServices.Editor.Config
 {
+    using System;
+    using System.Collections.Generic;
     using Editor;
-    using Editor.Config;
-    using Editor.Utility;
+    using EpicOnlineServices.Utility;
+    using Utility;
+    using Config = EpicOnlineServices.Config;
 
     [Serializable]
     [ConfigGroup("Steam Configuration")]

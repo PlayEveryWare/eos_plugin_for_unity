@@ -20,19 +20,15 @@
 * SOFTWARE.
 */
 
-﻿using System;
-using System.Collections.Generic;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.IO;
-
-using UnityEngine;
-
-using Epic.OnlineServices;
-using Epic.OnlineServices.PlayerDataStorage;
-
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
-    using Editor.Utility;
+    using System;
+    using System.Collections.Generic;
+    using System.Runtime.Serialization.Formatters.Binary;
+    using System.IO;
+    using UnityEngine;
+    using Epic.OnlineServices;
+    using Epic.OnlineServices.PlayerDataStorage;
 
     /// <summary>Class <c>EOSPlayerDataStorageManager</c> is a simplified wrapper for EOS [PlayerDataStorage Interface](https://dev.epicgames.com/docs/services/en-US/Interfaces/PlayerDataStorage/index.html).</summary>
     public class EOSPlayerDataStorageManager : IEOSSubManager

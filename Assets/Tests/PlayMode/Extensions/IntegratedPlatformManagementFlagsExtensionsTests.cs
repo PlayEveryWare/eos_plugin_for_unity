@@ -20,15 +20,14 @@
  * SOFTWARE.
  */
 
-using NUnit.Framework;
-
-namespace PlayEveryWare.EpicOnlineServices.Tests.Utility.Extensions
+namespace PlayEveryWare.EpicOnlineServices.Tests.Extensions
 {
-    using Epic.OnlineServices.Platform;
+    using Epic.OnlineServices.IntegratedPlatform;
     using EpicOnlineServices.Extensions;
+    using NUnit.Framework;
 
-    public class PlatformFlagsExtensionsTests : CustomMappedEnumTestBase<PlatformFlags>
-    { 
+    public class IntegratedPlatformManagementFlagsTests : CustomMappedEnumTestBase<IntegratedPlatformManagementFlags>
+    {
         /// <summary>
         /// Tests to make sure that there is a description defined for each of
         /// the enum values.
@@ -46,7 +45,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Utility.Extensions
         [Test]
         public static void CustomMappings_Exists()
         {
-            CustomMappings_Exist(PlatformFlagsExtensions.CustomMappings);
+            CustomMappings_Exist(IntegratedPlatformManagementFlagsExtensions.CustomMappings);
         }
     }
 }
