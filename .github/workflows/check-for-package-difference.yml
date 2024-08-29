@@ -29,7 +29,7 @@ on:
 env:
  NEW_BRANCH_NAME: ${{ github.head_ref || github.ref_name || inputs.new-branch || 'stable' }}
  OLD_BRANCH_NAME: ${{ inputs.old-branch || 'stable' }}
- PACKAGE_LOCATION: ${{ inputs.package-location || 'etc/PackageTemplate/package.json'}}
+ PACKAGE_LOCATION: ${{ inputs.package-location || 'com.playeveryware.eos/package.json'}}
 
 jobs:
   check_package_version_changed:
