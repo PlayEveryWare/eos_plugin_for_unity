@@ -31,7 +31,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     using System;
     using System.Collections;
     using System.Collections.Generic;
-    using System.IO;
     using System.Linq;
 
     using UnityEngine;
@@ -244,7 +243,7 @@ using UnityEngine.InputSystem;
             // Check to make sure that the friendly name for the scene was found.
             if (string.IsNullOrEmpty(currentSceneFriendlyName))
             {
-                throw new InvalidDataException($"Cannot find friendly name for scene name \"{currentSceneName}\".");
+                throw new ArgumentException($"Cannot find friendly name for scene name \"{currentSceneName}\".");
             }
 
             // alphabetize the scene names.

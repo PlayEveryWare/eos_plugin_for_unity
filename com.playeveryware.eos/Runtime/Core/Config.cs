@@ -28,8 +28,8 @@ namespace PlayEveryWare.EpicOnlineServices
     using UnityEditor;
     using UnityEngine;
     using System.Collections.Generic;
-    using System.Reflection;   
     using System.IO;
+    using System.Reflection;   
     using System.Text;
     using JsonUtility = PlayEveryWare.EpicOnlineServices.Utility.JsonUtility;
     using System.Runtime.CompilerServices;
@@ -53,8 +53,6 @@ namespace PlayEveryWare.EpicOnlineServices
         protected static IDictionary<Type, Config> s_cachedConfigs = 
             new Dictionary<Type, Config>();
 #endif
-
-
 
         /// <summary>
         /// Contains a registration that maps config type to the constructor, to
@@ -86,7 +84,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// The name of the file containing the config values.
         /// </param>
         protected Config(string filename) : 
-            this(filename, Path.Combine(
+            this(filename, FileSystemUtility.CombinePaths(
                 Application.streamingAssetsPath, "EOS")) { }
 
         /// <summary>
@@ -200,6 +198,8 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <returns>Task<typeparam name="T">Config type.</typeparam></returns>
         public static T Get<T>() where T : Config
         {
+            T config = GetAsync<T>().GetAwaiter().GetResult();
+            return config;
             // NOTE: This block (and the corresponding one below) exists so that
             //       the config values are only cached when not in the editor.
             //       In the editor, config files can be changed, so they should
@@ -282,7 +282,7 @@ namespace PlayEveryWare.EpicOnlineServices
         {
             get
             {
-                return Path.Combine(Directory, Filename);
+                return FileSystemUtility.CombinePaths(Directory, Filename);
             }
         }
 
@@ -293,28 +293,8 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <returns>Task.</returns>
         protected virtual async Task ReadAsync()
         {
-            bool configFileExists = File.Exists(FilePath);
-
-            // If the file does not already exist, then save it before reading
-            // it, a default json will be put in the correct place, and
-            // therefore a default set of config values will be loaded.
-            if (!configFileExists)
-            {
-                // This conditional exists because writing a config file is only
-                // something that should ever happen in the editor.
-#if UNITY_EDITOR
-                // If the config file does not currently exist, create it 
-                // when it is being read (which is fair to do in the editor)
-                await WriteAsync();
-#else
-                // If the editor is not running, then the config file not
-                // existing should throw an error.
-                throw new FileNotFoundException(
-                    $"Config file \"{FilePath}\" does not exist.");
-#endif
-            }
-
-            _lastReadJsonString = await FileUtility.ReadAllTextAsync(FilePath);
+            await EnsureConfigFileExistsAsync();
+            _lastReadJsonString = await FileSystemUtility.ReadAllTextAsync(FilePath);
             JsonUtility.FromJsonOverwrite(_lastReadJsonString, this);
         }
 
@@ -324,19 +304,30 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </summary>
         protected virtual void Read()
         {
-            // This conditional exists because writing a config file is only
-            // something that should ever happen in the editor.
-            // This is the config writing for Editor Playmode
-            // Use WriteAsync instead on Editor Not-Playmode
-#if UNITY_EDITOR
-            if (!File.Exists(FilePath)) 
-            {
-                Write();
-            }
-#endif
+            // Call ReadAsync() synchronously.
+            ReadAsync().GetAwaiter().GetResult();
+        }
 
-            _lastReadJsonString = FileUtility.ReadAllText(FilePath);
-            JsonUtility.FromJsonOverwrite(_lastReadJsonString, this);
+        /// <summary>
+        /// Determines if the config file exists, and if it does not, and the
+        /// editor is running, then create the file.
+        /// </summary>
+        /// <returns>Task.</returns>
+        private async Task EnsureConfigFileExistsAsync()
+        {
+            bool fileExists = await FileSystemUtility.FileExistsAsync(FilePath);
+
+#if UNITY_EDITOR
+            if (!fileExists)
+            {
+                await WriteAsync();
+            }
+#else
+            // If the editor is not running, then the config file not
+            // existing should throw an error.
+            throw new FileNotFoundException(
+                $"Config file \"{FilePath}\" does not exist.");
+#endif
         }
 
         // Functions declared below should only ever be utilized in the editor.
@@ -357,9 +348,6 @@ namespace PlayEveryWare.EpicOnlineServices
             bool prettyPrint = true, 
             bool updateAssetDatabase = true)
         {
-            FileInfo configFile = new(FilePath);
-            configFile.Directory?.Create();
-
             var json = JsonUtility.ToJson(this, prettyPrint);
 
             // If the json hasn't changed since it was last read, then
@@ -367,8 +355,7 @@ namespace PlayEveryWare.EpicOnlineServices
             if (json == _lastReadJsonString)
                 return;
 
-            await using StreamWriter writer = new(FilePath);
-            await writer.WriteAsync(json);
+            await FileSystemUtility.WriteFileAsync(FilePath, json);
         }
 
         /// <summary>
@@ -391,8 +378,7 @@ namespace PlayEveryWare.EpicOnlineServices
             if (json == _lastReadJsonString)
                 return;
 
-            using StreamWriter writer = new(FilePath);
-            writer.Write(json);
+            FileSystemUtility.WriteFile(FilePath, json);
 
             if (updateAssetDatabase)
             {
@@ -400,6 +386,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 AssetDatabase.Refresh();
             }
         }
+
 
 
         /// <summary>

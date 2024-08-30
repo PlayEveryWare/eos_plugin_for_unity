@@ -49,29 +49,27 @@
 #define USE_EOS_DYNAMIC_BINDINGS
 #endif
 
-using UnityEngine;
-using System;
-using System.Collections.Generic;
-using System.Collections;
-
-#if !EOS_DISABLE
-using Epic.OnlineServices.Platform;
-using Epic.OnlineServices;
-using Epic.OnlineServices.Auth;
-using Epic.OnlineServices.Logging;
-using Epic.OnlineServices.Connect;
-using Epic.OnlineServices.UI;
-#endif
-
 namespace PlayEveryWare.EpicOnlineServices
 {
+    using UnityEngine;
+    using System;
+    using System.Collections.Generic;
+    using System.Collections;
+
+#if !EOS_DISABLE
+    using Epic.OnlineServices.Platform;
+    using Epic.OnlineServices;
+    using Epic.OnlineServices.Auth;
+    using Epic.OnlineServices.Logging;
+    using Epic.OnlineServices.Connect;
+    using Epic.OnlineServices.UI;
+#endif
 
 #if !EOS_DISABLE
     using Epic.OnlineServices.Presence;
 
     using System.Diagnostics;
     using System.Globalization;
-    using System.IO;
     using UnityEngine.Assertions;
     using AddNotifyLoginStatusChangedOptions = Epic.OnlineServices.Auth.AddNotifyLoginStatusChangedOptions;
     using Credentials = Epic.OnlineServices.Auth.Credentials;
