@@ -34,6 +34,9 @@ namespace PlayEveryWare.EpicOnlineServices.Tests
     using UnityEngine;
     using Utility;
     using JsonUtility = Utility.JsonUtility;
+    using System.Globalization;
+    using System.IO.Compression;
+    using CompressionLevel = System.IO.Compression.CompressionLevel;
 
     /// <summary>
     /// This class consolidates any code coverage history data output from the
@@ -57,7 +60,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests
         /// <summary>
         /// The file name to use when consolidating the code coverage history.
         /// </summary>
-        private const string CODE_COVERAGE_CONSOLIDATED_FILE = "Consolidated_CoverageHistory.xml";
+        private const string CODE_COVERAGE_CONSOLIDATED_FILENAME = "CoverageHistory.zip";
 
         /// <summary>
         /// The file in the code coverage report from which to determine the
@@ -107,59 +110,23 @@ namespace PlayEveryWare.EpicOnlineServices.Tests
         {
             try
             {
-                string outputFilePath = Path.Combine(CODE_COVERAGE_HISTORIC_DATA_DIRECTORY, CODE_COVERAGE_CONSOLIDATED_FILE);
-
                 // Get all CoverageHistory.xml files in the directory
-                string[] coverageFiles = Directory.GetFiles(CODE_COVERAGE_HISTORIC_DATA_DIRECTORY, "*CoverageHistory.xml", SearchOption.AllDirectories);
+                string[] coverageFiles =
+                    Directory.GetFiles(CODE_COVERAGE_HISTORIC_DATA_DIRECTORY, "*_CoverageHistory.xml");
 
-                Dictionary<DateTime, XElement> lastEntryPerDay = new();
-
-                // For each file
-                foreach (string file in coverageFiles)
-                {
-                    XDocument doc = XDocument.Load(file);
-
-                    var entries = doc.Descendants("coverage")
-                        .Select(element => new
-                        {
-                            DateTime.ParseExact(element.Attribute("date")?.Value, CODE_COVERAGE_DATETIME_FORMAT, null).Date,
-                            Element = element
-                        });
-
-                    // For each entry in the file
-                    foreach (var entry in entries)
+                // Parse files and group by date
+                var groupedFiles = coverageFiles
+                    .Select(filePath => new
                     {
-                        // If there already is an entry for the indicated date.
-                        if (lastEntryPerDay.ContainsKey(entry.Date))
-                        {
-                            // Replace the entry if the current one happened
-                            // later in the day.
-                            var existingEntryTime = DateTime.ParseExact(lastEntryPerDay[entry.Date].Attribute("date")?.Value, CODE_COVERAGE_DATETIME_FORMAT, null);
-                            var newEntryTime = DateTime.ParseExact(entry.Element.Attribute("date")?.Value, CODE_COVERAGE_DATETIME_FORMAT, null);
+                        FilePath = filePath,
+                        Date = ParseDateFromFileName(filePath)
+                    })
+                    .Where(x => x.Date != null) // Exclude files that couldn't be parsed
+                    .GroupBy(x => x.Date.Value.Date) // Group by the date part only
+                    .Select(group => group.OrderByDescending(x => x.Date).First()) // Keep only the most recent file for each date
+                    .ToList();
 
-                            if (newEntryTime > existingEntryTime)
-                            {
-                                lastEntryPerDay[entry.Date] = entry.Element;
-                            }
-                        }
-                        else
-                        {
-                            // If there isn't an entry for the indicated date,
-                            // then add the current entry for the date.
-                            lastEntryPerDay[entry.Date] = entry.Element;
-                        }
-                    }
-                }
-
-                // Create a new XML document for the consolidated history
-                XElement root = new("CoverageHistory", lastEntryPerDay.Values);
-
-                // Save the contents of the consolidated history. Omit any 
-                // duplicate namespaces and disable formatting, since this file
-                // should only ever be read by the code coverage utility itself.
-                root.Save(outputFilePath, SaveOptions.DisableFormatting | SaveOptions.OmitDuplicateNamespaces);
-
-                Debug.Log($"Consolidated CoverageHistory saved to {outputFilePath}");
+                CompressCoverageHistories(groupedFiles.Select(arg => arg.FilePath).ToArray());
             }
             catch (Exception ex)
             {
@@ -167,10 +134,109 @@ namespace PlayEveryWare.EpicOnlineServices.Tests
             }
         }
 
+        private static void CompressCoverageHistories(IEnumerable<string> historyFiles)
+        {
+            string compressedHistoriesFile = Path.Combine(
+                CODE_COVERAGE_HISTORIC_DATA_DIRECTORY,
+                CODE_COVERAGE_CONSOLIDATED_FILENAME
+            );
+
+            // If the file does not exist, then create it and add all the 
+            // history files.
+            if (!File.Exists(compressedHistoriesFile))
+            {
+                using ZipArchive archive = ZipFile.Open(compressedHistoriesFile, ZipArchiveMode.Create);
+                foreach (string file in historyFiles)
+                {
+                    archive.CreateEntryFromFile(file, Path.GetFileName(file), CompressionLevel.Optimal);
+                }
+
+                // Stop here
+                return;
+            }
+
+            // If the file does exist, then open it to determine which files (if
+            // any) might need to be added to it.
+            Dictionary<string, string> entriesToAdd = historyFiles.ToDictionary(Path.GetFileName);
+            using (ZipArchive archive = ZipFile.OpenRead(compressedHistoriesFile))
+            {
+                foreach (var entry in archive.Entries)
+                {
+                    if (entriesToAdd.ContainsKey(entry.Name))
+                        entriesToAdd.Remove(entry.Name);
+                }
+
+                if (entriesToAdd.Count == 0)
+                {
+                    Debug.Log("There were no coverage history files that needed to be added to the archive.");
+                }
+            }
+
+            // Update the archive with any coverage history files that need to 
+            // be added to the archive.
+            using (ZipArchive archive = ZipFile.Open(compressedHistoriesFile, ZipArchiveMode.Update))
+            {
+                foreach ((string entryName, string filePath) in entriesToAdd)
+                {
+                    archive.CreateEntryFromFile(filePath, entryName, CompressionLevel.Optimal);
+                }
+            }
+        }
+
+        private static void DecompressCoverageHistories()
+        {
+            string pathToConsolidated = Path.Combine(
+                CODE_COVERAGE_HISTORIC_DATA_DIRECTORY,
+                CODE_COVERAGE_HISTORIC_DATA_DIRECTORY
+            );
+
+            // Skip if the compressed file does not exist
+            if (!File.Exists(pathToConsolidated))
+                return;
+
+            try
+            {
+                // Extract files, but do not overrwrite files.
+                ZipFile.ExtractToDirectory(
+                    pathToConsolidated,
+                    CODE_COVERAGE_HISTORIC_DATA_DIRECTORY, 
+                    false);
+            }
+            catch (Exception e)
+            {
+                Debug.LogException(e);
+                throw;
+            }
+        }
+
+
+        // Helper method to parse the date from the filename
+        private static DateTime? ParseDateFromFileName(string filePath)
+        {
+            string fileName = Path.GetFileName(filePath);
+            string dateString = fileName.Split('_')[0]; // Get the date part from the filename
+
+            // Try to parse the date string
+            if (DateTime.TryParseExact(dateString, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime date))
+            {
+                string timeString = fileName.Split('_')[1]; // Get the time part from the filename
+                string fullDateTimeString = dateString + " " + timeString.Replace('-', ':'); // Combine date and time strings
+
+                if (DateTime.TryParseExact(fullDateTimeString, "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime fullDateTime))
+                {
+                    return fullDateTime;
+                }
+            }
+
+            // Return null if parsing fails
+            return null;
+        }
+
         public static void Run()
         {
             ExtractLineCoverage();
             ConsolidateCoverageHistories();
+            DecompressCoverageHistories();
         }
     }
 }
