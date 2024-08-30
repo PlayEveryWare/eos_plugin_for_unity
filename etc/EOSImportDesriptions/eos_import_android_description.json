@@ -1,7 +1,7 @@
 {
     "source_to_dest": [
-        {"src":"SDK/Source/Generated/Android/*.cs", "dest": "Assets/Plugins/Source/EOS_SDK/Generated/Android/"},
-        {"src":"SDK/Source/Generated/Android/Platform/*.cs", "dest": "Assets/Plugins/Source/EOS_SDK/Generated/Android/Platform/"},
+        {"src":"SDK/Source/Generated/Android/*.cs", "dest": "com.playeveryware.eos/Runtime/EOS_SDK/Generated/Android/"},
+        {"src":"SDK/Source/Generated/Android/Platform/*.cs", "dest": "com.playeveryware.eos/Runtime/EOS_SDK/Generated/Android/Platform/"},
 
         {"src": "SDK/Bin/Android/dynamic-stdc++/aar/*.aar", "dest": "etc/PlatformSpecificAssets/EOS/Android/dynamic-stdc++/aar/"},
         {"src": "SDK/Bin/Android/static-stdc++/aar/*.aar", "dest": "etc/PlatformSpecificAssets/EOS/Android/static-stdc++/aar/"}

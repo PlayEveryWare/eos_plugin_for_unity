@@ -1,6 +1,6 @@
 {
 	"title"											: "<ProductName>",
-	"executable"									: "<ExeName>",
+	"executable"									: "<ExeName>/Contents/MacOS/<UnityProductName>",
 	"productid"										: "<ProductID>",
 	"sandboxid"										: "<SandboxID>",
 	"deploymentid"									: "<DeploymentID>",

@@ -240,8 +240,19 @@ PrefabInstance:
       propertyPath: m_Name
       value: storeUI
       objectReference: {fileID: 0}
+    - target: {fileID: 8145197864418499517, guid: fd628c38be91f764391d5ef7d07ad2a6,
+        type: 3}
+      propertyPath: UIParent
+      value: 
+      objectReference: {fileID: 206432131}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fd628c38be91f764391d5ef7d07ad2a6, type: 3}
+--- !u!1 &206432131 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1482626941293486413, guid: fd628c38be91f764391d5ef7d07ad2a6,
+    type: 3}
+  m_PrefabInstance: {fileID: 206432130}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &282840810
 GameObject:
   m_ObjectHideFlags: 0

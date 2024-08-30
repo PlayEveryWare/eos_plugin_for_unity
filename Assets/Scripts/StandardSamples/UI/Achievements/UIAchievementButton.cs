@@ -20,8 +20,6 @@
 * SOFTWARE.
 */
 
-﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -36,9 +34,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public UnityEvent<int> OnClick;
 
-        public void SetIconTexture(Texture2D Texture)
+        public void SetIconTexture(Texture2D texture)
         {
-            IconImage.texture = Texture;
+            IconImage.texture = texture;
+            LayoutRebuilder.ForceRebuildLayoutImmediate(GetComponent<RectTransform>());
         }
 
         public void SetNameText(string Text)

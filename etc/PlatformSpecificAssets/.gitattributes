@@ -1,1 +1,4 @@
 EOS/Windows/EOSBootstrapper.exe filter=lfs diff=lfs merge=lfs binary
+EOS/Android/dynamic-stdc++/aar/eos-sdk.aar filter=lfs diff=lfs merge=lfs binary
+EOS/Android/static-stdc++/aar/eos-sdk.aar filter=lfs diff=lfs merge=lfs binary
+EOS/Mac/eac_launcher.app/Contents/MacOS/start_protected_game filter=lfs diff=lfs merge=lfs binary

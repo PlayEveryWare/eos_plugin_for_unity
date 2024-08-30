@@ -1,0 +1,41 @@
+{
+    "name": "com.playeveryware.eos",
+    "version": "3.3.2",
+    "unity": "2021.3",
+    "unityRelease": "16f1",
+    "author": {
+        "name": "PlayEveryWare, Inc.",
+        "email": "eos-support@playeveryware.com",
+        "url": "https://playeveryware.com"
+    },
+    "displayName": "Epic Online Services Plugin for Unity",
+    "description": "Friendly Plugin for Epic Online Services\n Unity 2021.3.8f1\n EOS SDK 1.16.3\n\n Dependencies for Extra Packs:\n P2P Netcode Sample : [com.unity.netcode.gameobjects] \n Performance Stress Test Sample : [com.unity.postprocessing]",
+    "documentationUrl": "https://eospluginforunity.playeveryware.com",
+    "dependencies": {
+        "com.unity.modules.jsonserialize": "1.0.0",
+        "com.unity.editorcoroutines": "1.0.0"
+    },
+    "keywords": [
+        "EOS", "Epic", "Epic Online Service", "Windows"
+    ],
+    "samples": [
+        {
+            "displayName": "Standard Pack : EOS Plugin for Unity Samples",
+            "description": "Samples to get started with the PlayEveryWare Unity Plugin For EOS.",
+            "path": "Samples~/Samples/StandardSamples/"
+        },
+        {
+            "displayName": "Extra Pack 1 : P2P Netcode Sample",
+            "description": "Add-on sample to demonstrate P2P netcode",
+            "path": "Samples~/Samples/P2PNetcodeSample/"
+        },
+        {
+            "displayName": "Extra Pack 2 : Performance Stress Test Sample",
+            "description": "Add-on sample to stress test performance",
+            "path": "Samples~/Samples/PerformanceStressTestSample/"
+        }
+    ],
+    "com_playeveryware": {
+        "git_build_sha": "74e64b0b0a78d9c7e428508d68eb97d2af8e0836"
+    }
+}

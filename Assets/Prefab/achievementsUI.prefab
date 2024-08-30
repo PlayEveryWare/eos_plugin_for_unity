@@ -1175,6 +1175,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cf6398f80b5d8345bb350a4ef1d026e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  UIFirstSelected: {fileID: 4946070415795337658}
+  UIParent: {fileID: 0}
   refreshDataButton: {fileID: 4946070415795337660}
   loginIncreaseButton: {fileID: 2731332095183753156}
   showDefinitionToggle: {fileID: 5759596742897632476}
@@ -1185,7 +1187,6 @@ MonoBehaviour:
   itemTemplate: {fileID: 1068329455474885851}
   achievementUnlockedIcon: {fileID: 988972119910036307}
   achievementLockedIcon: {fileID: 8504617572463333742}
-  UIFirstSelected: {fileID: 4946070415795337658}
 --- !u!1 &4946070414465693109
 GameObject:
   m_ObjectHideFlags: 0

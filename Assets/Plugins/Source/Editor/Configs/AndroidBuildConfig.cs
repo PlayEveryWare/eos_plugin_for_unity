@@ -24,8 +24,10 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Config
     using System;
 
     [Serializable]
+    [ConfigGroup("Android Build Settings")]
     public class AndroidBuildConfig : EditorConfig
     {
+        [ConfigField("Link EOS Library Dynamically", ConfigFieldType.Flag)]
         public bool DynamicallyLinkEOSLibrary;
 
         static AndroidBuildConfig()

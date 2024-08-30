@@ -449,19 +449,49 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Steam
 
         public void StartConnectLoginWithSteamSessionTicket(EOSManager.OnConnectLoginCallback onLoginCallback)
         {
+            StartConnectLoginWithSteamSessionTicket(onLoginCallback, 0);
+        }
+
+        private void StartConnectLoginWithSteamSessionTicket(EOSManager.OnConnectLoginCallback onLoginCallback, int retryAttemptNumber = 0)
+        {
 #if DISABLESTEAMWORKS
             onLoginCallback?.Invoke(new Epic.OnlineServices.Connect.LoginCallbackInfo() { ResultCode = Epic.OnlineServices.Result.UnexpectedError });
 #else
+            const int MaximumNumberOfRetries = 1;
+
             string steamToken = GetSessionTicket();
-            EOSManager.Instance.StartConnectLoginWithOptions(Epic.OnlineServices.ExternalCredentialType.SteamSessionTicket, steamToken, onloginCallback: onLoginCallback);
+            EOSManager.Instance.StartConnectLoginWithOptions(Epic.OnlineServices.ExternalCredentialType.SteamSessionTicket, steamToken, onloginCallback: (Epic.OnlineServices.Connect.LoginCallbackInfo callbackInfo) =>
+            {
+                if (retryAttemptNumber < MaximumNumberOfRetries && callbackInfo.ResultCode == Epic.OnlineServices.Result.ConnectExternalTokenValidationFailed)
+                {
+                    Debug.Log($"Connect Login failed: SteamManager successfully retrieved an app ticket from Steam, but the provided app ticket was invalid for logging in to Epic Online Services. Epic identified the ticket as not being valid. Re-attempting to acquire ticket and try logging in again. The cached app ticket in `{nameof(encryptedAppTicket)}` will now be invalidated.");
+                    
+                    sessionTicketHandle = HAuthTicket.Invalid;
+
+                    // Calls this method again, indicating it as a retry
+                    // GetSessionTicket will notice the ticket has been set to invalid, and will try to acquire a new one
+                    StartConnectLoginWithSteamSessionTicket(onLoginCallback, retryAttemptNumber: retryAttemptNumber++);
+                }
+                else
+                {
+                    onLoginCallback?.Invoke(callbackInfo);
+                }
+            });
 #endif
         }
 
         public void StartConnectLoginWithSteamAppTicket(EOSManager.OnConnectLoginCallback onLoginCallback)
         {
+            StartConnectLoginWithSteamAppTicket(onLoginCallback, 0);
+        }
+
+        private void StartConnectLoginWithSteamAppTicket(EOSManager.OnConnectLoginCallback onLoginCallback, int retryAttemptNumber = 0)
+        {
 #if DISABLESTEAMWORKS
             onLoginCallback?.Invoke(new Epic.OnlineServices.Connect.LoginCallbackInfo() { ResultCode = Epic.OnlineServices.Result.UnexpectedError });
 #else
+            const int MaximumNumberOfRetries = 1;
+
             RequestAppTicket((string token) => {
                 if (token == null)
                 {
@@ -474,14 +504,29 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Steam
                     // Now add to the callback a step wherein, if it fails from this point, the cached encryptedAppTicket will be invalidated
                     EOSManager.OnConnectLoginCallback cacheInvalidationOnFailureCallback = (Epic.OnlineServices.Connect.LoginCallbackInfo callbackInfo) =>
                     {
-                        if (callbackInfo.ResultCode != Epic.OnlineServices.Result.Success)
+                        if (retryAttemptNumber < MaximumNumberOfRetries && callbackInfo.ResultCode == Epic.OnlineServices.Result.ConnectExternalTokenValidationFailed)
+                        {
+                            Debug.Log($"Connect Login failed: SteamManager successfully retrieved an app ticket from Steam, but the provided app ticket was invalid for logging in to Epic Online Services. Epic identified the ticket as not being valid. Re-attempting to acquire ticket and try logging in again. The cached app ticket in `{nameof(encryptedAppTicket)}` will now be invalidated.");
+
+                            // Invalidating this value will cause it to be reacquired on next attempt
+                            encryptedAppTicket = null;
+
+                            // Intentionally not calling the onLoginCallback, letting the next attempt call it
+                            StartConnectLoginWithSteamAppTicket(onLoginCallback, retryAttemptNumber: retryAttemptNumber++);
+                        }
+                        else if (callbackInfo.ResultCode != Epic.OnlineServices.Result.Success)
                         {
                             Debug.Log($"Connect Login failed: SteamManager successfully retrieved an app ticket from Steam, but the provided app ticket was invalid for logging in to Epic Online Services. The cached app ticket in `{nameof(encryptedAppTicket)}` will now be invalidated.");
                             encryptedAppTicket = null;
+                            onLoginCallback?.Invoke(callbackInfo);
+                        }
+                        else
+                        {
+                            // Then call the original callback we were provided, if we have one
+                            onLoginCallback?.Invoke(callbackInfo);
                         }
 
-                        // Then call the original callback we were provided, if we have one
-                        onLoginCallback?.Invoke(callbackInfo);
+                        
                     };
 
                     EOSManager.Instance.StartConnectLoginWithOptions(Epic.OnlineServices.ExternalCredentialType.SteamAppTicket, token, onloginCallback: cacheInvalidationOnFailureCallback);

@@ -29,28 +29,41 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Config
     /// vary depending  on the environment that one is running Unity from.
     /// </summary>
     [Serializable]
+    [ConfigGroup("Tools")]
     public class ToolsConfig : EditorConfig
     {
         /// <summary>
         /// The path to find the tool used for generating EAC certs.
         /// </summary>
+        [FilePathField("Path to EAC Integrity Tool", "", "EOS SDK tool used to generate EAC certificate from file hashes.")]
         public string pathToEACIntegrityTool;
 
+        [FilePathField("Path to EAC Integrity Tool Config", "cfg", "Config file used by integrity tool. Defaults to anticheat_integritytool.cfg in same directory.")]
         public string pathToEACIntegrityConfig;
+
+        // TODO: Note that this field member is not used, it is here for backwards compatibility.
         public string pathToDefaultCertificate;
+
+        [FilePathField("Path to EAC Private Key", "key", "EAC private key used in integrity tool cert generation. Exposing this to the public wil compromise anti-cheat functionality.")]
         public string pathToEACPrivateKey;
+
+        [FilePathField("Path to EAC Certificate", "cer")]
         public string pathToEACCertificate;
+
+        [FilePathField("Path to EAC Splash Image", "png")]
         public string pathToEACSplashImage;
 
         /// <summary>
         /// Optional override name for EOSBootstrapper.exe.
         /// </summary>
+        [ConfigField("Bootstrapper Name Override", ConfigFieldType.Text, "Name to use instead of 'Bootstrapper.exe'")]
         public string bootstrapperNameOverride;
 
         /// <summary>
         /// If enabled, making a build will run the Easy Anti-Cheat integrity
         /// tool and copy EAC files to the build directory.
         /// </summary>
+        [ConfigField("Use EAC", ConfigFieldType.Flag, "If set to true, integrates Easy AntiCheat.")]
         public bool useEAC;
 
         static ToolsConfig()

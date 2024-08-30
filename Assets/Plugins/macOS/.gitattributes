@@ -1,1 +1,1 @@
-libEOSSDK-Mac-Shipping.dylib filter=lfs diff=lfs merge=lfs binary
+*.dylib filter=lfs diff=lfs merge=lfs binary

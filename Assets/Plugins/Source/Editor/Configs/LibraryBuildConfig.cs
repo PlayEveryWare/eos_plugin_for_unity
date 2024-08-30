@@ -21,10 +21,19 @@
  */
 namespace PlayEveryWare.EpicOnlineServices.Editor.Config
 {
+    using System;
+
+    [Serializable]
+    [ConfigGroup("Platform Library Build Settings")]
     public class LibraryBuildConfig : EditorConfig
     {
+        [FilePathField("MSBuild path", "exe")]
         public string msbuildPath;
+
+        [FilePathField("Make path", "*")]
         public string makePath;
+
+        [ConfigField("Use debug config for MSBuild", ConfigFieldType.Flag, group:1)]
         public bool msbuildDebug;
 
         static LibraryBuildConfig()

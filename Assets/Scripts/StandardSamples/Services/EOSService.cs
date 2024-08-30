@@ -23,79 +23,88 @@
 
 namespace PlayEveryWare.EpicOnlineServices
 {
-    using System;
-    using System.Collections.Generic;
-
     using Epic.OnlineServices;
-    using Epic.OnlineServices.Connect;
+    using System;
+    using System.Runtime.CompilerServices;
     using System.Threading.Tasks;
 
     /// <summary>
     /// Contains implementation of common functionality between different
     /// EOS Service managers (Currently AchievementsService and StatsService).
     /// </summary>
-    public abstract class EOSService : IConnectInterfaceEventListener, IEOSSubManager, IDisposable
+    public abstract class EOSService : IEOSSubManager, IDisposable
     {
         /// <summary>
-        /// Stores a list of functions to be called whenever data related to
-        /// the manager has been updated.
+        /// Describes the function signature for the event that triggers when
+        /// the service has been updated.
         /// </summary>
-        protected IList<Action> _updateCallbacks = new List<Action>();
+        public delegate void ServiceUpdatedEventHandler();
+
+        /// <summary>
+        /// Event that triggers when changes have been made that may require a
+        /// user interface update.
+        /// </summary>
+        public event ServiceUpdatedEventHandler Updated;
 
         /// <summary>
         /// Indicates whether the service needs to have a user authenticated in
         /// order to function properly.
         /// </summary>
-        private bool _requiresLoggedInWithConnectInterface;
-
-        /// <summary>
-        /// Called when connect login has taken place.
-        /// </summary>
-        /// <param name="loginCallbackInfo"></param>
-        public void OnConnectLogin(LoginCallbackInfo loginCallbackInfo)
-        {
-            if (loginCallbackInfo.ResultCode != Result.Success)
-            {
-                UnityEngine.Debug.Log($"Player login did not succeed. Result code: {Enum.GetName(typeof(Result), loginCallbackInfo.ResultCode)}");
-                return;
-            }
-            OnPlayerLogin(loginCallbackInfo.LocalUserId);
-        }
+        protected bool RequiresAuthentication { get; }
 
         /// <summary>
         /// Base constructor for Service managers.
         /// </summary>
-        /// <param name="requiresLoggedInWithConnectInterface">
+        /// <param name="requiresAuthentication">
         /// Indicates whether the service manager requires a user to be
         /// authenticated with the Connect Interface in order to function
         /// properly.
         /// </param>
-        protected EOSService(bool requiresLoggedInWithConnectInterface)
+        protected EOSService(bool requiresAuthentication = true)
         {
-            _requiresLoggedInWithConnectInterface = requiresLoggedInWithConnectInterface;
-
-            EOSManager.Instance.AddConnectLoginListener(this);
-
+            RequiresAuthentication = requiresAuthentication;
+            AuthenticationListener.Instance.AuthenticationChanged += OnAuthenticationChanged;
             _ = RefreshAsync();
         }
 
-        /// <summary>
-        /// Determines whether the user is currently authenticated using the
-        /// Connect Interface provided by the EOS SDK.
-        /// </summary>
-        /// <returns>
-        /// True if the user is authenticated using the Connect Interface, false
-        /// otherwise.
-        /// </returns>
-        private static bool IsLoggedInWithConnectInterface()
+        ~EOSService()
         {
-            ProductUserId userId = EOSManager.Instance.GetProductUserId();
-            if (null == userId || false == userId.IsValid())
+            Dispose();
+        }
+
+        /// <summary>
+        /// Try to get the product user id from the connect interface.
+        /// </summary>
+        /// <param name="productUserId">
+        /// ProductUserId for the currently logged in user.
+        /// </param>
+        /// <returns>
+        /// True if the ProductUserId was successfully retrieved and is valid,
+        /// false otherwise.
+        /// </returns>
+        protected bool TryGetProductUserId(out ProductUserId productUserId)
+        {
+            productUserId = EOSManager.Instance.GetProductUserId();
+            if (null != productUserId && productUserId.IsValid())
             {
-                return false;
+                return true;
             }
 
-            return EOSManager.Instance.GetEOSConnectInterface().GetLoginStatus(userId) == LoginStatus.LoggedIn;
+            UnityEngine.Debug.LogWarning($"There was a problem getting the product user id of the currently logged-in user.");
+            return false;
+
+        }
+
+        private void OnAuthenticationChanged(bool authenticated)
+        {
+            if (authenticated)
+            {
+                OnLoggedIn();
+            }
+            else
+            {
+                OnLoggedOut();
+            }
         }
 
         /// <summary>
@@ -104,16 +113,20 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </summary>
         public void Dispose()
         {
-            EOSManager.Instance.RemoveConnectLoginListener(this);
+            // Unsubscribe from the authentication changed event.
+            AuthenticationListener.Instance.AuthenticationChanged -= OnAuthenticationChanged;
         }
 
         /// <summary>
-        /// Should be called when a player has been successfully logged in.
+        /// Implement this method to perform tasks when a user authenticates.
         /// </summary>
-        /// <param name="productUserId">
-        /// The ProductUserId of the player that has just been logged in.
-        /// </param>
-        protected abstract void OnPlayerLogin(ProductUserId productUserId);
+        protected abstract void OnLoggedIn();
+
+        /// <summary>
+        /// Implement this method to cleanup things when the user logs out. The
+        /// local state information pertaining to the user should be cleared.
+        /// </summary>
+        protected abstract void OnLoggedOut();
 
         /// <summary>
         /// Refreshes the service manager
@@ -124,7 +137,7 @@ namespace PlayEveryWare.EpicOnlineServices
             // Check to see if authentication is required, if it's not then 
             // continue. If it is, then make sure a user is authenticated before
             // refreshing.
-            if (!_requiresLoggedInWithConnectInterface || (_requiresLoggedInWithConnectInterface && IsLoggedInWithConnectInterface()))
+            if (!RequiresAuthentication || (RequiresAuthentication && AuthenticationListener.Instance.IsAuthenticated))
             {
                 await InternalRefreshAsync();
             }
@@ -142,35 +155,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </summary>
         protected void NotifyUpdated()
         {
-            // Make copy of the update callbacks so that the callback cannot
-            // inadvertently remove from or add to the list, which would break
-            // the foreach loop.
-            IList<Action> updateCallBacksCopy = new List<Action>(_updateCallbacks);
-            foreach (Action action in updateCallBacksCopy)
-                action();
-        }
-
-        /// <summary>
-        /// Adds a given callback - to be invoked by the manager whenever
-        /// data pertaining to the manager has been updated.
-        /// </summary>
-        /// <param name="callback">
-        /// The callback to invoke when data pertaining to this manager has been
-        /// updated locally.
-        /// </param>
-        public void AddUpdateCallback(Action callback)
-        {
-            _updateCallbacks.Add(callback);
-        }
-
-        /// <summary>
-        /// Removes a specific callback from the list of callbacks to call when
-        /// data for achievements and stats has been updated locally.
-        /// </summary>
-        /// <param name="callback">The callback to remove.</param>
-        public void RemoveUpdateCallback(Action callback)
-        {
-            _updateCallbacks.Remove(callback);
+            Updated?.Invoke();
         }
     }
 }

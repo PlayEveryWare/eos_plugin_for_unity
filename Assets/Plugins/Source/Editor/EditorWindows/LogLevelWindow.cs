@@ -39,10 +39,14 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
         int selectedCategoryIndex = 0;
         bool showAllCategories = false;
 
+        public LogLevelWindow() : base("Log Level Configuration")
+        {
+        }
+
         [MenuItem("Tools/EOS Plugin/Log Level Configuration")]
         public static void ShowWindow()
         {
-            GetWindow<LogLevelWindow>("Log Level");
+            GetWindow<LogLevelWindow>();
         }
         protected override void Setup()
         {

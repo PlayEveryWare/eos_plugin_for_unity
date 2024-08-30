@@ -93,11 +93,14 @@ namespace PlayEveryWare.EpicOnlineServices
         /// Nothing to be done on windows for the moment
         /// </summary>
         /// <param name="initializeOptions"></param>
-        /// <param name="configData"></param>
-        public override void ConfigureSystemInitOptions(ref EOSInitializeOptions initializeOptions, EOSConfig configData)
+        public override void ConfigureSystemInitOptions(ref EOSInitializeOptions initializeOptions)
         {
-            // Override because Windows has no "overrides"
-            // TODO: This is a symptom of Windows historically having "default" configuration values. And needs to be fixed.
+            // Overriden with empty behavior because Windows has no concept of
+            // override configuration values - the main EOSConfig values are
+            // taken as they are.
+
+            // TODO: This is a symptom of Windows historically having "default"
+            //       configuration values. And needs to be fixed.
         }
 
 

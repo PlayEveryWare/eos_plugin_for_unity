@@ -20,24 +20,48 @@
 * SOFTWARE.
 */
 
-using System;
-using System.Collections;
-using System.Collections.Generic;
-
-using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.EventSystems;
-
-using Epic.OnlineServices;
-using Epic.OnlineServices.Sessions;
-
-using PlayEveryWare.EpicOnlineServices;
-
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
-    public class UISessionsMatchmakingMenu : MonoBehaviour, ISampleSceneUI
+    using System;
+    using System.Collections.Generic;
+
+    using UnityEngine;
+    using UnityEngine.UI;
+    using UnityEngine.EventSystems;
+
+    using Epic.OnlineServices;
+    using Epic.OnlineServices.Sessions;
+
+    public class UISessionsMatchmakingMenu : SampleMenuWithFriends
     {
-        public GameObject SessionsMatchmakingUIParent;
+        /// <summary>
+        /// An enum to record the local state of whether the local user can invite users to their Session.
+        /// <see cref="OwnInvitationState"/>
+        /// </summary>
+        protected enum OwnSessionInvitationAbilityState
+        {
+            /// <summary>
+            /// Indicates the user has not joined any Session, therefore can't invite anyone.
+            /// </summary>
+            NoSessionToInviteTo,
+
+            /// <summary>
+            /// Indicates the user has joined a Session, but for some reason it can't have invitations sent for it.
+            /// </summary>
+            InvalidSessionToInviteTo,
+
+            /// <summary>
+            /// Indicates the user has joined a Session that can have invitations sent for it correctly.
+            /// </summary>
+            ValidSessionToInviteTo
+        }
+
+        /// <summary>
+        /// Cached state that indicates if the local user can send invitations for a Session.
+        /// Processed in <see cref="OnFriendStateChanged"/>,
+        /// and utilized in <see cref="GetFriendInteractionState(FriendData)"/>.
+        /// </summary>
+        protected OwnSessionInvitationAbilityState OwnInvitationState { get; set; } = OwnSessionInvitationAbilityState.NoSessionToInviteTo;
 
         [Header("Sessions/Matchmaking UI - Create Options")]
         public Text SessionNameVal;
@@ -64,43 +88,47 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public Text InviteFromVal;
         public Toggle InvitePresence;
 
-        [Header("Controller")]
-        public GameObject UIFirstSelected;
+        // TODO: It's unclear why this only works when startsHidden is set to
+        //       false, but only for this menu. Some investigation needs to
+        //       happen, after which it's possible that the constructor 
+        //       parameter might be able to be removed altogether.
+        public UISessionsMatchmakingMenu() : base(false)
+        {
+
+        }
 
         private EOSSessionsManager GetEOSSessionsManager
         {
             get { return EOSManager.Instance.GetOrCreateManager<EOSSessionsManager>(); }
         }
 
-        public void Awake()
+        protected override void OnEnable()
         {
+            base.OnEnable();
             // Hide Invite Pop-up (Default)
             UIInvitePanel.SetActive(false);
             InviteFromVal.text = string.Empty;
 
-            HideMenu();
+            GetEOSSessionsManager.UIOnSessionRefresh = OnSessionRefresh;
         }
-
-        /*private void Start()
-        {
-        }*/
 
         private int previousFrameSessionCount = 0;
         private int previousFrameResultCount = 0;
 
-        private void OnDestroy()
+        protected override void OnDestroy()
         {
-            //HideMenu();
+            base.OnDestroy();
             // Unity crashes if you try to access EOSSinglton OnDestroy
             EOSManager.Instance.RemoveManager<EOSSessionsManager>();
         }
 
-        public void Update()
+        protected override void Update()
         {
+            base.Update();
+
             EOSSessionsManager sessionsManager = GetEOSSessionsManager;
             bool stateUpdates = sessionsManager.Update();
-
-
+            
             // Invites UI Prompt
             if (sessionsManager.GetCurrentInvite() != null)
             {
@@ -160,45 +188,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
                     GameObject sessionUiObj = Instantiate(UISessionEntryPrefab, SessionContentParent.transform);
                     UISessionEntry uiEntry = sessionUiObj.GetComponent<UISessionEntry>();
+
                     if (uiEntry != null)
                     {
-                        uiEntry.NameTxt.text = sessionResult.Name;
-
-                        if (sessionResult.UpdateInProgress)
-                        {
-                            uiEntry.StatusTxt.text = "*Updating*";
-                        }
-                        else
-                        {
-                            uiEntry.StatusTxt.text = sessionResult.SessionState.ToString();
-                        }
-
-                        uiEntry.PlayersTxt.text = string.Format("{0}/{1}", sessionResult.NumConnections, sessionResult.MaxPlayers);
-                        uiEntry.JIPTxt.text = sessionResult.AllowJoinInProgress.ToString();
-                        uiEntry.PermissionTxt.text = sessionResult.PermissionLevel.ToString();
-                        uiEntry.InvitesTxt.text = sessionResult.InvitesAllowed.ToString();
-
-                        uiEntry.JoinOnClick = JoinButtonOnClick;
-                        uiEntry.JoinSessionDetails = kvp.Value;
-
-                        uiEntry.OnlyEnableSearchResultButtons();
-
-                        bool levelAttributeFound = false;
-                        foreach (SessionAttribute sessionAttr in sessionResult.Attributes)
-                        {
-                            if (sessionAttr.Key.Equals("Level", StringComparison.OrdinalIgnoreCase))
-                            {
-                                uiEntry.LevelTxt.text = sessionAttr.AsString;
-                                levelAttributeFound = true;
-                                break;
-                            }
-                        }
-
-                        if (!levelAttributeFound)
-                        {
-                            Debug.LogErrorFormat("UISessionsMatchmakingMenu: Attribute 'Level' not found for session '{0}'", sessionResult.Name);
-                            uiEntry.LevelTxt.text = "-NA-";
-                        }
+                        uiEntry.SetUIElementsFromSessionAndDetails(sessionResult, kvp.Value, this);
                     }
                 }
             }
@@ -239,46 +232,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
                     GameObject sessionUiObj = Instantiate(UISessionEntryPrefab, SessionContentParent.transform);
                     UISessionEntry uiEntry = sessionUiObj.GetComponent<UISessionEntry>();
+
                     if (uiEntry != null)
                     {
-                        uiEntry.NameTxt.text = kvp.Key;
-
-                        if (session.UpdateInProgress)
-                        {
-                            uiEntry.StatusTxt.text = "*Updating*";
-                        }
-                        else
-                        {
-                            uiEntry.StatusTxt.text = session.SessionState.ToString();
-                        }
-                        uiEntry.EnableButtonsBySessionState(session.UpdateInProgress, session.SessionState);
-
-                        uiEntry.PlayersTxt.text = string.Format("{0}/{1}", session.NumConnections, session.MaxPlayers);
-                        uiEntry.JIPTxt.text = session.AllowJoinInProgress.ToString();
-                        uiEntry.PermissionTxt.text = session.PermissionLevel.ToString();
-                        uiEntry.InvitesTxt.text = session.InvitesAllowed.ToString();
-
-                        uiEntry.StartOnClick = StartButtonOnClick;
-                        uiEntry.EndOnClick = EndButtonOnClick;
-                        uiEntry.ModifyOnClick = ModifyButtonOnClick;
-                        uiEntry.LeaveOnClick = LeaveButtonOnClick;
-
-                        bool levelAttributeFound = false;
-                        foreach (SessionAttribute sessionAttr in session.Attributes)
-                        {
-                            if (sessionAttr.Key.Equals("Level", StringComparison.OrdinalIgnoreCase))
-                            {
-                                uiEntry.LevelTxt.text = sessionAttr.AsString;
-                                levelAttributeFound = true;
-                                break;
-                            }
-                        }
-
-                        if (!levelAttributeFound)
-                        {
-                            Debug.LogErrorFormat("UISessionsMatchmakingMenu: Attribute 'Level' not found for session '{0}'", session.Name);
-                            uiEntry.LevelTxt.text = "-NA-";
-                        }
+                        uiEntry.SetUIElementsFromSession(session, this);
                     }
                 }
             }
@@ -302,16 +259,16 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             session.Attributes.Add(attribute);
 
-            GetEOSSessionsManager.CreateSession(session, PresenceVal.isOn, UIOnSessionCreated);
+            GetEOSSessionsManager.CreateSession(session, UIOnSessionCreated);
         }
 
-        private void UIOnSessionCreated()
+        private void UIOnSessionCreated(SessionsManagerCreateSessionCallbackInfo info)
         {
             // Update() already enumerates ActiveSessions.  Here you can do any UI related calls after session is created.
         }
 
         //Search Result
-        private void JoinButtonOnClick(SessionDetails sessionHandle)
+        public void JoinButtonOnClick(SessionDetails sessionHandle)
         {
             GetEOSSessionsManager.JoinSession(sessionHandle, true, OnJoinSessionFinished); // Default Presence True
         }
@@ -413,24 +370,177 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             GetEOSSessionsManager.DeclineLobbyInvite();
         }
 
-        public void ShowMenu()
+        public override void Show()
         {
+            base.Show();
             GetEOSSessionsManager.OnLoggedIn();
+            GetEOSSessionsManager.OnPresenceChange.AddListener(SetDirtyFlagAction);
 
-            SessionsMatchmakingUIParent.gameObject.SetActive(true);
-
-            // Controller
-            EventSystem.current.SetSelectedGameObject(UIFirstSelected);
+            EOSManager.Instance.SetLogLevel(Epic.OnlineServices.Logging.LogCategory.AllCategories, Epic.OnlineServices.Logging.LogLevel.Warning);
+            EOSManager.Instance.SetLogLevel(Epic.OnlineServices.Logging.LogCategory.Sessions, Epic.OnlineServices.Logging.LogLevel.Verbose);
         }
 
-        public void HideMenu()
+        public override void Hide()
         {
+            base.Hide();
             if (GetEOSSessionsManager.IsUserLoggedIn)//check to prevent warnings when done unnecessarily during Sessions & Matchmaking startup
             {
+                GetEOSSessionsManager.OnPresenceChange.RemoveListener(SetDirtyFlagAction);
                 GetEOSSessionsManager.OnLoggedOut();
             }
-
-            SessionsMatchmakingUIParent.gameObject.SetActive(false);
         }
+
+        public bool TryGetExistingUISessionEntryById(string sessionId, out UISessionEntry entry)
+        {
+            foreach (Transform childTransform in SessionContentParent.transform)
+            {
+                UISessionEntry thisEntry = childTransform.GetComponent<UISessionEntry>();
+
+                if (null == thisEntry || null == thisEntry.RepresentedSession || thisEntry.RepresentedSession.Id != sessionId)
+                {
+                    continue;
+                }
+
+                entry = thisEntry;
+                return true;
+            }
+
+            entry = null;
+            return false;
+        }
+
+        /// <summary>
+        /// After a Session is successfully refreshed, this is run to update the UI with the new information about the local Session.
+        /// </summary>
+        /// <param name="session">Information about the Session from the EOS C# SDK.</param>
+        /// <param name="details">Additional information about the Session from the EOS C SDK.</param>
+        public void OnSessionRefresh(Session session, SessionDetails details)
+        {
+            if (!TryGetExistingUISessionEntryById(session.Id, out UISessionEntry uiEntry))
+            {
+                Debug.Log($"UISessionsMatchmakingMenu (OnSessionRefresh): Requested refresh of a Session with {nameof(Session.Id)} \"{session.Id}\", but did not have a UI Entry for that currently. Cannot refresh it.");
+                return;
+            }
+
+            Debug.Log($"{nameof(UISessionsMatchmakingMenu)} ({nameof(OnSessionRefresh)} Instructed to refresh Session with {nameof(Session.Id)} \"{session.Id}\". Found local UI element. Refreshing now.");
+
+            uiEntry.SetUIElementsFromSessionAndDetails(session, details, this);
+        }
+
+        #region UIFriendInteractionSource Implementations
+
+        /* 
+         * REGION NOTES:
+         * 
+         * The UIFriendsMenu popout uses the base class UIFriendInteractionSource to facilitate interactions.
+         * 
+         * NOTE: This current implementation is not complete.
+         * There is functionality suggested by the existance of this window that needs to be added.
+         * 
+         * - Users should be able to Join Sessions their friends are in, if that friend is in a Session, and that Session has invites enabled.
+         * - Users that are in a Session who want to interact with a friend that is also in a Session should have UX for choosing Invite or Join
+         * - Users in multiple Sessions should be able to choose which Session to invite their friend to. Currently it uses the most recently joined Session only.
+         * - Users who have friends in multiple Sessions should be able to choose which Session to join
+         * 
+         */
+
+        public override string GetFriendInteractButtonText()
+        {
+            return "Invite";
+        }
+
+        public override void OnFriendInteractButtonClicked(FriendData friendData)
+        {
+            // Get the local Presence Session to invite to
+            if (!GetEOSSessionsManager.TryGetPresenceSession(out Session foundSession) || foundSession.ActiveSession == null)
+            {
+                // Didn't find a presence session, so nothing to invite to
+                Debug.LogError($"{nameof(UISessionsMatchmakingMenu)} ({nameof(OnFriendInteractButtonClicked)}): A friend was chosen to invite to a Session, but no local Presence-enabled Session detected.");
+                return;
+            }
+
+            GetEOSSessionsManager.InviteToSession(foundSession.Name, friendData.UserProductUserId);
+        }
+
+        public override FriendInteractionState GetFriendInteractionState(FriendData friendData)
+        {
+            // First determine if the user is both a friend and online
+            if (!friendData.IsFriend() || !friendData.IsOnline())
+            {
+                return FriendInteractionState.Hidden;
+            }
+
+            if (OwnInvitationState == OwnSessionInvitationAbilityState.NoSessionToInviteTo)
+            {
+                return FriendInteractionState.Hidden;
+            }
+
+            if (OwnInvitationState == OwnSessionInvitationAbilityState.InvalidSessionToInviteTo)
+            {
+                return FriendInteractionState.Disabled;
+            }
+
+            // The only thing remaining is yes, this user can be interacted with
+            return FriendInteractionState.Enabled;
+        }
+
+        public override void OnFriendStateChanged()
+        {
+            // Determine if the local user has an active, presence-enabled Session
+            if (!GetEOSSessionsManager.TryGetPresenceSession(out Session foundSession) || foundSession.ActiveSession == null)
+            {
+                // Didn't find a presence session, so nothing to invite to
+                OwnInvitationState = OwnSessionInvitationAbilityState.NoSessionToInviteTo;
+                return;
+            }
+
+            // Does this Session allow for invites? If not, you can't invite users to it.
+            if (!foundSession.InvitesAllowed)
+            {
+                OwnInvitationState = OwnSessionInvitationAbilityState.InvalidSessionToInviteTo;
+                return;
+            }
+
+            // Is this Session in a state that can accept more users?
+            // To answer questions about this, fetch the ActiveSessionInfo
+            ActiveSessionCopyInfoOptions copyInfoOption = new();
+            Result copyResult = foundSession.ActiveSession.CopyInfo(ref copyInfoOption, out ActiveSessionInfo? foundInfo);
+
+            if (copyResult != Result.Success || !foundInfo.HasValue || !foundInfo.Value.SessionDetails.HasValue)
+            {
+                OwnInvitationState = OwnSessionInvitationAbilityState.InvalidSessionToInviteTo;
+                return;
+            }
+
+            // If users can't join an in-progress Session, then check the status of the Session
+            if (!foundSession.AllowJoinInProgress && (foundInfo.Value.State == OnlineSessionState.Starting || foundInfo.Value.State == OnlineSessionState.InProgress))
+            {
+                EOSSessionsManager.Log($"{nameof(UISessionsMatchmakingMenu)} ({nameof(GetFriendInteractionState)}): The current Presence-enabled Session cannot be invited to because it is {foundInfo.Value.State} and {nameof(Session.AllowJoinInProgress)} is false.");
+                OwnInvitationState = OwnSessionInvitationAbilityState.InvalidSessionToInviteTo;
+                return;
+            }
+
+            // Check that the Session doesn't already have the maximum number of users
+            if (foundInfo.Value.SessionDetails.Value.NumOpenPublicConnections == 0)
+            {
+                EOSSessionsManager.Log($"{nameof(UISessionsMatchmakingMenu)} ({nameof(GetFriendInteractionState)}): The current Presence-enabled Session cannot be invited to because the Session already has reached its {nameof(Session.MaxPlayers)} count.");
+                OwnInvitationState = OwnSessionInvitationAbilityState.InvalidSessionToInviteTo;
+                return;
+            }
+
+            OwnInvitationState = OwnSessionInvitationAbilityState.ValidSessionToInviteTo;
+            return;
+        }
+
+        /// <summary>
+        /// <see cref="EOSSessionsManager.OnPresenceChange"/> accepts a function with zero arguments.
+        /// This methods gives a consistent method to AddListener and RemoveListener to that event.
+        /// </summary>
+        private void SetDirtyFlagAction()
+        {
+            SetDirtyFlag();
+        }
+
+        #endregion
     }
 }

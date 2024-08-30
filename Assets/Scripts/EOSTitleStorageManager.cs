@@ -261,7 +261,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             string fileData = string.Empty;
             if (transfer.TotalSize > 0)
             {
-                fileData = System.Text.Encoding.UTF8.GetString(transfer.Data);
+                fileData = System.Text.Encoding.UTF8.GetString(transfer.Data, 0, (int)transfer.TotalSize);
             }
 
             StorageData.Add(fileName, fileData);
@@ -370,14 +370,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 }
 
                 // First update
-                if (transfer.CurrentIndex == 0 && transfer.TotalSize == 0)
+                if (transfer.CurrentIndex == 0)
                 {
-                    transfer.TotalSize = totalSize;
-
-                    if (transfer.TotalSize == 0)
-                    {
-                        return ReadResult.RrContinuereading;
-                    }
+                    transfer.Data = new byte[totalSize];
                 }
 
                 // Make sure we have enough space

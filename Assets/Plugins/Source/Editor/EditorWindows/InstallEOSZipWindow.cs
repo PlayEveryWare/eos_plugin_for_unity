@@ -37,6 +37,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
     public class InstallEOSZipWindow : EOSEditorWindow
     {
         private const string PlatformImportInfoListFileName = "eos_platform_import_info_list.json";
+        public InstallEOSZipWindow() : base("Install EOS Zip") { }
 
         [Serializable]
         private class PlatformImportInfo
@@ -68,7 +69,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
         [MenuItem("Tools/EOS Plugin/Install EOS zip")]
         public static void ShowWindow()
         {
-            GetWindow<InstallEOSZipWindow>("Install EOS Zip");
+            GetWindow<InstallEOSZipWindow>();
         }
 
         static public void UnzipEntry(ZipArchiveEntry zipEntry, string pathName)
@@ -238,7 +239,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
                     {
                         if (platformImportInfo.isGettingImported)
                         {
-                            string path = pathToImportDescDirectory + platformImportInfo.descPath;
+                            string path = Path.Combine(pathToImportDescDirectory, platformImportInfo.descPath);
                             var packageDescription =
                                 JsonUtility.FromJsonFile<PackageDescription>(path);
 
@@ -248,7 +249,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
                             // This should be the correct directory
                             var projectDir = FileUtility.GetProjectPath();
                             // TODO: Async not tested here.
-                            PackageFileUtility.CopyFilesToDirectory(projectDir, fileResults).Wait();
+                            _ = PackageFileUtility.CopyFilesToDirectory(projectDir, fileResults);
                         }
                     }
 

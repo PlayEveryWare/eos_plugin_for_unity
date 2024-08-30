@@ -118,7 +118,6 @@ Sessionx.vim
 
 # Temporary
 .netrwhist
-*~
 # Auto-generated tag files
 tags
 # Persistent undo
@@ -157,3 +156,4 @@ EOSPluginEditorConfiguration/
 Assets/Plugins/Source/Editor/obj/
 *_BackUpThisFolder_ButDontShipItWithYourGame*
 *_BurstDebugInformation_DoNotShip*
+Assets/InitTestScene*
