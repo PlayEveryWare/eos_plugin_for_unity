@@ -44,7 +44,7 @@ jobs:
             const response = await github.rest.repos.getContent({
              owner: context.repo.owner,
              repo: context.repo.repo,
-             path: '${{ env.PACKAGE_LOCATION }}',
+             path: 'com.playeveryware.eos/package.json',
              ref: '${{ env.NEW_BRANCH_NAME }}'
             });
 
