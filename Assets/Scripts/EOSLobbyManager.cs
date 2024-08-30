@@ -30,7 +30,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     using Epic.OnlineServices.RTC;
     using Epic.OnlineServices.RTCAudio;
 	
-    public enum LobbyChangedEvent { Create, Join, Leave, Kicked }
+    public enum LobbyChangeType
+    { 
+        Create, 
+        Join, 
+        Leave,
+        Kicked
+    }
 
     /// <summary>
     /// Class represents all Lobby properties
@@ -475,7 +481,16 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public delegate void OnMemberUpdateCallback(string LobbyId, ProductUserId MemberId);
 
         private List<OnMemberUpdateCallback> MemberUpdateCallbacks;
-        private List<Action<LobbyChangedEvent>> LobbyChangeCallbacks;
+
+
+        public delegate void LobbyChangedEventHandler(string lobbyId, LobbyChangeType typeOfChange);
+
+        /// <summary>
+        /// Event that is run whenever the local user's relationship to a Lobby has been changed.
+        /// Indicates the Lobby that the change relates to.
+        /// </summary>
+        public event LobbyChangedEventHandler OnLobbyChanged;
+
         private List<Action> LobbyUpdateCallbacks;
 
         private EOSUserInfoManager UserInfoManager;
@@ -499,7 +514,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             LobbySearchCallback = null;
 
             MemberUpdateCallbacks = new List<OnMemberUpdateCallback>();
-            LobbyChangeCallbacks = new List<Action<LobbyChangedEvent>>();
             LobbyUpdateCallbacks = new List<Action>();
         }
 
@@ -1340,20 +1354,18 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
                 LobbyCreatedCallback?.Invoke(Result.Success);
 
-                OnCurrentLobbyChanged(LobbyChangedEvent.Create);
+                OnCurrentLobbyChanged(LobbyChangeType.Create);
             }
         }
 
-        private void OnCurrentLobbyChanged(LobbyChangedEvent lobbyChangedEvent)
+        private void OnCurrentLobbyChanged(LobbyChangeType lobbyChangedEvent)
         {
             if (CurrentLobby.IsValid())
             {
                 AddLocalUserAttributes();
             }
-            foreach (var callback in LobbyChangeCallbacks)
-            {
-                callback?.Invoke(lobbyChangedEvent);
-            }
+
+            OnLobbyChanged?.Invoke(CurrentLobby?.Id, lobbyChangedEvent);
         }
 
         private void OnUpdateLobbyCallBack(ref UpdateLobbyCallbackInfo data)
@@ -1922,7 +1934,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 CurrentLobby.Clear();
                 _Dirty = true;
 
-                OnCurrentLobbyChanged(LobbyChangedEvent.Kicked);
+                OnCurrentLobbyChanged(LobbyChangeType.Kicked);
             }
         }
 
@@ -2061,21 +2073,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public void RemoveNotifyMemberUpdate(OnMemberUpdateCallback Callback)
         {
             MemberUpdateCallbacks.Remove(Callback);
-        }
-
-        /// <summary>
-        /// Subscribe to event callback for when the user has changed lobbies
-        /// The callback will only run if a listener is subscribed, which is done in <see cref="SubscribeToLobbyUpdates"/>.
-        /// </summary>
-        /// <param name="Callback">Callback to receive notification when lobby is changed</param>
-        public void AddNotifyLobbyChange(Action<LobbyChangedEvent> Callback)
-        {
-            LobbyChangeCallbacks.Add(Callback);
-        }
-
-        public void RemoveNotifyLobbyChange(Action<LobbyChangedEvent> Callback)
-        {
-            LobbyChangeCallbacks.Remove(Callback);
         }
 
         /// <summary>
@@ -2576,7 +2573,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             JoinLobbyCallback?.Invoke(Result.Success);
 
-            OnCurrentLobbyChanged(LobbyChangedEvent.Join);
+            OnCurrentLobbyChanged(LobbyChangeType.Join);
         }
 
         private void OnLeaveLobbyCompleted(ref LeaveLobbyCallbackInfo data)
@@ -2603,7 +2600,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
                 LeaveLobbyCallback?.Invoke(Result.Success);
 
-                OnCurrentLobbyChanged(LobbyChangedEvent.Leave);
+                OnCurrentLobbyChanged(LobbyChangeType.Leave);
             }
         }
 

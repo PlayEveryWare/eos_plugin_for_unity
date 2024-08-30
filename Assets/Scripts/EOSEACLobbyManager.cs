@@ -62,7 +62,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             if (AntiCheatManager.IsAntiCheatAvailable())
             {
-                LobbyManager.AddNotifyLobbyChange(OnLobbyChanged);
+                LobbyManager.OnLobbyChanged += OnLobbyChanged;
                 LobbyManager.AddNotifyLobbyUpdate(OnLobbyUpdated);
                 LobbyManager.AddNotifyMemberUpdateReceived(OnMemberUpdated);
 
@@ -233,7 +233,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 
-        private void OnLobbyChanged(LobbyChangedEvent lobbyChangedEvent)
+        private void OnLobbyChanged(string lobbyId, LobbyChangeType lobbyChangedEvent)
         {
             string previousLobbyId = CurrentLobbyId;
             var currentLobby = LobbyManager.GetCurrentLobby();
