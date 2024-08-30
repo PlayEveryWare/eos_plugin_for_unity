@@ -24,6 +24,7 @@
 namespace PlayEveryWare.EpicOnlineServices
 {
     using Epic.OnlineServices;
+    using System;
 
     /// <summary>
     /// Base implementation for file transfer wrapper classes, used to wrap the
@@ -41,6 +42,11 @@ namespace PlayEveryWare.EpicOnlineServices
         protected T _instance;
 
         /// <summary>
+        /// Used to prevent redundant calls to the dispose method.
+        /// </summary>
+        private bool _disposed = false;
+
+        /// <summary>
         /// Creates a new instance of the FileRequestTransferWrapper.
         /// </summary>
         /// <param name="instance">
@@ -49,6 +55,15 @@ namespace PlayEveryWare.EpicOnlineServices
         protected FileRequestTransferWrapper(T instance)
         {
             _instance = instance;
+        }
+
+        /// <summary>
+        /// Destructor is defined to catch cases where Dispose was not properly
+        /// called before the service ceases to exist.
+        /// </summary>
+        ~FileRequestTransferWrapper()
+        {
+            Dispose();
         }
 
         #region Equality operator overloads
@@ -107,36 +122,39 @@ namespace PlayEveryWare.EpicOnlineServices
         public abstract Result CancelRequest();
 
         /// <summary>
-        /// In a 1-to-1 wrapping, this method would simply call the "Release"
-        /// method on the wrapped class. However, the Dispose method is used
-        /// instead (and comments are included in the abstract DisposeInstance()
-        /// method that instruct implementing classes to call the Release()
-        /// method on the wrapped instance.
+        /// Implement this in derived classes to release the instance variable.
         /// </summary>
-        public void Release()
+        public abstract void Release();
+
+        public void Dispose()
         {
-            Dispose();
+            Dispose(true);
+            // Prevent collection until the dispose pattern is followed
+            GC.SuppressFinalize(this);
         }
 
         /// <summary>
-        /// Used to neatly dispose of the wrapper and the instance that it
-        /// wraps.
+        /// Protected implementation of Dispose pattern. If this method is
+        /// overridden in implementing classes, this base implementation should
+        /// be called at the end of the overridden implementation.
         /// </summary>
-        public void Dispose()
+        /// <param name="disposing">
+        /// Indicates that disposing is taking place.
+        /// </param>
+        protected void Dispose(bool disposing)
         {
-            if (_instance == null)
+            if (_disposed)
             {
                 return;
             }
 
-            DisposeInstance();
-            _instance = null;
-        }
+            if (disposing)
+            {
+                Release();
+                _instance = null;
+            }
 
-        /// <summary>
-        /// When implementing this function, make sure to call the "Release"
-        /// method on the wrapped instance.
-        /// </summary>
-        protected abstract void DisposeInstance();
+            _disposed = true;
+        }
     }
 }

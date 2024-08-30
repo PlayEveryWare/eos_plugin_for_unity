@@ -50,7 +50,7 @@ namespace PlayEveryWare.EpicOnlineServices
             return null == _instance ? Result.Success : _instance.CancelRequest();
         }
 
-        protected override void DisposeInstance()
+        public override void Release()
         {
             _instance?.Release();
         }

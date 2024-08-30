@@ -25,6 +25,7 @@ namespace PlayEveryWare.EpicOnlineServices
 {
     using Epic.OnlineServices;
     using Epic.OnlineServices.PlayerDataStorage;
+    using System;
 
     /// <summary>
     /// Used to wrap the PlayerDataStorageFileTransferRequest class provided by
@@ -50,9 +51,9 @@ namespace PlayEveryWare.EpicOnlineServices
             return (null == _instance) ? Result.Success : _instance.CancelRequest();
         }
 
-        protected override void DisposeInstance()
+        public override void Release()
         {
-            _instance?.Release();
+            _instance.Release();
         }
     }
 }

@@ -89,7 +89,9 @@ namespace PlayEveryWare.EpicOnlineServices
         /// overridden in implementing classes, this base implementation should
         /// be called at the end of the overridden implementation.
         /// </summary>
-        /// <param name="disposing"></param>
+        /// <param name="disposing">
+        /// Indicates that disposing is taking place.
+        /// </param>
         protected virtual void Dispose(bool disposing)
         {
             // If already disposed, then do nothing (this prevents the disposal
