@@ -22,8 +22,6 @@
 
 #if !EOS_DISABLE
 
-#if !EOS_DISABLE
-
 namespace PlayEveryWare.EpicOnlineServices
 {
     using System;
