@@ -1751,15 +1751,15 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             // Update our mute status
             foreach (LobbyMember lobbyMember in CurrentLobby.Members)
             {
-                // Find ourselves
-                if (lobbyMember.ProductId != data.LocalUserId)
+                // Find the ParticipantId
+                if (lobbyMember.ProductId != data.ParticipantId)
                 {
                     continue;
                 }
 
-                lobbyMember.RTCState.isBlocked = data.Blocked;
+                lobbyMember.RTCState.IsBlocked = data.Blocked;
 
-                Debug.LogFormat("Lobbies (OnRTCBlockParticipantCompleted): Cache updated for '{0}'", lobbyMember.ProductId);
+                Debug.LogFormat("Lobbies (OnRTCBlockParticipantCompleted): Cache updated for '{0}'", data.ParticipantId);
 
                 _Dirty = true;
                 break;
