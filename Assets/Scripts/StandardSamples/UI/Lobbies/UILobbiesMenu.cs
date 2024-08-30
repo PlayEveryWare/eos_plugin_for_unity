@@ -796,7 +796,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 shouldBecomeDeafened = !LobbyManager.GetCurrentLobby().IsLocalUserDeafened;
             }
 
-            LobbyManager.DeafenLocalMember(shouldBecomeDeafened, null);
+            LobbyManager.SetLocalMemberDeafen(shouldBecomeDeafened, null);
         }
     }
 }

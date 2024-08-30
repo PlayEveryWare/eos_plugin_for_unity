@@ -49,8 +49,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public bool? DisableHostMigration;
 
         /// <summary>
-        /// Has the local user deafened themself?
-        /// This doesn't carry over between rooms.
+        /// Indicates whether the local user has deafened themselves
+        /// (this doesn't carry over between rooms).
         /// </summary>
         public bool IsLocalUserDeafened;
 
@@ -1548,21 +1548,20 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             // If the user can be found in CurrentLobby.Members, set this value to the opposite of the user's current mute value
             // Otherwise, always attempt to mute
-            bool shouldAudioBeEnabled = false;
+            bool shouldUserBecomeMuted = false;
 
             RTCInterface rtcHandle = EOSManager.Instance.GetEOSRTCInterface();
             RTCAudioInterface rtcAudioHandle = rtcHandle.GetAudioInterface();
 
-            LobbyMember lobbyMember = GetCurrentLobby().Members.Find(x => x.ProductId == targetUserId);
+            LobbyMember lobbyMember = GetCurrentLobby()?.Members?.Find(x => x.ProductId == targetUserId);
             if (lobbyMember != null)
             {
                 // If the target is muted, "IsLocalMuted" is true,
                 // since this is a toggle, we want to take the opposite of that
-                // therefore this would become "true", which will result in the target becoming unmuted
-                shouldAudioBeEnabled = lobbyMember.RTCState.IsLocalMuted;
+                shouldUserBecomeMuted = !lobbyMember.RTCState.IsLocalMuted;
             }
 
-            MuteMember(shouldAudioBeEnabled, targetUserId, ToggleMuteCompleted);
+            SetMemberMuteStatus(shouldUserBecomeMuted, targetUserId, ToggleMuteCompleted);
         }
 
         /// <summary>
@@ -1570,14 +1569,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// If the local user has another user in the Lobby muted, the local user won't hear the muted user, but other members may still be able to.
         /// If the local user mutes themself, other users won't be able to hear the local user.
         /// </summary>
-        /// <param name="shouldAudioBeEnabled">
-        /// If true, audio "becomes enabled", unmuting the target.
-        /// If false, audio "becomes disabled", muting the target.
+        /// <param name="shouldUserBeMuted">
+        /// If true, audio "becomes disabled", muting the target.
+        /// If false, audio "becomes enabled", unmuting the target.
         /// </param>
         /// </param>
         /// <param name="targetProductUserId">The Product User ID of the target member to mute</param>
         /// <param name="MuteMemberCompleted">Callback when MuteMember is completed</param>
-        public void MuteMember(bool shouldAudioBeEnabled, ProductUserId targetProductUserId, OnLobbyCallback MuteMemberCompleted)
+        public void SetMemberMuteStatus(bool shouldUserBeMuted, ProductUserId targetProductUserId, OnLobbyCallback MuteMemberCompleted)
         {
             RTCInterface rtcHandle = EOSManager.Instance.GetEOSRTCInterface();
             RTCAudioInterface rtcAudioHandle = rtcHandle.GetAudioInterface();
@@ -1601,7 +1600,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             if (EOSManager.Instance.GetProductUserId() == targetProductUserId)
             {
                 // Toggle our mute status
-                MuteLocalMember(shouldAudioBeEnabled, MuteMemberCompleted);
+                SetLocalMemberMute(shouldUserBeMuted, MuteMemberCompleted);
             }
             else
             {
@@ -1612,7 +1611,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     LocalUserId = EOSManager.Instance.GetProductUserId(),
                     RoomName = GetCurrentLobby().RTCRoomName,
                     ParticipantId = targetProductUserId,
-                    AudioEnabled = shouldAudioBeEnabled
+                    AudioEnabled = shouldUserBeMuted
                 };
 
                 Debug.LogFormat("Lobbies (MuteMember): {0} remote player {1}", recevingOptions.AudioEnabled ? "Unmuting" : "Muting", targetProductUserId);
@@ -1627,18 +1626,18 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// either becoming muted or unmuting themself.
         /// While muted, other users in the lobby will not be able to hear the local user.
         /// </summary>
-        /// <param name="shouldAudioBeEnabled">
-        /// If true, the local user unmutes themself.
-        /// If false, the local user mutes themself, and no longer sends audio.
+        /// <param name="shouldSelfBeMuted">
+        /// If true, the local user mutes themself, and no longer sends audio.
+        /// If false, the local user unmutes themself.
         /// </param>
         /// <param name="MuteLocalMemberCompleted">Callback when MuteLocalMember is completed</param>
-        public void MuteLocalMember(bool shouldAudioBeEnabled, OnLobbyCallback MuteLocalMemberCompleted)
+        public void SetLocalMemberMute(bool shouldSelfBeMuted, OnLobbyCallback MuteLocalMemberCompleted)
         {
             UpdateSendingOptions sendOptions = new UpdateSendingOptions()
             {
                 LocalUserId = EOSManager.Instance.GetProductUserId(),
                 RoomName = GetCurrentLobby().RTCRoomName,
-                AudioStatus = shouldAudioBeEnabled ? RTCAudioStatus.Enabled : RTCAudioStatus.Disabled
+                AudioStatus = shouldSelfBeMuted ? RTCAudioStatus.Disabled : RTCAudioStatus.Enabled
             };
 
             Debug.LogFormat("Lobbies (MuteLocalMember): Setting self audio output status to {0}", sendOptions.AudioStatus == RTCAudioStatus.Enabled ? "Unmuted" : "Muted");
@@ -1655,7 +1654,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// Otherwise, undeafen the user.
         /// </param>
         /// <param name="DeafenCompleted">Callback when DeafenLocalMember is completed</param>
-        public void DeafenLocalMember(bool shouldBeDefeaned, OnLobbyCallback DeafenCompleted)
+        public void SetLocalMemberDeafen(bool shouldBeDefeaned, OnLobbyCallback DeafenCompleted)
         {
             UpdateReceivingOptions recevingOptions = new UpdateReceivingOptions()
             {
