@@ -23,7 +23,7 @@ on:
       package-location:
         description: 'File path to the package.json file to check. Includes the name of the file.'
         required: false
-        default: 'etc/PackageTemplate/package.json'
+        default: 'com.playeveryware.eos/package.json'
         type: string
 
 env:
