@@ -114,19 +114,6 @@ namespace PlayEveryWare.EpicOnlineServices
         }
 
         /// <summary>
-        /// Clears local storage and clears the current transfers that are
-        /// being managed by the data storage service. If overridden, make
-        /// certain to first call this method within the overridden
-        /// implementation.
-        /// </summary>
-        protected override void OnLoggedOut()
-        {
-            // TODO: Need to clear / cancel currently active transfer tasks.
-            _locallyCachedData.Clear();
-            ClearCurrentTransfer();
-        }
-
-        /// <summary>
         /// Attempts to cancel the "current" transfer handle (needs to be a
         /// field member added to derived classes).
         /// </summary>
