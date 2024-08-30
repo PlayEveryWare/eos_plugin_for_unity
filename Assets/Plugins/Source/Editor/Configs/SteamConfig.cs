@@ -20,20 +20,19 @@
 * SOFTWARE.
 */
 
-namespace PlayEveryWare.EpicOnlineServices.Editor.Config
+namespace PlayEveryWare.EpicOnlineServices
 {
     using System;
     using System.Collections.Generic;
     using Editor;
+    using Editor.Utility;
     using Utility;
-    using EpicOnlineServices.Utility;
-    using Config = EpicOnlineServices.Config;
 
     [Serializable]
     [ConfigGroup("Steam Configuration")]
     // TODO: Make SteamConfig derive from EditorConfig, and update the native code
     //       to properly reference the correct file where appropriate.
-    public class SteamConfig : Config
+    public class SteamConfig : EpicOnlineServices.Config
     {
         [ConfigField("Steam Flags", ConfigFieldType.TextList)]
         public List<string> flags;

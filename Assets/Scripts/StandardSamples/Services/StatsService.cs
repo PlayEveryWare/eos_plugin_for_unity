@@ -70,8 +70,6 @@ namespace PlayEveryWare.EpicOnlineServices
 
         #endregion
 
-        private bool _disposed = false;
-
         /// <summary>
         /// Maps a given user to a list of player statistics.
         /// </summary>

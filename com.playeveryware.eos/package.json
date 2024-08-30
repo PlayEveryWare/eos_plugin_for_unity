@@ -1,6 +1,6 @@
 {
     "name": "com.playeveryware.eos",
-    "version": "3.3.1",
+    "version": "3.3.2",
     "unity": "2021.3",
     "unityRelease": "16f1",
     "author": {
@@ -36,6 +36,6 @@
         }
     ],
     "com_playeveryware": {
-        "git_build_sha": "9b9229325c93dd7e81461fde387ed5ef012349ec"
+        "git_build_sha": "74e64b0b0a78d9c7e428508d68eb97d2af8e0836"
     }
 }
