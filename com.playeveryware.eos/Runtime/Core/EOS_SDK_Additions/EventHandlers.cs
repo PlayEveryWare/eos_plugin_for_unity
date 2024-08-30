@@ -27,7 +27,7 @@ namespace PlayEveryWare.EpicOnlineServices.Events
 
     /// <summary>
     /// Use this delegate to describe any event or function that accepts a
-    /// Result enum (defined by the EOS SDK) as it's only parameter.
+    /// Result enum (defined by the EOS SDK) as its only parameter.
     /// </summary>
     /// <param name="result">Result enum (defined within the EOS SDK).</param>
     // ReSharper disable once InconsistentNaming
