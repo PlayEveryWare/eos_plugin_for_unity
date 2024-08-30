@@ -22,6 +22,9 @@
 
 #if !EOS_DISABLE
 
+// Uncomment the following line to enable debug printing from within DLLHandle.
+//#define ENABLE_DLLHANDLE_PRINT
+
 namespace PlayEveryWare.EpicOnlineServices
 {
     using System;
