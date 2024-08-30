@@ -29,7 +29,7 @@ on:
 env:
  NEW_BRANCH_NAME: ${{ github.head_ref || github.ref_name || inputs.new-branch || 'stable' }}
  OLD_BRANCH_NAME: ${{ inputs.old-branch || 'stable' }}
- PACKAGE_LOCATION: ${{ inputs.package-location || 'com.playeveryware.eos/package.json'}}
+ PACKAGE_LOCATION: ${{ inputs.package-location }}
 
 jobs:
   check_package_version_changed:
@@ -59,7 +59,7 @@ jobs:
             const response = await github.rest.repos.getContent({
              owner: context.repo.owner,
              repo: context.repo.repo,
-             path: '${{ env.PACKAGE_LOCATION }}',
+             path: 'etc/PackageTemplate/package.json',
              ref: '${{ env.OLD_BRANCH_NAME }}'
             });
 
