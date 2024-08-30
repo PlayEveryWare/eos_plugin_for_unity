@@ -66,22 +66,22 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
         {
             if (GUILayout.Button(ChangelogFile))
             {
-                LoadTextFile(Path.Combine(FileUtility.GetProjectPath(), ChangelogFile));
+                LoadTextFile(Path.Combine(FileSystemUtility.GetProjectPath(), ChangelogFile));
             }
 
             if (GUILayout.Button(PackageJsonFile))
             {
-                LoadTextFile(Path.Combine(FileUtility.GetProjectPath(), PackageDirectory, PackageJsonFile));
+                LoadTextFile(Path.Combine(FileSystemUtility.GetProjectPath(), PackageDirectory, PackageJsonFile));
             }
 
             if (GUILayout.Button(EOSWindows32DllFile))
             {
-                LoadDLLFile(Path.Combine(FileUtility.GetProjectPath(), WindowsPluginDirectory, EOSWindows32DllFile));
+                LoadDLLFile(Path.Combine(FileSystemUtility.GetProjectPath(), WindowsPluginDirectory, EOSWindows32DllFile));
             }
 
             if (GUILayout.Button(EOSWindows64DllFile))
             {
-                LoadDLLFile(Path.Combine(FileUtility.GetProjectPath(), WindowsPluginDirectory, EOSWindows64DllFile));
+                LoadDLLFile(Path.Combine(FileSystemUtility.GetProjectPath(), WindowsPluginDirectory, EOSWindows64DllFile));
             }
 
             if (!string.IsNullOrWhiteSpace(currentPath))
@@ -101,7 +101,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 
         private void LoadTextFile(string filepath)
         {
-            content = FileUtility.ReadAllText(filepath);
+            content = FileSystemUtility.ReadAllText(filepath);
             currentPath = filepath;
         }
 

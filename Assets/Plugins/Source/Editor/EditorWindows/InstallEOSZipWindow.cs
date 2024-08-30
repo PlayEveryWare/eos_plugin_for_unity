@@ -126,7 +126,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 
         protected override void Setup()
         {
-            pathToImportDescDirectory = Path.Combine(FileUtility.GetProjectPath(), "etc/EOSImportDesriptions");
+            pathToImportDescDirectory = Path.Combine(FileSystemUtility.GetProjectPath(), "etc/EOSImportDesriptions");
             importInfoList = JsonUtility.FromJsonFile<PlatformImportInfoList>(Path.Combine(pathToImportDescDirectory, PlatformImportInfoListFileName));
         }
 
@@ -208,7 +208,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
             GUILayout.Label(pathToZipFile);
             GUILayout.EndHorizontal();
 
-            if (GUILayout.Button("Install") && FileUtility.TryGetTempDirectory(out string tmpDir))
+            if (GUILayout.Button("Install") && FileSystemUtility.TryGetTempDirectory(out string tmpDir))
             {
                 try
                 {
@@ -229,7 +229,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
                         var entity = toConvert[i];
                         EditorUtility.DisplayProgressBar("Converting line endings", Path.GetFileName(entity),
                             (float)i / toConvert.Count);
-                        FileUtility.ConvertDosToUnixLineEndings(entity);
+                        FileSystemUtility.ConvertDosToUnixLineEndings(entity);
                     }
 
                     EditorUtility.ClearProgressBar();
@@ -247,7 +247,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
                                 PackageFileUtility.FindPackageFiles(tmpDir,
                                     packageDescription);
                             // This should be the correct directory
-                            var projectDir = FileUtility.GetProjectPath();
+                            var projectDir = FileSystemUtility.GetProjectPath();
                             // TODO: Async not tested here.
                             _ = PackageFileUtility.CopyFilesToDirectory(projectDir, fileResults);
                         }
