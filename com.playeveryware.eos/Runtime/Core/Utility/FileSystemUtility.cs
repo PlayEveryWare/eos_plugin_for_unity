@@ -20,6 +20,9 @@
  * SOFTWARE.
  */
 
+using System.Runtime.CompilerServices;
+
+[assembly: InternalsVisibleTo("com.playeveryware.eos-Editor")]
 namespace PlayEveryWare.EpicOnlineServices.Utility
 {
     using Extensions;
@@ -31,6 +34,13 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
     using System.Threading.Tasks;
     using UnityEngine;
 
+    // This compile conditional exists to ensure that the UnityEngine.Networking
+    // namespace is included when not in editor and when the platform is 
+    // Android - because IO operations on Android require use of it.
+#if UNITY_ANDROID && !UNITY_EDITOR
+    using UnityEngine.Networking;
+#endif
+
     // This compile conditional exists to ensure that the Linq namespace is
     // not utilized during runtime operations.
 #if UNITY_EDITOR
@@ -40,7 +50,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
     /// <summary>
     /// Utility class used for a variety of File tasks.
     /// </summary>
-    public static class FileUtility
+    internal static class FileSystemUtility
     {
         /// <summary>
         /// Interval with which to update progress, in milliseconds
@@ -455,6 +465,23 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
 
         #endregion
 #endif
+
+        #region File Read Functionality
+
+        public static async Task<(bool Success, string Result)> TryReadAllTextAsync(string filePath)
+        {
+            bool fileExists = await ExistsInternal(filePath, false);
+
+            if (!fileExists)
+            {
+                return (false, null);
+            }
+
+            string contents = await ReadAllTextAsync(filePath);
+
+            return null == contents ? (false, null) : (true, contents);
+        }
+
         /// <summary>
         /// Reads all text from the indicated file.
         /// </summary>
@@ -462,13 +489,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         /// <returns>The contents of the file at the indicated path as a string.</returns>
         public static string ReadAllText(string path)
         {
-            string text = string.Empty;
-#if UNITY_ANDROID && !UNITY_EDITOR
-            text = AndroidFileIOHelper.ReadAllText(path);
-#else
-            text = File.ReadAllText(path);
-#endif
-            return text;
+            return ReadAllTextAsync(path).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -478,14 +499,213 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         /// <returns>Task</returns>
         public static async Task<string> ReadAllTextAsync(string path)
         {
-            string text = string.Empty;
 #if UNITY_ANDROID && !UNITY_EDITOR
-            text = AndroidFileIOHelper.ReadAllText(path);
+            // On Android, use a custom helper to read the file synchronously
+            return await Task.FromResult(AndroidFileIOHelper.ReadAllText(path));
 #else
-            text = await File.ReadAllTextAsync(path);
+            // On other platforms, read asynchronously or synchronously as
+            // appropriate.
+            try
+            {
+                return await File.ReadAllTextAsync(path);
+            }
+            catch (Exception e)
+            {
+                Debug.LogException(e);
+                throw;
+            }
 #endif
-            return await Task.FromResult(text);
         }
+
+        #endregion
+
+        #region Get File System Entries Functionality
+
+        /// <summary>
+        /// Wrapper function for calls to Directory.EnumerateFileSystemEntries.
+        /// The reason this is implemented here is to restrict usage of the
+        /// System.IO namespace to be within this file.
+        /// </summary>
+        /// <param name="path">
+        /// The path to enumerate file system entries from.
+        /// </param>
+        /// <param name="pattern">The pattern to match entries to.</param>
+        /// <param name="recursive">
+        /// Whether to search recursively, or in the top directory only.
+        /// </param>
+        /// <returns>
+        /// An enumerable collection of strings representing the file system
+        /// entries being retrieved.
+        /// </returns>
+        public static IEnumerable<string> GetFileSystemEntries(string path, string pattern, bool recursive = true)
+        {
+            SearchOption option = recursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
+
+            return Directory.EnumerateFileSystemEntries(path, pattern, option);
+        }
+
+        #endregion
+
+
+        #region Path Functionality
+
+        /// <summary>
+        /// Wrapper function for calls to Path.Combine. The reason this is
+        /// implemented here is to restrict usage of the System.IO namespace to
+        /// be within this file.
+        /// </summary>
+        /// <param name="paths">A variable number of path elements.</param>
+        /// <returns>
+        /// The result of calling System.IO.Path.Combine with the provided path
+        /// components.
+        /// </returns>
+        public static string CombinePaths(params string[] paths)
+        {
+            return Path.Combine(paths);
+        }
+
+        /// <summary>
+        /// Wrapper function for calls to Path.GetFullPath. The reason this is
+        /// implemented here is to restrict usage of the System.IO namespace to
+        /// be within this file.
+        /// </summary>
+        /// <param name="path">The path (relative or full).</param>
+        /// <returns>The fully-qualified path.</returns>
+        public static string GetFullPath(string path)
+        {
+            return Path.GetFullPath(path);
+        }
+
+        /// <summary>
+        /// Wrapper function for calls to Path.GetFileName. The reason this is
+        /// implemented here is to restrict usage of the System.IO namespace to
+        /// be within this file.
+        /// </summary>
+        /// <param name="path">The path of the file to get the name of.</param>
+        /// <returns>The filename component of the given path.</returns>
+        public static string GetFileName(string path)
+        {
+            return Path.GetFileName(path);
+        }
+
+        #endregion
+
+        #region Write Functionality
+
+        /// <summary>
+        /// Synchronously writes the given file contents to the given filepath,
+        /// optionally creating the directory structure if it does not already
+        /// exist.
+        /// </summary>
+        /// <param name="filePath">The path to write to.</param>
+        /// <param name="content">The contents to write to the file.</param>
+        /// <param name="createDirectory">
+        /// Whether or not to create the directory structure represented by the
+        /// filepath.
+        /// </param>
+        public static void WriteFile(string filePath, string content, bool createDirectory = true)
+        {
+            // Appropriately call the async function synchronously.
+            WriteFileAsync(filePath, content, createDirectory).GetAwaiter().GetResult();
+        }
+
+        /// <summary>
+        /// Asynchronously writes the given file contents to the given filepath,
+        /// optionally creating the directory structure if it does not already
+        /// exist.
+        /// </summary>
+        /// <param name="filePath">The path to write to.</param>
+        /// <param name="content">The contents to write to the file.</param>
+        /// <param name="createDirectory">
+        /// Whether or not to create the directory structure represented by the
+        /// filepath.
+        /// </param>
+        /// <returns>Task</returns>
+        public static async Task WriteFileAsync(string filePath, string content, bool createDirectory = true)
+        {
+            FileInfo file = new(filePath);
+
+            // If the directory should be created, and the DirectoryInfo is not
+            // null, then create the directory.
+            if (createDirectory && null != file.Directory)
+            {
+                CreateDirectory(file.Directory);
+            }
+
+            await using StreamWriter writer = new(filePath);
+            await writer.WriteAsync(content);
+        }
+
+        /// <summary>
+        /// Helper function to create a directory. If the directory already
+        /// exists, then nothing will happen.
+        /// </summary>
+        /// <param name="dInfo">
+        /// The DirectoryInfo object that represents the directory to be
+        /// created.
+        /// </param>
+        private static void CreateDirectory(DirectoryInfo dInfo)
+        {
+            try
+            {
+                dInfo.Create();
+            }
+            catch(Exception ex)
+            {
+                Debug.LogException(ex);
+            }
+        }
+
+        #endregion
+
+        #region Directory and File Exists functionality
+
+        public static bool DirectoryExists(string path)
+        {
+            return DirectoryExistsAsync(path).GetAwaiter().GetResult();
+        }
+
+        public static async Task<bool> DirectoryExistsAsync(string path)
+        {
+            return await ExistsInternal(path, isDirectory: true);
+        }
+
+        public static bool FileExists(string path)
+        {
+            return FileExistsAsync(path).GetAwaiter().GetResult();
+        }
+
+        public static async Task<bool> FileExistsAsync(string path)
+        {
+            return await ExistsInternal(path, isDirectory: false);
+        }
+
+        private static async Task<bool> ExistsInternal(string path, bool isDirectory)
+        {
+            bool exists = false;
+#if UNITY_ANDROID && !UNITY_EDITOR
+            using UnityWebRequest request = UnityWebRequest.Get(path);
+            request.SendWebRequest();
+            while (!request.isDone)
+            {
+                await Task.Yield();
+            }
+
+            exists = (UnityWebRequest.Result.Success == request.result);
+#else
+            if (isDirectory)
+            {
+                exists = Directory.Exists(path);
+            }
+            else
+            {
+                exists = File.Exists(path);
+            }
+#endif
+            return await Task.FromResult(exists);
+        }
+
+        #endregion
 
         public static void NormalizePath(ref string path)
         {

@@ -27,6 +27,7 @@ using System.IO;
 namespace PlayEveryWare.EpicOnlineServices.Editor
 {
     using Config;
+    using System;
     using System.Threading.Tasks;
 
     public class SigningConfigUtility
@@ -49,11 +50,19 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
         }
 
         [MenuItem("Tools/EOS Plugin/Sign DLLs", true)]
-        static bool CanSignDLLs()
+        static async Task<bool> CanSignDLLs()
         {
 #if UNITY_EDITOR_WIN
-            var signConfig = EpicOnlineServices.Config.Get<SigningConfig>();
-            return (signConfig.dllPaths != null);
+            try
+            {
+                var signConfig = await EpicOnlineServices.Config.GetAsync<SigningConfig>();
+                return (signConfig.dllPaths != null);
+            }
+            catch (Exception e)
+            {
+                Debug.LogException(e);
+                return false;
+            }
 #else
             return false;
 #endif
