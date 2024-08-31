@@ -403,6 +403,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         // Has this person enabled press to talk
         public bool PressToTalkEnabled = false;
+
+        // We have locally blocked this person from receiving and sending audio
+        public bool IsBlocked = false;
     }
 
     /// <summary>
@@ -1694,6 +1697,75 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 _Dirty = true;
                 break;
             }
+        }
+
+        /// <summary>
+        /// Blocks the Local Lobby Member from receiving/sending audio from/to a Target Lobby Member. Only affects this Local Member. Does not affect other Lobby Members.
+        /// </summary>
+        /// <param name="targetUserId">The Target Member's ProductUserID</param>
+        /// <param name="status">To block or to unblock? True to Block, False to Unblock</param>
+        /// <param name="blockRTCParticipantComplete">Callback when BlockTargetRTCParticipant is completed</param>
+        public void UpdateBlockStatusForRTCParticipant(ProductUserId targetUserId, bool status, OnLobbyCallback blockRTCParticipantComplete)
+        {
+            RTCInterface rtcHandle = EOSManager.Instance.GetEOSRTCInterface();
+            RTCAudioInterface rtcAudioHandle = rtcHandle.GetAudioInterface();
+
+            BlockParticipantOptions blockParticipantOptions = new BlockParticipantOptions()
+            {
+                LocalUserId = EOSManager.Instance.GetProductUserId(),
+                RoomName = CurrentLobby.RTCRoomName,
+                ParticipantId = targetUserId,
+                Blocked = status
+            };
+
+            rtcHandle.BlockParticipant(ref blockParticipantOptions, blockRTCParticipantComplete, OnRTCBlockParticipantCompleted);
+        }
+
+        private void OnRTCBlockParticipantCompleted(ref BlockParticipantCallbackInfo data)
+        {
+            OnLobbyCallback BlockParticipantCallback = data.ClientData as OnLobbyCallback;
+
+            if (data.ResultCode != Result.Success)
+            {
+                Debug.LogErrorFormat("Lobbies (OnRTCBlockParticipantCompleted): error code: {0}", data.ResultCode);
+                BlockParticipantCallback?.Invoke(data.ResultCode);
+                return;
+            }
+
+            Debug.LogFormat("Lobbies (OnRTCBlockParticipantCompleted): Blocked Participant successfully. Participant={0}, Room={1}, Blocked={2}", data.ParticipantId, data.RoomName, data.Blocked);
+
+            // Ensure this update is for our room
+            if (!CurrentLobby.RTCRoomName.Equals(data.RoomName, StringComparison.OrdinalIgnoreCase))
+            {
+                Debug.LogErrorFormat("Lobbies (OnRTCBlockParticipantCompleted): Incorrect Room! CurrentLobby.RTCRoomName={0} != data.RoomName", CurrentLobby.RTCRoomName, data.RoomName);
+                return;
+            }
+
+            // Ensure this update is for us
+            if (EOSManager.Instance.GetProductUserId() != data.LocalUserId)
+            {
+                Debug.LogErrorFormat("Lobbies (OnRTCBlockParticipantCompleted): Incorrect LocalUserId! LocalProductId={0} != data.LocalUserId", EOSManager.Instance.GetProductUserId(), data.LocalUserId);
+                return;
+            }
+
+            // Update our mute status
+            foreach (LobbyMember lobbyMember in CurrentLobby.Members)
+            {
+                // Find the ParticipantId
+                if (lobbyMember.ProductId != data.ParticipantId)
+                {
+                    continue;
+                }
+
+                lobbyMember.RTCState.IsBlocked = data.Blocked;
+
+                Debug.LogFormat("Lobbies (OnRTCBlockParticipantCompleted): Cache updated for '{0}'", data.ParticipantId);
+
+                _Dirty = true;
+                break;
+            }
+
+            BlockParticipantCallback?.Invoke(data.ResultCode);
         }
 
         /// <summary>
