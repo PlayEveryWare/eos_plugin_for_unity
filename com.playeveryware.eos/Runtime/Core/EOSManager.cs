@@ -325,6 +325,18 @@ namespace PlayEveryWare.EpicOnlineServices
                 Debug.Log(toPrint);
             }
 
+            [Conditional("ENABLE_DEBUG_EOSMANAGER")]
+            static void printError(string toPrint)
+            {
+                Debug.LogError(toPrint);
+            }
+
+            [Conditional("ENABLE_DEBUG_EOSMANAGER")]
+            static void printWarning(string toPrint)
+            {
+                Debug.LogWarning(toPrint);
+            }
+
             //-------------------------------------------------------------------------
             public void AddConnectLoginListener(IEOSOnConnectLogin connectLogin)
             {
@@ -478,7 +490,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 }
                 else
                 {
-                    Debug.LogWarning(
+                    printWarning(
                         "EOS config data does not contain a valid encryption key which is needed for Player Data Storage and Title Storage.");
                 }
 
@@ -633,7 +645,7 @@ namespace PlayEveryWare.EpicOnlineServices
                     }
                 }
 
-                Debug.Log($"EOSManager::Init: InitializePlatformInterface: initResult = {initResult}");
+                print($"EOSManager::Init: InitializePlatformInterface: initResult = {initResult}");
 
 
                 s_hasInitializedPlatform = true;
@@ -666,7 +678,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 IPlatformSpecifics platformSpecifics = EOSManagerPlatformSpecificsSingleton.Instance;
                 if (platformSpecifics != null)
                 {
-                    Debug.Log("EOSManager: Registering for platform-specific notifications");
+                    print("EOSManager: Registering for platform-specific notifications");
                     platformSpecifics.RegisterForPlatformNotifications();
                 }
             }
@@ -809,7 +821,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 var dateTime = DateTime.Now;
                 var messageCategory = message.Category.Length == 0 ? new Utf8String() : message.Category;
 
-                Debug.LogFormat(null, "{0:O} {1}({2}): {3}", dateTime, messageCategory, message.Level, message.Message);
+                print(string.Format("{0:O} {1}({2}): {3}", dateTime, messageCategory, message.Level, message.Message));
             }
 
             //-------------------------------------------------------------------------
@@ -1424,7 +1436,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
                 if (createPresenceModificationResult != Result.Success)
                 {
-                    Debug.LogError("Unable to create presence modfication handle");
+                    printError("Unable to create presence modfication handle");
                 }
 
                 var presenceModificationSetStatUsOptions = new PresenceModificationSetStatusOptions();
@@ -1433,7 +1445,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
                 if (setStatusResult != Result.Success)
                 {
-                    Debug.LogError("unable to set status");
+                    printError("unable to set status");
                 }
 
                 var richTextOptions = new PresenceModificationSetRawRichTextOptions();
@@ -1447,7 +1459,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 {
                     if (callbackInfo.ResultCode != Result.Success)
                     {
-                        Debug.LogError("Unable to set presence: " + callbackInfo.ResultCode);
+                        printError("Unable to set presence: " + callbackInfo.ResultCode);
                     }
                 });
             }
@@ -1501,12 +1513,12 @@ namespace PlayEveryWare.EpicOnlineServices
                     {
                         if (deletePersistentAuthCallbackInfo.ResultCode != Result.Success)
                         {
-                            Debug.LogError("Unable to delete persistent token, Result : " +
+                            printError("Unable to delete persistent token, Result : " +
                                            deletePersistentAuthCallbackInfo.ResultCode);
                         }
                         else
                         {
-                            Debug.Log("Successfully deleted persistent token");
+                            print("Successfully deleted persistent token");
                         }
                     });
             }
@@ -1585,18 +1597,18 @@ namespace PlayEveryWare.EpicOnlineServices
                     // Not doing this in the editor, because it doesn't seem to be an issue there
 #if !UNITY_EDITOR_OSX
 #if !UNITY_EDITOR
-                    Debug.Log("Running garbage collection.");
+                    print("Running garbage collection.");
                     System.GC.Collect();
 
-                    Debug.Log("Waiting for pending finalizers.");
+                    print("Waiting for pending finalizers.");
                     System.GC.WaitForPendingFinalizers();
 #endif
-                    Debug.Log("Releasing the EOS Platform Interface.");
+                    print("Releasing the EOS Platform Interface.");
                     GetEOSPlatformInterface()?.Release();
 
                     if (s_eosUnloadSDKOnShutdown)
                     {
-                        Debug.Log("Shutting down the platform interface.");
+                        print("Shutting down the platform interface.");
                         ShutdownPlatformInterface();
                     }
 
@@ -1607,11 +1619,11 @@ namespace PlayEveryWare.EpicOnlineServices
 #if UNITY_EDITOR
                     if (s_eosUnloadSDKOnShutdown)
                     {
-                        Debug.Log("Unloading all libraries.");
+                        print("Unloading all libraries.");
                         UnloadAllLibraries();
                     }
 #endif
-                    Debug.Log("Finished shutdown.");
+                    print("Finished shutdown.");
                     s_state = EOSState.Shutdown;
                 }
             }
@@ -1648,7 +1660,7 @@ namespace PlayEveryWare.EpicOnlineServices
                     Result result = GetEOSPlatformInterface().SetApplicationStatus(newStatus);
                     if (result != Result.Success)
                     {
-                        Debug.LogError(
+                        printError(
                             $"EOSSingleton.SetEOSApplicationStatus: Error setting EOS application status (Result = {result})");
                     }
                 }
