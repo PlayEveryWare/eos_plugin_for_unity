@@ -198,7 +198,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <returns>Task<typeparam name="T">Config type.</typeparam></returns>
         public static T Get<T>() where T : Config
         {
-            T config = GetAsync<T>().GetAwaiter().GetResult();
+            T config = Task.Run(GetAsync<T>).GetAwaiter().GetResult();
             return config;
         }
 
@@ -278,7 +278,7 @@ namespace PlayEveryWare.EpicOnlineServices
         protected virtual void Read()
         {
             // Call ReadAsync() synchronously.
-            ReadAsync().GetAwaiter().GetResult();
+            Task.Run(ReadAsync).GetAwaiter().GetResult();
         }
 
         /// <summary>
