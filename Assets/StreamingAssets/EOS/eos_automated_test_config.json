@@ -1,0 +1,6 @@
+{
+    "EOSDevAuthToolIP": "127.0.0.1",
+    "EOSDevAuthToolPort": 7777,
+    "EOSDevAuthToolUserName": "Tester",
+    "Enable": false
+}
