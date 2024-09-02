@@ -20,13 +20,11 @@
 * SOFTWARE.
 */
 
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
+    using System;
+    using UnityEngine;
+
     /// <summary>
     /// Class <c>UIScreenRotationEventController</c> provides event callback functionality for screen rotation on mobile devices. 
     /// </summary>

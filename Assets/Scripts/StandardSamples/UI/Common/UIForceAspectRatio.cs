@@ -20,35 +20,35 @@
 * SOFTWARE.
 */
 
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class ForceAspectRatio : MonoBehaviour
+namespace PlayEveryWare.EpicOnlineServices.Samples
 {
+    using UnityEngine;
 
-    [Tooltip("Aspect ratio to force window to")]
-    public float TargetAspectRatio = 16.0f / 9.0f;
-
-    [Tooltip("Delay between window resize and aspect ratio adjustment, in seconds")]
-    public float AdjustmentDelay = 0.5f;
-
-    int lastScreenWidth;
-    int lastScreenHeight;
-
-    int lastCorrectedScreenWidth;
-    int lastCorrectedScreenHeight;
-
-    // Start is called before the first frame update
-    void Start()
+    public class ForceAspectRatio : MonoBehaviour
     {
-        lastScreenWidth = Screen.width;
-        lastScreenHeight = Screen.height;
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
+        [Tooltip("Aspect ratio to force window to")]
+        public float TargetAspectRatio = 16.0f / 9.0f;
+
+        [Tooltip("Delay between window resize and aspect ratio adjustment, in seconds")]
+        public float AdjustmentDelay = 0.5f;
+
+        int lastScreenWidth;
+        int lastScreenHeight;
+
+        int lastCorrectedScreenWidth;
+        int lastCorrectedScreenHeight;
+
+        // Start is called before the first frame update
+        void Start()
+        {
+            lastScreenWidth = Screen.width;
+            lastScreenHeight = Screen.height;
+        }
+
+        // Update is called once per frame
+        void Update()
+        {
 #if !UNITY_EDITOR
         if (Screen.width != lastScreenWidth || Screen.height != lastScreenHeight)
         {
@@ -59,24 +59,25 @@ public class ForceAspectRatio : MonoBehaviour
             lastScreenHeight = Screen.height;
         }
 #endif
-    }
-
-    void AdjustResolution()
-    {
-        int width = Screen.width;
-        int height = Screen.height;
-
-        if (lastCorrectedScreenWidth != width) // changing width
-        {
-            int newHeight = (int)Mathf.Round(width / TargetAspectRatio);
-            Screen.SetResolution(width, newHeight, false);
-            lastCorrectedScreenHeight = newHeight;
         }
-        else if (lastCorrectedScreenHeight != height) // changing height
+
+        void AdjustResolution()
         {
-            int newWidth = (int)Mathf.Round(height * TargetAspectRatio);
-            Screen.SetResolution(newWidth, height, false);
-            lastCorrectedScreenWidth = newWidth;
+            int width = Screen.width;
+            int height = Screen.height;
+
+            if (lastCorrectedScreenWidth != width) // changing width
+            {
+                int newHeight = (int)Mathf.Round(width / TargetAspectRatio);
+                Screen.SetResolution(width, newHeight, false);
+                lastCorrectedScreenHeight = newHeight;
+            }
+            else if (lastCorrectedScreenHeight != height) // changing height
+            {
+                int newWidth = (int)Mathf.Round(height * TargetAspectRatio);
+                Screen.SetResolution(newWidth, height, false);
+                lastCorrectedScreenWidth = newWidth;
+            }
         }
     }
 }

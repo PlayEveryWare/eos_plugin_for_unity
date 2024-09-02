@@ -20,9 +20,8 @@
  * SOFTWARE.
  */
 
-namespace PlayEveryWare.EpicOnlineServices.Tests
+namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 {
-    using EpicOnlineServices.Editor.Windows;
     using System;
     using System.Collections.Generic;
     using System.Linq;

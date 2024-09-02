@@ -27,20 +27,20 @@ namespace PlayEveryWare.EpicOnlineServices.Extensions
     using System.Threading;
 
     /// <summary>
-    /// Threadsafe Random class.
-    /// </summary>
-    internal static class ThreadSafeRandom
-    {
-        private static readonly ThreadLocal<Random> threadLocalRandom = new(() => new Random());
-
-        public static Random Instance => threadLocalRandom.Value;
-    }
-
-    /// <summary>
     /// Contains extension methods for lists.
     /// </summary>
     public static class ListExtensions
     {
+        /// <summary>
+        /// Threadsafe Random class.
+        /// </summary>
+        internal static class ThreadSafeRandom
+        {
+            private static readonly ThreadLocal<Random> threadLocalRandom = new(() => new Random());
+
+            public static Random Instance => threadLocalRandom.Value;
+        }
+
         /// <summary>
         /// Uses the Fisher-Yates algorithm to efficiently and uniformly shuffle
         /// the contents of an object that implements the generic list

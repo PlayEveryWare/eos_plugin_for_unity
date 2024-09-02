@@ -24,18 +24,16 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 {
     using System;
     using System.Collections.Generic;
+    using System.Threading.Tasks;
 
     using UnityEngine;
-    using UnityEngine.EventSystems;
     using UnityEngine.UI;
 
     using Epic.OnlineServices.Achievements;
-    using System.Threading.Tasks;
-
+    
     /// <summary>
     /// Unity UI sample that uses <c>AchievementManager</c> to demo features.  Can be used as a template or starting point for implementing Achievement features.
     /// </summary>
-
     public class UIAchievementsMenu : SampleMenu
     {
         [Header("Achievements UI")]

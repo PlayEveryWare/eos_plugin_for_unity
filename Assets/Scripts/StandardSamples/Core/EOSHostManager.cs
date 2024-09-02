@@ -20,22 +20,11 @@
 * SOFTWARE.
 */
 
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-#if !EOS_DISABLE
-using Epic.OnlineServices;
-using Epic.OnlineServices.Connect;
-using Epic.OnlineServices.Friends;
-using Epic.OnlineServices.Presence;
-using Epic.OnlineServices.UserInfo;
-using Epic.OnlineServices.UI;
-#endif
-
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
+    using System.Collections;
+    using UnityEngine;
+
     public class EOSHostManager : MonoBehaviour, IEOSCoroutineOwner
     {
         void Awake()

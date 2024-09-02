@@ -20,11 +20,11 @@
 * SOFTWARE.
 */
 
-using UnityEngine;
-
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
     using System;
+
+    using UnityEngine;
 
     [CreateAssetMenu(fileName = "SceneData", menuName = "Scene Management/Scene Data", order = 1)]
     public class SceneData : ScriptableObject

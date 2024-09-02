@@ -20,22 +20,18 @@
 * SOFTWARE.
 */
 
-using System;
-
-using UnityEngine;
-
-using Epic.OnlineServices;
-using Epic.OnlineServices.Connect;
-using Epic.OnlineServices.Friends;
-using Epic.OnlineServices.Presence;
-using Epic.OnlineServices.UserInfo;
-
-using System.Collections.Generic;
-
-using Epic.OnlineServices.UI;
-
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
+    using System;
+    using UnityEngine;
+    using Epic.OnlineServices;
+    using Epic.OnlineServices.Connect;
+    using Epic.OnlineServices.Friends;
+    using Epic.OnlineServices.Presence;
+    using Epic.OnlineServices.UserInfo;
+    using System.Collections.Generic;
+    using Epic.OnlineServices.UI;
+
     /// <summary>Class <c>FriendData</c> stores Friend data.</summary>
     public class FriendData
     {
