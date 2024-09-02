@@ -483,13 +483,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         private List<OnMemberUpdateCallback> MemberUpdateCallbacks;
 
 
-        public delegate void LobbyChangedEventHandler(string lobbyId, LobbyChangeType typeOfChange);
+        public delegate void LobbyChanged(string lobbyId, LobbyChangeType typeOfChange);
 
         /// <summary>
         /// Event that is run whenever the local user's relationship to a Lobby has been changed.
         /// Indicates the Lobby that the change relates to.
         /// </summary>
-        public event LobbyChangedEventHandler OnLobbyChanged;
+        public event LobbyChanged OnLobbyChanged;
 
         private List<Action> LobbyUpdateCallbacks;
 
