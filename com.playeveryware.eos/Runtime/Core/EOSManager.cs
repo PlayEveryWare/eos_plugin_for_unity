@@ -325,6 +325,18 @@ namespace PlayEveryWare.EpicOnlineServices
                 Debug.Log(toPrint);
             }
 
+            [Conditional("ENABLE_DEBUG_EOSMANAGER")]
+            static void printError(string toPrint)
+            {
+                Debug.LogError(toPrint);
+            }
+
+            [Conditional("ENABLE_DEBUG_EOSMANAGER")]
+            static void printWarning(string toPrint)
+            {
+                Debug.LogWarning(toPrint);
+            }
+
             //-------------------------------------------------------------------------
             public void AddConnectLoginListener(IEOSOnConnectLogin connectLogin)
             {
