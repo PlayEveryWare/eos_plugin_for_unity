@@ -138,6 +138,48 @@ namespace PlayEveryWare.EpicOnlineServices
         //cached log levels for retrieving later
         private static Dictionary<LogCategory, LogLevel> logLevels;
 
+        /// <summary>
+        /// This stores a reference to an existing EOSManager.
+        /// This should only be used to determine if a new copy of EOSManager should become not enabled.
+        /// </summary>
+        private static EOSManager existingManager = null;
+
+        /// <summary>
+        /// Answers the question of whether a new EOSManager should be set up.
+        /// There shouldn't be two active and enabled EOSManagers, this helps prevent accidentally having two.
+        /// There will never be duplicate EOSSingletons, but duplicate EOSManager MonoBehaviours would
+        /// make update ticks run twice when it should run once.
+        /// </summary>
+        private static bool isThereAnExistingRunningManager
+        {
+            get
+            {
+                // Is there an existing manager, that hasn't been destroyed, in existingManager?
+                // If there isn't, we need to make one
+                if (existingManager == null)
+                {
+                    return false;
+                }
+
+                // Is there a EOSSingleton instance yet?
+                // Intentionally checks the backing field, so the accessor doesn't make an instance
+                // If there isn't, then we need to make it
+                if (s_instance == null)
+                {
+                    return false;
+                }
+
+                // Is the status of the EOSSingleton running?
+                // If it isn't, then we need to restart the EOS SDK
+                if (s_state != EOSState.Running)
+                {
+                    return false;
+                }
+
+                return true;
+            }
+        }
+
         enum EOSState
         {
             NotStarted,
@@ -1802,6 +1844,23 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </summary>
         void Awake()
         {
+            // If the backing field s_instance already exists, and it has indicated it is running,
+            // then this EOSManager shouldn't perform any operations.
+            // So at this time if that condition is met, disable this behavior so that it doesn't run Update, etc
+            if (isThereAnExistingRunningManager)
+            {
+                print($"{nameof(EOSManager)} {(nameof(Awake))}: An EOSManager instance already exists and is running, so this behaviour is marking as inactive to not perform duplicate work.");
+                enabled = false;
+                return;
+            }
+
+            existingManager = this;
+            DontDestroyOnLoad(this.gameObject);
+
+#if UNITY_PS5 && !UNITY_EDITOR
+            EOSPSNManagerPS5.EnsurePS5Initialized();
+#endif
+
             if (InitializeOnAwake)
             {
                 Instance.Init(this);
