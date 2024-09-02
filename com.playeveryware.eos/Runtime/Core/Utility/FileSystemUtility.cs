@@ -489,7 +489,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         /// <returns>The contents of the file at the indicated path as a string.</returns>
         public static string ReadAllText(string path)
         {
-            return ReadAllTextAsync(path).GetAwaiter().GetResult();
+            return Task.Run(() => ReadAllTextAsync(path)).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -507,7 +507,10 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
             // appropriate.
             try
             {
-                return await File.ReadAllTextAsync(path);
+                Debug.Log("Starting async file read");
+                var result = await File.ReadAllTextAsync(path);
+                Debug.Log("Finished async file read");
+                return result;
             }
             catch (Exception e)
             {
@@ -606,7 +609,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         public static void WriteFile(string filePath, string content, bool createDirectory = true)
         {
             // Appropriately call the async function synchronously.
-            WriteFileAsync(filePath, content, createDirectory).GetAwaiter().GetResult();
+            Task.Run(() => WriteFileAsync(filePath, content, createDirectory)).GetAwaiter().GetResult();
         }
 
         /// <summary>

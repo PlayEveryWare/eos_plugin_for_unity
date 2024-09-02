@@ -787,5 +787,16 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 }
             }
         }
+
+        public void ToggleDeafenSelf()
+        {
+            bool shouldBecomeDeafened = true;
+            if (LobbyManager.GetCurrentLobby() != null)
+            {
+                shouldBecomeDeafened = !LobbyManager.GetCurrentLobby().IsLocalUserDeafened;
+            }
+
+            LobbyManager.SetLocalMemberDeafen(shouldBecomeDeafened, null);
+        }
     }
 }

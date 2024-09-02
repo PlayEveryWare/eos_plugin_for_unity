@@ -25,9 +25,9 @@
 namespace PlayEveryWare.EpicOnlineServices.Extensions
 {
     using Epic.OnlineServices.Auth;
+    using Utility;
     using System;
     using System.Collections.Generic;
-    using Utility;
 
     /// <summary>
     /// Provides a means of parsing string representations of enum values for
