@@ -20,23 +20,14 @@
 * SOFTWARE.
 */
 
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using UnityEngine;
-
-using Epic.OnlineServices;
-using Epic.OnlineServices.P2P;
-
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
-    /// <summary>
-    /// Struct <c>ChatEntry</c> is used to store cached chat data in <c>UIPeer2PeerMenu</c>.
-    /// </summary>
-
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
+    using UnityEngine;
+    using Epic.OnlineServices;
+    using Epic.OnlineServices.P2P;
 
     public class EOSHighFrequencyPeer2PeerManager : IEOSSubManager
     {

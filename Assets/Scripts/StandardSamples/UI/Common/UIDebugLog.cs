@@ -20,16 +20,15 @@
 * SOFTWARE.
 */
 
-using System;
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.EventSystems;
-using Epic.OnlineServices.Logging;
-
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
+    using System;
+    using System.Collections.Generic;
+    using UnityEngine;
+    using UnityEngine.UI;
+    using UnityEngine.EventSystems;
+    using Epic.OnlineServices.Logging;
+
     public class UIDebugLog : MonoBehaviour
     {
         [Header("Debug Log UI")]

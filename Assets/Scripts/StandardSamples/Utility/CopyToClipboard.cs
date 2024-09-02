@@ -20,18 +20,19 @@
 * SOFTWARE.
 */
 
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
-
-public class CopyToClipboard : MonoBehaviour
+namespace PlayEveryWare.EpicOnlineServices.Samples
 {
-    public Text Source;
+    using UnityEngine;
+    using UnityEngine.UI;
 
-    public void CopyOnClick()
+    public class CopyToClipboard : MonoBehaviour
     {
-        Debug.Log("Copy to clipboard");
-        GUIUtility.systemCopyBuffer = Source.text;
+        public Text Source;
+
+        public void CopyOnClick()
+        {
+            Debug.Log("Copy to clipboard");
+            GUIUtility.systemCopyBuffer = Source.text;
+        }
     }
 }

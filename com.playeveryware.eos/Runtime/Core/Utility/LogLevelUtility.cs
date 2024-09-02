@@ -21,13 +21,14 @@
  */
 
 #if !EOS_DISABLE
-using System;
-using System.Collections.Generic;
-using UnityEngine;
-using Epic.OnlineServices.Logging;
 
-namespace PlayEveryWare.EpicOnlineServices
+namespace PlayEveryWare.EpicOnlineServices.Utility
 {
+    using System;
+    using System.Collections.Generic;
+    using UnityEngine;
+    using Epic.OnlineServices.Logging;
+
     public static class LogLevelUtility
     {
         public static string[] LogCategoryStringArray

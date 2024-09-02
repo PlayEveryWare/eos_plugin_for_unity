@@ -20,8 +20,6 @@
 * SOFTWARE.
 */
 
-
-
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
     using UnityEngine;
@@ -29,7 +27,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     using System.Collections.Generic;
     using Epic.OnlineServices;
     using EpicOnlineServices;
-    using Config = Config;
+    using Config = PlayEveryWare.EpicOnlineServices.Config;
 
     /// <summary>
     /// Unity UI sample that uses <c>TitleStoragemanager</c> to demo features.  Can be used as a template or starting point for implementing Title Storage features.

@@ -20,17 +20,15 @@
 * SOFTWARE.
 */
 
-using UnityEngine;
-using UnityEditor;
-using System.IO;
-using System.Text.RegularExpressions;
-
 namespace PlayEveryWare.EpicOnlineServices.Editor.Build
 {
     using Config;
-    using EpicOnlineServices.Build;
     using System.Threading.Tasks;
     using Config = EpicOnlineServices.Config;
+    using UnityEngine;
+    using UnityEditor;
+    using System.IO;
+    using System.Text.RegularExpressions;
 
     [InitializeOnLoad]
     public static partial class MakefileUtility

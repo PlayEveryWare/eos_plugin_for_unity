@@ -33,19 +33,19 @@
 #define DISABLESTEAMWORKS
 #endif
 
-using System;
-using System.Threading.Tasks;
-using UnityEngine;
-#if !DISABLESTEAMWORKS
-using Steamworks;
-#endif
-
 //
 // The SteamManager provides a base implementation of Steamworks.NET on which you can build upon.
 // It handles the basics of starting up and shutting down the SteamAPI for use.
 //
 namespace PlayEveryWare.EpicOnlineServices.Samples.Steam
 {
+    using System;
+    using System.Threading.Tasks;
+    using UnityEngine;
+#if !DISABLESTEAMWORKS
+using Steamworks;
+#endif
+
     [DisallowMultipleComponent]
     public class SteamManager : MonoBehaviour
     {

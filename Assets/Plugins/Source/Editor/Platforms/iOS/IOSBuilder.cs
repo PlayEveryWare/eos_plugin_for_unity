@@ -20,7 +20,7 @@
  * SOFTWARE.
  */
 #if !EOS_DISABLE
-namespace PlayEveryWare.EpicOnlineServices.Build
+namespace PlayEveryWare.EpicOnlineServices.Editor.Build
 {
     using System.IO;
     using UnityEditor;

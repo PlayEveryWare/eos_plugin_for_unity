@@ -20,21 +20,18 @@
 * SOFTWARE.
 */
 
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
-using Epic.OnlineServices;
-using PlayEveryWare.EpicOnlineServices;
-using PlayEveryWare.EpicOnlineServices.Samples;
-
-#if COM_UNITY_MODULE_NETCODE
-using Unity.Netcode;
-using Unity.Collections;
-#endif
 
 namespace PlayEveryWare.EpicOnlineServices.Samples.Network
 {
+    using UnityEngine;
+    using UnityEngine.UI;
+    using Epic.OnlineServices;
+    using EpicOnlineServices;
+    
+#if COM_UNITY_MODULE_NETCODE
+    using Unity.Netcode;
+    using Unity.Collections;
+#endif
     public class NetworkSamplePlayer
 #if COM_UNITY_MODULE_NETCODE
     : NetworkBehaviour

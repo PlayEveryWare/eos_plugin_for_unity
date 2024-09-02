@@ -20,20 +20,16 @@
 * SOFTWARE.
 */
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-using UnityEngine;
-
-using Epic.OnlineServices;
-using Epic.OnlineServices.Ecom;
-using Epic.OnlineServices.Auth;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
+    using System.Collections.Generic;
+    using UnityEngine;
+    using Epic.OnlineServices;
+    using Epic.OnlineServices.Ecom;
+    using Epic.OnlineServices.Auth;
+
     /// <summary>
     /// Class <c>EOSStoreManager</c> is a simplified wrapper for EOS [Ecom Interface](https://dev.epicgames.com/docs/services/en-US/Interfaces/Ecom/index.html).
     /// </summary>

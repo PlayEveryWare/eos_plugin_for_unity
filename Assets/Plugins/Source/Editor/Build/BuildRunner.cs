@@ -20,9 +20,10 @@
  * SOFTWARE.
  */
 
-namespace PlayEveryWare.EpicOnlineServices.Build
+namespace PlayEveryWare.EpicOnlineServices.Editor.Build
 {
-    using Editor.Utility;
+    using Config;
+    using Utility;
     using UnityEditor.Build;
     using UnityEditor.Build.Reporting;
 

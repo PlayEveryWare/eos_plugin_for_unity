@@ -20,47 +20,49 @@
 * SOFTWARE.
 */
 
-using System.Runtime.InteropServices;
-using System.Reflection;
-using System;
+namespace PlayEveryWare.EpicOnlineServices
+{
+    using System.Runtime.InteropServices;
+    using System.Reflection;
+    using System;
 
 /*
- * Example of using this 
+ * Example of using this
 #if USE_RELOABLE_DELEGATES
         private delegate IntPtr EOS_Platform_Create_Del(ref OptionsInternal options);
         private static EOS_Platform_Create_Del EOS_Platform_Create;
 #else
         [DllImport(Config.BinaryName)]
-		private static extern IntPtr EOS_Platform_Create(ref OptionsInternal options);
+        private static extern IntPtr EOS_Platform_Create(ref OptionsInternal options);
 #endif
 */
-public partial class SystemDynamicLibrary
-{
+    public partial class SystemDynamicLibrary
+    {
 
-    // These are maintained as DllImports instead of using the DLLH in the editor
-    // so that the Editor won't hold a lock on the DLL, which can hurt iteration time
-    // when testing new things on the DLL.
+        // These are maintained as DllImports instead of using the DLLH in the editor
+        // so that the Editor won't hold a lock on the DLL, which can hurt iteration time
+        // when testing new things on the DLL.
 #if UNITY_EDITOR_WIN && !EOS_DISABLE
-    // In theory, its possible to use **Internal to get the
-    // default system libraries.
-    private const string Kernel32BinaryName = "kernel32";
+        // In theory, its possible to use **Internal to get the
+        // default system libraries.
+        private const string Kernel32BinaryName = "kernel32";
 
-    [DllImport(Kernel32BinaryName, SetLastError = true)]
-    [return: MarshalAs(UnmanagedType.Bool)]
-    public static extern bool FreeLibrary(IntPtr hModule);
+        [DllImport(Kernel32BinaryName, SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool FreeLibrary(IntPtr hModule);
 
-    [DllImport(Kernel32BinaryName, SetLastError = true, CharSet = CharSet.Unicode)]
-    public static extern IntPtr GetModuleHandle(string moduleName);
+        [DllImport(Kernel32BinaryName, SetLastError = true, CharSet = CharSet.Unicode)]
+        public static extern IntPtr GetModuleHandle(string moduleName);
 
-    [DllImport(Kernel32BinaryName, SetLastError = true, CharSet = CharSet.Unicode)]
-    private static extern IntPtr LoadLibrary(string lpFileName);
+        [DllImport(Kernel32BinaryName, SetLastError = true, CharSet = CharSet.Unicode)]
+        private static extern IntPtr LoadLibrary(string lpFileName);
 
 
-    [DllImport(Kernel32BinaryName, SetLastError = true, CharSet = CharSet.Unicode)]
-    private static extern IntPtr LoadPackagedLibrary(string lpFileName, int reserved=0);
+        [DllImport(Kernel32BinaryName, SetLastError = true, CharSet = CharSet.Unicode)]
+        private static extern IntPtr LoadPackagedLibrary(string lpFileName, int reserved = 0);
 
-    [DllImport(Kernel32BinaryName, SetLastError = true, CharSet = CharSet.Ansi, ExactSpelling = true)]
-    private static extern IntPtr GetProcAddress(IntPtr hModule, string procedureName);
+        [DllImport(Kernel32BinaryName, SetLastError = true, CharSet = CharSet.Ansi, ExactSpelling = true)]
+        private static extern IntPtr GetProcAddress(IntPtr hModule, string procedureName);
 #elif UNITY_EDITOR_OSX
     private const string DynamicLinkLibrary = "libDynamicLibraryLoaderHelper";
     [DllImport(DynamicLinkLibrary)]
@@ -89,13 +91,13 @@ public partial class SystemDynamicLibrary
     private static extern IntPtr GetProcAddress(IntPtr hModule, string procedureName);
 #endif
 
-    private static SystemDynamicLibrary s_instance;
+        private static SystemDynamicLibrary s_instance;
 
 #if !EOS_DISABLE
-    // "__Internal" is the name used for static linked libraries
-    private const string DLLHBinaryName =
+        // "__Internal" is the name used for static linked libraries
+        private const string DLLHBinaryName =
 #if UNITY_WSA || UNITY_STANDALONE_WIN || UNITY_GAMECORE
-        "DynamicLibraryLoaderHelper";
+            "DynamicLibraryLoaderHelper";
 #elif UNITY_ANDROID
         "DynamicLibraryLoaderHelper_Android";
 #elif UNITY_STANDALONE_OSX
@@ -105,111 +107,113 @@ public partial class SystemDynamicLibrary
 #endif
 
 
-    [DllImport(DLLHBinaryName)]
-    private static extern IntPtr DLLH_create_context();
+        [DllImport(DLLHBinaryName)]
+        private static extern IntPtr DLLH_create_context();
 
-    [DllImport(DLLHBinaryName)]
-    private static extern void DLLH_destroy_context(IntPtr context);
+        [DllImport(DLLHBinaryName)]
+        private static extern void DLLH_destroy_context(IntPtr context);
 
-    [DllImport(DLLHBinaryName,SetLastError = true, CharSet = CharSet.Ansi)]
-    private static extern IntPtr DLLH_load_library_at_path(IntPtr ctx, string library_path);
+        [DllImport(DLLHBinaryName, SetLastError = true, CharSet = CharSet.Ansi)]
+        private static extern IntPtr DLLH_load_library_at_path(IntPtr ctx, string library_path);
 
 #if !UNITY_SWITCH && !UNITY_PS4 && !UNITY_PS5
-    [DllImport(DLLHBinaryName)]
-    private static extern bool DLLH_unload_library_at_path(IntPtr ctx, IntPtr library_handle);
+        [DllImport(DLLHBinaryName)]
+        private static extern bool DLLH_unload_library_at_path(IntPtr ctx, IntPtr library_handle);
 #endif
 
-    [DllImport(DLLHBinaryName, SetLastError = true, CharSet = CharSet.Ansi)]
-    private static extern IntPtr DLLH_load_function_with_name(IntPtr ctx, IntPtr library_handle, string function);
+        [DllImport(DLLHBinaryName, SetLastError = true, CharSet = CharSet.Ansi)]
+        private static extern IntPtr DLLH_load_function_with_name(IntPtr ctx, IntPtr library_handle, string function);
 #endif
-    private IntPtr DLLHContex;
+        private IntPtr DLLHContex;
 
-    //-------------------------------------------------------------------------
-    private SystemDynamicLibrary()
-    {
+        //-------------------------------------------------------------------------
+        private SystemDynamicLibrary()
+        {
 #if !UNITY_EDITOR && !EOS_DISABLE
         DLLHContex = DLLH_create_context();
 #endif
-    }
-
-    //-------------------------------------------------------------------------
-    static public SystemDynamicLibrary Instance
-    {
-        get
-        {
-            if (s_instance == null)
-            {
-                s_instance = new SystemDynamicLibrary();
-            }
-            return s_instance;
         }
-    }
 
-    //-------------------------------------------------------------------------
+        //-------------------------------------------------------------------------
+        static public SystemDynamicLibrary Instance
+        {
+            get
+            {
+                if (s_instance == null)
+                {
+                    s_instance = new SystemDynamicLibrary();
+                }
 
-    static public IntPtr GetHandleForModule(string moduleName)
-    {
+                return s_instance;
+            }
+        }
+
+        //-------------------------------------------------------------------------
+
+        static public IntPtr GetHandleForModule(string moduleName)
+        {
 #if (UNITY_EDITOR_WIN || (UNITY_EDITOR_OSX || UNITY_EDITOR_LINUX)) && !EOS_DISABLE
-        return GetModuleHandle(moduleName);
+            return GetModuleHandle(moduleName);
 #else
         return IntPtr.Zero;
 #endif
-    }
+        }
 
 #if UNITY_EDITOR || UNITY_STANDALONE_OSX
-    //-------------------------------------------------------------------------
-    static public bool UnloadLibraryInEditor(IntPtr libraryHandle)
-    {
+        //-------------------------------------------------------------------------
+        static public bool UnloadLibraryInEditor(IntPtr libraryHandle)
+        {
 #if (UNITY_EDITOR_WIN || (UNITY_EDITOR_OSX || UNITY_EDITOR_LINUX)) && !EOS_DISABLE
-        return FreeLibrary(libraryHandle);
+            return FreeLibrary(libraryHandle);
 #else
         return true;
-    #endif
-    }
+#endif
+        }
 #endif
 
 
-    //-------------------------------------------------------------------------
-    public IntPtr LoadLibraryAtPath(string libraryPath)
-    {
+        //-------------------------------------------------------------------------
+        public IntPtr LoadLibraryAtPath(string libraryPath)
+        {
 #if EOS_DISABLE
         return IntPtr.Zero;
-#elif  UNITY_EDITOR_WIN || (UNITY_EDITOR_OSX || UNITY_EDITOR_LINUX)
-        return LoadLibrary(libraryPath);
+#elif UNITY_EDITOR_WIN || (UNITY_EDITOR_OSX || UNITY_EDITOR_LINUX)
+            return LoadLibrary(libraryPath);
 #else
         return DLLH_load_library_at_path(DLLHContex, libraryPath);
 #endif
-    }
+        }
 
-    //-------------------------------------------------------------------------
-    public bool UnloadLibrary(IntPtr libraryHandle)
-    {
+        //-------------------------------------------------------------------------
+        public bool UnloadLibrary(IntPtr libraryHandle)
+        {
 #if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN || UNITY_ANDROID || UNITY_IOS || ((UNITY_STANDALONE_OSX || UNITY_STANDALONE_LINUX || UNITY_EDITOR_LINUX) && EOS_PREVIEW_PLATFORM )
 #if EOS_DISABLE
         return true;
 #elif (UNITY_EDITOR_WIN || (UNITY_EDITOR_OSX || UNITY_EDITOR_LINUX)) && !UNITY_ANDROID
-        return FreeLibrary(libraryHandle);
+            return FreeLibrary(libraryHandle);
 #else
         return DLLH_unload_library_at_path(DLLHContex, libraryHandle);
 #endif
 #else
         return true;
 #endif
-    }
+        }
 
 
-    //-------------------------------------------------------------------------
-    // TODO: evaluate if we can just use DLLH_load_function; it might make it
-    // more difficult to iterate on the DLLH dll if the Unity Editor holds a lock
-    // on the DLL
-    public IntPtr LoadFunctionWithName(IntPtr libraryHandle, string functionName)
-    {
+        //-------------------------------------------------------------------------
+        // TODO: evaluate if we can just use DLLH_load_function; it might make it
+        // more difficult to iterate on the DLLH dll if the Unity Editor holds a lock
+        // on the DLL
+        public IntPtr LoadFunctionWithName(IntPtr libraryHandle, string functionName)
+        {
 #if EOS_DISABLE
         return IntPtr.Zero;
 #elif UNITY_EDITOR_WIN || (UNITY_EDITOR_OSX || UNITY_EDITOR_LINUX)
-        return GetProcAddress(libraryHandle, functionName);
+            return GetProcAddress(libraryHandle, functionName);
 #else
         return DLLH_load_function_with_name(DLLHContex, libraryHandle, functionName);
 #endif
+        }
     }
 }

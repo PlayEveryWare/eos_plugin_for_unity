@@ -20,18 +20,15 @@
 * SOFTWARE.
 */
 
-using System;
-using System.Collections;
-using System.Collections.Generic;
-
-using UnityEngine;
-
-using Epic.OnlineServices;
-using Epic.OnlineServices.Leaderboards;
-using Epic.OnlineServices.Stats;
-
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
+    using System;
+    using System.Collections.Generic;
+    using UnityEngine;
+    using Epic.OnlineServices;
+    using Epic.OnlineServices.Leaderboards;
+    using Epic.OnlineServices.Stats;
+
     /// <summary>
     /// Class <c>EOSLeaderboardManager</c> is a simplified wrapper for EOS [Leaderboard Interface](https://dev.epicgames.com/docs/services/en-US/Interfaces/Leaderboards/index.html).
     /// </summary>

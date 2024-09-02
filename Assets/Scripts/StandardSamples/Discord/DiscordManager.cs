@@ -24,18 +24,17 @@
 #define DISABLEDISCORD
 #endif
 
-using System.Collections.Generic;
-using UnityEngine;
-using System;
-using System.Net;
-using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
-using Epic.OnlineServices;
-using Epic.OnlineServices.Connect;
-
 namespace PlayEveryWare.EpicOnlineServices.Samples.Discord
 {
+    using System.Collections.Generic;
+    using UnityEngine;
+    using System;
+    using System.Net;
+    using System.Net.Http;
+    using System.Text;
+    using System.Threading.Tasks;
+    using Epic.OnlineServices;
+    using Epic.OnlineServices.Connect;
     using JsonUtility = PlayEveryWare.EpicOnlineServices.Utility.JsonUtility;
 
     [DisallowMultipleComponent]

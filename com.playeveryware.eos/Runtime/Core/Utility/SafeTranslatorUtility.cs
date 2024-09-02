@@ -20,7 +20,7 @@
  * SOFTWARE.
  */
 
-namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
+namespace PlayEveryWare.EpicOnlineServices.Utility
 {
     /// <summary>
     /// Used to safely convert between signed and unsigned values.

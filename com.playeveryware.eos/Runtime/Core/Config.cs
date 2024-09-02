@@ -198,35 +198,8 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <returns>Task<typeparam name="T">Config type.</typeparam></returns>
         public static T Get<T>() where T : Config
         {
-            T config = GetAsync<T>().GetAwaiter().GetResult();
+            T config = Task.Run(GetAsync<T>).GetAwaiter().GetResult();
             return config;
-            // NOTE: This block (and the corresponding one below) exists so that
-            //       the config values are only cached when not in the editor.
-            //       In the editor, config files can be changed, so they should
-            //       not be cached.
-#if !UNITY_EDITOR
-            // Return cached copy if it exists.
-            if (s_cachedConfigs.TryGetValue(typeof(T), out Config config))
-            {
-                return (T)config;
-            }
-#endif
-            // Try to get the factory method used to instantiate the config.
-            TryGetFactory<T>(out Func<Config> factory);
-
-            // Use the factory method to create the config.
-            T instance = (T)factory();
-
-            // Read the config values from the corresponding file.
-            instance.Read();
-
-#if !UNITY_EDITOR
-            // Cache the newly created config with its values having been read.
-            s_cachedConfigs.Add(typeof(T), instance);
-#endif
-
-            // Return the config being retrieved.
-            return instance;
         }
 
         /// <summary>
@@ -305,7 +278,7 @@ namespace PlayEveryWare.EpicOnlineServices
         protected virtual void Read()
         {
             // Call ReadAsync() synchronously.
-            ReadAsync().GetAwaiter().GetResult();
+            Task.Run(ReadAsync).GetAwaiter().GetResult();
         }
 
         /// <summary>

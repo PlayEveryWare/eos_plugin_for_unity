@@ -20,14 +20,14 @@
  * SOFTWARE.
  */
 
-#if ENABLE_INPUT_SYSTEM
-using UnityEngine.InputSystem;
-#endif
-
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
     using UnityEngine;
 
+#if ENABLE_INPUT_SYSTEM
+    using UnityEngine.InputSystem;
+#endif
+    
     /// <summary>
     /// Used to abstract away the differences between the modern input system and the legacy
     /// input system.
