@@ -95,9 +95,6 @@ namespace PlayEveryWare.EpicOnlineServices
     /// </summary>
     public partial class EOSManager : MonoBehaviour, IEOSCoroutineOwner
     {
-        // <value>If true, EOSManager initialized itself at startup.</value>
-        public bool InitializeOnAwake = true;
-
         /// <value>If true, EOSManager will shutdown the EOS SDK when Unity runs <see cref="Application.quitting"/>.</value>
         public bool ShouldShutdownOnApplicationQuit = true;
 
@@ -1861,10 +1858,7 @@ namespace PlayEveryWare.EpicOnlineServices
             EOSPSNManagerPS5.EnsurePS5Initialized();
 #endif
 
-            if (InitializeOnAwake)
-            {
-                Instance.Init(this);
-            }
+            Instance.Init(this);
         }
 
         //-------------------------------------------------------------------------
