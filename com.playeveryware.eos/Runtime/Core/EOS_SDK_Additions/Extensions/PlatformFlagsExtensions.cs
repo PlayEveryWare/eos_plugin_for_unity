@@ -27,6 +27,7 @@ namespace PlayEveryWare.EpicOnlineServices.Extensions
     using Epic.OnlineServices.Platform;
     using System;
     using System.Collections.Generic;
+    using Utility;
 
     /// <summary>
     /// Provides methods to assist in the interaction of PlatformFlag

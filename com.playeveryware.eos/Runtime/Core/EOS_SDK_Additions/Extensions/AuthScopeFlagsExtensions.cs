@@ -25,6 +25,7 @@
 namespace PlayEveryWare.EpicOnlineServices.Extensions
 {
     using Epic.OnlineServices.Auth;
+    using Utility;
     using System;
     using System.Collections.Generic;
 
