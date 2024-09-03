@@ -1789,6 +1789,10 @@ namespace PlayEveryWare.EpicOnlineServices
         {
             get
             {
+                // The EOSSingleton object requires EOSManager to be around and alive in order to run its updates
+                // So when the Instance is asked for, make sure there's an EOSManager
+                _ = ManagerInstance;
+
                 if (s_instance == null)
                 {
                     s_instance = new EOSSingleton();
