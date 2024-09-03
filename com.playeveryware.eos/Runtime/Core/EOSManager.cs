@@ -136,44 +136,36 @@ namespace PlayEveryWare.EpicOnlineServices
         private static Dictionary<LogCategory, LogLevel> logLevels;
 
         /// <summary>
-        /// This stores a reference to an existing EOSManager.
-        /// This should only be used to determine if a new copy of EOSManager should become not enabled.
+        /// Lazy-loaded singleton reference for the EOSManager.
+        /// If it doesn't exist when queried, it will create a GameObject,
+        /// and add an EOSManager component to it.
+        /// This can serve as an alternate way of setting up EOSManager, rather
+        /// than using a prefab with the script on it.
         /// </summary>
-        private static EOSManager existingManager = null;
+        private static Lazy<EOSManager> s_lazyManagerInstance = new Lazy<EOSManager>(() =>
+        {
+            EOSSingleton.print($"{nameof(EOSManager)} ({nameof(s_lazyManagerInstance)}): Lazy loaded singleton instance is creating a GameObject with an EOSManager attached.");
 
-        /// <summary>
-        /// Answers the question of whether a new EOSManager should be set up.
-        /// There shouldn't be two active and enabled EOSManagers, this helps prevent accidentally having two.
-        /// There will never be duplicate EOSSingletons, but duplicate EOSManager MonoBehaviours would
-        /// make update ticks run twice when it should run once.
-        /// </summary>
-        private static bool isThereAnExistingRunningManager
+            // EOSManager is a MonoBehaviour, so create a GameObject to hold it
+            GameObject instanceGameObjectHolder = new GameObject();
+
+            // Add the component
+            EOSManager addedManager = instanceGameObjectHolder.AddComponent<EOSManager>();
+
+            return addedManager;
+        });
+
+        public static EOSManager ManagerInstance
         {
             get
             {
-                // Is there an existing manager, that hasn't been destroyed, in existingManager?
-                // If there isn't, we need to make one
-                if (existingManager == null)
-                {
-                    return false;
-                }
-
-                // Is there a EOSSingleton instance yet?
-                // Intentionally checks the backing field, so the accessor doesn't make an instance
-                // If there isn't, then we need to make it
-                if (s_instance == null)
-                {
-                    return false;
-                }
-
-                // Is the status of the EOSSingleton running?
-                // If it isn't, then we need to restart the EOS SDK
-                if (s_state != EOSState.Running)
-                {
-                    return false;
-                }
-
-                return true;
+                return s_lazyManagerInstance.Value;
+            }
+            set
+            {
+                // When calling the setter, create a new Lazy instance that is designed
+                // to return the value that was provided
+                s_lazyManagerInstance = new Lazy<EOSManager>(() => value);
             }
         }
 
@@ -1823,6 +1815,10 @@ namespace PlayEveryWare.EpicOnlineServices
         {
             get
             {
+                // The EOSSingleton object requires EOSManager to be around and alive in order to run its updates
+                // So when the Instance is asked for, make sure there's an EOSManager
+                _ = ManagerInstance;
+
                 if (s_instance == null)
                 {
                     s_instance = new EOSSingleton();
@@ -1841,17 +1837,19 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </summary>
         void Awake()
         {
-            // If the backing field s_instance already exists, and it has indicated it is running,
-            // then this EOSManager shouldn't perform any operations.
-            // So at this time if that condition is met, disable this behavior so that it doesn't run Update, etc
-            if (isThereAnExistingRunningManager)
+            // If the lazy loaded singleton has already created an instance,
+            // check to see if it's this object. If not, then disable this behaviour.
+            if (s_lazyManagerInstance.IsValueCreated && !ReferenceEquals(this, ManagerInstance))
             {
-                print($"{nameof(EOSManager)} {(nameof(Awake))}: An EOSManager instance already exists and is running, so this behaviour is marking as inactive to not perform duplicate work.");
+                EOSSingleton.print($"{nameof(EOSManager)} {(nameof(Awake))}: An EOSManager instance already exists and is running, so this behaviour is marking as inactive to not perform duplicate work.");
                 enabled = false;
                 return;
             }
 
-            existingManager = this;
+            // Either this was the created EOSManager from the lazy loaded singleton,
+            // or this is the first time the EOSManager is created.
+            // Set the ManagerInstance to this, which will set the Singleton
+            ManagerInstance = this;
             DontDestroyOnLoad(this.gameObject);
 
 #if UNITY_PS5 && !UNITY_EDITOR
