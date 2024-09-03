@@ -17,3 +17,5 @@ Upon import, the `com.unity.netcode.gameobjects` package that this scene require
 > [!NOTE]
 > See [Epic's documentation on the P2P interface](https://dev.epicgames.com/docs/game-services/p-2-p) for more information.
 
+> [!NOTE]
+> This sample includes the UIFriendsMenu. Please see [the plugin's documentation on UIFriendsMenu](../uifriendsmenu.md) for more information.
