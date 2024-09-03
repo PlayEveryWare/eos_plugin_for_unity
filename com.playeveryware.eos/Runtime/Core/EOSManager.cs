@@ -326,13 +326,13 @@ namespace PlayEveryWare.EpicOnlineServices
             }
 
             [Conditional("ENABLE_DEBUG_EOSMANAGER")]
-            static void printError(string toPrint)
+            internal static void printError(string toPrint)
             {
                 Debug.LogError(toPrint);
             }
 
             [Conditional("ENABLE_DEBUG_EOSMANAGER")]
-            static void printWarning(string toPrint)
+            internal static void printWarning(string toPrint)
             {
                 Debug.LogWarning(toPrint);
             }
