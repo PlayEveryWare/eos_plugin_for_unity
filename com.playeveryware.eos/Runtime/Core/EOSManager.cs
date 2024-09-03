@@ -136,38 +136,12 @@ namespace PlayEveryWare.EpicOnlineServices
         private static Dictionary<LogCategory, LogLevel> logLevels;
 
         /// <summary>
-        /// Lazy-loaded singleton reference for the EOSManager.
-        /// If it doesn't exist when queried, it will create a GameObject,
-        /// and add an EOSManager component to it.
-        /// This can serve as an alternate way of setting up EOSManager, rather
-        /// than using a prefab with the script on it.
+        /// Boolean indicator of whether an EOSManager has already been created.
+        /// This prevents having multiple EOSManagers doing extra work.
+        /// Note: This does not track if you delete the object.
+        /// It is presumed that EOSManager will have DontDestroyOnLoad marked on it, during Awake.
         /// </summary>
-        private static Lazy<EOSManager> s_lazyManagerInstance = new Lazy<EOSManager>(() =>
-        {
-            EOSSingleton.print($"{nameof(EOSManager)} ({nameof(s_lazyManagerInstance)}): Lazy loaded singleton instance is creating a GameObject with an EOSManager attached.");
-
-            // EOSManager is a MonoBehaviour, so create a GameObject to hold it
-            GameObject instanceGameObjectHolder = new GameObject();
-
-            // Add the component
-            EOSManager addedManager = instanceGameObjectHolder.AddComponent<EOSManager>();
-
-            return addedManager;
-        });
-
-        public static EOSManager ManagerInstance
-        {
-            get
-            {
-                return s_lazyManagerInstance.Value;
-            }
-            set
-            {
-                // When calling the setter, create a new Lazy instance that is designed
-                // to return the value that was provided
-                s_lazyManagerInstance = new Lazy<EOSManager>(() => value);
-            }
-        }
+        private static bool s_EOSManagerHasBeenCreated = false;
 
         enum EOSState
         {
@@ -1815,10 +1789,6 @@ namespace PlayEveryWare.EpicOnlineServices
         {
             get
             {
-                // The EOSSingleton object requires EOSManager to be around and alive in order to run its updates
-                // So when the Instance is asked for, make sure there's an EOSManager
-                _ = ManagerInstance;
-
                 if (s_instance == null)
                 {
                     s_instance = new EOSSingleton();
@@ -1837,19 +1807,17 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </summary>
         void Awake()
         {
-            // If the lazy loaded singleton has already created an instance,
-            // check to see if it's this object. If not, then disable this behaviour.
-            if (s_lazyManagerInstance.IsValueCreated && !ReferenceEquals(this, ManagerInstance))
+            // If there's already been an EOSManager,
+            // disable this behaviour so that it doesn't fire Unity messages
+            if (s_EOSManagerHasBeenCreated)
             {
                 EOSSingleton.print($"{nameof(EOSManager)} {(nameof(Awake))}: An EOSManager instance already exists and is running, so this behaviour is marking as inactive to not perform duplicate work.");
                 enabled = false;
                 return;
             }
 
-            // Either this was the created EOSManager from the lazy loaded singleton,
-            // or this is the first time the EOSManager is created.
-            // Set the ManagerInstance to this, which will set the Singleton
-            ManagerInstance = this;
+            // Indicate that a EOSManager has been created, and mark it to not be destroyed
+            s_EOSManagerHasBeenCreated = true;
             DontDestroyOnLoad(this.gameObject);
 
 #if UNITY_PS5 && !UNITY_EDITOR
