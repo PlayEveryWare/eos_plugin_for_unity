@@ -320,19 +320,19 @@ namespace PlayEveryWare.EpicOnlineServices
 
             //-------------------------------------------------------------------------
             [Conditional("ENABLE_DEBUG_EOSMANAGER")]
-            static void print(string toPrint)
+            internal static void print(string toPrint)
             {
                 Debug.Log(toPrint);
             }
 
             [Conditional("ENABLE_DEBUG_EOSMANAGER")]
-            static void printError(string toPrint)
+            internal static void printError(string toPrint)
             {
                 Debug.LogError(toPrint);
             }
 
             [Conditional("ENABLE_DEBUG_EOSMANAGER")]
-            static void printWarning(string toPrint)
+            internal static void printWarning(string toPrint)
             {
                 Debug.LogWarning(toPrint);
             }
@@ -1883,15 +1883,15 @@ namespace PlayEveryWare.EpicOnlineServices
             if (ShouldShutdownOnApplicationQuit)
             {
 #if EOS_CAN_SHUTDOWN
-                print($"{nameof(EOSManager)} ({nameof(OnApplicationQuitting)}): Application is quitting. {nameof(ShouldShutdownOnApplicationQuit)} is true, so the plugin is being shut down. EOS_CAN_SHUTDOWN is true, so the EOS SDK will now be shut down fully.");
+                EOSSingleton.print($"{nameof(EOSManager)} ({nameof(OnApplicationQuitting)}): Application is quitting. {nameof(ShouldShutdownOnApplicationQuit)} is true, so the plugin is being shut down. EOS_CAN_SHUTDOWN is true, so the EOS SDK will now be shut down fully.");
 #else
-                print($"{nameof(EOSManager)} ({nameof(OnApplicationQuitting)}): Application is quitting. {nameof(ShouldShutdownOnApplicationQuit)} is true, so the plugin is being shut down. EOS_CAN_SHUTDOWN is false, so the EOS SDK will not be shut down.");
+                EOSSingleton.print($"{nameof(EOSManager)} ({nameof(OnApplicationQuitting)}): Application is quitting. {nameof(ShouldShutdownOnApplicationQuit)} is true, so the plugin is being shut down. EOS_CAN_SHUTDOWN is false, so the EOS SDK will not be shut down.");
 #endif
                 Instance.OnShutdown();
             }
             else
             {
-                print($"{nameof(EOSManager)} ({nameof(OnApplicationQuitting)}): Application is quitting. {nameof(ShouldShutdownOnApplicationQuit)} is false, so this manager will not shut down the EOS SDK.");
+                EOSSingleton.print($"{nameof(EOSManager)} ({nameof(OnApplicationQuitting)}): Application is quitting. {nameof(ShouldShutdownOnApplicationQuit)} is false, so this manager will not shut down the EOS SDK.");
             }
         }
 #endif
