@@ -320,21 +320,9 @@ namespace PlayEveryWare.EpicOnlineServices
 
             //-------------------------------------------------------------------------
             [Conditional("ENABLE_DEBUG_EOSMANAGER")]
-            internal static void print(string toPrint)
+            internal static void print(string toPrint, LogType type = LogType.Log)
             {
                 Debug.Log(toPrint);
-            }
-
-            [Conditional("ENABLE_DEBUG_EOSMANAGER")]
-            internal static void printError(string toPrint)
-            {
-                Debug.LogError(toPrint);
-            }
-
-            [Conditional("ENABLE_DEBUG_EOSMANAGER")]
-            internal static void printWarning(string toPrint)
-            {
-                Debug.LogWarning(toPrint);
             }
 
             //-------------------------------------------------------------------------
@@ -490,8 +478,9 @@ namespace PlayEveryWare.EpicOnlineServices
                 }
                 else
                 {
-                    printWarning(
-                        "EOS config data does not contain a valid encryption key which is needed for Player Data Storage and Title Storage.");
+                    print(
+                        "EOS config data does not contain a valid encryption key which is needed for Player Data Storage and Title Storage.",
+                        LogType.Warning);
                 }
 
                 platformOptions.options.OverrideCountryCode = null;
@@ -1436,7 +1425,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
                 if (createPresenceModificationResult != Result.Success)
                 {
-                    printError("Unable to create presence modfication handle");
+                    print("Unable to create presence modfication handle", LogType.Error);
                 }
 
                 var presenceModificationSetStatUsOptions = new PresenceModificationSetStatusOptions();
@@ -1445,7 +1434,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
                 if (setStatusResult != Result.Success)
                 {
-                    printError("unable to set status");
+                    print("unable to set status", LogType.Error);
                 }
 
                 var richTextOptions = new PresenceModificationSetRawRichTextOptions();
@@ -1459,7 +1448,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 {
                     if (callbackInfo.ResultCode != Result.Success)
                     {
-                        printError("Unable to set presence: " + callbackInfo.ResultCode);
+                        print("Unable to set presence: " + callbackInfo.ResultCode, LogType.Error);
                     }
                 });
             }
@@ -1513,8 +1502,9 @@ namespace PlayEveryWare.EpicOnlineServices
                     {
                         if (deletePersistentAuthCallbackInfo.ResultCode != Result.Success)
                         {
-                            printError("Unable to delete persistent token, Result : " +
-                                           deletePersistentAuthCallbackInfo.ResultCode);
+                            print("Unable to delete persistent token, Result : " +
+                                           deletePersistentAuthCallbackInfo.ResultCode, 
+                                           LogType.Error);
                         }
                         else
                         {
@@ -1660,8 +1650,9 @@ namespace PlayEveryWare.EpicOnlineServices
                     Result result = GetEOSPlatformInterface().SetApplicationStatus(newStatus);
                     if (result != Result.Success)
                     {
-                        printError(
-                            $"EOSSingleton.SetEOSApplicationStatus: Error setting EOS application status (Result = {result})");
+                        print(
+                            $"EOSSingleton.SetEOSApplicationStatus: Error setting EOS application status (Result = {result})",
+                            LogType.Error);
                     }
                 }
             }
