@@ -507,10 +507,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
             // appropriate.
             try
             {
-                Debug.Log("Starting async file read");
-                var result = await File.ReadAllTextAsync(path);
-                Debug.Log("Finished async file read");
-                return result;
+                return await File.ReadAllTextAsync(path);
             }
             catch (Exception e)
             {
