@@ -1180,7 +1180,7 @@ namespace PlayEveryWare.EpicOnlineServices
                         {
                             SetLocalProductUserId(connectLoginData.LocalUserId);
                             ConfigureConnectStatusCallback();
-                            ConfigureConnectExpirationCallback();
+                            ConfigureConnectExpirationCallback(connectLoginOptions);
                             OnConnectLogin?.Invoke(connectLoginData);
                         }
 
@@ -1340,7 +1340,7 @@ namespace PlayEveryWare.EpicOnlineServices
             }
 
             //-------------------------------------------------------------------------
-            private void ConfigureConnectExpirationCallback()
+            private void ConfigureConnectExpirationCallback(Epic.OnlineServices.Connect.LoginOptions connectLoginOptions)
             {
                 if (s_notifyConnectAuthExpirationCallbackHandle == null)
                 {
@@ -1349,6 +1349,11 @@ namespace PlayEveryWare.EpicOnlineServices
                     ulong callbackHandle = EOSConnectInterface.AddNotifyAuthExpiration(
                         ref addNotifyAuthExpirationOptions, null, (ref AuthExpirationCallbackInfo callbackInfo) =>
                         {
+                            var connectInterface = GetEOSPlatformInterface().GetConnectInterface();
+                            connectInterface.Login(ref connectLoginOptions, null,
+                                (ref Epic.OnlineServices.Connect.LoginCallbackInfo connectLoginData) =>
+                                {
+                                });
                         });
 
                     s_notifyConnectAuthExpirationCallbackHandle = new NotifyEventHandle(callbackHandle, handle =>
