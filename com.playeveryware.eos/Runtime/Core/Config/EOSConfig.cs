@@ -28,17 +28,16 @@ namespace PlayEveryWare.EpicOnlineServices
 #if !EOS_DISABLE
     using Epic.OnlineServices.Auth;
     using Epic.OnlineServices.Platform;
-    using Epic.OnlineServices.IntegratedPlatform;
 #endif
     using System;
     using System.Collections.Generic;
     using UnityEngine;
     using System.Text.RegularExpressions;
     using Extensions;
-    using UnityEditor.VersionControl;
 
     /// <summary>
-    /// Represents the default deployment ID to use when a given sandbox ID is active.
+    /// Represents the default deployment ID to use when a given sandbox ID is
+    /// active.
     /// </summary>
     [Serializable]
     public class SandboxDeploymentOverride
@@ -66,40 +65,46 @@ namespace PlayEveryWare.EpicOnlineServices
             RegisterFactory(() => new EOSConfig());
         }
 
-        protected EOSConfig() : base("EpicOnlineServicesConfig.json") { }
+        protected EOSConfig() : base("EpicOnlineServicesConfig.json") 
+        { }
 
         /// <summary>
         /// Product Name defined in the
         /// [Development Portal](https://dev.epicgames.com/portal/)
         /// </summary>
-        [ConfigField("Product Name", ConfigFieldType.Text, "Product name defined in the Development Portal")]
+        [ConfigField("Product Name", ConfigFieldType.Text, 
+            "Product name defined in the Development Portal")]
         public string productName;
 
         /// <summary>
         /// Version of Product.
         /// </summary>
-        [ConfigField("Product Version", ConfigFieldType.Text, "Product version")]
+        [ConfigField("Product Version", ConfigFieldType.Text, 
+            "Product version")]
         public string productVersion;
 
         /// <summary>
         /// Product Id defined in the
         /// [Development Portal](https://dev.epicgames.com/portal/)
         /// </summary>
-        [ConfigField("Product ID", ConfigFieldType.Text, "Product Id defined in the Development Portal")]
+        [ConfigField("Product ID", ConfigFieldType.Text, 
+            "Product Id defined in the Development Portal")]
         public string productID;
 
         /// <summary>
         /// Sandbox Id defined in the
         /// [Development Portal](https://dev.epicgames.com/portal/)
         /// </summary>
-        [ConfigField("Sandbox ID", ConfigFieldType.Text, "Sandbox Id defined in the Development Portal")]
+        [ConfigField("Sandbox ID", ConfigFieldType.Text, 
+            "Sandbox Id defined in the Development Portal")]
         public string sandboxID;
 
         /// <summary>
         /// Deployment Id defined in the
         /// [Development Portal](https://dev.epicgames.com/portal/)
         /// </summary>
-        [ConfigField("Deployment ID", ConfigFieldType.Text, "Deployment Id defined in the Development Portal")]
+        [ConfigField("Deployment ID", ConfigFieldType.Text, 
+            "Deployment Id defined in the Development Portal")]
         public string deploymentID;
 
         /// <summary>
@@ -112,48 +117,57 @@ namespace PlayEveryWare.EpicOnlineServices
         /// Client Secret defined in the
         /// [Development Portal](https://dev.epicgames.com/portal/)
         /// </summary>
-        [ConfigField("Client Secret", ConfigFieldType.Text, "Client Secret defined in the Development Portal")]
+        [ConfigField("Client Secret", ConfigFieldType.Text, 
+            "Client Secret defined in the Development Portal")]
         public string clientSecret;
 
         /// <summary>
         /// Client Id defined in the
         /// [Development Portal](https://dev.epicgames.com/portal/)
         /// </summary>
-        [ConfigField("Client ID", "Client Id defined in the Development Portal")]
+        [ConfigField("Client ID", 
+            "Client Id defined in the Development Portal")]
         public string clientID;
 
         /// <summary>
         /// Encryption Key&lt; used by default to decode files previously
         /// encoded and stored in EOS.
         /// </summary>
-        [ConfigField("Encryption Key", "Encryption Key defined in the Development Portal")]
+        [ConfigField("Encryption Key", 
+            "Encryption Key defined in the Development Portal")]
         public string encryptionKey;
 
         /// <summary>
         /// Flags; used to initialize the EOS platform.
         /// </summary>
-        [ConfigField("Platform Options", ConfigFieldType.TextList, "Flags used to initialize the EOS platform")]
+        [ConfigField("Platform Options", ConfigFieldType.TextList, 
+            "Flags used to initialize the EOS platform")]
         public List<string> platformOptionsFlags;
 
         /// <summary>
         /// Flags; used to set user auth when logging in.
         /// </summary>
-        [ConfigField("Platform Options", ConfigFieldType.TextList, "Flags used to initialize the EOS platform")]
+        [ConfigField("Platform Options", ConfigFieldType.TextList, 
+            "Flags used to initialize the EOS platform")]
         public List<string> authScopeOptionsFlags;
 
         /// <summary>
         /// Tick Budget; used to define the maximum amount of execution time the
         /// EOS SDK can use each frame.
         /// </summary>
-        [ConfigField("Tick Budget in Milliseconds", ConfigFieldType.Uint, "Used to define the maximum amount of execution time the EOS SDK can use each frame.")]
+        [ConfigField("Tick Budget in Milliseconds", ConfigFieldType.Uint, 
+            "Used to define the maximum amount of execution time the " +
+            "EOS SDK can use each frame.")]
         public uint tickBudgetInMilliseconds;
 
         /// <summary>
-        /// TaskNetworkTimeoutSeconds; used to define the maximum number of seconds
-        /// the EOS SDK will allow network calls to run before failing with EOS_TimedOut.
-        /// This plugin treats any value that is less than or equal to zero as
-        /// using the default value for the EOS SDK, which is 30 seconds.
-        /// This value is only used when the <see cref="NetworkStatus"/> is not <see cref="NetworkStatus.Online"/>.
+        /// TaskNetworkTimeoutSeconds; used to define the maximum number of
+        /// seconds the EOS SDK will allow network calls to run before failing
+        /// with EOS_TimedOut. This plugin treats any value that is less than or
+        /// equal to zero as using the default value for the EOS SDK, which is
+        /// 30 seconds. This value is only used when the
+        /// <see cref="NetworkStatus"/> is not
+        /// <see cref="NetworkStatus.Online"/>.
         /// <seealso cref="PlatformInterface.GetNetworkStatus"/>
         /// </summary>
         [ConfigField("Tick Budget in Milliseconds", 
@@ -168,42 +182,54 @@ namespace PlayEveryWare.EpicOnlineServices
         /// Network Work Affinity; specifies thread affinity for network
         /// management that is not IO.
         /// </summary>
-        [ConfigField("Thread Affinity: networkWork", "Specifies thread affinity for network management that is not IO.")]
+        [ConfigField("Thread Affinity: networkWork",
+            "Specifies thread affinity for network management that is " +
+            "not IO.")]
         public string ThreadAffinity_networkWork;
 
         /// <summary>
         /// Storage IO Affinity; specifies affinity for threads that will
         /// interact with a storage device.
         /// </summary>
-        [ConfigField("Thread Affinity: storageIO", "Specifies affinity for threads that will interact with a storage device.")]
+        [ConfigField("Thread Affinity: storageIO", 
+            "Specifies affinity for threads that will interact with a " +
+            "storage device.")]
         public string ThreadAffinity_storageIO;
 
         /// <summary>
         /// Web Socket IO Affinity; specifies affinity for threads that generate
         /// web socket IO.
         /// </summary>
-        [ConfigField("Thread Affinity: webSocketIO", "Specifies affinity for threads that generate web socket IO.")]
+        [ConfigField("Thread Affinity: webSocketIO", 
+            "Specifies affinity for threads that generate web socket " +
+            "IO.")]
         public string ThreadAffinity_webSocketIO;
 
         /// <summary>
         /// P2P IO Affinity; specifies affinity for any thread that will
         /// generate IO related to P2P traffic and management.
         /// </summary>
-        [ConfigField("Thread Affinity: P2PIO", "Specifies affinity for threads that will generate IO related to P2P traffic and management.")]
+        [ConfigField("Thread Affinity: P2PIO",
+            "Specifies affinity for threads that will generate IO " +
+            "related to P2P traffic and management.")]
         public string ThreadAffinity_P2PIO;
 
         /// <summary>
         /// HTTP Request IO Affinity; specifies affinity for any thread that
         /// will generate http request IO.
         /// </summary>
-        [ConfigField("Thread Affinity: HTTPRequestIO", "Specifies affinity for threads that will generate http request IO.")]
+        [ConfigField("Thread Affinity: HTTPRequestIO",
+            "Specifies affinity for threads that will generate http " +
+            "request IO.")]
         public string ThreadAffinity_HTTPRequestIO;
 
         /// <summary>
         /// RTC IO Affinity&lt;/c&gt; specifies affinity for any thread that
         /// will generate IO related to RTC traffic and management.
         /// </summary>
-        [ConfigField("Thread Affinity: RTCIO", "Specifies affinity for threads that will generate IO related to RTC traffic and management.")]
+        [ConfigField("Thread Affinity: RTCIO", 
+            "Specifies affinity for threads that will generate IO " +
+            "related to RTC traffic and management.")]
         public string ThreadAffinity_RTCIO;
 
         /// <summary>
@@ -212,7 +238,10 @@ namespace PlayEveryWare.EpicOnlineServices
         /// handle showing the overlay. This doesn't always mean input makes
         /// it to the EOS SDK.
         /// </summary>
-        [ConfigField("Always send Input to Overlay", ConfigFieldType.Flag, "If true, the plugin will always send input to the overlay from the C# side to native, and handle showing the overlay. This doesn't always mean input makes it to the EOS SDK.")]
+        [ConfigField("Always send Input to Overlay", ConfigFieldType.Flag,
+            "If true, the plugin will always send input to the " +
+            "overlay from the C# side to native, and handle showing the " +
+            "overlay. This doesn't always mean input makes it to the EOS SDK.")]
         public bool alwaysSendInputToOverlay;
 
         /// <summary>
@@ -237,7 +266,8 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <summary>
         /// Set to 'true' if the application is a dedicated game server.
         /// </summary>
-        [ConfigField("Is Server", ConfigFieldType.Flag, "If true, the application is a dedicated game server.")]
+        [ConfigField("Is Server", ConfigFieldType.Flag,
+            "If true, the application is a dedicated game server.")]
         public bool isServer;
 
         private static Regex s_invalidEncryptionKeyRegex;
@@ -265,12 +295,17 @@ namespace PlayEveryWare.EpicOnlineServices
             if (!TryGetDeployment(sandboxDeploymentOverrides, sandboxId,
                     out SandboxDeploymentOverride overridePair))
             {
-                Debug.LogError($"The given sandboxId \"{sandboxId}\" could not be found in the configured list of deployment override values.");
+                Debug.LogError($"The given sandboxId \"{sandboxId}\" " +
+                               $"could not be found in the configured list " +
+                               $"of deployment override values.");
                 return;
             }
 
-            Debug.Log($"Sandbox ID overridden to: \"{overridePair.sandboxID}\".");
-            Debug.Log($"Deployment ID overridden to: \"{overridePair.deploymentID}\".");
+            Debug.Log($"Sandbox ID overridden to: " +
+                      $"\"{overridePair.sandboxID}\".");
+
+            Debug.Log($"Deployment ID overridden to: " +
+                      $"\"{overridePair.deploymentID}\".");
 
             // Override the sandbox and deployment Ids
             sandboxID = overridePair.sandboxID;
