@@ -68,12 +68,6 @@ namespace PlayEveryWare.EpicOnlineServices
     }
 
     //-------------------------------------------------------------------------
-    public interface IEOSNetworkStatusUpdater
-    {
-        void UpdateNetworkStatus();
-    }
-
-    //-------------------------------------------------------------------------
     public interface IEOSCoroutineOwner
     {
         void StartCoroutine(IEnumerator routine);
