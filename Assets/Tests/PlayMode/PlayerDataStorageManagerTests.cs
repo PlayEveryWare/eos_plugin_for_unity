@@ -143,6 +143,13 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.IntegrationTests
 
                 yield return new WaitUntilDone(10f, () => waitingForAdd == false);
             }
+			
+            bool waiting = true;
+            Action setWaiting = () => waiting = false;
+            playerDataStorageManager.OnFileListUpdated += setWaiting;
+            playerDataStorageManager.QueryFileList();
+
+            yield return new WaitUntilDone(10f, () => waiting == false);
 
             Dictionary<string, string> localCache = playerDataStorageManager.GetLocallyCachedData();
 
