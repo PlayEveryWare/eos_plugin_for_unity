@@ -482,14 +482,27 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private List<OnMemberUpdateCallback> MemberUpdateCallbacks;
 
+        public class LobbyChangeEventArgs
+        {
+            public string LobbyId { get; }
+            public LobbyChangeType LobbyChangeType { get; }
 
-        public delegate void LobbyChanged(string lobbyId, LobbyChangeType typeOfChange);
+            public LobbyChangeEventArgs(string lobbyId, LobbyChangeType changeType)
+            {
+                LobbyId = lobbyId;
+                LobbyChangeType = changeType;
+            }
+        }
 
-        /// <summary>
-        /// Event that is run whenever the local user's relationship to a Lobby has been changed.
-        /// Indicates the Lobby that the change relates to.
-        /// </summary>
-        public event LobbyChanged OnLobbyChanged;
+        public delegate void LobbyChangeEventHandler(object sender, LobbyChangeEventArgs e);
+
+        public event LobbyChangeEventHandler LobbyChanged;
+
+        protected virtual void OnLobbyChanged(LobbyChangeEventArgs args)
+        {
+            LobbyChangeEventHandler handler = LobbyChanged;
+            handler?.Invoke(this, args);
+        }
 
         private List<Action> LobbyUpdateCallbacks;
 
@@ -1365,7 +1378,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 AddLocalUserAttributes();
             }
 
-            OnLobbyChanged?.Invoke(CurrentLobby?.Id, lobbyChangedEvent);
+            OnLobbyChanged(new LobbyChangeEventArgs(CurrentLobby?.Id, lobbyChangedEvent));
         }
 
         private void OnUpdateLobbyCallBack(ref UpdateLobbyCallbackInfo data)
