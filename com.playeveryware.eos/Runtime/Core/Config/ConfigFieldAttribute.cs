@@ -23,6 +23,7 @@
 namespace PlayEveryWare.EpicOnlineServices
 {
     using System;
+    using UnityEditor.VersionControl;
 
     /// <summary>
     /// Indicates the type of the config field. This differs from the data type
@@ -61,6 +62,11 @@ namespace PlayEveryWare.EpicOnlineServices
         /// A plain unsigned long.
         /// </summary>
         Ulong,
+
+        /// <summary>
+        /// A plain double.
+        /// </summary>
+        Double,
 
         /// <summary>
         /// A list of strings.
@@ -170,7 +176,10 @@ namespace PlayEveryWare.EpicOnlineServices
         public int Group { get; }
 
         public ConfigFieldType FieldType { get; }
-        
+
+        public ConfigFieldAttribute(string label, string tooltip, int group = -1) : 
+            this(label, ConfigFieldType.Text, tooltip, group) { }
+
         public ConfigFieldAttribute(string label, ConfigFieldType type, string tooltip = null, int group = -1)
         {
             Label = label;

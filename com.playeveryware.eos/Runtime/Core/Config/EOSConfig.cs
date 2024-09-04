@@ -35,6 +35,7 @@ namespace PlayEveryWare.EpicOnlineServices
     using UnityEngine;
     using System.Text.RegularExpressions;
     using Extensions;
+    using UnityEditor.VersionControl;
 
     /// <summary>
     /// Represents the default deployment ID to use when a given sandbox ID is active.
@@ -52,9 +53,16 @@ namespace PlayEveryWare.EpicOnlineServices
     [Serializable]
     public class EOSConfig : Config
     {
+        [Flags]
+        internal enum ConfigGroups : int
+        {
+            ProductInformation,
+            DeploymentInformation
+        }
+
         static EOSConfig()
         {
-            InvalidEncryptionKeyRegex = new Regex("[^0-9a-fA-F]");
+            s_invalidEncryptionKeyRegex = new Regex("[^0-9a-fA-F]");
             RegisterFactory(() => new EOSConfig());
         }
 
@@ -64,29 +72,34 @@ namespace PlayEveryWare.EpicOnlineServices
         /// Product Name defined in the
         /// [Development Portal](https://dev.epicgames.com/portal/)
         /// </summary>
+        [ConfigField("Product Name", ConfigFieldType.Text, "Product name defined in the Development Portal")]
         public string productName;
 
         /// <summary>
         /// Version of Product.
         /// </summary>
+        [ConfigField("Product Version", ConfigFieldType.Text, "Product version")]
         public string productVersion;
 
         /// <summary>
         /// Product Id defined in the
         /// [Development Portal](https://dev.epicgames.com/portal/)
         /// </summary>
+        [ConfigField("Product ID", ConfigFieldType.Text, "Product Id defined in the Development Portal")]
         public string productID;
 
         /// <summary>
         /// Sandbox Id defined in the
         /// [Development Portal](https://dev.epicgames.com/portal/)
         /// </summary>
+        [ConfigField("Sandbox ID", ConfigFieldType.Text, "Sandbox Id defined in the Development Portal")]
         public string sandboxID;
 
         /// <summary>
         /// Deployment Id defined in the
         /// [Development Portal](https://dev.epicgames.com/portal/)
         /// </summary>
+        [ConfigField("Deployment ID", ConfigFieldType.Text, "Deployment Id defined in the Development Portal")]
         public string deploymentID;
 
         /// <summary>
@@ -99,34 +112,40 @@ namespace PlayEveryWare.EpicOnlineServices
         /// Client Secret defined in the
         /// [Development Portal](https://dev.epicgames.com/portal/)
         /// </summary>
+        [ConfigField("Client Secret", ConfigFieldType.Text, "Client Secret defined in the Development Portal")]
         public string clientSecret;
 
         /// <summary>
         /// Client Id defined in the
         /// [Development Portal](https://dev.epicgames.com/portal/)
         /// </summary>
+        [ConfigField("Client ID", "Client Id defined in the Development Portal")]
         public string clientID;
 
         /// <summary>
         /// Encryption Key&lt; used by default to decode files previously
         /// encoded and stored in EOS.
         /// </summary>
+        [ConfigField("Encryption Key", "Encryption Key defined in the Development Portal")]
         public string encryptionKey;
 
         /// <summary>
         /// Flags; used to initialize the EOS platform.
         /// </summary>
+        [ConfigField("Platform Options", ConfigFieldType.TextList, "Flags used to initialize the EOS platform")]
         public List<string> platformOptionsFlags;
 
         /// <summary>
         /// Flags; used to set user auth when logging in.
         /// </summary>
+        [ConfigField("Platform Options", ConfigFieldType.TextList, "Flags used to initialize the EOS platform")]
         public List<string> authScopeOptionsFlags;
 
         /// <summary>
         /// Tick Budget; used to define the maximum amount of execution time the
         /// EOS SDK can use each frame.
         /// </summary>
+        [ConfigField("Tick Budget in Milliseconds", ConfigFieldType.Uint, "Used to define the maximum amount of execution time the EOS SDK can use each frame.")]
         public uint tickBudgetInMilliseconds;
 
         /// <summary>
@@ -137,42 +156,54 @@ namespace PlayEveryWare.EpicOnlineServices
         /// This value is only used when the <see cref="NetworkStatus"/> is not <see cref="NetworkStatus.Online"/>.
         /// <seealso cref="PlatformInterface.GetNetworkStatus"/>
         /// </summary>
+        [ConfigField("Tick Budget in Milliseconds", 
+            ConfigFieldType.Double,
+            "(Optional) Define the maximum amount of time network " +
+            "calls will run in the EOS SDK before timing out while the " +
+            "NetworkStatus is not NetworkStatus.Online. Defaults to 30 " +
+            "seconds if not set or less than or equal to zero.")]
         public double taskNetworkTimeoutSeconds;
 
         /// <summary>
         /// Network Work Affinity; specifies thread affinity for network
         /// management that is not IO.
         /// </summary>
+        [ConfigField("Thread Affinity: networkWork", "Specifies thread affinity for network management that is not IO.")]
         public string ThreadAffinity_networkWork;
-        
+
         /// <summary>
         /// Storage IO Affinity; specifies affinity for threads that will
         /// interact with a storage device.
         /// </summary>
+        [ConfigField("Thread Affinity: storageIO", "Specifies affinity for threads that will interact with a storage device.")]
         public string ThreadAffinity_storageIO;
-        
+
         /// <summary>
         /// Web Socket IO Affinity; specifies affinity for threads that generate
         /// web socket IO.
         /// </summary>
+        [ConfigField("Thread Affinity: webSocketIO", "Specifies affinity for threads that generate web socket IO.")]
         public string ThreadAffinity_webSocketIO;
-        
+
         /// <summary>
         /// P2P IO Affinity; specifies affinity for any thread that will
         /// generate IO related to P2P traffic and management.
         /// </summary>
+        [ConfigField("Thread Affinity: P2PIO", "Specifies affinity for threads that will generate IO related to P2P traffic and management.")]
         public string ThreadAffinity_P2PIO;
-        
+
         /// <summary>
         /// HTTP Request IO Affinity; specifies affinity for any thread that
         /// will generate http request IO.
         /// </summary>
+        [ConfigField("Thread Affinity: HTTPRequestIO", "Specifies affinity for threads that will generate http request IO.")]
         public string ThreadAffinity_HTTPRequestIO;
 
         /// <summary>
         /// RTC IO Affinity&lt;/c&gt; specifies affinity for any thread that
         /// will generate IO related to RTC traffic and management.
         /// </summary>
+        [ConfigField("Thread Affinity: RTCIO", "Specifies affinity for threads that will generate IO related to RTC traffic and management.")]
         public string ThreadAffinity_RTCIO;
 
         /// <summary>
@@ -181,6 +212,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// handle showing the overlay. This doesn't always mean input makes
         /// it to the EOS SDK.
         /// </summary>
+        [ConfigField("Always send Input to Overlay", ConfigFieldType.Flag, "If true, the plugin will always send input to the overlay from the C# side to native, and handle showing the overlay. This doesn't always mean input makes it to the EOS SDK.")]
         public bool alwaysSendInputToOverlay;
 
         /// <summary>
@@ -205,9 +237,10 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <summary>
         /// Set to 'true' if the application is a dedicated game server.
         /// </summary>
+        [ConfigField("Is Server", ConfigFieldType.Flag, "If true, the application is a dedicated game server.")]
         public bool isServer;
 
-        public static Regex InvalidEncryptionKeyRegex;
+        private static Regex s_invalidEncryptionKeyRegex;
         
         private static bool IsEncryptionKeyValid(string key)
         {
@@ -217,7 +250,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 //key is 64 characters
                 key.Length == 64 &&
                 //key is all hex characters
-                !InvalidEncryptionKeyRegex.Match(key).Success;
+                !s_invalidEncryptionKeyRegex.Match(key).Success;
         }
 
         /// <summary>

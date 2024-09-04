@@ -402,6 +402,19 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
                 });
         }
 
+        public static double RenderInputField(ConfigFieldAttribute configFieldDetails, double value, float labelWidth,
+            string tooltip = null)
+        {
+            return InputRendererWrapper<double>(configFieldDetails.Label, value, labelWidth, tooltip,
+                (label, d, width, s) =>
+                {
+                    double newValue = EditorGUILayout.DoubleField(
+                        CreateGUIContent(configFieldDetails.Label, tooltip), d, GUILayout.ExpandWidth(true));
+
+                    return newValue;
+                });
+        }
+
         public static ulong RenderInputField(ConfigFieldAttribute configFieldDetails, ulong value, float labelWidth,
             string tooltip = null)
         {
