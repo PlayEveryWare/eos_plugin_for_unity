@@ -53,6 +53,8 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.IntegrationTests
         public IEnumerator UnityTearDown()
         {
             yield return DestroyAllFiles();
+
+            playerDataStorageManager.RemoveCallbacks();
         }
 
         private IEnumerator DestroyAllFiles()
@@ -78,6 +80,86 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.IntegrationTests
 
             // Unsubscribe from file list updates before exiting
             playerDataStorageManager.OnFileListUpdated -= setWaiting;
+        }
+
+        /// <summary>
+        /// Assuming there are no files in storage for the test user,
+        /// the user should be able to successfully query for items, even if there are none to be found.
+        /// The resulting cached data should be empty.
+        /// </summary>
+        [UnityTest]
+        public IEnumerator Query_NoResults()
+        {
+            bool waiting = true;
+            Action setWaiting = () => waiting = false;
+            playerDataStorageManager.OnFileListUpdated += setWaiting;
+            playerDataStorageManager.QueryFileList();
+
+            yield return new WaitUntilDone(10f, () => waiting == false);
+
+            Dictionary<string, string> localCache = playerDataStorageManager.GetLocallyCachedData();
+
+            Assert.NotNull(localCache, "Local cache is null, should be an empty dictionary.");
+            Assert.AreEqual(0, localCache.Keys.Count, "Local cache contains more than zero items, should be empty.");
+        }
+
+        /// <summary>
+        /// This is used as a datasource for <see cref="UploadedFiles_CanBeQueried"/>.
+        /// Determines how many files to make.
+        /// </summary>
+        static int[] NumberOfFilesToMakeFor_UploadedFiles_CanBeQueried = { 1, 3, 10 };
+
+        /// <summary>
+        /// Creates a file, uploads it, and then checks that it exists in the list.
+        /// </summary>
+        /// <param name="numberOfFilesToMake">
+        /// How many files to create.
+        /// This ensures that the manager can handle single file and multi file scenarios appropriately.
+        /// </param>
+        [UnityTest]
+        public IEnumerator UploadedFiles_CanBeQueried([ValueSource(nameof(NumberOfFilesToMakeFor_UploadedFiles_CanBeQueried))] int numberOfFilesToMake)
+        {
+            HashSet<string> randomNames = new HashSet<string>();
+
+            for (int fileIndex = 0; fileIndex < numberOfFilesToMake; fileIndex++)
+            {
+                // Generate a random name until we hit something that isn't already taken
+                // Having the same name would work as an overwrite
+                string randomName = "";
+                do
+                {
+                    randomName = UnityEngine.Random.Range(0, 9999).ToString();
+                } while (randomNames.Contains(randomName));
+
+                bool waitingForAdd = true;
+                Action doneWaiting = () => waitingForAdd = false;
+                byte[] fileBytes = new byte[] { 0x0, 0x1, 0x2, 0x3, 0x4, 0x5 };
+                playerDataStorageManager.AddFile(randomName, Encoding.UTF8.GetString(fileBytes), doneWaiting);
+
+                yield return new WaitUntilDone(10f, () => waitingForAdd == false);
+
+                waitingForAdd = true;
+                playerDataStorageManager.StartFileDataUpload(randomName, doneWaiting);
+
+                yield return new WaitUntilDone(10f, () => waitingForAdd == false);
+            }
+
+            bool waiting = true;
+            Action setWaiting = () => waiting = false;
+            playerDataStorageManager.OnFileListUpdated += setWaiting;
+            playerDataStorageManager.QueryFileList();
+
+            yield return new WaitUntilDone(10f, () => waiting == false);
+
+            Dictionary<string, string> localCache = playerDataStorageManager.GetLocallyCachedData();
+
+            Assert.NotNull(localCache, "Local cache is null, should be a dictionary with data.");
+            Assert.AreEqual(numberOfFilesToMake, localCache.Keys.Count, "Local cache doesn't contain the expected number of items. Should have one item for each uploaded file.");
+
+            foreach (string randomName in randomNames)
+            {
+                Assert.IsTrue(localCache.ContainsKey(randomName), $"Local cache doesn't contain a file with the randomly generated name {randomName}. Should have the identified file.");
+            }
         }
     }
 }
