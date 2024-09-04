@@ -107,7 +107,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.IntegrationTests
         /// This is used as a datasource for <see cref="UploadedFiles_CanBeQueried"/>.
         /// Determines how many files to make.
         /// </summary>
-        static int[] NumberOfFilesToMakeFor_UploadedFiles_CanBeQueried = { 1, 3, 10 };
+        static int[] ValueSource_NumberOfFilesToMakeFor_UploadedFiles_CanBeQueried = { 1, 3, 10 };
 
         /// <summary>
         /// Creates a file, uploads it, and then checks that it exists in the list.
@@ -117,7 +117,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.IntegrationTests
         /// This ensures that the manager can handle single file and multi file scenarios appropriately.
         /// </param>
         [UnityTest]
-        public IEnumerator UploadedFiles_CanBeQueried([ValueSource(nameof(NumberOfFilesToMakeFor_UploadedFiles_CanBeQueried))] int numberOfFilesToMake)
+        public IEnumerator UploadedFiles_CanBeQueried([ValueSource(nameof(ValueSource_NumberOfFilesToMakeFor_UploadedFiles_CanBeQueried))] int numberOfFilesToMake)
         {
             HashSet<string> randomNames = new HashSet<string>();
 
@@ -159,6 +159,53 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.IntegrationTests
             foreach (string randomName in randomNames)
             {
                 Assert.IsTrue(localCache.ContainsKey(randomName), $"Local cache doesn't contain a file with the randomly generated name {randomName}. Should have the identified file.");
+            }
+        }
+
+        /// <summary>
+        /// Creates and uploads a file, then tries to download it.
+        /// The file that is downloaded should have the same contents as was used to create the file.
+        /// </summary>
+        [UnityTest]
+        public IEnumerator UploadedFile_HasSameContents()
+        {
+            const int LengthOfUploadedBytes = 100;
+
+            bool waiting = true;
+            Action doneWaiting = () => waiting = false;
+            byte[] uploadedFileBytes = new byte[LengthOfUploadedBytes];
+
+            for (int byteIndex = 0; byteIndex < LengthOfUploadedBytes; byteIndex++)
+            {
+                uploadedFileBytes[byteIndex] = (byte)UnityEngine.Random.Range(0, byte.MaxValue);
+            }
+
+            playerDataStorageManager.AddFile(nameof(UploadedFile_HasSameContents), Encoding.UTF8.GetString(uploadedFileBytes), doneWaiting);
+            yield return new WaitUntilDone(10f, () => waiting == false);
+
+            waiting = true;
+            playerDataStorageManager.StartFileDataUpload(nameof(UploadedFile_HasSameContents), doneWaiting);
+            yield return new WaitUntilDone(10f, () => waiting == false);
+
+            waiting = true;
+            playerDataStorageManager.DownloadFile(nameof(UploadedFile_HasSameContents), doneWaiting);
+            yield return new WaitUntilDone(10f, () => waiting == false);
+
+            Dictionary<string, string> localCache = playerDataStorageManager.GetLocallyCachedData();
+
+            Assert.NotNull(localCache, "Local cache is null, should be a dictionary with data.");
+            Assert.AreEqual(1, localCache.Keys.Count, "Local cache doesn't contain a single item. Should only contain exactly the one uploaded file.");
+            Assert.IsTrue(localCache.ContainsKey(nameof(UploadedFile_HasSameContents)), "Local cache doesn't contain a file with the uploaded file's name.");
+
+            string downloadedFileString = localCache[nameof(UploadedFile_HasSameContents)];
+
+            Assert.IsFalse(string.IsNullOrEmpty(downloadedFileString), "Downloaded file's contents is null or empty, should contain data.");
+            byte[] downloadedFileBytes = Encoding.UTF8.GetBytes(downloadedFileString);
+            Assert.AreEqual(uploadedFileBytes.Length, downloadedFileBytes.Length, "Downloaded file's length is different than the uploaded file.");
+
+            for (int byteIndex = 0; byteIndex < uploadedFileBytes.Length; byteIndex++)
+            {
+                Assert.AreEqual(uploadedFileBytes[byteIndex], downloadedFileBytes[byteIndex], "Downloaded file's contents are different than the uploaded file, should be identical.");
             }
         }
     }
