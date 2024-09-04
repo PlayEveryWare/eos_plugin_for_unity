@@ -19,7 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-namespace PlayEveryWare.EpicOnlineServices.Editor
+namespace PlayEveryWare.EpicOnlineServices
 {
     using System;
 
