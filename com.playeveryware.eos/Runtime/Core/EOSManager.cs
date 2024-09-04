@@ -95,9 +95,6 @@ namespace PlayEveryWare.EpicOnlineServices
     /// </summary>
     public partial class EOSManager : MonoBehaviour, IEOSCoroutineOwner
     {
-        // <value>If true, EOSManager initialized itself at startup.</value>
-        public bool InitializeOnAwake = true;
-
         /// <value>If true, EOSManager will shutdown the EOS SDK when Unity runs <see cref="Application.quitting"/>.</value>
         public bool ShouldShutdownOnApplicationQuit = true;
 
@@ -137,6 +134,14 @@ namespace PlayEveryWare.EpicOnlineServices
 
         //cached log levels for retrieving later
         private static Dictionary<LogCategory, LogLevel> logLevels;
+
+        /// <summary>
+        /// Boolean indicator of whether an EOSManager has already been created.
+        /// This prevents having multiple EOSManagers doing extra work.
+        /// Note: This does not track if you delete the object.
+        /// It is presumed that EOSManager will have DontDestroyOnLoad marked on it, during Awake.
+        /// </summary>
+        private static bool s_EOSManagerHasBeenCreated = false;
 
         enum EOSState
         {
@@ -1802,10 +1807,24 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </summary>
         void Awake()
         {
-            if (InitializeOnAwake)
+            // If there's already been an EOSManager,
+            // disable this behaviour so that it doesn't fire Unity messages
+            if (s_EOSManagerHasBeenCreated)
             {
-                Instance.Init(this);
+                EOSSingleton.print($"{nameof(EOSManager)} {(nameof(Awake))}: An EOSManager instance already exists and is running, so this behaviour is marking as inactive to not perform duplicate work.");
+                enabled = false;
+                return;
             }
+
+            // Indicate that a EOSManager has been created, and mark it to not be destroyed
+            s_EOSManagerHasBeenCreated = true;
+            DontDestroyOnLoad(this.gameObject);
+
+#if UNITY_PS5 && !UNITY_EDITOR
+            EOSPSNManagerPS5.EnsurePS5Initialized();
+#endif
+
+            Instance.Init(this);
         }
 
         //-------------------------------------------------------------------------
