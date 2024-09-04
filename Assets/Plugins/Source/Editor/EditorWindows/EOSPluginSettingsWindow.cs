@@ -95,7 +95,8 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
                     SetupConfigEditor<LibraryBuildConfig>(),
                     SetupConfigEditor<SigningConfig>(),
                     SetupConfigEditor<PackagingConfig>(),
-                    SetupConfigEditor<SteamConfig>()
+                    SetupConfigEditor<SteamConfig>(),
+                    SetupConfigEditor<EOSConfig>()
                 };
 
             foreach (var editor in configEditors)

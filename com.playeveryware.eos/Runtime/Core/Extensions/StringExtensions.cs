@@ -1,16 +1,16 @@
 /*
  * Copyright (c) 2024 PlayEveryWare
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- * 
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -19,28 +19,23 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-namespace PlayEveryWare.EpicOnlineServices.Editor.Config
+
+namespace PlayEveryWare.EpicOnlineServices.Extensions
 {
-    using System;
-
-    [Serializable]
-    [ConfigGroup("Platform Library Build Settings")]
-    public class LibraryBuildConfig : EditorConfig
+    /// <summary>
+    /// Contains extension methods for strings.
+    /// </summary>
+    public static class StringExtensions
     {
-        [FilePathField("MSBuild path", "exe")]
-        public string msbuildPath;
-
-        [FilePathField("Make path", "*")]
-        public string makePath;
-
-        [ConfigField("Use debug config for MSBuild", ConfigFieldType.Flag, groupOrder:1)]
-        public bool msbuildDebug;
-
-        static LibraryBuildConfig()
+        public static ulong ToULong(this string value, ulong defaultValue = 0L)
         {
-            RegisterFactory(() => new LibraryBuildConfig());
-        }
+            ulong returnValue = defaultValue;
+            if (ulong.TryParse(value, out ulong result))
+            {
+                returnValue = result;
+            }
 
-        protected LibraryBuildConfig() : base("eos_plugin_library_build_config.json") { }
+            return returnValue;
+        }
     }
 }

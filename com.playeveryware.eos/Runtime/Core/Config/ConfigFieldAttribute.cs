@@ -23,7 +23,6 @@
 namespace PlayEveryWare.EpicOnlineServices
 {
     using System;
-    using UnityEditor.VersionControl;
 
     /// <summary>
     /// Indicates the type of the config field. This differs from the data type
@@ -98,8 +97,8 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </summary>
         public string Extension { get; }
 
-        public FilePathField(string label, string extension, string tooltip = null, int group = -1) : base(label,
-            ConfigFieldType.FilePath, tooltip, group)
+        public FilePathField(string label, string extension, string tooltip = null, string groupLabel = null, int groupOrder = -1) : base(label,
+            ConfigFieldType.FilePath, tooltip, groupLabel, groupOrder)
         {
             Extension = extension;
         }
@@ -112,7 +111,7 @@ namespace PlayEveryWare.EpicOnlineServices
     [AttributeUsage(AttributeTargets.Field)]
     public class DirectoryPathField : ConfigFieldAttribute
     {
-        public DirectoryPathField(string label, string tooltip = null, int group = -1) : base(label, ConfigFieldType.DirectoryPath, tooltip, group) { }
+        public DirectoryPathField(string label, string tooltip = null, string groupLabel = null, int group = -1) : base(label, ConfigFieldType.DirectoryPath, tooltip, groupLabel, group) { }
     }
 
     /// <summary>
@@ -122,8 +121,8 @@ namespace PlayEveryWare.EpicOnlineServices
     [AttributeUsage(AttributeTargets.Field)]
     public class ButtonField : ConfigFieldAttribute
     {
-        public ButtonField(string label, string tooltip = null, int group = -1) : base(label,
-            ConfigFieldType.Button, tooltip, group)
+        public ButtonField(string label, string tooltip = null, string groupLabel = null, int group = -1) : base(label,
+            ConfigFieldType.Button, tooltip, groupLabel, group)
         {
         }
     }
@@ -170,21 +169,28 @@ namespace PlayEveryWare.EpicOnlineServices
         public string ToolTip { get; }
 
         /// <summary>
-        /// The group that that config field belongs to (helps to cluster config
+        /// The group that the config field belongs to (helps to cluster config
         /// fields into meaningful groups).
         /// </summary>
-        public int Group { get; }
+        public int GroupOrder { get; }
+
+        /// <summary>
+        /// The label for the group that the config field belongs to (helps to
+        /// cluster config fields into meaningfully labeled groups).
+        /// </summary>
+        public string GroupLabel { get; }
 
         public ConfigFieldType FieldType { get; }
 
-        public ConfigFieldAttribute(string label, string tooltip, int group = -1) : 
-            this(label, ConfigFieldType.Text, tooltip, group) { }
+        public ConfigFieldAttribute(string label, string tooltip, string groupLabel = null, int groupOrder = -1) : 
+            this(label, ConfigFieldType.Text, tooltip, groupLabel, groupOrder) { }
 
-        public ConfigFieldAttribute(string label, ConfigFieldType type, string tooltip = null, int group = -1)
+        public ConfigFieldAttribute(string label, ConfigFieldType type, string tooltip = null, string groupLabel = null, int groupOrder = -1)
         {
             Label = label;
             ToolTip = tooltip;
-            Group = group;
+            GroupLabel = groupLabel;
+            GroupOrder = groupOrder;
             FieldType = type;
         }
     }

@@ -4,15 +4,23 @@
     "productID": "f7102b835ed14b5fb6b3a05d87b3d101",
     "sandboxID": "ab139ee5b644412781cf99f48b993b45",
     "deploymentID": "c529498f660a4a3d8a123fd04552cb47",
+    "sandboxDeploymentOverrides": [],
     "clientSecret": "aXPlP1xDH0PXnp5U+i+M5pYHhaE1a8viV0l1GO422ms",
     "clientID": "xyza7891wPzGRvRf4SkjlIF8YuqlRLbQ",
     "encryptionKey": "1111111111111111111111111111111111111111111111111111111111111111",
-    "platformOptionsFlags": [
-        ""
-    ],
+    "platformOptionsFlags": [],
+    "authScopeOptionsFlags": [],
     "tickBudgetInMilliseconds": 0,
+    "taskNetworkTimeoutSeconds": 0.0,
+    "ThreadAffinity_networkWork": "",
+    "ThreadAffinity_storageIO": "",
+    "ThreadAffinity_webSocketIO": "",
+    "ThreadAffinity_P2PIO": "",
+    "ThreadAffinity_HTTPRequestIO": "",
+    "ThreadAffinity_RTCIO": "",
     "alwaysSendInputToOverlay": true,
     "initialButtonDelayForOverlay": "",
     "repeatButtonDelayForOverlay": "",
-    "hackForceSendInputDirectlyToSDK": false
+    "hackForceSendInputDirectlyToSDK": false,
+    "isServer": false
 }

@@ -50,13 +50,27 @@ namespace PlayEveryWare.EpicOnlineServices
     /// Represents the EOS Configuration used for initializing EOS SDK.
     /// </summary>
     [Serializable]
+    //[ConfigGroup("Main", false, new Dictionary<int, string>(
+    //{
+    //    {(int)EOSConfig.ConfigGroups.Product, "Product"},
+    //    { (int)EOSConfig.ConfigGroups.Deployment, "Deployment"},
+    //    { (int)EOSConfig.ConfigGroups.ThreadAffinity, "Thread Affinity"},
+    //    { (int)EOSConfig.ConfigGroups.Credentials, "Credentials"},
+    //    { (int)EOSConfig.ConfigGroups.FlagOptions, "Flag Options"},
+    //    { (int)EOSConfig.ConfigGroups.Product, "Product"},
+    //})]
+    [ConfigGroup("Main", false)]
     public class EOSConfig : Config
     {
         [Flags]
         internal enum ConfigGroups : int
         {
-            ProductInformation,
-            DeploymentInformation
+            None = -1,
+            Product = 0,
+            Deployment = 1,
+            ThreadAffinity = 2,
+            Credentials = 3,
+            FlagOptions = 4
         }
 
         static EOSConfig()
@@ -72,39 +86,44 @@ namespace PlayEveryWare.EpicOnlineServices
         /// Product Name defined in the
         /// [Development Portal](https://dev.epicgames.com/portal/)
         /// </summary>
-        [ConfigField("Product Name", ConfigFieldType.Text, 
-            "Product name defined in the Development Portal")]
+        [ConfigField("Product Name",
+            "Product name defined in the Development Portal",
+            "Product Information", (int)ConfigGroups.Product)]
         public string productName;
 
         /// <summary>
         /// Version of Product.
         /// </summary>
-        [ConfigField("Product Version", ConfigFieldType.Text, 
-            "Product version")]
+        [ConfigField("Product Version",
+            "Product version",
+            "Product Information", (int)ConfigGroups.Product)]
         public string productVersion;
 
         /// <summary>
         /// Product Id defined in the
         /// [Development Portal](https://dev.epicgames.com/portal/)
         /// </summary>
-        [ConfigField("Product ID", ConfigFieldType.Text, 
-            "Product Id defined in the Development Portal")]
+        [ConfigField("Product ID",
+            "Product Id defined in the Development Portal",
+            "Product Information", (int)ConfigGroups.Product)]
         public string productID;
 
         /// <summary>
         /// Sandbox Id defined in the
         /// [Development Portal](https://dev.epicgames.com/portal/)
         /// </summary>
-        [ConfigField("Sandbox ID", ConfigFieldType.Text, 
-            "Sandbox Id defined in the Development Portal")]
+        [ConfigField("Sandbox ID",
+            "Sandbox Id defined in the Development Portal",
+            "Deployment", (int)ConfigGroups.Deployment)]
         public string sandboxID;
 
         /// <summary>
         /// Deployment Id defined in the
         /// [Development Portal](https://dev.epicgames.com/portal/)
         /// </summary>
-        [ConfigField("Deployment ID", ConfigFieldType.Text, 
-            "Deployment Id defined in the Development Portal")]
+        [ConfigField("Deployment ID",
+            "Deployment Id defined in the Development Portal",
+            "Deployment", (int)ConfigGroups.Deployment)]
         public string deploymentID;
 
         /// <summary>
@@ -117,8 +136,9 @@ namespace PlayEveryWare.EpicOnlineServices
         /// Client Secret defined in the
         /// [Development Portal](https://dev.epicgames.com/portal/)
         /// </summary>
-        [ConfigField("Client Secret", ConfigFieldType.Text, 
-            "Client Secret defined in the Development Portal")]
+        [ConfigField("Client Secret",
+            "Client Secret defined in the Development Portal", "Credentials",
+            (int)ConfigGroups.Credentials)]
         public string clientSecret;
 
         /// <summary>
@@ -126,7 +146,8 @@ namespace PlayEveryWare.EpicOnlineServices
         /// [Development Portal](https://dev.epicgames.com/portal/)
         /// </summary>
         [ConfigField("Client ID", 
-            "Client Id defined in the Development Portal")]
+            "Client Id defined in the Development Portal", "Credentials",
+            (int)ConfigGroups.Credentials)]
         public string clientID;
 
         /// <summary>
@@ -134,21 +155,29 @@ namespace PlayEveryWare.EpicOnlineServices
         /// encoded and stored in EOS.
         /// </summary>
         [ConfigField("Encryption Key", 
-            "Encryption Key defined in the Development Portal")]
+            "Encryption Key defined in the Development Portal", "Credentials",
+            (int)ConfigGroups.Credentials)]
         public string encryptionKey;
+
+        [ConfigField("Generate", ConfigFieldType.Button, "Click here to generate encryption key",
+            "Credentials",
+            (int)ConfigGroups.Credentials)]
+        public Action generateEncryptionKey;
 
         /// <summary>
         /// Flags; used to initialize the EOS platform.
         /// </summary>
         [ConfigField("Platform Options", ConfigFieldType.TextList, 
-            "Flags used to initialize the EOS platform")]
+            "Flags used to initialize the EOS platform", "Flag Options",
+            (int)ConfigGroups.FlagOptions)]
         public List<string> platformOptionsFlags;
 
         /// <summary>
         /// Flags; used to set user auth when logging in.
         /// </summary>
-        [ConfigField("Platform Options", ConfigFieldType.TextList, 
-            "Flags used to initialize the EOS platform")]
+        [ConfigField("Auth Scope Options", ConfigFieldType.TextList, 
+            "Flags used to initialize the EOS platform", "Flag Options",
+            (int)ConfigGroups.FlagOptions)]
         public List<string> authScopeOptionsFlags;
 
         /// <summary>
@@ -170,7 +199,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <see cref="NetworkStatus.Online"/>.
         /// <seealso cref="PlatformInterface.GetNetworkStatus"/>
         /// </summary>
-        [ConfigField("Tick Budget in Milliseconds", 
+        [ConfigField("Task Network Timeout Seconds", 
             ConfigFieldType.Double,
             "(Optional) Define the maximum amount of time network " +
             "calls will run in the EOS SDK before timing out while the " +
@@ -184,7 +213,8 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </summary>
         [ConfigField("Thread Affinity: networkWork",
             "Specifies thread affinity for network management that is " +
-            "not IO.")]
+            "not IO.", "Thread Affinity",
+            (int)ConfigGroups.ThreadAffinity)]
         public string ThreadAffinity_networkWork;
 
         /// <summary>
@@ -193,7 +223,8 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </summary>
         [ConfigField("Thread Affinity: storageIO", 
             "Specifies affinity for threads that will interact with a " +
-            "storage device.")]
+            "storage device.", "Thread Affinity",
+            (int)ConfigGroups.ThreadAffinity)]
         public string ThreadAffinity_storageIO;
 
         /// <summary>
@@ -202,7 +233,8 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </summary>
         [ConfigField("Thread Affinity: webSocketIO", 
             "Specifies affinity for threads that generate web socket " +
-            "IO.")]
+            "IO.", "Thread Affinity",
+            (int)ConfigGroups.ThreadAffinity)]
         public string ThreadAffinity_webSocketIO;
 
         /// <summary>
@@ -211,7 +243,9 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </summary>
         [ConfigField("Thread Affinity: P2PIO",
             "Specifies affinity for threads that will generate IO " +
-            "related to P2P traffic and management.")]
+            "related to P2P traffic and management.",
+            "Thread Affinity",
+            (int)ConfigGroups.ThreadAffinity)]
         public string ThreadAffinity_P2PIO;
 
         /// <summary>
@@ -220,7 +254,9 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </summary>
         [ConfigField("Thread Affinity: HTTPRequestIO",
             "Specifies affinity for threads that will generate http " +
-            "request IO.")]
+            "request IO.",
+            "Thread Affinity",
+            (int)ConfigGroups.ThreadAffinity)]
         public string ThreadAffinity_HTTPRequestIO;
 
         /// <summary>
@@ -229,7 +265,9 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </summary>
         [ConfigField("Thread Affinity: RTCIO", 
             "Specifies affinity for threads that will generate IO " +
-            "related to RTC traffic and management.")]
+            "related to RTC traffic and management.",
+            "Thread Affinity",
+            (int)ConfigGroups.ThreadAffinity)]
         public string ThreadAffinity_RTCIO;
 
         /// <summary>
@@ -267,7 +305,9 @@ namespace PlayEveryWare.EpicOnlineServices
         /// Set to 'true' if the application is a dedicated game server.
         /// </summary>
         [ConfigField("Is Server", ConfigFieldType.Flag,
-            "If true, the application is a dedicated game server.")]
+            "If true, the application is a dedicated game server.",
+            "Deployment",
+            (int)ConfigGroups.Deployment)]
         public bool isServer;
 
         private static Regex s_invalidEncryptionKeyRegex;
@@ -384,37 +424,14 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </param>
         public void ConfigureOverrideThreadAffinity(ref InitializeThreadAffinity affinity)
         {
-            affinity.NetworkWork = GetULongFromString(ThreadAffinity_networkWork);
-            affinity.StorageIo = GetULongFromString(ThreadAffinity_storageIO);
-            affinity.WebSocketIo = GetULongFromString(ThreadAffinity_webSocketIO);
-            affinity.P2PIo = GetULongFromString(ThreadAffinity_P2PIO);
-            affinity.HttpRequestIo = GetULongFromString(ThreadAffinity_HTTPRequestIO);
-            affinity.RTCIo = GetULongFromString(ThreadAffinity_RTCIO);
+            affinity.NetworkWork = ThreadAffinity_networkWork.ToULong();
+            affinity.StorageIo = ThreadAffinity_storageIO.ToULong();
+            affinity.WebSocketIo = ThreadAffinity_webSocketIO.ToULong();
+            affinity.P2PIo = ThreadAffinity_P2PIO.ToULong();
+            affinity.HttpRequestIo = ThreadAffinity_HTTPRequestIO.ToULong();
+            affinity.RTCIo = ThreadAffinity_RTCIO.ToULong();
         }
 #endif
-
-        /// <summary>
-        /// Wrapper function for ulong.Parse. Returns the value from ulong.Parse
-        /// if it succeeds, otherwise sets the value to the indicated default
-        /// value.
-        /// </summary>
-        /// <param name="str">The string to parse into a ulong.</param>
-        /// <param name="defaultValue">
-        /// The value to return in the event parsing fails.
-        /// </param>
-        /// <returns>
-        /// The result of parsing the string to a ulong, or defaultValue if
-        /// parsing fails.
-        /// </returns>
-        private static ulong GetULongFromString(string str, ulong defaultValue = 0)
-        {
-            if (!ulong.TryParse(str, out ulong value))
-            {
-                value = defaultValue;
-            }
-
-            return value;
-        }
 
         /// <summary>
         /// Determines whether the encryption key for the config is valid.

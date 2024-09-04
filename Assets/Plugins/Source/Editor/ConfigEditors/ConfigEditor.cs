@@ -76,18 +76,18 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
         /// </param>
         public ConfigEditor(UnityAction repaintFn = null, bool startsExpanded = false)
         {
-            Type configType = typeof(T);
-            
-            ConfigGroupAttribute attribute = configType.GetCustomAttribute<ConfigGroupAttribute>();
-
             _expanded = startsExpanded;
 
-            _animExpanded = new(attribute.Collapsible);
+            ConfigGroupAttribute attribute = typeof(T).GetCustomAttribute<ConfigGroupAttribute>();
 
-            _labelText = attribute.Label;
+            if (null != attribute)
+            {
+                _animExpanded = new(attribute.Collapsible);
+                _labelText = attribute.Label;
+            }
 
             if (null != repaintFn)
-                _animExpanded.valueChanged.AddListener(repaintFn);
+                _animExpanded?.valueChanged.AddListener(repaintFn);
         }
 
         /// <summary>
@@ -95,8 +95,11 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
         /// explicitly.
         /// </summary>
         /// <param name="labelText">The string to use for the label.</param>
-        protected ConfigEditor(string labelText)
+        protected ConfigEditor(string labelText) : this()
         {
+            // Overrides the label that might be defined in the
+            // ConfigGroupAttribute applied to the config that this editor is
+            // providing an interface for.
             _labelText = labelText;
         }
 
@@ -141,13 +144,11 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
         /// <returns>A collection of config fields.</returns>
         private static IOrderedEnumerable<IGrouping<int, (FieldInfo FieldInfo, ConfigFieldAttribute FieldDetails)>> GetFieldsByGroup()
         {
-            var returnValue = typeof(T).GetFields(BindingFlags.Public | BindingFlags.Instance)
+            return typeof(T).GetFields(BindingFlags.Public | BindingFlags.Instance)
                 .Where(field => field.GetCustomAttribute<ConfigFieldAttribute>() != null)
                 .Select(info => (info, info.GetCustomAttribute<ConfigFieldAttribute>()))
-                .GroupBy(r => r.Item2.Group)
-                .OrderBy(group => group.Key);
-
-            return returnValue;
+                .GroupBy(r => r.Item2.GroupOrder)
+                .OrderBy(group => group.Key == -1 ? int.MaxValue : group.Key);
         }
 
         /// <summary>
@@ -181,6 +182,32 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
             return maxWidth;
         }
 
+        private static string GetGroupLabel(IEnumerable<(FieldInfo, ConfigFieldAttribute)> group)
+        {
+            string groupLabel = null;
+            foreach (var field in group)
+            {
+                if (groupLabel == null)
+                {
+                    groupLabel = field.Item2.GroupLabel;
+                }
+                else
+                {
+                    if (groupLabel != field.Item2.GroupLabel)
+                    {
+                        Debug.LogWarning($"ConfigFieldAttribute not " +
+                                         $"set properly, fields of the same " +
+                                         $"group have different labels. " +
+                                         $"Please correct the group labels " +
+                                         $"for the group that " +
+                                         $"{field.Item1.Name} is assigned to.");
+                    }
+                }
+            }
+
+            return groupLabel;
+        }
+
         /// <summary>
         /// Render the config fields for the config that has been set to edit.
         /// </summary>
@@ -193,9 +220,9 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
         /// </exception>
         protected void RenderConfigFields()
         {
-            var fieldGroups = GetFieldsByGroup();
-            foreach (var fieldGroup in fieldGroups)
+            foreach (var fieldGroup in GetFieldsByGroup())
             {
+                GUILayout.Label(GetGroupLabel(fieldGroup), EditorStyles.boldLabel);
                 float labelWidth = GetMaximumLabelWidth(fieldGroup);
 
                 foreach (var field in fieldGroup)
