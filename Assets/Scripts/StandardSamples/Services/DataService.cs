@@ -310,5 +310,10 @@ namespace PlayEveryWare.EpicOnlineServices
 
             return FileTransferResult.ContinueReading;
         }
+
+        public virtual void RemoveCallbacks()
+        {
+            OnFileDownloaded = null;
+        }
     }
 }
