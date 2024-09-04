@@ -223,6 +223,9 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
                         case ConfigFieldType.Uint:
                             field.FieldInfo.SetValue(config, GUIEditorUtility.RenderInputField(field.FieldDetails, (uint)field.FieldInfo.GetValue(config), labelWidth));
                             break;
+                        case ConfigFieldType.Double:
+                            field.FieldInfo.SetValue(config, GUIEditorUtility.RenderInputField(field.FieldDetails, (double)field.FieldInfo.GetValue(config), labelWidth));
+                            break;
                         case ConfigFieldType.Button:
                             if (GUILayout.Button(field.FieldDetails.Label) && 
                                 field.FieldInfo.GetValue(config) is Action onClick)
@@ -258,13 +261,17 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
             EditorGUILayout.BeginVertical(EditorStyles.helpBox);
             bool isExpanded = EditorGUILayout.Foldout(_expanded, GetLabelText(), true, foldoutStyle);
 
-            if (isExpanded)
+            // If the state of expansion has changed
+            if (_expanded != isExpanded)
             {
-                Expand();
-            }
-            else
-            {
-                Collapse();
+                if (isExpanded)
+                {
+                    Expand();
+                }
+                else
+                {
+                    Collapse();
+                }
             }
 
             _animExpanded.target = isExpanded;
