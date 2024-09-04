@@ -322,7 +322,7 @@ namespace PlayEveryWare.EpicOnlineServices
             [Conditional("ENABLE_DEBUG_EOSMANAGER")]
             internal static void print(string toPrint, LogType type = LogType.Log)
             {
-                Debug.Log(toPrint);
+                Debug.LogFormat(type, LogOption.None, null, toPrint);
             }
 
             //-------------------------------------------------------------------------
