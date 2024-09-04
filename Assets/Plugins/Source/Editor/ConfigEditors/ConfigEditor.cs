@@ -40,14 +40,14 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
     public class ConfigEditor<T> : IConfigEditor where T : EpicOnlineServices.Config
     {
         /// <summary>
-        /// The string to use for the label for the config editor.
+        /// Event that triggers when the config editor is expanded.
         /// </summary>
-        private readonly string _labelText;
+        public event EventHandler Expanded;
 
         /// <summary>
-        /// Action that is called when the config editor is expanded.
+        /// The string to use for the label for the config editor.
         /// </summary>
-        public Action<ConfigEditor<T>> OnExpanded;
+        protected string _labelText;
 
         /// <summary>
         /// Used to animate the expansion and collapse of the config editor if
@@ -100,33 +100,19 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
             _labelText = labelText;
         }
 
-        /// <summary>
-        /// Whether the ConfigEditor is expanded or not. If value is set to
-        /// true, then the OnExpanded action will be invoked.
-        /// </summary>
-        private bool Expanded
-        {
-            get
-            {
-                return _expanded;
-            }
-            set
-            {
-                _expanded = value;
-                if (_expanded)
-                {
-                    OnExpanded?.Invoke(this);
-                }
-            }
-        }
+        protected ConfigEditor() { }
 
         /// <summary>
         /// Expands the ConfigEditor.
         /// </summary>
         public void Expand()
         {
-            Expanded = true;
-            OnExpanded?.Invoke(this);
+            // Don't do anything if already expanded.
+            if (_expanded)
+                return;
+
+            _expanded = true;
+            OnExpanded(EventArgs.Empty);
         }
 
         /// <summary>
@@ -134,7 +120,17 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
         /// </summary>
         public void Collapse()
         {
-            Expanded = false;
+            // Don't do anything if not expanded.
+            if (!_expanded)
+                return;
+
+            _expanded = false;
+        }
+
+        protected virtual void OnExpanded(EventArgs e)
+        {
+            EventHandler handler = Expanded;
+            handler?.Invoke(this, e);
         }
 
         /// <summary>
@@ -246,7 +242,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
             return _labelText;
         }
 
-        public async Task LoadAsync()
+        public virtual async Task LoadAsync()
         {   
             config = await EpicOnlineServices.Config.GetAsync<T>();
         }
@@ -260,10 +256,21 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
         {
             GUIStyle foldoutStyle = new(EditorStyles.foldout) { fontStyle = FontStyle.Bold };
             EditorGUILayout.BeginVertical(EditorStyles.helpBox);
-            _animExpanded.target = EditorGUILayout.Foldout(Expanded, GetLabelText(), true, foldoutStyle);
-            Expanded = _animExpanded.target;
+            bool isExpanded = EditorGUILayout.Foldout(_expanded, GetLabelText(), true, foldoutStyle);
 
-            if (Expanded)
+            if (isExpanded)
+            {
+                Expand();
+            }
+            else
+            {
+                Collapse();
+            }
+
+            _animExpanded.target = isExpanded;
+            _expanded = _animExpanded.target;
+
+            if (_expanded)
             {
                 if (EditorGUILayout.BeginFadeGroup(_animExpanded.faded))
                 {

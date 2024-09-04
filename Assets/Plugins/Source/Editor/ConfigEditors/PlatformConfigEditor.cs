@@ -19,9 +19,11 @@
 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 * SOFTWARE.
 */
+
 namespace PlayEveryWare.EpicOnlineServices.Editor
 {
     using System.Linq;
+    using System.Threading.Tasks;
     using UnityEditor;
     using UnityEngine;
     using Utility;
@@ -35,17 +37,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
     public abstract class PlatformConfigEditor<T> : ConfigEditor<T>, IPlatformConfigEditor where T : PlatformConfig
     {
         /// <summary>
-        /// The platform that this PlatformConfigEditor represents.
-        /// </summary>
-        protected PlatformManager.Platform Platform;
-
-        protected PlatformConfigEditor(PlatformManager.Platform platform) :
-            base(PlatformManager.GetFullName(platform))
-        {
-            this.Platform = platform;
-        }
-
-        /// <summary>
         /// Given that most platform configurations allow for override values of a specific subset of the standard
         /// options applied to all platforms, the rendering of these options is shared by all PlatformConfigEditor implementations.
         ///
@@ -54,7 +45,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
         /// </summary>
         public virtual void RenderOverrides()
         {
-            GUILayout.Label($"{PlatformManager.GetFullName(Platform)} Override Configuration Values",
+            GUILayout.Label($"{PlatformManager.GetFullName(config.Platform)} Override Configuration Values",
                 EditorStyles.boldLabel);
 
             GUIEditorUtility.AssigningFlagTextField("Integrated Platform Management Flags (Separated by '|')", ref config.flags, 345);
@@ -87,7 +78,13 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
 
         public bool IsPlatformAvailable()
         {
-            return PlatformManager.GetAvailableBuildTargets().Contains(Platform);
+            return PlatformManager.GetAvailableBuildTargets().Contains(config.Platform);
+        }
+
+        public override async Task LoadAsync()
+        {
+            await base.LoadAsync();
+            _labelText = PlatformManager.GetFullName(config.Platform);
         }
 
         public virtual void RenderPlatformSpecificOptions() { }

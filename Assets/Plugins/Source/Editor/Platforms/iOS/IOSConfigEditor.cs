@@ -22,8 +22,5 @@
 
 namespace PlayEveryWare.EpicOnlineServices.Editor
 {
-    public class IOSConfigEditor : PlatformConfigEditor<IOSConfig>
-    {
-        public IOSConfigEditor() : base(PlatformManager.Platform.iOS) { }
-    }
+    public class IOSConfigEditor : PlatformConfigEditor<IOSConfig> { }
 }

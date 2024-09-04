@@ -124,7 +124,7 @@ _WIN32 || _WIN64
         }";
         }
 
-        protected override async Task AsyncSetup()
+        protected override async Task SetupAsync()
         {
             if (!Directory.Exists(ConfigDirectory))
             {
@@ -134,26 +134,29 @@ _WIN32 || _WIN64
             mainEOSConfigFile = await Config.GetAsync<EOSConfig>();
 
             platformSpecificConfigEditors ??= new List<IPlatformConfigEditor>();
-            var configEditors = ReflectionUtility.CreateInstancesOfDerivedGenericClasses(typeof(PlatformConfigEditor<>));
+            List<object> configEditors = ReflectionUtility.CreateInstancesOfDerivedGenericClasses(typeof(PlatformConfigEditor<>));
+            List<string> toolbarTitles = new(new [] {"Main"});
 
             foreach (var editor in configEditors)
             {
-                if (editor is IPlatformConfigEditor platformConfigEditor && platformConfigEditor.IsPlatformAvailable())
-                    platformSpecificConfigEditors.Add(platformConfigEditor);
+                // Skip if the editor created is not for a platform.
+                if (editor is not IPlatformConfigEditor platformConfigEditor)
+                    continue;
+
+                // Load the platform config editor.
+                await platformConfigEditor.LoadAsync();
+
+                // Skip if the editor is for a platform that is not available.
+                if (!platformConfigEditor.IsPlatformAvailable())
+                    continue;
+
+                toolbarTitles.Add(platformConfigEditor.GetLabelText());
+                platformSpecificConfigEditors.Add(platformConfigEditor);
             }
 
-            toolbarTitleStrings = new string[1 + platformSpecificConfigEditors.Count];
-            toolbarTitleStrings[0] = "Main";
+            toolbarTitleStrings = toolbarTitles.ToArray();
 
-            int i = 1;
-            foreach (var platformSpecificConfigEditor in platformSpecificConfigEditors)
-            {
-                await platformSpecificConfigEditor.LoadAsync();
-                toolbarTitleStrings[i] = platformSpecificConfigEditor.GetLabelText();
-                i++;
-            }
-
-            await base.AsyncSetup();
+            await base.SetupAsync();
         }
 
         private async Task Save(bool usePrettyFormat)

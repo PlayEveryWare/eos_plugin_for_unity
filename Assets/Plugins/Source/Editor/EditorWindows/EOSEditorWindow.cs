@@ -182,8 +182,17 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
         /// at the END of their overriding function.
         /// </summary>
         /// <returns></returns>
-        protected virtual async Task AsyncSetup()
+        protected virtual async Task SetupAsync()
         {
+            // Load the mono font
+            if (null == MonoFont)
+            {
+                MonoFont = Resources.Load<Font>("SourceCodePro");
+            }
+
+            // Load window preferences
+            LoadWindowPreferences();
+
             // default implementation does nothing.
             await Task.Run(() => { });
         }
@@ -193,13 +202,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
         /// </summary>
         protected virtual void Setup()
         {
-            // Load the mono font
-            if (null == MonoFont)
-            {
-                MonoFont = Resources.Load<Font>("SourceCodePro");
-            }
-
-            LoadWindowPreferences();
+            Task.Run(SetupAsync).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -220,9 +223,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
         /// </summary>
         private async Task Initialize()
         {
-            Setup();
-
-            await AsyncSetup();
+            await SetupAsync();
         }
 
         /// <summary>

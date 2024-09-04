@@ -78,7 +78,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
             GetWindow<CreatePackageWindow>();
         }
 
-        protected override async Task AsyncSetup()
+        protected override async Task SetupAsync()
         {
             _packagingConfig = await Config.GetAsync<PackagingConfig>();
 
@@ -88,7 +88,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
                     Path.Combine(FileSystemUtility.GetProjectPath(), DefaultPackageDescription);
                 await _packagingConfig.WriteAsync();
             }
-            await base.AsyncSetup();
+            await base.SetupAsync();
         }
 
         protected static bool SelectOutputDirectory(ref string path)
