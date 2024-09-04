@@ -13,3 +13,6 @@ This demo showcases the custom invite functionality allowing for messaging with 
 
 > [!NOTE] 
 > See [Epic's documentation on the Custom Invites interface](https://dev.epicgames.com/docs/game-services/custom-invites-interface) for more information.
+
+> [!NOTE]
+> This sample includes the UIFriendsMenu. Please see [the plugin's documentation on UIFriendsMenu](../uifriendsmenu.md) for more information.

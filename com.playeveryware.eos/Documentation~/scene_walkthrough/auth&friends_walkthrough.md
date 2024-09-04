@@ -10,3 +10,6 @@ This demo showcases an implementation of the friends list into a game UI. The pa
 
 > [!NOTE]
 > See [Epic's documentation on the Auth interface](https://dev.epicgames.com/docs/epic-account-services/auth) as well as [Epic's documentation on the Friends interface](https://dev.epicgames.com/docs/epic-account-services/eos-friends-interface) for more information on each respective topic.
+
+> [!NOTE]
+> This sample includes the UIFriendsMenu. Please see [the plugin's documentation on UIFriendsMenu](../uifriendsmenu.md) for more information.
