@@ -36,7 +36,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
     /// <summary>
     /// Provides an implementation of requesting friends from the EOS SDK, arranging, and displaying the information.
-    /// [!NOTE]: Only friends that have consented to the currently running application will appear when queried as friends.
+    /// NOTE: Only friends that have consented to the currently running application will appear when queried as friends.
     /// See [Epic's documentation on the Friends Interface](https://dev.epicgames.com/docs/epic-account-services/eos-friends-interface#retrieving-and-caching-the-friends-list)
     /// for more information.
     /// </summary>
