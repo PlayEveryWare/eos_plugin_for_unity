@@ -89,7 +89,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
                 return true;
             }
 
-            Debug.LogError($"\"{enumValueString}\" was not recognized as a valid {nameof(TEnum)} value, and parsing failed.");
+            Debug.LogWarning($"\"{enumValueString}\" was not recognized as a valid {nameof(TEnum)} value, and parsing failed.");
             return false;
 
         }
