@@ -227,13 +227,13 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
                             field.FieldInfo.SetValue(config, GUIEditorUtility.RenderInputField(field.FieldDetails, (string)field.FieldInfo.GetValue(config), labelWidth));
                             break;
                         case ConfigFieldType.FilePath:
-                            field.FieldInfo.SetValue(config, GUIEditorUtility.RenderInputField(field.FieldDetails as FilePathField, (string)field.FieldInfo.GetValue(config), labelWidth));
+                            field.FieldInfo.SetValue(config, GUIEditorUtility.RenderInputField(field.FieldDetails as FilePathFieldAttribute, (string)field.FieldInfo.GetValue(config), labelWidth));
                             break;
                         case ConfigFieldType.Flag:
                             field.FieldInfo.SetValue(config, GUIEditorUtility.RenderInputField(field.FieldDetails, (bool)field.FieldInfo.GetValue(config), labelWidth));
                             break;
                         case ConfigFieldType.DirectoryPath:
-                            field.FieldInfo.SetValue(config, GUIEditorUtility.RenderInputField(field.FieldDetails as DirectoryPathField, (string)field.FieldInfo.GetValue(config), labelWidth));
+                            field.FieldInfo.SetValue(config, GUIEditorUtility.RenderInputField(field.FieldDetails as DirectoryPathFieldAttribute, (string)field.FieldInfo.GetValue(config), labelWidth));
                             break;
                         case ConfigFieldType.Ulong:
                             field.FieldInfo.SetValue(config, GUIEditorUtility.RenderInputField(field.FieldDetails, (ulong)field.FieldInfo.GetValue(config), labelWidth));

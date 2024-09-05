@@ -20,18 +20,22 @@
 * SOFTWARE.
 */
 
-using UnityEngine;
-
-public class EventSystemManager : MonoBehaviour
+namespace PlayEveryWare.EpicOnlineServices.Samples
 {
-    public GameObject inputSystemPrefab;
-    public GameObject inputManagerPrefab;
-    void Awake()
+    using UnityEngine;
+
+    public class EventSystemManager : MonoBehaviour
     {
+        public GameObject inputSystemPrefab;
+        public GameObject inputManagerPrefab;
+
+        void Awake()
+        {
 #if ENABLE_INPUT_SYSTEM
         Instantiate(inputSystemPrefab, this.transform);
 #else
-        Instantiate(inputManagerPrefab, this.transform);
+            Instantiate(inputManagerPrefab, this.transform);
 #endif
+        }
     }
 }

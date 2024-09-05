@@ -337,21 +337,21 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             return newValue;
         }
 
-        public static string RenderInputField(DirectoryPathField configFieldDetails, string value, float labelWidth,
+        public static string RenderInputField(DirectoryPathFieldAttribute configFieldAttributeDetails, string value, float labelWidth,
             string tooltip = null)
         {
             EditorGUILayout.BeginHorizontal();
 
-            string filePath = InputRendererWrapper<string>(configFieldDetails.Label, value, labelWidth, tooltip,
+            string filePath = InputRendererWrapper<string>(configFieldAttributeDetails.Label, value, labelWidth, tooltip,
                 (label, s, width, tooltip) =>
                 {
-                    return EditorGUILayout.TextField(CreateGUIContent(configFieldDetails.Label, tooltip), value,
+                    return EditorGUILayout.TextField(CreateGUIContent(configFieldAttributeDetails.Label, tooltip), value,
                         GUILayout.ExpandWidth(true));
                 });
 
             if (GUILayout.Button("Select", GUILayout.MaxWidth(MaximumButtonWidth)))
             {
-                string selectedPath = EditorUtility.OpenFolderPanel(configFieldDetails.Label, "", "");
+                string selectedPath = EditorUtility.OpenFolderPanel(configFieldAttributeDetails.Label, "", "");
 
                 if (!string.IsNullOrWhiteSpace(selectedPath))
                 {
@@ -364,21 +364,21 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             return filePath;
         }
 
-        public static string RenderInputField(FilePathField configFieldDetails, string value, float labelWidth, string tooltip = null)
+        public static string RenderInputField(FilePathFieldAttribute configFieldAttributeDetails, string value, float labelWidth, string tooltip = null)
         {
             EditorGUILayout.BeginHorizontal();
 
-            string filePath = InputRendererWrapper<string>(configFieldDetails.Label, value, labelWidth, tooltip,
+            string filePath = InputRendererWrapper<string>(configFieldAttributeDetails.Label, value, labelWidth, tooltip,
                 (label, s, width, tooltip) =>
                 {
-                    return EditorGUILayout.TextField(CreateGUIContent(configFieldDetails.Label, tooltip), value,
+                    return EditorGUILayout.TextField(CreateGUIContent(configFieldAttributeDetails.Label, tooltip), value,
                         GUILayout.ExpandWidth(true));
                 });
 
             if (GUILayout.Button("Select", GUILayout.MaxWidth(MaximumButtonWidth)))
             {
                 string selectedPath =
-                    EditorUtility.OpenFilePanel(configFieldDetails.Label, "", configFieldDetails.Extension);
+                    EditorUtility.OpenFilePanel(configFieldAttributeDetails.Label, "", configFieldAttributeDetails.Extension);
 
                 if (!string.IsNullOrWhiteSpace(selectedPath))
                 {
