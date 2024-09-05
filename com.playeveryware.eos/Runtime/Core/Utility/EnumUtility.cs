@@ -20,6 +20,9 @@
  * SOFTWARE.
  */
 
+using System.Runtime.CompilerServices;
+
+[assembly:InternalsVisibleTo("com.playeveryware.eos.tests.playmode")]
 namespace PlayEveryWare.EpicOnlineServices.Utility
 {
     using System;
@@ -219,8 +222,16 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         {
             IList<TEnum> compositeParts = new List<TEnum>();
 
+            ulong defaultValue = Convert.ToUInt64(default(TEnum));
+
             foreach (TEnum enumValue in Enum.GetValues(typeof(TEnum)))
             {
+                // Skip the default value
+                if (defaultValue == Convert.ToUInt64(enumValue))
+                {
+                    continue;
+                }
+
                 if (bitFlag.HasFlag(enumValue))
                 {
                     compositeParts.Add(enumValue);
