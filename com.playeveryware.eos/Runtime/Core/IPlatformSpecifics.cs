@@ -20,72 +20,16 @@
 * SOFTWARE.
 */
 
-using System;
-using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
-
-#if !EOS_DISABLE
-using Epic.OnlineServices;
-using Epic.OnlineServices.Platform;
-#endif
-
 namespace PlayEveryWare.EpicOnlineServices
 {
-    //-------------------------------------------------------------------------
-    public class EOSManagerPlatformSpecificsSingleton
-    {
-        static IPlatformSpecifics s_platformSpecifics;
-
-        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
-        private static void InitOnPlayMode()
-        {
-            s_platformSpecifics = null;
-        }
-
-        //-------------------------------------------------------------------------
-        // Should only be called once
-        static public void SetEOSManagerPlatformSpecificsInterface(IPlatformSpecifics platformSpecifics)
-        {
-            if (s_platformSpecifics != null)
-            {
-                throw new Exception(string.Format("Trying to set the EOSManagerPlatformSpecificsSingleton twice: {0} => {1}", 
-                    s_platformSpecifics.GetType().Name,
-                    platformSpecifics == null ? "NULL" : platformSpecifics.GetType().Name
-                ));
-            }
-            s_platformSpecifics = platformSpecifics;
-        }
-
-        //-------------------------------------------------------------------------
-        static public IPlatformSpecifics Instance
-        {
-            get
-            {
-                return s_platformSpecifics;
-            }
-        }
-    }
-
-    //-------------------------------------------------------------------------
-    public interface IEOSNetworkStatusUpdater
-    {
-        void UpdateNetworkStatus();
-    }
-
-    //-------------------------------------------------------------------------
-    public interface IEOSCoroutineOwner
-    {
-        void StartCoroutine(IEnumerator routine);
-    }
+    using System;
+    using System.Collections.Generic;
 
     //-------------------------------------------------------------------------
     public interface IPlatformSpecifics
     {
 #if !EOS_DISABLE
         string GetTempDir();
-
-       // Int32 IsReadyForNetworkActivity();
 
         void AddPluginSearchPaths(ref List<string> pluginPaths);
 
