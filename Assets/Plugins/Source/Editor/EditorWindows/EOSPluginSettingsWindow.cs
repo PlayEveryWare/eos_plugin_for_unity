@@ -29,6 +29,7 @@ using System.Collections.Generic;
 namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 {
     using Config;
+    using System.Linq;
     using System.Threading.Tasks;
     using UnityEditor.AnimatedValues;
     using Utility;
@@ -109,16 +110,12 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 
         private IConfigEditor SetupConfigEditor<T>() where T : PlayEveryWare.EpicOnlineServices.Config
         {
-            var newEditor = new ConfigEditor<T>(Repaint);
-            newEditor.OnExpanded += expandedEditor =>
+            ConfigEditor<T> newEditor = new (Repaint);
+            newEditor.Expanded += (sender, args) =>
             {
                 // Close all the other config editors
-                foreach (var editor in configEditors)
+                foreach (var editor in configEditors.Where(editor => editor != sender))
                 {
-                    // Skip if this is the one that just expanded
-                    if (editor == expandedEditor)
-                        continue;
-
                     editor.Collapse();
                 }
             };

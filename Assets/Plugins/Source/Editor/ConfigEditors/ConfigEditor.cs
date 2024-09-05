@@ -45,15 +45,20 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
         private readonly string _labelText;
 
         /// <summary>
-        /// Action that is called when the config editor is expanded.
+        /// Event that triggers when the config editor is expanded.
         /// </summary>
-        public Action<ConfigEditor<T>> OnExpanded;
+        public event EventHandler Expanded;
 
         /// <summary>
         /// Used to animate the expansion and collapse of the config editor if
         /// doing so is enabled.
         /// </summary>
         private AnimBool _animExpanded;
+
+        /// <summary>
+        /// Indicates whether the config editor is expandable and collapsible
+        /// </summary>
+        private bool _collapsible;
 
         /// <summary>
         /// Stores the state of whether the config editor is expanded or
@@ -74,20 +79,31 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
         /// collapsed, as animating that requires calling the repaint function
         /// that is typically called from within EditorWindow.
         /// </param>
+        /// <param name="startsExpanded">
+        /// If expandable, will indicate whether it starts expanded or
+        /// collapsed.
+        /// </param>
         public ConfigEditor(UnityAction repaintFn = null, bool startsExpanded = false)
         {
-            Type configType = typeof(T);
-            
-            ConfigGroupAttribute attribute = configType.GetCustomAttribute<ConfigGroupAttribute>();
-
             _expanded = startsExpanded;
+            _collapsible = false;
 
-            _animExpanded = new(attribute.Collapsible);
+            ConfigGroupAttribute attribute = typeof(T).GetCustomAttribute<ConfigGroupAttribute>();
 
-            _labelText = attribute.Label;
+            if (null != attribute)
+            {
+                _collapsible = attribute.Collapsible;   
+                _labelText = attribute.Label;
+            }
+
+            _animExpanded = new(_collapsible);
+
+            // If it's not expandable, then it starts "expanded"
+            if (!_collapsible)
+                _expanded = true;
 
             if (null != repaintFn)
-                _animExpanded.valueChanged.AddListener(repaintFn);
+                _animExpanded?.valueChanged.AddListener(repaintFn);
         }
 
         /// <summary>
@@ -95,29 +111,9 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
         /// explicitly.
         /// </summary>
         /// <param name="labelText">The string to use for the label.</param>
-        protected ConfigEditor(string labelText)
+        protected ConfigEditor(string labelText) : this()
         {
             _labelText = labelText;
-        }
-
-        /// <summary>
-        /// Whether the ConfigEditor is expanded or not. If value is set to
-        /// true, then the OnExpanded action will be invoked.
-        /// </summary>
-        private bool Expanded
-        {
-            get
-            {
-                return _expanded;
-            }
-            set
-            {
-                _expanded = value;
-                if (_expanded)
-                {
-                    OnExpanded?.Invoke(this);
-                }
-            }
         }
 
         /// <summary>
@@ -125,8 +121,12 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
         /// </summary>
         public void Expand()
         {
-            Expanded = true;
-            OnExpanded?.Invoke(this);
+            // Don't do anything if already expanded, or if cannot expand
+            if (_expanded || !_collapsible)
+                return;
+
+            _expanded = true;
+            OnExpanded(EventArgs.Empty);
         }
 
         /// <summary>
@@ -134,7 +134,17 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
         /// </summary>
         public void Collapse()
         {
-            Expanded = false;
+            // Don't do anything if not expanded, or cannot expand.
+            if (!_expanded || !_collapsible)
+                return;
+
+            _expanded = false;
+        }
+
+        protected virtual void OnExpanded(EventArgs e)
+        {
+            EventHandler handler = Expanded;
+            handler?.Invoke(this, e);
         }
 
         /// <summary>
@@ -258,12 +268,44 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
 
         public virtual void RenderContents()
         {
+            if (_collapsible)
+            {
+                RenderCollapsibleContents();
+            }
+            else
+            {
+                GUILayout.Label(GetLabelText(), EditorStyles.boldLabel);
+                RenderConfigFields();
+            }
+        }
+
+        private void RenderCollapsibleContents()
+        {
             GUIStyle foldoutStyle = new(EditorStyles.foldout) { fontStyle = FontStyle.Bold };
             EditorGUILayout.BeginVertical(EditorStyles.helpBox);
-            _animExpanded.target = EditorGUILayout.Foldout(Expanded, GetLabelText(), true, foldoutStyle);
-            Expanded = _animExpanded.target;
 
-            if (Expanded)
+            bool isExpanded = EditorGUILayout.Foldout(_expanded, GetLabelText(), true, foldoutStyle);
+
+            // If the state of expansion has changed, take appropriate action.
+            if (_expanded != isExpanded)
+            {
+                if (isExpanded)
+                {
+                    Expand();
+                }
+                else
+                {
+                    Collapse();
+                }
+            }
+
+            if (null != _animExpanded)
+            {
+                _animExpanded.target = isExpanded;
+                _expanded = _animExpanded.target;
+            }
+
+            if (_expanded)
             {
                 if (EditorGUILayout.BeginFadeGroup(_animExpanded.faded))
                 {
@@ -273,7 +315,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
                 }
                 EditorGUILayout.EndFadeGroup();
             }
-            
+
             EditorGUILayout.EndVertical();
         }
 

@@ -142,7 +142,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
         /// </summary>
         public bool Collapsible { get; }
 
-        public ConfigGroupAttribute(string label, bool collapsible = false)
+        public ConfigGroupAttribute(string label, bool collapsible = true)
         {
             Label = label;
             Collapsible = collapsible;
