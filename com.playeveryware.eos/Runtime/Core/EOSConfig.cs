@@ -316,37 +316,14 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </param>
         public void ConfigureOverrideThreadAffinity(ref InitializeThreadAffinity affinity)
         {
-            affinity.NetworkWork = GetULongFromString(ThreadAffinity_networkWork);
-            affinity.StorageIo = GetULongFromString(ThreadAffinity_storageIO);
-            affinity.WebSocketIo = GetULongFromString(ThreadAffinity_webSocketIO);
-            affinity.P2PIo = GetULongFromString(ThreadAffinity_P2PIO);
-            affinity.HttpRequestIo = GetULongFromString(ThreadAffinity_HTTPRequestIO);
-            affinity.RTCIo = GetULongFromString(ThreadAffinity_RTCIO);
+            affinity.NetworkWork = ThreadAffinity_networkWork.ToUlong();
+            affinity.StorageIo = ThreadAffinity_storageIO.ToUlong();
+            affinity.WebSocketIo = ThreadAffinity_webSocketIO.ToUlong();
+            affinity.P2PIo = ThreadAffinity_P2PIO.ToUlong();
+            affinity.HttpRequestIo = ThreadAffinity_HTTPRequestIO.ToUlong();
+            affinity.RTCIo = ThreadAffinity_RTCIO.ToUlong();
         }
 #endif
-
-        /// <summary>
-        /// Wrapper function for ulong.Parse. Returns the value from ulong.Parse
-        /// if it succeeds, otherwise sets the value to the indicated default
-        /// value.
-        /// </summary>
-        /// <param name="str">The string to parse into a ulong.</param>
-        /// <param name="defaultValue">
-        /// The value to return in the event parsing fails.
-        /// </param>
-        /// <returns>
-        /// The result of parsing the string to a ulong, or defaultValue if
-        /// parsing fails.
-        /// </returns>
-        private static ulong GetULongFromString(string str, ulong defaultValue = 0)
-        {
-            if (!ulong.TryParse(str, out ulong value))
-            {
-                value = defaultValue;
-            }
-
-            return value;
-        }
 
         /// <summary>
         /// Determines whether the encryption key for the config is valid.
