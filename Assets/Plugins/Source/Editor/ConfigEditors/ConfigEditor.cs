@@ -32,12 +32,19 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
     using UnityEngine.Events;
     using Utility;
     using Task = System.Threading.Tasks.Task;
+    using Config = EpicOnlineServices.Config;
+
 
     /// <summary>
-    /// Contains implementations of IConfigEditor that are common to all implementing classes.
+    /// Contains implementations of IConfigEditor that are common to all
+    /// implementing classes.
     /// </summary>
-    /// <typeparam name="T">Intended to be a type accepted by the templated class EOSConfigFile.</typeparam>
-    public class ConfigEditor<T> : IConfigEditor where T : EpicOnlineServices.Config
+    /// <typeparam name="T">
+    /// The type of config that this editor is responsible for providing an
+    /// interface to edit for.
+    /// </typeparam>
+    public class ConfigEditor<T> : IConfigEditor where T : 
+        EpicOnlineServices.Config
     {
         /// <summary>
         /// The string to use for the label for the config editor.
@@ -83,7 +90,9 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
         /// If expandable, will indicate whether it starts expanded or
         /// collapsed.
         /// </param>
-        public ConfigEditor(UnityAction repaintFn = null, bool startsExpanded = false)
+        public ConfigEditor(
+            UnityAction repaintFn = null, 
+            bool startsExpanded = false)
         {
             _expanded = startsExpanded;
             _collapsible = false;
@@ -100,10 +109,14 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
 
             // If it's not expandable, then it starts "expanded"
             if (!_collapsible)
+            {
                 _expanded = true;
+            }
 
             if (null != repaintFn)
+            {
                 _animExpanded?.valueChanged.AddListener(repaintFn);
+            }
         }
 
         /// <summary>
@@ -113,7 +126,9 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
         {
             // Don't do anything if already expanded, or if cannot expand
             if (_expanded || !_collapsible)
+            {
                 return;
+            }
 
             _expanded = true;
             OnExpanded(EventArgs.Empty);
@@ -126,7 +141,9 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
         {
             // Don't do anything if not expanded, or cannot expand.
             if (!_expanded || !_collapsible)
+            {
                 return;
+            }
 
             _expanded = false;
         }
@@ -250,7 +267,9 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
         {
             // Don't do anything if the config is already loaded.
             if (config != null)
+            {
                 return;
+            }
 
             config = await EpicOnlineServices.Config.GetAsync<T>();
         }
