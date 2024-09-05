@@ -1,5 +1,4 @@
 # Ignore all files in the historic directory.
-*
+#*
 # Except for _this_ .gitignore file, the consolidated coverage history file, and the gitattributes file
-!.gitignore
-!Consolidated_CoverageHistory.xml
+#!.gitignore
