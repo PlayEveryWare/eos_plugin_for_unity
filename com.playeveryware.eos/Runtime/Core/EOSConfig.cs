@@ -316,12 +316,12 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </param>
         public void ConfigureOverrideThreadAffinity(ref InitializeThreadAffinity affinity)
         {
-            affinity.NetworkWork = ThreadAffinity_networkWork.ToUInt64();
-            affinity.StorageIo = ThreadAffinity_storageIO.ToUInt64();
-            affinity.WebSocketIo = ThreadAffinity_webSocketIO.ToUInt64();
-            affinity.P2PIo = ThreadAffinity_P2PIO.ToUInt64();
-            affinity.HttpRequestIo = ThreadAffinity_HTTPRequestIO.ToUInt64();
-            affinity.RTCIo = ThreadAffinity_RTCIO.ToUInt64();
+            affinity.NetworkWork = ThreadAffinity_networkWork.ToUlong();
+            affinity.StorageIo = ThreadAffinity_storageIO.ToUlong();
+            affinity.WebSocketIo = ThreadAffinity_webSocketIO.ToUlong();
+            affinity.P2PIo = ThreadAffinity_P2PIO.ToUlong();
+            affinity.HttpRequestIo = ThreadAffinity_HTTPRequestIO.ToUlong();
+            affinity.RTCIo = ThreadAffinity_RTCIO.ToUlong();
         }
 #endif
 

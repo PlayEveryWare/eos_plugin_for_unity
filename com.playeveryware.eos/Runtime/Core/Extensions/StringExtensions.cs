@@ -24,7 +24,7 @@ namespace PlayEveryWare.EpicOnlineServices.Extensions
 {
     public static class StringExtensions
     {
-        public static ulong ToUInt64(this string value, ulong defaultValue = 0L)
+        public static ulong ToUlong(this string value, ulong defaultValue = 0L)
         {
             ulong returnValue = defaultValue;
 
