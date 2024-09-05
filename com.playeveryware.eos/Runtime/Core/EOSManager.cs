@@ -95,9 +95,6 @@ namespace PlayEveryWare.EpicOnlineServices
     /// </summary>
     public partial class EOSManager : MonoBehaviour, IEOSCoroutineOwner
     {
-        // <value>If true, EOSManager initialized itself at startup.</value>
-        public bool InitializeOnAwake = true;
-
         /// <value>If true, EOSManager will shutdown the EOS SDK when Unity runs <see cref="Application.quitting"/>.</value>
         public bool ShouldShutdownOnApplicationQuit = true;
 
@@ -137,6 +134,14 @@ namespace PlayEveryWare.EpicOnlineServices
 
         //cached log levels for retrieving later
         private static Dictionary<LogCategory, LogLevel> logLevels;
+
+        /// <summary>
+        /// Boolean indicator of whether an EOSManager has already been created.
+        /// This prevents having multiple EOSManagers doing extra work.
+        /// Note: This does not track if you delete the object.
+        /// It is presumed that EOSManager will have DontDestroyOnLoad marked on it, during Awake.
+        /// </summary>
+        private static bool s_EOSManagerHasBeenCreated = false;
 
         enum EOSState
         {
@@ -320,9 +325,9 @@ namespace PlayEveryWare.EpicOnlineServices
 
             //-------------------------------------------------------------------------
             [Conditional("ENABLE_DEBUG_EOSMANAGER")]
-            static void print(string toPrint)
+            internal static void print(string toPrint, LogType type = LogType.Log)
             {
-                Debug.Log(toPrint);
+                Debug.LogFormat(type, LogOption.None, null, toPrint);
             }
 
             //-------------------------------------------------------------------------
@@ -478,8 +483,9 @@ namespace PlayEveryWare.EpicOnlineServices
                 }
                 else
                 {
-                    Debug.LogWarning(
-                        "EOS config data does not contain a valid encryption key which is needed for Player Data Storage and Title Storage.");
+                    print(
+                        "EOS config data does not contain a valid encryption key which is needed for Player Data Storage and Title Storage.",
+                        LogType.Warning);
                 }
 
                 platformOptions.options.OverrideCountryCode = null;
@@ -633,7 +639,7 @@ namespace PlayEveryWare.EpicOnlineServices
                     }
                 }
 
-                Debug.Log($"EOSManager::Init: InitializePlatformInterface: initResult = {initResult}");
+                print($"EOSManager::Init: InitializePlatformInterface: initResult = {initResult}");
 
 
                 s_hasInitializedPlatform = true;
@@ -666,7 +672,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 IPlatformSpecifics platformSpecifics = EOSManagerPlatformSpecificsSingleton.Instance;
                 if (platformSpecifics != null)
                 {
-                    Debug.Log("EOSManager: Registering for platform-specific notifications");
+                    print("EOSManager: Registering for platform-specific notifications");
                     platformSpecifics.RegisterForPlatformNotifications();
                 }
             }
@@ -809,7 +815,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 var dateTime = DateTime.Now;
                 var messageCategory = message.Category.Length == 0 ? new Utf8String() : message.Category;
 
-                Debug.LogFormat(null, "{0:O} {1}({2}): {3}", dateTime, messageCategory, message.Level, message.Message);
+                print(string.Format("{0:O} {1}({2}): {3}", dateTime, messageCategory, message.Level, message.Message));
             }
 
             //-------------------------------------------------------------------------
@@ -1424,7 +1430,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
                 if (createPresenceModificationResult != Result.Success)
                 {
-                    Debug.LogError("Unable to create presence modfication handle");
+                    print("Unable to create presence modfication handle", LogType.Error);
                 }
 
                 var presenceModificationSetStatUsOptions = new PresenceModificationSetStatusOptions();
@@ -1433,7 +1439,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
                 if (setStatusResult != Result.Success)
                 {
-                    Debug.LogError("unable to set status");
+                    print("unable to set status", LogType.Error);
                 }
 
                 var richTextOptions = new PresenceModificationSetRawRichTextOptions();
@@ -1447,7 +1453,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 {
                     if (callbackInfo.ResultCode != Result.Success)
                     {
-                        Debug.LogError("Unable to set presence: " + callbackInfo.ResultCode);
+                        print("Unable to set presence: " + callbackInfo.ResultCode, LogType.Error);
                     }
                 });
             }
@@ -1501,12 +1507,13 @@ namespace PlayEveryWare.EpicOnlineServices
                     {
                         if (deletePersistentAuthCallbackInfo.ResultCode != Result.Success)
                         {
-                            Debug.LogError("Unable to delete persistent token, Result : " +
-                                           deletePersistentAuthCallbackInfo.ResultCode);
+                            print("Unable to delete persistent token, Result : " +
+                                           deletePersistentAuthCallbackInfo.ResultCode, 
+                                           LogType.Error);
                         }
                         else
                         {
-                            Debug.Log("Successfully deleted persistent token");
+                            print("Successfully deleted persistent token");
                         }
                     });
             }
@@ -1585,18 +1592,18 @@ namespace PlayEveryWare.EpicOnlineServices
                     // Not doing this in the editor, because it doesn't seem to be an issue there
 #if !UNITY_EDITOR_OSX
 #if !UNITY_EDITOR
-                    Debug.Log("Running garbage collection.");
+                    print("Running garbage collection.");
                     System.GC.Collect();
 
-                    Debug.Log("Waiting for pending finalizers.");
+                    print("Waiting for pending finalizers.");
                     System.GC.WaitForPendingFinalizers();
 #endif
-                    Debug.Log("Releasing the EOS Platform Interface.");
+                    print("Releasing the EOS Platform Interface.");
                     GetEOSPlatformInterface()?.Release();
 
                     if (s_eosUnloadSDKOnShutdown)
                     {
-                        Debug.Log("Shutting down the platform interface.");
+                        print("Shutting down the platform interface.");
                         ShutdownPlatformInterface();
                     }
 
@@ -1607,11 +1614,11 @@ namespace PlayEveryWare.EpicOnlineServices
 #if UNITY_EDITOR
                     if (s_eosUnloadSDKOnShutdown)
                     {
-                        Debug.Log("Unloading all libraries.");
+                        print("Unloading all libraries.");
                         UnloadAllLibraries();
                     }
 #endif
-                    Debug.Log("Finished shutdown.");
+                    print("Finished shutdown.");
                     s_state = EOSState.Shutdown;
                 }
             }
@@ -1648,8 +1655,9 @@ namespace PlayEveryWare.EpicOnlineServices
                     Result result = GetEOSPlatformInterface().SetApplicationStatus(newStatus);
                     if (result != Result.Success)
                     {
-                        Debug.LogError(
-                            $"EOSSingleton.SetEOSApplicationStatus: Error setting EOS application status (Result = {result})");
+                        print(
+                            $"EOSSingleton.SetEOSApplicationStatus: Error setting EOS application status (Result = {result})",
+                            LogType.Error);
                     }
                 }
             }
@@ -1799,10 +1807,24 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </summary>
         void Awake()
         {
-            if (InitializeOnAwake)
+            // If there's already been an EOSManager,
+            // disable this behaviour so that it doesn't fire Unity messages
+            if (s_EOSManagerHasBeenCreated)
             {
-                Instance.Init(this);
+                EOSSingleton.print($"{nameof(EOSManager)} {(nameof(Awake))}: An EOSManager instance already exists and is running, so this behaviour is marking as inactive to not perform duplicate work.");
+                enabled = false;
+                return;
             }
+
+            // Indicate that a EOSManager has been created, and mark it to not be destroyed
+            s_EOSManagerHasBeenCreated = true;
+            DontDestroyOnLoad(this.gameObject);
+
+#if UNITY_PS5 && !UNITY_EDITOR
+            EOSPSNManagerPS5.EnsurePS5Initialized();
+#endif
+
+            Instance.Init(this);
         }
 
         //-------------------------------------------------------------------------
@@ -1871,15 +1893,15 @@ namespace PlayEveryWare.EpicOnlineServices
             if (ShouldShutdownOnApplicationQuit)
             {
 #if EOS_CAN_SHUTDOWN
-                print($"{nameof(EOSManager)} ({nameof(OnApplicationQuitting)}): Application is quitting. {nameof(ShouldShutdownOnApplicationQuit)} is true, so the plugin is being shut down. EOS_CAN_SHUTDOWN is true, so the EOS SDK will now be shut down fully.");
+                EOSSingleton.print($"{nameof(EOSManager)} ({nameof(OnApplicationQuitting)}): Application is quitting. {nameof(ShouldShutdownOnApplicationQuit)} is true, so the plugin is being shut down. EOS_CAN_SHUTDOWN is true, so the EOS SDK will now be shut down fully.");
 #else
-                print($"{nameof(EOSManager)} ({nameof(OnApplicationQuitting)}): Application is quitting. {nameof(ShouldShutdownOnApplicationQuit)} is true, so the plugin is being shut down. EOS_CAN_SHUTDOWN is false, so the EOS SDK will not be shut down.");
+                EOSSingleton.print($"{nameof(EOSManager)} ({nameof(OnApplicationQuitting)}): Application is quitting. {nameof(ShouldShutdownOnApplicationQuit)} is true, so the plugin is being shut down. EOS_CAN_SHUTDOWN is false, so the EOS SDK will not be shut down.");
 #endif
                 Instance.OnShutdown();
             }
             else
             {
-                print($"{nameof(EOSManager)} ({nameof(OnApplicationQuitting)}): Application is quitting. {nameof(ShouldShutdownOnApplicationQuit)} is false, so this manager will not shut down the EOS SDK.");
+                EOSSingleton.print($"{nameof(EOSManager)} ({nameof(OnApplicationQuitting)}): Application is quitting. {nameof(ShouldShutdownOnApplicationQuit)} is false, so this manager will not shut down the EOS SDK.");
             }
         }
 #endif

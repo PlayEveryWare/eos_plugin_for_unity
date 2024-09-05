@@ -29,6 +29,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     using Epic.OnlineServices.Lobby;
     using Epic.OnlineServices.RTC;
     using Epic.OnlineServices.RTCAudio;
+	
+    public enum LobbyChangeType
+    { 
+        Create, 
+        Join, 
+        Leave,
+        Kicked
+    }
 
     /// <summary>
     /// Class represents all Lobby properties
@@ -473,7 +481,29 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public delegate void OnMemberUpdateCallback(string LobbyId, ProductUserId MemberId);
 
         private List<OnMemberUpdateCallback> MemberUpdateCallbacks;
-        private List<Action> LobbyChangeCallbacks;
+
+        public class LobbyChangeEventArgs
+        {
+            public string LobbyId { get; }
+            public LobbyChangeType LobbyChangeType { get; }
+
+            public LobbyChangeEventArgs(string lobbyId, LobbyChangeType changeType)
+            {
+                LobbyId = lobbyId;
+                LobbyChangeType = changeType;
+            }
+        }
+
+        public delegate void LobbyChangeEventHandler(object sender, LobbyChangeEventArgs e);
+
+        public event LobbyChangeEventHandler LobbyChanged;
+
+        protected virtual void OnLobbyChanged(LobbyChangeEventArgs args)
+        {
+            LobbyChangeEventHandler handler = LobbyChanged;
+            handler?.Invoke(this, args);
+        }
+
         private List<Action> LobbyUpdateCallbacks;
 
         private EOSUserInfoManager UserInfoManager;
@@ -497,7 +527,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             LobbySearchCallback = null;
 
             MemberUpdateCallbacks = new List<OnMemberUpdateCallback>();
-            LobbyChangeCallbacks = new List<Action>();
             LobbyUpdateCallbacks = new List<Action>();
         }
 
@@ -1338,20 +1367,18 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
                 LobbyCreatedCallback?.Invoke(Result.Success);
 
-                OnCurrentLobbyChanged();
+                OnCurrentLobbyChanged(LobbyChangeType.Create);
             }
         }
 
-        private void OnCurrentLobbyChanged()
+        private void OnCurrentLobbyChanged(LobbyChangeType lobbyChangedEvent)
         {
             if (CurrentLobby.IsValid())
             {
                 AddLocalUserAttributes();
             }
-            foreach (var callback in LobbyChangeCallbacks)
-            {
-                callback?.Invoke();
-            }
+
+            OnLobbyChanged(new LobbyChangeEventArgs(CurrentLobby?.Id, lobbyChangedEvent));
         }
 
         private void OnUpdateLobbyCallBack(ref UpdateLobbyCallbackInfo data)
@@ -1920,7 +1947,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 CurrentLobby.Clear();
                 _Dirty = true;
 
-                OnCurrentLobbyChanged();
+                OnCurrentLobbyChanged(LobbyChangeType.Kicked);
             }
         }
 
@@ -2059,21 +2086,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public void RemoveNotifyMemberUpdate(OnMemberUpdateCallback Callback)
         {
             MemberUpdateCallbacks.Remove(Callback);
-        }
-
-        /// <summary>
-        /// Subscribe to event callback for when the user has changed lobbies
-        /// The callback will only run if a listener is subscribed, which is done in <see cref="SubscribeToLobbyUpdates"/>.
-        /// </summary>
-        /// <param name="Callback">Callback to receive notification when lobby is changed</param>
-        public void AddNotifyLobbyChange(Action Callback)
-        {
-            LobbyChangeCallbacks.Add(Callback);
-        }
-
-        public void RemoveNotifyLobbyChange(Action Callback)
-        {
-            LobbyChangeCallbacks.Remove(Callback);
         }
 
         /// <summary>
@@ -2574,7 +2586,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             JoinLobbyCallback?.Invoke(Result.Success);
 
-            OnCurrentLobbyChanged();
+            OnCurrentLobbyChanged(LobbyChangeType.Join);
         }
 
         private void OnLeaveLobbyCompleted(ref LeaveLobbyCallbackInfo data)
@@ -2601,7 +2613,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
                 LeaveLobbyCallback?.Invoke(Result.Success);
 
-                OnCurrentLobbyChanged();
+                OnCurrentLobbyChanged(LobbyChangeType.Leave);
             }
         }
 
