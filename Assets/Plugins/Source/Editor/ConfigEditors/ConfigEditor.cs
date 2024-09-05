@@ -257,8 +257,17 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
         }
 
         public async Task LoadAsync()
-        {   
+        {
+            // Don't do anything if the config is already loaded.
+            if (config != null)
+                return;
+
             config = await EpicOnlineServices.Config.GetAsync<T>();
+        }
+
+        public void Load()
+        {
+            Task.Run(LoadAsync).GetAwaiter().GetResult();
         }
 
         public async Task Save(bool prettyPrint)
