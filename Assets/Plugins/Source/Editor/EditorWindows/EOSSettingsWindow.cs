@@ -39,7 +39,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
     [Serializable]
     public class EOSSettingsWindow : EOSEditorWindow
     {
-        private List<IPlatformConfigEditor> platformSpecificConfigEditors;
+        private List<IConfigEditor> platformSpecificConfigEditors;
 
         private static readonly string ConfigDirectory = Path.Combine("Assets", "StreamingAssets", "EOS");
 
@@ -133,26 +133,23 @@ _WIN32 || _WIN64
 
             mainEOSConfigFile = await Config.GetAsync<EOSConfig>();
 
-            platformSpecificConfigEditors ??= new List<IPlatformConfigEditor>();
+            platformSpecificConfigEditors ??= new List<IConfigEditor>();
             var configEditors = ReflectionUtility.CreateInstancesOfDerivedGenericClasses(typeof(PlatformConfigEditor<>));
-
-            foreach (var editor in configEditors)
+            List<string> toolbarStrings = new(new[] { "Main" });
+            foreach (IPlatformConfigEditor editor in configEditors.Cast<IPlatformConfigEditor>())
             {
-                if (editor is IPlatformConfigEditor platformConfigEditor && platformConfigEditor.IsPlatformAvailable())
-                    platformSpecificConfigEditors.Add(platformConfigEditor);
+                // If the platform for the editor is not available, then do not
+                // display the editor for it.
+                if (!editor.IsPlatformAvailable())
+                    continue;
+
+                toolbarStrings.Add(editor.GetLabelText());
+
+                platformSpecificConfigEditors.Add(editor);
             }
 
-            toolbarTitleStrings = new string[1 + platformSpecificConfigEditors.Count];
-            toolbarTitleStrings[0] = "Main";
-
-            int i = 1;
-            foreach (var platformSpecificConfigEditor in platformSpecificConfigEditors)
-            {
-                await platformSpecificConfigEditor.LoadAsync();
-                toolbarTitleStrings[i] = platformSpecificConfigEditor.GetLabelText();
-                i++;
-            }
-
+            toolbarTitleStrings = toolbarStrings.ToArray();
+            
             await base.AsyncSetup();
         }
 
