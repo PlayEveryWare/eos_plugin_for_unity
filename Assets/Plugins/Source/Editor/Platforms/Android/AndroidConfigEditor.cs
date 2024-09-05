@@ -24,6 +24,5 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
 {
     public class AndroidConfigEditor : PlatformConfigEditor<AndroidConfig>
     {
-        public AndroidConfigEditor() : base(PlatformManager.Platform.Android) { }
     }
 }

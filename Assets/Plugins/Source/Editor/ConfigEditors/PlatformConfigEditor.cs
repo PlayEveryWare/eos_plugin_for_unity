@@ -34,10 +34,12 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
     /// <typeparam name="T">Intended to be a type accepted by the templated class ConfigHandler.</typeparam>
     public abstract class PlatformConfigEditor<T> : ConfigEditor<T>, IPlatformConfigEditor where T : PlatformConfig
     {
-        protected PlatformConfigEditor(PlatformManager.Platform platform) :
-            base(PlatformManager.GetFullName(platform))
+        protected PlatformConfigEditor()
         {
             Load();
+
+            // The label should always be the full name of the platform.
+            _labelText = PlatformManager.GetFullName(config.Platform);
         }
 
         /// <summary>

@@ -42,7 +42,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
         /// <summary>
         /// The string to use for the label for the config editor.
         /// </summary>
-        private readonly string _labelText;
+        protected string _labelText;
 
         /// <summary>
         /// Event that triggers when the config editor is expanded.
@@ -104,16 +104,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
 
             if (null != repaintFn)
                 _animExpanded?.valueChanged.AddListener(repaintFn);
-        }
-
-        /// <summary>
-        /// Create a config editor, setting the string to use for the label
-        /// explicitly.
-        /// </summary>
-        /// <param name="labelText">The string to use for the label.</param>
-        protected ConfigEditor(string labelText) : this()
-        {
-            _labelText = labelText;
         }
 
         /// <summary>

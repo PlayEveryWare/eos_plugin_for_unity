@@ -248,7 +248,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
         /// </summary>
         public void OnGUI()
         {
-            // don't do anything if the state is still 
+            // don't do anything if not initialized
             if (!_initialized)
                 return;
 
