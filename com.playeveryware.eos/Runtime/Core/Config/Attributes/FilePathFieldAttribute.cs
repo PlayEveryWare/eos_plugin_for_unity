@@ -8,8 +8,8 @@
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -29,7 +29,7 @@ namespace PlayEveryWare.EpicOnlineServices
     /// that represents a path to a file.
     /// </summary>
     [AttributeUsage(AttributeTargets.Field)]
-    public class FilePathField : ConfigFieldAttribute
+    public class FilePathFieldAttribute : ConfigFieldAttribute
     {
         /// <summary>
         /// When launching the file selector in the system, use this to
@@ -37,8 +37,12 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </summary>
         public string Extension { get; }
 
-        public FilePathField(string label, string extension, string tooltip = null, int group = -1) : base(label,
-            ConfigFieldType.FilePath, tooltip, group)
+        public FilePathFieldAttribute(
+            string label, 
+            string extension, 
+            string tooltip = null, 
+            int group = -1) : 
+            base(label, ConfigFieldType.FilePath, tooltip, group)
         {
             Extension = extension;
         }

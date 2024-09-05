@@ -8,8 +8,8 @@
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -24,33 +24,15 @@ namespace PlayEveryWare.EpicOnlineServices
 {
     using System;
 
+    /// <summary>
+    /// This attribute is used to decorate a field member within a config class
+    /// that can execute a callback on the config class.
+    /// </summary>
     [AttributeUsage(AttributeTargets.Field)]
-    public class ConfigFieldAttribute : Attribute
-    {   
-        /// <summary>
-        /// The label for the config field.
-        /// </summary>
-        public string Label { get; }
-
-        /// <summary>
-        /// The tooltip to display when the user hovers a mouse over the label.
-        /// </summary>
-        public string ToolTip { get; }
-
-        /// <summary>
-        /// The group that that config field belongs to (helps to cluster config
-        /// fields into meaningful groups).
-        /// </summary>
-        public int Group { get; }
-
-        public ConfigFieldType FieldType { get; }
-        
-        public ConfigFieldAttribute(string label, ConfigFieldType type, string tooltip = null, int group = -1)
-        {
-            Label = label;
-            ToolTip = tooltip;
-            Group = group;
-            FieldType = type;
-        }
+    public class ButtonFieldAttribute : ConfigFieldAttribute
+    {
+        public ButtonFieldAttribute(
+            string label, string tooltip = null, int group = -1) : 
+            base(label, ConfigFieldType.Button, tooltip, group) { }
     }
 }

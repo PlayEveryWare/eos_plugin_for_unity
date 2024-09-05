@@ -8,8 +8,8 @@
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -26,14 +26,14 @@ namespace PlayEveryWare.EpicOnlineServices
 
     /// <summary>
     /// This attribute is used to decorate a field member within a config class
-    /// that can execute a callback on the config class.
+    /// that represents a path to a directory.
     /// </summary>
     [AttributeUsage(AttributeTargets.Field)]
-    public class ButtonField : ConfigFieldAttribute
+    public class DirectoryPathFieldAttribute : ConfigFieldAttribute
     {
-        public ButtonField(string label, string tooltip = null, int group = -1) : base(label,
-            ConfigFieldType.Button, tooltip, group)
-        {
-        }
+        public DirectoryPathFieldAttribute(
+            string label, string tooltip = null, int group = -1) : 
+            base(label, ConfigFieldType.DirectoryPath, tooltip, group) { }
     }
+
 }
