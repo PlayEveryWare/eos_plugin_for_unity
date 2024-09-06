@@ -61,12 +61,12 @@ jobs:
       #    ls -al /opt/unity/Editor/
       #  continue-on-error: true
 
-      ## Used to explore the contents of various directories while workflow is
-      ## being developed.
-      #- name: Investigate
-      #  run: |
-      #    ls -al /github/workspace/build/StandaloneLinux64/
-      #  continue-on-error: true
+      # Used to explore the contents of various directories while workflow is
+      # being developed.
+      - name: Investigate
+        run: |
+          ls -al ./
+        continue-on-error: true
 
       # Restores NuGet packages (of which the Roslynator Analyzers are members)
       - name: Restore NuGet packages

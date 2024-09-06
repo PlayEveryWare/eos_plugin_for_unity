@@ -23,9 +23,14 @@
 namespace PlayEveryWare.EpicOnlineServices.Editor.Build
 {
     using Config;
+    using Microsoft.Unity.VisualStudio.Editor;
     using Utility;
     using UnityEditor.Build;
     using UnityEditor.Build.Reporting;
+    using System.Collections.Generic;
+    using System.Reflection;
+    using Unity.CodeEditor;
+    using UnityEngine;
 
     public class BuildRunner : IPreprocessBuildWithReport, IPostprocessBuildWithReport
     {
@@ -64,6 +69,25 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
         /// <param name="report">The pre-process build report.</param>
         public void OnPreprocessBuild(BuildReport report)
         {
+            Debug.Log("INSIDE PREPROCESS - (Paul Hazen's Note to Himself)");
+            // Generate Visual Studio Solution File and associated Project Files
+            List<IExternalCodeEditor> externalCodeEditors;
+
+            // externalCodeEditors = Unity.CodeEditor.Editor.m_ExternalCodeEditors;
+            // ... unfortunately this is private without any means of access. Use reflection to get the value ...
+            externalCodeEditors = CodeEditor.Editor.GetType().GetField("m_ExternalCodeEditors", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(CodeEditor.Editor) as List<IExternalCodeEditor>;
+
+            foreach (var externalEditor in externalCodeEditors)
+                if (externalEditor is VisualStudioEditor vse)
+                {
+                    vse.SyncAll();
+                    Debug.Log($"called {vse}.SyncAll");
+                    return;
+                }
+
+            // When com.unity.ide.visualstudio is installed, we should never get here
+            Debug.LogError("no VisualStudioEditor registered");
+
             // Set the current platform that is being built against
             if (PlatformManager.TryGetPlatform(report.summary.platform, out PlatformManager.Platform platform))
             {

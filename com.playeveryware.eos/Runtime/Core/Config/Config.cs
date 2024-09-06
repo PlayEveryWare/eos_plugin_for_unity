@@ -290,17 +290,21 @@ namespace PlayEveryWare.EpicOnlineServices
         {
             bool fileExists = await FileSystemUtility.FileExistsAsync(FilePath);
 
-#if UNITY_EDITOR
             if (!fileExists)
             {
+                // This compile time conditional is here because if the file 
+                // does not exist in the editor, then it should be written, 
+                // whereas in a non-editor context the absence of a config file
+                // warrants throwing an exception.
+#if UNITY_EDITOR
                 await WriteAsync();
-            }
 #else
-            // If the editor is not running, then the config file not
-            // existing should throw an error.
-            throw new FileNotFoundException(
-                $"Config file \"{FilePath}\" does not exist.");
+                // If the editor is not running, then the config file not
+                // existing should throw an error.
+                throw new FileNotFoundException(
+                    $"Config file \"{FilePath}\" does not exist.");
 #endif
+            }
         }
 
         // Functions declared below should only ever be utilized in the editor.
