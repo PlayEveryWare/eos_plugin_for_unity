@@ -1,0 +1,22 @@
+name: Static Code Analysis
+
+on:
+  workflow_dispatch:
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up .NET Core
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: '6.0.x'
+
+      - name: Restore NuGet packages
+        run: dotnet restore
+
+      - name: Run static code analysis
+        run: dotnet build /warnaserror /p:TreatWarningsAsErrors=true
