@@ -2,18 +2,19 @@ name: Static Code Analysis
 
 on:
   push:
-      branches:
-        - main
-        - feat/static-analysis
+    branches:
+      - main
+      - feat/static-analysis
   pull_request:
-      branches:
-        - main
-        - feat/static-analysis
+    branches:
+      - main
+      - feat/static-analysis
   workflow_dispatch:
 
 jobs:
   analyze:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -23,8 +24,22 @@ jobs:
         with:
           dotnet-version: '6.0.x'
 
+      - name: Set up Unity
+        uses: game-ci/unity-setup@v2
+        with:
+          unityVersion: '2021.3.14f1'  # Replace with your project's Unity version
+          unityLicense: ${{ secrets.UNITY_LICENSE }}
+
+      - name: Generate project files
+        run: |
+          # Run Unity in batch mode to generate .sln and .csproj files
+          /opt/unity/Editor/Unity -batchmode -quit -projectPath . -executeMethod UnityEditor.SyncVS.SyncSolution
+
       - name: Restore NuGet packages
-        run: dotnet restore
+        run: |
+          # Assuming Unity generates files in the root or known subdirectory
+          dotnet restore UnityProject/MyUnityProject.sln  # Update with the correct path
 
       - name: Run static code analysis
-        run: dotnet build /warnaserror /p:TreatWarningsAsErrors=true
+        run: |
+          dotnet build UnityProject/MyUnityProject.sln /warnaserror /p:TreatWarningsAsErrors=true  # Update with the correct path
