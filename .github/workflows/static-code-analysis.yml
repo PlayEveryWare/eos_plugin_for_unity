@@ -39,42 +39,34 @@ jobs:
           UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
         with:
-          targetPlatform: StandaloneLinux64
-          customParameters: -createSolution -executeMethod UnityEditor.SyncVS.SyncSolution
+          buildMethod: UnityEditor.SyncVS.SyncSolution
         continue-on-error: true
 
-      # Used to explore the contents of various directories while workflow is
+      ## Build (Specifically targetting StandaloneLinux64)
+      #- name: Build project
+      #  uses: game-ci/unity-builder@v4
+      #  env:
+      #    UNITY_SERIAL: ${{ secrets.UNITY_SERIAL }}
+      #    UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+      #    UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+      #  with:
+      #    targetPlatform: StandaloneLinux64
+      #    customParameters: -createSolution -executeMethod UnityEditor.SyncVS.SyncSolution
+      #  continue-on-error: true
+
+      ## Used to explore the contents of various directories while workflow is
       # being developed.
-      - name: Investigate
-        run: |
-          ls -al /opt/unity/Editor/
-        continue-on-error: true
+      #- name: Investigate
+      #  run: |
+      #    ls -al /opt/unity/Editor/
+      #  continue-on-error: true
 
-      # Used to explore the contents of various directories while workflow is
-      # being developed.
-      - name: Investigate
-        run: |
-          ls -al /github/workspace/build/StandaloneLinux64/
-        continue-on-error: true
-
-      # Search for Unity executable in common locations  
-      - name: Find Unity Editor on the runner
-        run: |
-          find / -type f -name "Unity" 2>/dev/null || true
-
-      # Investigatory: Find any and all solution files, printing out the full 
-      # path to each found.
-      - name: Find .sln files
-        run: |
-          find / -type f -name "*.sln" 2>/dev/null || true
-
-      # Generate the project files (this is a prerequisite for running 
-      # Roslynator Analyzers)
-      - name: Generate project files
-        run: |
-          # Run Unity in batch mode to generate .sln and .csproj files
-          /opt/unity/Editor/Unity -batchmode -quit -projectPath . -executeMethod UnityEditor.SyncVS.SyncSolution
-        continue-on-error: true
+      ## Used to explore the contents of various directories while workflow is
+      ## being developed.
+      #- name: Investigate
+      #  run: |
+      #    ls -al /github/workspace/build/StandaloneLinux64/
+      #  continue-on-error: true
 
       # Restores NuGet packages (of which the Roslynator Analyzers are members)
       - name: Restore NuGet packages
