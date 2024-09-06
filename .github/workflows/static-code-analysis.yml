@@ -31,6 +31,11 @@ jobs:
         with:
           dotnet-version: '6.0.x'
 
+      # Search for Unity executable in common locations  
+      - name: Find Unity Editor on the runner
+        run: |
+          find / -type f -name "Unity" 2>/dev/null
+
       # Build (Specifically targetting StandaloneLinux64)
       - name: Build project
         uses: game-ci/unity-builder@v4
@@ -39,18 +44,22 @@ jobs:
           UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
         with:
-          targetPlatform: StandaloneLinux64
+          customParameters: -batchmode -quit -projectPath ./ -createSolution
+
+      - name: Run ls on current directory
+        run: |
+          ls -al
+
+      # Search for Unity executable in common locations  
+      - name: Find Unity Editor on the runner
+        run: |
+          find / -type f -name "Unity" 2>/dev/null
 
       # Investigatory: Find any and all solution files, printing out the full 
       # path to each found.
       - name: Find .sln files
         run: |
           find / -type f -name "*.sln" 2>/dev/null
-
-      # Search for Unity executable in common locations  
-      - name: Find Unity Editor on the runner
-        run: |
-          find / -type f -name "Unity" 2>/dev/null
 
       # Generate the project files (this is a prerequisite for running 
       # Roslynator Analyzers)
