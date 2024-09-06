@@ -39,7 +39,7 @@ jobs:
           UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
         with:
-          buildMethod: UnityEditor.SyncVS.SyncSolution
+          platformTarget: StandaloneLinux64
         continue-on-error: true
 
       ## Build (Specifically targetting StandaloneLinux64)
