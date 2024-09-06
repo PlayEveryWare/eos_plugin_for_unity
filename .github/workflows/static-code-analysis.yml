@@ -1,6 +1,14 @@
 name: Static Code Analysis
 
 on:
+  push:
+      branches:
+        - main
+        - feat/static-analysis
+  pull_request:
+      branches:
+        - main
+        - feat/static-analysis
   workflow_dispatch:
 
 jobs:
