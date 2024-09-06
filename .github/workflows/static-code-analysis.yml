@@ -42,25 +42,6 @@ jobs:
           targetPlatform: StandaloneLinux64
         continue-on-error: true
 
-      ## Build (Specifically targetting StandaloneLinux64)
-      #- name: Build project
-      #  uses: game-ci/unity-builder@v4
-      #  env:
-      #    UNITY_SERIAL: ${{ secrets.UNITY_SERIAL }}
-      #    UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
-      #    UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
-      #  with:
-      #    targetPlatform: StandaloneLinux64
-      #    customParameters: -createSolution -executeMethod UnityEditor.SyncVS.SyncSolution
-      #  continue-on-error: true
-
-      ## Used to explore the contents of various directories while workflow is
-      # being developed.
-      #- name: Investigate
-      #  run: |
-      #    ls -al /opt/unity/Editor/
-      #  continue-on-error: true
-
       # Used to explore the contents of various directories while workflow is
       # being developed.
       - name: Investigate
@@ -72,10 +53,10 @@ jobs:
       - name: Restore NuGet packages
         run: |
           # Assuming Unity generates files in the root or known subdirectory
-          dotnet restore eos_plugin_for_unity.sln  # Update with the correct path
+          dotnet restore workspace.sln  # Update with the correct path
         continue-on-error: true
 
       # Actually run the static code analysis of the project
       - name: Run static code analysis
         run: |
-          dotnet build eos_plugin_for_unity.sln /warnaserror /p:TreatWarningsAsErrors=true  # Update with the correct path
+          dotnet build workspace.sln /warnaserror /p:TreatWarningsAsErrors=true  # Update with the correct path
