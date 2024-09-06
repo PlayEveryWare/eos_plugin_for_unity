@@ -43,9 +43,19 @@ jobs:
           customParameters: -createSolution -executeMethod UnityEditor.SyncVS.SyncSolution
         continue-on-error: true
 
-      - name: Run ls on current directory
+      # Used to explore the contents of various directories while workflow is
+      # being developed.
+      - name: Investigate
         run: |
-          ls -al
+          ls -al /opt/unity/Editor/
+        continue-on-error: true
+
+      # Used to explore the contents of various directories while workflow is
+      # being developed.
+      - name: Investigate
+        run: |
+          ls -al /github/workspace/build/StandaloneLinux64/
+        continue-on-error: true
 
       # Search for Unity executable in common locations  
       - name: Find Unity Editor on the runner
