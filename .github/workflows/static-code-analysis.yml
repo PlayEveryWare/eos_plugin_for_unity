@@ -16,8 +16,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # Checkout
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      # Cache
+      - uses: actions/cache@v3
+        with:
+          path: Library
+          key: Library-${{ hashFiles('Assets/**', 'Packages/**', 'ProjectSettings/**') }}
+          restore-keys: |
+            Library-
 
       - name: Set up .NET Core
         uses: actions/setup-dotnet@v2
@@ -27,7 +38,7 @@ jobs:
       - name: Set up Unity
         uses: game-ci/unity-setup@v2
         with:
-          unityVersion: '2021.3.14f1'  # Replace with your project's Unity version
+          unityVersion: '2021.3.16f1'  # Replace with your project's Unity version
           unityLicense: ${{ secrets.UNITY_LICENSE }}
 
       - name: Generate project files
