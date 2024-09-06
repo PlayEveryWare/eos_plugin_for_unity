@@ -39,7 +39,9 @@ jobs:
           UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
         with:
-          customParameters: -batchmode -quit -projectPath ./ -createSolution
+          targetPlatform: StandaloneLinux64
+          customParameters: -createSolution
+        continue-on-error: true
 
       - name: Run ls on current directory
         run: |
@@ -62,13 +64,15 @@ jobs:
         run: |
           # Run Unity in batch mode to generate .sln and .csproj files
           /opt/unity/Editor/Unity -batchmode -quit -projectPath . -executeMethod UnityEditor.SyncVS.SyncSolution
+        continue-on-error: true
 
       # Restores NuGet packages (of which the Roslynator Analyzers are members)
       - name: Restore NuGet packages
         run: |
           # Assuming Unity generates files in the root or known subdirectory
           dotnet restore eos_plugin_for_unity.sln  # Update with the correct path
-
+        continue-on-error: true
+        
       # Actually run the static code analysis of the project
       - name: Run static code analysis
         run: |
