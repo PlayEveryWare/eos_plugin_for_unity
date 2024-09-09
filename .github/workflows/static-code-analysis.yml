@@ -42,6 +42,11 @@ jobs:
           targetPlatform: StandaloneLinux64
         continue-on-error: true
 
+      # Modifies the project files after they have been generated
+      - name: Modify Project Files to Target .NET Standard
+        run: |
+          find . -name "*.csproj" -exec sed -i 's/<TargetFrameworkVersion>v4.7.1<\/TargetFrameworkVersion>/<TargetFrameworkVersion>v4.7.2<\/TargetFrameworkVersion>/g' {} +
+
       # Used to explore the contents of various directories while workflow is
       # being developed.
       - name: Investigate
