@@ -53,7 +53,8 @@ namespace PlayEveryWare.EpicOnlineServices
 
         public override void Release()
         {
-            _instance.Release();
+            _instance?.Release();
+            _instance = null;
         }
     }
 }
