@@ -1,0 +1,4 @@
+# This is here so that the Assets/Packages directory (used by the NuGetForUnity)
+# stays checked-in to git, but its contents do not.
+*
+!.gitignore

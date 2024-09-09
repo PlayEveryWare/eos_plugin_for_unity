@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "com.github-glitchenzo.nugetforunity": "https://github.com/GlitchEnzo/NuGetForUnity.git?path=/src/NuGetForUnity",
     "com.playeveryware.eos": "file:../com.playeveryware.eos",
     "com.unity.burst": "1.8.8",
     "com.unity.collab-proxy": "1.17.1",
