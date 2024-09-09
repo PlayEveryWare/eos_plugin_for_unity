@@ -60,7 +60,7 @@ On the landing page for your Product within the Epic Developer Portal, you will 
 
 <img src="/com.playeveryware.eos/Documentation~/full_guide/epic_developerportal_productlanding.png" alt="The first thing in the Product landing page is your Product, Clients, Sandboxes, and Deployments. Other than Product, these likely haven't been configured yet."/>
 
-In order to get the most out of the EOS Plugin for Unity, you'll need to create and configure a Product, a Client, Sandboxes, and Deployments.
+In order to get the most out of the EOS Plugin for Unity, you'll need to create and configure a Product, a Client, Sandboxes, and Deployments in the developer portal.
 Start by creating a Client by navigating to the `Clients` section.
 There you'll see your list of Clients and Client policies, which will be empty.
 
@@ -69,7 +69,7 @@ Clients are essentially types of contexts for your game. For example, all users 
 Each Client is assigned to one Client Policy.
 Client Policies are configurable sets of rules for what permissions a Client can perform. For example, a Client Policy determines the EOS SDK's ability to look up information about the friend list for a particular player.
 
-The first thing to configure on this screen is a Client Policy. Press the `Add new policy` button to bring up the dialogue.
+The first thing to configure on this screen is a Client Policy. To create a Client Policy, press the `Add new policy` button to bring up a dialogue.
 The Client Policy needs a name, as well as select the details of a policy.
 If you select a preset, the permissions for that policy preset will be displayed in the dialogue.
 Custom policies can be defined here, and changed at any time. You don't need to commit to the final details at this time.
@@ -105,7 +105,6 @@ With a Client Policy, Client, and Application created, you're ready to start add
 Follow [our documentation for adding the plugin to your project](/com.playeveryware.eos/Documentation~/add_plugin.md).
 Once successfully included, follow [the guidance on Importing the Samples](com.playeveryware.eos/Documentation~/samples.md).
 In the EOS Plugin for Unity project, the provided code with the plugin will give you the ability to use EOS SDK's interfaces using a convenient C# wrapper.
-Inside the Samples are a set of `Manager`s and `Service`s that wrap up the EOS SDK in easy-to-use functions.
 The Samples come with scenes that demonstrate the usage of the EOS Plugin for Unity's Manager classes for each Sample's domain.
 
 Next follow [our documentation regarding how to configure the plugin](/com.playeveryware.eos/Documentation~/configure_plugin.md).
