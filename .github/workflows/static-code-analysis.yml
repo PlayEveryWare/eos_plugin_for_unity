@@ -42,21 +42,11 @@ jobs:
           targetPlatform: StandaloneLinux64
         continue-on-error: true
 
-
-      - name: Locate Unity Editor
-        run: |
-          echo "Searching for Unity executable..."
-          find / -type f -name "Unity" 2>/dev/null || echo "Unity executable not found"
-        continue-on-error: true
-
-      - name: Print environment variables
-        run: env
-
       # Modifies the project files after they have been generated
       - name: Modify Project Files to Target .NET Standard
         run: |
-          find . -name "*.csproj" -exec sed -i 's/<TargetFrameworkVersion>v[0-9]\.[0-9]\.[0-9]<\/TargetFrameworkVersion>/<TargetFrameworkVersion>v4.7.1<\/TargetFrameworkVersion>/g' {} +
-
+          find . -name "*.csproj" -exec sed -i 's/<TargetFrameworkVersion>.*<\/TargetFrameworkVersion>/<TargetFramework>netstandard2.0<\/TargetFramework>/g' {} +
+          
       # Used to explore the contents of various directories while workflow is
       # being developed.
       - name: Investigate
