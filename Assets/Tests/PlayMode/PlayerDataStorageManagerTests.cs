@@ -70,7 +70,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.IntegrationTests
             Dictionary<string, string> localCache = playerDataStorageManager.GetLocallyCachedData();
 
             // The key is the file name; we need to delete all of these files
-            foreach (string localCacheKey in localCache.Keys)
+            foreach (string localCacheKey in new List<string>(localCache.Keys))
             {
                 // To know when the DeleteFile operation is complete, we also listen to the file list being updated
                 waiting = true;
