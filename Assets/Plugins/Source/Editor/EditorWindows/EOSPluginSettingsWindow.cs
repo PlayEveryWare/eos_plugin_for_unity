@@ -64,7 +64,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
             return provider;
         }
 
-        [MenuItem("Tools/EOS Plugin/Plugin Configuration")]
+        [MenuItem("EOS Plugin/Plugin Configuration", priority = 1)]
         public static void ShowWindow()
         {
             var window = GetWindow<EOSPluginSettingsWindow>();

@@ -20,8 +20,8 @@
  * SOFTWARE.
  */
 
-// Uncomment the following define to enable menu items detailed below
-//#define PROJECT_UTILITY_ENABLED
+// Comment the following define to disable menu items detailed below
+#define PROJECT_UTILITY_ENABLED
 
 #if PROJECT_UTILITY_ENABLED
 
@@ -36,7 +36,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
 
     public class UnityProjectUtility
     {
-        [MenuItem("Tools/Find Missing Scripts/In Prefabs")]
+        [MenuItem("EOS Plugin/Advanced/Find/Missing Scripts/In Prefabs", priority = 100000)]
         public static void FindAllMissingScriptsInPrefabs()
         {
             string[] allAssetPaths = AssetDatabase.GetAllAssetPaths();
@@ -72,13 +72,13 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             }
         }
 
-        [MenuItem("Tools/Find Missing Scripts/In Prefabs", isValidateFunction: true)]
+        [MenuItem("EOS Plugin/Advanced/Find/Missing Scripts/In Prefabs", isValidateFunction: true)]
         public static bool CanFindMissingScriptsInPrefabs()
         {
             return !EditorApplication.isPlaying;
         }
 
-        [MenuItem("Tools/Find Missing Scripts/In Scenes")]
+        [MenuItem("EOS Plugin/Advanced/Find/Missing Scripts/In Scenes")]
         private static void FindMissingScriptsInScenes()
         {
             // Store the currently open scene
@@ -127,14 +127,14 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             EditorSceneManager.OpenScene(previouslyOpenScene, OpenSceneMode.Single);
         }
 
-        [MenuItem("Tools/Find Missing Scripts/In Scenes", isValidateFunction: true)]
+        [MenuItem("EOS Plugin/Advanced/Find/Missing Scripts/In Scenes", isValidateFunction: true)]
         private static bool CanFindMissingScriptsInScenes()
         {
             // Scenes can only be searched if not in play mode.
             return !EditorApplication.isPlaying;
         }
 
-        [MenuItem("Tools/Find Unreferenced Prefabs")]
+        [MenuItem("EOS Plugin/Advanced/Find/Unreferenced Prefabs")]
         public static void FindAllUnreferencedPrefabs()
         {
             HashSet<string> referencedPrefabGuids = new();
@@ -178,7 +178,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             }
         }
 
-        [MenuItem("Tools/Find Unreferenced Prefabs", isValidateFunction: true)]
+        [MenuItem("EOS Plugin/Advanced/Find Unreferenced Prefabs", isValidateFunction: true)]
         public static bool CanFindUnreferencedPrefabs()
         {
             return !EditorApplication.isPlaying;
