@@ -413,16 +413,28 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
             }
         }
 
+#if UNITY_EDITOR
         /// <summary>
         /// Returns the root of the Unity project.
         /// </summary>
         /// <returns>Fully-qualified file path to the root of the Unity project.</returns>
         public static string GetProjectPath()
         {
-            return Path.GetFullPath(Path.Combine(Application.dataPath, "../"));
+            // Assuming the current directory is within the project (e.g., in the Editor or during Play mode)
+            string assetsPath = CombinePaths(Directory.GetCurrentDirectory(), "Assets");
+
+            // Ensure the Assets folder exists at the expected location
+            if (DirectoryExists(assetsPath))
+            {
+                // Move up one directory from Assets to get the root directory of the project
+                return Path.GetFullPath(CombinePaths(assetsPath, ".."));
+            }
+
+            // If running in a different context or the assumption is wrong, handle accordingly
+            throw new DirectoryNotFoundException("Unable to locate the Assets folder from the current directory.");
         }
 
-#if UNITY_EDITOR
+
         #region Line Ending Manipulations
 
         public static void ConvertDosToUnixLineEndings(string filename)
