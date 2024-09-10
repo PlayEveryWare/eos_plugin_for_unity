@@ -96,62 +96,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             EditorGUIUtility.labelWidth = originalLabelWidth;
         }
 
-        public static void AssigningPath(string label, ref string filePath, string prompt, string directory = "", string extension = "", bool selectFolder = false, bool horizontalLayout = true, float maxButtonWidth = 100, float labelWidth = -1, string tooltip = null)
-        {
-            if (horizontalLayout)
-            {
-                EditorGUILayout.BeginHorizontal();
-            }
-
-            AssigningTextField(label, ref filePath, labelWidth, tooltip);
-
-            bool buttonPressed = maxButtonWidth > 0 ? GUILayout.Button("Select", GUILayout.MaxWidth(maxButtonWidth)) : GUILayout.Button("Select");
-
-            if (buttonPressed)
-            {
-                var newFilePath = selectFolder ? EditorUtility.OpenFolderPanel(prompt, "", "") : EditorUtility.OpenFilePanel(prompt, directory, extension);
-                if (!string.IsNullOrWhiteSpace(newFilePath))
-                {
-                    filePath = newFilePath;
-                }
-            }
-
-            if (horizontalLayout)
-            {
-                EditorGUILayout.EndHorizontal();
-            }
-        }
-
-        public static void AssigningULongField(string label, ref ulong value, float labelWidth = -1, string tooltip = null)
-        {
-            float originalLabelWidth = EditorGUIUtility.labelWidth;
-            if (labelWidth >= 0)
-            {
-                EditorGUIUtility.labelWidth = labelWidth;
-            }
-
-            ulong newValue = value;
-            var newValueAsString = EditorGUILayout.TextField(CreateGUIContent(label, tooltip), value.ToString(), GUILayout.ExpandWidth(true));
-            if (string.IsNullOrWhiteSpace(newValueAsString))
-            {
-                newValueAsString = "0";
-            }
-
-            try
-            {
-                newValue = ulong.Parse(newValueAsString);
-                value = newValue;
-            }
-            catch (FormatException)
-            {
-            }
-            catch (OverflowException)
-            {
-            }
-
-            EditorGUIUtility.labelWidth = originalLabelWidth;
-        }
-
         public static void AssigningUintField(string label, ref uint value, float labelWidth = -1, string tooltip = null)
         {
             float originalLabelWidth = EditorGUIUtility.labelWidth;
@@ -225,83 +169,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
 
             EditorGUIUtility.labelWidth = originalLabelWidth;
         }
-        
-        public static void AssigningBoolField(string label, ref bool value, float labelWidth = -1, string tooltip = null)
-        {
-            float originalLabelWidth = EditorGUIUtility.labelWidth;
-            if (labelWidth >= 0)
-            {
-                EditorGUIUtility.labelWidth = labelWidth;
-            }
-
-            var newValue = EditorGUILayout.Toggle(CreateGUIContent(label, tooltip), value, GUILayout.ExpandWidth(true));
-            value = newValue;
-
-            EditorGUIUtility.labelWidth = originalLabelWidth;
-        }
-
-        public static void AssigningFloatToStringField(string label, ref string value, float labelWidth = -1, string tooltip = null)
-        {
-            float originalLabelWidth = EditorGUIUtility.labelWidth;
-            if (labelWidth >= 0)
-            {
-                EditorGUIUtility.labelWidth = labelWidth;
-            }
-
-            try
-            {
-                EditorGUILayout.BeginHorizontal();
-                var newValueAsString = EditorGUILayout.TextField(CreateGUIContent(label, tooltip), value == null ? "" : value, GUILayout.ExpandWidth(true));
-
-                if (GUILayout.Button("Clear", GUILayout.MaxWidth(50)))
-                {
-                    value = null;
-                }
-                else
-                {
-                    if (string.IsNullOrWhiteSpace(newValueAsString))
-                    {
-                        value = null;
-                        return;
-                    }
-
-                    var valueAsFloat = float.Parse(newValueAsString);
-                    value = valueAsFloat.ToString();
-                }
-            }
-            catch (FormatException)
-            {
-                value = null;
-            }
-            catch (OverflowException)
-            {
-            }
-            finally
-            {
-                EditorGUILayout.EndHorizontal();
-            }
-
-            EditorGUIUtility.labelWidth = originalLabelWidth;
-        }
-
-        public static void HorizontalLine(Color color)
-        {
-            var defaultHorizontalLineStyle = new GUIStyle();
-            defaultHorizontalLineStyle.normal.background = EditorGUIUtility.whiteTexture;
-            defaultHorizontalLineStyle.margin = new RectOffset(0, 0, 4, 4);
-            defaultHorizontalLineStyle.fixedHeight = 1;
-            HorizontalLine(color, defaultHorizontalLineStyle);
-        }
-
-        public static void HorizontalLine(Color color, GUIStyle guiStyle)
-        {
-            var currentColor = GUI.color;
-            GUI.color = color;
-            GUILayout.Box(GUIContent.none, guiStyle);
-            GUI.color = currentColor;
-        }
-
-        #region Newer Input Rendering Functionality
 
         /// <summary>
         /// Delegate used to describe the rendering of an input field given
@@ -324,7 +191,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
         /// <returns>The value that has been input to the input field.</returns>
         private delegate T InputRenderDelegate<T>(string label, T value, float labelWidth, string tooltip);
 
-        
         public static void AssigningBoolField(string label, ref bool value, float labelWidth = -1, string tooltip = null)
         {
             float originalLabelWidth = EditorGUIUtility.labelWidth;

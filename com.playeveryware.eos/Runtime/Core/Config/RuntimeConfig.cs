@@ -123,7 +123,7 @@ namespace PlayEveryWare.EpicOnlineServices
         public InitializeThreadAffinity ThreadAffinity;
 
         /// <summary>
-        /// Determines whether or not the application is running as a server.
+        /// Determines whether the application is running as a server.
         /// </summary>
         public bool IsServer;
 
@@ -221,19 +221,14 @@ namespace PlayEveryWare.EpicOnlineServices
                        EncryptionKey == other.EncryptionKey &&
                        PlatformFlags == other.PlatformFlags &&
                        AuthScopeFlags == other.AuthScopeFlags &&
-                       IntegratedPlatformManagementFlags == other.IntegratedPlatformManagementFlags &&
                        TickBudgetInMilliseconds == other.TickBudgetInMilliseconds &&
                        ThreadAffinity.Equals(other.ThreadAffinity) &&
-                       IsServer == other.IsServer &&
-                       AlwaysSendInputToOverlay == other.AlwaysSendInputToOverlay &&
-                       Math.Abs(InitialButtonDelayForOverlay - other.InitialButtonDelayForOverlay) < FloatEqualityTolerance &&
-                       Math.Abs(RepeatButtonDelayForOverlay - other.RepeatButtonDelayForOverlay) < FloatEqualityTolerance &&
-                       SendInputDirectlyToSDK == other.SendInputDirectlyToSDK;
+                       IsServer == other.IsServer;
             }
             return false;
         }
 
-        public override int GetHashCode()
+        public override readonly int GetHashCode()
         {
             HashCode hash = new();
             hash.Add(ProductName);
@@ -245,14 +240,9 @@ namespace PlayEveryWare.EpicOnlineServices
             hash.Add(EncryptionKey);
             hash.Add(PlatformFlags);
             hash.Add(AuthScopeFlags);
-            hash.Add(IntegratedPlatformManagementFlags);
             hash.Add(TickBudgetInMilliseconds);
             hash.Add(ThreadAffinity);
             hash.Add(IsServer);
-            hash.Add(AlwaysSendInputToOverlay);
-            hash.Add(InitialButtonDelayForOverlay);
-            hash.Add(RepeatButtonDelayForOverlay);
-            hash.Add(SendInputDirectlyToSDK);
             return hash.ToHashCode();
         }
 
