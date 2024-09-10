@@ -137,11 +137,6 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.IntegrationTests
                 playerDataStorageManager.AddFile(randomName, Encoding.UTF8.GetString(fileBytes), doneWaiting);
 
                 yield return new WaitUntilDone(10f, () => waitingForAdd == false);
-
-                waitingForAdd = true;
-                playerDataStorageManager.StartFileDataUpload(randomName, doneWaiting);
-
-                yield return new WaitUntilDone(10f, () => waitingForAdd == false);
             }
 			
             bool waiting = true;
@@ -169,22 +164,18 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.IntegrationTests
         [UnityTest]
         public IEnumerator UploadedFile_HasSameContents()
         {
-            const int LengthOfUploadedBytes = 100;
+            const int LengthOfUploadedBytes = byte.MaxValue;
 
             bool waiting = true;
             Action doneWaiting = () => waiting = false;
-            byte[] uploadedFileBytes = new byte[LengthOfUploadedBytes];
+            string uploadedFileString = "";
 
             for (int byteIndex = 0; byteIndex < LengthOfUploadedBytes; byteIndex++)
             {
-                uploadedFileBytes[byteIndex] = (byte)UnityEngine.Random.Range(0, byte.MaxValue);
+                uploadedFileString += UnityEngine.Random.Range(0, byte.MaxValue);
             }
 
-            playerDataStorageManager.AddFile(nameof(UploadedFile_HasSameContents), Encoding.UTF8.GetString(uploadedFileBytes), doneWaiting);
-            yield return new WaitUntilDone(10f, () => waiting == false);
-
-            waiting = true;
-            playerDataStorageManager.StartFileDataUpload(nameof(UploadedFile_HasSameContents), doneWaiting);
+            playerDataStorageManager.AddFile(nameof(UploadedFile_HasSameContents), uploadedFileString, doneWaiting);
             yield return new WaitUntilDone(10f, () => waiting == false);
 
             waiting = true;
@@ -200,12 +191,11 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.IntegrationTests
             string downloadedFileString = localCache[nameof(UploadedFile_HasSameContents)];
 
             Assert.IsFalse(string.IsNullOrEmpty(downloadedFileString), "Downloaded file's contents is null or empty, should contain data.");
-            byte[] downloadedFileBytes = Encoding.UTF8.GetBytes(downloadedFileString);
-            Assert.AreEqual(uploadedFileBytes.Length, downloadedFileBytes.Length, "Downloaded file's length is different than the uploaded file.");
+            Assert.AreEqual(uploadedFileString.Length, downloadedFileString.Length, "Downloaded file's length is different than the uploaded file.");
 
-            for (int byteIndex = 0; byteIndex < uploadedFileBytes.Length; byteIndex++)
+            for (int byteIndex = 0; byteIndex < uploadedFileString.Length; byteIndex++)
             {
-                Assert.AreEqual(uploadedFileBytes[byteIndex], downloadedFileBytes[byteIndex], "Downloaded file's contents are different than the uploaded file, should be identical.");
+                Assert.AreEqual(uploadedFileString[byteIndex], downloadedFileString[byteIndex], "Downloaded file's contents are different than the uploaded file, should be identical.");
             }
         }
 
@@ -220,10 +210,6 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.IntegrationTests
             Action doneWaiting = () => waiting = false;
             byte[] fileBytes = new byte[] { 0x0, 0x1, 0x2, 0x3, 0x4, 0x5 };
             playerDataStorageManager.AddFile(nameof(UploadedFile_CanBeDeleted), Encoding.UTF8.GetString(fileBytes), doneWaiting);
-            yield return new WaitUntilDone(10f, () => waiting == false);
-
-            waiting = true;
-            playerDataStorageManager.StartFileDataUpload(nameof(UploadedFile_CanBeDeleted), doneWaiting);
             yield return new WaitUntilDone(10f, () => waiting == false);
 
             // We know the delete operation is complete when the file list is next updated
@@ -253,10 +239,6 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.IntegrationTests
             Action doneWaiting = () => waiting = false;
             byte[] fileBytes = new byte[] { 0x0, 0x1, 0x2, 0x3, 0x4, 0x5 };
             playerDataStorageManager.AddFile(nameof(UploadedFile_CanBeCopied), Encoding.UTF8.GetString(fileBytes), doneWaiting);
-            yield return new WaitUntilDone(10f, () => waiting == false);
-
-            waiting = true;
-            playerDataStorageManager.StartFileDataUpload(nameof(UploadedFile_CanBeCopied), doneWaiting);
             yield return new WaitUntilDone(10f, () => waiting == false);
 
             // We know the copy operation is complete when the file list is next updated
@@ -298,19 +280,30 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.IntegrationTests
         [UnityTest]
         public IEnumerator UploadingFile_WithSameName_Overrides()
         {
+            const int lengthOfOriginalString = 10;
+            const int lengthOfNewString = 20;
+
             bool waiting = true;
             Action doneWaiting = () => waiting = false;
-            byte[] originalFileBytes = new byte[] { 0x0, 0x1, 0x2, 0x3, 0x4, 0x5 };
-            playerDataStorageManager.AddFile(nameof(UploadingFile_WithSameName_Overrides), Encoding.UTF8.GetString(originalFileBytes), doneWaiting);
-            yield return new WaitUntilDone(10f, () => waiting == false);
+            string originalFileString = "";
 
-            waiting = true;
-            playerDataStorageManager.StartFileDataUpload(nameof(UploadingFile_WithSameName_Overrides), doneWaiting);
+            for (int byteIndex = 0; byteIndex < lengthOfOriginalString; byteIndex++)
+            {
+                originalFileString += UnityEngine.Random.Range(0, byte.MaxValue);
+            }
+
+            playerDataStorageManager.AddFile(nameof(UploadingFile_WithSameName_Overrides), originalFileString, doneWaiting);
             yield return new WaitUntilDone(10f, () => waiting == false);
 
             // Now create an identically named file but with different contents
-            byte[] newFileBytes = new byte[] { 0x6, 0x7, 0x8, 0x9, 0xA, 0xB, 0xC, 0xD, 0xE, 0xF };
-            playerDataStorageManager.AddFile(nameof(UploadingFile_WithSameName_Overrides), Encoding.UTF8.GetString(newFileBytes), doneWaiting);
+            string newFileString = "";
+
+            for (int byteIndex = 0; byteIndex < lengthOfNewString; byteIndex++)
+            {
+                newFileString += UnityEngine.Random.Range(0, byte.MaxValue);
+            }
+
+            playerDataStorageManager.AddFile(nameof(UploadingFile_WithSameName_Overrides), newFileString, doneWaiting);
             yield return new WaitUntilDone(10f, () => waiting == false);
 
             waiting = true;
@@ -326,12 +319,11 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.IntegrationTests
             string downloadedFileString = localCache[nameof(UploadingFile_WithSameName_Overrides)];
 
             Assert.IsFalse(string.IsNullOrEmpty(downloadedFileString), "Downloaded file's contents is null or empty, should contain data.");
-            byte[] downloadedFileBytes = Encoding.UTF8.GetBytes(downloadedFileString);
-            Assert.AreEqual(newFileBytes.Length, downloadedFileBytes.Length, "Downloaded file's length is different than the overriding file.");
+            Assert.AreEqual(newFileString.Length, downloadedFileString.Length, "Downloaded file's length is different than the overriding file.");
 
-            for (int byteIndex = 0; byteIndex < newFileBytes.Length; byteIndex++)
+            for (int byteIndex = 0; byteIndex < newFileString.Length; byteIndex++)
             {
-                Assert.AreEqual(newFileBytes[byteIndex], downloadedFileBytes[byteIndex], "Downloaded file's contents are different than the overriding file, should be identical.");
+                Assert.AreEqual(newFileString[byteIndex], downloadedFileString[byteIndex], "Downloaded file's contents are different than the overriding file, should be identical.");
             }
         }
     }
