@@ -39,7 +39,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <summary>
         /// The platform that the set of configuration data is to be applied on.
         /// </summary>
-        protected PlatformManager.Platform Platform;
+        public PlatformManager.Platform Platform { get; }
 
         /// <summary>
         /// Any overriding values that should replace the central EOSConfig. On
@@ -65,7 +65,7 @@ namespace PlayEveryWare.EpicOnlineServices
         protected PlatformConfig(PlatformManager.Platform platform) : 
             base(PlatformManager.GetConfigFileName(platform))
         {
-            this.Platform = platform;
+            Platform = platform;
         }
 
         /// <summary>

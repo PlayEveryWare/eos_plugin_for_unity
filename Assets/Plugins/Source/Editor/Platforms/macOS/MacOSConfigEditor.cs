@@ -24,6 +24,5 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
 {
     public class MacOSConfigEditor : PlatformConfigEditor<MacOSConfig>
     {
-        public MacOSConfigEditor() : base(PlatformManager.Platform.macOS) { }
     }
 }
