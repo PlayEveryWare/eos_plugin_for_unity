@@ -1,0 +1,17 @@
+<Project>
+  <ItemGroup>
+    <CodeAnalysisAdditionalFiles Include="**/*.cs" />
+    <!-- Exclude specific directories -->
+    <CodeAnalysisAdditionalFiles Remove="com.playeveryware.eos\Runtime\EOS_SDK\**\*.cs" />
+  </ItemGroup>
+  <PropertyGroup>
+    <!-- Specify the level of code analysis (None, Default, Recommended, or Latest) -->
+    <AnalysisLevel>latest</AnalysisLevel>
+    <!-- Set global severity for all rules (Info, Warning, Error, None) -->
+    <AnalysisMode>AllEnabledByDefault</AnalysisMode>
+    <!-- Enable nullable analysis if required -->
+    <Nullable>enable</Nullable>
+    <RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>
+    <RunAnalyzersDuringLiveAnalysis>true</RunAnalyzersDuringLiveAnalysis>
+  </PropertyGroup>
+</Project>
