@@ -306,10 +306,6 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.IntegrationTests
             playerDataStorageManager.AddFile(nameof(UploadingFile_WithSameName_Overrides), newFileString, doneWaiting);
             yield return new WaitUntilDone(10f, () => waiting == false);
 
-            waiting = true;
-            playerDataStorageManager.StartFileDataUpload(nameof(UploadingFile_WithSameName_Overrides), doneWaiting);
-            yield return new WaitUntilDone(10f, () => waiting == false);
-
             Dictionary<string, string> localCache = playerDataStorageManager.GetLocallyCachedData();
 
             Assert.NotNull(localCache, "Local cache is null, should be a dictionary.");
