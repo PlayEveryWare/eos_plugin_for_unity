@@ -20,24 +20,13 @@
 * SOFTWARE.
 */
 
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
-
-using Epic.OnlineServices;
-using Epic.OnlineServices.PlayerDataStorage;
-
-using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.EventSystems;
-
-using PlayEveryWare.EpicOnlineServices;
-
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
-    using JsonUtility = PlayEveryWare.EpicOnlineServices.Utility.JsonUtility;
+    using System;
+    using System.Collections.Generic;
+    using UnityEngine;
+    using UnityEngine.UI;
+    using JsonUtility = Utility.JsonUtility;
 
     [Serializable]
     public class PlayerDataInventory
@@ -55,10 +44,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         }
     }
 
-    public class UIPlayerDataStorageMenu : MonoBehaviour, ISampleSceneUI
+    public class UIPlayerDataStorageMenu : SampleMenu
     {
         [Header("Player Data Storage UI")]
-        public GameObject PlayerDataStorageUIParent;
 
         public UIConsoleInputField NewFileNameTextBox;
 
@@ -71,23 +59,24 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public Dropdown AddItemDropdown;
 
-        [Header("Controller")]
-        public GameObject UIFirstSelected;
-
         private string currentSelectedFile = string.Empty;
 
         private EOSPlayerDataStorageManager PlayerDataStorageManager;
         private PlayerDataInventory currentInventory = null;
 
-        private HashSet<string> fileNames;
-        private List<UIFileNameEntry> fileNameUIEntries;
+        private HashSet<string> fileNames = new();
+        private List<UIFileNameEntry> fileNameUIEntries = new();
 
-        private void Awake()
+        protected override void Awake()
         {
-            fileNames = new HashSet<string>();
-            fileNameUIEntries = new List<UIFileNameEntry>();
-            fileNameUIEntries.AddRange(FilesContentParent.GetComponentsInChildren<UIFileNameEntry>(true));
+            base.Awake();
             PlayerDataStorageManager = EOSManager.Instance.GetOrCreateManager<EOSPlayerDataStorageManager>();
+            fileNameUIEntries.AddRange(FilesContentParent.GetComponentsInChildren<UIFileNameEntry>(true));
+        }
+
+        protected override void OnEnable()
+        {
+            base.OnEnable();
         }
 
         private void Start()
@@ -97,14 +86,15 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             CurrentFileNameText.text = "*No File Selected*";
         }
 
-        private void OnDestroy()
+        protected override void OnDestroy()
         {
+            base.OnDestroy();
             EOSManager.Instance.RemoveManager<EOSPlayerDataStorageManager>();
         }
 
         private void UpdateFileListUI()
         {
-            if (PlayerDataStorageManager.GetCachedStorageData().Count != fileNameUIEntries.Count)
+            if (PlayerDataStorageManager.GetLocallyCachedData().Count != fileNameUIEntries.Count)
             {
                 // Destroy current UI member list
                 foreach (var entry in fileNameUIEntries)
@@ -114,7 +104,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 fileNameUIEntries.Clear();
                 fileNames.Clear();
 
-                foreach (string fileName in PlayerDataStorageManager.GetCachedStorageData().Keys)
+                foreach (string fileName in PlayerDataStorageManager.GetLocallyCachedData().Keys)
                 {
                     fileNames.Add(fileName);
                     GameObject fileUIObj = Instantiate(UIFileNameEntryPrefab, FilesContentParent.transform);
@@ -138,13 +128,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public void RefreshButtonOnClick()
         {
-            PlayerDataStorageManager.GetCachedStorageData().Clear();
+            PlayerDataStorageManager.GetLocallyCachedData().Clear();
 
             PlayerDataStorageManager.QueryFileList();
 
             if (currentSelectedFile != string.Empty)
             {
-                PlayerDataStorageManager.StartFileDataDownload(currentSelectedFile, () => UpdateRemoteView(currentSelectedFile));
+                PlayerDataStorageManager.DownloadFile(currentSelectedFile, () => UpdateRemoteView(currentSelectedFile));
             }
         }
 
@@ -272,7 +262,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             if (fileContent == null)
             {
                 RemoteViewText.text = "*** Downloading content ***";
-                PlayerDataStorageManager.StartFileDataDownload(fileName, () => UpdateRemoteView(fileName));
+                PlayerDataStorageManager.DownloadFile(fileName, () => UpdateRemoteView(fileName));
             }
             else if (fileContent.Length == 0)
             {
@@ -312,24 +302,22 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             LocalViewText.text = JsonUtility.ToJson(currentInventory, true);
         }
 
-        public void ShowMenu()
+        public override void Show()
         {
+            base.Show();
             UpdateFileListUI();
-            PlayerDataStorageManager.AddNotifyFileListUpdated(UpdateFileListUI);
-            PlayerDataStorageManager.OnLoggedIn();
-
-            PlayerDataStorageUIParent.gameObject.SetActive(true);
-
-            // Controller
-            EventSystem.current.SetSelectedGameObject(UIFirstSelected);
+            PlayerDataStorageManager.OnFileListUpdated += UpdateFileListUI;
         }
 
-        public void HideMenu()
+        public override void Hide()
         {
-            PlayerDataStorageManager?.RemoveNotifyFileListUpdated(UpdateFileListUI);
-            PlayerDataStorageManager?.OnLoggedOut();
+            base.Hide();
 
-            PlayerDataStorageUIParent.gameObject.SetActive(false);
+            if (null != PlayerDataStorageManager)
+            {
+                PlayerDataStorageManager.OnFileListUpdated -= UpdateFileListUI;
+            }
+
             currentSelectedFile = string.Empty;
             currentInventory = null;
         }

@@ -85,7 +85,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
             if (string.IsNullOrEmpty(_packagingConfig.pathToJSONPackageDescription))
             {
                 _packagingConfig.pathToJSONPackageDescription =
-                    Path.Combine(FileUtility.GetProjectPath(), DefaultPackageDescription);
+                    Path.Combine(FileSystemUtility.GetProjectPath(), DefaultPackageDescription);
                 await _packagingConfig.WriteAsync();
             }
             await base.AsyncSetup();
@@ -95,7 +95,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
         {
             string selectedPath = EditorUtility.OpenFolderPanel(
                 "Pick output directory",
-                Path.GetDirectoryName(FileUtility.GetProjectPath()),
+                Path.GetDirectoryName(FileSystemUtility.GetProjectPath()),
                 "");
 
             if (string.IsNullOrEmpty(selectedPath) || !Directory.Exists(selectedPath))
@@ -224,7 +224,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
                     _actualProgress = 0.0f;
                     _progressText = "";
                     _createPackageCancellationTokenSource?.Cancel();
-                    FileUtility.CleanDirectory(_packagingConfig.pathToOutput);
+                    FileSystemUtility.CleanDirectory(_packagingConfig.pathToOutput);
                 }
                 GUILayout.EndVertical();
             }
@@ -256,7 +256,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
             {
                 var jsonFile = EditorUtility.OpenFilePanel(
                     "Pick JSON Package Description",
-                    Path.Combine(FileUtility.GetProjectPath(), Path.GetDirectoryName(DefaultPackageDescription)),
+                    Path.Combine(FileSystemUtility.GetProjectPath(), Path.GetDirectoryName(DefaultPackageDescription)),
                     "json");
 
                 if (!string.IsNullOrWhiteSpace(jsonFile))
@@ -311,7 +311,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
                 _progressUpdateThread = new Thread(() => SmoothingDelay(_createPackageCancellationTokenSource.Token));
                 _progressUpdateThread.Start();
 
-                var progressHandler = new Progress<FileUtility.CopyFileProgressInfo>(value =>
+                var progressHandler = new Progress<FileSystemUtility.CopyFileProgressInfo>(value =>
                 {
                     var fileCountStrSize = value.TotalFilesToCopy.ToString().Length;
                     string filesCopiedStrFormat = "{0," + fileCountStrSize + "}";
@@ -343,7 +343,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
                 if (EditorUtility.DisplayDialog("Package Created", "Package was successfully created",
                         "Open Output Path", "Close"))
                 {
-                    FileUtility.OpenDirectory(outputPath);
+                    FileSystemUtility.OpenDirectory(outputPath);
                 }
             }
             catch (OperationCanceledException ex)

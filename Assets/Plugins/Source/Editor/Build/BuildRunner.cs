@@ -20,9 +20,10 @@
  * SOFTWARE.
  */
 
-namespace PlayEveryWare.EpicOnlineServices.Build
+namespace PlayEveryWare.EpicOnlineServices.Editor.Build
 {
-    using Editor.Utility;
+    using Config;
+    using Utility;
     using UnityEditor.Build;
     using UnityEditor.Build.Reporting;
 
@@ -78,7 +79,7 @@ namespace PlayEveryWare.EpicOnlineServices.Build
             SteamConfig config = SteamConfig.Get<SteamConfig>();
             if (config != null && (config.steamApiInterfaceVersionsArray == null || config.steamApiInterfaceVersionsArray.Count == 0))
             {
-                config.steamApiInterfaceVersionsArray = Steamworks_Utility.GetSteamInterfaceVersions();
+                config.steamApiInterfaceVersionsArray = SteamworksUtility.GetSteamInterfaceVersions();
 
                 if (config.steamApiInterfaceVersionsArray == null || config.steamApiInterfaceVersionsArray.Count == 0)
                 {

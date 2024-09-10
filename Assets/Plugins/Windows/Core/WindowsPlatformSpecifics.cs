@@ -24,19 +24,16 @@
 
 //#define ENABLE_CONFIGURE_STEAM_FROM_MANAGED
 
-using System.IO;
-using System.Collections.Generic;
-using UnityEngine;
-
-using Epic.OnlineServices.Platform;
-using System.Runtime.InteropServices;
-using UnityEngine.Scripting;
-
 // If standalone windows and not editor, or the windows editor.
 #if (UNITY_STANDALONE_WIN && !UNITY_EDITOR) || UNITY_EDITOR_WIN
 
 namespace PlayEveryWare.EpicOnlineServices
 {
+    using System.Collections.Generic;
+    using UnityEngine;
+
+    using Epic.OnlineServices.Platform;
+    using System.Runtime.InteropServices;
     using Utility;
 
     public class EOSCreateOptions
@@ -125,15 +122,15 @@ namespace PlayEveryWare.EpicOnlineServices
                 var rtcPlatformSpecificOptions = new WindowsRTCOptionsPlatformSpecificOptions();
                 foreach (string pluginPath in pluginPaths)
                 {
-                    string path = Path.Combine(pluginPath, "Windows", pluginPlatformPath, Xaudio2DllName);
-                    if (File.Exists(path))
+                    string path = FileSystemUtility.CombinePaths(pluginPath, "Windows", pluginPlatformPath, Xaudio2DllName);
+                    if (FileSystemUtility.FileExists(path))
                     {
                         rtcPlatformSpecificOptions.XAudio29DllPath = path;
                         break;
                     }
 
-                    path = Path.Combine(pluginPath, pluginPlatformPath, Xaudio2DllName);
-                    if (File.Exists(path))
+                    path = FileSystemUtility.CombinePaths(pluginPath, pluginPlatformPath, Xaudio2DllName);
+                    if (FileSystemUtility.FileExists(path))
                     {
                         rtcPlatformSpecificOptions.XAudio29DllPath = path;
                         break;

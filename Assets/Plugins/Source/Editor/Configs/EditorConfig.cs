@@ -34,7 +34,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Config
     /// </summary>
     public abstract class EditorConfig : Config
     {
-        protected EditorConfig(string filename) : base(filename, Path.Combine(FileUtility.GetProjectPath(), "etc/config/")) { }
+        protected EditorConfig(string filename) : base(filename, Path.Combine(FileSystemUtility.GetProjectPath(), "etc/config/")) { }
 
         // NOTE: This compiler block is here because the base class "Config" has
         //       the WriteAsync function surrounded by the same conditional.

@@ -20,17 +20,16 @@
 * SOFTWARE.
 */
 
-using System;
-using System.Collections.Generic;
-
-using UnityEngine;
-
-using Epic.OnlineServices;
-using Epic.OnlineServices.UserInfo;
-using Epic.OnlineServices.Auth;
-
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
+    using System.Collections.Generic;
+
+    using UnityEngine;
+
+    using Epic.OnlineServices;
+    using Epic.OnlineServices.UserInfo;
+    using Epic.OnlineServices.Auth;
+
     /// <summary>
     /// Class <c>EOSUserInfoManager</c> is a general purpose access point for user info, including local user.
     /// </summary>

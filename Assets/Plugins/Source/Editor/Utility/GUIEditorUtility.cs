@@ -22,6 +22,7 @@
 
 namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
 {
+    using EpicOnlineServices.Utility;
     using System;
     using System.Collections.Generic;
     using UnityEditor;
@@ -323,6 +324,67 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
         /// <returns>The value that has been input to the input field.</returns>
         private delegate T InputRenderDelegate<T>(string label, T value, float labelWidth, string tooltip);
 
+        
+        public static void AssigningBoolField(string label, ref bool value, float labelWidth = -1, string tooltip = null)
+        {
+            float originalLabelWidth = EditorGUIUtility.labelWidth;
+            if (labelWidth >= 0)
+            {
+                EditorGUIUtility.labelWidth = labelWidth;
+            }
+
+            var newValue = EditorGUILayout.Toggle(CreateGUIContent(label, tooltip), value, GUILayout.ExpandWidth(true));
+            value = newValue;
+
+            EditorGUIUtility.labelWidth = originalLabelWidth;
+        }
+
+        public static void AssigningFloatToStringField(string label, ref string value, float labelWidth = -1, string tooltip = null)
+        {
+            float originalLabelWidth = EditorGUIUtility.labelWidth;
+            if (labelWidth >= 0)
+            {
+                EditorGUIUtility.labelWidth = labelWidth;
+            }
+
+            try
+            {
+                EditorGUILayout.BeginHorizontal();
+                var newValueAsString = EditorGUILayout.TextField(CreateGUIContent(label, tooltip), value == null ? "" : value, GUILayout.ExpandWidth(true));
+
+                if (GUILayout.Button("Clear", GUILayout.MaxWidth(50)))
+                {
+                    value = null;
+                }
+                else
+                {
+                    if (string.IsNullOrWhiteSpace(newValueAsString))
+                    {
+                        value = null;
+                        return;
+                    }
+
+                    var valueAsFloat = float.Parse(newValueAsString);
+                    value = valueAsFloat.ToString();
+                }
+            }
+            catch (FormatException)
+            {
+                value = null;
+            }
+            catch (OverflowException)
+            {
+            }
+            finally
+            {
+                EditorGUILayout.EndHorizontal();
+            }
+
+            EditorGUIUtility.labelWidth = originalLabelWidth;
+        }
+
+        #region New methods for rendering input fields
+
         public static List<string> RenderInputField(ConfigFieldAttribute configFieldDetails, List<string> value,
             float labelWidth, string tooltip = null)
         {
@@ -336,11 +398,19 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
                 ? configFieldDetails.Label
                 : configFieldDetails.Label + ":";
 
-            GUILayout.Label(CreateGUIContent(listLabel, configFieldDetails.ToolTip));
+            List<string> newValue = new(value);
 
             EditorGUIUtility.labelWidth = currentLabelWidth;
 
-            List<string> newValue = new(value);
+            EditorGUILayout.BeginHorizontal();
+            GUILayout.Label(CreateGUIContent(listLabel, configFieldDetails.ToolTip));
+            GUILayout.FlexibleSpace();
+            if (GUILayout.Button("Add", GUILayout.MaxWidth(MaximumButtonWidth)))
+            {
+                newValue.Add(string.Empty);
+            }
+            EditorGUILayout.EndHorizontal();
+            
             for (var i = 0; i < newValue.Count; ++i)
             {
                 bool itemRemoved = false;
@@ -361,30 +431,24 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
                     break;
             }
 
-            // render add button
-            if (GUILayout.Button("Add", GUILayout.MaxWidth(MaximumButtonWidth)))
-            {
-                newValue.Add(string.Empty);
-            }
-
             return newValue;
         }
 
-        public static string RenderInputField(DirectoryPathField configFieldDetails, string value, float labelWidth,
+        public static string RenderInputField(DirectoryPathFieldAttribute configFieldAttributeDetails, string value, float labelWidth,
             string tooltip = null)
         {
             EditorGUILayout.BeginHorizontal();
 
-            string filePath = InputRendererWrapper<string>(configFieldDetails.Label, value, labelWidth, tooltip,
+            string filePath = InputRendererWrapper<string>(configFieldAttributeDetails.Label, value, labelWidth, tooltip,
                 (label, s, width, tooltip) =>
                 {
-                    return EditorGUILayout.TextField(CreateGUIContent(configFieldDetails.Label, tooltip), value,
+                    return EditorGUILayout.TextField(CreateGUIContent(configFieldAttributeDetails.Label, tooltip), value,
                         GUILayout.ExpandWidth(true));
                 });
 
             if (GUILayout.Button("Select", GUILayout.MaxWidth(MaximumButtonWidth)))
             {
-                string selectedPath = EditorUtility.OpenFolderPanel(configFieldDetails.Label, "", "");
+                string selectedPath = EditorUtility.OpenFolderPanel(configFieldAttributeDetails.Label, "", "");
 
                 if (!string.IsNullOrWhiteSpace(selectedPath))
                 {
@@ -397,21 +461,21 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             return filePath;
         }
 
-        public static string RenderInputField(FilePathField configFieldDetails, string value, float labelWidth, string tooltip = null)
+        public static string RenderInputField(FilePathFieldAttribute configFieldAttributeDetails, string value, float labelWidth, string tooltip = null)
         {
             EditorGUILayout.BeginHorizontal();
 
-            string filePath = InputRendererWrapper<string>(configFieldDetails.Label, value, labelWidth, tooltip,
+            string filePath = InputRendererWrapper<string>(configFieldAttributeDetails.Label, value, labelWidth, tooltip,
                 (label, s, width, tooltip) =>
                 {
-                    return EditorGUILayout.TextField(CreateGUIContent(configFieldDetails.Label, tooltip), value,
+                    return EditorGUILayout.TextField(CreateGUIContent(configFieldAttributeDetails.Label, tooltip), value,
                         GUILayout.ExpandWidth(true));
                 });
 
             if (GUILayout.Button("Select", GUILayout.MaxWidth(MaximumButtonWidth)))
             {
                 string selectedPath =
-                    EditorUtility.OpenFilePanel(configFieldDetails.Label, "", configFieldDetails.Extension);
+                    EditorUtility.OpenFilePanel(configFieldAttributeDetails.Label, "", configFieldAttributeDetails.Extension);
 
                 if (!string.IsNullOrWhiteSpace(selectedPath))
                 {

@@ -21,9 +21,7 @@
  */
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
-    using Epic.OnlineServices;
     using Epic.OnlineServices.Auth;
-    using System;
 
     public static class LoginCredentialTypeExtensions
     {

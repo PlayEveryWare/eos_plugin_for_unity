@@ -20,7 +20,7 @@
  * SOFTWARE.
  */
 
-namespace PlayEveryWare.EpicOnlineServices.Tests.ClientTests
+namespace PlayEveryWare.EpicOnlineServices.Tests.Services.Sessions
 {
     using Tests;
     using Epic.OnlineServices;
@@ -31,7 +31,6 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.ClientTests
     using System.Collections;
     using UnityEngine;
     using UnityEngine.TestTools;
-    using JsonUtility = PlayEveryWare.EpicOnlineServices.Utility.JsonUtility;
 
     /// <summary>
     /// Session connection tests that test connecting to an existing session.

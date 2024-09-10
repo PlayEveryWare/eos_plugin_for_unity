@@ -20,20 +20,18 @@
 * SOFTWARE.
 */
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-using Epic.OnlineServices;
-using Epic.OnlineServices.Reports;
-using Epic.OnlineServices.Sanctions;
-
-using UnityEngine;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
+    using System;
+    using System.Collections.Generic;
+    using Epic.OnlineServices;
+    using Epic.OnlineServices.Reports;
+    using Epic.OnlineServices.Sanctions;
+
+    using UnityEngine;
+
     public struct Sanction
     {
         public string Action;

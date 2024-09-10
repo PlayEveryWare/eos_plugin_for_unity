@@ -20,19 +20,19 @@
 * SOFTWARE.
 */
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
-using UnityEngine;
-
-using Epic.OnlineServices;
-using Epic.OnlineServices.Logging;
-using Epic.OnlineServices.AntiCheatClient;
-using Epic.OnlineServices.AntiCheatCommon;
-
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    
+    using UnityEngine;
+    
+    using Epic.OnlineServices;
+    using Epic.OnlineServices.Logging;
+    using Epic.OnlineServices.AntiCheatClient;
+    using Epic.OnlineServices.AntiCheatCommon;
+
     /// <summary>
     /// Class <c>EOSEACLobbyManager</c> manages testing functionality for the <c>EOSAntiCheatClientManager</c> using <c>EOSLobbyManager</c> to manage peer communication.
     /// </summary>
@@ -62,7 +62,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             if (AntiCheatManager.IsAntiCheatAvailable())
             {
-                LobbyManager.AddNotifyLobbyChange(OnLobbyChanged);
+                LobbyManager.LobbyChanged += OnLobbyChanged;
                 LobbyManager.AddNotifyLobbyUpdate(OnLobbyUpdated);
                 LobbyManager.AddNotifyMemberUpdateReceived(OnMemberUpdated);
 
@@ -233,7 +233,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 
-        private void OnLobbyChanged()
+        private void OnLobbyChanged(object sender, EOSLobbyManager.LobbyChangeEventArgs args)
         {
             string previousLobbyId = CurrentLobbyId;
             var currentLobby = LobbyManager.GetCurrentLobby();

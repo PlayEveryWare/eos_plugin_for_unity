@@ -162,6 +162,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests
         [OneTimeTearDown]
         public void ShutdownEOS()
         {
+            EOSManager.Instance?.OnShutdown();
             UnityEngine.Object.Destroy(eosObject);
         }
     }

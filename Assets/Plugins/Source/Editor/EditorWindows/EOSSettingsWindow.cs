@@ -53,8 +53,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 #endif
         bool prettyPrint;
 
-        SteamConfig steamEOSConfigFile;
-
         public EOSSettingsWindow() : base("EOS Configuration")
         {
         }
@@ -134,35 +132,30 @@ _WIN32 || _WIN64
             }
 
             mainEOSConfigFile = await Config.GetAsync<EOSConfig>();
-            steamEOSConfigFile = await Config.GetAsync<SteamConfig>();
 
             platformSpecificConfigEditors ??= new List<IConfigEditor>();
             var configEditors = ReflectionUtility.CreateInstancesOfDerivedGenericClasses(typeof(PlatformConfigEditor<>));
-
-            foreach (var editor in configEditors)
+            List<string> toolbarStrings = new(new[] { "Main" });
+            foreach (IPlatformConfigEditor editor in configEditors.Cast<IPlatformConfigEditor>())
             {
-                platformSpecificConfigEditors.Add(editor as IConfigEditor);
+                // If the platform for the editor is not available, then do not
+                // display the editor for it.
+                if (!editor.IsPlatformAvailable())
+                    continue;
+
+                toolbarStrings.Add(editor.GetLabelText());
+
+                platformSpecificConfigEditors.Add(editor);
             }
 
-            toolbarTitleStrings = new string[2 + platformSpecificConfigEditors.Count];
-            toolbarTitleStrings[0] = "Main";
-            toolbarTitleStrings[1] = "Steam";
-
-            int i = 2;
-            foreach (var platformSpecificConfigEditor in platformSpecificConfigEditors)
-            {
-                await platformSpecificConfigEditor.LoadAsync();
-                toolbarTitleStrings[i] = platformSpecificConfigEditor.GetLabelText();
-                i++;
-            }
-
+            toolbarTitleStrings = toolbarStrings.ToArray();
+            
             await base.AsyncSetup();
         }
 
         private async Task Save(bool usePrettyFormat)
         {
             await mainEOSConfigFile.WriteAsync(usePrettyFormat);
-            await steamEOSConfigFile.WriteAsync(usePrettyFormat);
 
             foreach (var platformSpecificConfigEditor in platformSpecificConfigEditors)
             {
@@ -288,10 +281,10 @@ _WIN32 || _WIN64
             {
                 taskNetworkTimeoutSecondsAsString = mainEOSConfigFile.taskNetworkTimeoutSeconds.ToString();
             }
-
+#if !EOS_DISABLE
             GUIEditorUtility.AssigningTextField("Task Network Timeout Seconds", ref taskNetworkTimeoutSecondsAsString,
                 tooltip: $"(Optional) Define the maximum amount of time network calls will run in the EOS SDK before timing out while the {nameof(Epic.OnlineServices.Platform.NetworkStatus)} is not {nameof(Epic.OnlineServices.Platform.NetworkStatus.Online)}. Defaults to 30 seconds if not set or less than or equal to zero.");
-
+#endif
             if (taskNetworkTimeoutSecondsAsString.Length != 0)
             {
                 try
@@ -356,73 +349,6 @@ _WIN32 || _WIN64
                 "If true, the plugin will always send input to the overlay from the C# side to native, and handle showing the overlay. This doesn't always mean input makes it to the EOS SDK.");
         }
 
-        private void OnSteamGUI()
-        {
-            GUILayout.Label("Steam Configuration Values", EditorStyles.boldLabel);
-            GUIEditorUtility.AssigningFlagTextField("Steam Flags (Seperated by '|')", ref steamEOSConfigFile.flags,
-                190);
-            GUIEditorUtility.AssigningTextField("Override Library path", ref steamEOSConfigFile.overrideLibraryPath);
-            GUIEditorUtility.AssigningUintField("Steamworks SDK major version",
-                ref steamEOSConfigFile.steamSDKMajorVersion, 190);
-            GUIEditorUtility.AssigningUintField("Steamworks SDK minor version",
-                ref steamEOSConfigFile.steamSDKMinorVersion, 190);
-
-            EditorGUILayout.LabelField("Steamworks Interface Versions");
-            if (steamEOSConfigFile.steamApiInterfaceVersionsArray == null)
-            {
-                steamEOSConfigFile.steamApiInterfaceVersionsArray = new List<string>();
-            }
-
-            for (int i = 0; i < steamEOSConfigFile.steamApiInterfaceVersionsArray.Count; ++i)
-            {
-                EditorGUILayout.BeginHorizontal();
-
-                string thisVersionValue = steamEOSConfigFile.steamApiInterfaceVersionsArray[i];
-
-                GUIEditorUtility.AssigningTextField("Interface API",
-                    ref thisVersionValue,
-                    tooltip: "Identifier and version string for a Steam Interface Version. Found in steam_api.h or in Steamworks.NET's SteamConstants.cs file.", labelWidth: 80);
-
-                steamEOSConfigFile.steamApiInterfaceVersionsArray[i] = thisVersionValue;
-
-                if (GUILayout.Button("Remove", GUILayout.MaxWidth(70)))
-                {
-                    steamEOSConfigFile.steamApiInterfaceVersionsArray.RemoveAt(i);
-                }
-
-                EditorGUILayout.EndHorizontal();
-            }
-
-            if (GUILayout.Button("Add", GUILayout.MaxWidth(100)))
-            {
-                steamEOSConfigFile.steamApiInterfaceVersionsArray.Add(string.Empty);
-            }
-
-            if (GUILayout.Button("Update from Steamworks.NET", GUILayout.MaxWidth(200)))
-            {
-                var steamworksVersion = Steamworks_Utility.GetSteamworksVersion();
-                var versionParts = steamworksVersion.Split('.');
-                bool success = false;
-                if (versionParts.Length >= 2)
-                {
-                    success = uint.TryParse(versionParts[0], out uint major);
-                    success &= uint.TryParse(versionParts[1], out uint minor);
-                    if (success)
-                    {
-                        steamEOSConfigFile.steamSDKMajorVersion = major;
-                        steamEOSConfigFile.steamSDKMinorVersion = minor;
-                    }
-                }
-
-                if (!success)
-                {
-                    Debug.LogError("Failed to retrieve Steamworks SDK version from Steamworks.NET");
-                }
-
-                steamEOSConfigFile.steamApiInterfaceVersionsArray = Steamworks_Utility.GetSteamInterfaceVersions();
-            }
-        }
-
         protected override void RenderWindow()
         {
             int xCount = (int)(EditorGUIUtility.currentViewWidth / 200);
@@ -432,13 +358,10 @@ _WIN32 || _WIN64
                 case 0:
                     OnDefaultGUI();
                     break;
-                case 1:
-                    OnSteamGUI();
-                    break;
                 default:
-                    if (platformSpecificConfigEditors.Count > toolbarInt - 2)
+                    if (platformSpecificConfigEditors.Count > toolbarInt - 1)
                     {
-                        platformSpecificConfigEditors[toolbarInt - 2].RenderAsync();
+                        platformSpecificConfigEditors[toolbarInt - 1].RenderAsync();
                     }
 
                     break;

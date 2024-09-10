@@ -36,7 +36,6 @@ namespace Epic.OnlineServices
 		public Result ToString(out Utf8String outBuffer)
 		{
 			int inOutBufferLength = 1024;
-			System.IntPtr outBufferAddress = Helper.AddAllocation(inOutBufferLength);
 
 			// PEW: Start modify
 			// NOTES:
@@ -50,8 +49,9 @@ namespace Epic.OnlineServices
 			// Call the EOS_ContinuanceToken_ToString function will a null buffer address to determine the correct buffer length.
 			// Discard the result of this call because it is not relevant. 
 			_ = Bindings.EOS_ContinuanceToken_ToString(InnerHandle, System.IntPtr.Zero, ref inOutBufferLength);
-			// PEW: End modify
-			
+			System.IntPtr outBufferAddress = Helper.AddAllocation(inOutBufferLength);
+  			// PEW: End modify
+
 			var funcResult = Bindings.EOS_ContinuanceToken_ToString(InnerHandle, outBufferAddress, ref inOutBufferLength);
 
 			Helper.Get(outBufferAddress, out outBuffer);

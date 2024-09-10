@@ -19,18 +19,20 @@
 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 * SOFTWARE.
 */
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
 
-public class UISliderToText : MonoBehaviour
+namespace PlayEveryWare.EpicOnlineServices.Samples
 {
-    public Slider sliderObject;
-    public Text SliderText;
+    using UnityEngine;
+    using UnityEngine.UI;
 
-    public void updateText()
+    public class UISliderToText : MonoBehaviour
     {
-        SliderText.text = (sliderObject.value.ToString());
+        public Slider sliderObject;
+        public Text SliderText;
+
+        public void updateText()
+        {
+            SliderText.text = (sliderObject.value.ToString());
+        }
     }
 }

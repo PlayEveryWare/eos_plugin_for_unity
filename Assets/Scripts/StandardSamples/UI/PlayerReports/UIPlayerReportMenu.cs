@@ -20,24 +20,21 @@
 * SOFTWARE.
 */
 
-using System;
-using System.Collections.Generic;
-
-using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.UI;
-
-using Epic.OnlineServices;
-using Epic.OnlineServices.Reports;
-
-using PlayEveryWare.EpicOnlineServices;
-
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
-    public class UIPlayerReportMenu : UIFriendInteractionSource, ISampleSceneUI
+    using System;
+    using System.Collections.Generic;
+
+    using UnityEngine;
+    using UnityEngine.EventSystems;
+    using UnityEngine.UI;
+
+    using Epic.OnlineServices;
+    using Epic.OnlineServices.Reports;
+
+    public class UIPlayerReportMenu : SampleMenuWithFriends
     {
         [Header("Reports")]
-        public GameObject CrashReportUIParent;
         public Text PlayerName;
         public Dropdown CategoryList;
         public InputField Message;
@@ -46,18 +43,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public GameObject SanctionsListContentParent;
         public GameObject UISanctionsEntryPrefab;
 
-        [Header("Controller")]
-        public GameObject UIFirstSelected;
-
         private ProductUserId currentProdcutUserId;
 
         private EOSReportsManager ReportsManager;
         private EOSFriendsManager FriendsManager;
-
-        private void Awake()
-        {
-            ResetPopUp();
-        }
+        
 
         private void Start()
         {
@@ -65,8 +55,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             FriendsManager = EOSManager.Instance.GetOrCreateManager<EOSFriendsManager>();
         }
 
-        private void OnDestroy()
+        protected override void OnDestroy()
         {
+            base.OnDestroy();
             EOSManager.Instance.RemoveManager<EOSReportsManager>();
             EOSManager.Instance.RemoveManager<EOSFriendsManager>();
         }
@@ -86,7 +77,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             EOSManager.Instance.GetOrCreateManager<EOSReportsManager>().QueryActivePlayerSanctions(userId, QueryActivePlayerSanctionsCompleted);
 
             // Show PopUp
-            CrashReportUIParent.gameObject.SetActive(true);
+            UIParent.SetActive(true);
 
             // Controller
             if(UIFirstSelected.activeInHierarchy)
@@ -180,7 +171,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             Message.text = string.Empty;
 
             currentProdcutUserId = null;
-            CrashReportUIParent.gameObject.SetActive(false);
+            UIParent.SetActive(false);
         }
 
         public override FriendInteractionState GetFriendInteractionState(FriendData friendData)
@@ -198,13 +189,15 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             ReportButtonOnClick(friendData.UserProductUserId, friendData.Name);
         }
 
-        public void ShowMenu()
+        public override void Show()
         {
+            base.Show();
             ResetPopUp();
         }
 
-        public void HideMenu()
+        public override void Hide()
         {
+            base.Hide();
             ResetPopUp();
         }
     }

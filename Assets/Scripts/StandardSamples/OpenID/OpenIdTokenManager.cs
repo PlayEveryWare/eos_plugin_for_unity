@@ -20,14 +20,16 @@
 * SOFTWARE.
 */
 
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Networking;
-
 namespace PlayEveryWare.EpicOnlineServices.Samples.OpenId
 {
+    using Epic.OnlineServices;
+    using Epic.OnlineServices.Connect;
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+    using UnityEngine;
+    using UnityEngine.Networking;
+    using static PlayEveryWare.EpicOnlineServices.EOSManager;
     using JsonUtility = PlayEveryWare.EpicOnlineServices.Utility.JsonUtility;
 
     //This sample uses a Google Cloud Function to implement a basic OpenID authentication server.
@@ -142,6 +144,42 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.OpenId
         }
 
         private Dictionary<string,string> cachedTokens = new Dictionary<string, string>();
+
+        public void StartConnectLoginWithOpenID(string username, string password, OnConnectLoginCallback onLoginCallback)
+        {
+            StartConnectLoginWithOpenID(username, password, onLoginCallback, retryAttemptNumber: 0);
+        }
+
+        private void StartConnectLoginWithOpenID(string username, string password, OnConnectLoginCallback onLoginCallback, int retryAttemptNumber = 0)
+        {
+            const int MaximumNumberOfRetries = 1;
+
+            OpenId.OpenIdRequestManager.Instance.RequestToken(username, password, (string username, string id_token) =>
+            {
+                if (string.IsNullOrEmpty(id_token))
+                {
+                    onLoginCallback?.Invoke(new Epic.OnlineServices.Connect.LoginCallbackInfo() { ResultCode = Epic.OnlineServices.Result.InvalidAuth });
+                    return;
+                }
+
+                EOSManager.Instance.StartConnectLoginWithOptions(ExternalCredentialType.OpenidAccessToken, id_token, onloginCallback: (LoginCallbackInfo info) =>
+                {
+                    // If the error message is exactly ConnectExternalAtokenValidationFailed,
+                    // that may be a sign this is an expired token
+                    // If this isn't a retry, retry and reacquire a new token
+                    if (retryAttemptNumber < MaximumNumberOfRetries && info.ResultCode == Result.ConnectExternalTokenValidationFailed)
+                    {
+                        // Remove the cached token so that it re-acquired on retry
+                        cachedTokens.Remove(username);
+                        StartConnectLoginWithOpenID(username, password, onLoginCallback, retryAttemptNumber: retryAttemptNumber++);
+                    }
+                    else
+                    {
+                        onLoginCallback?.Invoke(info);
+                    }
+                });
+            });
+        }
 
         public void RequestToken(string username, string password, Action<string,string> callback)
         {

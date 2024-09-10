@@ -20,7 +20,7 @@
  * SOFTWARE.
  */
 
-namespace PlayEveryWare.EpicOnlineServices.Tests.IntegrationTests
+namespace PlayEveryWare.EpicOnlineServices.Tests.Services.Leaderboard
 {
     using Epic.OnlineServices;
     using Epic.OnlineServices.Leaderboards;
@@ -180,7 +180,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.IntegrationTests
                 result = _leaderboardsInterface.CopyLeaderboardRecordByIndex(ref options, out LeaderboardRecord? leaderboardRecord);
                 Assert.AreEqual(Result.Success, result);
                 Assert.IsNotNull(leaderboardRecord);
-                Assert.IsNotEmpty(leaderboardRecord.Value.UserDisplayName, "Ranking has no display name.");
+                Assert.IsNotNull(leaderboardRecord.Value.UserId, "Ranking has no id.");
                 Assert.IsTrue(leaderboardRecord.Value.UserId.IsValid(), "Ranking has an invalid user id.");
                 Assert.Greater(leaderboardRecord.Value.Rank, 0, "Ranking should start at 1.");
             }

@@ -22,26 +22,50 @@
 
 namespace PlayEveryWare.EpicOnlineServices.Editor
 {
+    using System;
     using System.Threading.Tasks;
 
-    // Interface for allowing adding additional config files to the Config editor
-    public interface IConfigEditor
+    /// <summary>
+    /// Interface for allowing adding additional config files to the Config
+    /// editor.
+    /// </summary>
+    public interface IConfigEditor : IDisposable
     {
         /// <summary>
-        /// Returns the human-readable labelText for the section of configuration.
+        /// Returns the human-readable labelText for the section of
+        /// configuration.
         /// </summary>
-        /// <returns>String representing the section this config controls.</returns>
+        /// <returns>
+        /// String representing the section this config controls.
+        /// </returns>
         string GetLabelText();
 
         /// <summary>
-        /// Loads the config values from disk.
+        /// Expands the ConfigEditor.
+        /// </summary>
+        public void Expand();
+
+        /// <summary>
+        /// Collapses the ConfigEditor.
+        /// </summary>
+        public void Collapse();
+
+        /// <summary>
+        /// Loads the config values from disk asynchronously.
         /// </summary>
         Task LoadAsync();
 
         /// <summary>
+        /// Loads the config values from disk synchronously.
+        /// </summary>
+        void Load();
+
+        /// <summary>
         /// Saves the configuration to disk.
         /// </summary>
-        /// <param name="prettyPrint">Whether or not to format the JSON in a more human-readable manner.</param>
+        /// <param name="prettyPrint">
+        /// Whether or not to format the JSON in a more human-readable manner.
+        /// </param>
         Task Save(bool prettyPrint = true);
 
         /// <summary>

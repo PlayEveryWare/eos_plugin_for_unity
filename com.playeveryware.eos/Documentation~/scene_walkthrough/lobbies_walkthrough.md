@@ -42,3 +42,6 @@ This demo showcases the lobby and includes a voice chat interface in a combined 
 
 > [!NOTE]
 > See [Epic's documentation on the lobby interface](https://dev.epicgames.com/docs/game-services/lobbies) for more information.
+
+> [!NOTE]
+> This sample includes the UIFriendsMenu. Please see [the plugin's documentation on UIFriendsMenu](../uifriendsmenu.md) for more information.

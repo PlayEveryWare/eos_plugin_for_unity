@@ -29,8 +29,11 @@ using System.Collections.Generic;
 namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 {
     using Config;
+    using System.Linq;
     using System.Threading.Tasks;
+    using UnityEditor.AnimatedValues;
     using Utility;
+    using Config = EpicOnlineServices.Config;
 
     /// <summary>
     /// Creates the view for showing the eos plugin editor config values.
@@ -90,18 +93,34 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
         {
             configEditors ??= new List<IConfigEditor>
                 {
-                    new ConfigEditor<PrebuildConfig>(),
-                    new ConfigEditor<ToolsConfig>(),
-                    new ConfigEditor<AndroidBuildConfig>(),
-                    new ConfigEditor<LibraryBuildConfig>(),
-                    new ConfigEditor<SigningConfig>(),
-                    new ConfigEditor<PackagingConfig>()
+                    SetupConfigEditor<PrebuildConfig>(),
+                    SetupConfigEditor<ToolsConfig>(),
+                    SetupConfigEditor<AndroidBuildConfig>(),
+                    SetupConfigEditor<LibraryBuildConfig>(),
+                    SetupConfigEditor<SigningConfig>(),
+                    SetupConfigEditor<PackagingConfig>(),
+                    SetupConfigEditor<SteamConfig>()
                 };
 
             foreach (var editor in configEditors)
             {
                 await editor.LoadAsync();
             }
+        }
+
+        private IConfigEditor SetupConfigEditor<T>() where T : PlayEveryWare.EpicOnlineServices.Config
+        {
+            ConfigEditor<T> newEditor = new (Repaint);
+            newEditor.Expanded += (sender, args) =>
+            {
+                // Close all the other config editors
+                foreach (var editor in configEditors.Where(editor => editor != sender))
+                {
+                    editor.Collapse();
+                }
+            };
+
+            return newEditor;
         }
 
         protected override void RenderWindow()
@@ -125,6 +144,12 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
         protected override void Teardown()
         {
             base.Teardown();
+
+            foreach (var editor in configEditors)
+                editor.Dispose();
+
+            configEditors.Clear();
+
             Save();
         }
 

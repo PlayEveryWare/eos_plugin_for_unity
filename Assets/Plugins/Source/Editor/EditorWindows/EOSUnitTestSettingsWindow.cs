@@ -45,7 +45,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Editor
 
         protected override async Task AsyncSetup()
         {
-            _testConfigEditor = new ConfigEditor<UnitTestConfig>();
+            _testConfigEditor = new ConfigEditor<UnitTestConfig>(Repaint, true);
             await _testConfigEditor.LoadAsync();
         }
 

@@ -19,16 +19,19 @@
 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 * SOFTWARE.
 */
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
-public class RotateObject : MonoBehaviour
+namespace PlayEveryWare.EpicOnlineServices.Samples
 {
-    public float rotationSpeed = 25.0f;
-    // Update is called once per frame
-    void Update()
+    using UnityEngine;
+
+    public class RotateObject : MonoBehaviour
     {
-        transform.Rotate(Vector3.up, rotationSpeed * Time.deltaTime, Space.Self);
+        public float rotationSpeed = 25.0f;
+
+        // Update is called once per frame
+        void Update()
+        {
+            transform.Rotate(Vector3.up, rotationSpeed * Time.deltaTime, Space.Self);
+        }
     }
 }

@@ -1,7 +1,7 @@
 {
     "source_to_dest": [
-        {"src":"SDK/Source/Generated/Windows/*.cs", "dest": "Assets/Plugins/Source/EOS_SDK/Generated/Windows/"},
-        {"src":"SDK/Source/Generated/Windows/Platform/*.cs", "dest": "Assets/Plugins/Source/EOS_SDK/Generated/Windows/Platform/"},
+        {"src":"SDK/Source/Generated/Windows/*.cs", "dest": "com.playeveryware.eos/Runtime/EOS_SDK/Generated/Windows/"},
+        {"src":"SDK/Source/Generated/Windows/Platform/*.cs", "dest": "com.playeveryware.eos/Runtime/EOS_SDK/Generated/Windows/Platform/"},
 
         {"src": "SDK/Bin/EOSSDK-Win32-Shipping.dll", "dest": "Assets/Plugins/Windows/x86/"},
         {"src": "SDK/Bin/x86/", "pattern": "*.dll", "dest": "Assets/Plugins/Windows/x86/"},

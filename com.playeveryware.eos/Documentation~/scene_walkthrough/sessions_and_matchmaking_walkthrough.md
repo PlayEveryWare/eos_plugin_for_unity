@@ -36,3 +36,6 @@ This demo showcases the sessions interface, users can create, manage and join se
 
 > [!NOTE]
 > See [Epic's documentation on the sessions interface](https://dev.epicgames.com/docs/game-services/sessions) for more information.
+
+> [!NOTE]
+> This sample includes the UIFriendsMenu. Please see [the plugin's documentation on UIFriendsMenu](../uifriendsmenu.md) for more information.

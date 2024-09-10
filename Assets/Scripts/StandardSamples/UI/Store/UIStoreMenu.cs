@@ -20,26 +20,17 @@
 * SOFTWARE.
 */
 
-﻿using System.Collections;
-using System.Collections.Generic;
-
-using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.EventSystems;
-
-using Epic.OnlineServices;
-using Epic.OnlineServices.UI;
-using Epic.OnlineServices.Ecom;
-
-using PlayEveryWare.EpicOnlineServices;
-
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
-    public class UIStoreMenu : MonoBehaviour, ISampleSceneUI
+    using System.Collections.Generic;
+    using UnityEngine;
+    using UnityEngine.UI;
+    using UnityEngine.EventSystems;
+    using Epic.OnlineServices.Ecom;
+
+    public class UIStoreMenu : SampleMenu
     {
         [Header("Store UI")]
-        public GameObject StoreUIParent;
-
         public Button queryOffersButton;
 
         public Text catalogueItem0;
@@ -48,25 +39,23 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public Text catalogueItem1;
         public Button checkOutButton1;
 
-        [Header("Controller")]
-        public GameObject UIFirstSelected;
-
         private EOSStoreManager StoreManager;
 
-        public void Start()
+        protected override void OnEnable()
         {
+            base.OnEnable();
             StoreManager = EOSManager.Instance.GetOrCreateManager<EOSStoreManager>();
-
-            HideMenu();
         }
 
-        private void OnDestroy()
+        protected override void OnDestroy()
         {
+            base.OnDestroy();
             EOSManager.Instance.RemoveManager<EOSStoreManager>();
         }
 
-        private void Update()
+        protected override void Update()
         {
+            base.Update();
             if (StoreManager.GetCatalogOffers(out List<CatalogOffer> CatalogOffers))
             {
                 // Generate UI for offers
@@ -94,34 +83,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public void CheckOutButton(int index)
         {
             StoreManager.CheckOutOverlay(index);
-        }
-
-        public void ShowMenu()
-        {
-            EOSManager.Instance.GetOrCreateManager<EOSStoreManager>().OnLoggedIn();
-
-            queryOffersButton.gameObject.SetActive(true);
-
-            catalogueItem0.gameObject.SetActive(true);
-            checkOutButton0.gameObject.SetActive(true);
-
-            catalogueItem1.gameObject.SetActive(true);
-            checkOutButton1.gameObject.SetActive(true);
-
-            // Controller
-            EventSystem.current.SetSelectedGameObject(UIFirstSelected);
-        }
-
-        public void HideMenu()
-        {
-            StoreManager?.OnLoggedOut();
-
-            queryOffersButton.gameObject.SetActive(false);
-            catalogueItem0.gameObject.SetActive(false);
-            checkOutButton0.gameObject.SetActive(false);
-
-            catalogueItem1.gameObject.SetActive(false);
-            checkOutButton1.gameObject.SetActive(false);
         }
     }
 }

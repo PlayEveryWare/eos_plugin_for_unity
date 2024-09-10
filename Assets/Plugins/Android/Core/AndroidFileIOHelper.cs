@@ -23,35 +23,53 @@
 namespace PlayEveryWare.EpicOnlineServices
 {
     using System;
+    using System.Threading.Tasks;
     using UnityEngine;
+    using UnityEngine.Networking;
 
-    public class AndroidFileIOHelper : MonoBehaviour
+    public class AndroidFileIOHelper
     {
-        public static string ReadAllText(string filePath)
+        public static async Task<string> ReadAllText(string filePath)
         {
-            using (var request = UnityEngine.Networking.UnityWebRequest.Get(filePath))
-            {
-                request.timeout = 2; //seconds till timeout
-                request.SendWebRequest();
+            using UnityWebRequest request = UnityWebRequest.Get(filePath);
+            request.timeout = 2; //seconds till timeout
+            UnityWebRequestAsyncOperation operation = request.SendWebRequest();
 
-                //Wait till webRequest completed
-                while (!request.isDone) { }
-
-#if UNITY_2020_1_OR_NEWER
-                if (request.result != UnityEngine.Networking.UnityWebRequest.Result.Success)
-                {
-                    Debug.Log("Requesting " + filePath + ", please make sure it exists and is a valid config");
-                    throw new Exception("UnityWebRequest didn't succeed, Result : " + request.result);
-                }
-#else
-            if (request.isNetworkError || request.isHttpError)
+            while (!operation.isDone)
             {
-                Debug.Log("Requesting " + filePath + ", please make sure it exists and is a valid config");
-                throw new Exception("UnityWebRequest didn't succeed : Network or HTTP Error");
+                await Task.Yield();
             }
-#endif
-                return request.downloadHandler.text;
+
+            string text = null;
+
+            switch (request.result)
+            {
+                case UnityWebRequest.Result.InProgress:
+                    // This should not happen, because of the Task.Yield() call
+                    // above.
+                    Debug.LogWarning("AndroidFileIOHelper: For some reason " +
+                                     "the request is still in progress.");
+                    break;
+                case UnityWebRequest.Result.ConnectionError:
+                case UnityWebRequest.Result.ProtocolError:
+                case UnityWebRequest.Result.DataProcessingError:
+                    Debug.LogError($"AndroidFileIOHelper: " +
+                                   $"UnityWebRequest for path " +
+                                   $"\"{filePath},\" failed with error code " +
+                                   $"'{request.result},' and error, " +
+                                   $"\"{request.error}.\"");
+                    break;
+                case UnityWebRequest.Result.Success:
+                    text = request.downloadHandler.text;
+                    break;
+                default:
+                    ArgumentException unknownResultException =
+                        new($"Unrecognized result returned from {nameof(UnityWebRequest)}: {request.result}.");
+                    Debug.LogException(unknownResultException);
+                    throw unknownResultException;
             }
+
+            return text;
         }
     }
 }

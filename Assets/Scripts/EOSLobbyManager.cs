@@ -20,18 +20,24 @@
 * SOFTWARE.
 */
 
-using System;
-using System.Collections.Generic;
-
-using UnityEngine;
-
-using Epic.OnlineServices;
-using Epic.OnlineServices.Lobby;
-using Epic.OnlineServices.RTC;
-using Epic.OnlineServices.RTCAudio;
-
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
+    using System;
+    using System.Collections.Generic;
+    using UnityEngine;
+    using Epic.OnlineServices;
+    using Epic.OnlineServices.Lobby;
+    using Epic.OnlineServices.RTC;
+    using Epic.OnlineServices.RTCAudio;
+	
+    public enum LobbyChangeType
+    { 
+        Create, 
+        Join, 
+        Leave,
+        Kicked
+    }
+
     /// <summary>
     /// Class represents all Lobby properties
     /// </summary>
@@ -47,6 +53,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public uint AvailableSlots = 0;
         public bool AllowInvites = true;
         public bool? DisableHostMigration;
+
+        /// <summary>
+        /// Indicates whether the local user has deafened themselves
+        /// (this doesn't carry over between rooms).
+        /// </summary>
+        public bool IsLocalUserDeafened;
 
         // Cached copy of the RoomName of the RTC room that our lobby has, if any
         public string RTCRoomName = string.Empty;
@@ -403,6 +415,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         // Has this person enabled press to talk
         public bool PressToTalkEnabled = false;
+
+        // We have locally blocked this person from receiving and sending audio
+        public bool IsBlocked = false;
     }
 
     /// <summary>
@@ -466,7 +481,29 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public delegate void OnMemberUpdateCallback(string LobbyId, ProductUserId MemberId);
 
         private List<OnMemberUpdateCallback> MemberUpdateCallbacks;
-        private List<Action> LobbyChangeCallbacks;
+
+        public class LobbyChangeEventArgs
+        {
+            public string LobbyId { get; }
+            public LobbyChangeType LobbyChangeType { get; }
+
+            public LobbyChangeEventArgs(string lobbyId, LobbyChangeType changeType)
+            {
+                LobbyId = lobbyId;
+                LobbyChangeType = changeType;
+            }
+        }
+
+        public delegate void LobbyChangeEventHandler(object sender, LobbyChangeEventArgs e);
+
+        public event LobbyChangeEventHandler LobbyChanged;
+
+        protected virtual void OnLobbyChanged(LobbyChangeEventArgs args)
+        {
+            LobbyChangeEventHandler handler = LobbyChanged;
+            handler?.Invoke(this, args);
+        }
+
         private List<Action> LobbyUpdateCallbacks;
 
         private EOSUserInfoManager UserInfoManager;
@@ -490,7 +527,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             LobbySearchCallback = null;
 
             MemberUpdateCallbacks = new List<OnMemberUpdateCallback>();
-            LobbyChangeCallbacks = new List<Action>();
             LobbyUpdateCallbacks = new List<Action>();
         }
 
@@ -1331,20 +1367,18 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
                 LobbyCreatedCallback?.Invoke(Result.Success);
 
-                OnCurrentLobbyChanged();
+                OnCurrentLobbyChanged(LobbyChangeType.Create);
             }
         }
 
-        private void OnCurrentLobbyChanged()
+        private void OnCurrentLobbyChanged(LobbyChangeType lobbyChangedEvent)
         {
             if (CurrentLobby.IsValid())
             {
                 AddLocalUserAttributes();
             }
-            foreach (var callback in LobbyChangeCallbacks)
-            {
-                callback?.Invoke();
-            }
+
+            OnLobbyChanged(new LobbyChangeEventArgs(CurrentLobby?.Id, lobbyChangedEvent));
         }
 
         private void OnUpdateLobbyCallBack(ref UpdateLobbyCallbackInfo data)
@@ -1529,65 +1563,136 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         /// <summary>
         /// Wrapper for calling [EOS_RTCAudio_UpdateReceiving](https://dev.epicgames.com/docs/services/en-US/API/Members/Functions/NoInterface/EOS_RTCAudio_UpdateReceiving/index.html)
+        /// This attempts to locate a user with id <paramref name="targetUserId"/> inside the <see cref="CurrentLobby"/>.
+        /// If CurrentLobby has populated its <see cref="Lobby.Members"/> list,
+        /// the local user's current mute setting is reversed, and then applied.
+        /// If the Members list isn't available, this action will attempt to mute the target.
+        /// If the local user has another user in the Lobby muted, the local user won't hear the muted user, but other members may still be able to.
+        /// If the local user mutes themself, other users won't be able to hear the local user.
         /// </summary>
         /// <param name="targetUserId">Target <c>ProductUserId</c> to mute or unmute</param>
         /// <param name="ToggleMuteCompleted">Callback when toggle mute is completed</param>
         public void ToggleMute(ProductUserId targetUserId, OnLobbyCallback ToggleMuteCompleted)
         {
+            // If the user can be found in CurrentLobby.Members, set this value to the opposite of the user's current mute value
+            // Otherwise, always attempt to mute
+            bool shouldUserBecomeMuted = false;
+
             RTCInterface rtcHandle = EOSManager.Instance.GetEOSRTCInterface();
             RTCAudioInterface rtcAudioHandle = rtcHandle.GetAudioInterface();
 
-            foreach(LobbyMember lobbyMember in CurrentLobby.Members)
+            LobbyMember lobbyMember = GetCurrentLobby()?.Members?.Find(x => x.ProductId == targetUserId);
+            if (lobbyMember != null)
             {
-                // Find the correct lobby member
-                if(lobbyMember.ProductId != targetUserId)
-                {
-                    continue;
-                }
+                // If the target is muted, "IsLocalMuted" is true,
+                // since this is a toggle, we want to take the opposite of that
+                shouldUserBecomeMuted = !lobbyMember.RTCState.IsLocalMuted;
+            }
 
+            SetMemberMuteStatus(shouldUserBecomeMuted, targetUserId, ToggleMuteCompleted);
+        }
+
+        /// <summary>
+        /// Set the local mute status of a member in the lobby.
+        /// If the local user has another user in the Lobby muted, the local user won't hear the muted user, but other members may still be able to.
+        /// If the local user mutes themself, other users won't be able to hear the local user.
+        /// </summary>
+        /// <param name="shouldUserBeMuted">
+        /// If true, audio "becomes disabled", muting the target.
+        /// If false, audio "becomes enabled", unmuting the target.
+        /// </param>
+        /// </param>
+        /// <param name="targetProductUserId">The Product User ID of the target member to mute</param>
+        /// <param name="MuteMemberCompleted">Callback when MuteMember is completed</param>
+        public void SetMemberMuteStatus(bool shouldUserBeMuted, ProductUserId targetProductUserId, OnLobbyCallback MuteMemberCompleted)
+        {
+            RTCInterface rtcHandle = EOSManager.Instance.GetEOSRTCInterface();
+            RTCAudioInterface rtcAudioHandle = rtcHandle.GetAudioInterface();
+
+            LobbyMember lobbyMember = GetCurrentLobby().Members.Find(x => x.ProductId == targetProductUserId);
+            if (lobbyMember != null)
+            {
                 // Do not allow multiple local mute toggles at the same time
-                if(lobbyMember.RTCState.MuteActionInProgress)
+                if (lobbyMember.RTCState.MuteActionInProgress)
                 {
-                    Debug.LogWarningFormat("Lobbies (ToggleMute): 'MuteActionInProgress' for productUserId {0}.", targetUserId);
-                    ToggleMuteCompleted?.Invoke(Result.RequestInProgress);
+                    Debug.LogWarningFormat("Lobbies (MuteMember): 'MuteActionInProgress' for productUserId {0}.", targetProductUserId);
+                    MuteMemberCompleted?.Invoke(Result.RequestInProgress);
                     return;
                 }
 
                 // Set mute action as in progress
                 lobbyMember.RTCState.MuteActionInProgress = true;
-
-                // Check if muting ourselves vs other member
-                if(EOSManager.Instance.GetProductUserId() == targetUserId)
-                {
-                    // Toggle our mute status
-                    UpdateSendingOptions sendOptions = new UpdateSendingOptions()
-                    {
-                        LocalUserId = EOSManager.Instance.GetProductUserId(),
-                        RoomName = CurrentLobby.RTCRoomName,
-                        AudioStatus = lobbyMember.RTCState.IsLocalMuted ? RTCAudioStatus.Enabled : RTCAudioStatus.Disabled
-                    };
-
-                    Debug.LogFormat("Lobbies (ToggleMute): Setting self audio output status to {0}", sendOptions.AudioStatus == RTCAudioStatus.Enabled ? "Unmuted" : "Muted");
-
-                    rtcAudioHandle.UpdateSending(ref sendOptions, ToggleMuteCompleted, OnRTCRoomUpdateSendingCompleted);
-                }
-                else
-                {
-                    // Toggle mute for remote member (this is a local-only action and does not block the other user from receiving your audio stream)
-
-                    UpdateReceivingOptions recevingOptions = new UpdateReceivingOptions()
-                    {
-                        LocalUserId = EOSManager.Instance.GetProductUserId(),
-                        RoomName = CurrentLobby.RTCRoomName,
-                        ParticipantId = targetUserId,
-                        AudioEnabled = lobbyMember.RTCState.IsLocalMuted
-                    };
-
-                    Debug.LogFormat("Lobbies (ToggleMute): {0} remote player {1}", recevingOptions.AudioEnabled ? "Unmuting" : "Muting", targetUserId);
-
-                    rtcAudioHandle.UpdateReceiving(ref recevingOptions, ToggleMuteCompleted, OnRTCRoomUpdateReceivingCompleted);
-                }
             }
+
+            // Check if muting ourselves vs other member
+            if (EOSManager.Instance.GetProductUserId() == targetProductUserId)
+            {
+                // Toggle our mute status
+                SetLocalMemberMute(shouldUserBeMuted, MuteMemberCompleted);
+            }
+            else
+            {
+                // Toggle mute for remote member (this is a local-only action and does not block the other user from receiving your audio stream)
+
+                UpdateReceivingOptions recevingOptions = new UpdateReceivingOptions()
+                {
+                    LocalUserId = EOSManager.Instance.GetProductUserId(),
+                    RoomName = GetCurrentLobby().RTCRoomName,
+                    ParticipantId = targetProductUserId,
+                    AudioEnabled = shouldUserBeMuted
+                };
+
+                Debug.LogFormat("Lobbies (MuteMember): {0} remote player {1}", recevingOptions.AudioEnabled ? "Unmuting" : "Muting", targetProductUserId);
+
+                rtcAudioHandle.UpdateReceiving(ref recevingOptions, MuteMemberCompleted, OnRTCRoomUpdateReceivingCompleted);
+            }
+        }
+
+        /// <summary>
+        /// Set the Mute Status of the Local Member.
+        /// The local user sets their mute status to <paramref name="micOn"/>,
+        /// either becoming muted or unmuting themself.
+        /// While muted, other users in the lobby will not be able to hear the local user.
+        /// </summary>
+        /// <param name="shouldSelfBeMuted">
+        /// If true, the local user mutes themself, and no longer sends audio.
+        /// If false, the local user unmutes themself.
+        /// </param>
+        /// <param name="MuteLocalMemberCompleted">Callback when MuteLocalMember is completed</param>
+        public void SetLocalMemberMute(bool shouldSelfBeMuted, OnLobbyCallback MuteLocalMemberCompleted)
+        {
+            UpdateSendingOptions sendOptions = new UpdateSendingOptions()
+            {
+                LocalUserId = EOSManager.Instance.GetProductUserId(),
+                RoomName = GetCurrentLobby().RTCRoomName,
+                AudioStatus = shouldSelfBeMuted ? RTCAudioStatus.Disabled : RTCAudioStatus.Enabled
+            };
+
+            Debug.LogFormat("Lobbies (MuteLocalMember): Setting self audio output status to {0}", sendOptions.AudioStatus == RTCAudioStatus.Enabled ? "Unmuted" : "Muted");
+
+            EOSManager.Instance.GetEOSRTCInterface().GetAudioInterface().UpdateSending(ref sendOptions, MuteLocalMemberCompleted, OnRTCRoomUpdateSendingCompleted);
+        }
+
+        /// <summary>
+        /// Sets the Deafen Status of the Local Member.
+        /// If <paramref name="shouldBeDefeaned"/> is true, then the user won't be able to hear other users.
+        /// </summary>
+        /// <param name="shouldBeDefeaned">
+        /// If true, the local user should become defeaned.
+        /// Otherwise, undeafen the user.
+        /// </param>
+        /// <param name="DeafenCompleted">Callback when DeafenLocalMember is completed</param>
+        public void SetLocalMemberDeafen(bool shouldBeDefeaned, OnLobbyCallback DeafenCompleted)
+        {
+            UpdateReceivingOptions recevingOptions = new UpdateReceivingOptions()
+            {
+                LocalUserId = EOSManager.Instance.GetProductUserId(),
+                RoomName = GetCurrentLobby().RTCRoomName,
+                AudioEnabled = !shouldBeDefeaned
+            };
+            Debug.LogFormat("Lobbies (DeafenLocalMember): {0}", recevingOptions.AudioEnabled ? "Hearing" : "Deafened");
+
+            EOSManager.Instance.GetEOSRTCInterface().GetAudioInterface().UpdateReceiving(ref recevingOptions, DeafenCompleted, OnRTCRoomUpdateReceivingCompleted);
         }
 
         private void OnRTCRoomUpdateSendingCompleted(ref UpdateSendingCallbackInfo data)
@@ -1679,21 +1784,107 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 return;
             }
 
-            foreach(LobbyMember lobbyMember in CurrentLobby.Members)
+            // If the participantId is null, then this must be referencing the local user
+            if (data.ParticipantId == null)
+            {
+                LobbyMember selfMember = CurrentLobby.Members.Find(x => x.ProductId == EOSManager.Instance.GetProductUserId());
+                if (selfMember != null)
+                {
+                    selfMember.RTCState.MuteActionInProgress = false;
+                }
+
+                CurrentLobby.IsLocalUserDeafened = !data.AudioEnabled;
+                _Dirty = true;
+
+                Debug.LogFormat($"Lobbies (OnRTCRoomUpdateReceivingCompleted): Self-deafen cache updated for '{EOSManager.Instance.GetProductUserId()}' (now {CurrentLobby.IsLocalUserDeafened})");
+                return;
+            }
+
+            // This must be about another user, find that user and set the status
+            foreach (LobbyMember lobbyMember in CurrentLobby.Members)
             { 
                 if(lobbyMember.ProductId != data.ParticipantId)
                 {
                     continue;
                 }
 
-                lobbyMember.RTCState.IsLocalMuted = data.AudioEnabled == false;
                 lobbyMember.RTCState.MuteActionInProgress = false;
+                lobbyMember.RTCState.IsLocalMuted = data.AudioEnabled == false;
 
-                Debug.LogFormat("Lobbies (OnRTCRoomUpdateReceivingCompleted): Cache updated for '{0}'", lobbyMember.ProductId);
+                Debug.LogFormat($"Lobbies (OnRTCRoomUpdateReceivingCompleted): Mute cache updated for '{lobbyMember.ProductId}'. (now {lobbyMember.RTCState.IsLocalMuted})");
 
                 _Dirty = true;
                 break;
             }
+        }
+
+        /// <summary>
+        /// Blocks the Local Lobby Member from receiving/sending audio from/to a Target Lobby Member. Only affects this Local Member. Does not affect other Lobby Members.
+        /// </summary>
+        /// <param name="targetUserId">The Target Member's ProductUserID</param>
+        /// <param name="status">To block or to unblock? True to Block, False to Unblock</param>
+        /// <param name="blockRTCParticipantComplete">Callback when BlockTargetRTCParticipant is completed</param>
+        public void UpdateBlockStatusForRTCParticipant(ProductUserId targetUserId, bool status, OnLobbyCallback blockRTCParticipantComplete)
+        {
+            RTCInterface rtcHandle = EOSManager.Instance.GetEOSRTCInterface();
+            RTCAudioInterface rtcAudioHandle = rtcHandle.GetAudioInterface();
+
+            BlockParticipantOptions blockParticipantOptions = new BlockParticipantOptions()
+            {
+                LocalUserId = EOSManager.Instance.GetProductUserId(),
+                RoomName = CurrentLobby.RTCRoomName,
+                ParticipantId = targetUserId,
+                Blocked = status
+            };
+
+            rtcHandle.BlockParticipant(ref blockParticipantOptions, blockRTCParticipantComplete, OnRTCBlockParticipantCompleted);
+        }
+
+        private void OnRTCBlockParticipantCompleted(ref BlockParticipantCallbackInfo data)
+        {
+            OnLobbyCallback BlockParticipantCallback = data.ClientData as OnLobbyCallback;
+
+            if (data.ResultCode != Result.Success)
+            {
+                Debug.LogErrorFormat("Lobbies (OnRTCBlockParticipantCompleted): error code: {0}", data.ResultCode);
+                BlockParticipantCallback?.Invoke(data.ResultCode);
+                return;
+            }
+
+            Debug.LogFormat("Lobbies (OnRTCBlockParticipantCompleted): Blocked Participant successfully. Participant={0}, Room={1}, Blocked={2}", data.ParticipantId, data.RoomName, data.Blocked);
+
+            // Ensure this update is for our room
+            if (!CurrentLobby.RTCRoomName.Equals(data.RoomName, StringComparison.OrdinalIgnoreCase))
+            {
+                Debug.LogErrorFormat("Lobbies (OnRTCBlockParticipantCompleted): Incorrect Room! CurrentLobby.RTCRoomName={0} != data.RoomName", CurrentLobby.RTCRoomName, data.RoomName);
+                return;
+            }
+
+            // Ensure this update is for us
+            if (EOSManager.Instance.GetProductUserId() != data.LocalUserId)
+            {
+                Debug.LogErrorFormat("Lobbies (OnRTCBlockParticipantCompleted): Incorrect LocalUserId! LocalProductId={0} != data.LocalUserId", EOSManager.Instance.GetProductUserId(), data.LocalUserId);
+                return;
+            }
+
+            // Update our mute status
+            foreach (LobbyMember lobbyMember in CurrentLobby.Members)
+            {
+                // Find the ParticipantId
+                if (lobbyMember.ProductId != data.ParticipantId)
+                {
+                    continue;
+                }
+
+                lobbyMember.RTCState.IsBlocked = data.Blocked;
+
+                Debug.LogFormat("Lobbies (OnRTCBlockParticipantCompleted): Cache updated for '{0}'", data.ParticipantId);
+
+                _Dirty = true;
+                break;
+            }
+
+            BlockParticipantCallback?.Invoke(data.ResultCode);
         }
 
         /// <summary>
@@ -1756,7 +1947,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 CurrentLobby.Clear();
                 _Dirty = true;
 
-                OnCurrentLobbyChanged();
+                OnCurrentLobbyChanged(LobbyChangeType.Kicked);
             }
         }
 
@@ -1895,21 +2086,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public void RemoveNotifyMemberUpdate(OnMemberUpdateCallback Callback)
         {
             MemberUpdateCallbacks.Remove(Callback);
-        }
-
-        /// <summary>
-        /// Subscribe to event callback for when the user has changed lobbies
-        /// The callback will only run if a listener is subscribed, which is done in <see cref="SubscribeToLobbyUpdates"/>.
-        /// </summary>
-        /// <param name="Callback">Callback to receive notification when lobby is changed</param>
-        public void AddNotifyLobbyChange(Action Callback)
-        {
-            LobbyChangeCallbacks.Add(Callback);
-        }
-
-        public void RemoveNotifyLobbyChange(Action Callback)
-        {
-            LobbyChangeCallbacks.Remove(Callback);
         }
 
         /// <summary>
@@ -2410,7 +2586,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             JoinLobbyCallback?.Invoke(Result.Success);
 
-            OnCurrentLobbyChanged();
+            OnCurrentLobbyChanged(LobbyChangeType.Join);
         }
 
         private void OnLeaveLobbyCompleted(ref LeaveLobbyCallbackInfo data)
@@ -2437,7 +2613,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
                 LeaveLobbyCallback?.Invoke(Result.Success);
 
-                OnCurrentLobbyChanged();
+                OnCurrentLobbyChanged(LobbyChangeType.Leave);
             }
         }
 

@@ -20,59 +20,55 @@
 * SOFTWARE.
 */
 
-using System.Collections;
-using System.Collections.Generic;
-
-using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.UI;
+namespace PlayEveryWare.EpicOnlineServices.Samples
+{
+    using UnityEngine;
+    using UnityEngine.EventSystems;
+    using UnityEngine.UI;
 
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
 #endif
 
-public class UIKeyboard : MonoBehaviour
-{
-    public static UIKeyboard instance;
-
-    public GameObject KeyboardPanel;
-
-    [Header("Alpha Keyboard")]
-    public GameObject AlphaKeyboard_ToggleA;
-    public GameObject AlphaKeyboard_ToggleB;
-    public GameObject AK_KeyboardSwitchButton;
-
-    public GameObject[] AlphaKeyboard_SelectableOnToggle;
-
-    [Header("Numeric Keyboard")]
-    public GameObject NumericKeyboard_ToggleA;
-    public GameObject NumericKeyboard_ToggleB;
-    public GameObject NK_KeyboardSwitchButton;
-
-    public GameObject[] NumericKeyboard_SelectableOnToggle;
-
-    public InputField KeyboardInput;
-    private string currentInput = string.Empty;
-
-    [Header("Controller")]
-    public GameObject UIFirstSelected;
-
-    // Manager Callbacks
-    private OnKeyboardCompleted KeyboardCallback;
-
-    public delegate void OnKeyboardCompleted(string result);
-
-    private void Awake()
+    public class UIKeyboard : MonoBehaviour
     {
-        if (instance == null)
+        public static UIKeyboard instance;
+
+        public GameObject KeyboardPanel;
+
+        [Header("Alpha Keyboard")] public GameObject AlphaKeyboard_ToggleA;
+        public GameObject AlphaKeyboard_ToggleB;
+        public GameObject AK_KeyboardSwitchButton;
+
+        public GameObject[] AlphaKeyboard_SelectableOnToggle;
+
+        [Header("Numeric Keyboard")] public GameObject NumericKeyboard_ToggleA;
+        public GameObject NumericKeyboard_ToggleB;
+        public GameObject NK_KeyboardSwitchButton;
+
+        public GameObject[] NumericKeyboard_SelectableOnToggle;
+
+        public InputField KeyboardInput;
+        private string currentInput = string.Empty;
+
+        [Header("Controller")] public GameObject UIFirstSelected;
+
+        // Manager Callbacks
+        private OnKeyboardCompleted KeyboardCallback;
+
+        public delegate void OnKeyboardCompleted(string result);
+
+        private void Awake()
         {
-            instance = this;
+            if (instance == null)
+            {
+                instance = this;
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
         }
-        else
-        {
-            Destroy(gameObject);
-        }
-    }
 
 #if ENABLE_INPUT_SYSTEM
     private void Update()
@@ -100,118 +96,119 @@ public class UIKeyboard : MonoBehaviour
     }
 #endif
 
-    public void ShowKeyboard(string value, OnKeyboardCompleted ShowKeyboardCompleted)
-    {
-        // Clear previous state & set passed in value
-        currentInput = value;
-        KeyboardInput.text = currentInput;
-
-        ShowAlphaKeyboard(false);
-
-        KeyboardPanel.SetActive(true);
-        KeyboardCallback = ShowKeyboardCompleted;
-
-        // Controller
-        EventSystem.current.SetSelectedGameObject(UIFirstSelected);
-    }
-
-    public void KeyOnClick(string value)
-    {
-        currentInput += value;
-        updateKeyboardInput();
-    }
-
-    public void KeyBackspace()
-    {
-        if(currentInput.Length > 0)
+        public void ShowKeyboard(string value, OnKeyboardCompleted ShowKeyboardCompleted)
         {
-            currentInput = currentInput.Substring(0, currentInput.Length - 1);
+            // Clear previous state & set passed in value
+            currentInput = value;
+            KeyboardInput.text = currentInput;
+
+            ShowAlphaKeyboard(false);
+
+            KeyboardPanel.SetActive(true);
+            KeyboardCallback = ShowKeyboardCompleted;
+
+            // Controller
+            EventSystem.current.SetSelectedGameObject(UIFirstSelected);
+        }
+
+        public void KeyOnClick(string value)
+        {
+            currentInput += value;
             updateKeyboardInput();
         }
-    }
 
-    private void updateKeyboardInput()
-    {
-        KeyboardInput.text = currentInput;
-    }
-
-    public void ShowAlphaKeyboard(bool selectSwitchButton = true)
-    {
-        AlphaKeyboard_ToggleA.SetActive(true);
-        AlphaKeyboard_ToggleB.SetActive(false);
-
-        NumericKeyboard_ToggleA.SetActive(false);
-        NumericKeyboard_ToggleB.SetActive(false);
-
-        if(selectSwitchButton)
+        public void KeyBackspace()
         {
-            EventSystem.current.SetSelectedGameObject(AK_KeyboardSwitchButton);
+            if (currentInput.Length > 0)
+            {
+                currentInput = currentInput.Substring(0, currentInput.Length - 1);
+                updateKeyboardInput();
+            }
         }
-    }
 
-    public void ShowNumericKeyboard()
-    {
-        AlphaKeyboard_ToggleA.SetActive(false);
-        AlphaKeyboard_ToggleB.SetActive(false);
-
-        NumericKeyboard_ToggleA.SetActive(true);
-        NumericKeyboard_ToggleB.SetActive(false);
-
-        // Controller
-        EventSystem.current.SetSelectedGameObject(NK_KeyboardSwitchButton);
-    }
-
-    public void ToggleKeyboard()
-    {
-        if(AlphaKeyboard_ToggleA.activeInHierarchy || AlphaKeyboard_ToggleB.activeInHierarchy)
+        private void updateKeyboardInput()
         {
-            if(AlphaKeyboard_ToggleA.activeInHierarchy)
-            {
-                AlphaKeyboard_ToggleA.SetActive(false);
-                AlphaKeyboard_ToggleB.SetActive(true);
-            }
-            else
-            {
-                AlphaKeyboard_ToggleA.SetActive(true);
-                AlphaKeyboard_ToggleB.SetActive(false);
-            }
+            KeyboardInput.text = currentInput;
+        }
 
-            foreach(GameObject toggleButton in AlphaKeyboard_SelectableOnToggle)
+        public void ShowAlphaKeyboard(bool selectSwitchButton = true)
+        {
+            AlphaKeyboard_ToggleA.SetActive(true);
+            AlphaKeyboard_ToggleB.SetActive(false);
+
+            NumericKeyboard_ToggleA.SetActive(false);
+            NumericKeyboard_ToggleB.SetActive(false);
+
+            if (selectSwitchButton)
             {
-                if(toggleButton.activeInHierarchy)
+                EventSystem.current.SetSelectedGameObject(AK_KeyboardSwitchButton);
+            }
+        }
+
+        public void ShowNumericKeyboard()
+        {
+            AlphaKeyboard_ToggleA.SetActive(false);
+            AlphaKeyboard_ToggleB.SetActive(false);
+
+            NumericKeyboard_ToggleA.SetActive(true);
+            NumericKeyboard_ToggleB.SetActive(false);
+
+            // Controller
+            EventSystem.current.SetSelectedGameObject(NK_KeyboardSwitchButton);
+        }
+
+        public void ToggleKeyboard()
+        {
+            if (AlphaKeyboard_ToggleA.activeInHierarchy || AlphaKeyboard_ToggleB.activeInHierarchy)
+            {
+                if (AlphaKeyboard_ToggleA.activeInHierarchy)
                 {
-                    // Controller
-                    EventSystem.current.SetSelectedGameObject(toggleButton);
+                    AlphaKeyboard_ToggleA.SetActive(false);
+                    AlphaKeyboard_ToggleB.SetActive(true);
+                }
+                else
+                {
+                    AlphaKeyboard_ToggleA.SetActive(true);
+                    AlphaKeyboard_ToggleB.SetActive(false);
+                }
+
+                foreach (GameObject toggleButton in AlphaKeyboard_SelectableOnToggle)
+                {
+                    if (toggleButton.activeInHierarchy)
+                    {
+                        // Controller
+                        EventSystem.current.SetSelectedGameObject(toggleButton);
+                    }
+                }
+            }
+            else if (NumericKeyboard_ToggleA.activeInHierarchy || NumericKeyboard_ToggleB.activeInHierarchy)
+            {
+                if (NumericKeyboard_ToggleA.activeInHierarchy)
+                {
+                    NumericKeyboard_ToggleA.SetActive(false);
+                    NumericKeyboard_ToggleB.SetActive(true);
+                }
+                else
+                {
+                    NumericKeyboard_ToggleA.SetActive(true);
+                    NumericKeyboard_ToggleB.SetActive(false);
+                }
+
+                foreach (GameObject toggleButton in NumericKeyboard_SelectableOnToggle)
+                {
+                    if (toggleButton.activeInHierarchy)
+                    {
+                        // Controller
+                        EventSystem.current.SetSelectedGameObject(toggleButton);
+                    }
                 }
             }
         }
-        else if (NumericKeyboard_ToggleA.activeInHierarchy || NumericKeyboard_ToggleB.activeInHierarchy)
+
+        public void KeyboardCompleted()
         {
-            if (NumericKeyboard_ToggleA.activeInHierarchy)
-            {
-                NumericKeyboard_ToggleA.SetActive(false);
-                NumericKeyboard_ToggleB.SetActive(true);
-            }
-            else
-            {
-                NumericKeyboard_ToggleA.SetActive(true);
-                NumericKeyboard_ToggleB.SetActive(false);
-            }
-
-            foreach (GameObject toggleButton in NumericKeyboard_SelectableOnToggle)
-            {
-                if (toggleButton.activeInHierarchy)
-                {
-                    // Controller
-                    EventSystem.current.SetSelectedGameObject(toggleButton);
-                }
-            }
+            KeyboardPanel.SetActive(false);
+            KeyboardCallback?.Invoke(KeyboardInput.text);
         }
-    }
-
-    public void KeyboardCompleted()
-    {
-        KeyboardPanel.SetActive(false);
-        KeyboardCallback?.Invoke(KeyboardInput.text);
     }
 }

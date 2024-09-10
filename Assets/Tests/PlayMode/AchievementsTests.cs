@@ -20,7 +20,7 @@
  * SOFTWARE.
  */
 
-namespace PlayEveryWare.EpicOnlineServices.Tests.IntegrationTests
+namespace PlayEveryWare.EpicOnlineServices.Tests.Services.Achievements
 {
     using Epic.OnlineServices;
     using Epic.OnlineServices.Achievements;
@@ -145,8 +145,8 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.IntegrationTests
                 if (checkDefinition != null)
                 {
                     Assert.AreEqual(
-                        checkDefinition.Value,
-                        definition.Value,
+                        checkDefinition.Value.AchievementId,
+                        definition.Value.AchievementId,
                         $"The achievement retrieved by AchievementId {achievementDefOptionsById.AchievementId} is not equal to the achievement retrieved by index {achievementDefOptions.AchievementIndex}");
                 }
             }

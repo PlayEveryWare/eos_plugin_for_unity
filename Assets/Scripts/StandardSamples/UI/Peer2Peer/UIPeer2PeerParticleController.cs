@@ -20,15 +20,17 @@
 * SOFTWARE.
 */
 
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class UIPeer2PeerParticleController : MonoBehaviour
+namespace PlayEveryWare.EpicOnlineServices.Samples
 {
-    public GameObject ClickParticles;
-    public void SpawnParticles(int xPos, int yPos, Transform parent)
+    using UnityEngine;
+
+    public class UIPeer2PeerParticleController : MonoBehaviour
     {
-        Instantiate(ClickParticles, new Vector3(xPos, yPos, -3), Quaternion.identity, parent);
+        public GameObject ClickParticles;
+
+        public void SpawnParticles(int xPos, int yPos, Transform parent)
+        {
+            Instantiate(ClickParticles, new Vector3(xPos, yPos, -3), Quaternion.identity, parent);
+        }
     }
 }

@@ -1651,6 +1651,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1520068606371974356, guid: 6a62934fd9ee35d49bf4f84f329793d1,
         type: 3}
+      propertyPath: UIParent
+      value: 
+      objectReference: {fileID: 832381918}
+    - target: {fileID: 1520068606371974356, guid: 6a62934fd9ee35d49bf4f84f329793d1,
+        type: 3}
       propertyPath: UIInviteMenu
       value: 
       objectReference: {fileID: 6040135327688508292}
@@ -1886,6 +1891,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6a62934fd9ee35d49bf4f84f329793d1, type: 3}
+--- !u!1 &832381918 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1520068607348101689, guid: 6a62934fd9ee35d49bf4f84f329793d1,
+    type: 3}
+  m_PrefabInstance: {fileID: 832381917}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1256342287
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2238,7 +2249,7 @@ PrefabInstance:
     - target: {fileID: 2469762652482431551, guid: 21fd07f74cfeb164094b4487e87e241d,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 24.436258
+      value: 0.00014322341
       objectReference: {fileID: 0}
     - target: {fileID: 2484917107755118521, guid: 21fd07f74cfeb164094b4487e87e241d,
         type: 3}

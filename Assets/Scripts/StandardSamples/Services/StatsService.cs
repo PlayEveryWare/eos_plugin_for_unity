@@ -61,14 +61,28 @@ namespace PlayEveryWare.EpicOnlineServices
         /// Private constructor guarantees adherence to thread-safe singleton
         /// pattern.
         /// </summary>
-        private StatsService() : base(true) { }
+        private StatsService() { }
+
+        ~StatsService()
+        {
+            Dispose(false);
+        }
 
         #endregion
 
         /// <summary>
         /// Maps a given user to a list of player statistics.
         /// </summary>
-        private ConcurrentDictionary<ProductUserId, List<Stat>> _playerStats = new();
+        private readonly ConcurrentDictionary<ProductUserId, List<Stat>> _playerStats = new();
+
+        protected override void Reset()
+        {
+            // Clear any player stats that may have been locally cached.
+            _playerStats.Clear();
+
+            // Call the base implementation.
+            base.Reset();
+        }
 
         /// <summary>
         /// Conditionally executed proxy function for Unity's log function.
@@ -80,9 +94,12 @@ namespace PlayEveryWare.EpicOnlineServices
             UnityEngine.Debug.Log(toPrint);
         }
 
-        protected async override void OnPlayerLogin(ProductUserId productUserId)
+        protected async override void OnLoggedIn()
         {
-            await RefreshPlayerStatsAsync(productUserId);
+            if (TryGetProductUserId(out ProductUserId userId))
+            {
+                await RefreshPlayerStatsAsync(userId);
+            }
         }
 
         /// <summary>

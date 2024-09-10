@@ -21,6 +21,7 @@
 */
 namespace PlayEveryWare.EpicOnlineServices.Editor
 {
+    using System.Linq;
     using UnityEditor;
     using UnityEngine;
     using Utility;
@@ -30,20 +31,15 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
     /// ConfigEditors that represent the configuration options for a specific
     /// platform.
     /// </summary>
-    /// <typeparam name="T">
-    /// A PlatformConfig pertaining to a specific platform.
-    /// </typeparam>
-    public abstract class PlatformConfigEditor<T> : ConfigEditor<T> where T : PlatformConfig
+    /// <typeparam name="T">Intended to be a type accepted by the templated class ConfigHandler.</typeparam>
+    public abstract class PlatformConfigEditor<T> : ConfigEditor<T>, IPlatformConfigEditor where T : PlatformConfig
     {
-        /// <summary>
-        /// The platform that this PlatformConfigEditor represents.
-        /// </summary>
-        protected PlatformManager.Platform Platform;
-
-        protected PlatformConfigEditor(PlatformManager.Platform platform) :
-            base(PlatformManager.GetFullName(platform))
+        protected PlatformConfigEditor()
         {
-            this.Platform = platform;
+            Load();
+
+            // The label should always be the full name of the platform.
+            _labelText = PlatformManager.GetFullName(config.Platform);
         }
 
         /// <summary>
@@ -55,10 +51,10 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
         /// </summary>
         public virtual void RenderOverrides()
         {
-            GUILayout.Label($"{PlatformManager.GetFullName(Platform)} Override Configuration Values",
+            GUILayout.Label($"{PlatformManager.GetFullName(config.Platform)} Override Configuration Values",
                 EditorStyles.boldLabel);
 
-            GUIEditorUtility.AssigningFlagTextField("Integrated Platform Management Flags (Separated by '|')", ref config.overrideValues.integratedPlatformManagementFlags, 345);
+            GUIEditorUtility.AssigningFlagTextField("Integrated Platform Management Flags (Separated by '|')", ref config.flags, 345);
 
             GUIEditorUtility.AssigningFlagTextField("Override Platform Flags (Separated by '|')", ref config.overrideValues.platformOptionsFlags, 250);
 
@@ -84,6 +80,11 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
             GUIEditorUtility.AssigningULongToStringField("Thread Affinity: P2PIO", ref config.overrideValues.ThreadAffinity_P2PIO);
             GUIEditorUtility.AssigningULongToStringField("Thread Affinity: HTTPRequestIO", ref config.overrideValues.ThreadAffinity_HTTPRequestIO);
             GUIEditorUtility.AssigningULongToStringField("Thread Affinity: RTCIO", ref config.overrideValues.ThreadAffinity_RTCIO);
+        }
+
+        public bool IsPlatformAvailable()
+        {
+            return PlatformManager.GetAvailableBuildTargets().Contains(config.Platform);
         }
 
         public virtual void RenderPlatformSpecificOptions() { }
