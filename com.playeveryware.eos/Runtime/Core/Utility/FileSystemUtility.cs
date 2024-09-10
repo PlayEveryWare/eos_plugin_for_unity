@@ -413,6 +413,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
             }
         }
 
+#if UNITY_EDITOR
         /// <summary>
         /// Returns the root of the Unity project.
         /// </summary>
@@ -433,7 +434,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
             throw new DirectoryNotFoundException("Unable to locate the Assets folder from the current directory.");
         }
 
-#if UNITY_EDITOR
+
         #region Line Ending Manipulations
 
         public static void ConvertDosToUnixLineEndings(string filename)

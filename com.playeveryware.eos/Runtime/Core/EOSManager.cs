@@ -136,12 +136,12 @@ namespace PlayEveryWare.EpicOnlineServices
         private static Dictionary<LogCategory, LogLevel> logLevels;
 
         /// <summary>
-        /// Boolean indicator of whether an EOSManager has already been created.
-        /// This prevents having multiple EOSManagers doing extra work.
-        /// Note: This does not track if you delete the object.
-        /// It is presumed that EOSManager will have DontDestroyOnLoad marked on it, during Awake.
+        /// A pointer to the active EOSManager instance.
+        /// This is set when a EOSManager runs Awake, and this value is null.
+        /// This value may be "null" if the EOSManager has its game object destroyed,
+        /// for example between automated tests.
         /// </summary>
-        private static bool s_EOSManagerHasBeenCreated = false;
+        private static EOSManager s_EOSManagerInstance = null;
 
         enum EOSState
         {
@@ -1809,7 +1809,7 @@ namespace PlayEveryWare.EpicOnlineServices
         {
             // If there's already been an EOSManager,
             // disable this behaviour so that it doesn't fire Unity messages
-            if (s_EOSManagerHasBeenCreated)
+            if (s_EOSManagerInstance != null)
             {
                 EOSSingleton.print($"{nameof(EOSManager)} {(nameof(Awake))}: An EOSManager instance already exists and is running, so this behaviour is marking as inactive to not perform duplicate work.");
                 enabled = false;
@@ -1817,7 +1817,7 @@ namespace PlayEveryWare.EpicOnlineServices
             }
 
             // Indicate that a EOSManager has been created, and mark it to not be destroyed
-            s_EOSManagerHasBeenCreated = true;
+            s_EOSManagerInstance = this;
             DontDestroyOnLoad(this.gameObject);
 
 #if UNITY_PS5 && !UNITY_EDITOR
