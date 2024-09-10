@@ -21,7 +21,7 @@ This leads to [the Developer Portal landing page](https://dev.epicgames.com/port
 Pressing Sign In will present you with a screen that you can sign up for a new account.
 If you already have an Epic Games Account, perhaps because you've played games on the Epic Games Store, you can sign in with that existing account.
 
-<a href="https://www.epicgames.com/id/login?"><img src="/com.playeveryware.eos/Documentation~/full_guide/epic_developerportal_signin_or_createaccount.png" alt="You can either sign in to, or create an account on the Epic Developer Portal."/></a>
+<a href="https://www.epicgames.com/id/login?"><img src="/com.playeveryware.eos/Documentation~/gettingstartedguide/epic_developerportal_signin_or_createaccount.png" alt="You can either sign in to, or create an account on the Epic Developer Portal."/></a>
 
 After acquiring an account, if you are not using an existing Organization, you will be required to create an Organization.
 An Organization is a holder for all of the Products you make.
@@ -49,6 +49,7 @@ During this process, the Developer Portal will create a set of `Sandbox` and `De
 > While navigating the Epic Developer Portal to certain features, there will be dialogues to review and accept Epic terms and services.
 > There are several of these throughout the onboarding process, with specific domains such as Epic Account Services. You will need to agree to the terms and services to use features that are part of those domains.
 > This will bring you to a Terms of Service page with detailed information about the agreement.
+> 
 > In order to utilize many features of Epic Online Services, you will need to review and agree to these conditions.
 > In order to use any features under `Epic Games Store`, there will be an agreement process that includes a possible submission fee.
 > While this agreement is required to perform Epic Game Store operations, including publishing and selling your game, the EOS Plugin for Unity can be configured and utilized before this is agreed to.
@@ -69,7 +70,7 @@ For more information on Products, see [Epic's documentation on Products](https:/
 
 On the landing page for your Product within the Epic Developer Portal, you will see sections for your Product, Clients, Sandboxes, and Deployments.
 
-<img src="/com.playeveryware.eos/Documentation~/full_guide/epic_developerportal_productlanding.png" alt="The first thing in the Product landing page is your Product, Clients, Sandboxes, and Deployments. Other than Product, these likely haven't been configured yet."/>
+<img src="/com.playeveryware.eos/Documentation~/gettingstartedguide/epic_developerportal_productlanding.png" alt="The first thing in the Product landing page is your Product, Clients, Sandboxes, and Deployments. Other than Product, these likely haven't been configured yet."/>
 
 In order to get the most out of the EOS Plugin for Unity, you'll need to create and configure a Product, a Client, Sandboxes, and Deployments in the developer portal.
 Start by creating a Client by navigating to the `Clients` section.
@@ -124,7 +125,7 @@ The Samples come with scenes that demonstrate the usage of the EOS Plugin for Un
 Next follow [our documentation regarding how to configure the plugin](/com.playeveryware.eos/Documentation~/configure_plugin.md).
 Inside of Unity (using the menu bar), navigate to `Tools` -> `EOS Plugin` -> `EOS Configuration`.
 
-<img src="/com.playeveryware.eos/Documentation~/full_guide/plugin_eosconfiguration.png" alt="The EOS Configuration popup can be filled out using information in the Product Settings page."/>
+<img src="/com.playeveryware.eos/Documentation~/gettingstartedguide/plugin_eosconfiguration.png" alt="The EOS Configuration popup can be filled out using information in the Product Settings page."/>
 
 All of theses values can be pulled from the `Product Settings` page and inner dialogues within the EOS Developer Portal.
 One of the fields is your `Encryption Key`. This can remain its default value for now. This value will not be found in the EOS Developer Portal.
@@ -136,7 +137,7 @@ If your game is deployed through the Epic Game Store, the game will be launched 
 
 For more information on the use of the Encryption Key, see [Epic's documentation on Title Storage Interface](https://dev.epicgames.com/docs/game-services/title-storage).
 
-# Starting to Use the Samples
+## Starting to Use the Samples
 
 At this moment your game is set up to utilize the EOS Plugin for Unity.
 The samples are documented [in the EOS Plugin for Unity Walkthrough documentation](https://github.com/PlayEveryWare/eos_plugin_for_unity/blob/stable/com.playeveryware.eos/Documentation~/Walkthrough.md), which leads to individual Scene walk throughs.
@@ -145,6 +146,10 @@ Open the Lobbies sample in the scene, and start running the game. Note if there 
 
 The Lobbies sample is chosen because, assuming a permissive Client Policy, there's no needed further set up in the Epic Developer Portal.
 If you successfully log in to the Lobbies Sample, create a Lobby to demonstrate that everything is connected appropriately.
+
+> [!NOTE]
+> The samples include useful Managers and Services that will provide an easy way to use the EOS SDK.
+> The scenes that are in the sample show how to utilize the plugin; even without needing those, it is still useful to bring in the samples.
 
 # Utilizing the EOS Plugin for Unity
 
@@ -166,9 +171,9 @@ Then follow [our documentation on Authenticating Players](/com.playeveryware.eos
 The most common use case is to follow the below process:
 
 - Use the Auth Interface to authenticate the user. This can one of several methods, depending on your needs. For example `EOSManager.Instance.StartLoginWithLoginTypeAndToken`.
-- If the authentication results in `Result.InvalidUser`, this indicates the user doesn't yet have a link from this account to EOS. Handle this by calling `EOSManager.Instance.AuthLinkExternalAccountWithContinuanceToken`, passing in the ContinuanceToken from the callback's `Epic.OnlineServices.Auth.LoginCallbackInfo` parameter, and then continuing if that succeeds.
+- - If the authentication results in `Result.InvalidUser`, this indicates the user doesn't yet have a link from this account to EOS. Handle this by calling `EOSManager.Instance.AuthLinkExternalAccountWithContinuanceToken`, passing in the ContinuanceToken from the callback's `Epic.OnlineServices.Auth.LoginCallbackInfo` parameter, and then continuing if that succeeds.
 - Use the Connect Interface to continue the login flow. Use `EOSManager.Instance.StartConnectLoginWithEpicAccount`.
-- This can also return `Result.InvalidUser`, which indicates a Connect User needs to be created. Use `EOSManager.Instance.CreateConnectUserWithContinuanceToken`, passing in the ContinuanceToken from the callback's `Epic.OnlineServices.Connect.LoginCallbackInfo` parameter. If this succeeds, then call `EOSManager.Instance.StartConnectLoginWithEpicAccount` again.
+- - This can also return `Result.InvalidUser`, which indicates a Connect User needs to be created. Use `EOSManager.Instance.CreateConnectUserWithContinuanceToken`, passing in the ContinuanceToken from the callback's `Epic.OnlineServices.Connect.LoginCallbackInfo` parameter. If this succeeds, then call `EOSManager.Instance.StartConnectLoginWithEpicAccount` again.
 
 If the above all succeeds, the plugin has logged the user in entirely, and the plugin is ready for use.
 This is all demonstrated in the `UILoginMenu`'s handling of result codes.
@@ -176,6 +181,7 @@ This is all demonstrated in the `UILoginMenu`'s handling of result codes.
 > [!NOTE]
 > Many features in the EOS Plugin for Unity use a callback pattern for handling results.
 > For example, `EOSManager.Instance.StartLoginWithLoginTypeAndToken` contains an `OnAuthLoginCallback` callback argument.
+> 
 > These are usually delegates, with one parameter that describes the return type. For example, `OnAuthLoginCallback` has a `Epic.OnlineServices.Auth.LoginCallbackInfo` parameter.
 > This contains information about whether the operation succeeded or failed through a `Result` enum.
 >
@@ -189,10 +195,11 @@ This returns a C# wrapper around the EOS SDK's operations.
 
 When the Samples are included in to your project, all of these interfaces are accessible through Manager and Service classes.
 These Managers and Services are designed to make using the EOS SDK's functions feel "more Unity-like" and be more convenient than accessing the Interfaces directly.
-Managers and Services manage their own states. None of them are MonoBehaviours, and will clean up their data on login and logout operations automatically.
 
 For example, the functionality of `FriendsInterface` is made into convenient functions inside `EOSFriendsManager`.
 To get a `Manager` class, for example the `EOSFriendsManager`, use `EOSManager.Instance.GetOrCreateManager<EOSFriendsManager>()`.
 
 Some of the interfaces are wrapped in `Service`s. For example, `AchievementsInterface` has its functionality inside `AchievementsService`.
 These can be accessed through their lazy-loaded Singleton reference. For example, `AchievementsService.Instance`.
+
+The Managers and Services in the plugin manage their own states. None of them are MonoBehaviours, and will clean up their data on login and logout operations automatically.
