@@ -310,8 +310,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </summary>
         [ConfigField("Initial Button Delay", 
             "Initial Button Delay (if not set, whatever the default " +
-            "is will be used).",
-            4)]
+            "is will be used).", 4)]
         public string initialButtonDelayForOverlay;
 
         /// <summary>
@@ -319,9 +318,21 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </summary>
         [ConfigField("Repeat Button Delay",
             "Repeat button delay for the overlay. If not set, " +
-            "whatever the default is will be used.", 
-            4)]
+            "whatever the default is will be used.", 4)]
         public string repeatButtonDelayForOverlay;
+
+        /// <summary>
+        /// HACK: send force send input without delay&lt;/c&gt;If true, the
+        /// native plugin will always send input received directly to the SDK.
+        /// If set to false, the plugin will attempt to delay the input to
+        /// mitigate CPU spikes caused by spamming the SDK.
+        /// </summary>
+        [ConfigField("Send input without delay", 
+            ConfigFieldType.Flag, 
+            "Workaround to force send input without any delay. If " +
+            "true, the native plugin will always send input receive directly " +
+            "to the SDK.", 4)]
+        public bool hackForceSendInputDirectlyToSDK;
 
         #endregion
 
