@@ -298,10 +298,10 @@ namespace PlayEveryWare.EpicOnlineServices
                 // If the editor is not running, then the config file not
                 // existing should throw an error.
                 throw new FileNotFoundException(
-                $"Config file \"{FilePath}\" does not exist.");
+                    $"Config file \"{FilePath}\" does not exist.");
 #endif
             }
-    }
+        }
 
         // Functions declared below should only ever be utilized in the editor.
         // They are so divided to guarantee separation of concerns.

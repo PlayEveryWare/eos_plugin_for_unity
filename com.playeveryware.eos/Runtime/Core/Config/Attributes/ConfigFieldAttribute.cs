@@ -43,18 +43,39 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </summary>
         public int Group { get; }
 
+        /// <summary>
+        /// The label to use for the group that the config field is a member of.
+        /// </summary>
+        public string GroupLabel { get; }
+
+        /// <summary>
+        /// The type of the field - used to inform how to render input controls
+        /// and validation.
+        /// </summary>
         public ConfigFieldType FieldType { get; }
-        
+
+        public ConfigFieldAttribute(
+            string label,
+            string tooltip = null,
+            int group = -1,
+            string groupLabel = "") : 
+            this(label, ConfigFieldType.Text, tooltip, group, groupLabel)
+        {
+
+        }
+
         public ConfigFieldAttribute(
             string label, 
             ConfigFieldType type, 
             string tooltip = null, 
-            int group = -1)
+            int group = -1,
+            string groupLabel = "")
         {
             Label = label;
             ToolTip = tooltip;
             Group = group;
             FieldType = type;
+            GroupLabel = groupLabel;
         }
     }
 }

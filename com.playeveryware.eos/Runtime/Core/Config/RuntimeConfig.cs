@@ -20,7 +20,7 @@
  * SOFTWARE.
  */
 
-//#define EOS_RUNTIME_NEW_CONFIG_SYSTEM
+#define EOS_RUNTIME_NEW_CONFIG_SYSTEM
 
 namespace PlayEveryWare.EpicOnlineServices
 {
@@ -47,7 +47,7 @@ namespace PlayEveryWare.EpicOnlineServices
     /// Most of the values for these field members come from the
     /// [Development Portal](https://dev.epicgames.com/portal/)
     /// </summary>
-    public readonly struct RuntimeConfig
+    public struct RuntimeConfig
     {
     #region EOS SDK Configuration Values
 
