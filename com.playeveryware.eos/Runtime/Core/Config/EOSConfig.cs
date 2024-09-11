@@ -51,6 +51,15 @@ namespace PlayEveryWare.EpicOnlineServices
     /// Represents the EOS Configuration used for initializing EOS SDK.
     /// </summary>
     [Serializable]
+    [ConfigGroup("EOS Config", new []
+    {
+        "Product Information",
+        "Deployment",
+        "Client Authentication",
+        "Flags",
+        "Thread Affinity & Tick Budgets",
+        "Overlay Options"
+    }, false)]
     public class EOSConfig : Config
     {
         static EOSConfig()
@@ -59,7 +68,8 @@ namespace PlayEveryWare.EpicOnlineServices
             RegisterFactory(() => new EOSConfig());
         }
 
-        protected EOSConfig() : base("EpicOnlineServicesConfig.json") { }
+        protected EOSConfig() : base("EpicOnlineServicesConfig.json") 
+        { }
 
         #region Product Information
 
@@ -68,16 +78,14 @@ namespace PlayEveryWare.EpicOnlineServices
         /// [Development Portal](https://dev.epicgames.com/portal/)
         /// </summary>
         [ConfigField("Product Name",
-            "Product name defined in the Development Portal.", 
-            0, "Product Information")]
+            "Product name defined in the Development Portal.", 0)]
         public string productName;
 
         /// <summary>
         /// Version of Product.
         /// </summary>
         [ConfigField("Product Version",
-            "Version of the product.", 
-            0, "Product Information")]
+            "Version of the product.", 0)]
         public string productVersion;
 
         /// <summary>
@@ -85,8 +93,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// [Development Portal](https://dev.epicgames.com/portal/)
         /// </summary>
         [ConfigField("Product Id",
-            "Product Id defined in the Development Portal.", 
-            0, "Product Information")]
+            "Product Id defined in the Development Portal.", 0)]
         public string productID;
 
         #endregion
@@ -97,18 +104,15 @@ namespace PlayEveryWare.EpicOnlineServices
         /// Sandbox Id defined in the
         /// [Development Portal](https://dev.epicgames.com/portal/)
         /// </summary>
-        [ConfigField("Sandbox Id",
-            "Sandbox Id to use.", 
-            1, "Deployment")]
+        [ConfigField("Sandbox Id", "Sandbox Id to use.", 1)]
         public string sandboxID;
 
         /// <summary>
         /// Deployment Id defined in the
         /// [Development Portal](https://dev.epicgames.com/portal/)
         /// </summary>
-        [ConfigField("Deployment Id",
-            "Deployment Id to use.", 
-            1, "Deployment")]
+        [ConfigField("Deployment Id", 
+            "Deployment Id to use.", 1)]
         public string deploymentID;
 
         /// <summary>
@@ -117,8 +121,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </summary>
         [ConfigField("Sandbox Deployment Overrides", 
             ConfigFieldType.TextList, 
-            "Deployment Id to use.", 
-            1, "Deployment")]
+            "Deployment Id to use.", 1)]
         public List<SandboxDeploymentOverride> sandboxDeploymentOverrides;
 
         /// <summary>
@@ -127,7 +130,8 @@ namespace PlayEveryWare.EpicOnlineServices
         [ConfigField("Is Server", 
             ConfigFieldType.Flag, 
             "Indicates whether the application is a dedicated game " +
-            "server.", 1, "Deployment")]
+            "server.", 
+            1)]
         public bool isServer;
 
         #endregion
@@ -140,7 +144,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </summary>
         [ConfigField("Client Secret", 
             "Client Secret defined in the Development Portal.", 
-            2, "Client Authentication")]
+            2)]
         public string clientSecret;
 
         /// <summary>
@@ -149,7 +153,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </summary>
         [ConfigField("Client Id", 
             "Client Id defined in the Development Portal.", 
-            2, "Client Authentication")]
+            2)]
         public string clientID;
 
         /// <summary>
@@ -158,7 +162,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </summary>
         [ConfigField("Encryption Key", 
             "Encryption key to use for client authentication.",
-            2, "Client Authentication")]
+            2)]
         public string encryptionKey;
 
         /// <summary>
@@ -167,7 +171,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </summary>
         [ConfigField("Generate Key", ConfigFieldType.Button,
             "Click to generate an encryption key.", 
-            2, "Client Authentication")]
+            2)]
         private Action GenerateKeyButtonAction;
 
         #endregion
@@ -180,7 +184,7 @@ namespace PlayEveryWare.EpicOnlineServices
         [ConfigField("Platform Options", 
             ConfigFieldType.TextList,
             "Platform option flags", 
-            3, "Flags")]
+            3)]
         public List<string> platformOptionsFlags;
 
         /// <summary>
@@ -189,7 +193,7 @@ namespace PlayEveryWare.EpicOnlineServices
         [ConfigField("Auth Scope Options", 
             ConfigFieldType.TextList, 
             "Platform option flags", 
-            3, "Flags")]
+            3)]
         public List<string> authScopeOptionsFlags;
 
         #endregion
@@ -204,7 +208,7 @@ namespace PlayEveryWare.EpicOnlineServices
             ConfigFieldType.Uint, 
             "Used to define the maximum amount of execution time the " +
             "EOS SDK can use each frame.", 
-            3, "Thread Affinity & Tick Budgets")]
+            3)]
         public uint tickBudgetInMilliseconds;
 
         /// <summary>
@@ -222,7 +226,7 @@ namespace PlayEveryWare.EpicOnlineServices
             ConfigFieldType.Double, 
             "Indicates the maximum number of seconds that EOS SDK " +
             "will allow network calls to run before failing with EOS_TimedOut.",
-            3, "Thread Affinity & Tick Budgets")]
+            3)]
         public double taskNetworkTimeoutSeconds;
 
         /// <summary>
@@ -232,7 +236,7 @@ namespace PlayEveryWare.EpicOnlineServices
         [ConfigField("Network Work",
             "Specifies affinity for threads that manage network tasks " +
             "that are not IO related.", 
-            3, "Thread Affinity & Tick Budgets")]
+            3)]
         public string ThreadAffinity_networkWork;
 
         /// <summary>
@@ -241,7 +245,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </summary>
         [ConfigField("Storage IO", 
             "Specifies affinity for threads that generate storage IO.", 
-            3, "Thread Affinity & Tick Budgets")]
+            3)]
         public string ThreadAffinity_storageIO;
 
         /// <summary>
@@ -250,7 +254,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </summary>
         [ConfigField("Web Socket IO", 
             "Specifies affinity for threads that generate web socket " +
-            "IO.", 3, "Thread Affinity & Tick Budgets")]
+            "IO.", 3)]
         public string ThreadAffinity_webSocketIO;
 
         /// <summary>
@@ -260,7 +264,7 @@ namespace PlayEveryWare.EpicOnlineServices
         [ConfigField("P2P IO",
             "Specifies affinity for any thread that will generate IO " +
             "related to P2P traffic and management.", 
-            3, "Thread Affinity & Tick Budgets")]
+            3)]
         public string ThreadAffinity_P2PIO;
 
         /// <summary>
@@ -270,7 +274,7 @@ namespace PlayEveryWare.EpicOnlineServices
         [ConfigField("HTTP Request IO",
             "Specifies the affinity for any thread that will generate " +
             "HTTP request IO.", 
-            3, "Thread Affinity & Tick Budgets")]
+            3)]
         public string ThreadAffinity_HTTPRequestIO;
 
         /// <summary>
@@ -280,7 +284,7 @@ namespace PlayEveryWare.EpicOnlineServices
         [ConfigField("RTC IO",
             "Specifies the affinity for any thread that will generate " +
             "IO related to RTC traffic and management.", 
-            3, "Thread Affinity & Tick Budgets")]
+            3)]
         public string ThreadAffinity_RTCIO;
 
         #endregion
@@ -298,7 +302,7 @@ namespace PlayEveryWare.EpicOnlineServices
             "If true, the plugin will always send input to the " +
             "overlay from the C# side to native, and handle showing the " +
             "overlay. This doesn't always mean input makes it to the EOS SDK.",
-            4, "Overlay Options")]
+            4)]
         public bool alwaysSendInputToOverlay;
 
         /// <summary>
@@ -307,7 +311,7 @@ namespace PlayEveryWare.EpicOnlineServices
         [ConfigField("Initial Button Delay", 
             "Initial Button Delay (if not set, whatever the default " +
             "is will be used).",
-            4, "Overlay Options")]
+            4)]
         public string initialButtonDelayForOverlay;
 
         /// <summary>
@@ -316,7 +320,7 @@ namespace PlayEveryWare.EpicOnlineServices
         [ConfigField("Repeat Button Delay",
             "Repeat button delay for the overlay. If not set, " +
             "whatever the default is will be used.", 
-            4, "Overlay Options")]
+            4)]
         public string repeatButtonDelayForOverlay;
 
         #endregion
