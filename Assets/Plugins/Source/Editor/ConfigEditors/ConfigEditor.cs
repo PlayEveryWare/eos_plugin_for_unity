@@ -221,7 +221,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
                 float labelWidth = GetMaximumLabelWidth(fieldGroup);
 
                 // If there is a label for the field group, then display it.
-                if (_groupLabels?.Length > fieldGroup.Key)
+                if (0 >= fieldGroup.Key && _groupLabels?.Length > fieldGroup.Key)
                 {
                     GUILayout.Label(_groupLabels[fieldGroup.Key], EditorStyles.boldLabel);
                 }
