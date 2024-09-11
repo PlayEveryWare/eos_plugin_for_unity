@@ -32,8 +32,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
     using UnityEngine.Events;
     using Utility;
     using Task = System.Threading.Tasks.Task;
-    using Config = EpicOnlineServices.Config;
-
 
     /// <summary>
     /// Contains implementations of IConfigEditor that are common to all
@@ -50,6 +48,11 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
         /// The string to use for the label for the config editor.
         /// </summary>
         protected string _labelText;
+
+        /// <summary>
+        /// The labels for each group.
+        /// </summary>
+        protected string[] _groupLabels;
 
         /// <summary>
         /// Event that triggers when the config editor is expanded.
@@ -103,6 +106,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
             {
                 _collapsible = attribute.Collapsible;   
                 _labelText = attribute.Label;
+                _groupLabels = attribute.GroupLabels;
             }
 
             _animExpanded = new(_collapsible);
@@ -124,7 +128,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
         /// </summary>
         public void Expand()
         {
-            // Don't do anything if already expanded, or if cannot expand
+            // Don't do anything if already expanded, or cannot expand
             if (_expanded || !_collapsible)
             {
                 return;
@@ -162,13 +166,11 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
         /// <returns>A collection of config fields.</returns>
         private static IOrderedEnumerable<IGrouping<int, (FieldInfo FieldInfo, ConfigFieldAttribute FieldDetails)>> GetFieldsByGroup()
         {
-            var returnValue = typeof(T).GetFields(BindingFlags.Public | BindingFlags.Instance)
+            return typeof(T).GetFields(BindingFlags.Public | BindingFlags.Instance)
                 .Where(field => field.GetCustomAttribute<ConfigFieldAttribute>() != null)
                 .Select(info => (info, info.GetCustomAttribute<ConfigFieldAttribute>()))
                 .GroupBy(r => r.Item2.Group)
                 .OrderBy(group => group.Key);
-
-            return returnValue;
         }
 
         /// <summary>
@@ -214,10 +216,15 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
         /// </exception>
         protected void RenderConfigFields()
         {
-            var fieldGroups = GetFieldsByGroup();
-            foreach (var fieldGroup in fieldGroups)
+            foreach (var fieldGroup in GetFieldsByGroup())
             {
                 float labelWidth = GetMaximumLabelWidth(fieldGroup);
+
+                // If there is a label for the field group, then display it.
+                if (0 >= fieldGroup.Key && _groupLabels?.Length > fieldGroup.Key)
+                {
+                    GUILayout.Label(_groupLabels[fieldGroup.Key], EditorStyles.boldLabel);
+                }
 
                 foreach (var field in fieldGroup)
                 {
@@ -237,6 +244,9 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
                             break;
                         case ConfigFieldType.Ulong:
                             field.FieldInfo.SetValue(config, GUIEditorUtility.RenderInputField(field.FieldDetails, (ulong)field.FieldInfo.GetValue(config), labelWidth));
+                            break;
+                        case ConfigFieldType.Double:
+                            field.FieldInfo.SetValue(config, GUIEditorUtility.RenderInputField(field.FieldDetails, (double)field.FieldInfo.GetValue(config), labelWidth));
                             break;
                         case ConfigFieldType.TextList:
                             field.FieldInfo.SetValue(config, GUIEditorUtility.RenderInputField(field.FieldDetails, (List<string>)field.FieldInfo.GetValue(config), labelWidth));

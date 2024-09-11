@@ -47,7 +47,7 @@ namespace PlayEveryWare.EpicOnlineServices
     /// Most of the values for these field members come from the
     /// [Development Portal](https://dev.epicgames.com/portal/)
     /// </summary>
-    public readonly struct RuntimeConfig
+    public struct RuntimeConfig
     {
     #region EOS SDK Configuration Values
 

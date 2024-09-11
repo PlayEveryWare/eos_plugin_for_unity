@@ -96,94 +96,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             EditorGUIUtility.labelWidth = originalLabelWidth;
         }
 
-        public static void AssigningPath(string label, ref string filePath, string prompt, string directory = "", string extension = "", bool selectFolder = false, bool horizontalLayout = true, float maxButtonWidth = 100, float labelWidth = -1, string tooltip = null)
-        {
-            if (horizontalLayout)
-            {
-                EditorGUILayout.BeginHorizontal();
-            }
-
-            AssigningTextField(label, ref filePath, labelWidth, tooltip);
-
-            bool buttonPressed = maxButtonWidth > 0 ? GUILayout.Button("Select", GUILayout.MaxWidth(maxButtonWidth)) : GUILayout.Button("Select");
-
-            if (buttonPressed)
-            {
-                var newFilePath = selectFolder ? EditorUtility.OpenFolderPanel(prompt, "", "") : EditorUtility.OpenFilePanel(prompt, directory, extension);
-                if (!string.IsNullOrWhiteSpace(newFilePath))
-                {
-                    filePath = newFilePath;
-                }
-            }
-
-            if (horizontalLayout)
-            {
-                EditorGUILayout.EndHorizontal();
-            }
-        }
-
-        private delegate T InputRenderDelegate<T>(string label, T value, float labelWidth, string tooltip);
-
-        public static void AssigningULongField(string label, ref ulong value, float labelWidth = -1, string tooltip = null)
-        {
-            float originalLabelWidth = EditorGUIUtility.labelWidth;
-            if (labelWidth >= 0)
-            {
-                EditorGUIUtility.labelWidth = labelWidth;
-            }
-
-            ulong newValue = value;
-            var newValueAsString = EditorGUILayout.TextField(CreateGUIContent(label, tooltip), value.ToString(), GUILayout.ExpandWidth(true));
-            if (string.IsNullOrWhiteSpace(newValueAsString))
-            {
-                newValueAsString = "0";
-            }
-
-            try
-            {
-                newValue = ulong.Parse(newValueAsString);
-                value = newValue;
-            }
-            catch (FormatException)
-            {
-            }
-            catch (OverflowException)
-            {
-            }
-
-            EditorGUIUtility.labelWidth = originalLabelWidth;
-        }
-
-        public static void AssigningUintField(string label, ref uint value, float labelWidth = -1, string tooltip = null)
-        {
-            float originalLabelWidth = EditorGUIUtility.labelWidth;
-            if (labelWidth >= 0)
-            {
-                EditorGUIUtility.labelWidth = labelWidth;
-            }
-
-            uint newValue = value;
-            var newValueAsString = EditorGUILayout.TextField(CreateGUIContent(label, tooltip), value.ToString(), GUILayout.ExpandWidth(true));
-            if (string.IsNullOrWhiteSpace(newValueAsString))
-            {
-                newValueAsString = "0";
-            }
-
-            try
-            {
-                newValue = uint.Parse(newValueAsString);
-                value = newValue;
-            }
-            catch (FormatException)
-            {
-            }
-            catch (OverflowException)
-            {
-            }
-
-            EditorGUIUtility.labelWidth = originalLabelWidth;
-        }
-
         public static void AssigningULongToStringField(string label, ref string value, float labelWidth = -1, string tooltip = null)
         {
             float originalLabelWidth = EditorGUIUtility.labelWidth;
@@ -288,6 +200,8 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
 
         #region New methods for rendering input fields
 
+        private delegate T InputRenderDelegate<T>(string label, T value, float labelWidth, string tooltip);
+
         public static List<string> RenderInputField(ConfigFieldAttribute configFieldDetails, List<string> value,
             float labelWidth, string tooltip = null)
         {
@@ -389,6 +303,18 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             EditorGUILayout.EndHorizontal();
 
             return filePath;
+        }
+
+        public static double RenderInputField(ConfigFieldAttribute configFieldDetails, double value, float labelWidth, string tooltip = null)
+        {
+            return InputRendererWrapper(configFieldDetails.Label, value, labelWidth, tooltip,
+                (label, value1, width, s) =>
+                {
+                    return EditorGUILayout.DoubleField(
+                        CreateGUIContent(configFieldDetails.Label, tooltip),
+                        value,
+                        GUILayout.ExpandWidth(true));
+                });
         }
 
         public static string RenderInputField(ConfigFieldAttribute configFieldDetails, string value, float labelWidth,

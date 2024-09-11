@@ -43,8 +43,12 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </summary>
         public int Group { get; }
 
+        /// <summary>
+        /// The type of the field - used to inform how to render input controls
+        /// and validation.
+        /// </summary>
         public ConfigFieldType FieldType { get; }
-        
+
         public ConfigFieldAttribute(
             string label, 
             ConfigFieldType type, 
