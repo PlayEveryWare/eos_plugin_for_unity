@@ -50,12 +50,6 @@ namespace PlayEveryWare.EpicOnlineServices
         public ConfigFieldType FieldType { get; }
 
         public ConfigFieldAttribute(
-            string label,
-            string tooltip = null,
-            int group = -1) : 
-            this(label, ConfigFieldType.Text, tooltip, group) { }
-
-        public ConfigFieldAttribute(
             string label, 
             ConfigFieldType type, 
             string tooltip = null, 
