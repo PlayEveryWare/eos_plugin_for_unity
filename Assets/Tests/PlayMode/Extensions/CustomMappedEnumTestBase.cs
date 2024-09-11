@@ -30,6 +30,9 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Extensions
 
     public class CustomMappedEnumTestBase<TEnum> where TEnum : struct, Enum
     {
+        // Define a delegate that matches the signature of a TryParse method
+        protected delegate bool TryParseDelegate(IList<string> input, out TEnum result);
+
         /// <summary>
         /// Helper function that retrieves an IEnumerable of all the values
         /// defined within the indicated enum.
@@ -63,10 +66,10 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Extensions
                 // exception because it can signal to the developer that the 
                 // custom mapping is out of date with the definition of the enum
                 // it is mapped against.
-                Assert.DoesNotThrow(() => getDescriptionFn(enumValue), 
-                    $"The extension class for the enum {typeof(TEnum).Name} " +
-                    $"does not have a switch clause providing a description " +
-                    $"text for the enum value \"{enumValue}\".");
+                Assert.DoesNotThrow(() => getDescriptionFn(enumValue),
+                $"The extension class for the enum {typeof(TEnum).Name} " +
+                $"does not have a switch clause providing a description " +
+                $"text for the enum value \"{enumValue}\".");
             }
         }
 
@@ -84,9 +87,58 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Extensions
             foreach (TEnum enumValue in GetEnumValues())
             {
                 Assert.IsTrue(customMappings.ContainsValue(enumValue),
-                    $"The extension class for the enum {typeof(TEnum).Name} " +
-                    $"does not have a custom mapping defined for the enum " +
-                    $"value \"{enumValue}\".");
+                $"The extension class for the enum {typeof(TEnum).Name} " +
+                $"does not have a custom mapping defined for the enum " +
+                $"value \"{enumValue}\".");
+            }
+        }
+
+        /// <summary>
+        /// Checks to make sure that the TryParse extension method for the
+        /// indicated enum is functioning properly.
+        /// </summary>
+        /// <param name="customMappings">
+        /// The dictionary that provides mapping from custom string values to
+        /// specific values within the enum.
+        /// </param>
+        /// <param name="tryParseFunc">
+        /// The extension method used to try and parse a string into an enum
+        /// value.
+        /// </param>
+        protected static void Test_TryParse(
+            Dictionary<string, TEnum> customMappings,
+            TryParseDelegate tryParseFunc
+        )
+        {
+            // Reuse the variables for whether parse was successful and what the
+            // parsed value was.
+            bool parsed = false;
+            TEnum parsedValue = default;
+
+            // test that an incorrect string will result in the TryParse method
+            // functioning as expected
+            const string INVALID_MAPPING = "ASDFASDFASDFASDF";
+            parsed = tryParseFunc(new List<string>() { INVALID_MAPPING }, out parsedValue);
+
+            // Assert that the parsing failed (as expected)
+            Assert.IsFalse(parsed);
+
+            // Assert that in the case of a failed parse, the default value is
+            // set.
+            Assert.AreEqual(parsedValue, default(TEnum));
+
+            // Test each of the custom mappings for accurate parsing.
+            foreach (string customMapping in customMappings.Keys)
+            {
+                parsed = tryParseFunc(new List<string>() { customMapping }, out parsedValue);
+                Assert.IsTrue(parsed);
+                Assert.AreEqual(parsedValue, customMappings[customMapping]);
+
+                // Convert custom mapped to string, and test that that parsing works
+                string stringValue = parsedValue.ToString();
+                parsed = tryParseFunc(new List<string>() { stringValue }, out TEnum reparsedValue);
+                Assert.IsTrue(parsed);
+                Assert.AreEqual(reparsedValue, parsedValue);
             }
         }
     }
