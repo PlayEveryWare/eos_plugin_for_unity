@@ -123,11 +123,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.IntegrationTests
             {
                 // Generate a random name until we hit something that isn't already taken
                 // Having the same name would work as an overwrite
-                string randomName = "";
-                do
-                {
-                    randomName = UnityEngine.Random.Range(0, 9999).ToString();
-                } while (randomNames.Contains(randomName));
+                string randomName = Guid.NewGuid().ToString();
 
                 bool waitingForAdd = true;
                 Action doneWaiting = () => waitingForAdd = false;
