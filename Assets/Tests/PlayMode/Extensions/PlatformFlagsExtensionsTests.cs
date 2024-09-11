@@ -47,5 +47,19 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Extensions
         {
             CustomMappings_Exist(PlatformFlagsExtensions.CustomMappings);
         }
+
+        /// <summary>
+        /// Guarantees that the TryParse method works for all the valid strings
+        /// that can be parsed, and that parsing of an invalid string is handled
+        /// correctly.
+        /// </summary>
+        [Test]
+        public static void Test_TryParse()
+        {
+            Test_TryParse(
+                PlatformFlagsExtensions.CustomMappings,
+                PlatformFlagsExtensions.TryParse
+            );
+        }
     }
 }
