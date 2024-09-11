@@ -43,10 +43,21 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </summary>
         public bool Collapsible { get; }
 
+        /// <summary>
+        /// Set the 
+        /// </summary>
+        public string[] GroupLabels { get; }
+
         public ConfigGroupAttribute(string label, bool collapsible = true)
         {
             Label = label;
             Collapsible = collapsible;
+        }
+
+        public ConfigGroupAttribute(string label, string[] groupLabels, bool collapsible = true)
+        : this(label, collapsible)
+        {
+            GroupLabels = groupLabels;
         }
     }
 }
