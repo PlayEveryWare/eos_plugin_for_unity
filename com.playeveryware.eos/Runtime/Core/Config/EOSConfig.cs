@@ -77,14 +77,14 @@ namespace PlayEveryWare.EpicOnlineServices
         /// Product Name defined in the
         /// [Development Portal](https://dev.epicgames.com/portal/)
         /// </summary>
-        [ConfigField("Product Name",
+        [ConfigField("Product Name", ConfigFieldType.Text,
             "Product name defined in the Development Portal.", 0)]
         public string productName;
 
         /// <summary>
         /// Version of Product.
         /// </summary>
-        [ConfigField("Product Version",
+        [ConfigField("Product Version", ConfigFieldType.Text,
             "Version of the product.", 0)]
         public string productVersion;
 
@@ -92,7 +92,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// Product Id defined in the
         /// [Development Portal](https://dev.epicgames.com/portal/)
         /// </summary>
-        [ConfigField("Product Id",
+        [ConfigField("Product Id", ConfigFieldType.Text,
             "Product Id defined in the Development Portal.", 0)]
         public string productID;
 
@@ -104,14 +104,15 @@ namespace PlayEveryWare.EpicOnlineServices
         /// Sandbox Id defined in the
         /// [Development Portal](https://dev.epicgames.com/portal/)
         /// </summary>
-        [ConfigField("Sandbox Id", "Sandbox Id to use.", 1)]
+        [ConfigField("Sandbox Id", ConfigFieldType.Text, 
+            "Sandbox Id to use.", 1)]
         public string sandboxID;
 
         /// <summary>
         /// Deployment Id defined in the
         /// [Development Portal](https://dev.epicgames.com/portal/)
         /// </summary>
-        [ConfigField("Deployment Id", 
+        [ConfigField("Deployment Id", ConfigFieldType.Text,
             "Deployment Id to use.", 1)]
         public string deploymentID;
 
@@ -142,7 +143,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// Client Secret defined in the
         /// [Development Portal](https://dev.epicgames.com/portal/)
         /// </summary>
-        [ConfigField("Client Secret", 
+        [ConfigField("Client Secret", ConfigFieldType.Text,
             "Client Secret defined in the Development Portal.", 
             2)]
         public string clientSecret;
@@ -151,7 +152,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// Client Id defined in the
         /// [Development Portal](https://dev.epicgames.com/portal/)
         /// </summary>
-        [ConfigField("Client Id", 
+        [ConfigField("Client Id", ConfigFieldType.Text,
             "Client Id defined in the Development Portal.", 
             2)]
         public string clientID;
@@ -160,7 +161,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// Encryption Key&lt; used by default to decode files previously
         /// encoded and stored in EOS.
         /// </summary>
-        [ConfigField("Encryption Key", 
+        [ConfigField("Encryption Key", ConfigFieldType.Text,
             "Encryption key to use for client authentication.",
             2)]
         public string encryptionKey;
@@ -233,7 +234,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// Network Work Affinity; specifies thread affinity for network
         /// management that is not IO.
         /// </summary>
-        [ConfigField("Network Work",
+        [ConfigField("Network Work", ConfigFieldType.Text,
             "Specifies affinity for threads that manage network tasks " +
             "that are not IO related.", 
             3)]
@@ -243,7 +244,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// Storage IO Affinity; specifies affinity for threads that will
         /// interact with a storage device.
         /// </summary>
-        [ConfigField("Storage IO", 
+        [ConfigField("Storage IO", ConfigFieldType.Text,
             "Specifies affinity for threads that generate storage IO.", 
             3)]
         public string ThreadAffinity_storageIO;
@@ -252,7 +253,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// Web Socket IO Affinity; specifies affinity for threads that generate
         /// web socket IO.
         /// </summary>
-        [ConfigField("Web Socket IO", 
+        [ConfigField("Web Socket IO", ConfigFieldType.Text,
             "Specifies affinity for threads that generate web socket " +
             "IO.", 3)]
         public string ThreadAffinity_webSocketIO;
@@ -261,7 +262,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// P2P IO Affinity; specifies affinity for any thread that will
         /// generate IO related to P2P traffic and management.
         /// </summary>
-        [ConfigField("P2P IO",
+        [ConfigField("P2P IO", ConfigFieldType.Text,
             "Specifies affinity for any thread that will generate IO " +
             "related to P2P traffic and management.", 
             3)]
@@ -271,7 +272,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// HTTP Request IO Affinity; specifies affinity for any thread that
         /// will generate http request IO.
         /// </summary>
-        [ConfigField("HTTP Request IO",
+        [ConfigField("HTTP Request IO", ConfigFieldType.Text,
             "Specifies the affinity for any thread that will generate " +
             "HTTP request IO.", 
             3)]
@@ -281,7 +282,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// RTC IO Affinity&lt;/c&gt; specifies affinity for any thread that
         /// will generate IO related to RTC traffic and management.
         /// </summary>
-        [ConfigField("RTC IO",
+        [ConfigField("RTC IO", ConfigFieldType.Text,
             "Specifies the affinity for any thread that will generate " +
             "IO related to RTC traffic and management.", 
             3)]
@@ -308,7 +309,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <summary>
         /// Initial Button Delay.
         /// </summary>
-        [ConfigField("Initial Button Delay", 
+        [ConfigField("Initial Button Delay", ConfigFieldType.Text,
             "Initial Button Delay (if not set, whatever the default " +
             "is will be used).", 4)]
         public string initialButtonDelayForOverlay;
@@ -316,7 +317,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <summary>
         /// Repeat button delay for overlay.
         /// </summary>
-        [ConfigField("Repeat Button Delay",
+        [ConfigField("Repeat Button Delay", ConfigFieldType.Text,
             "Repeat button delay for the overlay. If not set, " +
             "whatever the default is will be used.", 4)]
         public string repeatButtonDelayForOverlay;

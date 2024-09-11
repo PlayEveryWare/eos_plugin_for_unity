@@ -20,7 +20,7 @@
  * SOFTWARE.
  */
 
-#define EOS_RUNTIME_NEW_CONFIG_SYSTEM
+//#define EOS_RUNTIME_NEW_CONFIG_SYSTEM
 
 namespace PlayEveryWare.EpicOnlineServices
 {
