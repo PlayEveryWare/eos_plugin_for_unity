@@ -53,8 +53,6 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.IntegrationTests
         public IEnumerator UnityTearDown()
         {
             yield return DestroyAllFiles();
-
-            playerDataStorageManager.RemoveCallbacks();
         }
 
         private IEnumerator DestroyAllFiles()

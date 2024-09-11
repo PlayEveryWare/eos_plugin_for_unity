@@ -483,11 +483,5 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             QueryFileList();
         }
-
-        public override void RemoveCallbacks()
-        {
-            base.RemoveCallbacks();
-            OnFileListUpdated = null;
-        }
     }
 }
