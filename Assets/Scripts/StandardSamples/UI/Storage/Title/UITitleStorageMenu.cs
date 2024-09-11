@@ -46,7 +46,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public GameObject UIFileNameEntryPrefab;
 
         public Text FileContent;
-        private EOSTitleStorageManager TitleStorageManager;
+        private TitleStorageService TitleStorageManager;
         private List<string> CurrentTags = new List<string>();
 
         protected override void Awake()
@@ -64,13 +64,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private void Start()
         {
-            TitleStorageManager = EOSManager.Instance.GetOrCreateManager<EOSTitleStorageManager>();
+            TitleStorageManager = EOSManager.Instance.GetOrCreateManager<TitleStorageService>();
         }
 
         protected override void OnDestroy()
         {
             base.OnDestroy();
-            EOSManager.Instance.RemoveManager<EOSTitleStorageManager>();
+            EOSManager.Instance.RemoveManager<TitleStorageService>();
         }
 
         public void AddTagOnClick()

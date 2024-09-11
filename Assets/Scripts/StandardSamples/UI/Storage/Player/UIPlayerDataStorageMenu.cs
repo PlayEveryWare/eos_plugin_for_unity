@@ -61,7 +61,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private string currentSelectedFile = string.Empty;
 
-        private EOSPlayerDataStorageManager PlayerDataStorageManager;
+        private PlayerDataStorageService PlayerDataStorageManager;
         private PlayerDataInventory currentInventory = null;
 
         private HashSet<string> fileNames = new();
@@ -70,7 +70,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         protected override void Awake()
         {
             base.Awake();
-            PlayerDataStorageManager = EOSManager.Instance.GetOrCreateManager<EOSPlayerDataStorageManager>();
+            PlayerDataStorageManager = EOSManager.Instance.GetOrCreateManager<PlayerDataStorageService>();
             fileNameUIEntries.AddRange(FilesContentParent.GetComponentsInChildren<UIFileNameEntry>(true));
         }
 
@@ -89,7 +89,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         protected override void OnDestroy()
         {
             base.OnDestroy();
-            EOSManager.Instance.RemoveManager<EOSPlayerDataStorageManager>();
+            EOSManager.Instance.RemoveManager<PlayerDataStorageService>();
         }
 
         private void UpdateFileListUI()

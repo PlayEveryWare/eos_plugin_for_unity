@@ -27,7 +27,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     using Utility;
 
     /// <summary>
-    /// Class <c>EOSTransferInProgress</c> is used in <c>EOSTitleStorageManager</c> and <c>EOSPlayerDataStorageManager</c> to keep track of downloaded cached file data.
+    /// Class <c>EOSTransferInProgress</c> is used in <c>EOSTitleStorageManager</c> and <c>PlayerDataStorageService</c> to keep track of downloaded cached file data.
     /// </summary>
     public class EOSTransferInProgress
     {

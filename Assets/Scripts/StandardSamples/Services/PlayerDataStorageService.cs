@@ -29,8 +29,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     using Epic.OnlineServices;
     using Epic.OnlineServices.PlayerDataStorage;
 
-    /// <summary>Class <c>EOSPlayerDataStorageManager</c> is a simplified wrapper for EOS [PlayerDataStorage Interface](https://dev.epicgames.com/docs/services/en-US/Interfaces/PlayerDataStorage/index.html).</summary>
-    public class EOSPlayerDataStorageManager : DataService<PlayerDataStorageFileTransferRequestWrapper>
+    /// <summary>Class <c>PlayerDataStorageService</c> is a simplified wrapper for EOS [PlayerDataStorage Interface](https://dev.epicgames.com/docs/services/en-US/Interfaces/PlayerDataStorage/index.html).</summary>
+    public class PlayerDataStorageService
+
+        : StorageService<PlayerDataStorageFileTransferRequestWrapper>
     {   
         public event Action OnFileListUpdated;
 
