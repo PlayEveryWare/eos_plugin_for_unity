@@ -21,8 +21,8 @@ This leads to [the Developer Portal landing page](https://dev.epicgames.com/port
 Pressing Sign In will present you with a screen that you can sign up for a new account.
 If you already have an Epic Games Account, perhaps because you've played games on the Epic Games Store, you can sign in with that existing account.
 
-<p align="center" width="100%"><a href="https://www.epicgames.com/id/login?"><img src="/com.playeveryware.eos/Documentation~/gettingstartedguide/epic_developerportal_signin_or_createaccount.png" alt="You can either sign in to, or create an account on the Epic Developer Portal."/></a><br/>
-<em>You can either sign in to, or create an account on the Epic Developer Portal.</em></p>
+<p align="center" width="100%"><a href="https://www.epicgames.com/id/login?"><img src="/com.playeveryware.eos/Documentation~/gettingstartedguide/epic_developerportal_signin_or_createaccount.png" alt="You can either sign in to an existing account, or create a new account, on the Epic Developer Portal."/></a><br/>
+<em>You can either sign in to an existing account, or create a new account, on the Epic Developer Portal.</em></p>
 
 After acquiring an account, if you are not using an existing Organization, you will be required to create an Organization.
 An Organization is a holder for all of the Products you make.
