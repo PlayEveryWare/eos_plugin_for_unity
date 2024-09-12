@@ -30,12 +30,12 @@ See [Epic's documentation on Organizations](https://dev.epicgames.com/docs/dev-p
 
 ## Working With an Existing Organization
 
-If you or a team member has already created an Organization, you can add Epic Game Store accounts to that organization.
+If you or a team member has already created an Organization, you can add Epic Game Store accounts to that Organization.
 While signed in to the `Epic Games Developer Portal`, navigate to `Organization`.
 Under the `Members` tab, you can use the `Invite New` button to send an invitation email to the target user.
 That email will contain a link that will help the user sign up for an Epic Account if necessary, and then subsequently they will be added to your Organization.
 
-Everyone who will be testing your game should be a part of your organization, or part of a Player Group. If they aren't, then whenever the EOS SDK requires the user to login, that user will be forbidden from accessing your application.
+Everyone who will be testing your game should be a part of your Organization, or part of a Player Group. If they aren't, then whenever the EOS SDK requires the user to login, that user will be forbidden from accessing your application.
 
 For more information on Player Groups, see [Epic's documentation on Player Groups](https://dev.epicgames.com/docs/dev-portal/product-management#player-groups).
 
@@ -56,19 +56,19 @@ During this process, the Developer Portal will create a set of `Sandbox` and `De
 >
 > Fore more information on the onboarding process, see [Epic's documentation on Get Started Overview](https://dev.epicgames.com/docs/epic-games-store/get-started/get-started-overview#onboarding-process).
 
-## 1) Creating a Product
+## 1) Create a Product
 
 By default your Organization will not contain any Products.
 While signed in to the `Epic Games Developer Portal` with your Organization selected, click the `Create Product` button underneath the `Your products` header to start the process.
 
-After naming your Product, there will be a brief wait as Epic's back-end servers process the creation.
+After naming your Product and creating it, there will be a brief wait as Epic's back-end servers process the creation. This is represented by a spinning loading animation.
 When it's done, you can navigate to your Product to begin configuring it.
 
 For more information on Products, see [Epic's documentation on Products](https://dev.epicgames.com/docs/dev-portal/product-management#whats-a-product).
 
-## 2) Creating a Client Policy and Client
+## Client Policy and Client
 
-On the Product Settings page for your Product within the Epic Developer Portal, you will see sections for your Product, Clients, Sandboxes, and Deployments.
+On the `Product Settings` page for your Product within the Epic Developer Portal, you will see sections for your Product, Clients, Sandboxes, and Deployments.
 
 <img src="/com.playeveryware.eos/Documentation~/gettingstartedguide/epic_developerportal_productlanding.png" alt="The first thing in the Product landing page is your Product, Clients, Sandboxes, and Deployments. Other than Product, these likely haven't been configured yet."/>
 
@@ -79,15 +79,17 @@ Clients are essentially types of contexts for your game. For example, all users 
 Each Client is assigned to one Client Policy.
 Client Policies are configurable sets of rules for what permissions a Client can perform. For example, a Client Policy determines the EOS SDK's ability to look up information about the friend list for a particular player.
 
-### 3) Create a Client Policy
+## 2) Create a Client Policy
 
-The first thing to configure on this screen is a Client Policy. To create a Client Policy, press the `Add new policy` button to bring up a dialogue.
+The first thing to configure on the `Clients` screen is a Client Policy. To create a Client Policy, press the `Add new policy` button to bring up a dialogue.
 The Client Policy needs a name, as well as select the details of a policy.
-If you select a preset, the permissions for that policy preset will be displayed in the dialogue.
-Custom policies can be defined here, and changed at any time. You don't need to commit to the final details at this time.
-The most permissive default policy is `GameClient /w UnlockAchievements`, which will give the Client Policy all of the permissions necessary to perform most actions.
 
-### 4) Create a Client
+If you select a preset, the permissions for that policy preset will be displayed in the dialogue.
+The most permissive default policy is `GameClient /w UnlockAchievements`, which will give the Client Policy all of the permissions necessary to perform most actions. Consider using this `GameClient /w UnlockAchievements` policy setting if you don't have other specific needs.
+
+Custom policies can be defined here, and changed at any time. You don't need to commit to the final details at this time. Only Custom policies can have their details changed.
+
+## 3) Create a Client
 
 After the Client Policy is created, create a client. Press `Add new client` to bring the Add new client dialogue.
 This will require a name and a Client Policy. Use the previously created Client Policy.
@@ -95,7 +97,19 @@ At this time, it is not required that you fill the fields for either the `Truste
 
 For more information on Clients and Client Policies, see [Epic's Client Credential and Client Policy Management documentation](https://dev.epicgames.com/docs/dev-portal/client-credentials).
 
-## 5) Creating an Application (and Sandboxes, Deployments)
+## 4) Agreement of Epic Game Services Terms, Which Creates Sandboxes and Deployments
+
+The `Game Services` section of the portal covers features that are available to all games using the plugin, even if they don't require Epic Accounts to function.
+At this time, you should navigate to the `Game Services` section. This will likely prompt you with a user agreement.
+
+Once accepted, `Sandboxes` and `Deployments` will be generated for `Dev` and `Stage`. These can be viewed in `Product Settings`.
+
+While not required for the plugin to function, many of the features of the EOS For Unity Plugin utilize Epic Game Services.
+The `Dev` and `Stage` environment configuration will also help with developing your game by isolating the development environments from the `Live` environment.
+
+For more information on Sandboxes and Deployments, see [Epic's documentation on Sandboxes and Deployments](https://dev.epicgames.com/docs/dev-portal/product-management#sandboxes-and-deployments).
+
+## 5) Create an Application
 
 Navigate to the `Epic Account Services` page. The landing will show you all configured Applications, which is empty at first. 
 Use `Create Application` to get started. Immediately when you press this button, an Application will be created for you.
@@ -103,19 +117,17 @@ An Application is collection of information about your game, which is later used
 The `Create Application` button will bring up a dialogue with three major steps; `Brand Settings`, `Permissions`, and `Linked Clients`.
 
 `Brand Settings` contains information about your game such as the Application's website.
-To utilize the EOS Plugin for Unity, you do not need to fill this page out at this time.
+You do not need to fill out this page in order to start using the EOS Plugin for Unity; this information can be provided later.
 
 `Permissions` will set the essential information that each user needs to consent to in order to use your application.
 This can be adjusted later. For full use of the EOS Plugin for Unity, consider marking `Online Presence` and `Friends` as Required.
 
 `Linked Clients` matches an Application to the Client that dictates its policies and further permissions.
-Assign the Client Policy created earlier to this.
+Assign the Client created earlier to this.
 
 When you exit this dialogue, the created Application will appear in the Applications page.
-Navigating back to the `Product Settings` page, you will see entries in `Sandboxes` and `Deployments` will have been automatically created for you for `Dev`, `Stage`, and `Live`.
 
 For more information on Applications, see [Epic's documentation on Applications in the Developer Portal Introduction](https://dev.epicgames.com/docs/dev-portal/dev-portal-intro#application).
-For more information on Sandboxes and Deployments, see [Epic's documentation on Sandboxes and Deployments](https://dev.epicgames.com/docs/dev-portal/product-management#sandboxes-and-deployments).
 
 # Add the EOS Plugin for Unity to Your Game
 
@@ -154,19 +166,31 @@ If you successfully log in to the Lobbies Sample, create a Lobby to demonstrate 
 > The samples include useful Managers and Services that will provide an easy way to use the EOS SDK.
 > The scenes that are in the sample show how to utilize the plugin; even without needing those, it is still useful to bring in the samples.
 
+> [!NOTE]
+> Look to the Unity logs for messages that relate to the configuration of the plugin.
+> If there is an error relating to "Invalid Parameters" during initialization, view the EOS Configuration screen again.
+> Ensure all fields have values, including `Product Version`, and that the values match what you have in the Epic Developer Portal's `Product Settings` page.
+
+> [!NOTE]
+> When testing the Samples, ensure the account being logged in has access to your game.
+> To start, use the same account that created the game, and either owns or is a member of the Organization.
+> Only members of your Organization or Player Group with appropriate permissions are able to login to EOS from your game.
+> 
+> For more information on Player Groups, see [Epic's documentation on Player Groups](https://dev.epicgames.com/docs/dev-portal/product-management#player-groups).
+
 # Utilizing the EOS Plugin for Unity
 
 The core of the EOS Plugin for Unity is the `EOSManager` class. This is a `MonoBehaviour` that manages the state of the EOS SDK.
 To add it to your game, either use the `Singletons` prefab included with the Samples, or create a new GameObject and attach the `EOSManager.cs` script to it.
 The `EOSManager` is designed to set the GameObject it is on as `DontDestroyOnLoad`, so it will persist between scenes.
-If another `EOSManager` is created, perhaps because of a scene navigation, the original `EOSManager` persist, while the new instance will disable the behaviour.
+If another `EOSManager` is created, perhaps because of a scene navigation, the original `EOSManager` persist, while the new instance will disable its own `MonoBehaviour`.
 
 `EOSManager` holds a static reference to an inner class `EOSSingleton`, which is where most of the plugin's state is held. This can be accessed with the static accessor `EOSManager.Instance`.
 
 ## Logging In
 
 Before the plugin can be utilized, the user of your game needs to log in to EOS.
-The samples include a `UILoginMenu` component in each of the scenes, which handles logging in.
+The samples include a `UILoginMenu` component in each of the scenes, which demonstrates handling logging in.
 The kind of login your users should use is based on your game's platform, and the needs of your game.
 See [our documentation on Login Types by Platform](/com.playeveryware.eos/Documentation~/login_type_by_platform.md) to determine the valid options for your platform.
 Then follow [our documentation on Authenticating Players](/com.playeveryware.eos/Documentation~/player_authentication.md) to understand the login workflow.
@@ -174,9 +198,9 @@ Then follow [our documentation on Authenticating Players](/com.playeveryware.eos
 The most common use case is to follow the below process:
 
 - Use the Auth Interface to authenticate the user. This can one of several methods, depending on your needs. For example `EOSManager.Instance.StartLoginWithLoginTypeAndToken`.
-- - If the authentication results in `Result.InvalidUser`, this indicates the user doesn't yet have a link from this account to EOS. Handle this by calling `EOSManager.Instance.AuthLinkExternalAccountWithContinuanceToken`, passing in the ContinuanceToken from the callback's `Epic.OnlineServices.Auth.LoginCallbackInfo` parameter, and then continuing if that succeeds.
+  - If the authentication results in `Result.InvalidUser`, this indicates the user doesn't yet have a link from this Identity Provider to an Epic Account. This is not an error; any user who has never logged in with the provided credentials into an Epic service will return this result. Handle this by calling `EOSManager.Instance.AuthLinkExternalAccountWithContinuanceToken`, passing in the ContinuanceToken from the callback's `Epic.OnlineServices.Auth.LoginCallbackInfo` parameter. If that succeeds, the login flow can continue to the next step. The user will be authenticated by this function call.
 - Use the Connect Interface to continue the login flow. Use `EOSManager.Instance.StartConnectLoginWithEpicAccount`.
-- - This can also return `Result.InvalidUser`, which indicates a Connect User needs to be created. Use `EOSManager.Instance.CreateConnectUserWithContinuanceToken`, passing in the ContinuanceToken from the callback's `Epic.OnlineServices.Connect.LoginCallbackInfo` parameter. If this succeeds, then call `EOSManager.Instance.StartConnectLoginWithEpicAccount` again.
+  - This can also return `Result.InvalidUser`, which indicates a Connect User needs to be created for this Epic Account to your title. This is also not an error; any user who is logging in for the first time to your game will encounter this. Use `EOSManager.Instance.CreateConnectUserWithContinuanceToken`, passing in the ContinuanceToken from the callback's `Epic.OnlineServices.Connect.LoginCallbackInfo` parameter. If this succeeds, then continue the login flow by calling `EOSManager.Instance.StartConnectLoginWithEpicAccount` again.
 
 If the above all succeeds, the plugin has logged the user in entirely, and the plugin is ready for use.
 This is all demonstrated in the `UILoginMenu`'s handling of result codes.
@@ -192,7 +216,7 @@ This is all demonstrated in the `UILoginMenu`'s handling of result codes.
 
 ## Utilizing Managers and Interfaces
 
-All of the functionality for the EOS SDK is broken in to interfaces.
+All of the functionality for the EOS SDK is separated in to interfaces.
 These can be accessed, for example, through `EOSManager.Instance.GetEOSAchievementInterface()`.
 This returns a C# wrapper around the EOS SDK's operations.
 
@@ -205,4 +229,4 @@ To get a `Manager` class, for example the `EOSFriendsManager`, use `EOSManager.I
 Some of the interfaces are wrapped in `Service`s. For example, `AchievementsInterface` has its functionality inside `AchievementsService`.
 These can be accessed through their lazy-loaded Singleton reference. For example, `AchievementsService.Instance`.
 
-The Managers and Services in the plugin manage their own states. None of them are MonoBehaviours, and will clean up their data on login and logout operations automatically.
+The Managers and Services in the plugin manage their own states. Other than the `EOSManager`, none of them are MonoBehaviours, and will clean up their data on login and logout operations automatically.

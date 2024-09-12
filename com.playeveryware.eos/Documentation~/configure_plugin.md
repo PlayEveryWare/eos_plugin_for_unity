@@ -11,21 +11,27 @@ To function, the plugin needs some information from your EOS project. Be sure to
 
     ![EOS Config UI](/com.playeveryware.eos/Documentation~/images/eosconfig_ui.gif)
 
-3) From the [Developer Portal](https://dev.epicgames.com/portal/), copy the configuration values listed below, and paste them into the similarly named fields in the editor tool window pictured above:
+3) From the [Developer Portal](https://dev.epicgames.com/portal/), inside your game's `Product Settings` page, copy the configuration values listed below, and paste them into the similarly named fields in the editor tool window pictured above:
 
      > [!NOTE]
      > For more detailed information, check out Epic's Documentation on [Creating the Platform Interface](https://dev.epicgames.com/docs/game-services/eos-platform-interface#creating-the-platform-interface).
 
     * ProductName
-    * ProductVersion
     * [ProductID](https://dev.epicgames.com/docs/services/en-US/Glossary/index.html#D?term=ProductId)
     * [SandboxID](https://dev.epicgames.com/docs/services/en-US/Glossary/index.html#D?term=SandboxId)
     * [DeploymentID](https://dev.epicgames.com/docs/services/en-US/Glossary/index.html#D?term=DeploymentId)
     * [ClientSecret](https://dev.epicgames.com/docs/services/en-US/Glossary/index.html#D?term=ClientSecret)
     * [ClientID](https://dev.epicgames.com/docs/services/en-US/Glossary/index.html#D?term=ClientId)
-    * EncryptionKey
 
-    <br />
+There are two other fields in the configuration editor.
+
+`ProductVersion` is a free-form numeric field, and can use any number.
+
+    > [!WARNING]
+	> The `ProductVersion` field needs to have some value inside it; it cannot be left empty.
+	> Only use numeric values for the `ProductVersion` field. Do not include text such as "V1.0".
+	
+`EncryptionKey` is used to encrypt uploads to the `Player Data Storage` and `Title Data Storage` EOS features. This value should be consistently used whenever uploading or downloading files from these Data Storages.
 
     > [!NOTE]
     > Click the "Generate" button to create a random key, if you haven't already configured an encryption key in the EOS portal. You can then add the generated key to the [Developer Portal](https://dev.epicgames.com/portal/).
@@ -40,6 +46,4 @@ To function, the plugin needs some information from your EOS project. Be sure to
 7) Attach `EOSManager.cs (Script)` to a Unity object, and it will initialize the plugin with the specified configuration in `OnAwake()`.
 
 > [!NOTE]
-The included [samples](http://github.com/PlayEveryWare/eos_plugin_for_unity/blob/development/com.playeveryware.eos/README.md#samples) already have configuration values set for you to experiment with!
-
-If you would like to see specific examples of various EOS features in action, import the sample Unity scenes that are described below.
+> The included [samples](http://github.com/PlayEveryWare/eos_plugin_for_unity/blob/development/com.playeveryware.eos/README.md#samples) already have configuration values set for you to experiment with!
