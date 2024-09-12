@@ -56,7 +56,7 @@ During this process, the Developer Portal will create a set of `Sandbox` and `De
 >
 > Fore more information on the onboarding process, see [Epic's documentation on Get Started Overview](https://dev.epicgames.com/docs/epic-games-store/get-started/get-started-overview#onboarding-process).
 
-## Creating a Product
+## 1) Creating a Product
 
 By default your Organization will not contain any Products.
 While signed in to the `Epic Games Developer Portal` with your Organization selected, click the `Create Product` button underneath the `Your products` header to start the process.
@@ -66,19 +66,20 @@ When it's done, you can navigate to your Product to begin configuring it.
 
 For more information on Products, see [Epic's documentation on Products](https://dev.epicgames.com/docs/dev-portal/product-management#whats-a-product).
 
-## Creating a Client Policy and Client
+## 2) Creating a Client Policy and Client
 
-On the landing page for your Product within the Epic Developer Portal, you will see sections for your Product, Clients, Sandboxes, and Deployments.
+On the Product Settings page for your Product within the Epic Developer Portal, you will see sections for your Product, Clients, Sandboxes, and Deployments.
 
 <img src="/com.playeveryware.eos/Documentation~/gettingstartedguide/epic_developerportal_productlanding.png" alt="The first thing in the Product landing page is your Product, Clients, Sandboxes, and Deployments. Other than Product, these likely haven't been configured yet."/>
 
 In order to get the most out of the EOS Plugin for Unity, you'll need to create and configure a Product, a Client, Sandboxes, and Deployments in the developer portal.
-Start by creating a Client by navigating to the `Clients` section.
-There you'll see your list of Clients and Client policies, which will be empty.
+Navigate to the `Clients` section. There you'll see your list of Clients and Client policies, which will be empty.
 
 Clients are essentially types of contexts for your game. For example, all users running your game from the store will be assigned a Client that represents their abilities.
 Each Client is assigned to one Client Policy.
 Client Policies are configurable sets of rules for what permissions a Client can perform. For example, a Client Policy determines the EOS SDK's ability to look up information about the friend list for a particular player.
+
+### 3) Create a Client Policy
 
 The first thing to configure on this screen is a Client Policy. To create a Client Policy, press the `Add new policy` button to bring up a dialogue.
 The Client Policy needs a name, as well as select the details of a policy.
@@ -86,13 +87,15 @@ If you select a preset, the permissions for that policy preset will be displayed
 Custom policies can be defined here, and changed at any time. You don't need to commit to the final details at this time.
 The most permissive default policy is `GameClient /w UnlockAchievements`, which will give the Client Policy all of the permissions necessary to perform most actions.
 
+### 4) Create a Client
+
 After the Client Policy is created, create a client. Press `Add new client` to bring the Add new client dialogue.
 This will require a name and a Client Policy. Use the previously created Client Policy.
 At this time, it is not required that you fill the fields for either the `Trusted Server IP allow list` or the `Epic Account Service Redirect URL`. For information on Trusted Servers see [Epic's documentation on Linked Clients](https://dev.epicgames.com/docs/epic-account-services/getting-started#linked-clients). For information on the Redirect URL see [Epic's documentation on Web Applications](https://dev.epicgames.com/docs/web-api-ref/authentication#web-applications).
 
 For more information on Clients and Client Policies, see [Epic's Client Credential and Client Policy Management documentation](https://dev.epicgames.com/docs/dev-portal/client-credentials).
 
-## Creating an Application (and Sandboxes, Deployments)
+## 5) Creating an Application (and Sandboxes, Deployments)
 
 Navigate to the `Epic Account Services` page. The landing will show you all configured Applications, which is empty at first. 
 Use `Create Application` to get started. Immediately when you press this button, an Application will be created for you.
