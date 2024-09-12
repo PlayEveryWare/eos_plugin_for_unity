@@ -21,7 +21,7 @@ This leads to [the Developer Portal landing page](https://dev.epicgames.com/port
 Pressing Sign In will present you with a screen that you can sign up for a new account.
 If you already have an Epic Games Account, perhaps because you've played games on the Epic Games Store, you can sign in with that existing account.
 
-<p align="center" width="100%"><a href="https://www.epicgames.com/id/login?"><img src="/com.playeveryware.eos/Documentation~/gettingstartedguide/epic_developerportal_signin_or_createaccount.png" alt="You can either sign in to an existing account, or create a new account, on the Epic Developer Portal."/></a><br/>
+<p align="center" width="100%"><a href="https://www.epicgames.com/id/login?"><img src="/com.playeveryware.eos/Documentation~/getting_started_guide/epic_developerportal_signin_or_createaccount.png" alt="You can either sign in to an existing account, or create a new account, on the Epic Developer Portal."/></a><br/>
 <em>You can either sign in to an existing account, or create a new account, on the Epic Developer Portal.</em></p>
 
 After acquiring an account, if you are not using an existing Organization, you will be required to create an Organization.
@@ -71,7 +71,7 @@ For more information on Products, see [Epic's documentation on Products](https:/
 
 On the `Product Settings` page for your Product within the Epic Developer Portal, you will see sections for your Product, Clients, Sandboxes, and Deployments.
 
-<p align="center" width="100%"><img src="/com.playeveryware.eos/Documentation~/gettingstartedguide/epic_developerportal_productlanding.png" alt="The first thing in the Product landing page is your Product, Clients, Sandboxes, and Deployments. Other than Product, these likely haven't been configured yet."/><br/>
+<p align="center" width="100%"><img src="/com.playeveryware.eos/Documentation~/getting_started_guide/epic_developerportal_productlanding.png" alt="The first thing in the Product landing page is your Product, Clients, Sandboxes, and Deployments. Other than Product, these likely haven't been configured yet."/><br/>
 <em>The first thing in the Product landing page is your Product, Clients, Sandboxes, and Deployments. Other than Product, these likely haven't been configured yet.</em></p>
 
 In order to get the most out of the EOS Plugin for Unity, you'll need to create and configure a Product, a Client, Sandboxes, and Deployments in the developer portal.
@@ -142,7 +142,7 @@ The Samples come with scenes that demonstrate the usage of the EOS Plugin for Un
 Next follow [our documentation regarding how to configure the plugin](/com.playeveryware.eos/Documentation~/configure_plugin.md).
 Inside of Unity (using the menu bar), navigate to `Tools` -> `EOS Plugin` -> `EOS Configuration`.
 
-<p align="center" width="100%"><img src="/com.playeveryware.eos/Documentation~/gettingstartedguide/plugin_eosconfiguration.png" alt="The EOS Configuration popup can be filled out using information in the Product Settings page."/><br/>
+<p align="center" width="100%"><img src="/com.playeveryware.eos/Documentation~/getting_started_guide/plugin_eosconfiguration.png" alt="The EOS Configuration popup can be filled out using information in the Product Settings page."/><br/>
 <em>The EOS Configuration popup can be filled out using information in the Product Settings page.</em></p>
 
 All of theses values can be pulled from the `Product Settings` page and inner dialogues within the EOS Developer Portal.
