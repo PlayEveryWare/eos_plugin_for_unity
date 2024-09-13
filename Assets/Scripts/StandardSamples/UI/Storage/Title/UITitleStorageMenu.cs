@@ -62,16 +62,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 
-        private void Start()
-        {
-        }
-
-        protected override void OnDestroy()
-        {
-            base.OnDestroy();
-            EOSManager.Instance.RemoveManager<TitleStorageService>();
-        }
-
         public void AddTagOnClick()
         {
             if (AddTag(AddTagTextBox.InputField.text))

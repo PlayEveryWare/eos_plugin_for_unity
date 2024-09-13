@@ -72,22 +72,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             fileNameUIEntries.AddRange(FilesContentParent.GetComponentsInChildren<UIFileNameEntry>(true));
         }
 
-        protected override void OnEnable()
-        {
-            base.OnEnable();
-        }
-
         private void Start()
         {
             RemoteViewText.text = string.Empty;
             LocalViewText.text = string.Empty;
             CurrentFileNameText.text = "*No File Selected*";
-        }
-
-        protected override void OnDestroy()
-        {
-            base.OnDestroy();
-            EOSManager.Instance.RemoveManager<PlayerDataStorageService>();
         }
 
         private void UpdateFileListUI()
