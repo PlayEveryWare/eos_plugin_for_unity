@@ -39,13 +39,9 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.IntegrationTests
 
     public class PlayerDataStorageManagerTests : EOSTestBase
     {
-        EOSPlayerDataStorageManager playerDataStorageManager;
-
         [UnitySetUp]
         public IEnumerator UnitySetUp()
         {
-            playerDataStorageManager = new EOSPlayerDataStorageManager();
-
             yield return DestroyAllFiles();
         }
 
@@ -60,24 +56,24 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.IntegrationTests
             // To know when the Query operation is done, subscribe to the file list being updated
             bool waiting = true;
             Action setWaiting = () => waiting = false;
-            playerDataStorageManager.OnFileListUpdated += setWaiting;
-            playerDataStorageManager.QueryFileList();
+            PlayerDataStorageService.Instance.OnFileListUpdated += setWaiting;
+            PlayerDataStorageService.Instance.QueryFileList();
 
             yield return new WaitUntilDone(10f, () => waiting == false );
 
-            Dictionary<string, string> localCache = playerDataStorageManager.GetLocallyCachedData();
+            Dictionary<string, string> localCache = PlayerDataStorageService.Instance.GetLocallyCachedData();
 
             // The key is the file name; we need to delete all of these files
             foreach (string localCacheKey in new List<string>(localCache.Keys))
             {
                 // To know when the DeleteFile operation is complete, we also listen to the file list being updated
                 waiting = true;
-                playerDataStorageManager.DeleteFile(localCacheKey);
+                PlayerDataStorageService.Instance.DeleteFile(localCacheKey);
                 yield return new WaitUntilDone(10f, () => waiting == false);
             }
 
             // Unsubscribe from file list updates before exiting
-            playerDataStorageManager.OnFileListUpdated -= setWaiting;
+            PlayerDataStorageService.Instance.OnFileListUpdated -= setWaiting;
         }
 
         /// <summary>
@@ -90,12 +86,12 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.IntegrationTests
         {
             bool waiting = true;
             Action setWaiting = () => waiting = false;
-            playerDataStorageManager.OnFileListUpdated += setWaiting;
-            playerDataStorageManager.QueryFileList();
+            PlayerDataStorageService.Instance.OnFileListUpdated += setWaiting;
+            PlayerDataStorageService.Instance.QueryFileList();
 
             yield return new WaitUntilDone(10f, () => waiting == false);
 
-            Dictionary<string, string> localCache = playerDataStorageManager.GetLocallyCachedData();
+            Dictionary<string, string> localCache = PlayerDataStorageService.Instance.GetLocallyCachedData();
 
             Assert.NotNull(localCache, "Local cache is null, should be an empty dictionary.");
             Assert.AreEqual(0, localCache.Keys.Count, "Local cache contains more than zero items, should be empty.");
@@ -128,19 +124,19 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.IntegrationTests
                 bool waitingForAdd = true;
                 Action doneWaiting = () => waitingForAdd = false;
                 byte[] fileBytes = new byte[] { 0x0, 0x1, 0x2, 0x3, 0x4, 0x5 };
-                playerDataStorageManager.AddFile(randomName, Encoding.UTF8.GetString(fileBytes), doneWaiting);
+                PlayerDataStorageService.Instance.AddFile(randomName, Encoding.UTF8.GetString(fileBytes), doneWaiting);
 
                 yield return new WaitUntilDone(10f, () => waitingForAdd == false);
             }
 			
             bool waiting = true;
             Action setWaiting = () => waiting = false;
-            playerDataStorageManager.OnFileListUpdated += setWaiting;
-            playerDataStorageManager.QueryFileList();
+            PlayerDataStorageService.Instance.OnFileListUpdated += setWaiting;
+            PlayerDataStorageService.Instance.QueryFileList();
 
             yield return new WaitUntilDone(10f, () => waiting == false);
 
-            Dictionary<string, string> localCache = playerDataStorageManager.GetLocallyCachedData();
+            Dictionary<string, string> localCache = PlayerDataStorageService.Instance.GetLocallyCachedData();
 
             Assert.NotNull(localCache, "Local cache is null, should be a dictionary with data.");
             Assert.AreEqual(numberOfFilesToMake, localCache.Keys.Count, "Local cache doesn't contain the expected number of items. Should have one item for each uploaded file.");
@@ -169,14 +165,14 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.IntegrationTests
                 uploadedFileString += UnityEngine.Random.Range(0, byte.MaxValue);
             }
 
-            playerDataStorageManager.AddFile(nameof(UploadedFile_HasSameContents), uploadedFileString, doneWaiting);
+            PlayerDataStorageService.Instance.AddFile(nameof(UploadedFile_HasSameContents), uploadedFileString, doneWaiting);
             yield return new WaitUntilDone(10f, () => waiting == false);
 
             waiting = true;
-            playerDataStorageManager.DownloadFile(nameof(UploadedFile_HasSameContents), doneWaiting);
+            PlayerDataStorageService.Instance.DownloadFile(nameof(UploadedFile_HasSameContents), doneWaiting);
             yield return new WaitUntilDone(10f, () => waiting == false);
 
-            Dictionary<string, string> localCache = playerDataStorageManager.GetLocallyCachedData();
+            Dictionary<string, string> localCache = PlayerDataStorageService.Instance.GetLocallyCachedData();
 
             Assert.NotNull(localCache, "Local cache is null, should be a dictionary with data.");
             Assert.AreEqual(1, localCache.Keys.Count, "Local cache doesn't contain a single item. Should only contain exactly the one uploaded file.");
@@ -203,16 +199,16 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.IntegrationTests
             bool waiting = true;
             Action doneWaiting = () => waiting = false;
             byte[] fileBytes = new byte[] { 0x0, 0x1, 0x2, 0x3, 0x4, 0x5 };
-            playerDataStorageManager.AddFile(nameof(UploadedFile_CanBeDeleted), Encoding.UTF8.GetString(fileBytes), doneWaiting);
+            PlayerDataStorageService.Instance.AddFile(nameof(UploadedFile_CanBeDeleted), Encoding.UTF8.GetString(fileBytes), doneWaiting);
             yield return new WaitUntilDone(10f, () => waiting == false);
 
             // We know the delete operation is complete when the file list is next updated
             waiting = true;
-            playerDataStorageManager.OnFileListUpdated += doneWaiting;
-            playerDataStorageManager.DeleteFile(nameof(UploadedFile_CanBeDeleted));
+            PlayerDataStorageService.Instance.OnFileListUpdated += doneWaiting;
+            PlayerDataStorageService.Instance.DeleteFile(nameof(UploadedFile_CanBeDeleted));
             yield return new WaitUntilDone(10f, () => waiting == false);
 
-            Dictionary<string, string> localCache = playerDataStorageManager.GetLocallyCachedData();
+            Dictionary<string, string> localCache = PlayerDataStorageService.Instance.GetLocallyCachedData();
 
             Assert.NotNull(localCache, "Local cache is null, should be an empty non-null dictionary.");
             Assert.AreEqual(0, localCache.Keys.Count, "Local cache contains items. It should be empty.");
@@ -232,21 +228,21 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.IntegrationTests
             bool waiting = true;
             Action doneWaiting = () => waiting = false;
             byte[] fileBytes = new byte[] { 0x0, 0x1, 0x2, 0x3, 0x4, 0x5 };
-            playerDataStorageManager.AddFile(nameof(UploadedFile_CanBeCopied), Encoding.UTF8.GetString(fileBytes), doneWaiting);
+            PlayerDataStorageService.Instance.AddFile(nameof(UploadedFile_CanBeCopied), Encoding.UTF8.GetString(fileBytes), doneWaiting);
             yield return new WaitUntilDone(10f, () => waiting == false);
 
             // We know the copy operation is complete when the file list is next updated
             waiting = true;
-            playerDataStorageManager.OnFileListUpdated += doneWaiting;
-            playerDataStorageManager.CopyFile(nameof(UploadedFile_CanBeCopied), DestinationFileName);
+            PlayerDataStorageService.Instance.OnFileListUpdated += doneWaiting;
+            PlayerDataStorageService.Instance.CopyFile(nameof(UploadedFile_CanBeCopied), DestinationFileName);
             yield return new WaitUntilDone(10f, () => waiting == false);
 
             // Now download the file
             waiting = true;
-            playerDataStorageManager.DownloadFile(DestinationFileName, doneWaiting);
+            PlayerDataStorageService.Instance.DownloadFile(DestinationFileName, doneWaiting);
             yield return new WaitUntilDone(10f, () => waiting == false);
 
-            Dictionary<string, string> localCache = playerDataStorageManager.GetLocallyCachedData();
+            Dictionary<string, string> localCache = PlayerDataStorageService.Instance.GetLocallyCachedData();
 
             Assert.NotNull(localCache, "Local cache is null, should be a dictionary.");
             Assert.AreEqual(2, localCache.Keys.Count, "Local cache doesn't contain the expected amount of items. Should contain exactly the original file and its copy.");
@@ -286,7 +282,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.IntegrationTests
                 originalFileString += UnityEngine.Random.Range(0, byte.MaxValue);
             }
 
-            playerDataStorageManager.AddFile(nameof(UploadingFile_WithSameName_Overrides), originalFileString, doneWaiting);
+            PlayerDataStorageService.Instance.AddFile(nameof(UploadingFile_WithSameName_Overrides), originalFileString, doneWaiting);
             yield return new WaitUntilDone(10f, () => waiting == false);
 
             // Now create an identically named file but with different contents
@@ -297,10 +293,10 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.IntegrationTests
                 newFileString += UnityEngine.Random.Range(0, byte.MaxValue);
             }
 
-            playerDataStorageManager.AddFile(nameof(UploadingFile_WithSameName_Overrides), newFileString, doneWaiting);
+            PlayerDataStorageService.Instance.AddFile(nameof(UploadingFile_WithSameName_Overrides), newFileString, doneWaiting);
             yield return new WaitUntilDone(10f, () => waiting == false);
 
-            Dictionary<string, string> localCache = playerDataStorageManager.GetLocallyCachedData();
+            Dictionary<string, string> localCache = PlayerDataStorageService.Instance   .GetLocallyCachedData();
 
             Assert.NotNull(localCache, "Local cache is null, should be a dictionary.");
             Assert.AreEqual(1, localCache.Keys.Count, "Local cache doesn't contain the expected amount of items. Should contain exactly the overriding file.");

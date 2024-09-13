@@ -35,6 +35,33 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     {   
         private List<string> CurrentFileNames = new List<string>();
 
+        #region Singleton Implementation
+
+        /// <summary>
+        /// Lazy instance for singleton allows for thread-safe interactions with
+        /// the TitleStorageService
+        /// </summary>
+        private static readonly Lazy<TitleStorageService> s_LazyInstance = new(() => new TitleStorageService());
+
+        /// <summary>
+        /// Accessor for the instance.
+        /// </summary>
+        public static TitleStorageService Instance
+        {
+            get
+            {
+                return s_LazyInstance.Value;
+            }
+        }
+
+        /// <summary>
+        /// Private constructor guarantees adherence to thread-safe singleton
+        /// pattern.
+        /// </summary>
+        private TitleStorageService() { }
+
+        #endregion
+
         // Manager Callbacks
         public EOSResultEventHandler QueryListCallback { get; private set; } = null;
         
