@@ -46,7 +46,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public GameObject UIFileNameEntryPrefab;
 
         public Text FileContent;
-        //private TitleStorageService TitleStorageManager;
         private List<string> CurrentTags = new List<string>();
 
         protected override void Awake()
