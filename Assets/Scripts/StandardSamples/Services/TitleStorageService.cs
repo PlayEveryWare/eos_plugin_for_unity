@@ -70,14 +70,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             return CurrentFileNames;
         }
 
-        /// <summary>User Logged In actions</summary>
-        /// <list type="bullet">
-        ///     <item><description><c>NA</c></description></item>
-        /// </list>
-        protected override void OnLoggedIn()
-        {
-        }
-
         protected override Task InternalRefreshAsync()
         {
             // TODO: Needs implementation

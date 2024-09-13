@@ -173,8 +173,9 @@ namespace PlayEveryWare.EpicOnlineServices
 
         /// <summary>
         /// Implement this method to perform tasks when a user authenticates.
+        /// By default, there is no action taken.
         /// </summary>
-        protected abstract void OnLoggedIn();
+        protected virtual void OnLoggedIn() { }
 
         /// <summary>
         /// If there are tasks that need to be done when logged out, consider
