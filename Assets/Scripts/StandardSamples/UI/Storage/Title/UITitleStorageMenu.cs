@@ -62,6 +62,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 
+        private void Start()
+        {
+        }
+
         public void AddTagOnClick()
         {
             if (AddTag(AddTagTextBox.InputField.text))
