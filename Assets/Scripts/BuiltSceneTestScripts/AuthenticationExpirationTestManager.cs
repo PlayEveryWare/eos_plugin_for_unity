@@ -23,6 +23,8 @@
 namespace PlayEveryWare.EpicOnlineServices.Tests
 {
     using Epic.OnlineServices;
+    using Epic.OnlineServices.Auth;
+    using Epic.OnlineServices.Connect;
     using EpicOnlineServices;
     using Samples;
     using Samples.Steam;
@@ -57,20 +59,75 @@ namespace PlayEveryWare.EpicOnlineServices.Tests
         public Text OriginalToken;
         public Text CurrentToken;
 
-        private Coroutine Probe { get; set; }
+        private Coroutine RunningTestCoroutine { get; set; }
 
+
+        /// <summary>
+        /// <see cref="SetAuthenticationProviderAndLogin(AuthenticationProviderToTest)"/>
+        /// </summary>
+        /// <param name="toSet">
+        /// Integer to cast into a <see cref="AuthenticationProviderToTest"/> argument.
+        /// Needed for the dropdown to function.
+        /// </param>
         public void SetAuthenticationProviderAndLogin(int toSet)
         {
             SetAuthenticationProviderAndLogin((AuthenticationProviderToTest)toSet);
         }
 
+        /// <summary>
+        /// Begins a test of the Authentication token reacquisition.
+        /// This test validates that the various providers correctly have their
+        /// refresh tokens and authentication handled, such that users of the plugin
+        /// will have the login refresh itself correctly when it expires.
+        /// It performs this test by:
+        /// - Logging in using the provider supplied
+        /// - Performs a Connect login
+        /// - Periodically performs an action in EOS
+        ///   If the action fails, the authentication must have failed to refresh.
+        ///   Therefore the test will end then, as a failure.
+        /// - Listens for the authentication provider's token to change.
+        ///   Displays changed tokens, which are generally a proof of this system working.
+        /// The test never finishes 'successfully', so it'll have to declare a success if it doesn't
+        /// fail within some arbitrary time.
+        /// </summary>
+        /// <param name="toSet">The provider to test against.</param>
         public void SetAuthenticationProviderAndLogin(AuthenticationProviderToTest toSet)
         {
+            if (RunningTestCoroutine != null)
+            {
+                Debug.Log($"{nameof(AuthenticationExpirationTestManager)} ({nameof(SetAuthenticationProviderAndLogin)}): Test is already running, cannot run multiple tests in the same instance.");
+                return;
+            }
+
             RunningTest = toSet;
-            StartProbe();
+            StartAuthenticationExpirationProbe();
         }
 
-        private void StartProbe()
+        /// <summary>
+        /// Begins a test of the Connect system, ensuring that the Connect login
+        /// correctly refreshes itself when it notifies about expiring.
+        /// This will make sure the users of the plugin stayed logged in and
+        /// able to use EOS.
+        /// It performs this test by;
+        /// - Logging in using the AccountPortal (you'll have to respond to this UI)
+        /// - Performs a Connect login
+        /// - Subscribes to the Connect Expiration and Login Status Change notifications
+        /// - If the login status ever becomes logged out, the test is ended as a failure
+        /// The test never finishes 'successfully', so it'll have to declare a success if it doesn't
+        /// fail within some arbitrary time.
+        /// </summary>
+        public void StartConnectTest()
+        {
+            if (RunningTestCoroutine != null)
+            {
+                Debug.Log($"{nameof(AuthenticationExpirationTestManager)} ({nameof(StartConnectTest)}): Test is already running, cannot run multiple tests in the same instance.");
+                return;
+            }
+
+            RunningTestCoroutine = StartCoroutine(ContinuouslyProbeConnect());
+        }
+
+        private void StartAuthenticationExpirationProbe()
         {
             // Placeholder implementations
             RetrieveTokenFunction retrieveTokenFunction = (Action<string> resultingString) =>
@@ -124,15 +181,15 @@ namespace PlayEveryWare.EpicOnlineServices.Tests
                     break;
             }
 
-            Probe = StartCoroutine(ContinuouslyProbeTicket(retrieveTokenFunction, attemptAuthenticationFunction));
+            RunningTestCoroutine = StartCoroutine(ContinuouslyProbeTicket(retrieveTokenFunction, attemptAuthenticationFunction));
         }
 
         private void EndProbeAndLogout(Action afterLogout)
         {
-            if (Probe != null)
+            if (RunningTestCoroutine != null)
             {
-                StopCoroutine(Probe);
-                Probe = null;
+                StopCoroutine(RunningTestCoroutine);
+                RunningTestCoroutine = null;
             }
 
             if (EOSManager.Instance.HasLoggedInWithConnect())
@@ -356,6 +413,123 @@ namespace PlayEveryWare.EpicOnlineServices.Tests
             float totalTime = endTime - startTime;
             Debug.Log(
                 $"{nameof(AuthenticationExpirationTestManager)} ({nameof(ContinuouslyProbeTicket)}): This test took {totalTime} seconds.");
+        }
+
+        private IEnumerator ContinuouslyProbeConnect()
+        {
+            NextAction.text = $"Logging in";
+
+            bool waiting = true;
+            Result resultCode = Result.NoChange;
+            ContinuanceToken continuanceToken = default(ContinuanceToken);
+
+            EOSManager.Instance.StartLoginWithLoginTypeAndToken(Epic.OnlineServices.Auth.LoginCredentialType.AccountPortal, null, null, (Epic.OnlineServices.Auth.LoginCallbackInfo loginCallbackInfo) =>
+            {
+                waiting = false;
+                resultCode = loginCallbackInfo.ResultCode;
+                continuanceToken = loginCallbackInfo.ContinuanceToken;
+            });
+
+            while (waiting)
+            {
+                yield return new WaitForFixedUpdate();
+            }
+
+            if (resultCode == Result.InvalidUser)
+            {
+                // If the user is invalid, it's because it needs to have an Epic Account made
+                // In this scenario, call the account creation
+                // Invalid user means you need to create an account to connect to it, so let's do that quickly
+                NextAction.text = $"EOS account does not exist, creating connect user with continuance token";
+
+                waiting = true;
+                EOSManager.Instance.CreateConnectUserWithContinuanceToken(continuanceToken,
+                    (Epic.OnlineServices.Connect.CreateUserCallbackInfo createInfo) =>
+                    {
+                        resultCode = createInfo.ResultCode;
+                        waiting = false;
+                    });
+
+                while (waiting)
+                {
+                    yield return new WaitForEndOfFrame();
+                }
+
+                if (resultCode != Result.Success)
+                {
+                    Debug.LogError(
+                        $"{nameof(AuthenticationExpirationTestManager)} ({nameof(ContinuouslyProbeConnect)}): Failed to create connect user. Result code {resultCode}. Ending probe.");
+                    yield break;
+                }
+            }
+            else if (resultCode != Result.Success)
+            {
+                Debug.LogError(
+                        $"{nameof(AuthenticationExpirationTestManager)} ({nameof(ContinuouslyProbeConnect)}): Failed to authenticate. Result code {resultCode}. Ending probe.");
+                yield break;
+            }
+
+            waiting = true;
+            // At this point it is assumed the user is logged in correctly
+            EOSManager.Instance.StartConnectLoginWithEpicAccount(EOSManager.Instance.GetLocalUserId(), (Epic.OnlineServices.Connect.LoginCallbackInfo callbackInfo) =>
+            {
+                waiting = false;
+                resultCode = callbackInfo.ResultCode;
+            });
+
+            while (waiting)
+            {
+                yield return new WaitForEndOfFrame();
+            }
+
+            if (resultCode != Result.Success)
+            {
+                Debug.LogError(
+                        $"{nameof(AuthenticationExpirationTestManager)} ({nameof(ContinuouslyProbeConnect)}): Failed to connect login. Result code {resultCode}. Ending probe.");
+                yield break;
+            }
+
+
+            Epic.OnlineServices.LoginStatus? newStatusChange = null;
+            Epic.OnlineServices.Connect.AddNotifyLoginStatusChangedOptions options = new Epic.OnlineServices.Connect.AddNotifyLoginStatusChangedOptions();
+
+            Epic.OnlineServices.Connect.OnLoginStatusChangedCallback loginChangedCallback = (ref Epic.OnlineServices.Connect.LoginStatusChangedCallbackInfo data) =>
+            {
+                newStatusChange = data.CurrentStatus;
+            };
+            ulong loginStatusChangedCallbackId = EOSManager.Instance.GetEOSConnectInterface().AddNotifyLoginStatusChanged(ref options, null, loginChangedCallback);
+
+            Epic.OnlineServices.Connect.AddNotifyAuthExpirationOptions expOptions = new Epic.OnlineServices.Connect.AddNotifyAuthExpirationOptions();
+
+            OnAuthExpirationCallback authExpirationCallback = (ref Epic.OnlineServices.Connect.AuthExpirationCallbackInfo callbackInfo) =>
+            {
+                Debug.Log(
+                        $"{nameof(AuthenticationExpirationTestManager)} ({nameof(ContinuouslyProbeConnect)}): Authentication expiration notification has proc'd. This is not an error state, as the re-connect method might run on this same notification.");
+            };
+            ulong authExpirationCallbackId = EOSManager.Instance.GetEOSConnectInterface().AddNotifyAuthExpiration(ref expOptions, null, authExpirationCallback);
+
+            while (true)
+            {
+                if (newStatusChange.HasValue)
+                {
+                    if (newStatusChange == LoginStatus.NotLoggedIn)
+                    {
+                        Debug.LogError(
+                            $"{nameof(AuthenticationExpirationTestManager)} ({nameof(ContinuouslyProbeConnect)}): No longer considered logged in. Re-connect must have failed. Ending probe.");
+                        break;
+                    }
+                    else if (newStatusChange == LoginStatus.LoggedIn)
+                    {
+                        Debug.Log(
+                            $"{nameof(AuthenticationExpirationTestManager)} ({nameof(ContinuouslyProbeConnect)}): Received notification about being Logged In. This may indicate that a connect login succeeded.");
+                    }
+                }
+
+                yield return new WaitForFixedUpdate();
+            }
+
+            EOSManager.Instance.GetEOSConnectInterface().RemoveNotifyLoginStatusChanged(loginStatusChangedCallbackId);
+            EOSManager.Instance.GetEOSConnectInterface().RemoveNotifyAuthExpiration(authExpirationCallbackId);
         }
 
         delegate void RetrieveTokenFunction(Action<string> resultingString);
