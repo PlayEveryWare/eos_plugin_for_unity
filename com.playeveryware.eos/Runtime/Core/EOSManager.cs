@@ -1176,11 +1176,16 @@ namespace PlayEveryWare.EpicOnlineServices
                 connectInterface.Login(ref connectLoginOptions, null,
                     (ref Epic.OnlineServices.Connect.LoginCallbackInfo connectLoginData) =>
                     {
+                        if (connectLoginData.ResultCode != Result.Success)
+                        {
+                            print($"Connect login was not successful. ResultCode: {connectLoginData.ResultCode}", LogType.Error);
+                        }
+
                         if (connectLoginData.LocalUserId != null)
                         {
                             SetLocalProductUserId(connectLoginData.LocalUserId);
                             ConfigureConnectStatusCallback();
-                            ConfigureConnectExpirationCallback();
+                            ConfigureConnectExpirationCallback(connectLoginOptions);
                             OnConnectLogin?.Invoke(connectLoginData);
                         }
 
@@ -1340,7 +1345,7 @@ namespace PlayEveryWare.EpicOnlineServices
             }
 
             //-------------------------------------------------------------------------
-            private void ConfigureConnectExpirationCallback()
+            private void ConfigureConnectExpirationCallback(Epic.OnlineServices.Connect.LoginOptions connectLoginOptions)
             {
                 if (s_notifyConnectAuthExpirationCallbackHandle == null)
                 {
@@ -1349,6 +1354,7 @@ namespace PlayEveryWare.EpicOnlineServices
                     ulong callbackHandle = EOSConnectInterface.AddNotifyAuthExpiration(
                         ref addNotifyAuthExpirationOptions, null, (ref AuthExpirationCallbackInfo callbackInfo) =>
                         {
+                            StartConnectLoginWithOptions(connectLoginOptions, null);
                         });
 
                     s_notifyConnectAuthExpirationCallbackHandle = new NotifyEventHandle(callbackHandle, handle =>
