@@ -25,14 +25,13 @@ namespace PlayEveryWare.EpicOnlineServices
 {
     using Epic.OnlineServices;
     using System;
-    using System.Runtime.CompilerServices;
     using System.Threading.Tasks;
 
     /// <summary>
     /// Contains implementation of common functionality between different
     /// EOS Service managers (Currently AchievementsService and StatsService).
     /// </summary>
-    public abstract class EOSService : IEOSSubManager, IDisposable
+    public abstract class EOSService : IDisposable
     {
         /// <summary>
         /// Describes the function signature for the event that triggers when
@@ -174,8 +173,9 @@ namespace PlayEveryWare.EpicOnlineServices
 
         /// <summary>
         /// Implement this method to perform tasks when a user authenticates.
+        /// By default, there is no action taken.
         /// </summary>
-        protected abstract void OnLoggedIn();
+        protected virtual void OnLoggedIn() { }
 
         /// <summary>
         /// If there are tasks that need to be done when logged out, consider
