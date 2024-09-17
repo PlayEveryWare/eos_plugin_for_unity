@@ -30,7 +30,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.IntegrationTests
     using System.Text;
     using System.Collections.Generic;
 
-    public class PlayerDataStorageManagerTests
+    public class PlayerDataStorageServiceTests
         : EOSTestBase
     {
         [UnitySetUp]
