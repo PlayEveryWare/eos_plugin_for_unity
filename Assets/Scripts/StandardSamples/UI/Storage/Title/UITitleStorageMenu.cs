@@ -46,7 +46,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public GameObject UIFileNameEntryPrefab;
 
         public Text FileContent;
-        private EOSTitleStorageManager TitleStorageManager;
         private List<string> CurrentTags = new List<string>();
 
         protected override void Awake()
@@ -64,13 +63,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private void Start()
         {
-            TitleStorageManager = EOSManager.Instance.GetOrCreateManager<EOSTitleStorageManager>();
-        }
-
-        protected override void OnDestroy()
-        {
-            base.OnDestroy();
-            EOSManager.Instance.RemoveManager<EOSTitleStorageManager>();
         }
 
         public void AddTagOnClick()
@@ -156,7 +148,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 return;
             }
 
-            TitleStorageManager.QueryFileList(CurrentTags.ToArray(), SetFileListUI);
+            TitleStorageService.Instance.QueryFileList(CurrentTags.ToArray(), SetFileListUI);
         }
 
         private void SetFileListUI(Result result)
@@ -173,7 +165,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 GameObject.Destroy(child.gameObject);
             }
 
-            foreach (string entry in TitleStorageManager.GetCachedCurrentFileNames())
+            foreach (string entry in TitleStorageService.Instance.GetCachedCurrentFileNames())
             {
                 GameObject fileNameUIObj = Instantiate(UIFileNameEntryPrefab, FileNameContentParent.transform);
                 UIFileNameEntry fileNameEntry = fileNameUIObj.GetComponent<UIFileNameEntry>();
@@ -198,14 +190,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 return;
             }
 
-            if (!TitleStorageManager.GetCachedCurrentFileNames().Contains(FileNameTextBox.InputField.text))
+            if (!TitleStorageService.Instance.GetCachedCurrentFileNames().Contains(FileNameTextBox.InputField.text))
             {
                 Debug.LogError("UITitleStorageMenu - FileName doesn't exist, cannot be downloaded!");
                 return;
             }
 
             // Check if it's already been downloaded
-            if (TitleStorageManager.GetLocallyCachedData().TryGetValue(FileNameTextBox.InputField.text, out string cachedData))
+            if (TitleStorageService.Instance.GetLocallyCachedData().TryGetValue(FileNameTextBox.InputField.text, out string cachedData))
             {
                 Debug.Log("UITitleStorageMenu - FileName '{0}' already downloaded. Display content.");
 
@@ -214,7 +206,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 return;
             }
 
-            TitleStorageManager.DownloadFile(FileNameTextBox.InputField.text, UpdateFileContent);
+            TitleStorageService.Instance.DownloadFile(FileNameTextBox.InputField.text, UpdateFileContent);
         }
 
         public void UpdateFileContent(Result result)
@@ -225,7 +217,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 return;
             }
 
-            if (TitleStorageManager.GetLocallyCachedData().TryGetValue(FileNameTextBox.InputField.text, out string fileContent))
+            if (TitleStorageService.Instance.GetLocallyCachedData().TryGetValue(FileNameTextBox.InputField.text, out string fileContent))
             {
                 // Update UI
                 FileContent.text = fileContent;

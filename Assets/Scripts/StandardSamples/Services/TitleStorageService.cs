@@ -29,11 +29,38 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     using UnityEngine;
     using Epic.OnlineServices;
     using Epic.OnlineServices.TitleStorage;
-  
-    /// <summary>Class <c>EOSTitleStorageManager</c> is a simplified wrapper for EOS [TitleStorage Interface](https://dev.epicgames.com/docs/services/en-US/Interfaces/TitleStorage/index.html).</summary>
-    public class EOSTitleStorageManager : DataService<TitleStorageFileTransferRequestWrapper>
+
+    /// <summary>Class <c>TitleStorageService</c> is a simplified wrapper for EOS [TitleStorage Interface](https://dev.epicgames.com/docs/services/en-US/Interfaces/TitleStorage/index.html).</summary>
+    public class TitleStorageService : StorageService<TitleStorageFileTransferRequestWrapper>
     {   
         private List<string> CurrentFileNames = new List<string>();
+
+        #region Singleton Implementation
+
+        /// <summary>
+        /// Lazy instance for singleton allows for thread-safe interactions with
+        /// the TitleStorageService
+        /// </summary>
+        private static readonly Lazy<TitleStorageService> s_LazyInstance = new(() => new TitleStorageService());
+
+        /// <summary>
+        /// Accessor for the instance.
+        /// </summary>
+        public static TitleStorageService Instance
+        {
+            get
+            {
+                return s_LazyInstance.Value;
+            }
+        }
+
+        /// <summary>
+        /// Private constructor guarantees adherence to thread-safe singleton
+        /// pattern.
+        /// </summary>
+        private TitleStorageService() { }
+
+        #endregion
 
         // Manager Callbacks
         public EOSResultEventHandler QueryListCallback { get; private set; } = null;
@@ -41,14 +68,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public List<string> GetCachedCurrentFileNames()
         {
             return CurrentFileNames;
-        }
-
-        /// <summary>User Logged In actions</summary>
-        /// <list type="bullet">
-        ///     <item><description><c>NA</c></description></item>
-        /// </list>
-        protected override void OnLoggedIn()
-        {
         }
 
         protected override Task InternalRefreshAsync()

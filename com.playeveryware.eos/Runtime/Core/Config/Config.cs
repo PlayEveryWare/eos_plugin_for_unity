@@ -220,7 +220,8 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <returns>
         /// True if the parsing of flags was successful, false otherwise.
         /// </returns>
-        protected delegate bool TryParseEnumDelegate<TEnum>(IList<string> stringFlags, out TEnum result) where TEnum : struct, Enum;
+        protected delegate bool TryParseEnumDelegate<TEnum>(IList<string> 
+            stringFlags, out TEnum result) where TEnum : struct, Enum;
 
         /// <summary>
         /// Private static wrapper to handle converting a list of strings into
@@ -240,7 +241,9 @@ namespace PlayEveryWare.EpicOnlineServices
         /// operation between the enum values that result from parsing each of
         /// the items in a list into the indicated enum type value.
         /// </returns>
-        protected static TEnum StringsToEnum<TEnum>(IList<string> stringFlags, TryParseEnumDelegate<TEnum> parseEnumFn)
+        protected static TEnum StringsToEnum<TEnum>(
+            IList<string> stringFlags, 
+            TryParseEnumDelegate<TEnum> parseEnumFn)
             where TEnum : struct, Enum
         {
             _ = parseEnumFn(stringFlags, out TEnum result);

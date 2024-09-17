@@ -29,10 +29,40 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     using Epic.OnlineServices;
     using Epic.OnlineServices.PlayerDataStorage;
 
-    /// <summary>Class <c>EOSPlayerDataStorageManager</c> is a simplified wrapper for EOS [PlayerDataStorage Interface](https://dev.epicgames.com/docs/services/en-US/Interfaces/PlayerDataStorage/index.html).</summary>
-    public class EOSPlayerDataStorageManager : DataService<PlayerDataStorageFileTransferRequestWrapper>
+    /// <summary>Class <c>PlayerDataStorageService</c> is a simplified wrapper for EOS [PlayerDataStorage Interface](https://dev.epicgames.com/docs/services/en-US/Interfaces/PlayerDataStorage/index.html).</summary>
+    public class PlayerDataStorageService
+
+        : StorageService<PlayerDataStorageFileTransferRequestWrapper>
     {   
         public event Action OnFileListUpdated;
+
+        #region Singleton Implementation
+
+        /// <summary>
+        /// Lazy instance for singleton allows for thread-safe interactions with
+        /// the TitleStorageService
+        /// </summary>
+        private static readonly Lazy<PlayerDataStorageService> s_LazyInstance = new(() => new PlayerDataStorageService());
+
+        /// <summary>
+        /// Accessor for the instance.
+        /// </summary>
+        public static PlayerDataStorageService Instance
+        {
+            get
+            {
+                return s_LazyInstance.Value;
+            }
+        }
+
+        /// <summary>
+        /// Private constructor guarantees adherence to thread-safe singleton
+        /// pattern.
+        /// </summary>
+        private PlayerDataStorageService() { }
+
+        #endregion
+
 
         //-------------------------------------------------------------------------
         /// <summary>(async) Query list of files.</summary>

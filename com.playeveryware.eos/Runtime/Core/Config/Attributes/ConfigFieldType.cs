@@ -61,6 +61,11 @@ namespace PlayEveryWare.EpicOnlineServices
         Ulong,
 
         /// <summary>
+        /// A plain double.
+        /// </summary>
+        Double,
+
+        /// <summary>
         /// A list of strings.
         /// </summary>
         TextList,

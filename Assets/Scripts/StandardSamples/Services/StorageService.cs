@@ -37,7 +37,7 @@ namespace PlayEveryWare.EpicOnlineServices
     /// <typeparam name="T">
     /// The type of file transfer request that this data service makes use of.
     /// </typeparam>
-    public abstract class DataService<T> : EOSService where T : IFileTransferRequest
+    public abstract class StorageService<T> : EOSService where T : IFileTransferRequest
     {
         /// <summary>
         /// Reference to an instance of a transfer request created within the
