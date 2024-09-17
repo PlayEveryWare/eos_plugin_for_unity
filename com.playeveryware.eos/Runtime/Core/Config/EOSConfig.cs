@@ -35,6 +35,7 @@ namespace PlayEveryWare.EpicOnlineServices
     using UnityEngine;
     using System.Text.RegularExpressions;
     using Extensions;
+    using Epic.OnlineServices.UI;
 
     /// <summary>
     /// Represents the default deployment ID to use when a given sandbox ID is
@@ -334,6 +335,13 @@ namespace PlayEveryWare.EpicOnlineServices
             "true, the native plugin will always send input receive directly " +
             "to the SDK.", 4)]
         public bool hackForceSendInputDirectlyToSDK;
+
+        [ConfigField("Default Activate Overlay Button",
+            ConfigFieldType.Enum,
+            "Users can press the button associated with this value to activate " +
+            "the Epic Social Overlay. Platforms that don't have a custom override " +
+            "will use this value.", 4)]
+        public InputStateButtonFlags defaultActivateOverlayButton;
 
         #endregion
 
