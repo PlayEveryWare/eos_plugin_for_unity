@@ -52,9 +52,6 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Services.Lobby
             public bool AllowInvites { get; set; } = true;
         }
 
-        private CreateLobbyCallbackInfo? _createLobbyResult = null;
-        private LobbySearchFindCallbackInfo? _searchLobbyResult = null;
-
         // Provides different test cases by changing one of the parameters in
         // each test case.
         private static LobbyTestParameters[] s_lobbyParameters = {
@@ -75,15 +72,11 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Services.Lobby
         [SetUp]
         public void LobbySetup()
         {
-            _createLobbyResult = null;
-            _searchLobbyResult = null;
         }
 
         [TearDown]
         public void LobbyTests_TearDown()
         {
-            if (_createLobbyResult.HasValue)
-                CleanupLobby(_createLobbyResult.Value.LobbyId);
         }
 
         /// <summary>
@@ -92,82 +85,82 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Services.Lobby
         /// of on/off voice and a different test parameter from 
         /// s_lobbyParameters.
         /// </summary>
-        [UnityTest]
+        [Test]
         [Category(TestCategories.SoloCategory)]
-        public IEnumerator CreateNewLobby(
+        public void CreateNewLobbies(
             [ValueSource(nameof(s_lobbyParameters))] LobbyTestParameters parameters,
             [Values(false, true)] bool enableRtc)
+        {
+            Utf8String lobbyId = CreateNewLobby(parameters, enableRtc);
+            CleanupLobby(lobbyId);
+        }
+
+        protected Utf8String CreateNewLobby(LobbyTestParameters parameters, bool enableRtc = false)
         {
             Debug.Log($"=== Test case: bucketId = {parameters.BucketId}, " +
                 $"enableRtc = {enableRtc} ===");
 
             CreateLobbyOptions createLobbyOptions = GenerateLobbyOptions(parameters, enableRtc);
-            EOSManager.Instance.GetEOSLobbyInterface().CreateLobby(ref createLobbyOptions, null, OnCreateLobbyCompleted);
 
-            yield return new WaitUntilDone(GlobalTestTimeout, () => _createLobbyResult != null);
+            CreateLobbyCallbackInfo? callbackInfo = null;
 
-            Assert.IsNotNull(_createLobbyResult);
-            Assert.AreEqual(Result.Success, _createLobbyResult.Value.ResultCode, $"Create lobby {parameters.BucketId} failed. Error code: {_createLobbyResult.Value.ResultCode}");
-            Assert.That(!string.IsNullOrEmpty(_createLobbyResult.Value.LobbyId), $"No lobby id returned on successful create for bucketId {parameters.BucketId} and enableRtc is {enableRtc}.");
+            EOSManager.Instance.GetEOSLobbyInterface().CreateLobby(ref createLobbyOptions, null,
+                (ref CreateLobbyCallbackInfo data) =>
+                {
+                    Assert.AreEqual(data.ResultCode, Result.Success, $"Result code for creating new lobby was not success, it was \"{data.ResultCode}\".");
+                    callbackInfo = data;
+                });
+
+            // Wait for lobby to be created 
+            Task.Run(
+                () => new WaitUntilDone(GlobalTestTimeout, () => callbackInfo != null)
+            ).Wait();
+
+            // Delay trying to search for a few seconds while the lobby finishes creating on the EOS side. If you search immediately after
+            // creating the lobby, then it won't find anything. Searching directly by lobby id doesn't have this delay though.
+            Task.Run(() => new WaitForSecondsRealtime(5f)).Wait();
+
+            if (callbackInfo.HasValue)
+            {
+                Assert.AreEqual(callbackInfo.Value.ResultCode, Result.Success, $"Result code for creating new lobby was not success, it was \"{callbackInfo.Value.ResultCode}\".");
+                return callbackInfo.Value.LobbyId;
+            }
+            else
+            {
+                return null;
+            }
         }
 
         /// <summary>
         /// Creates a lobby and checks to see if it appears in the search by the lobby id.
         /// </summary>
-        [UnityTest]
+        [Test]
         [Category(TestCategories.SoloCategory)]
-        public IEnumerator CreateLobbyAndFindByLobbyId()
+        public async void CreateLobbyAndFindByLobbyId()
         {
-            const string searchBucketId = "LobbyTestLobbyIdSearch";
+            LobbyTestParameters lobbyParameters = new() { BucketId = "LobbyTestLobbyIdSearch" };
 
-            // Create a lobby with defaults
-            LobbyTestParameters testParameters = new() { BucketId = searchBucketId };
-            CreateLobbyOptions createLobbyOptions = GenerateLobbyOptions(testParameters, false);
-            EOSManager.Instance.GetEOSLobbyInterface().CreateLobby(ref createLobbyOptions, null, OnCreateLobbyCompleted);
-
-            yield return new WaitUntilDone(GlobalTestTimeout, () => _createLobbyResult != null);
-
-            Assert.IsNotNull(_createLobbyResult);
-            Assert.That(_createLobbyResult.Value.ResultCode == Result.Success, $"Create lobby failed. Error code: {_createLobbyResult.Value.ResultCode}");
-            Assert.That(!string.IsNullOrEmpty(_createLobbyResult.Value.LobbyId), $"No lobby id returned on successful create.");
-
+            Utf8String lobbyId = CreateNewLobby(lobbyParameters, false);
 
             // Find the lobby id that we recently created
             _ = TryCreateLobbySearch(out LobbySearch lobbySearchHandle);
 
-            var lobbyIdOptions = new LobbySearchSetLobbyIdOptions { LobbyId = _createLobbyResult.Value.LobbyId };
-            Result result = lobbySearchHandle.SetLobbyId(ref lobbyIdOptions);
-            Assert.AreEqual(Result.Success, result, $"Failed to update search with the lobby id. Error code: {result}");
+            LobbyDetails lobbyDetails = await FindLobby(lobbyId);
 
-            var findOptions = new LobbySearchFindOptions() { LocalUserId = EOSManager.Instance.GetProductUserId() };
-            lobbySearchHandle.Find(ref findOptions, null, OnLobbySearchCompleted);
-
-            yield return new WaitUntilDone(GlobalTestTimeout, () => _searchLobbyResult != null);
-
-            Assert.IsNotNull(_searchLobbyResult);
-            Assert.AreEqual(Result.Success, _searchLobbyResult.Value.ResultCode, $"Search lobby failed. Error code: {_searchLobbyResult.Value.ResultCode}");
-
-            // With the search results, verify that there's only one lobby and it matches with the one created before
-            var countOptions = new LobbySearchGetSearchResultCountOptions();
-            uint searchResultCount = lobbySearchHandle.GetSearchResultCount(ref countOptions);
-            Assert.AreEqual(1, searchResultCount, $"There should be only one result, got {searchResultCount} instead.");
-
-            LobbySearchCopySearchResultByIndexOptions indexOptions = new() { LobbyIndex = 0 };
-            result = lobbySearchHandle.CopySearchResultByIndex(ref indexOptions, out LobbyDetails outLobbyDetailsHandle);
-            Assert.AreEqual(Result.Success, result, "Could not copy search results from index 0.");
-
-            var lobbyOwnerOptions = new LobbyDetailsGetLobbyOwnerOptions();
-            ProductUserId newLobbyOwner = outLobbyDetailsHandle.GetLobbyOwner(ref lobbyOwnerOptions);
+            LobbyDetailsGetLobbyOwnerOptions lobbyOwnerOptions = new();
+            ProductUserId newLobbyOwner = lobbyDetails.GetLobbyOwner(ref lobbyOwnerOptions);
             Assert.AreEqual(EOSManager.Instance.GetProductUserId(), newLobbyOwner, "Lobby owner is different than the current test user.");
 
             // Check a few of the parameters to make sure things are matching. Shouldn't need to check all of them.
             var copyInfoOptions = new LobbyDetailsCopyInfoOptions();
-            result = outLobbyDetailsHandle.CopyInfo(ref copyInfoOptions, out LobbyDetailsInfo? outLobbyDetailsInfo);
+            Result result = lobbyDetails.CopyInfo(ref copyInfoOptions, out LobbyDetailsInfo? outLobbyDetailsInfo);
             Assert.AreEqual(Result.Success, result, $"Could not copy the lobby details. Error code: {result}");
             Assert.IsNotNull(outLobbyDetailsInfo);
-            Assert.AreEqual(_createLobbyResult.Value.LobbyId, outLobbyDetailsInfo.Value.LobbyId);
-            Assert.AreEqual(testParameters.MaxLobbyMembers, outLobbyDetailsInfo.Value.MaxMembers);
+            Assert.AreEqual(lobbyId, outLobbyDetailsInfo.Value.LobbyId);
+            Assert.AreEqual(lobbyParameters.MaxLobbyMembers, outLobbyDetailsInfo.Value.MaxMembers);
             Assert.IsFalse(outLobbyDetailsInfo.Value.RTCRoomEnabled);
+
+            CleanupLobby(lobbyId);
         }
 
         /// <summary>
@@ -181,22 +174,10 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Services.Lobby
 
             // Create a lobby with defaults
             LobbyTestParameters testParameters = new() { BucketId = searchBucketId };
-            CreateLobbyOptions createLobbyOptions = GenerateLobbyOptions(testParameters, false);
-            EOSManager.Instance.GetEOSLobbyInterface().CreateLobby(ref createLobbyOptions, null, OnCreateLobbyCompleted);
 
-            await Task.Run(() => 
-                new WaitUntilDone(GlobalTestTimeout, () => _createLobbyResult != null)
-            );
+            Utf8String lobbyId = CreateNewLobby(testParameters, false);
 
-            Assert.IsNotNull(_createLobbyResult);
-            Assert.AreEqual(Result.Success, _createLobbyResult.Value.ResultCode, $"Create lobby failed. Error code: {_createLobbyResult.Value.ResultCode}");
-            Assert.That(!string.IsNullOrEmpty(_createLobbyResult.Value.LobbyId), $"No lobby id returned on successful create.");
-
-            // Delay trying to search for a few seconds while the lobby finishes creating on the EOS side. If you search immediately after
-            // creating the lobby, then it won't find anything. Searching directly by lobby id doesn't have this delay though.
-            await Task.Run(() => new WaitForSecondsRealtime(5f));
-
-            IList<LobbyDetails> lobbiesFound = await TryFindLobby("bucket", searchBucketId);
+            IList<LobbyDetails> lobbiesFound = await FindLobbies("bucket", searchBucketId);
 
             // With the search results, verify that there's only one lobby and it matches with the one created before
             Assert.AreEqual(1, lobbiesFound.Count, $"There should be only one result, got {lobbiesFound.Count} instead.");
@@ -210,36 +191,32 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Services.Lobby
             Result result = lobbiesFound[0].CopyInfo(ref infoOptions, out LobbyDetailsInfo? outLobbyDetailsInfo);
             Assert.AreEqual(Result.Success, result, $"Could not copy the lobby details. Error code: {result}");
             Assert.IsNotNull(outLobbyDetailsInfo);
-            Assert.AreEqual(_createLobbyResult.Value.LobbyId, outLobbyDetailsInfo.Value.LobbyId);
+            Assert.AreEqual(lobbyId, outLobbyDetailsInfo.Value.LobbyId);
             Assert.AreEqual(searchBucketId, outLobbyDetailsInfo.Value.BucketId.ToString());
             Assert.AreEqual(testParameters.MaxLobbyMembers, outLobbyDetailsInfo.Value.MaxMembers);
             Assert.IsFalse(outLobbyDetailsInfo.Value.RTCRoomEnabled);
+
+            CleanupLobby(lobbyId);
         }
 
         /// <summary>
         /// Creates a lobby and checks to see if it appears in the search by the custom level name.
         /// </summary>
-        [UnityTest]
+        [Test]
         [Category(TestCategories.SoloCategory)]
-        public IEnumerator CreateLobbyAndFindByLevel()
+        public async void CreateLobbyAndFindByLevel()
         {
             const string searchBucketId = "LobbyTestLevelSearch";
             const string levelName = "TEST_LEVEL";
 
             // Create a lobby with defaults
             LobbyTestParameters testParameters = new() { BucketId = searchBucketId };
-            CreateLobbyOptions createLobbyOptions = GenerateLobbyOptions(testParameters, false);
-            EOSManager.Instance.GetEOSLobbyInterface().CreateLobby(ref createLobbyOptions, null, OnCreateLobbyCompleted);
 
-            yield return new WaitUntilDone(GlobalTestTimeout, () => _createLobbyResult != null);
-
-            Assert.IsNotNull(_createLobbyResult);
-            Assert.AreEqual(Result.Success, _createLobbyResult.Value.ResultCode, $"Create lobby failed. Error code: {_createLobbyResult.Value.ResultCode}");
-            Assert.That(!string.IsNullOrEmpty(_createLobbyResult.Value.LobbyId), $"No lobby id returned on successful create.");
+            Utf8String lobbyId = CreateNewLobby(testParameters);
 
             UpdateLobbyModificationOptions options = new()
             {
-                LobbyId = _createLobbyResult.Value.LobbyId, LocalUserId = EOSManager.Instance.GetProductUserId()
+                LobbyId = lobbyId, LocalUserId = EOSManager.Instance.GetProductUserId()
             };
 
             // Get LobbyModification object handle
@@ -261,61 +238,29 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Services.Lobby
                 null,
                 (ref UpdateLobbyCallbackInfo data) => { updateLobbyResult = data; });
 
-            yield return new WaitUntil(() => updateLobbyResult != null);
+            Task.Run(() => new WaitUntil(() => updateLobbyResult != null)).Wait();
+
             Assert.AreEqual(Result.Success, updateLobbyResult.Value.ResultCode, $"UpdateLobby failed with error code: {updateLobbyResult.Value.ResultCode}");
 
-            // Delay trying to search for a few seconds while the lobby finishes creating on the EOS side. If you search immediately after
-            // creating the lobby, then it won't find anything. Searching directly by lobby id doesn't have this delay though.
-            yield return new WaitForSecondsRealtime(5f);
-
-            // Find the level that we recently created
-            _ = TryCreateLobbySearch(out LobbySearch outLobbySearchHandle);
-
-            LobbySearchSetParameterOptions paramOptions = new();
-            paramOptions.ComparisonOp = ComparisonOp.Equal;
-
-            // Turn SearchString into AttributeData
-            AttributeData attrData = new();
-            attrData.Key = "LEVEL";
-            attrData.Value = new AttributeDataValue() { AsUtf8 = levelName };
-            paramOptions.Parameter = attrData;
-
-            result = outLobbySearchHandle.SetParameter(ref paramOptions);
-            Assert.AreEqual(Result.Success, result, $"Failed to update search with the bucket id. Error code: {result}");
-
-            var findOptions = new LobbySearchFindOptions() { LocalUserId = EOSManager.Instance.GetProductUserId() };
-            outLobbySearchHandle.Find(ref findOptions, null, OnLobbySearchCompleted);
-
-            yield return new WaitUntil(() => _searchLobbyResult != null);
-
-            if (_searchLobbyResult != null)
-            {
-                Assert.AreEqual(Result.Success, _searchLobbyResult.Value.ResultCode,
-                    $"Search lobby failed. Error code: {_searchLobbyResult.Value.ResultCode}");
-            }
-
-            // With the search results, verify that there's only one lobby and it matches with the one created before
-            var countOptions = new LobbySearchGetSearchResultCountOptions();
-            uint searchResultCount = outLobbySearchHandle.GetSearchResultCount(ref countOptions);
-            Assert.AreEqual(1, searchResultCount, $"There should be only one result, got {searchResultCount} instead.");
-
-            LobbySearchCopySearchResultByIndexOptions indexOptions = new() { LobbyIndex = 0 };
-            result = outLobbySearchHandle.CopySearchResultByIndex(ref indexOptions, out LobbyDetails outLobbyDetailsHandle);
-            Assert.AreEqual(Result.Success, result, "Could not copy search results from index 0.");
+            IList<LobbyDetails> lobbies = await FindLobbies("LEVEL", levelName);
+            
+            Assert.AreEqual(1, lobbies.Count, $"There should be only one result, got {lobbies.Count} instead.");
 
             var ownerOptions = new LobbyDetailsGetLobbyOwnerOptions();
-            ProductUserId newLobbyOwner = outLobbyDetailsHandle.GetLobbyOwner(ref ownerOptions);
+            ProductUserId newLobbyOwner = lobbies[0].GetLobbyOwner(ref ownerOptions);
             Assert.AreEqual(EOSManager.Instance.GetProductUserId(), newLobbyOwner, "Lobby owner is different than the current test user.");
 
             // Check a few of the parameters to make sure things are matching. Shouldn't need to check all of them.
             var infoOptions = new LobbyDetailsCopyInfoOptions();
-            result = outLobbyDetailsHandle.CopyInfo(ref infoOptions, out LobbyDetailsInfo? outLobbyDetailsInfo);
+            result = lobbies[0].CopyInfo(ref infoOptions, out LobbyDetailsInfo? outLobbyDetailsInfo);
             Assert.AreEqual(Result.Success, result, $"Could not copy the lobby details. Error code: {result}");
             Assert.IsNotNull(outLobbyDetailsInfo);
-            Assert.AreEqual(_createLobbyResult.Value.LobbyId, outLobbyDetailsInfo.Value.LobbyId);
+            Assert.AreEqual(lobbyId, outLobbyDetailsInfo.Value.LobbyId);
             Assert.AreEqual(searchBucketId, outLobbyDetailsInfo.Value.BucketId.ToString());
             Assert.AreEqual(testParameters.MaxLobbyMembers, outLobbyDetailsInfo.Value.MaxMembers);
             Assert.IsFalse(outLobbyDetailsInfo.Value.RTCRoomEnabled);
+
+            CleanupLobby(lobbyId);
         }
 
         /// <summary>
@@ -329,21 +274,15 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Services.Lobby
 
             // Create a lobby with defaults
             LobbyTestParameters testParameters = new() { BucketId = searchBucketId };
-            CreateLobbyOptions createLobbyOptions = GenerateLobbyOptions(testParameters, false);
-            EOSManager.Instance.GetEOSLobbyInterface().CreateLobby(ref createLobbyOptions, null, OnCreateLobbyCompleted);
-
-            yield return new WaitUntilDone(GlobalTestTimeout, () => _createLobbyResult != null);
-
-            Assert.IsNotNull(_createLobbyResult);
-            Assert.AreEqual(Result.Success, _createLobbyResult.Value.ResultCode, $"Create lobby failed. Error code: {_createLobbyResult.Value.ResultCode}");
-            Assert.That(!string.IsNullOrEmpty(_createLobbyResult.Value.LobbyId), $"No lobby id returned on successful create.");
+            Utf8String lobbyId = CreateNewLobby(testParameters);
 
             UpdateLobbyModificationOptions options = new();
-            options.LobbyId = _createLobbyResult.Value.LobbyId;
+            options.LobbyId = lobbyId;
             options.LocalUserId = EOSManager.Instance.GetProductUserId();
 
             // Get LobbyModification object handle
-            Result result = EOSManager.Instance.GetEOSLobbyInterface().UpdateLobbyModification(ref options, out LobbyModification outLobbyModificationHandle);
+            Result result = EOSManager.Instance.GetEOSLobbyInterface().UpdateLobbyModification(
+                ref options, out LobbyModification outLobbyModificationHandle);
             Assert.AreEqual(Result.Success, result, $"Could not create lobby modification. Error code: {result}");
 
             // Modify all the different parameters
@@ -384,6 +323,8 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Services.Lobby
                 Assert.AreEqual(Result.Success, updateLobbyResult.Value.ResultCode,
                     $"UpdateLobby failed with error code: {updateLobbyResult.Value.ResultCode}");
             }
+
+            CleanupLobby(lobbyId);
         }
 
         /// <summary>
@@ -418,16 +359,6 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Services.Lobby
                 EnableRTCRoom = enableRtc,
                 LocalRTCOptions = rtcOptions,
             };
-        }
-
-        private void OnCreateLobbyCompleted(ref CreateLobbyCallbackInfo createLobbyCallbackInfo)
-        {
-            _createLobbyResult = createLobbyCallbackInfo;
-        }
-
-        private void OnLobbySearchCompleted(ref LobbySearchFindCallbackInfo data)
-        {
-            _searchLobbyResult = data;
         }
     }
 }

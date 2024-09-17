@@ -51,12 +51,11 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Services.Lobby
         /// <summary>
         /// Leaves the lobby once the test case ends.
         /// </summary>
-        [UnityTearDown]
-        public IEnumerator ClientLobbyTests_Teardown()
+        [TearDown]
+        public void ClientLobbyTests_Teardown()
         {
-            IEnumerator cleanupEnumerator = CleanupLobby(_lobbyId);
+            CleanupLobby(_lobbyId);
             _lobbyInviteNotification?.Dispose();
-            return cleanupEnumerator;
         }
 
         /// <summary>
@@ -66,7 +65,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Services.Lobby
         [Category(TestCategories.ClientCategory)]
         public async void FindByBucketIdAndJoin()
         {
-            IList<LobbyDetails> lobbiesFound = await TryFindLobby(TestCommon.SearchBucketIdKey, TestCommon.LobbyBucketId);
+            IList<LobbyDetails> lobbiesFound = await FindLobbies(TestCommon.SearchBucketIdKey, TestCommon.LobbyBucketId);
 
             Assert.AreEqual(1, lobbiesFound.Count, $"There should be only one result, got {lobbiesFound.Count} instead.");
 
@@ -102,7 +101,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Services.Lobby
         [Category(TestCategories.ClientCategory)]
         public async void TryToFindPrivateLobby()
         {
-            IList<LobbyDetails> lobbiesFound = await TryFindLobby(TestCommon.SearchBucketIdKey, TestCommon.LobbyPrivateBucketId);
+            IList<LobbyDetails> lobbiesFound = await FindLobbies(TestCommon.SearchBucketIdKey, TestCommon.LobbyPrivateBucketId);
 
             Assert.AreEqual(0, lobbiesFound.Count, $"There should not be any result, got {lobbiesFound.Count} instead.");
         }

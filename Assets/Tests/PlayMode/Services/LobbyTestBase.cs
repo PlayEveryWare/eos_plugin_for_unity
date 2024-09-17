@@ -34,7 +34,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Services.Lobby
 
     public abstract class LobbyTestBase : EOSTestBase
     {
-        protected static IEnumerator CleanupLobby(string lobbyId)
+        protected static void CleanupLobby(string lobbyId)
         {
             if (!string.IsNullOrWhiteSpace(lobbyId))
             {
@@ -53,9 +53,9 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Services.Lobby
                     }
                     );
 
-                yield return new WaitUntilDone(
-                    GlobalTestTimeout, () => leaveLobbyResult != null
-                    );
+                Task.Run(
+                    () => new WaitUntilDone(GlobalTestTimeout, () => leaveLobbyResult != null)
+                ).Wait();
 
                 Assert.IsNotNull(leaveLobbyResult);
                 Assert.That(leaveLobbyResult.Value.ResultCode == Result.Success,
@@ -96,35 +96,92 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Services.Lobby
 
             return (Result.Success == result);
         }
-
-        protected async Task<IList<LobbyDetails>> TryFindLobby(string key, string value)
+        protected async Task<LobbyDetails> FindLobby(string lobbyId)
         {
-            _ = TryCreateLobbySearch(out LobbySearch lobbySearch);
-            _ = TrySetLobbySearchParameters(ref lobbySearch, key, value);
+            // Set specific search options for finding a lobby by its ID.
+            var configureSearch = new Action<LobbySearch>((lobbySearch) =>
+            {
+                LobbySearchSetLobbyIdOptions idOptions = new()
+                {
+                    LobbyId = lobbyId
+                };
 
+                Result result = lobbySearch.SetLobbyId(ref idOptions);
+                Assert.AreEqual(Result.Success, result, $"Failed to update search with the lobby id. Error code: {result}");
+            });
+
+            // Call the common method with the specific configuration for lobby ID search.
+            IList<LobbyDetails> lobbyResults = await FindLobbiesInternal(configureSearch);
+
+            if (lobbyResults.Count == 0)
+                return null;
+            else
+                return lobbyResults[0];
+        }
+
+        protected async Task<IList<LobbyDetails>> FindLobbies(string key, string value)
+        {
+            // Set specific search options for finding lobbies based on key and value.
+            var configureSearch = new Action<LobbySearch>((lobbySearch) =>
+            {
+                if (!string.IsNullOrEmpty(key) && !string.IsNullOrEmpty(value))
+                {
+                    _ = TrySetLobbySearchParameters(ref lobbySearch, key, value);
+                }
+            });
+
+            // Call the common method with the specific configuration for key-value search.
+            return await FindLobbiesInternal(configureSearch);
+        }
+
+        protected async Task<IList<LobbyDetails>> FindLobbies()
+        {
+            // Call the overload of FindLobbies with null key and value.
+            return await FindLobbies(null, null);
+        }
+
+        private async Task<IList<LobbyDetails>> FindLobbiesInternal(Action<LobbySearch> configureSearch)
+        {
+            // Create the lobby search object.
+            _ = TryCreateLobbySearch(out LobbySearch lobbySearch);
+
+            // Apply the specific configuration passed in.
+            configureSearch(lobbySearch);
+
+            // Common logic for finding lobbies and handling callbacks.
             LobbySearchFindOptions options = new()
             {
                 LocalUserId = EOSManager.Instance.GetProductUserId()
             };
 
-            LobbySearchFindCallbackInfo? temp = null;
+            var tcs = new TaskCompletionSource<LobbySearchFindCallbackInfo?>();
 
-            lobbySearch.Find(ref options, null, (ref LobbySearchFindCallbackInfo data) => temp = data);
+            lobbySearch.Find(ref options, null, (ref LobbySearchFindCallbackInfo data) =>
+            {
+                tcs.SetResult(data);
+            });
 
-            // Wait asynchronously until the result is not null
-            await Task.Run(() =>
-                new WaitUntil(() => temp != null)
-            );
+            Task.Run(() => new WaitUntilDone(GlobalTestTimeout, () => tcs.Task.IsCompleted)).Wait();
 
+            // Await the completion of the callback.
+            LobbySearchFindCallbackInfo? callbackInfo = await tcs.Task;
+
+            if (callbackInfo == null)
+            {
+                // Handle the null case appropriately.
+                return new List<LobbyDetails>();
+            }
+
+            // Retrieve the results of the search.
             LobbySearchGetSearchResultCountOptions countOptions = new();
             uint searchResultCount = lobbySearch.GetSearchResultCount(ref countOptions);
             List<LobbyDetails> lobbiesFound = new();
 
-            for(uint resultIndex = 0; resultIndex < searchResultCount; resultIndex++)
+            for (uint resultIndex = 0; resultIndex < searchResultCount; resultIndex++)
             {
                 LobbySearchCopySearchResultByIndexOptions indexOptions = new() { LobbyIndex = resultIndex };
                 Result resultOfCopyingSearchResult = lobbySearch.CopySearchResultByIndex(ref indexOptions, out LobbyDetails lobbyDetails);
-                Assert.AreEqual(Result.Success, resultOfCopyingSearchResult, 
+                Assert.AreEqual(Result.Success, resultOfCopyingSearchResult,
                     $"Could not copy search results from index {resultIndex}.");
 
                 lobbiesFound.Add(lobbyDetails);
@@ -132,7 +189,6 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Services.Lobby
 
             return lobbiesFound;
         }
-
 
     }
 }
