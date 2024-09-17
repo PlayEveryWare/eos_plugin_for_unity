@@ -22,22 +22,16 @@
 
 namespace PlayEveryWare.EpicOnlineServices.Tests.IntegrationTests
 {
-    using Epic.OnlineServices;
-    using Epic.OnlineServices.Sessions;
     using NUnit.Framework;
-    using EpicOnlineServices;
     using System.Collections;
-    using UnityEngine;
     using UnityEngine.TestTools;
     using PlayEveryWare.EpicOnlineServices.Samples;
     using System;
-    using UnityEngine.Events;
     using System.Text;
     using System.Collections.Generic;
-    using System.Text.RegularExpressions;
-    using System.Threading.Tasks;
 
-    public class PlayerDataStorageManagerTests : EOSTestBase
+    public class PlayerDataStorageManagerTests
+        : EOSTestBase
     {
         [UnitySetUp]
         public IEnumerator UnitySetUp()
@@ -125,7 +119,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.IntegrationTests
                 Action doneWaiting = () => waitingForAdd = false;
                 byte[] fileBytes = new byte[] { 0x0, 0x1, 0x2, 0x3, 0x4, 0x5 };
                 PlayerDataStorageService.Instance.AddFile(randomName, Encoding.UTF8.GetString(fileBytes), doneWaiting);
-
+                
                 yield return new WaitUntilDone(10f, () => waitingForAdd == false);
             }
 			
