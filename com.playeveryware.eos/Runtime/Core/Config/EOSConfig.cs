@@ -338,10 +338,11 @@ namespace PlayEveryWare.EpicOnlineServices
 
         [ConfigField("Default Activate Overlay Button",
             ConfigFieldType.Enum,
-            "Users can press the button associated with this value to activate " +
-            "the Epic Social Overlay. Platforms that don't have a custom override " +
-            "will use this value.", 4)]
-        public InputStateButtonFlags defaultActivateOverlayButton;
+            "Users can press the buttons associated with this value to activate " +
+            "the Epic Social Overlay. If this is multiple buttons, the user " +
+            "presses them in combination to activate the Epic Social Overlay. " +
+            "Platforms without a custom override will use this value.", 4)]
+        public InputStateButtonFlags defaultActivateOverlayButtonCombination;
 
         #endregion
 

@@ -348,8 +348,8 @@ _WIN32 || _WIN64
                 ref mainEOSConfigFile.alwaysSendInputToOverlay, 190,
                 "If true, the plugin will always send input to the overlay from the C# side to native, and handle showing the overlay. This doesn't always mean input makes it to the EOS SDK.");
 
-            GUIEditorUtility.AssigninEumField("Default Activate Overlay Button",
-                ref mainEOSConfigFile.defaultActivateOverlayButton, 190,
+            GUIEditorUtility.AssigningEnumField("Default Activate Overlay Button",
+                ref mainEOSConfigFile.defaultActivateOverlayButtonCombination, 190,
                 "Users can press the button associated with this value to activate the Epic Social Overlay. Platforms that don't have a custom override will use this value.");
         }
 
