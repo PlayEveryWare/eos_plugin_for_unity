@@ -30,6 +30,8 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Services.Lobby
     using System.Collections;
     using UnityEngine;
     using UnityEngine.TestTools;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Lobby connection tests that test connecting to an existing lobby.
@@ -60,53 +62,32 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Services.Lobby
         /// <summary>
         /// Search by the bucket id for the server preset and join it.
         /// </summary>
-        [UnityTest]
+        [Test]
         [Category(TestCategories.ClientCategory)]
-        public IEnumerator FindByBucketIdAndJoin()
+        public async void FindByBucketIdAndJoin()
         {
-            // Find the bucket id that we recently created
-            _ = TryCreateLobbySearch(out LobbySearch lobbySearchHandle);
-            _ = TrySetLobbySearchParameters(ref lobbySearchHandle, TestCommon.SearchBucketIdKey, TestCommon.LobbyBucketId);
-            
-            LobbySearchFindCallbackInfo? searchLobbyResult = null;
-            var findOptions = new LobbySearchFindOptions() { LocalUserId = EOSManager.Instance.GetProductUserId() };
-            lobbySearchHandle.Find(ref findOptions,
-                null,
-                (ref LobbySearchFindCallbackInfo data) => { searchLobbyResult = data; });
+            IList<LobbyDetails> lobbiesFound = await TryFindLobby(TestCommon.SearchBucketIdKey, TestCommon.LobbyBucketId);
 
-            yield return new WaitUntil(() => searchLobbyResult != null);
+            Assert.AreEqual(1, lobbiesFound.Count, $"There should be only one result, got {lobbiesFound.Count} instead.");
 
-            if (searchLobbyResult != null)
-            {
-                Assert.AreEqual(Result.Success, searchLobbyResult.Value.ResultCode,
-                    $"Search lobby failed. Error code: {searchLobbyResult.Value.ResultCode}");
-            }
-
-            // With the search results, verify that there's only one lobby and it matches with the one created before
-            var countOptions = new LobbySearchGetSearchResultCountOptions();
-            uint searchResultCount = lobbySearchHandle.GetSearchResultCount(ref countOptions);
-            Assert.AreEqual(1, searchResultCount, $"There should be only one result, got {searchResultCount} instead.");
-
-            LobbySearchCopySearchResultByIndexOptions indexOptions = new() { LobbyIndex = 0 };
-            Result result = lobbySearchHandle.CopySearchResultByIndex(ref indexOptions, out LobbyDetails outLobbyDetailsHandle);
-            Assert.AreEqual(Result.Success, result, "Could not copy search results from index 0.");
+            LobbyDetails lobbyToJoin = lobbiesFound[0];
 
             // Now that we have the lobby we're looking for, join it
             JoinLobbyOptions joinOptions = new()
             {
-                LobbyDetailsHandle = outLobbyDetailsHandle,
+                LobbyDetailsHandle = lobbyToJoin,
                 LocalUserId = EOSManager.Instance.GetProductUserId(),
                 PresenceEnabled = false
             };
 
             JoinLobbyCallbackInfo? joinResult = null;
-            EOSManager.Instance.GetEOSLobbyInterface().JoinLobby(ref joinOptions, null, (ref JoinLobbyCallbackInfo data) => { joinResult = data; });
+            EOSManager.Instance.GetEOSLobbyInterface().JoinLobby(
+                ref joinOptions, null,
+                (ref JoinLobbyCallbackInfo data) => joinResult = data);
 
-            yield return new WaitUntil(() => joinResult != null);
-            if (joinResult == null)
-            {
-                yield break;
-            }
+            await Task.Run(() =>
+                new WaitUntil(() => joinResult != null)
+            );
 
             Assert.AreEqual(Result.Success, joinResult.Value.ResultCode,
                 $"Could not join the server lobby. Error code: {joinResult.Value.ResultCode}");
@@ -117,33 +98,13 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Services.Lobby
         /// <summary>
         /// Search by the bucket id for the private server and shouldn't be able to find it.
         /// </summary>
-        [UnityTest]
+        [Test]
         [Category(TestCategories.ClientCategory)]
-        public IEnumerator TryToFindPrivateLobby()
+        public async void TryToFindPrivateLobby()
         {
-            // Find the bucket id that we recently created
-            _ = TryCreateLobbySearch(out LobbySearch lobbySearchHandle);
+            IList<LobbyDetails> lobbiesFound = await TryFindLobby(TestCommon.SearchBucketIdKey, TestCommon.LobbyPrivateBucketId);
 
-            _ = TrySetLobbySearchParameters(ref lobbySearchHandle, TestCommon.SearchBucketIdKey, TestCommon.LobbyPrivateBucketId);
-
-            LobbySearchFindCallbackInfo? searchLobbyResult = null;
-            var findOptions = new LobbySearchFindOptions() { LocalUserId = EOSManager.Instance.GetProductUserId() };
-            lobbySearchHandle.Find(ref findOptions,
-                null,
-                (ref LobbySearchFindCallbackInfo data) => { searchLobbyResult = data; });
-
-            yield return new WaitUntil(() => searchLobbyResult != null);
-
-            if (searchLobbyResult != null)
-            {
-                Assert.AreEqual(Result.Success, searchLobbyResult.Value.ResultCode,
-                    $"Search lobby failed. Error code: {searchLobbyResult.Value.ResultCode}");
-            }
-
-            // With the search results, verify there are no results.
-            var countOptions = new LobbySearchGetSearchResultCountOptions();
-            uint searchResultCount = lobbySearchHandle.GetSearchResultCount(ref countOptions);
-            Assert.AreEqual(0, searchResultCount, $"There should not be any result, got {searchResultCount} instead.");
+            Assert.AreEqual(0, lobbiesFound.Count, $"There should not be any result, got {lobbiesFound.Count} instead.");
         }
     }
 }

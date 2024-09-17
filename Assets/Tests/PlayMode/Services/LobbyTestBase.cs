@@ -23,13 +23,14 @@
 namespace PlayEveryWare.EpicOnlineServices.Tests.Services.Lobby
 {
     using Epic.OnlineServices;
-    using Epic.OnlineServices.IntegratedPlatform;
     using Epic.OnlineServices.Lobby;
     using NUnit.Framework;
     using System;
     using System.Collections;
+    using System.Collections.Generic;
     using System.Threading.Tasks;
     using UnityEngine;
+    using Result = Epic.OnlineServices.Result;
 
     public abstract class LobbyTestBase : EOSTestBase
     {
@@ -96,7 +97,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Services.Lobby
             return (Result.Success == result);
         }
 
-        protected async Task TryFindLobby(string key, string value)
+        protected async Task<IList<LobbyDetails>> TryFindLobby(string key, string value)
         {
             _ = TryCreateLobbySearch(out LobbySearch lobbySearch);
             _ = TrySetLobbySearchParameters(ref lobbySearch, key, value);
@@ -114,6 +115,24 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Services.Lobby
             await Task.Run(() =>
                 new WaitUntil(() => temp != null)
             );
+
+            LobbySearchGetSearchResultCountOptions countOptions = new();
+            uint searchResultCount = lobbySearch.GetSearchResultCount(ref countOptions);
+            List<LobbyDetails> lobbiesFound = new();
+
+            for(uint resultIndex = 0; resultIndex < searchResultCount; resultIndex++)
+            {
+                LobbySearchCopySearchResultByIndexOptions indexOptions = new() { LobbyIndex = resultIndex };
+                Result resultOfCopyingSearchResult = lobbySearch.CopySearchResultByIndex(ref indexOptions, out LobbyDetails lobbyDetails);
+                Assert.AreEqual(Result.Success, resultOfCopyingSearchResult, 
+                    $"Could not copy search results from index {resultIndex}.");
+
+                lobbiesFound.Add(lobbyDetails);
+            }
+
+            return lobbiesFound;
         }
+
+
     }
 }
