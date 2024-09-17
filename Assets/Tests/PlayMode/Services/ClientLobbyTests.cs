@@ -36,21 +36,28 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Services.Lobby
     /// </summary>
     public class ClientLobbyTests : EOSTestBase
     {
-        private string lobbyId;
-        private NotifyEventHandle lobbyInviteNotification;
+        private string _lobbyId;
+        private NotifyEventHandle _lobbyInviteNotification;
 
         [SetUp]
         public void Initialize()
         {
-            lobbyId = null;
-            lobbyInviteNotification = null;
+            _lobbyId = null;
+            _lobbyInviteNotification = null;
         }
 
         /// <summary>
         /// Leaves the lobby once the test case ends.
         /// </summary>
         [UnityTearDown]
-        public IEnumerator CleanupLobby()
+        public IEnumerator ClientLobbyTests_Teardown()
+        {
+            IEnumerator cleanupEnumerator = CleanupLobby(_lobbyId);
+            _lobbyInviteNotification?.Dispose();
+            return cleanupEnumerator;
+        }
+
+        private static IEnumerator CleanupLobby(string lobbyId)
         {
             if (!string.IsNullOrWhiteSpace(lobbyId))
             {
@@ -69,8 +76,6 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Services.Lobby
                 Assert.IsNotNull(leaveLobbyResult);
                 Assert.That(leaveLobbyResult.Value.ResultCode == Result.Success, $"Leave Lobby did not succeed: error code {leaveLobbyResult.Value.ResultCode}");
             }
-
-            lobbyInviteNotification?.Dispose();
         }
 
         /// <summary>
@@ -144,7 +149,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Services.Lobby
             Assert.AreEqual(Result.Success, joinResult.Value.ResultCode,
                 $"Could not join the server lobby. Error code: {joinResult.Value.ResultCode}");
 
-            lobbyId = joinResult.Value.LobbyId;
+            _lobbyId = joinResult.Value.LobbyId;
         }
 
         /// <summary>
