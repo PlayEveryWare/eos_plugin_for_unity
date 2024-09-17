@@ -34,7 +34,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Services.Lobby
     /// <summary>
     /// Lobby connection tests that test connecting to an existing lobby.
     /// </summary>
-    public class ClientLobbyTests : EOSTestBase
+    public class ClientLobbyTests : LobbyTestBase
     {
         private string _lobbyId;
         private NotifyEventHandle _lobbyInviteNotification;
@@ -57,27 +57,6 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Services.Lobby
             return cleanupEnumerator;
         }
 
-        private static IEnumerator CleanupLobby(string lobbyId)
-        {
-            if (!string.IsNullOrWhiteSpace(lobbyId))
-            {
-                // Leave the lobby room
-                LeaveLobbyOptions options = new()
-                {
-                    LobbyId = lobbyId,
-                    LocalUserId = EOSManager.Instance.GetProductUserId(),
-                };
-
-                LeaveLobbyCallbackInfo? leaveLobbyResult = null;
-                EOSManager.Instance.GetEOSLobbyInterface().LeaveLobby(ref options, null, (ref LeaveLobbyCallbackInfo data) => { leaveLobbyResult = data; });
-
-                yield return new WaitUntilDone(GlobalTestTimeout, () => leaveLobbyResult != null);
-
-                Assert.IsNotNull(leaveLobbyResult);
-                Assert.That(leaveLobbyResult.Value.ResultCode == Result.Success, $"Leave Lobby did not succeed: error code {leaveLobbyResult.Value.ResultCode}");
-            }
-        }
-
         /// <summary>
         /// Search by the bucket id for the server preset and join it.
         /// </summary>
@@ -86,10 +65,8 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Services.Lobby
         public IEnumerator FindByBucketIdAndJoin()
         {
             // Find the bucket id that we recently created
-            var searchOptions = new CreateLobbySearchOptions() { MaxResults = 10 };
-            Result result = EOSManager.Instance.GetEOSLobbyInterface().CreateLobbySearch(ref searchOptions, out LobbySearch outLobbySearchHandle);
-            Assert.AreEqual(Result.Success, result, $"Could not create lobby search. Error code: {result}");
-
+            _ = TryCreateLobbySearch(out LobbySearch lobbySearchHandle);
+            
             LobbySearchSetParameterOptions paramOptions = new()
             {
                 ComparisonOp = ComparisonOp.Equal
@@ -103,12 +80,12 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Services.Lobby
             };
             paramOptions.Parameter = attrData;
 
-            result = outLobbySearchHandle.SetParameter(ref paramOptions);
+            Result result = lobbySearchHandle.SetParameter(ref paramOptions);
             Assert.AreEqual(Result.Success, result, $"Failed to update search with the bucket id. Error code: {result}");
 
             LobbySearchFindCallbackInfo? searchLobbyResult = null;
             var findOptions = new LobbySearchFindOptions() { LocalUserId = EOSManager.Instance.GetProductUserId() };
-            outLobbySearchHandle.Find(ref findOptions,
+            lobbySearchHandle.Find(ref findOptions,
                 null,
                 (ref LobbySearchFindCallbackInfo data) => { searchLobbyResult = data; });
 
@@ -122,11 +99,11 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Services.Lobby
 
             // With the search results, verify that there's only one lobby and it matches with the one created before
             var countOptions = new LobbySearchGetSearchResultCountOptions();
-            uint searchResultCount = outLobbySearchHandle.GetSearchResultCount(ref countOptions);
+            uint searchResultCount = lobbySearchHandle.GetSearchResultCount(ref countOptions);
             Assert.AreEqual(1, searchResultCount, $"There should be only one result, got {searchResultCount} instead.");
 
             LobbySearchCopySearchResultByIndexOptions indexOptions = new() { LobbyIndex = 0 };
-            result = outLobbySearchHandle.CopySearchResultByIndex(ref indexOptions, out LobbyDetails outLobbyDetailsHandle);
+            result = lobbySearchHandle.CopySearchResultByIndex(ref indexOptions, out LobbyDetails outLobbyDetailsHandle);
             Assert.AreEqual(Result.Success, result, "Could not copy search results from index 0.");
 
             // Now that we have the lobby we're looking for, join it
@@ -160,10 +137,8 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Services.Lobby
         public IEnumerator TryToFindPrivateLobby()
         {
             // Find the bucket id that we recently created
-            var searchOptions = new CreateLobbySearchOptions() { MaxResults = 10 };
-            Result result = EOSManager.Instance.GetEOSLobbyInterface().CreateLobbySearch(ref searchOptions, out LobbySearch outLobbySearchHandle);
-            Assert.AreEqual(Result.Success, result, $"Could not create lobby search. Error code: {result}");
-
+            _ = TryCreateLobbySearch(out LobbySearch lobbySearchHandle);
+            
             LobbySearchSetParameterOptions paramOptions = new()
             {
                 ComparisonOp = ComparisonOp.Equal
@@ -177,12 +152,12 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Services.Lobby
             };
             paramOptions.Parameter = attrData;
 
-            result = outLobbySearchHandle.SetParameter(ref paramOptions);
+            Result result = lobbySearchHandle.SetParameter(ref paramOptions);
             Assert.AreEqual(Result.Success, result, $"Failed to update search with the bucket id. Error code: {result}");
 
             LobbySearchFindCallbackInfo? searchLobbyResult = null;
             var findOptions = new LobbySearchFindOptions() { LocalUserId = EOSManager.Instance.GetProductUserId() };
-            outLobbySearchHandle.Find(ref findOptions,
+            lobbySearchHandle.Find(ref findOptions,
                 null,
                 (ref LobbySearchFindCallbackInfo data) => { searchLobbyResult = data; });
 
@@ -196,7 +171,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Services.Lobby
 
             // With the search results, verify there are no results.
             var countOptions = new LobbySearchGetSearchResultCountOptions();
-            uint searchResultCount = outLobbySearchHandle.GetSearchResultCount(ref countOptions);
+            uint searchResultCount = lobbySearchHandle.GetSearchResultCount(ref countOptions);
             Assert.AreEqual(0, searchResultCount, $"There should not be any result, got {searchResultCount} instead.");
         }
     }
