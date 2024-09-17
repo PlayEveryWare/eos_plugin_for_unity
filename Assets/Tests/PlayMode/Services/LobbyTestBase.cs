@@ -26,7 +26,10 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Services.Lobby
     using Epic.OnlineServices.IntegratedPlatform;
     using Epic.OnlineServices.Lobby;
     using NUnit.Framework;
+    using System;
     using System.Collections;
+    using System.Threading.Tasks;
+    using UnityEngine;
 
     public abstract class LobbyTestBase : EOSTestBase
     {
@@ -72,6 +75,45 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Services.Lobby
             Assert.AreEqual(Result.Success, result, $"Could not create lobby search. Error Code: {result}.");
 
             return (Result.Success == result);
+        }
+
+        protected bool TrySetLobbySearchParameters(ref LobbySearch lobbySearchHandle, string key, string value)
+        {
+            LobbySearchSetParameterOptions paramOptions = new()
+            {
+                ComparisonOp = ComparisonOp.Equal
+            };
+
+            paramOptions.Parameter = new AttributeData()
+            {
+                Key = key,
+                Value = new AttributeDataValue { AsUtf8 = value }
+            };
+
+            Result result = lobbySearchHandle.SetParameter(ref paramOptions);
+            Assert.AreEqual(Result.Success, result, $"Failed to update search with the bucket id. Error code: {result}");
+
+            return (Result.Success == result);
+        }
+
+        protected async Task TryFindLobby(string key, string value)
+        {
+            _ = TryCreateLobbySearch(out LobbySearch lobbySearch);
+            _ = TrySetLobbySearchParameters(ref lobbySearch, key, value);
+
+            LobbySearchFindOptions options = new()
+            {
+                LocalUserId = EOSManager.Instance.GetProductUserId()
+            };
+
+            LobbySearchFindCallbackInfo? temp = null;
+
+            lobbySearch.Find(ref options, null, (ref LobbySearchFindCallbackInfo data) => temp = data);
+
+            // Wait asynchronously until the result is not null
+            await Task.Run(() =>
+                new WaitUntil(() => temp != null)
+            );
         }
     }
 }

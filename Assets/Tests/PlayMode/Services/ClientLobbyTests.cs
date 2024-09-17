@@ -66,23 +66,8 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Services.Lobby
         {
             // Find the bucket id that we recently created
             _ = TryCreateLobbySearch(out LobbySearch lobbySearchHandle);
+            _ = TrySetLobbySearchParameters(ref lobbySearchHandle, TestCommon.SearchBucketIdKey, TestCommon.LobbyBucketId);
             
-            LobbySearchSetParameterOptions paramOptions = new()
-            {
-                ComparisonOp = ComparisonOp.Equal
-            };
-
-            // Turn SearchString into AttributeData
-            AttributeData attrData = new()
-            {
-                Key = TestCommon.SearchBucketIdKey,
-                Value = new AttributeDataValue { AsUtf8 = TestCommon.LobbyBucketId }
-            };
-            paramOptions.Parameter = attrData;
-
-            Result result = lobbySearchHandle.SetParameter(ref paramOptions);
-            Assert.AreEqual(Result.Success, result, $"Failed to update search with the bucket id. Error code: {result}");
-
             LobbySearchFindCallbackInfo? searchLobbyResult = null;
             var findOptions = new LobbySearchFindOptions() { LocalUserId = EOSManager.Instance.GetProductUserId() };
             lobbySearchHandle.Find(ref findOptions,
@@ -103,7 +88,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Services.Lobby
             Assert.AreEqual(1, searchResultCount, $"There should be only one result, got {searchResultCount} instead.");
 
             LobbySearchCopySearchResultByIndexOptions indexOptions = new() { LobbyIndex = 0 };
-            result = lobbySearchHandle.CopySearchResultByIndex(ref indexOptions, out LobbyDetails outLobbyDetailsHandle);
+            Result result = lobbySearchHandle.CopySearchResultByIndex(ref indexOptions, out LobbyDetails outLobbyDetailsHandle);
             Assert.AreEqual(Result.Success, result, "Could not copy search results from index 0.");
 
             // Now that we have the lobby we're looking for, join it
@@ -138,22 +123,8 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Services.Lobby
         {
             // Find the bucket id that we recently created
             _ = TryCreateLobbySearch(out LobbySearch lobbySearchHandle);
-            
-            LobbySearchSetParameterOptions paramOptions = new()
-            {
-                ComparisonOp = ComparisonOp.Equal
-            };
 
-            // Turn SearchString into AttributeData
-            AttributeData attrData = new()
-            {
-                Key = TestCommon.SearchBucketIdKey,
-                Value = new AttributeDataValue { AsUtf8 = TestCommon.LobbyPrivateBucketId }
-            };
-            paramOptions.Parameter = attrData;
-
-            Result result = lobbySearchHandle.SetParameter(ref paramOptions);
-            Assert.AreEqual(Result.Success, result, $"Failed to update search with the bucket id. Error code: {result}");
+            _ = TrySetLobbySearchParameters(ref lobbySearchHandle, TestCommon.SearchBucketIdKey, TestCommon.LobbyPrivateBucketId);
 
             LobbySearchFindCallbackInfo? searchLobbyResult = null;
             var findOptions = new LobbySearchFindOptions() { LocalUserId = EOSManager.Instance.GetProductUserId() };
