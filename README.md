@@ -1,1 +1,0 @@
-com.playeveryware.eos/README.md

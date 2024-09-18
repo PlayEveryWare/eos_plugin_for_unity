@@ -157,3 +157,9 @@ Assets/Plugins/Source/Editor/obj/
 *_BackUpThisFolder_ButDontShipItWithYourGame*
 *_BurstDebugInformation_DoNotShip*
 Assets/InitTestScene*
+
+# These files will be copied from com.playeveryware.eos into the root of the
+# repository via a GitHub action, so local changes to them should be ignored
+CHANGELOG.md
+LICENSE.md
+README.md
