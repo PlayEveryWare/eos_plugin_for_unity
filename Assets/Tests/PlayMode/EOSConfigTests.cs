@@ -27,6 +27,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Config
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
+    using static PlayEveryWare.EpicOnlineServices.EOSConfig;
     using Config = EpicOnlineServices.Config;
 
     public class EOSConfigTests
@@ -36,6 +37,17 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Config
         {
             EOSConfig config = EOSConfig.Get<EOSConfig>();
             config.productName = string.Empty;
+
+            if (!config.TryGetFailingValidatorAttributes(out List<FieldValidatorFailure> failingAttributes))
+            {
+                Assert.Fail($"Config should have failing attributes.");
+            }
+
+            Assert.IsTrue(failuresIncludeExpectedFailure<NonEmptyStringFieldValidatorAttribute>(
+                nameof(EOSConfig.productName), 
+                failingAttributes,
+                NonEmptyStringFieldValidatorAttribute.FieldIsEmptyMessage),
+                "There should be a failure of the expected type and message.");
         }
 
         [Test]
@@ -43,6 +55,17 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Config
         {
             EOSConfig config = EOSConfig.Get<EOSConfig>();
             config.productVersion = string.Empty;
+
+            if (!config.TryGetFailingValidatorAttributes(out List<FieldValidatorFailure> failingAttributes))
+            {
+                Assert.Fail($"Config should have failing attributes.");
+            }
+
+            Assert.IsTrue(failuresIncludeExpectedFailure<NonEmptyStringFieldValidatorAttribute>(
+                nameof(EOSConfig.productVersion), 
+                failingAttributes,
+                NonEmptyStringFieldValidatorAttribute.FieldIsEmptyMessage),
+                "There should be a failure of the expected type and message.");
         }
 
         [Test]
@@ -50,6 +73,17 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Config
         {
             EOSConfig config = EOSConfig.Get<EOSConfig>();
             config.productID = "notaguid";
+
+            if (!config.TryGetFailingValidatorAttributes(out List<FieldValidatorFailure> failingAttributes))
+            {
+                Assert.Fail($"Config should have failing attributes.");
+            }
+
+            Assert.IsTrue(failuresIncludeExpectedFailure<NonEmptyStringFieldValidatorAttribute>(
+                nameof(EOSConfig.productName),
+                failingAttributes,
+                NonEmptyStringFieldValidatorAttribute.FieldIsEmptyMessage),
+                "There should be a failure of the expected type and message.");
         }
 
         [Test]
@@ -99,6 +133,31 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Config
             config.ThreadAffinity_RTCIO = "abc";
             config.ThreadAffinity_storageIO = "abc";
             config.ThreadAffinity_webSocketIO = "abc";
+        }
+
+        private bool failuresIncludeExpectedFailure<T>(string fieldName, List<FieldValidatorFailure> failures, string message) where T : FieldValidatorAttribute
+        {
+            foreach (FieldValidatorFailure currentFailure in failures)
+            {
+                if (currentFailure.FailingAttribute is not T)
+                {
+                    continue;
+                }
+
+                if (currentFailure.FieldInfo.Name != fieldName)
+                {
+                    continue;
+                }
+
+                if (currentFailure.FailingMessage != message)
+                {
+                    continue;
+                }
+
+                return true;
+            }
+
+            return false;
         }
     }
 }

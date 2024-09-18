@@ -39,13 +39,17 @@ namespace PlayEveryWare.EpicOnlineServices
     using Newtonsoft.Json;
     using PlayEveryWare.EpicOnlineServices.Utility;
 
+
     /// <summary>
     /// Represents the default deployment ID to use when a given sandbox ID is
     /// active.
     /// </summary>
     public class SandboxDeploymentOverride
     {
+        [DevelopmentEnvironmentFieldValidator]
         public string sandboxID;
+
+        [GUIDFieldValidator]
         public string deploymentID;
     }
 
@@ -81,6 +85,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </summary>
         [ConfigField("Product Name", ConfigFieldType.Text,
             "Product name defined in the Development Portal.", 0)]
+        [NonEmptyStringFieldValidator]
         public string productName;
 
         /// <summary>
@@ -88,6 +93,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </summary>
         [ConfigField("Product Version", ConfigFieldType.Text,
             "Version of the product.", 0)]
+        [NonEmptyStringFieldValidator]
         public string productVersion;
 
         /// <summary>
@@ -96,6 +102,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </summary>
         [ConfigField("Product Id", ConfigFieldType.Text,
             "Product Id defined in the Development Portal.", 0)]
+        [GUIDFieldValidator]
         public string productID;
 
         #endregion
@@ -108,6 +115,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </summary>
         [ConfigField("Sandbox Id", ConfigFieldType.Text,
             "Sandbox Id to use.", 1)]
+        [DevelopmentEnvironmentFieldValidator]
         public string sandboxID;
 
         /// <summary>
@@ -116,6 +124,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </summary>
         [ConfigField("Deployment Id", ConfigFieldType.Text,
             "Deployment Id to use.", 1)]
+        [DevelopmentEnvironmentFieldValidator]
         public string deploymentID;
 
         /// <summary>
@@ -190,6 +199,7 @@ namespace PlayEveryWare.EpicOnlineServices
             "Platform option flags",
             3)]
         [JsonConverter(typeof(ListOfStringsToPlatformFlags))]
+        [ParsesToPlatformFlagFieldValidator]
         public WrappedPlatformFlags platformOptionsFlags;
 
         /// <summary>
@@ -200,6 +210,7 @@ namespace PlayEveryWare.EpicOnlineServices
             "Platform option flags",
             3)]
         [JsonConverter(typeof(ListOfStringsToAuthScopeFlags))]
+        [ParsesToAuthScopeFieldValidator]
         public AuthScopeFlags authScopeOptionsFlags;
 #endif
 
@@ -245,6 +256,7 @@ namespace PlayEveryWare.EpicOnlineServices
             "that are not IO related.",
             3)]
         [JsonConverter(typeof(StringToTypeConverter<ulong>))]
+        [ParsesToUlongFieldValidator]
         public ulong? ThreadAffinity_networkWork;
 
         /// <summary>
@@ -255,6 +267,7 @@ namespace PlayEveryWare.EpicOnlineServices
             "Specifies affinity for threads that generate storage IO.",
             3)]
         [JsonConverter(typeof(StringToTypeConverter<ulong>))]
+        [ParsesToUlongFieldValidator]
         public ulong? ThreadAffinity_storageIO;
 
         /// <summary>
@@ -265,6 +278,7 @@ namespace PlayEveryWare.EpicOnlineServices
             "Specifies affinity for threads that generate web socket " +
             "IO.", 3)]
         [JsonConverter(typeof(StringToTypeConverter<ulong>))]
+        [ParsesToUlongFieldValidator]
         public ulong? ThreadAffinity_webSocketIO;
 
         /// <summary>
@@ -276,6 +290,7 @@ namespace PlayEveryWare.EpicOnlineServices
             "related to P2P traffic and management.",
             3)]
         [JsonConverter(typeof(StringToTypeConverter<ulong>))]
+        [ParsesToUlongFieldValidator]
         public ulong? ThreadAffinity_P2PIO;
 
         /// <summary>
@@ -287,6 +302,7 @@ namespace PlayEveryWare.EpicOnlineServices
             "HTTP request IO.",
             3)]
         [JsonConverter(typeof(StringToTypeConverter<ulong>))]
+        [ParsesToUlongFieldValidator]
         public ulong? ThreadAffinity_HTTPRequestIO;
 
         /// <summary>
@@ -298,6 +314,7 @@ namespace PlayEveryWare.EpicOnlineServices
             "IO related to RTC traffic and management.",
             3)]
         [JsonConverter(typeof(StringToTypeConverter<ulong>))]
+        [ParsesToUlongFieldValidator]
         public ulong? ThreadAffinity_RTCIO;
 
         #endregion
@@ -480,6 +497,54 @@ namespace PlayEveryWare.EpicOnlineServices
         public bool IsEncryptionKeyValid()
         {
             return IsEncryptionKeyValid(encryptionKey);
+        }
+
+        public struct FieldValidatorFailure
+        {
+            public FieldInfo FieldInfo;
+            public FieldValidatorAttribute FailingAttribute;
+            public string FailingMessage;
+
+            public FieldValidatorFailure(FieldInfo failingField,
+                FieldValidatorAttribute failingAttribute,
+                string failingMessage)
+            {
+                FieldInfo = failingField;
+                FailingAttribute = failingAttribute;
+                FailingMessage = failingMessage;
+            }
+        }
+
+        public bool TryGetFailingValidatorAttributes(out List<FieldValidatorFailure> failingValidatorAttributes)
+        {
+            failingValidatorAttributes = new List<FieldValidatorFailure>();
+
+            foreach (FieldInfo curField in this.GetType().GetFields())
+            {
+                foreach (FieldValidatorAttribute validatorAttribute in curField.GetCustomAttributes(typeof(FieldValidatorAttribute)))
+                {
+                    if (!validatorAttribute.FieldValueIsValid(curField.GetValue(this), out string problemMessage))
+                    {
+                        failingValidatorAttributes.Add(new FieldValidatorFailure(curField, validatorAttribute, problemMessage));
+                    }
+                }
+            }
+
+            foreach (SandboxDeploymentOverride sandboxOverride in sandboxDeploymentOverrides)
+            {
+                foreach (FieldInfo curField in sandboxOverride.GetType().GetFields())
+                {
+                    foreach (FieldValidatorAttribute validatorAttribute in curField.GetCustomAttributes(typeof(FieldValidatorAttribute)))
+                    {
+                        if (!validatorAttribute.FieldValueIsValid(curField.GetValue(sandboxOverride), out string problemMessage))
+                        {
+                            failingValidatorAttributes.Add(new FieldValidatorFailure(curField, validatorAttribute, problemMessage));
+                        }
+                    }
+                }
+            }
+
+            return false;
         }
     }
 }
