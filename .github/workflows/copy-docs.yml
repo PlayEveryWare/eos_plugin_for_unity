@@ -16,14 +16,33 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          # Ensure that the branch is checked out rather than detached HEAD
-          fetch-depth: 0  # Fetch full history so we can check out the branch
+          # Ensure full Git history is fetched
+          fetch-depth: 0
 
-      - name: Determine the branch to check out
-        run: echo "##[set-output name=branch;]$(echo $GITHUB_REF | sed 's/refs\/heads\///')"
+      - name: Determine if this is a pull request
+        id: pr_check
+        run: |
+          if [[ "${{ github.event_name }}" == "pull_request" ]]; then
+            echo "This is a pull request."
+            echo "##[set-output name=is_pr;]true"
+          else
+            echo "Not a pull request."
+            echo "##[set-output name=is_pr;]false"
+          fi
+
+      - name: Get branch name
         id: get_branch
+        run: |
+          if [[ "${{ steps.pr_check.outputs.is_pr }}" == "true" ]]; then
+            # Get the base branch of the pull request
+            echo "##[set-output name=branch;]${{ github.event.pull_request.base.ref }}"
+          else
+            # For pushes, just use the branch from the ref
+            echo "##[set-output name=branch;]$(echo $GITHUB_REF | sed 's/refs\/heads\///')"
+          fi
 
       - name: Checkout the correct branch
+        if: steps.pr_check.outputs.is_pr == 'false'
         run: git checkout ${{ steps.get_branch.outputs.branch }}
 
       - name: Copy Documentation Files to Root
@@ -33,6 +52,7 @@ jobs:
           cp com.playeveryware.eos/CHANGELOG.md CHANGELOG.md
 
       - name: Commit changes
+        if: steps.pr_check.outputs.is_pr == 'false'
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
