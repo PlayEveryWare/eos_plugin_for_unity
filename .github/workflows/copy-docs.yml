@@ -1,4 +1,4 @@
-name: Combined Workflow
+name: Sync Docs
 
 on:
   pull_request:
@@ -11,11 +11,21 @@ on:
   workflow_dispatch:
 
 jobs:
-  # Job 4: Documentation Sync
   sync_docs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          # Ensure that the branch is checked out rather than detached HEAD
+          fetch-depth: 0  # Fetch full history so we can check out the branch
+
+      - name: Determine the branch to check out
+        run: echo "##[set-output name=branch;]$(echo $GITHUB_REF | sed 's/refs\/heads\///')"
+        id: get_branch
+
+      - name: Checkout the correct branch
+        run: git checkout ${{ steps.get_branch.outputs.branch }}
+
       - name: Copy Documentation Files to Root
         run: |
           cp com.playeveryware.eos/README.md README.md
