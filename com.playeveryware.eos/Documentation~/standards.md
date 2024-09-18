@@ -117,3 +117,6 @@ Major.Minor.Patch
 	ex: 1.0.1
 ```
 
+## Unit Testing
+
+See [our documentation on unit testing](/com.playeveryware.eos/Documentation~/unit-testing.md).
