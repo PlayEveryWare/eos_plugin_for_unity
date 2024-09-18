@@ -54,7 +54,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Services.Lobby
 
         // Provides different test cases by changing one of the parameters in
         // each test case.
-        private static LobbyTestParameters[] s_lobbyParameters = {
+        private static readonly LobbyTestParameters[] s_lobbyParameters = {
             new() { BucketId = "LobbyTestDefaults" },
             new() { BucketId = "LobbyTest4Members", MaxLobbyMembers = 4 },
             new() { BucketId = "LobbyTestJoinViaPresence", 
@@ -92,7 +92,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Services.Lobby
             [Values(false, true)] bool enableRtc)
         {
             Utf8String lobbyId = CreateNewLobby(parameters, enableRtc);
-            CleanupLobby(lobbyId);
+            LeaveLobby(lobbyId);
         }
 
         protected Utf8String CreateNewLobby(
@@ -193,7 +193,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Services.Lobby
                 outLobbyDetailsInfo.Value.MaxMembers);
             Assert.IsFalse(outLobbyDetailsInfo.Value.RTCRoomEnabled);
 
-            CleanupLobby(lobbyId);
+            LeaveLobby(lobbyId);
         }
 
         /// <summary>
@@ -237,7 +237,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Services.Lobby
             Assert.AreEqual(testParameters.MaxLobbyMembers, outLobbyDetailsInfo.Value.MaxMembers);
             Assert.IsFalse(outLobbyDetailsInfo.Value.RTCRoomEnabled);
 
-            CleanupLobby(lobbyId);
+            LeaveLobby(lobbyId);
         }
 
         /// <summary>
@@ -301,7 +301,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Services.Lobby
             Assert.AreEqual(testParameters.MaxLobbyMembers, outLobbyDetailsInfo.Value.MaxMembers);
             Assert.IsFalse(outLobbyDetailsInfo.Value.RTCRoomEnabled);
 
-            CleanupLobby(lobbyId);
+            LeaveLobby(lobbyId);
         }
 
         /// <summary>
@@ -365,7 +365,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Services.Lobby
                     $"UpdateLobby failed with error code: {updateLobbyResult.Value.ResultCode}");
             }
 
-            CleanupLobby(lobbyId);
+            LeaveLobby(lobbyId);
         }
 
         /// <summary>

@@ -26,42 +26,41 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Services.Lobby
     using Epic.OnlineServices.Lobby;
     using NUnit.Framework;
     using System;
-    using System.Collections;
     using System.Collections.Generic;
     using System.Threading.Tasks;
-    using UnityEngine;
     using Result = Epic.OnlineServices.Result;
 
     public abstract class LobbyTestBase : EOSTestBase
     {
-        protected static void CleanupLobby(string lobbyId)
+        protected static void LeaveLobby(string lobbyId)
         {
-            if (!string.IsNullOrWhiteSpace(lobbyId))
+            if (string.IsNullOrWhiteSpace(lobbyId))
             {
-                // Leave the lobby room
-                LeaveLobbyOptions options = new()
-                {
-                    LobbyId = lobbyId,
-                    LocalUserId = EOSManager.Instance.GetProductUserId(),
-                };
-
-                LeaveLobbyCallbackInfo? leaveLobbyResult = null;
-                EOSManager.Instance.GetEOSLobbyInterface().LeaveLobby(
-                    ref options, null, (ref LeaveLobbyCallbackInfo data) => 
-                    { 
-                        leaveLobbyResult = data; 
-                    }
-                    );
-
-                Task.Run(
-                    () => new WaitUntilDone(GlobalTestTimeout, () => leaveLobbyResult != null)
-                ).Wait();
-
-                Assert.IsNotNull(leaveLobbyResult);
-                Assert.That(leaveLobbyResult.Value.ResultCode == Result.Success,
-                    $"Leave Lobby did not succeed: error code " +
-                    $"{leaveLobbyResult.Value.ResultCode}");
+                return;
             }
+            // Leave the lobby room
+            LeaveLobbyOptions options = new()
+            {
+                LobbyId = lobbyId,
+                LocalUserId = EOSManager.Instance.GetProductUserId(),
+            };
+
+            LeaveLobbyCallbackInfo? leaveLobbyResult = null;
+            EOSManager.Instance.GetEOSLobbyInterface().LeaveLobby(
+                ref options, null, (ref LeaveLobbyCallbackInfo data) =>
+                {
+                    leaveLobbyResult = data;
+                }
+                );
+
+            Task.Run(
+                () => new WaitUntilDone(GlobalTestTimeout, () => leaveLobbyResult != null)
+            ).Wait();
+
+            Assert.IsNotNull(leaveLobbyResult);
+            Assert.That(leaveLobbyResult.Value.ResultCode == Result.Success,
+                $"Leave Lobby did not succeed: error code " +
+                $"{leaveLobbyResult.Value.ResultCode}");
         }
 
         protected bool TryCreateLobbySearch(out LobbySearch lobbySearch, uint maxResults = 10)

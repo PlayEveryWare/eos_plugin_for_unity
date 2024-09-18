@@ -38,14 +38,9 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Services.Lobby
     /// </summary>
     public class ClientLobbyTests : LobbyTestBase
     {
-        private string _lobbyId;
-        private NotifyEventHandle _lobbyInviteNotification;
-
         [SetUp]
         public void Initialize()
         {
-            _lobbyId = null;
-            _lobbyInviteNotification = null;
         }
 
         /// <summary>
@@ -54,8 +49,6 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Services.Lobby
         [TearDown]
         public void ClientLobbyTests_Teardown()
         {
-            CleanupLobby(_lobbyId);
-            _lobbyInviteNotification?.Dispose();
         }
 
         /// <summary>
@@ -65,9 +58,15 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Services.Lobby
         [Category(TestCategories.ClientCategory)]
         public async void FindByBucketIdAndJoin()
         {
-            IList<LobbyDetails> lobbiesFound = await FindLobbies(TestCommon.SearchBucketIdKey, TestCommon.LobbyBucketId);
+            IList<LobbyDetails> lobbiesFound = await FindLobbies(
+                TestCommon.SearchBucketIdKey, 
+                TestCommon.LobbyBucketId
+                );
 
-            Assert.AreEqual(1, lobbiesFound.Count, $"There should be only one result, got {lobbiesFound.Count} instead.");
+            Assert.AreEqual(
+                1, lobbiesFound.Count, 
+                $"There should be only one result, got {lobbiesFound.Count} " +
+                $"instead.");
 
             LobbyDetails lobbyToJoin = lobbiesFound[0];
 
@@ -88,22 +87,29 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Services.Lobby
                 new WaitUntil(() => joinResult != null)
             );
 
-            Assert.AreEqual(Result.Success, joinResult.Value.ResultCode,
-                $"Could not join the server lobby. Error code: {joinResult.Value.ResultCode}");
+            Assert.AreEqual(
+                Result.Success, joinResult.Value.ResultCode,
+                $"Could not join the server lobby. Error code: " +
+                $"{joinResult.Value.ResultCode}");
 
-            _lobbyId = joinResult.Value.LobbyId;
+            // Now leave the lobby
+            LeaveLobby(joinResult.Value.LobbyId);
         }
 
         /// <summary>
-        /// Search by the bucket id for the private server and shouldn't be able to find it.
+        /// Search by the bucket id for the private server and shouldn't be able
+        /// to find it.
         /// </summary>
         [Test]
         [Category(TestCategories.ClientCategory)]
         public async void TryToFindPrivateLobby()
         {
-            IList<LobbyDetails> lobbiesFound = await FindLobbies(TestCommon.SearchBucketIdKey, TestCommon.LobbyPrivateBucketId);
+            IList<LobbyDetails> lobbiesFound = await FindLobbies(
+                TestCommon.SearchBucketIdKey, 
+                TestCommon.LobbyPrivateBucketId);
 
-            Assert.AreEqual(0, lobbiesFound.Count, $"There should not be any result, got {lobbiesFound.Count} instead.");
+            Assert.AreEqual(0, lobbiesFound.Count, $"There should not be any " +
+                $"result, got {lobbiesFound.Count} instead.");
         }
     }
 }
