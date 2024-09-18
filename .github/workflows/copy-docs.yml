@@ -1,6 +1,8 @@
 name: Combined Workflow
 
 on:
+  pull_request:
+    branches: [ "stable", "development" ]
   push:
     paths:
       - 'com.playeveryware.eos/README.md'
