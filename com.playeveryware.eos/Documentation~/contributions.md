@@ -59,6 +59,10 @@ A successful build will place the correct binaries in the proper locations for U
 
 See [standards.md](/com.playeveryware.eos/Documentation~/standards.md).
 
+## Unit Testing
+
+See [our documentation on unit testing](/com.playeveryware.eos/Documentation~/unit-testing.md)
+
 ## Core Classes
 
 See our [Class Descriptions document](/com.playeveryware.eos/Documentation~/class_description.md) for an outline of what some of the core classes do.
