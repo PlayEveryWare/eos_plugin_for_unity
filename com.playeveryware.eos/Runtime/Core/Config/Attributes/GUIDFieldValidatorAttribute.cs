@@ -29,6 +29,8 @@ namespace PlayEveryWare.EpicOnlineServices
 
     public class GUIDFieldValidatorAttribute : FieldValidatorAttribute
     {
+        public const string NotAGuidMessage = "The field value could not be parsed into a Guid.";
+
         public override bool FieldValueIsValid(object toValidate, out string configurationProblemMessage)
         {
             if (!(toValidate is string stringValue))
@@ -45,7 +47,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
             if (!Guid.TryParse(stringValue, out Guid result))
             {
-                configurationProblemMessage = "The field value could not be parsed into a Guid.";
+                configurationProblemMessage = NotAGuidMessage;
                 return false;
             }
 

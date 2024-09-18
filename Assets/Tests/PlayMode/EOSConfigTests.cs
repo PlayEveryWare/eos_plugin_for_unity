@@ -79,10 +79,10 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Config
                 Assert.Fail($"Config should have failing attributes.");
             }
 
-            Assert.IsTrue(failuresIncludeExpectedFailure<NonEmptyStringFieldValidatorAttribute>(
-                nameof(EOSConfig.productName),
+            Assert.IsTrue(failuresIncludeExpectedFailure<GUIDFieldValidatorAttribute>(
+                nameof(EOSConfig.productID),
                 failingAttributes,
-                NonEmptyStringFieldValidatorAttribute.FieldIsEmptyMessage),
+                GUIDFieldValidatorAttribute.NotAGuidMessage),
                 "There should be a failure of the expected type and message.");
         }
 
@@ -91,6 +91,17 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Config
         {
             EOSConfig config = EOSConfig.Get<EOSConfig>();
             config.sandboxID = "notaguid";
+
+            if (!config.TryGetFailingValidatorAttributes(out List<FieldValidatorFailure> failingAttributes))
+            {
+                Assert.Fail($"Config should have failing attributes.");
+            }
+
+            Assert.IsTrue(failuresIncludeExpectedFailure<DevelopmentEnvironmentFieldValidatorAttribute>(
+                nameof(EOSConfig.sandboxID),
+                failingAttributes,
+                DevelopmentEnvironmentFieldValidatorAttribute.FieldDidNotMatchMessage),
+                "There should be a failure of the expected type and message.");
         }
 
         [Test]
@@ -98,6 +109,17 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Config
         {
             EOSConfig config = EOSConfig.Get<EOSConfig>();
             config.deploymentID = "notaguid";
+
+            if (!config.TryGetFailingValidatorAttributes(out List<FieldValidatorFailure> failingAttributes))
+            {
+                Assert.Fail($"Config should have failing attributes.");
+            }
+
+            Assert.IsTrue(failuresIncludeExpectedFailure<GUIDFieldValidatorAttribute>(
+                nameof(EOSConfig.deploymentID),
+                failingAttributes,
+                GUIDFieldValidatorAttribute.NotAGuidMessage),
+                "There should be a failure of the expected type and message.");
         }
 
         [Test]
@@ -105,6 +127,17 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Config
         {
             EOSConfig config = EOSConfig.Get<EOSConfig>();
             config.platformOptionsFlags = new List<string>() { "invalidoptions " };
+
+            if (!config.TryGetFailingValidatorAttributes(out List<FieldValidatorFailure> failingAttributes))
+            {
+                Assert.Fail($"Config should have failing attributes.");
+            }
+
+            Assert.IsTrue(failuresIncludeExpectedFailure<ParsesToPlatformFlagFieldValidatorAttribute>(
+                nameof(EOSConfig.platformOptionsFlags),
+                failingAttributes,
+                ParsesToEnumFieldValidatorAttribute.FailedToParseTokensMessage),
+                "There should be a failure of the expected type and message.");
         }
 
         [Test]
@@ -112,15 +145,17 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Config
         {
             EOSConfig config = EOSConfig.Get<EOSConfig>();
             config.authScopeOptionsFlags = new List<string>() { "invalidoptions " };
-        }
 
-        [Test]
-        public void TicketBudgetInMilliseconds_MustBeValidUnit()
-        {
-            EOSConfig config = EOSConfig.Get<EOSConfig>();
+            if (!config.TryGetFailingValidatorAttributes(out List<FieldValidatorFailure> failingAttributes))
+            {
+                Assert.Fail($"Config should have failing attributes.");
+            }
 
-            // Unsure how to force this to be an invalid value at this point; is the test to check the configuration loader by string?
-            // config.tickBudgetInMilliseconds = -100;
+            Assert.IsTrue(failuresIncludeExpectedFailure<ParsesToAuthScopeFieldValidatorAttribute>(
+                nameof(EOSConfig.authScopeOptionsFlags),
+                failingAttributes,
+                ParsesToEnumFieldValidatorAttribute.FailedToParseTokensMessage),
+                "There should be a failure of the expected type and message.");
         }
 
         [Test]
@@ -133,9 +168,31 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Config
             config.ThreadAffinity_RTCIO = "abc";
             config.ThreadAffinity_storageIO = "abc";
             config.ThreadAffinity_webSocketIO = "abc";
+
+            if (!config.TryGetFailingValidatorAttributes(out List<FieldValidatorFailure> failingAttributes))
+            {
+                Assert.Fail($"Config should have failing attributes.");
+            }
+
+            Assert.IsTrue(failuresIncludeExpectedFailure<ParsesToUlongFieldValidatorAttribute>(
+                nameof(EOSConfig.authScopeOptionsFlags),
+                failingAttributes,
+                ParsesToUlongFieldValidatorAttribute.FailedToParseMessage),
+                "There should be a failure of the expected type and message.");
         }
 
-        private bool failuresIncludeExpectedFailure<T>(string fieldName, List<FieldValidatorFailure> failures, string message) where T : FieldValidatorAttribute
+        /// <summary>
+        /// Determines if the provided list of failures contains an expected failure
+        /// </summary>
+        /// <typeparam name="T">The kind of validator attribute that is expected.</typeparam>
+        /// <param name="fieldName">The name of the field that is being checked for.</param>
+        /// <param name="failures">A list of all failures from validation.</param>
+        /// <param name="message">
+        /// A specific error message to check for.
+        /// Optional. If null or empty, this is not used.
+        /// </param>
+        /// <returns>True if the expected failure is within the list.</returns>
+        private bool failuresIncludeExpectedFailure<T>(string fieldName, List<FieldValidatorFailure> failures, string message = "") where T : FieldValidatorAttribute
         {
             foreach (FieldValidatorFailure currentFailure in failures)
             {
@@ -149,9 +206,12 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Config
                     continue;
                 }
 
-                if (currentFailure.FailingMessage != message)
+                if (!string.IsNullOrEmpty(message))
                 {
-                    continue;
+                    if (currentFailure.FailingMessage != message)
+                    {
+                        continue;
+                    }
                 }
 
                 return true;

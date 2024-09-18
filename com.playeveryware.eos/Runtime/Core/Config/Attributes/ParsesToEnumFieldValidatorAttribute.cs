@@ -32,6 +32,8 @@ namespace PlayEveryWare.EpicOnlineServices
 
     public abstract class ParsesToEnumFieldValidatorAttribute : FieldValidatorAttribute
     {
+        public const string FailedToParseTokensMessage = "Failed to parse all provided values into destination enum flags.";
+
         public sealed override bool FieldValueIsValid(object toValidate, out string configurationProblemMessage)
         {
             List<string> flags = new List<string>();
@@ -52,7 +54,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
             if (!CanParse(flags))
             {
-                configurationProblemMessage = $"Failed to parse all provided values into destination enum flags.";
+                configurationProblemMessage = FailedToParseTokensMessage;
                 return false;
             }
 

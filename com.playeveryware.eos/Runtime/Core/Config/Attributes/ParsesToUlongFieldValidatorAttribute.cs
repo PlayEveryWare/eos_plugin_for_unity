@@ -29,6 +29,8 @@ namespace PlayEveryWare.EpicOnlineServices
 
     public class ParsesToUlongFieldValidatorAttribute : FieldValidatorAttribute
     {
+        public const string FailedToParseMessage = "Failed to parse provided value into ulong.";
+
         public override bool FieldValueIsValid(object toValidate, out string configurationProblemMessage)
         {
             if (!(toValidate is string stringValue))
