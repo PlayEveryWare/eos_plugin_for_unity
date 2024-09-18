@@ -1,0 +1,29 @@
+name: Combined Workflow
+
+on:
+  push:
+    paths:
+      - 'com.playeveryware.eos/README.md'
+      - 'com.playeveryware.eos/LICENSE.md'
+      - 'com.playeveryware.eos/CHANGELOG.md'
+  workflow_dispatch:
+
+jobs:
+  # Job 4: Documentation Sync
+  sync_docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Copy Documentation Files to Root
+        run: |
+          cp com.playeveryware.eos/README.md README.md
+          cp com.playeveryware.eos/LICENSE.md LICENSE.md
+          cp com.playeveryware.eos/CHANGELOG.md CHANGELOG.md
+
+      - name: Commit changes
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add README.md LICENSE.md CHANGELOG.md
+          git commit -m "Sync documentation to root"
+          git push
