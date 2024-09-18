@@ -1,0 +1,1 @@
+com.playeveryware.eos/CHANGELOG.md
