@@ -1,13 +1,13 @@
 name: Sync Docs
 
 on:
-  pull_request:
-    branches: [ "stable", "development" ]
-  push:
-    paths:
-      - 'com.playeveryware.eos/README.md'
-      - 'com.playeveryware.eos/LICENSE.md'
-      - 'com.playeveryware.eos/CHANGELOG.md'
+  #pull_request:
+  #  branches: [ "stable", "development" ]
+  #push:
+  #  paths:
+  #    - 'com.playeveryware.eos/README.md'
+  #    - 'com.playeveryware.eos/LICENSE.md'
+  #    - 'com.playeveryware.eos/CHANGELOG.md'
   workflow_dispatch:
 
 jobs:
