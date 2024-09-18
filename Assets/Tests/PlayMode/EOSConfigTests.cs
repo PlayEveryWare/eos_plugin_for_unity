@@ -22,6 +22,7 @@
 
 namespace PlayEveryWare.EpicOnlineServices.Tests.Config
 {
+    using Epic.OnlineServices.Platform;
     using NUnit.Framework;
     using System;
     using System.Collections.Generic;
@@ -51,6 +52,26 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Config
         }
 
         [Test]
+        public void ProductName_SuccessfulParsing()
+        {
+            EOSConfig config = EOSConfig.Get<EOSConfig>();
+            config.productName = "My Valid Product Name";
+
+            if (!config.TryGetFailingValidatorAttributes(out List<FieldValidatorFailure> failingAttributes))
+            {
+                // If there are no errors, then this test is a success
+                // The config might be failing in other ways
+                return;
+            }
+
+            Assert.IsFalse(failuresIncludeExpectedFailure<NonEmptyStringFieldValidatorAttribute>(
+                nameof(EOSConfig.productName),
+                failingAttributes,
+                NonEmptyStringFieldValidatorAttribute.FieldIsEmptyMessage),
+                "Product Name should not have errors describing it as an empty field.");
+        }
+
+        [Test]
         public void ProductVersion_MustNotBeEmpty()
         {
             EOSConfig config = EOSConfig.Get<EOSConfig>();
@@ -66,6 +87,26 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Config
                 failingAttributes,
                 NonEmptyStringFieldValidatorAttribute.FieldIsEmptyMessage),
                 "There should be a failure of the expected type and message.");
+        }
+
+        [Test]
+        public void ProductVersion_SuccessfulParsing()
+        {
+            EOSConfig config = EOSConfig.Get<EOSConfig>();
+            config.productVersion = "123.456";
+
+            if (!config.TryGetFailingValidatorAttributes(out List<FieldValidatorFailure> failingAttributes))
+            {
+                // If there are no errors, then this test is a success
+                // The config might be failing in other ways
+                return;
+            }
+
+            Assert.IsFalse(failuresIncludeExpectedFailure<NonEmptyStringFieldValidatorAttribute>(
+                nameof(EOSConfig.productVersion),
+                failingAttributes,
+                NonEmptyStringFieldValidatorAttribute.FieldIsEmptyMessage),
+                "Product Version should not have errors describing it as an empty field.");
         }
 
         [Test]
@@ -87,6 +128,26 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Config
         }
 
         [Test]
+        public void ProductId_SuccessfulParsing()
+        {
+            EOSConfig config = EOSConfig.Get<EOSConfig>();
+            config.productID = Guid.NewGuid().ToString();
+
+            if (!config.TryGetFailingValidatorAttributes(out List<FieldValidatorFailure> failingAttributes))
+            {
+                // If there are no errors, then this test is a success
+                // The config might be failing in other ways
+                return;
+            }
+
+            Assert.IsFalse(failuresIncludeExpectedFailure<GUIDFieldValidatorAttribute>(
+                nameof(EOSConfig.productID),
+                failingAttributes,
+                GUIDFieldValidatorAttribute.NotAGuidMessage),
+                "Product Id should not have errors describing it as an invalid GUID.");
+        }
+
+        [Test]
         public void SandboxID_MustBeValidGUID_OrHavePrefix()
         {
             EOSConfig config = EOSConfig.Get<EOSConfig>();
@@ -105,6 +166,110 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Config
         }
 
         [Test]
+        public void SandboxID_SuccessfulParsing_WithGUID()
+        {
+            EOSConfig config = EOSConfig.Get<EOSConfig>();
+            config.sandboxID = Guid.NewGuid().ToString();
+
+            if (!config.TryGetFailingValidatorAttributes(out List<FieldValidatorFailure> failingAttributes))
+            {
+                // If there are no errors, then this test is a success
+                // The config might be failing in other ways
+                return;
+            }
+
+            Assert.IsFalse(failuresIncludeExpectedFailure<DevelopmentEnvironmentFieldValidatorAttribute>(
+                nameof(EOSConfig.sandboxID),
+                failingAttributes,
+                DevelopmentEnvironmentFieldValidatorAttribute.FieldDidNotMatchMessage),
+                "Sandbox Id should not have errors relating to it failing to parse.");
+        }
+
+        [Test]
+        public void SandboxID_SuccessfulParsing_WithDevelopmentEnvironment()
+        {
+            EOSConfig config = EOSConfig.Get<EOSConfig>();
+            config.sandboxID = "p-1234567890ABCDEFGHIJKLMNOPQR";
+
+            if (!config.TryGetFailingValidatorAttributes(out List<FieldValidatorFailure> failingAttributes))
+            {
+                // If there are no errors, then this test is a success
+                // The config might be failing in other ways
+                return;
+            }
+
+            Assert.IsFalse(failuresIncludeExpectedFailure<DevelopmentEnvironmentFieldValidatorAttribute>(
+                nameof(EOSConfig.sandboxID),
+                failingAttributes,
+                DevelopmentEnvironmentFieldValidatorAttribute.FieldDidNotMatchMessage),
+                "Sandbox Id should not have errors relating to it failing to parse.");
+        }
+
+        [Test]
+        public void DeploymentOverride_MustBeValid()
+        {
+            EOSConfig config = EOSConfig.Get<EOSConfig>();
+            config.sandboxDeploymentOverrides = new List<SandboxDeploymentOverride>()
+            {
+                new SandboxDeploymentOverride()
+                {
+                    sandboxID = "abc",
+                    deploymentID = "abc"
+                }
+            };
+
+            if (config.TryGetFailingValidatorAttributes(out List<FieldValidatorFailure> failingAttributes))
+            {
+                Assert.Fail($"Config should have failing attributes.");
+            }
+
+            Assert.IsTrue(failuresIncludeExpectedFailure<GUIDFieldValidatorAttribute>(
+                nameof(SandboxDeploymentOverride.deploymentID),
+                failingAttributes,
+                GUIDFieldValidatorAttribute.NotAGuidMessage),
+                "Deployment ID in sandbox override should have failure relating to it.");
+
+            Assert.IsTrue(failuresIncludeExpectedFailure<DevelopmentEnvironmentFieldValidatorAttribute>(
+                nameof(SandboxDeploymentOverride.sandboxID),
+                failingAttributes,
+                DevelopmentEnvironmentFieldValidatorAttribute.FieldDidNotMatchMessage),
+                "Sandbox ID in sandbox override should have failure relating to it.");
+        }
+
+        [Test]
+        public void DeploymentOverride_SuccessfulParse()
+        {
+            EOSConfig config = EOSConfig.Get<EOSConfig>();
+            config.sandboxDeploymentOverrides = new List<SandboxDeploymentOverride>()
+            {
+                new SandboxDeploymentOverride()
+                {
+                    sandboxID = Guid.NewGuid().ToString(),
+                    deploymentID = Guid.NewGuid().ToString()
+                }
+            };
+
+            if (!config.TryGetFailingValidatorAttributes(out List<FieldValidatorFailure> failingAttributes))
+            {
+                // If there are no errors, then this test is a success
+                // The config might be failing in other ways
+                return;
+            }
+
+            Assert.IsFalse(failuresIncludeExpectedFailure<GUIDFieldValidatorAttribute>(
+                nameof(SandboxDeploymentOverride.deploymentID),
+                failingAttributes,
+                GUIDFieldValidatorAttribute.NotAGuidMessage),
+                "Deployment ID in sandbox override should not have error relating to GUID failing to parse.");
+
+            Assert.IsFalse(failuresIncludeExpectedFailure<DevelopmentEnvironmentFieldValidatorAttribute>(
+                nameof(SandboxDeploymentOverride.sandboxID),
+                failingAttributes,
+                DevelopmentEnvironmentFieldValidatorAttribute.FieldDidNotMatchMessage),
+                "Sandbox ID in sandbox override should not have error relating to it failing to parse.");
+        }
+
+        [Test]
         public void DeploymentID_MustBeValidGUID()
         {
             EOSConfig config = EOSConfig.Get<EOSConfig>();
@@ -116,6 +281,26 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Config
             }
 
             Assert.IsTrue(failuresIncludeExpectedFailure<GUIDFieldValidatorAttribute>(
+                nameof(EOSConfig.deploymentID),
+                failingAttributes,
+                GUIDFieldValidatorAttribute.NotAGuidMessage),
+                "There should be a failure of the expected type and message.");
+        }
+
+        [Test]
+        public void DeploymentID_SuccessfulParse()
+        {
+            EOSConfig config = EOSConfig.Get<EOSConfig>();
+            config.deploymentID = Guid.NewGuid().ToString();
+
+            if (!config.TryGetFailingValidatorAttributes(out List<FieldValidatorFailure> failingAttributes))
+            {
+                // If there are no errors, then this test is a success
+                // The config might be failing in other ways
+                return;
+            }
+
+            Assert.IsFalse(failuresIncludeExpectedFailure<GUIDFieldValidatorAttribute>(
                 nameof(EOSConfig.deploymentID),
                 failingAttributes,
                 GUIDFieldValidatorAttribute.NotAGuidMessage),
@@ -141,6 +326,26 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Config
         }
 
         [Test]
+        public void PlatformTags_SuccessfulParse()
+        {
+            EOSConfig config = EOSConfig.Get<EOSConfig>();
+            config.platformOptionsFlags = new List<string>() { PlatformFlags.DisableOverlay.ToString(), PlatformFlags.WindowsEnableOverlayD3D9.ToString()};
+
+            if (!config.TryGetFailingValidatorAttributes(out List<FieldValidatorFailure> failingAttributes))
+            {
+                // If there are no errors, then this test is a success
+                // The config might be failing in other ways
+                return;
+            }
+
+            Assert.IsFalse(failuresIncludeExpectedFailure<ParsesToPlatformFlagFieldValidatorAttribute>(
+                nameof(EOSConfig.platformOptionsFlags),
+                failingAttributes,
+                ParsesToEnumFieldValidatorAttribute.FailedToParseTokensMessage),
+                "There should not be a failure regarding failing to parse Platform Tags.");
+        }
+
+        [Test]
         public void AuthScopeFlags_MustParse()
         {
             EOSConfig config = EOSConfig.Get<EOSConfig>();
@@ -159,7 +364,27 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Config
         }
 
         [Test]
-        public void ThreadAffinity_AllParse()
+        public void AuthScope_SuccessfulParse()
+        {
+            EOSConfig config = EOSConfig.Get<EOSConfig>();
+            config.platformOptionsFlags = new List<string>() { PlatformFlags.DisableOverlay.ToString(), PlatformFlags.WindowsEnableOverlayD3D9.ToString() };
+
+            if (!config.TryGetFailingValidatorAttributes(out List<FieldValidatorFailure> failingAttributes))
+            {
+                // If there are no errors, then this test is a success
+                // The config might be failing in other ways
+                return;
+            }
+
+            Assert.IsFalse(failuresIncludeExpectedFailure<ParsesToAuthScopeFieldValidatorAttribute>(
+                nameof(EOSConfig.authScopeOptionsFlags),
+                failingAttributes,
+                ParsesToEnumFieldValidatorAttribute.FailedToParseTokensMessage),
+                "There should not be a failure regarding failing to parse Auth Scope.");
+        }
+
+        [Test]
+        public void ThreadAffinity_MustParse()
         {
             EOSConfig config = EOSConfig.Get<EOSConfig>();
             config.ThreadAffinity_HTTPRequestIO = "abc";
@@ -175,10 +400,95 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Config
             }
 
             Assert.IsTrue(failuresIncludeExpectedFailure<ParsesToUlongFieldValidatorAttribute>(
+                nameof(EOSConfig.ThreadAffinity_HTTPRequestIO),
+                failingAttributes,
+                ParsesToUlongFieldValidatorAttribute.FailedToParseMessage),
+                "There should be a failure of the expected type and message for ThreadAffinity_HTTPRequestIO.");
+
+            Assert.IsTrue(failuresIncludeExpectedFailure<ParsesToUlongFieldValidatorAttribute>(
+                nameof(EOSConfig.ThreadAffinity_networkWork),
+                failingAttributes,
+                ParsesToUlongFieldValidatorAttribute.FailedToParseMessage),
+                "There should be a failure of the expected type and message for ThreadAffinity_networkWork.");
+
+            Assert.IsTrue(failuresIncludeExpectedFailure<ParsesToUlongFieldValidatorAttribute>(
+                nameof(EOSConfig.ThreadAffinity_P2PIO),
+                failingAttributes,
+                ParsesToUlongFieldValidatorAttribute.FailedToParseMessage),
+                "There should be a failure of the expected type and message for ThreadAffinity_P2PIO.");
+
+            Assert.IsTrue(failuresIncludeExpectedFailure<ParsesToUlongFieldValidatorAttribute>(
+                nameof(EOSConfig.ThreadAffinity_RTCIO),
+                failingAttributes,
+                ParsesToUlongFieldValidatorAttribute.FailedToParseMessage),
+                "There should be a failure of the expected type and message for ThreadAffinity_RTCIO.");
+
+            Assert.IsTrue(failuresIncludeExpectedFailure<ParsesToUlongFieldValidatorAttribute>(
+                nameof(EOSConfig.ThreadAffinity_storageIO),
+                failingAttributes,
+                ParsesToUlongFieldValidatorAttribute.FailedToParseMessage),
+                "There should be a failure of the expected type and message for ThreadAffinity_storageIO.");
+
+            Assert.IsTrue(failuresIncludeExpectedFailure<ParsesToUlongFieldValidatorAttribute>(
+                nameof(EOSConfig.ThreadAffinity_webSocketIO),
+                failingAttributes,
+                ParsesToUlongFieldValidatorAttribute.FailedToParseMessage),
+                "There should be a failure of the expected type and message for ThreadAffinity_webSocketIO.");
+        }
+
+        [Test]
+        public void ThreadAffinity_SuccessfulParse()
+        {
+            EOSConfig config = EOSConfig.Get<EOSConfig>();
+            config.ThreadAffinity_HTTPRequestIO = UnityEngine.Random.Range(uint.MinValue, uint.MaxValue).ToString();
+            config.ThreadAffinity_networkWork = UnityEngine.Random.Range(uint.MinValue, uint.MaxValue).ToString();
+            config.ThreadAffinity_P2PIO = UnityEngine.Random.Range(uint.MinValue, uint.MaxValue).ToString();
+            config.ThreadAffinity_RTCIO = UnityEngine.Random.Range(uint.MinValue, uint.MaxValue).ToString();
+            config.ThreadAffinity_storageIO = UnityEngine.Random.Range(uint.MinValue, uint.MaxValue).ToString();
+            config.ThreadAffinity_webSocketIO = UnityEngine.Random.Range(uint.MinValue, uint.MaxValue).ToString();
+
+            if (!config.TryGetFailingValidatorAttributes(out List<FieldValidatorFailure> failingAttributes))
+            {
+                // If there are no errors, then this test is a success
+                // The config might be failing in other ways
+                return;
+            }
+
+            Assert.IsFalse(failuresIncludeExpectedFailure<ParsesToUlongFieldValidatorAttribute>(
                 nameof(EOSConfig.authScopeOptionsFlags),
                 failingAttributes,
                 ParsesToUlongFieldValidatorAttribute.FailedToParseMessage),
-                "There should be a failure of the expected type and message.");
+                "There should not be an error relating to parsing ThreadAffinity_HTTPRequestIO.");
+
+            Assert.IsFalse(failuresIncludeExpectedFailure<ParsesToUlongFieldValidatorAttribute>(
+                nameof(EOSConfig.ThreadAffinity_networkWork),
+                failingAttributes,
+                ParsesToUlongFieldValidatorAttribute.FailedToParseMessage),
+                "There should not be an error relating to parsing ThreadAffinity_networkWork.");
+
+            Assert.IsFalse(failuresIncludeExpectedFailure<ParsesToUlongFieldValidatorAttribute>(
+                nameof(EOSConfig.ThreadAffinity_P2PIO),
+                failingAttributes,
+                ParsesToUlongFieldValidatorAttribute.FailedToParseMessage),
+                "There should not be an error relating to parsing ThreadAffinity_P2PIO.");
+
+            Assert.IsFalse(failuresIncludeExpectedFailure<ParsesToUlongFieldValidatorAttribute>(
+                nameof(EOSConfig.ThreadAffinity_RTCIO),
+                failingAttributes,
+                ParsesToUlongFieldValidatorAttribute.FailedToParseMessage),
+                "There should not be an error relating to parsing ThreadAffinity_RTCIO.");
+
+            Assert.IsFalse(failuresIncludeExpectedFailure<ParsesToUlongFieldValidatorAttribute>(
+                nameof(EOSConfig.ThreadAffinity_storageIO),
+                failingAttributes,
+                ParsesToUlongFieldValidatorAttribute.FailedToParseMessage),
+                "There should not be an error relating to parsing ThreadAffinity_storageIO.");
+
+            Assert.IsFalse(failuresIncludeExpectedFailure<ParsesToUlongFieldValidatorAttribute>(
+                nameof(EOSConfig.ThreadAffinity_webSocketIO),
+                failingAttributes,
+                ParsesToUlongFieldValidatorAttribute.FailedToParseMessage),
+                "There should not be an error relating to parsing ThreadAffinity_webSocketIO.");
         }
 
         /// <summary>
