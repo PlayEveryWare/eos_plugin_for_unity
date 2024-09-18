@@ -157,3 +157,9 @@ Assets/Plugins/Source/Editor/obj/
 *_BackUpThisFolder_ButDontShipItWithYourGame*
 *_BurstDebugInformation_DoNotShip*
 Assets/InitTestScene*
+
+# These will be copied by a GitHub action, so any local changes should be
+# ignored
+README.md
+LICENSE.md
+CHANGELOG.md
