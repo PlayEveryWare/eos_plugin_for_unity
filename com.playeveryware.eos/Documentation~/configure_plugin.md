@@ -35,7 +35,7 @@ To function, the plugin needs some information from your EOS project. Be sure to
 
 5) Navigate to `Packages/Epic Online Services for Unity/Runtime` via the `Project` window.
 
-6) Add the `EOSManager.prefab`, to each of your game's scenes.
+6) Add the `Singletons.prefab`, to each of your game's scenes.
 
 7) Attach `EOSManager.cs (Script)` to a Unity object, and it will initialize the plugin with the specified configuration in `OnAwake()`.
 
