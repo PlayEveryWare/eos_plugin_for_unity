@@ -61,7 +61,7 @@ See [standards.md](/com.playeveryware.eos/Documentation~/standards.md).
 
 ## Unit Testing
 
-See [our documentation on unit testing](/com.playeveryware.eos/Documentation~/unit-testing.md)
+See [our documentation on unit testing](/com.playeveryware.eos/Documentation~/unit-testing.md).
 
 ## Core Classes
 
