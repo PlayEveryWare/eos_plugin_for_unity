@@ -19,6 +19,6 @@ jobs:
         with:
           python-version: '3.x'
       - name: Install dependencies
-        run: pip install requests tqdm
+        run: pip install requests tqdm beautifulsoup4
       - name: Run link checker
         run: python tools/scripts/check_links.py
