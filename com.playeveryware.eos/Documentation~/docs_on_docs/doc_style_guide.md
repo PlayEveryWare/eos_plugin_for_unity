@@ -1,4 +1,4 @@
-<a href="/README.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="README.md" width="5%"/></a>
+<a href="/README.md"><img src="/com.playeveryware.eos/Documentation~/images/PlayEveryWareLogo.gif" alt="README.md" width="5%"/></a>
 
 # <div align="center">Documentation Style Guide</div>
 ---
@@ -40,13 +40,13 @@ Each document should start (before the document title) with the PlayEveryWare, I
 Markdown:
 ```markdown
 <a href="/README.md">
-    <img src="/docs/images/PlayEveryWareLogo.gif" alt="PlayEveryWare, Inc. Logo" width="10%"/>
+    <img src="/com.playeveryware.eos/Documentation~/images/PlayEveryWareLogo.gif" alt="PlayEveryWare, Inc. Logo" width="10%"/>
 </a>
 ```
 
 What it looks like:
 
-<a href="/README.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="PlayEveryWare, Inc. Logo" width="10%"/></a>
+<a href="/README.md"><img src="/com.playeveryware.eos/Documentation~/images/PlayEveryWareLogo.gif" alt="PlayEveryWare, Inc. Logo" width="10%"/></a>
 
 ## Title:
 
