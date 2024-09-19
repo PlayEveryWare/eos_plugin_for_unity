@@ -162,4 +162,4 @@ Assets/InitTestScene*
 # so local changes should only be respected when made to the README.md file
 # within com.playeveryware.eos. Thus - ignore changes made to the file at the 
 # root of the repository.
-README.md
+./README.md
