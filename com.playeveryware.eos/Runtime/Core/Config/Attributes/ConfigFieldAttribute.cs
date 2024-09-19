@@ -49,13 +49,6 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </summary>
         public ConfigFieldType FieldType { get; }
 
-        /// <summary>
-        /// If the FieldType is ConfigFieldType.Enum, this value is used to 
-        /// determine the type of enum, so that its possible values can be
-        /// enumerated.
-        /// </summary>
-        public Enum EnumType { get; }
-
         public ConfigFieldAttribute(
             string label, 
             ConfigFieldType type, 
@@ -66,14 +59,6 @@ namespace PlayEveryWare.EpicOnlineServices
             ToolTip = tooltip;
             Group = group;
             FieldType = type;
-        }
-
-        public ConfigFieldAttribute(string label,
-            Enum enumType,
-            string tooltip = null,
-            int group = -1) : this(label, ConfigFieldType.Enum, tooltip, group)
-        {
-            EnumType = enumType;
         }
     }
 }

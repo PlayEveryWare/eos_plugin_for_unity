@@ -261,9 +261,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
                                 onClick();
                             }
                             break;
-                        case ConfigFieldType.Enum:
-                            field.FieldInfo.SetValue(config, GUIEditorUtility.RenderInputField(field.FieldDetails, field.FieldInfo.GetValue(config) as Enum, labelWidth));
-                            break;
                         default:
                             throw new ArgumentOutOfRangeException();
                     }

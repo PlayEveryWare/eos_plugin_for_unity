@@ -77,14 +77,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// to take place when the button is pressed, which allows injection of
         /// arbitrary functionality within a ConfigEditor.
         /// </summary>
-        Button,
-
-        /// <summary>
-        /// An enum with one required value.
-        /// This will render as a dropdown list, where exactly one value can be 
-        /// selected.
-        /// </summary>
-        Enum
+        Button
     }
 
 }

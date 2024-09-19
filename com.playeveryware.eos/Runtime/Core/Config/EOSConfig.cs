@@ -336,13 +336,7 @@ namespace PlayEveryWare.EpicOnlineServices
             "to the SDK.", 4)]
         public bool hackForceSendInputDirectlyToSDK;
 
-        [ConfigField("Default Activate Overlay Button",
-            ConfigFieldType.Enum,
-            "Users can press the buttons associated with this value to activate " +
-            "the Epic Social Overlay. If this is multiple buttons, the user " +
-            "presses them in combination to activate the Epic Social Overlay. " +
-            "Platforms without a custom override will use this value.", 4)]
-        public InputStateButtonFlags defaultActivateOverlayButtonCombination;
+        public List<string> toggleFriendsButtonCombination;
 
         #endregion
 
@@ -448,6 +442,19 @@ namespace PlayEveryWare.EpicOnlineServices
             return StringsToEnum<AuthScopeFlags>(
                 authScopeOptionsFlags, 
                 AuthScopeFlagsExtensions.TryParse);
+        }
+
+        /// <summary>
+        /// Returns a single InputStateButtonFlags enum value that results from a
+        /// bitwise OR operation of all the defaultActivateOverlayButtonCombination flags on this
+        /// config.
+        /// </summary>
+        /// <returns>An InputStateButtonFlags enum value.</returns>
+        public InputStateButtonFlags GetToggleFriendsButtonCombinationFlags()
+        {
+            return StringsToEnum<InputStateButtonFlags>(
+                toggleFriendsButtonCombination,
+                InputStateButtonFlagsExtensions.TryParse);
         }
 
         /// <summary>

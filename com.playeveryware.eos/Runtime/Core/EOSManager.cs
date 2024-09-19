@@ -538,7 +538,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 // Sets the button for the bringing up the overlay
                 var friendToggle = new SetToggleFriendsButtonOptions
                 {
-                    ButtonCombination = configData.defaultActivateOverlayButtonCombination
+                    ButtonCombination = configData.GetToggleFriendsButtonCombinationFlags()
                 };
                 UIInterface uiInterface = Instance.GetEOSPlatformInterface().GetUIInterface();
                 uiInterface.SetToggleFriendsButton(ref friendToggle);
