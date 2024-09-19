@@ -16,7 +16,8 @@ def find_markdown_files(root_dir):
         for filename in filenames:
             if filename.lower().endswith('.md'):
                 md_files.append(os.path.join(dirpath, filename))
-                
+
+    # Sort the files in descending order of size                
     md_files.sort(key=lambda x: os.path.getsize(x), reverse=True)
     
     return md_files
@@ -57,7 +58,7 @@ def check_links(md_files, include_external = False):
         links = extract_links_from_markdown(md_file)
         md_dir = os.path.dirname(md_file)
 
-        for link in tqdm(links):
+        for link in links:
             link = link.strip()
 
             # Skip empty links and anchors
@@ -68,14 +69,13 @@ def check_links(md_files, include_external = False):
             if link.startswith(('mailto:', 'tel:')):
                 continue
 
-            if is_external_link(link):
+            if is_external_link(link): # Check external link
                 # Skip inspection of the link if we are not supposed to.
                 if include_external is False:
                   continue
                 
                 links_inspected_count += 1
                 
-                # Check external link
                 try:
                     response = session.head(link, allow_redirects=True, timeout=10, headers=headers)
                     if response.status_code >= 400 or response.status_code == 405:
@@ -85,10 +85,11 @@ def check_links(md_files, include_external = False):
                             broken_links.append((md_file, link, response.status_code))
                 except requests.exceptions.RequestException as e:
                     broken_links.append((md_file, link, str(e)))
-            else:
+            else: # Check an internal link
               links_inspected_count += 1
-              # Check internal link
-              link_path = link.split('#')[0]  # Remove any anchor
+              # Remove any anchor, if there is one
+              link_path = link.split('#')[0]
+              # Normalize the path
               abs_path = os.path.normpath(os.path.join(md_dir, link_path))
               # strip any leading '/' and '\' characters
               abs_path = abs_path.lstrip("/\\")
