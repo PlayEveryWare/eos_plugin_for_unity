@@ -138,7 +138,7 @@ What it looks like:
 
 ![unity tools package manager](/com.playeveryware.eos/Documentation~/images/unity_tools_package_manager.gif)
 
-Always place images in the `/docs/images/` directory of the repository. In most cases, it is also appropriate to add a subdirectory to the images directory in order to keep related images organized. For instance, when creating a new document that contains a variety of images, it would be wise to create a subdirectory in the images folder to contain all the images for that new document.
+Always place images in the `/com.playeveryware.eos/Documentation~/images/` directory of the repository. In most cases, it is also appropriate to add a subdirectory to the images directory in order to keep related images organized. For instance, when creating a new document that contains a variety of images, it would be wise to create a subdirectory in the images folder to contain all the images for that new document.
 
 > [!IMPORTANT] 
 > Never use an image in place of text (for instance do not take a screenshot of documentation from one area to include it in another). Aside from the issue of maintainability, the problem with this is that GitHub allows for dark and light modes, and the image will look wrong in one mode or the other. 
