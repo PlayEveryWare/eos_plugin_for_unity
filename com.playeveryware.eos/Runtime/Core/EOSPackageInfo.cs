@@ -22,21 +22,92 @@
 
 namespace PlayEveryWare.EpicOnlineServices
 {
+    using System;
+    using UnityEngine;
+    using Utility;
+    using JsonUtility = Utility.JsonUtility;
+
     public static class EOSPackageInfo
     {
         public static readonly string ConfigFileName = "EpicOnlineServicesConfig.json";
 
-        /*
-         * TODO:
-         *
-         * The automated process utilized previously to read and write values to CS files to indicate version and package name
-         * was fragile and had too much overhead. For the time being, it has been replaced by hard-coded values, but in the
-         * near future it is important that these values change as part of the build process in an automated fashion that does
-         * not involve editing source code files.
-         */
+        /// <summary>
+        /// Path to the package.json file that contains information like version number.
+        /// </summary>
+        private static readonly string PACKAGE_JSON_FILE_PATH = FileSystemUtility.GetProjectPath() + "com.playeveryware.eos/package.json";
 
-        public const string Version = "3.3.3";
+        /// <summary>
+        /// Private backing field member allows for caching of the version so it
+        /// only needs to be read from the package.json file once.
+        /// </summary>
+        private static PackageJson _packageJsonFileContents;
 
-        public const string PackageName = "com.playeveryware.eos";
+        private static void ReadAndCachePackageJsonFile()
+        {
+            try
+            {
+                // Read the package.json file content.
+                if (FileSystemUtility.FileExists(PACKAGE_JSON_FILE_PATH))
+                {
+                    string jsonContent = FileSystemUtility.ReadAllText(PACKAGE_JSON_FILE_PATH);
+
+                    // Parse the JSON content using JsonUtility.
+                    _packageJsonFileContents = JsonUtility.FromJson<PackageJson>(jsonContent);
+                }
+                else
+                {
+                    Debug.LogError($"The package.json file could not be found at: {PACKAGE_JSON_FILE_PATH}");
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError("An error occurred while reading the package.json file: " + ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// The current string representation of the version of the plugin as
+        /// defined within the package.json file.
+        /// </summary>
+        public static string Version
+        {
+            get
+            {
+                if (null != _packageJsonFileContents)
+                {
+                    ReadAndCachePackageJsonFile();
+                }
+
+                return _packageJsonFileContents?.version;
+            }
+        }
+
+        /// <summary>
+        /// The current string representation of the version of the plugin as
+        /// defined within the package.json file.
+        /// </summary>
+        public static string PackageName
+        {
+            get
+            {
+                if (null == _packageJsonFileContents)
+                {
+                    ReadAndCachePackageJsonFile();
+                }
+
+                return _packageJsonFileContents?.name;
+            }
+        }
+
+        /// <summary>
+        /// Class representing the part of the package.json file that contains
+        /// the version information.
+        /// </summary>
+        [Serializable]
+        private class PackageJson
+        {
+            public string version;
+            public string name;
+        }
     }
 }
