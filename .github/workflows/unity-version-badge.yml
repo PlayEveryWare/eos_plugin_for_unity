@@ -22,7 +22,6 @@ jobs:
       - name: Update README with Badge
         run: |
           badge_url="https://img.shields.io/badge/Unity-$UNITY_VERSION-blue"
-          sed -i 's|!\[Unity\](.*)|![Unity]('"$badge_url"')|' README.md
           sed -i 's|!\[Unity\](.*)|![Unity]('"$badge_url"')|' com.playeveryware.eos/README.md
 
       - name: Check for changes
@@ -39,7 +38,6 @@ jobs:
         run: |
           git config --global user.name 'github-actions'
           git config --global user.email 'github-actions@github.com'
-          git add README.md
           git add com.playeveryware.eos/README.md
           git commit -m "Update Unity version badge to $UNITY_VERSION"
           git push
