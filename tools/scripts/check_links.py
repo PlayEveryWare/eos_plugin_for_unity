@@ -195,7 +195,7 @@ def check_links(md_files, include_external=False, concurrent_requests=10):
 
 def main():
     parser = argparse.ArgumentParser(description="Link checker for Markdown files.")
-    parser.add_argument("--root-dir", type=str, default="com.playeveryware.eos", help="Root directory to search for Markdown files")
+    parser.add_argument("--root-dir", type=str, default=".", help="Root directory to search for Markdown files")
     parser.add_argument("--include-external", action="store_true", help="Include external links in the inspection")
     parser.add_argument("--concurrent-requests", type=int, default=10, help="Number of concurrent requests for external links")
     parser.add_argument("--output-format", type=str, choices=["json", "text"], default="text", help="Output format (json or text)")
