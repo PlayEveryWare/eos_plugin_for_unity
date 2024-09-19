@@ -152,4 +152,4 @@ Or to install the libraries manually, go to the `lib/NativeCode` folder, find th
 
 On the EOS Configuration Editor Window there is a setting for `Platform Flags`. By adding `DisableOverlay` to your list of Platform Flags, the Epic Overlay will not be initialized during runtime. When this is configured the `EOSBootstrapper.exe` will not be included in Windows builds.
 
-See [`PlatformFlags.cs`](/Assets/Plugins/Source/EOS_SDK/Generated/Platform/PlatformFlags.cs)
+See [`PlatformFlags.cs`](/com.playeveryware.eos/Runtime/EOS_SDK/Generated/Platform/PlatformFlags.cs)
