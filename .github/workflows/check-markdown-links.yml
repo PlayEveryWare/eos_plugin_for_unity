@@ -18,6 +18,6 @@ jobs:
         with:
           python-version: '3.x'
       - name: Install dependencies
-        run: pip install requests
+        run: pip install requests tqdm
       - name: Run link checker
-        run: python check_links.py
+        run: python tools/scripts/check_links.py
