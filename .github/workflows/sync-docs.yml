@@ -9,6 +9,13 @@ on:
       # But only trigger if contents of this file have changed.
       - 'com.playeveryware.eos/README.md'
   workflow_dispatch:
+  workflow_run:  
+    # Trigger when the Unity Version Badge workflow completes (because that 
+    # workflow updates the README.md file in a way that doesn't automatically
+    # subsequently trigger via the paths method)
+    workflows: ["Unity Version Badge"]
+    types:
+      - completed
 
 jobs:
   sync_docs:
