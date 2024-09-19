@@ -124,7 +124,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </summary>
         [ConfigField("Deployment Id", ConfigFieldType.Text,
             "Deployment Id to use.", 1)]
-        [DevelopmentEnvironmentFieldValidator]
+        [GUIDFieldValidator]
         public string deploymentID;
 
         /// <summary>
@@ -544,7 +544,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 }
             }
 
-            return false;
+            return failingValidatorAttributes.Count > 0;
         }
     }
 }

@@ -189,7 +189,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Config
         public void SandboxID_SuccessfulParsing_WithDevelopmentEnvironment()
         {
             EOSConfig config = EOSConfig.Get<EOSConfig>();
-            config.sandboxID = "p-1234567890ABCDEFGHIJKLMNOPQR";
+            config.sandboxID = "p-1234567890ABCDEFGHIJKLMNOPQRST";
 
             if (!config.TryGetFailingValidatorAttributes(out List<FieldValidatorFailure> failingAttributes))
             {
@@ -218,7 +218,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Config
                 }
             };
 
-            if (config.TryGetFailingValidatorAttributes(out List<FieldValidatorFailure> failingAttributes))
+            if (!config.TryGetFailingValidatorAttributes(out List<FieldValidatorFailure> failingAttributes))
             {
                 Assert.Fail($"Config should have failing attributes.");
             }
@@ -440,12 +440,12 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Config
         public void ThreadAffinity_SuccessfulParse()
         {
             EOSConfig config = EOSConfig.Get<EOSConfig>();
-            config.ThreadAffinity_HTTPRequestIO = UnityEngine.Random.Range(uint.MinValue, uint.MaxValue).ToString();
-            config.ThreadAffinity_networkWork = UnityEngine.Random.Range(uint.MinValue, uint.MaxValue).ToString();
-            config.ThreadAffinity_P2PIO = UnityEngine.Random.Range(uint.MinValue, uint.MaxValue).ToString();
-            config.ThreadAffinity_RTCIO = UnityEngine.Random.Range(uint.MinValue, uint.MaxValue).ToString();
-            config.ThreadAffinity_storageIO = UnityEngine.Random.Range(uint.MinValue, uint.MaxValue).ToString();
-            config.ThreadAffinity_webSocketIO = UnityEngine.Random.Range(uint.MinValue, uint.MaxValue).ToString();
+            config.ThreadAffinity_HTTPRequestIO = "12345678";
+            config.ThreadAffinity_networkWork = "12345678";
+            config.ThreadAffinity_P2PIO = "12345678";
+            config.ThreadAffinity_RTCIO = "12345678";
+            config.ThreadAffinity_storageIO = "12345678";
+            config.ThreadAffinity_webSocketIO = "12345678";
 
             if (!config.TryGetFailingValidatorAttributes(out List<FieldValidatorFailure> failingAttributes))
             {
@@ -455,7 +455,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Config
             }
 
             Assert.IsFalse(failuresIncludeExpectedFailure<ParsesToUlongFieldValidatorAttribute>(
-                nameof(EOSConfig.authScopeOptionsFlags),
+                nameof(EOSConfig.ThreadAffinity_HTTPRequestIO),
                 failingAttributes,
                 ParsesToUlongFieldValidatorAttribute.FailedToParseMessage),
                 "There should not be an error relating to parsing ThreadAffinity_HTTPRequestIO.");

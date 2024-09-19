@@ -47,7 +47,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
             if (!ulong.TryParse(stringValue, out ulong result))
             {
-                configurationProblemMessage = "The field value could not be parsed into a ulong.";
+                configurationProblemMessage = FailedToParseMessage;
                 return false;
             }
 
