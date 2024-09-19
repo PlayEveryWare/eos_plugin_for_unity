@@ -150,9 +150,8 @@ def check_link(session, link, md_file, headers, link_inspection_results):
             except requests.exceptions.RequestException as e:
                 result = str(e)
         else:
-            #abs_link = compute_abs_link(md_dir, link)
-            abs_link = os.path.relpath(link)
-            if not os.path.exists(abs_link):
+            abs_link = compute_abs_link(md_dir, link)
+            if not os.path.exists(abs_link) and not os.path.exists(link):
                 result = 'File not found'
 
         link_inspection_results[cache_key] = result
