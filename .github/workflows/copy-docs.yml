@@ -3,8 +3,10 @@ name: Sync Docs
 on:
   push:
     branches:
-      - '**'  # Trigger on any branch
+      # Trigger on any branch
+      - '**'
     paths:
+      # But only trigger if contents of this file have changed.
       - 'com.playeveryware.eos/README.md'
   workflow_dispatch:
 
@@ -14,13 +16,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Fetch full history to avoid detached HEAD issues
+          # Fetch full history to avoid detached HEAD issues
+          fetch-depth: 0  
 
       - name: Copy Documentation Files to Root
         run: |
           cp com.playeveryware.eos/README.md README.md
 
       - name: Commit changes
+        # Note that the -f flag is specified for the README.md file because
+        # normally it is ignored per the .gitignore file.
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
