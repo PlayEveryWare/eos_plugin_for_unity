@@ -158,8 +158,8 @@ Assets/Plugins/Source/Editor/obj/
 *_BurstDebugInformation_DoNotShip*
 Assets/InitTestScene*
 
-# These will be copied by a GitHub action, so any local changes should be
-# ignored
+# README.md will be copied from com.playeveryware.eos via a GitHub action,
+# so local changes should only be respected when made to the README.md file
+# within com.playeveryware.eos. Thus - ignore changes made to the file at the 
+# root of the repository.
 README.md
-LICENSE.md
-CHANGELOG.md
