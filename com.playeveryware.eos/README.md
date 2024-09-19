@@ -12,7 +12,7 @@
 
 </div>
 
-# Overview 
+# Overview
 
 The PlayEveryWare EOS Plugin for Unity brings the free services from Epic that connect players across all platforms and all stores to Unity in an easy-to-use package. Find more information on what services Epic Online Services encompasses, see here: [https://dev.epicgames.com/en-US/services](https://dev.epicgames.com/en-US/services) and to read the developer documentation on those services, see here: [https://dev.epicgames.com/docs/epic-online-services](https://dev.epicgames.com/docs/epic-online-services).
 
