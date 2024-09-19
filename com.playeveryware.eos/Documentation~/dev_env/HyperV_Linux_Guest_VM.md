@@ -67,7 +67,7 @@ Ubuntu 18.04 is the official version of Linux that is supported by both EOS, the
 
 2. Select "Ubuntu 18.04 LTS" and make sure that the Network switch selected is set to the virtual switch you created earlier.
 
-    <img src="/com.playeveryware.eos/Documentation~/images/hyperv_linux_guest_vm/ubuntu-18.04%20LTS.png" width="600" />
+    <img src="/com.playeveryware.eos/Documentation~/images/hyperv_linux_guest_vm/ubuntu-18.04-LTS.png" width="600" />
 
 3. Click "Create Virtual Machine" and wait for the process to complete.
    
