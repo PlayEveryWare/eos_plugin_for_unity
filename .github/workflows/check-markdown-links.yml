@@ -2,9 +2,8 @@ name: Check Markdown Links
 
 on:
   push:
-    branches: [ "feat/documentation-link-checker" ]
-    #paths:
-    #  - '**/*.md'
+    paths:
+      - '**/*.md'
   pull_request:
     paths:
       - '**/*.md'
