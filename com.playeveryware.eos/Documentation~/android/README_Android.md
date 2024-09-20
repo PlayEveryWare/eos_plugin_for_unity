@@ -1,6 +1,6 @@
-<a href="/README.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="Lobby Screenshot" width="5%"/></a>
+<a href="/README.md"><img src="/com.playeveryware.eos/Documentation~/images/PlayEveryWareLogo.gif" alt="Lobby Screenshot" width="5%"/></a>
 
-<div align="center"> <img src="/docs/images/EOSPluginLogo.png" alt="PlayEveryWare EOS Plugin for Unity" /> </div>
+<div align="center"> <img src="/com.playeveryware.eos/Documentation~/images/EOSPluginLogo.png" alt="PlayEveryWare EOS Plugin for Unity" /> </div>
 
 # <div align="center">Android</div>
 ---
@@ -52,7 +52,7 @@ You can follow the standard <a href="/README.md#configuring-the-plugin">Configur
 
 3. Update the <a href="https://docs.unity3d.com/2021.3/Documentation/Manual/class-PlayerSettingsAndroid.html">Minimum API Level</a> to be at least ```Android 6.0 'Marshmallow' (API Level 23)```.
 
-4. Optionally, set the plugin to <a href="/docs/android/link_eos_library_settings.md">link the EOS Library dynamically</a>.
+4. Optionally, set the plugin to <a href="link_eos_library_settings.md">link the EOS Library dynamically</a>.
 
 
 # FAQ
