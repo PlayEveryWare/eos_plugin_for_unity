@@ -336,7 +336,14 @@ namespace PlayEveryWare.EpicOnlineServices
             "to the SDK.", 4)]
         public bool hackForceSendInputDirectlyToSDK;
 
-        public List<string> toggleFriendsButtonCombination;
+        /// <summary>
+        /// When this combination of buttons is pressed on a controller, the
+        /// social overlay will toggle on.
+        /// Default to <see cref="InputStateButtonFlags.SpecialLeft"/>, and will
+        /// use that value if this configuration field is null, empty, or contains
+        /// only <see cref="InputStateButtonFlags.None"/>.
+        /// </summary>
+        public List<string> toggleFriendsButtonCombination = new List<string>() { InputStateButtonFlags.SpecialLeft.ToString() };
 
         #endregion
 
