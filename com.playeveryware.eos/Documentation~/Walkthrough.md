@@ -1,4 +1,4 @@
-<a href="/README.md"><img src="/com.playeveryware.eos/Documentation~/images/PlayEveryWareLogo.gif" alt="README.md" width="5%"/></a>
+<a href="/com.playeveryware.eos/README.md"><img src="/com.playeveryware.eos/Documentation~/images/PlayEveryWareLogo.gif" alt="README.md" width="5%"/></a>
 
 # EOS Plugin for Unity Walkthrough
  
@@ -24,7 +24,7 @@ The Debug log provides a filterable on screen debug output
 ## Scene selection
 The yellow dropdown in the top of the window allows the user to select which demo scene they would like to log into
 
-There is a standard sample pack, and several extra packs in the EOS Unity Plugin. If a scene doesn't load, remember to import the wanted extra pack, and [add them in the build settings](/README.md#importing-samples)
+There is a standard sample pack, and several extra packs in the EOS Unity Plugin. If a scene doesn't load, remember to import the wanted extra pack, and [add them in the build settings](/com.playeveryware.eos/README.md#importing-samples)
 
 
 ## Login Page
