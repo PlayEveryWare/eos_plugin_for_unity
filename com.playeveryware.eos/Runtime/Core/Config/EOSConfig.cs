@@ -36,6 +36,7 @@ namespace PlayEveryWare.EpicOnlineServices
     using System.Text.RegularExpressions;
     using Extensions;
     using Epic.OnlineServices.UI;
+    using PlayEveryWare.EpicOnlineServices.Utility;
 
     /// <summary>
     /// Represents the default deployment ID to use when a given sandbox ID is
@@ -461,7 +462,7 @@ namespace PlayEveryWare.EpicOnlineServices
         {
             return StringsToEnum<InputStateButtonFlags>(
                 toggleFriendsButtonCombination,
-                InputStateButtonFlagsExtensions.TryParse);
+                (IList<string> stringFlags, out InputStateButtonFlags result) => EnumUtility<InputStateButtonFlags>.TryParse(stringFlags, null, out result));
         }
 
         /// <summary>
