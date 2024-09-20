@@ -77,7 +77,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// to take place when the button is pressed, which allows injection of
         /// arbitrary functionality within a ConfigEditor.
         /// </summary>
-        Button
+        Button,
     }
 
 }
