@@ -1,4 +1,4 @@
-<a href="/README.md"><img src="/com.playeveryware.eos/Documentation~/images/PlayEveryWareLogo.gif" alt="Readme" width="5%"/></a>
+<a href="/com.playeveryware.eos/README.md"><img src="/com.playeveryware.eos/Documentation~/images/PlayEveryWareLogo.gif" alt="Readme" width="5%"/></a>
 
 # Samples
 
@@ -34,7 +34,7 @@ The included samples show examples of fully functional [feature implementations]
 ## Running the samples
 
 > [!IMPORTANT]
-> The plugin must be <a href="/com.playeveryware.eos/Documentation~/configure_plugin.md">configured</a> for samples to be functional. Some Samples may not be accessible if the extra packs were not <a href="http://github.com/PlayEveryWare/eos_plugin_for_unity/blob/development/com.playeveryware.eos/README.md#importing-samples">imported</a>.
+> The plugin must be <a href="/com.playeveryware.eos/Documentation~/configure_plugin.md">configured</a> for samples to be functional. Some Samples may not be accessible if the extra packs were not <a href="http://github.com/PlayEveryWare/eos_plugin_for_unity/blob/development/com.playeveryware.eos/com.playeveryware.eos/README.md#importing-samples">imported</a>.
 
 Checkout our [Sample Walkthroughs](/com.playeveryware.eos/Documentation~/Walkthrough.md) for a scene-by-scene walkthrough of each sample.
 
@@ -65,7 +65,7 @@ Checkout our [Sample Walkthroughs](/com.playeveryware.eos/Documentation~/Walkthr
 <br />
 
   > [!NOTE] 
-  > Check the [Prerequisites](http://github.com/PlayEveryWare/eos_plugin_for_unity/blob/development/README.md#prerequisites) as there may be specific requirements for a player's computer.
+  > Check the [Prerequisites](http://github.com/PlayEveryWare/eos_plugin_for_unity/blob/development/com.playeveryware.eos/README.md#prerequisites) as there may be specific requirements for a player's computer.
   > For instance, Windows requires the players to have `The latest Microsoft Visual C++ Redistributable` installed on their computer in order to play any distributed builds.
 
   1. In the Unity editor menu bar, open `File -> Build Settings`.
