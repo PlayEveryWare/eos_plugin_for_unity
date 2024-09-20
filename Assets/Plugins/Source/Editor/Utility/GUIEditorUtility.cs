@@ -388,14 +388,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             });
         }
 
-        public static T RenderInputField<T>(ConfigFieldAttribute configFieldDetails, T value, float labelWidth, string tooltip = null) where T : Enum
-        {
-            return InputRendererWrapper<T>(configFieldDetails.Label, value, labelWidth, tooltip, (s, b, arg3, arg4) =>
-            {
-                return (T)EditorGUILayout.EnumFlagsField(CreateGUIContent(configFieldDetails.Label, tooltip), value, GUILayout.ExpandWidth(true));
-            });
-        }
-
         private static T InputRendererWrapper<T>(string label, T value, float labelWidth, string toolTip, InputRenderDelegate<T> renderFn)
         {
             // Store the current label width so that it can be subsequently be restored.

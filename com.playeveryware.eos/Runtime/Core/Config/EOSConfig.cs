@@ -446,7 +446,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
         /// <summary>
         /// Returns a single InputStateButtonFlags enum value that results from a
-        /// bitwise OR operation of all the defaultActivateOverlayButtonCombination flags on this
+        /// bitwise OR operation of all the <seealso cref="toggleFriendsButtonCombination"/> flags on this
         /// config.
         /// </summary>
         /// <returns>An InputStateButtonFlags enum value.</returns>
