@@ -16,6 +16,12 @@ from bs4 import BeautifulSoup  # Import BeautifulSoup
 # Set up logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
+# Update this array with files that can be skipped for inspection
+bypass_markdown_files = (
+  # This is skipped because it is actually a symbolic link
+  './.github/README.md'
+)
+
 # Update this array with links that are acceptable to fail inspection
 bypass_inspection_links = (
   'http://localhost:8080',
@@ -46,6 +52,10 @@ def find_markdown_files(root_dir):
 
       # Skip if the file is a symbolic link
       if os.path.islink(filepath):
+        continue
+      
+      # Skip if the file is in the list of files to bypass inspection
+      if filepath in bypass_markdown_files:
         continue
 
       # Otherwise, add it to the list of markdown files to consider.
