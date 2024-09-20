@@ -1,4 +1,4 @@
-<a href="/README.md"><img src="/com.playeveryware.eos/Documentation~/images/PlayEveryWareLogo.gif" alt="README.md" width="5%"/></a>
+<a href="/com.playeveryware.eos/README.md"><img src="/com.playeveryware.eos/Documentation~/images/PlayEveryWareLogo.gif" alt="README.md" width="5%"/></a>
 
 ## **Auth & Friends Demo**
 This demo showcases an implementation of the friends list into a game UI. The panel on the right shows the user's friend list and status of each friend. This panel can be accessed in other scenes that require access to the friends list.

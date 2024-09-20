@@ -1,4 +1,4 @@
-<a href="/README.md"><img src="/com.playeveryware.eos/Documentation~/images/PlayEveryWareLogo.gif" alt="README.md" width="5%"/></a>
+<a href="/com.playeveryware.eos/README.md"><img src="/com.playeveryware.eos/Documentation~/images/PlayEveryWareLogo.gif" alt="README.md" width="5%"/></a>
 
 # <div align="center">Installing New versions of EOS</div>
 ---
@@ -63,5 +63,5 @@ It requires a JSON description file to direct it where to put the files in the z
 and a zip file that contains the SDK. The latest version of the SDK can be downloaded from
 the EOS Developer Portal.
 
-After being installed via the Tool, update the repo [readme](/README.md) to ensure it lists the correct version
+After being installed via the Tool, update the repo [readme](/com.playeveryware.eos/README.md) to ensure it lists the correct version
 and that any links on the readme are up to date.
