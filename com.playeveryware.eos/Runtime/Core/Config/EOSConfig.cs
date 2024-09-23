@@ -35,6 +35,8 @@ namespace PlayEveryWare.EpicOnlineServices
     using UnityEngine;
     using System.Text.RegularExpressions;
     using Extensions;
+    using Epic.OnlineServices.UI;
+    using PlayEveryWare.EpicOnlineServices.Utility;
 
     /// <summary>
     /// Represents the default deployment ID to use when a given sandbox ID is
@@ -335,6 +337,15 @@ namespace PlayEveryWare.EpicOnlineServices
             "to the SDK.", 4)]
         public bool hackForceSendInputDirectlyToSDK;
 
+        /// <summary>
+        /// When this combination of buttons is pressed on a controller, the
+        /// social overlay will toggle on.
+        /// Default to <see cref="InputStateButtonFlags.SpecialLeft"/>, and will
+        /// use that value if this configuration field is null, empty, or contains
+        /// only <see cref="InputStateButtonFlags.None"/>.
+        /// </summary>
+        public List<string> toggleFriendsButtonCombination = new List<string>() { InputStateButtonFlags.SpecialLeft.ToString() };
+
         #endregion
 
         public static Regex InvalidEncryptionKeyRegex;
@@ -439,6 +450,19 @@ namespace PlayEveryWare.EpicOnlineServices
             return StringsToEnum<AuthScopeFlags>(
                 authScopeOptionsFlags, 
                 AuthScopeFlagsExtensions.TryParse);
+        }
+
+        /// <summary>
+        /// Returns a single InputStateButtonFlags enum value that results from a
+        /// bitwise OR operation of all the <seealso cref="toggleFriendsButtonCombination"/> flags on this
+        /// config.
+        /// </summary>
+        /// <returns>An InputStateButtonFlags enum value.</returns>
+        public InputStateButtonFlags GetToggleFriendsButtonCombinationFlags()
+        {
+            return StringsToEnum<InputStateButtonFlags>(
+                toggleFriendsButtonCombination,
+                (IList<string> stringFlags, out InputStateButtonFlags result) => EnumUtility<InputStateButtonFlags>.TryParse(stringFlags, null, out result));
         }
 
         /// <summary>
