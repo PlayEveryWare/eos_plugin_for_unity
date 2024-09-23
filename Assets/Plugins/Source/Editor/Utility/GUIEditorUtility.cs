@@ -198,6 +198,20 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             EditorGUIUtility.labelWidth = originalLabelWidth;
         }
 
+        public static void AssigningEnumField<T>(string label, ref T value, float labelWidth = -1, string tooltip = null) where T : Enum
+        {
+            float originalLabelWidth = EditorGUIUtility.labelWidth;
+            if (labelWidth >= 0)
+            {
+                EditorGUIUtility.labelWidth = labelWidth;
+            }
+
+            var newValue = (T)EditorGUILayout.EnumFlagsField(CreateGUIContent(label, tooltip), value, GUILayout.ExpandWidth(true));
+            value = newValue;
+
+            EditorGUIUtility.labelWidth = originalLabelWidth;
+        }
+
         #region New methods for rendering input fields
 
         private delegate T InputRenderDelegate<T>(string label, T value, float labelWidth, string tooltip);
