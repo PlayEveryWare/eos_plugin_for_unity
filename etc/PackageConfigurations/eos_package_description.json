@@ -17,7 +17,7 @@
         {"src": "com.playeveryware.eos/Runtime/*",                         "dest": "Runtime/" },
         {"src": "com.playeveryware.eos/Runtime/Core/*",                    "dest": "Runtime/Core/"                        },
         {"src": "com.playeveryware.eos/Runtime/Core/Utility/*",            "dest": "Runtime/Core/Utility/"                },
-        {"src": "com.playeveryware.eos/Runtime/Core/Utility/Extensions/*", "dest": "Runtime/Core/Utility/Extensions/"     },
+        {"src": "com.playeveryware.eos/Runtime/Core/Extensions/*",         "dest": "Runtime/Core/Extensions/"     },
         
         {"src": "Assets/Plugins/Source/Editor/*",                  "dest": "Editor/"                },
         {"src": "Assets/Plugins/Source/Editor/Build/*",            "dest": "Editor/Build/"          },
