@@ -533,10 +533,12 @@ namespace PlayEveryWare.EpicOnlineServices
             //-------------------------------------------------------------------------
             private void InitializeOverlay(IEOSCoroutineOwner coroutineOwner)
             {
+                EOSConfig configData = Config.Get<EOSConfig>();
+
                 // Sets the button for the bringing up the overlay
                 var friendToggle = new SetToggleFriendsButtonOptions
                 {
-                    ButtonCombination = InputStateButtonFlags.SpecialLeft
+                    ButtonCombination = configData.GetToggleFriendsButtonCombinationFlags()
                 };
                 UIInterface uiInterface = Instance.GetEOSPlatformInterface().GetUIInterface();
                 uiInterface.SetToggleFriendsButton(ref friendToggle);

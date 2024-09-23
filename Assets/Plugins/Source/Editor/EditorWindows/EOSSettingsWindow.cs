@@ -24,6 +24,9 @@
 
 namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 {
+    using Epic.OnlineServices.UI;
+    using PlayEveryWare.EpicOnlineServices.Extensions;
+    using PlayEveryWare.EpicOnlineServices.Utility;
     using System;
     using System.Collections.Generic;
     using System.IO;
@@ -347,6 +350,14 @@ _WIN32 || _WIN64
             GUIEditorUtility.AssigningBoolField("Always send Input to Overlay",
                 ref mainEOSConfigFile.alwaysSendInputToOverlay, 190,
                 "If true, the plugin will always send input to the overlay from the C# side to native, and handle showing the overlay. This doesn't always mean input makes it to the EOS SDK.");
+
+            InputStateButtonFlags toggleFriendsButtonCombinationEnum = mainEOSConfigFile.GetToggleFriendsButtonCombinationFlags();
+            GUIEditorUtility.AssigningEnumField<InputStateButtonFlags>("Default Activate Overlay Button",
+                ref toggleFriendsButtonCombinationEnum, 190,
+                "Users can press the button(s) associated with this value to activate the Epic Social Overlay. Not all combinations are valid; the SDK will log an error at the start of runtime if an invalid combination is selected.");
+            mainEOSConfigFile.toggleFriendsButtonCombination = EnumUtility<InputStateButtonFlags>.GetEnumerator(toggleFriendsButtonCombinationEnum)
+                .Select(enumValue => enumValue.ToString())
+                .ToList();
         }
 
         protected override void RenderWindow()
