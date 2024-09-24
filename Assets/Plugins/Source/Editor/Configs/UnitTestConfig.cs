@@ -27,7 +27,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests
     using System;
 
     [Serializable]
-    [ConfigGroup("EOS Automated Test Configuration")]
+    [ConfigGroup("EOS Unit Test Configuration")]
     public partial class UnitTestConfig : EditorConfig
     {
         /// <summary>
