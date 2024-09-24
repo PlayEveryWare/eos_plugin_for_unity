@@ -20,10 +20,9 @@
  * SOFTWARE.
  */
 
-namespace PlayEveryWare.EpicOnlineServices.Build
+namespace PlayEveryWare.EpicOnlineServices.Editor.Build
 {
-    using Editor;
-    using Editor.Config;
+    using Config;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
@@ -33,7 +32,7 @@ namespace PlayEveryWare.EpicOnlineServices.Build
     using UnityEditor;
     using UnityEditor.Build.Reporting;
     using UnityEngine;
-
+    using Config = EpicOnlineServices.Config;
     public class AndroidBuilder : PlatformSpecificBuilder
     {
         public AndroidBuilder() : base("Plugins/Android", BuildTarget.Android) { }
@@ -229,11 +228,16 @@ namespace PlayEveryWare.EpicOnlineServices.Build
             var toolsRegex = new Regex(@"(\d+)\.(\d+)\.(\d+)");
             int maxMajor = 0, maxMinor = 0, maxPatch = 0;
             //find highest usable build tools version
-#if UNITY_2022_2_OR_NEWER
-            const int highestVersion = 32;
+            const int highestVersion = 
+#if UNITY_2022_3_OR_NEWER
+            34
+#elif UNITY_2022_2_OR_NEWER
+            32
 #else
-            const int highestVersion = 30;
+            30
 #endif
+;
+
             foreach (var dir in Directory.GetDirectories(Path.Combine(AndroidExternalToolsSettings.sdkRootPath,
                          "build-tools")))
             {

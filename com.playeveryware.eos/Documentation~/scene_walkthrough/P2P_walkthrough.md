@@ -1,4 +1,4 @@
-<a href="/README.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="README.md" width="5%"/></a>
+<a href="/com.playeveryware.eos/README.md"><img src="/com.playeveryware.eos/Documentation~/images/PlayEveryWareLogo.gif" alt="README.md" width="5%"/></a>
 
 ## **Peer 2 Peer Demo**
 The Peer 2 Peer demo showcases the peer 2 peer interface. This is done through a basic messaging application where users can chat with other users on their friend list.
@@ -10,3 +10,6 @@ The Peer 2 Peer demo showcases the peer 2 peer interface. This is done through a
 
 > [!NOTE]
 > See [Epic's Peer 2 Peer documentation](https://dev.epicgames.com/docs/game-services/p-2-p) for more information.
+
+> [!NOTE]
+> This sample includes the UIFriendsMenu. Please see [the plugin's documentation on UIFriendsMenu](../uifriendsmenu.md) for more information.

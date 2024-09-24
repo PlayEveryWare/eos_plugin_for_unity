@@ -1,4 +1,4 @@
-<a href="/README.md"><img src="/com.playeveryware.eos/Documentation~/images/PlayEveryWareLogo.gif" alt="README.md" width="5%"/></a>
+<a href="/com.playeveryware.eos/README.md"><img src="/com.playeveryware.eos/Documentation~/images/PlayEveryWareLogo.gif" alt="README.md" width="5%"/></a>
 
 # <div align="center"> Frequently Asked Questions (FAQ)</div>
 ---
@@ -90,7 +90,7 @@ all of Unity has been bootstrapped so that the Plugin can hook all the appropria
 ## Why does the Demo Scene fail to load?
 
 There is a standard sample pack, and several extra packs in the EOS Unity Plugin. If a scene doesn't load, remember to import the wanted extra pack.
-Additionally, make sure all wanted sample scenes are included in the build settings as shown in steps 4.-6. of <a href="/README.md#importing-samples">Importing the samples</a>.
+Additionally, make sure all wanted sample scenes are included in the build settings as shown in steps 4.-6. of <a href="/com.playeveryware.eos/README.md#importing-samples">Importing the samples</a>.
 
 ## What is the correct way to log into the Epic Games Store?
 The correct way to connect to the Epic Games Store through your application would be to use the exchange code login method:
@@ -152,4 +152,4 @@ Or to install the libraries manually, go to the `lib/NativeCode` folder, find th
 
 On the EOS Configuration Editor Window there is a setting for `Platform Flags`. By adding `DisableOverlay` to your list of Platform Flags, the Epic Overlay will not be initialized during runtime. When this is configured the `EOSBootstrapper.exe` will not be included in Windows builds.
 
-See [`PlatformFlags.cs`](/Assets/Plugins/Source/EOS_SDK/Generated/Platform/PlatformFlags.cs)
+See [`PlatformFlags.cs`](/com.playeveryware.eos/Runtime/EOS_SDK/Generated/Platform/PlatformFlags.cs)

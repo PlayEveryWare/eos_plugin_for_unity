@@ -20,12 +20,12 @@
 * SOFTWARE.
 */
 
-using UnityEngine;
-using UnityEngine.Events;
-using UnityEngine.UI;
-
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
+    using UnityEngine;
+    using UnityEngine.Events;
+    using UnityEngine.UI;
+
     public class UIAchievementButton : MonoBehaviour
     {
         public int index;

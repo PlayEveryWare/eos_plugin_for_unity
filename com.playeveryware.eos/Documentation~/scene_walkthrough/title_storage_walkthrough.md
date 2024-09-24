@@ -1,4 +1,4 @@
-<a href="/README.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="README.md" width="5%"/></a>
+<a href="/com.playeveryware.eos/README.md"><img src="/com.playeveryware.eos/Documentation~/images/PlayEveryWareLogo.gif" alt="README.md" width="5%"/></a>
 
 ## **Title Storage Demo**
 This demo showcases the title storage interface. This functions similar to the player data storage interface, although the data accessed is game/platform specific instead of player specific. This demo allows users to search files by tag and name and then view their contents. The demo is broken up into three parts, Tags search, File Search and the File viewer:

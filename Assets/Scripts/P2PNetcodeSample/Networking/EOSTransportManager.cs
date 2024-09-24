@@ -21,27 +21,23 @@
 */
 
 //#define EOS_TRANSPORTMANAGER_DEBUG
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using UnityEngine;
-
-#if COM_UNITY_MODULE_NETCODE
-using Unity.Netcode;
-#endif
-
-using Epic.OnlineServices;
-using Epic.OnlineServices.P2P;
-using System.Text.RegularExpressions;
-
-using PlayEveryWare.EpicOnlineServices.Samples;
-
-
 namespace PlayEveryWare.EpicOnlineServices.Samples.Network
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+
+    using UnityEngine;
+
+#if COM_UNITY_MODULE_NETCODE
+    using Unity.Netcode;
+#endif
+
+    using Epic.OnlineServices;
+    using Epic.OnlineServices.P2P;
+    using System.Text.RegularExpressions;
+
     public class EOSTransportManager : IEOSSubManager
     {
 

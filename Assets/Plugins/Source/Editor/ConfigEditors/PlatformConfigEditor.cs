@@ -34,15 +34,12 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
     /// <typeparam name="T">Intended to be a type accepted by the templated class ConfigHandler.</typeparam>
     public abstract class PlatformConfigEditor<T> : ConfigEditor<T>, IPlatformConfigEditor where T : PlatformConfig
     {
-        /// <summary>
-        /// The platform that this PlatformConfigEditor represents.
-        /// </summary>
-        protected PlatformManager.Platform Platform;
-
-        protected PlatformConfigEditor(PlatformManager.Platform platform) :
-            base(PlatformManager.GetFullName(platform))
+        protected PlatformConfigEditor()
         {
-            this.Platform = platform;
+            Load();
+
+            // The label should always be the full name of the platform.
+            _labelText = PlatformManager.GetFullName(config.Platform);
         }
 
         /// <summary>
@@ -54,7 +51,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
         /// </summary>
         public virtual void RenderOverrides()
         {
-            GUILayout.Label($"{PlatformManager.GetFullName(Platform)} Override Configuration Values",
+            GUILayout.Label($"{PlatformManager.GetFullName(config.Platform)} Override Configuration Values",
                 EditorStyles.boldLabel);
 
             GUIEditorUtility.AssigningFlagTextField("Integrated Platform Management Flags (Separated by '|')", ref config.flags, 345);
@@ -87,7 +84,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
 
         public bool IsPlatformAvailable()
         {
-            return PlatformManager.GetAvailableBuildTargets().Contains(Platform);
+            return PlatformManager.GetAvailableBuildTargets().Contains(config.Platform);
         }
 
         public virtual void RenderPlatformSpecificOptions() { }

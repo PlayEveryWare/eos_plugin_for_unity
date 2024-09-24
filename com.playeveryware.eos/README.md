@@ -1,4 +1,4 @@
-<a href="/readme.md"><img src="/com.playeveryware.eos/Documentation~/images/PlayEveryWareLogo.gif" alt="Lobby Screenshot" width="5%"/></a>
+<a href="/com.playeveryware.eos/README.md"><img src="/com.playeveryware.eos/Documentation~/images/PlayEveryWareLogo.gif" alt="Lobby Screenshot" width="5%"/></a>
 
 <div align="center"> <img src="/com.playeveryware.eos/Documentation~/images/EOSPluginLogo.png" alt="PlayEveryWare EOS Plugin for Unity" /> </div>
 
@@ -8,6 +8,7 @@
   
 <a href="">[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)</a>
 <a href="">![Unity](https://img.shields.io/badge/Unity-2021.3.16f1-blue)</a>
+<img src="tools/coverage/results/Report/badge_linecoverage.svg" />
 
 </div>
 

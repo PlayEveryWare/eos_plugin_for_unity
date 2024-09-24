@@ -1,4 +1,4 @@
-<a href="/README.md"><img src="/com.playeveryware.eos/Documentation~/images/PlayEveryWareLogo.gif" alt="Readme" width="5%"/></a>
+<a href="/com.playeveryware.eos/README.md"><img src="/com.playeveryware.eos/Documentation~/images/PlayEveryWareLogo.gif" alt="Readme" width="5%"/></a>
 
 # Contributor Notes
 
@@ -58,6 +58,10 @@ A successful build will place the correct binaries in the proper locations for U
 ## Coding Standards
 
 See [standards.md](/com.playeveryware.eos/Documentation~/standards.md).
+
+## Unit Testing
+
+See [our documentation on unit testing](/com.playeveryware.eos/Documentation~/unit_testing.md).
 
 ## Core Classes
 

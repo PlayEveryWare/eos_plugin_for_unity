@@ -20,16 +20,14 @@
 * SOFTWARE.
 */
 
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
-
-using Epic.OnlineServices.Sessions;
-
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
+    using System;
+    using UnityEngine;
+    using UnityEngine.UI;
+
+    using Epic.OnlineServices.Sessions;
+
     public class UISessionEntry : MonoBehaviour
     {
         public Text NameTxt;

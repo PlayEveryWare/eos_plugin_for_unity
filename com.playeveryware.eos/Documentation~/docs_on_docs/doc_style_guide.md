@@ -1,4 +1,4 @@
-<a href="/README.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="README.md" width="5%"/></a>
+<a href="/com.playeveryware.eos/README.md"><img src="/com.playeveryware.eos/Documentation~/images/PlayEveryWareLogo.gif" alt="README.md" width="5%"/></a>
 
 # <div align="center">Documentation Style Guide</div>
 ---
@@ -35,18 +35,18 @@ Fundamentally (and very broadly speaking) every document should contain two or o
 
 ## Logo:
 
-Each document should start (before the document title) with the PlayEveryWare, Inc. logo. The image should be surrounded by a link (`<a> </a>`) tag with the `href` set to the main [README.md document](/README.md), and with the width of the image set to 10%.
+Each document should start (before the document title) with the PlayEveryWare, Inc. logo. The image should be surrounded by a link (`<a> </a>`) tag with the `href` set to the main [README.md document](/com.playeveryware.eos/README.md), and with the width of the image set to 10%.
 
 Markdown:
 ```markdown
-<a href="/README.md">
-    <img src="/docs/images/PlayEveryWareLogo.gif" alt="PlayEveryWare, Inc. Logo" width="10%"/>
+<a href="/com.playeveryware.eos/README.md">
+    <img src="/com.playeveryware.eos/Documentation~/images/PlayEveryWareLogo.gif" alt="PlayEveryWare, Inc. Logo" width="10%"/>
 </a>
 ```
 
 What it looks like:
 
-<a href="/README.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="PlayEveryWare, Inc. Logo" width="10%"/></a>
+<a href="/com.playeveryware.eos/README.md"><img src="/com.playeveryware.eos/Documentation~/images/PlayEveryWareLogo.gif" alt="PlayEveryWare, Inc. Logo" width="10%"/></a>
 
 ## Title:
 
@@ -138,7 +138,7 @@ What it looks like:
 
 ![unity tools package manager](/com.playeveryware.eos/Documentation~/images/unity_tools_package_manager.gif)
 
-Always place images in the `/docs/images/` directory of the repository. In most cases, it is also appropriate to add a subdirectory to the images directory in order to keep related images organized. For instance, when creating a new document that contains a variety of images, it would be wise to create a subdirectory in the images folder to contain all the images for that new document.
+Always place images in the `/com.playeveryware.eos/Documentation~/images/` directory of the repository. In most cases, it is also appropriate to add a subdirectory to the images directory in order to keep related images organized. For instance, when creating a new document that contains a variety of images, it would be wise to create a subdirectory in the images folder to contain all the images for that new document.
 
 > [!IMPORTANT] 
 > Never use an image in place of text (for instance do not take a screenshot of documentation from one area to include it in another). Aside from the issue of maintainability, the problem with this is that GitHub allows for dark and light modes, and the image will look wrong in one mode or the other. 
@@ -152,7 +152,7 @@ Web links can be written by surrounding the text you want as the link text in br
 
 When linking to a header within the same document, the link can consist of just the pound sign followed by the header name. 
 
-When linking to another document, the base folder can be the start of the link, so `'/docs/android/README_Android.md'` would be an acceptable link. Additionally you can link to a specific area in another document by adding the pound sign and name at the end of the link, `'/README.md#prerequisites'`. when ending a sentence with a link, make sure the period is not accidentally included in the url portion of the link.
+When linking to another document, the base folder can be the start of the link, so `'/docs/android/README_Android.md'` would be an acceptable link. Additionally you can link to a specific area in another document by adding the pound sign and name at the end of the link, `'/com.playeveryware.eos/README.md#prerequisites'`. when ending a sentence with a link, make sure the period is not accidentally included in the url portion of the link.
 
 Example markdown linking to a specific section within a document:
 

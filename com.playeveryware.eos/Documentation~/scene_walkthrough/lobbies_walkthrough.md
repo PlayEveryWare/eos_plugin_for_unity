@@ -1,4 +1,4 @@
-<a href="/README.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="README.md" width="5%"/></a>
+<a href="/com.playeveryware.eos/README.md"><img src="/com.playeveryware.eos/Documentation~/images/PlayEveryWareLogo.gif" alt="README.md" width="5%"/></a>
 
 ## **Lobbies Demo**
 This demo showcases the lobby and includes a voice chat interface in a combined demo. The demo functions as a waiting room style lobby where users can create a new lobby or join existing ones, once in a lobby users can communicate through the lobby voice chat.
@@ -42,3 +42,6 @@ This demo showcases the lobby and includes a voice chat interface in a combined 
 
 > [!NOTE]
 > See [Epic's documentation on the lobby interface](https://dev.epicgames.com/docs/game-services/lobbies) for more information.
+
+> [!NOTE]
+> This sample includes the UIFriendsMenu. Please see [the plugin's documentation on UIFriendsMenu](../uifriendsmenu.md) for more information.

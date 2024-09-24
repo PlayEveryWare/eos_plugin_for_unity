@@ -1,4 +1,4 @@
-<a href="/README.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="README.md" width="5%"/></a>
+<a href="/com.playeveryware.eos/README.md"><img src="/com.playeveryware.eos/Documentation~/images/PlayEveryWareLogo.gif" alt="README.md" width="5%"/></a>
 
 ## **Sessions and Matchmaking**
 This demo showcases the sessions interface, users can create, manage and join sessions.
@@ -36,3 +36,6 @@ This demo showcases the sessions interface, users can create, manage and join se
 
 > [!NOTE]
 > See [Epic's documentation on the sessions interface](https://dev.epicgames.com/docs/game-services/sessions) for more information.
+
+> [!NOTE]
+> This sample includes the UIFriendsMenu. Please see [the plugin's documentation on UIFriendsMenu](../uifriendsmenu.md) for more information.

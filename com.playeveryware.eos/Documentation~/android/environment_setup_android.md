@@ -1,4 +1,4 @@
-<a href="/README.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="Lobby Screenshot" width="5%"/></a>
+<a href="/com.playeveryware.eos/README.md"><img src="/com.playeveryware.eos/Documentation~/images/PlayEveryWareLogo.gif" alt="Lobby Screenshot" width="5%"/></a>
 
 # <div align="center">Environment Setup for Android</div>
 ---
@@ -9,7 +9,7 @@
 
 2. Open the "Add modules" window.
 
-    <img src="/docs/images/unity_add_modules.png" width="500" />
+    <img src="/com.playeveryware.eos/Documentation~/images/unity_add_modules.png" width="500" />
 
 2. Select and install the following modules:
 
@@ -30,7 +30,7 @@ The following methods will show how to install the missing build-tool 30.0.3, an
 1. [Install Android Studio](https://developer.android.com/studio)
 2. Run the SDK Manager
 
-    <img src="/docs/images/android_studio_sdk_manager.png" width="500" />
+    <img src="/com.playeveryware.eos/Documentation~/images/android_studio_sdk_manager.png" width="500" />
 
 ### Manage SDK through command prompt
 

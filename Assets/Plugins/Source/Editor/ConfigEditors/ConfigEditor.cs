@@ -34,26 +34,41 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
     using Task = System.Threading.Tasks.Task;
 
     /// <summary>
-    /// Contains implementations of IConfigEditor that are common to all implementing classes.
+    /// Contains implementations of IConfigEditor that are common to all
+    /// implementing classes.
     /// </summary>
-    /// <typeparam name="T">Intended to be a type accepted by the templated class EOSConfigFile.</typeparam>
-    public class ConfigEditor<T> : IConfigEditor where T : EpicOnlineServices.Config
+    /// <typeparam name="T">
+    /// The type of config that this editor is responsible for providing an
+    /// interface to edit for.
+    /// </typeparam>
+    public class ConfigEditor<T> : IConfigEditor where T : 
+        EpicOnlineServices.Config
     {
         /// <summary>
         /// The string to use for the label for the config editor.
         /// </summary>
-        private readonly string _labelText;
+        protected string _labelText;
 
         /// <summary>
-        /// Action that is called when the config editor is expanded.
+        /// The labels for each group.
         /// </summary>
-        public Action<ConfigEditor<T>> OnExpanded;
+        protected string[] _groupLabels;
+
+        /// <summary>
+        /// Event that triggers when the config editor is expanded.
+        /// </summary>
+        public event EventHandler Expanded;
 
         /// <summary>
         /// Used to animate the expansion and collapse of the config editor if
         /// doing so is enabled.
         /// </summary>
         private AnimBool _animExpanded;
+
+        /// <summary>
+        /// Indicates whether the config editor is expandable and collapsible
+        /// </summary>
+        private bool _collapsible;
 
         /// <summary>
         /// Stores the state of whether the config editor is expanded or
@@ -74,49 +89,37 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
         /// collapsed, as animating that requires calling the repaint function
         /// that is typically called from within EditorWindow.
         /// </param>
-        public ConfigEditor(UnityAction repaintFn = null, bool startsExpanded = false)
+        /// <param name="startsExpanded">
+        /// If expandable, will indicate whether it starts expanded or
+        /// collapsed.
+        /// </param>
+        public ConfigEditor(
+            UnityAction repaintFn = null, 
+            bool startsExpanded = false)
         {
-            Type configType = typeof(T);
-            
-            ConfigGroupAttribute attribute = configType.GetCustomAttribute<ConfigGroupAttribute>();
-
             _expanded = startsExpanded;
+            _collapsible = false;
 
-            _animExpanded = new(attribute.Collapsible);
+            ConfigGroupAttribute attribute = typeof(T).GetCustomAttribute<ConfigGroupAttribute>();
 
-            _labelText = attribute.Label;
+            if (null != attribute)
+            {
+                _collapsible = attribute.Collapsible;   
+                _labelText = attribute.Label;
+                _groupLabels = attribute.GroupLabels;
+            }
+
+            _animExpanded = new(_collapsible);
+
+            // If it's not expandable, then it starts "expanded"
+            if (!_collapsible)
+            {
+                _expanded = true;
+            }
 
             if (null != repaintFn)
-                _animExpanded.valueChanged.AddListener(repaintFn);
-        }
-
-        /// <summary>
-        /// Create a config editor, setting the string to use for the label
-        /// explicitly.
-        /// </summary>
-        /// <param name="labelText">The string to use for the label.</param>
-        protected ConfigEditor(string labelText)
-        {
-            _labelText = labelText;
-        }
-
-        /// <summary>
-        /// Whether the ConfigEditor is expanded or not. If value is set to
-        /// true, then the OnExpanded action will be invoked.
-        /// </summary>
-        private bool Expanded
-        {
-            get
             {
-                return _expanded;
-            }
-            set
-            {
-                _expanded = value;
-                if (_expanded)
-                {
-                    OnExpanded?.Invoke(this);
-                }
+                _animExpanded?.valueChanged.AddListener(repaintFn);
             }
         }
 
@@ -125,8 +128,14 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
         /// </summary>
         public void Expand()
         {
-            Expanded = true;
-            OnExpanded?.Invoke(this);
+            // Don't do anything if already expanded, or cannot expand
+            if (_expanded || !_collapsible)
+            {
+                return;
+            }
+
+            _expanded = true;
+            OnExpanded(EventArgs.Empty);
         }
 
         /// <summary>
@@ -134,7 +143,19 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
         /// </summary>
         public void Collapse()
         {
-            Expanded = false;
+            // Don't do anything if not expanded, or cannot expand.
+            if (!_expanded || !_collapsible)
+            {
+                return;
+            }
+
+            _expanded = false;
+        }
+
+        protected virtual void OnExpanded(EventArgs e)
+        {
+            EventHandler handler = Expanded;
+            handler?.Invoke(this, e);
         }
 
         /// <summary>
@@ -145,13 +166,11 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
         /// <returns>A collection of config fields.</returns>
         private static IOrderedEnumerable<IGrouping<int, (FieldInfo FieldInfo, ConfigFieldAttribute FieldDetails)>> GetFieldsByGroup()
         {
-            var returnValue = typeof(T).GetFields(BindingFlags.Public | BindingFlags.Instance)
+            return typeof(T).GetFields(BindingFlags.Public | BindingFlags.Instance)
                 .Where(field => field.GetCustomAttribute<ConfigFieldAttribute>() != null)
                 .Select(info => (info, info.GetCustomAttribute<ConfigFieldAttribute>()))
                 .GroupBy(r => r.Item2.Group)
                 .OrderBy(group => group.Key);
-
-            return returnValue;
         }
 
         /// <summary>
@@ -197,10 +216,15 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
         /// </exception>
         protected void RenderConfigFields()
         {
-            var fieldGroups = GetFieldsByGroup();
-            foreach (var fieldGroup in fieldGroups)
+            foreach (var fieldGroup in GetFieldsByGroup())
             {
                 float labelWidth = GetMaximumLabelWidth(fieldGroup);
+
+                // If there is a label for the field group, then display it.
+                if (0 >= fieldGroup.Key && _groupLabels?.Length > fieldGroup.Key)
+                {
+                    GUILayout.Label(_groupLabels[fieldGroup.Key], EditorStyles.boldLabel);
+                }
 
                 foreach (var field in fieldGroup)
                 {
@@ -210,16 +234,19 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
                             field.FieldInfo.SetValue(config, GUIEditorUtility.RenderInputField(field.FieldDetails, (string)field.FieldInfo.GetValue(config), labelWidth));
                             break;
                         case ConfigFieldType.FilePath:
-                            field.FieldInfo.SetValue(config, GUIEditorUtility.RenderInputField(field.FieldDetails as FilePathField, (string)field.FieldInfo.GetValue(config), labelWidth));
+                            field.FieldInfo.SetValue(config, GUIEditorUtility.RenderInputField(field.FieldDetails as FilePathFieldAttribute, (string)field.FieldInfo.GetValue(config), labelWidth));
                             break;
                         case ConfigFieldType.Flag:
                             field.FieldInfo.SetValue(config, GUIEditorUtility.RenderInputField(field.FieldDetails, (bool)field.FieldInfo.GetValue(config), labelWidth));
                             break;
                         case ConfigFieldType.DirectoryPath:
-                            field.FieldInfo.SetValue(config, GUIEditorUtility.RenderInputField(field.FieldDetails as DirectoryPathField, (string)field.FieldInfo.GetValue(config), labelWidth));
+                            field.FieldInfo.SetValue(config, GUIEditorUtility.RenderInputField(field.FieldDetails as DirectoryPathFieldAttribute, (string)field.FieldInfo.GetValue(config), labelWidth));
                             break;
                         case ConfigFieldType.Ulong:
                             field.FieldInfo.SetValue(config, GUIEditorUtility.RenderInputField(field.FieldDetails, (ulong)field.FieldInfo.GetValue(config), labelWidth));
+                            break;
+                        case ConfigFieldType.Double:
+                            field.FieldInfo.SetValue(config, GUIEditorUtility.RenderInputField(field.FieldDetails, (double)field.FieldInfo.GetValue(config), labelWidth));
                             break;
                         case ConfigFieldType.TextList:
                             field.FieldInfo.SetValue(config, GUIEditorUtility.RenderInputField(field.FieldDetails, (List<string>)field.FieldInfo.GetValue(config), labelWidth));
@@ -247,8 +274,19 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
         }
 
         public async Task LoadAsync()
-        {   
+        {
+            // Don't do anything if the config is already loaded.
+            if (config != null)
+            {
+                return;
+            }
+
             config = await EpicOnlineServices.Config.GetAsync<T>();
+        }
+
+        public void Load()
+        {
+            Task.Run(LoadAsync).GetAwaiter().GetResult();
         }
 
         public async Task Save(bool prettyPrint)
@@ -258,12 +296,44 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
 
         public virtual void RenderContents()
         {
+            if (_collapsible)
+            {
+                RenderCollapsibleContents();
+            }
+            else
+            {
+                GUILayout.Label(GetLabelText(), EditorStyles.boldLabel);
+                RenderConfigFields();
+            }
+        }
+
+        private void RenderCollapsibleContents()
+        {
             GUIStyle foldoutStyle = new(EditorStyles.foldout) { fontStyle = FontStyle.Bold };
             EditorGUILayout.BeginVertical(EditorStyles.helpBox);
-            _animExpanded.target = EditorGUILayout.Foldout(Expanded, GetLabelText(), true, foldoutStyle);
-            Expanded = _animExpanded.target;
 
-            if (Expanded)
+            bool isExpanded = EditorGUILayout.Foldout(_expanded, GetLabelText(), true, foldoutStyle);
+
+            // If the state of expansion has changed, take appropriate action.
+            if (_expanded != isExpanded)
+            {
+                if (isExpanded)
+                {
+                    Expand();
+                }
+                else
+                {
+                    Collapse();
+                }
+            }
+
+            if (null != _animExpanded)
+            {
+                _animExpanded.target = isExpanded;
+                _expanded = _animExpanded.target;
+            }
+
+            if (_expanded)
             {
                 if (EditorGUILayout.BeginFadeGroup(_animExpanded.faded))
                 {
@@ -273,7 +343,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
                 }
                 EditorGUILayout.EndFadeGroup();
             }
-            
+
             EditorGUILayout.EndVertical();
         }
 

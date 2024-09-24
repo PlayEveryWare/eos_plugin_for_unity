@@ -32,89 +32,93 @@
 #define DYNAMIC_MEMORY_ALLOCATION_AVAILABLE
 #endif
 
-using System.Runtime.InteropServices;
-using System.Reflection;
-using System;
-using PlayEveryWare.EpicOnlineServices;
+namespace PlayEveryWare.EpicOnlineServices
+{
+    using System.Runtime.InteropServices;
+    using System.Reflection;
+    using System;
 
-using size_t = System.UIntPtr;
+    using size_t = System.UIntPtr;
 
 //-------------------------------------------------------------------------
 // Generic interface for allocating native memory that conforms to the EOS SDK
-public partial class SystemMemory
-{
-    [StructLayout(LayoutKind.Sequential, Pack = 8)]
-    public struct MemCounters 
+    public partial class SystemMemory
     {
-        public Int64 currentMemoryAllocatedInBytes;
-    };
+        [StructLayout(LayoutKind.Sequential, Pack = 8)]
+        public struct MemCounters
+        {
+            public Int64 currentMemoryAllocatedInBytes;
+        };
 
-    public delegate IntPtr EOS_GenericAlignAlloc(size_t sizeInBytes, size_t alignmentInBytes);
-    public delegate IntPtr EOS_GenericAlignRealloc(IntPtr ptr, size_t sizeInBytes, size_t alignmentInBytes);
-    public delegate void EOS_GenericFree(IntPtr ptr);
+        public delegate IntPtr EOS_GenericAlignAlloc(size_t sizeInBytes, size_t alignmentInBytes);
+
+        public delegate IntPtr EOS_GenericAlignRealloc(IntPtr ptr, size_t sizeInBytes, size_t alignmentInBytes);
+
+        public delegate void EOS_GenericFree(IntPtr ptr);
 
 
-    [AOT.MonoPInvokeCallback(typeof(EOS_GenericAlignAlloc))]
-    static public IntPtr GenericAlignAlloc(size_t sizeInBytes, size_t alignmentInBytes)
-    {
+        [AOT.MonoPInvokeCallback(typeof(EOS_GenericAlignAlloc))]
+        static public IntPtr GenericAlignAlloc(size_t sizeInBytes, size_t alignmentInBytes)
+        {
 #if DYNAMIC_MEMORY_ALLOCATION_AVAILABLE
-        return Mem_generic_align_alloc(sizeInBytes, alignmentInBytes);
+            return Mem_generic_align_alloc(sizeInBytes, alignmentInBytes);
 #else
         return IntPtr.Zero;
 #endif
-    }
+        }
 
-    //-------------------------------------------------------------------------
-    [AOT.MonoPInvokeCallback(typeof(EOS_GenericAlignRealloc))]
-    static public IntPtr GenericAlignRealloc(IntPtr ptr, size_t sizeInBytes, size_t alignmentInBytes)
-    {
+        //-------------------------------------------------------------------------
+        [AOT.MonoPInvokeCallback(typeof(EOS_GenericAlignRealloc))]
+        static public IntPtr GenericAlignRealloc(IntPtr ptr, size_t sizeInBytes, size_t alignmentInBytes)
+        {
 #if DYNAMIC_MEMORY_ALLOCATION_AVAILABLE
-        return Mem_generic_align_realloc(ptr, sizeInBytes, alignmentInBytes);
+            return Mem_generic_align_realloc(ptr, sizeInBytes, alignmentInBytes);
 #else
         return IntPtr.Zero;
 #endif
-    }
+        }
 
-    //-------------------------------------------------------------------------
-    [AOT.MonoPInvokeCallback(typeof(EOS_GenericFree))]
-    static public void GenericFree(IntPtr ptr)
-    {
+        //-------------------------------------------------------------------------
+        [AOT.MonoPInvokeCallback(typeof(EOS_GenericFree))]
+        static public void GenericFree(IntPtr ptr)
+        {
 #if DYNAMIC_MEMORY_ALLOCATION_AVAILABLE
-        Mem_generic_free(ptr);
+            Mem_generic_free(ptr);
 #endif
-    }
+        }
 
-    //-------------------------------------------------------------------------
-    static public void GetAllocatorFunctions(out IntPtr alloc, out IntPtr realloc, out IntPtr free)
-    {
+        //-------------------------------------------------------------------------
+        static public void GetAllocatorFunctions(out IntPtr alloc, out IntPtr realloc, out IntPtr free)
+        {
 #if DYNAMIC_MEMORY_ALLOCATION_AVAILABLE && ENABLE_GET_ALLOCATOR_FUNCTION
         Mem_GetAllocatorFunctions(out alloc, out realloc, out free);
 #else
-        alloc = IntPtr.Zero;
-        realloc = IntPtr.Zero;
-        free = IntPtr.Zero;
+            alloc = IntPtr.Zero;
+            realloc = IntPtr.Zero;
+            free = IntPtr.Zero;
 #endif
-    }
+        }
 
-    private const string DLLHBinaryName =
+        private const string DLLHBinaryName =
 #if DLLHELPER_HAS_INTERNAL_LINKAGE
         "__Internal";
 #else
-       "DynamicLibraryLoaderHelper";
+            "DynamicLibraryLoaderHelper";
 
 #endif
 
 #if DYNAMIC_MEMORY_ALLOCATION_AVAILABLE
-    [DllImport(DLLHBinaryName)]
-    static public extern IntPtr Mem_generic_align_alloc(size_t size_in_bytes, size_t alignment_in_bytes);
+        [DllImport(DLLHBinaryName)]
+        static public extern IntPtr Mem_generic_align_alloc(size_t size_in_bytes, size_t alignment_in_bytes);
 
-    [DllImport(DLLHBinaryName)]
-    static public extern IntPtr Mem_generic_align_realloc(IntPtr ptr, size_t size_in_bytes, size_t alignment_in_bytes);
+        [DllImport(DLLHBinaryName)]
+        static public extern IntPtr Mem_generic_align_realloc(IntPtr ptr, size_t size_in_bytes,
+            size_t alignment_in_bytes);
 
-    [DllImport(DLLHBinaryName)]
-    static public extern void Mem_generic_free(IntPtr ptr);
+        [DllImport(DLLHBinaryName)]
+        static public extern void Mem_generic_free(IntPtr ptr);
 
-    // This is currently not implemented
+        // This is currently not implemented
 #if ENABLE_GET_ALLOCATION_COUNTERS
     [DllImport(DLLHBinaryName)]
     static public extern void Mem_GetAllocationCounters(out MemCounters data);
@@ -126,4 +130,5 @@ public partial class SystemMemory
 #endif
 #endif
 
+    }
 }

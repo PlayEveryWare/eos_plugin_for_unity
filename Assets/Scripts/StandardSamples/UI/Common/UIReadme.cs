@@ -20,46 +20,50 @@
 * SOFTWARE.
 */
 
-using UnityEngine;
-using UnityEngine.UI;
-
-public class UIReadme : MonoBehaviour
+namespace PlayEveryWare.EpicOnlineServices.Samples
 {
-    public TextAsset ReadmeTextSource;
-    public GameObject ReadmePanel;
-    public ScrollRect ReadmeScrollRect;
-    public Text ReadmeDisplay;
-    public GameObject ReadmeButton;
+    using UnityEngine;
+    using UnityEngine.UI;
 
-    void Awake()
+    public class UIReadme : MonoBehaviour
     {
-        if (ReadmeTextSource != null)
-        {
-            ReadmeDisplay.text = ReadmeTextSource.text;
-        }
-        else
-        {
-            ReadmeButton.SetActive(false);
-        }
-        ReadmePanel.SetActive(false);
-    }
+        public TextAsset ReadmeTextSource;
+        public GameObject ReadmePanel;
+        public ScrollRect ReadmeScrollRect;
+        public Text ReadmeDisplay;
+        public GameObject ReadmeButton;
 
-    public void ToggleReadme()
-    {
-        ReadmePanel.SetActive(!ReadmePanel.activeSelf);
-        if (ReadmePanel.activeSelf)
+        void Awake()
         {
-            //scroll to top
-            ReadmeScrollRect.verticalNormalizedPosition = 1;
-        }
-    }
+            if (ReadmeTextSource != null)
+            {
+                ReadmeDisplay.text = ReadmeTextSource.text;
+            }
+            else
+            {
+                ReadmeButton.SetActive(false);
+            }
 
-    public void CloseReadme()
-    {
-        if (ReadmePanel.activeSelf)
-        {
             ReadmePanel.SetActive(false);
-            ReadmeScrollRect.verticalNormalizedPosition = 1;
+        }
+
+        public void ToggleReadme()
+        {
+            ReadmePanel.SetActive(!ReadmePanel.activeSelf);
+            if (ReadmePanel.activeSelf)
+            {
+                //scroll to top
+                ReadmeScrollRect.verticalNormalizedPosition = 1;
+            }
+        }
+
+        public void CloseReadme()
+        {
+            if (ReadmePanel.activeSelf)
+            {
+                ReadmePanel.SetActive(false);
+                ReadmeScrollRect.verticalNormalizedPosition = 1;
+            }
         }
     }
 }

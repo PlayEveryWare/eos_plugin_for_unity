@@ -1,4 +1,4 @@
-<a href="/README.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="README.md" width="5%"/></a>
+<a href="/com.playeveryware.eos/README.md"><img src="/com.playeveryware.eos/Documentation~/images/PlayEveryWareLogo.gif" alt="README.md" width="5%"/></a>
 
 ## **Achievements Demo**
 This demo showcases the Achievements function. This is done through 2 test achievements, one tracking logins and the other logging an arbitrary stat. Each Achievement has a unlocked and locked display name and description, as well as the ability to hide it and the relevant tracked data for it.

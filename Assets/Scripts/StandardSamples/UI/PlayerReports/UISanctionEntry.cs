@@ -20,13 +20,10 @@
 * SOFTWARE.
 */
 
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
-
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
+    using UnityEngine;
+    using UnityEngine.UI;
 
     public class UISanctionEntry : MonoBehaviour
     {

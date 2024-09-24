@@ -1,4 +1,4 @@
-<a href="/README.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="README.md" width="5%"/></a>
+<a href="/com.playeveryware.eos/README.md"><img src="/com.playeveryware.eos/Documentation~/images/PlayEveryWareLogo.gif" alt="README.md" width="5%"/></a>
 
 ## **Custom Invites Demo**
 This demo showcases the custom invite functionality allowing for messaging with arbitrary payloads. This is meant for cases where an already existing invitation system exists. This demo allows users to send invites with a text payload to anyone on their friends list.
@@ -13,3 +13,6 @@ This demo showcases the custom invite functionality allowing for messaging with 
 
 > [!NOTE] 
 > See [Epic's documentation on the Custom Invites interface](https://dev.epicgames.com/docs/game-services/custom-invites-interface) for more information.
+
+> [!NOTE]
+> This sample includes the UIFriendsMenu. Please see [the plugin's documentation on UIFriendsMenu](../uifriendsmenu.md) for more information.

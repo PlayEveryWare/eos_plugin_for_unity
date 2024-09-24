@@ -27,7 +27,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
     using UnityEngine;
     using UnityEngine.UI;
-    using UnityEngine.EventSystems;
 
     using Epic.OnlineServices;
     using Epic.OnlineServices.Sessions;

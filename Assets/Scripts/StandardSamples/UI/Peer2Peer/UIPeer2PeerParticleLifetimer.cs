@@ -20,25 +20,27 @@
 * SOFTWARE.
 */
 
-
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class UIPeer2PeerParticleLifetimer : MonoBehaviour
+namespace PlayEveryWare.EpicOnlineServices.Samples
 {
-    private float timer = 0;
-    public GameObject parent;
-    public Vector3 direction;
-    // Update is called once per frame
-    void Update()
-    {
-        this.transform.position += (direction / 100.0f);
-        timer += Time.deltaTime;
+    using UnityEngine;
 
-        if(timer >= 1)
+    public class UIPeer2PeerParticleLifetimer : MonoBehaviour
+    {
+        private float timer = 0;
+        public GameObject parent;
+
+        public Vector3 direction;
+
+        // Update is called once per frame
+        void Update()
         {
-            Destroy(parent);
+            this.transform.position += (direction / 100.0f);
+            timer += Time.deltaTime;
+
+            if (timer >= 1)
+            {
+                Destroy(parent);
+            }
         }
     }
 }

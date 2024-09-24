@@ -1,0 +1,4 @@
+# Ignore all files in the historic directory.
+*
+# Except for _this_ .gitignore file.
+!.gitignore

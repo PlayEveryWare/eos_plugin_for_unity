@@ -2,7 +2,19 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-# Changelog
+## [3.3.3] - 2024-09-19
+
+### Added
+  - Added new unit test documentation and expanded test coverage across the project. (#914, #905, #893, #fdd07613, #0f55d1ec, #902)
+  - Improved documentation clarity and organization, including replacing markdown files in the root of the repository with symbolic links to the package files. (#914, #f9d3615a, #8685cd73, #f077cec1)
+  - Added new unit tests and refactored existing ones to address file upload encoding issues and improve coverage. (#f0b3572e, #902, #94eb0453, #f0b3572e)
+
+### Fixed
+  - Removed unreferenced and outdated prefabs and files, updated documentation to reference the correct prefabs. (#adfb2877, #bfbec067, #f077cec1, #f9d3615a)
+  - Renamed and reorganized unit tests to improve consistency in naming and structure. (#53bfb04a, #c8f4b821, #948babd5)
+  - Updated the `GetBuildTools` function to accommodate Android Build Tool versioning in Unity 2022.3.44f1 LTS. (#8ed407cf, #bc075e7e)
+  - Refactored managers into services, removed outdated manager references, and updated namespaces. (#2060ce08, #e83deb7f, #57b7b8b6, #561534d5)
+  - Removed extraneous files like `.editorconfig` and unreferenced classes. Fixed small issues like grammar and unused code. (#116f51c7, #84b67848, #adfb2877, #e3c7262a, #c799fcc1)
 
 ## [3.3.2] - 2024-08-27
 

@@ -20,16 +20,13 @@
 * SOFTWARE.
 */
 
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-using Epic.OnlineServices;
-using Epic.OnlineServices.Metrics;
-using Epic.OnlineServices.Auth;
-
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
+    using UnityEngine;
+    using Epic.OnlineServices;
+    using Epic.OnlineServices.Metrics;
+    using Epic.OnlineServices.Auth;
+
     /// <summary>
     /// Class <c>EOSMetricsManager</c> is a simplified wrapper for EOS [Metrics Interface](https://dev.epicgames.com/docs/game-services/eos-metrics-interface).
     /// </summary>

@@ -1,4 +1,4 @@
-<a href="/README.md"><img src="/com.playeveryware.eos/Documentation~/images/PlayEveryWareLogo.gif" alt="README.md" width="5%"/></a>
+<a href="/com.playeveryware.eos/README.md"><img src="/com.playeveryware.eos/Documentation~/images/PlayEveryWareLogo.gif" alt="README.md" width="5%"/></a>
 
 # <div align="center">Coding Standards</div>
 ---
@@ -117,3 +117,6 @@ Major.Minor.Patch
 	ex: 1.0.1
 ```
 
+## Unit Testing
+
+See [our documentation on unit testing](/com.playeveryware.eos/Documentation~/unit_testing.md).

@@ -1,4 +1,4 @@
-<a href="/README.md"><img src="/com.playeveryware.eos/Documentation~/images/PlayEveryWareLogo.gif" alt="Readme" width="5%"/></a>
+<a href="/com.playeveryware.eos/README.md"><img src="/com.playeveryware.eos/Documentation~/images/PlayEveryWareLogo.gif" alt="Readme" width="5%"/></a>
 
 # Configuring the Plugin
 
@@ -35,11 +35,11 @@ To function, the plugin needs some information from your EOS project. Be sure to
 
 5) Navigate to `Packages/Epic Online Services for Unity/Runtime` via the `Project` window.
 
-6) Add the `EOSManager.prefab`, to each of your game's scenes.
-
-7) Attach `EOSManager.cs (Script)` to a Unity object, and it will initialize the plugin with the specified configuration in `OnAwake()`.
+6) Either:
+    - Add the `Singletons.prefab`, to each of your game's scenes.
+    - Attach `EOSManager.cs (Script)` to a Unity object, and it will initialize the plugin with the specified configuration in `OnAwake()` (this is what `Singletons.prefab` does).
 
 > [!NOTE]
-The included [samples](http://github.com/PlayEveryWare/eos_plugin_for_unity/blob/development/com.playeveryware.eos/README.md#samples) already have configuration values set for you to experiment with!
+The included [samples](http://github.com/PlayEveryWare/eos_plugin_for_unity/blob/development/com.playeveryware.eos/com.playeveryware.eos/README.md#samples) already have configuration values set for you to experiment with!
 
 If you would like to see specific examples of various EOS features in action, import the sample Unity scenes that are described below.

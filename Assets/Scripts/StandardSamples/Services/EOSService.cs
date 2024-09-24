@@ -25,14 +25,13 @@ namespace PlayEveryWare.EpicOnlineServices
 {
     using Epic.OnlineServices;
     using System;
-    using System.Runtime.CompilerServices;
     using System.Threading.Tasks;
 
     /// <summary>
     /// Contains implementation of common functionality between different
     /// EOS Service managers (Currently AchievementsService and StatsService).
     /// </summary>
-    public abstract class EOSService : IEOSSubManager, IDisposable
+    public abstract class EOSService : IDisposable
     {
         /// <summary>
         /// Describes the function signature for the event that triggers when
@@ -53,6 +52,11 @@ namespace PlayEveryWare.EpicOnlineServices
         protected bool RequiresAuthentication { get; }
 
         /// <summary>
+        /// Used to prevent redundant calls to the dispose method.
+        /// </summary>
+        private bool _disposed = false;
+
+        /// <summary>
         /// Base constructor for Service managers.
         /// </summary>
         /// <param name="requiresAuthentication">
@@ -67,6 +71,66 @@ namespace PlayEveryWare.EpicOnlineServices
             _ = RefreshAsync();
         }
 
+        /// <summary>
+        /// Dispose function makes sure that the manager is removed from the
+        /// collection of connect login listeners.
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+
+            // Prevent collection until the dispose pattern is followed.
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Protected implementation of Dispose pattern. If this method is
+        /// overridden in implementing classes, this base implementation should
+        /// be called at the end of the overridden implementation.
+        /// </summary>
+        /// <param name="disposing">
+        /// Indicates that disposing is taking place.
+        /// </param>
+        protected virtual void Dispose(bool disposing)
+        {
+            // If already disposed, then do nothing (this prevents the disposal
+            // pattern from becoming circular).
+            if (_disposed)
+            {
+                return;
+            }
+
+            if (disposing)
+            {
+                Reset(); // Always call the Reset function first when disposing.
+
+                // NOTE: Dispose of managed resources here.
+
+                // Unsubscribe from the authentication changed event
+                AuthenticationListener.Instance.AuthenticationChanged -= OnAuthenticationChanged;
+            }
+
+            // NOTE: Free unmanaged resources here, and set large fields to null.
+
+            _disposed = true;
+        }
+
+        /// <summary>
+        /// This method clears all state for the service. If overridden in an
+        /// implementing class, this base implementation should be called at the
+        /// end of that implementation. Implementing classes probably _should_
+        /// override this function.
+        /// </summary>
+        protected virtual void Reset()
+        {
+            // Set the updated event to null, which removes any subscribers.
+            Updated = null;
+        }
+
+        /// <summary>
+        /// Destructor is defined to catch cases where Dispose was not properly
+        /// called before the service ceases to exist.
+        /// </summary>
         ~EOSService()
         {
             Dispose();
@@ -108,25 +172,20 @@ namespace PlayEveryWare.EpicOnlineServices
         }
 
         /// <summary>
-        /// Dispose function makes sure that the manager is removed from the
-        /// collection of connect login listeners.
-        /// </summary>
-        public void Dispose()
-        {
-            // Unsubscribe from the authentication changed event.
-            AuthenticationListener.Instance.AuthenticationChanged -= OnAuthenticationChanged;
-        }
-
-        /// <summary>
         /// Implement this method to perform tasks when a user authenticates.
+        /// By default, there is no action taken.
         /// </summary>
-        protected abstract void OnLoggedIn();
+        protected virtual void OnLoggedIn() { }
 
         /// <summary>
-        /// Implement this method to cleanup things when the user logs out. The
-        /// local state information pertaining to the user should be cleared.
+        /// If there are tasks that need to be done when logged out, consider
+        /// overriding the Reset() function as that is where such things should
+        /// be done.
         /// </summary>
-        protected abstract void OnLoggedOut();
+        protected void OnLoggedOut()
+        {
+            Reset();
+        }
 
         /// <summary>
         /// Refreshes the service manager

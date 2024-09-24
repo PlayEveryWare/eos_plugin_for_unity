@@ -20,15 +20,13 @@
 * SOFTWARE.
 */
 
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
-using Epic.OnlineServices;
-
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
+    using System;
+    using UnityEngine;
+    using UnityEngine.UI;
+    using Epic.OnlineServices;
+
     public class UICustomInviteEntry : MonoBehaviour
     {
         public Text SenderText;

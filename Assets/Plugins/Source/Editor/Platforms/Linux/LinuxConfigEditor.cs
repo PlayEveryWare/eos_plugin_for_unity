@@ -24,6 +24,5 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
 {
     public class LinuxConfigEditor : PlatformConfigEditor<LinuxConfig>
     {
-        public LinuxConfigEditor() : base(PlatformManager.Platform.Linux) { }
     }
 }

@@ -20,13 +20,13 @@
 * SOFTWARE.
 */
 
-using UnityEngine;
-using UnityEngine.UI;
-using Epic.OnlineServices.UserInfo;
-using Epic.OnlineServices.Auth;
-
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
+    using UnityEngine;
+    using UnityEngine.UI;
+    using Epic.OnlineServices.UserInfo;
+    using Epic.OnlineServices.Auth;
+
     public class UIDisplayName : MonoBehaviour, IAuthInterfaceEventListener, IConnectInterfaceEventListener
     {
         public Text DisplayNameText;

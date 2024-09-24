@@ -13,11 +13,16 @@
         {"src": "Assets/EOS.meta",  "dest": "Runtime/"     },
         {"src": "Assets/EOS/*.png", "dest": "Runtime/EOS/" },
                              
-        {"src": "Assets/Plugins/*",                                        "dest": "Runtime/"                             },
-        {"src": "com.playeveryware.eos/Runtime/*",                         "dest": "Runtime/" },
-        {"src": "com.playeveryware.eos/Runtime/Core/*",                    "dest": "Runtime/Core/"                        },
-        {"src": "com.playeveryware.eos/Runtime/Core/Utility/*",            "dest": "Runtime/Core/Utility/"                },
-        {"src": "com.playeveryware.eos/Runtime/Core/Utility/Extensions/*", "dest": "Runtime/Core/Utility/Extensions/"     },
+        {"src": "Assets/Plugins/*",                                                  "dest": "Runtime/"                                   },
+        {"src": "com.playeveryware.eos/Runtime/*",                                   "dest": "Runtime/"                                   },
+        {"src": "com.playeveryware.eos/Runtime/Core/*",                              "dest": "Runtime/Core/"                              },
+        {"src": "com.playeveryware.eos/Runtime/Core/EOS_SDK_Additions/*",            "dest": "Runtime/Core/EOS_SDK_Additions/"            },
+        {"src": "com.playeveryware.eos/Runtime/Core/EOS_SDK_Additions/Extensions/*", "dest": "Runtime/Core/EOS_SDK_Additions/Extensions/" },
+        {"src": "com.playeveryware.eos/Runtime/Core/Utility/*",                      "dest": "Runtime/Core/Utility/"                      },
+
+        {"src": "com.playeveryware.eos/Runtime/Core/Extensions/*",        "dest": "Runtime/Core/Extensions/"        },
+        {"src": "com.playeveryware.eos/Runtime/Core/Config/*",            "dest": "Runtime/Core/Config/"            },
+        {"src": "com.playeveryware.eos/Runtime/Core/Config/Attributes/*", "dest": "Runtime/Core/Config/Attributes/" },
         
         {"src": "Assets/Plugins/Source/Editor/*",                  "dest": "Editor/"                },
         {"src": "Assets/Plugins/Source/Editor/Build/*",            "dest": "Editor/Build/"          },

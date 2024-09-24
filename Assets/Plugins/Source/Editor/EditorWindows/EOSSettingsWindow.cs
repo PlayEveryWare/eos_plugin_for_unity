@@ -24,6 +24,11 @@
 
 namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 {
+#if !EOS_DISABLE
+    using Epic.OnlineServices.UI;
+#endif
+    using PlayEveryWare.EpicOnlineServices.Extensions;
+    using PlayEveryWare.EpicOnlineServices.Utility;
     using System;
     using System.Collections.Generic;
     using System.IO;
@@ -39,7 +44,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
     [Serializable]
     public class EOSSettingsWindow : EOSEditorWindow
     {
-        private List<IPlatformConfigEditor> platformSpecificConfigEditors;
+        private List<IConfigEditor> platformSpecificConfigEditors;
 
         private static readonly string ConfigDirectory = Path.Combine("Assets", "StreamingAssets", "EOS");
 
@@ -108,7 +113,7 @@ _WIN32 || _WIN64
 #define PLATFORM_32BITS 1
 #endif
 
-        extern ""C"" __declspec(dllexport) char*  __stdcall GetConfigAsJSONString()
+    extern ""C"" __declspec(dllexport) char*  __stdcall GetConfigAsJSONString()
 {
             return ""{""
               ""productName:"" EOS_PRODUCT_NAME "",""
@@ -133,26 +138,23 @@ _WIN32 || _WIN64
 
             mainEOSConfigFile = await Config.GetAsync<EOSConfig>();
 
-            platformSpecificConfigEditors ??= new List<IPlatformConfigEditor>();
+            platformSpecificConfigEditors ??= new List<IConfigEditor>();
             var configEditors = ReflectionUtility.CreateInstancesOfDerivedGenericClasses(typeof(PlatformConfigEditor<>));
-
-            foreach (var editor in configEditors)
+            List<string> toolbarStrings = new(new[] { "Main" });
+            foreach (IPlatformConfigEditor editor in configEditors.Cast<IPlatformConfigEditor>())
             {
-                if (editor is IPlatformConfigEditor platformConfigEditor && platformConfigEditor.IsPlatformAvailable())
-                    platformSpecificConfigEditors.Add(platformConfigEditor);
+                // If the platform for the editor is not available, then do not
+                // display the editor for it.
+                if (!editor.IsPlatformAvailable())
+                    continue;
+
+                toolbarStrings.Add(editor.GetLabelText());
+
+                platformSpecificConfigEditors.Add(editor);
             }
 
-            toolbarTitleStrings = new string[1 + platformSpecificConfigEditors.Count];
-            toolbarTitleStrings[0] = "Main";
-
-            int i = 1;
-            foreach (var platformSpecificConfigEditor in platformSpecificConfigEditors)
-            {
-                await platformSpecificConfigEditor.LoadAsync();
-                toolbarTitleStrings[i] = platformSpecificConfigEditor.GetLabelText();
-                i++;
-            }
-
+            toolbarTitleStrings = toolbarStrings.ToArray();
+            
             await base.AsyncSetup();
         }
 
@@ -350,6 +352,16 @@ _WIN32 || _WIN64
             GUIEditorUtility.AssigningBoolField("Always send Input to Overlay",
                 ref mainEOSConfigFile.alwaysSendInputToOverlay, 190,
                 "If true, the plugin will always send input to the overlay from the C# side to native, and handle showing the overlay. This doesn't always mean input makes it to the EOS SDK.");
+
+#if !EOS_DISABLE
+            InputStateButtonFlags toggleFriendsButtonCombinationEnum = mainEOSConfigFile.GetToggleFriendsButtonCombinationFlags();
+            GUIEditorUtility.AssigningEnumField<InputStateButtonFlags>("Default Activate Overlay Button",
+                ref toggleFriendsButtonCombinationEnum, 190,
+                "Users can press the button(s) associated with this value to activate the Epic Social Overlay. Not all combinations are valid; the SDK will log an error at the start of runtime if an invalid combination is selected.");
+            mainEOSConfigFile.toggleFriendsButtonCombination = EnumUtility<InputStateButtonFlags>.GetEnumerator(toggleFriendsButtonCombinationEnum)
+                .Select(enumValue => enumValue.ToString())
+                .ToList();
+#endif
         }
 
         protected override void RenderWindow()
