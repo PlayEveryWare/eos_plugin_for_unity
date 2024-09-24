@@ -24,7 +24,9 @@
 
 namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 {
+#if !EOS_DISABLE
     using Epic.OnlineServices.UI;
+#endif
     using PlayEveryWare.EpicOnlineServices.Extensions;
     using PlayEveryWare.EpicOnlineServices.Utility;
     using System;
@@ -111,7 +113,7 @@ _WIN32 || _WIN64
 #define PLATFORM_32BITS 1
 #endif
 
-        extern ""C"" __declspec(dllexport) char*  __stdcall GetConfigAsJSONString()
+    extern ""C"" __declspec(dllexport) char*  __stdcall GetConfigAsJSONString()
 {
             return ""{""
               ""productName:"" EOS_PRODUCT_NAME "",""
@@ -351,6 +353,7 @@ _WIN32 || _WIN64
                 ref mainEOSConfigFile.alwaysSendInputToOverlay, 190,
                 "If true, the plugin will always send input to the overlay from the C# side to native, and handle showing the overlay. This doesn't always mean input makes it to the EOS SDK.");
 
+#if !EOS_DISABLE
             InputStateButtonFlags toggleFriendsButtonCombinationEnum = mainEOSConfigFile.GetToggleFriendsButtonCombinationFlags();
             GUIEditorUtility.AssigningEnumField<InputStateButtonFlags>("Default Activate Overlay Button",
                 ref toggleFriendsButtonCombinationEnum, 190,
@@ -358,6 +361,7 @@ _WIN32 || _WIN64
             mainEOSConfigFile.toggleFriendsButtonCombination = EnumUtility<InputStateButtonFlags>.GetEnumerator(toggleFriendsButtonCombinationEnum)
                 .Select(enumValue => enumValue.ToString())
                 .ToList();
+#endif
         }
 
         protected override void RenderWindow()
