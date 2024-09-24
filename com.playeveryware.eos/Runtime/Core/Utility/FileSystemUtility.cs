@@ -512,8 +512,8 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         public static async Task<string> ReadAllTextAsync(string path)
         {
 #if UNITY_ANDROID && !UNITY_EDITOR
-            // On Android, use a custom helper to read the file synchronously
-            return await Task.FromResult(AndroidFileIOHelper.ReadAllText(path));
+            // On Android, use a custom helper to read the file
+            return await AndroidFileIOHelper.ReadAllText(path);
 #else
             // On other platforms, read asynchronously or synchronously as
             // appropriate.

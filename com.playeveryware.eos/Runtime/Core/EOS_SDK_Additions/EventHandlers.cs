@@ -21,6 +21,8 @@
  *
  */
 
+#if !EOS_DISABLE
+
 namespace PlayEveryWare.EpicOnlineServices.Events
 {
     using Epic.OnlineServices;
@@ -33,3 +35,5 @@ namespace PlayEveryWare.EpicOnlineServices.Events
     // ReSharper disable once InconsistentNaming
     public delegate void EOSResultEventHandler(Result result);
 }
+
+#endif

@@ -29,13 +29,14 @@ namespace PlayEveryWare.EpicOnlineServices
     using Epic.OnlineServices.Auth;
     using Epic.OnlineServices.Platform;
     using Epic.OnlineServices.IntegratedPlatform;
+    using Epic.OnlineServices.UI;
 #endif
     using System;
     using System.Collections.Generic;
     using UnityEngine;
     using System.Text.RegularExpressions;
     using Extensions;
-    using Epic.OnlineServices.UI;
+    
     using PlayEveryWare.EpicOnlineServices.Utility;
 
     /// <summary>
@@ -344,9 +345,13 @@ namespace PlayEveryWare.EpicOnlineServices
         /// use that value if this configuration field is null, empty, or contains
         /// only <see cref="InputStateButtonFlags.None"/>.
         /// </summary>
-        public List<string> toggleFriendsButtonCombination = new List<string>() { InputStateButtonFlags.SpecialLeft.ToString() };
+        public List<string> toggleFriendsButtonCombination = new List<string>() {
+#if !EOS_DISABLE
+            InputStateButtonFlags.SpecialLeft.ToString() 
+#endif
+        };
 
-        #endregion
+#endregion
 
         public static Regex InvalidEncryptionKeyRegex;
         

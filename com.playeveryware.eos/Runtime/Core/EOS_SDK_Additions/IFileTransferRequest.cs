@@ -21,6 +21,7 @@
  *
  */
 
+#if !EOS_DISABLE
 namespace PlayEveryWare.EpicOnlineServices
 {
     using Epic.OnlineServices;
@@ -32,3 +33,4 @@ namespace PlayEveryWare.EpicOnlineServices
         public void Release();
     }
 }
+#endif
