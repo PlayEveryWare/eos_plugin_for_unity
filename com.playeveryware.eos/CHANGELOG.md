@@ -4,14 +4,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [3.3.3] - 2024-09-19
 
-### Features
+### Added
 - **Unit Testing Enhancements**:
   - Added new unit test documentation and expanded test coverage across the project. (#914, #905, #893, #fdd07613, #0f55d1ec, #902)
 
 - **Documentation Updates**:
   - Improved documentation clarity and organization, including replacing markdown files in the root of the repository with symbolic links to the package files. (#914, #f9d3615a, #8685cd73, #f077cec1)
 
-### Fixes
+- **Tests**:
+  - Added new unit tests and refactored existing ones to address file upload encoding issues and improve coverage. (#f0b3572e, #902, #94eb0453, #f0b3572e)
+
+### Fixed
 - **File & Prefab Management**:
   - Removed unreferenced and outdated prefabs and files, updated documentation to reference the correct prefabs. (#adfb2877, #bfbec067, #f077cec1, #f9d3615a)
   
@@ -26,9 +29,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - **Miscellaneous Fixes**:
   - Removed extraneous files like `.editorconfig` and unreferenced classes. Fixed small issues like grammar and unused code. (#116f51c7, #84b67848, #adfb2877, #e3c7262a, #c799fcc1)
-
-### Tests
-- Added new unit tests and refactored existing ones to address file upload encoding issues and improve coverage. (#f0b3572e, #902, #94eb0453, #f0b3572e)
 
 ## [3.3.2] - 2024-08-27
 
