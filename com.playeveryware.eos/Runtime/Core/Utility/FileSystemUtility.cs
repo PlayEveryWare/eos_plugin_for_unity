@@ -513,7 +513,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         {
 #if UNITY_ANDROID && !UNITY_EDITOR
             // On Android, use a custom helper to read the file synchronously
-            return await Task.FromResult(AndroidFileIOHelper.ReadAllText(path));
+            return await AndroidFileIOHelper.ReadAllText(path);
 #else
             // On other platforms, read asynchronously or synchronously as
             // appropriate.
