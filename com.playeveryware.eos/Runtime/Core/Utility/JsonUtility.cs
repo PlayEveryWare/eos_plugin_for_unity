@@ -60,8 +60,14 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
                                $"\"{typeof(T).FullName}\" from " +
                                $"JSON: \"{json}\". Exception: {ex.Message}");
 #if UNITY_EDITOR
+                // If running in the context of the Unity editor, then throw the
+                // exception in an effort to "fail loudly" so that the user is
+                // more likely to fix the problem. If not in editor mode, still
+                // log the error, but do not throw an exception.
                 throw;
 #else
+                // The else conditional is here because if an exception is not
+                // thrown, a value still needs to be returned.
                 return false;
 #endif
             }
@@ -95,6 +101,10 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         /// <returns>The deserialized object.</returns>
         public static T FromJson<T>(string json)
         {
+            // NOTE: The return value of the TryFromJson method call below is
+            //       not observed, because regardless of if the from json method
+            //       was successful, the value defined by the out variable is
+            //       returned to the caller.
             _ = TryFromJson(json, out T returnObject);
             return returnObject;
         }
