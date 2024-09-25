@@ -31,7 +31,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Auth
     using UnityEngine;
     using UnityEngine.TestTools;
 
-    public class AuthenticationTests
+    public partial class AuthenticationTests
     {
         GameObject eosObject;
         protected const float LoginTestTimeout = 30f;

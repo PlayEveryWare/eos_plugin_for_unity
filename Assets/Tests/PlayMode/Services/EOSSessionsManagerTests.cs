@@ -34,7 +34,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Services.Sessions
     using System.Collections.Generic;
     using System.Text.RegularExpressions;
 
-    public class EOSSessionsManagerTests : EOSTestBase
+    public partial class EOSSessionsManagerTests : EOSTestBase
     {
         protected EOSSessionsManager ManagerInstance { get; set; } = null;
 
