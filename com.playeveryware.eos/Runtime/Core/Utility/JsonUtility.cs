@@ -89,7 +89,8 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
             {
                 Debug.LogError($"Unable to parse object of type " +
                                $"\"{typeof(T).FullName}\" from " +
-                               $"JSON: \"{json}\". Exception: {ex.Message}");
+                               $"JSON: \"{json}\". " +
+                               $"Exception: \"{ex.Message}\"");
 #if UNITY_EDITOR
                 // If running in the context of the Unity editor, then throw the
                 // exception in an effort to "fail loudly" so that the user is
@@ -183,7 +184,8 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
             {
                 Debug.LogError($"Unable to populate object of type " +
                                $"\"{typeof(T).FullName}\" from " +
-                               $"JSON: \"{json}\". Exception: {ex.Message}");
+                               $"JSON: \"{json}\". " +
+                               $"Exception: \"{ex.Message}\"");
 #if UNITY_EDITOR
                 throw;
 #endif
