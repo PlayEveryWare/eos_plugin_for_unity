@@ -39,7 +39,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Config
             EOSConfig config = EOSConfig.Get<EOSConfig>();
             config.productName = string.Empty;
 
-            if (!config.TryGetFailingValidatorAttributes(out List<FieldValidatorFailure> failingAttributes))
+            if (!FieldValidator.TryGetFailingValidatorAttributes(config, out List<FieldValidatorFailure> failingAttributes))
             {
                 Assert.Fail($"Config should have failing attributes.");
             }
@@ -57,7 +57,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Config
             EOSConfig config = EOSConfig.Get<EOSConfig>();
             config.productName = "My Valid Product Name";
 
-            if (!config.TryGetFailingValidatorAttributes(out List<FieldValidatorFailure> failingAttributes))
+            if (!FieldValidator.TryGetFailingValidatorAttributes(config, out List <FieldValidatorFailure> failingAttributes))
             {
                 // If there are no errors, then this test is a success
                 // The config might be failing in other ways
@@ -77,7 +77,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Config
             EOSConfig config = EOSConfig.Get<EOSConfig>();
             config.productVersion = string.Empty;
 
-            if (!config.TryGetFailingValidatorAttributes(out List<FieldValidatorFailure> failingAttributes))
+            if (!FieldValidator.TryGetFailingValidatorAttributes(config, out List<FieldValidatorFailure> failingAttributes))
             {
                 Assert.Fail($"Config should have failing attributes.");
             }
@@ -95,7 +95,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Config
             EOSConfig config = EOSConfig.Get<EOSConfig>();
             config.productVersion = "123.456";
 
-            if (!config.TryGetFailingValidatorAttributes(out List<FieldValidatorFailure> failingAttributes))
+            if (!FieldValidator.TryGetFailingValidatorAttributes(config, out List<FieldValidatorFailure> failingAttributes))
             {
                 // If there are no errors, then this test is a success
                 // The config might be failing in other ways
@@ -115,7 +115,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Config
             EOSConfig config = EOSConfig.Get<EOSConfig>();
             config.productID = "notaguid";
 
-            if (!config.TryGetFailingValidatorAttributes(out List<FieldValidatorFailure> failingAttributes))
+            if (!FieldValidator.TryGetFailingValidatorAttributes(config, out List<FieldValidatorFailure> failingAttributes))
             {
                 Assert.Fail($"Config should have failing attributes.");
             }
@@ -133,7 +133,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Config
             EOSConfig config = EOSConfig.Get<EOSConfig>();
             config.productID = Guid.NewGuid().ToString();
 
-            if (!config.TryGetFailingValidatorAttributes(out List<FieldValidatorFailure> failingAttributes))
+            if (!FieldValidator.TryGetFailingValidatorAttributes(config, out List<FieldValidatorFailure> failingAttributes))
             {
                 // If there are no errors, then this test is a success
                 // The config might be failing in other ways
@@ -153,7 +153,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Config
             EOSConfig config = EOSConfig.Get<EOSConfig>();
             config.sandboxID = "notaguid";
 
-            if (!config.TryGetFailingValidatorAttributes(out List<FieldValidatorFailure> failingAttributes))
+            if (!FieldValidator.TryGetFailingValidatorAttributes(config, out List<FieldValidatorFailure> failingAttributes))
             {
                 Assert.Fail($"Config should have failing attributes.");
             }
@@ -171,7 +171,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Config
             EOSConfig config = EOSConfig.Get<EOSConfig>();
             config.sandboxID = Guid.NewGuid().ToString();
 
-            if (!config.TryGetFailingValidatorAttributes(out List<FieldValidatorFailure> failingAttributes))
+            if (!FieldValidator.TryGetFailingValidatorAttributes(config, out List<FieldValidatorFailure> failingAttributes))
             {
                 // If there are no errors, then this test is a success
                 // The config might be failing in other ways
@@ -191,7 +191,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Config
             EOSConfig config = EOSConfig.Get<EOSConfig>();
             config.sandboxID = "p-1234567890ABCDEFGHIJKLMNOPQRST";
 
-            if (!config.TryGetFailingValidatorAttributes(out List<FieldValidatorFailure> failingAttributes))
+            if (!FieldValidator.TryGetFailingValidatorAttributes(config, out List<FieldValidatorFailure> failingAttributes))
             {
                 // If there are no errors, then this test is a success
                 // The config might be failing in other ways
@@ -218,7 +218,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Config
                 }
             };
 
-            if (!config.TryGetFailingValidatorAttributes(out List<FieldValidatorFailure> failingAttributes))
+            if (!FieldValidator.TryGetFailingValidatorAttributes(config, out List<FieldValidatorFailure> failingAttributes))
             {
                 Assert.Fail($"Config should have failing attributes.");
             }
@@ -249,7 +249,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Config
                 }
             };
 
-            if (!config.TryGetFailingValidatorAttributes(out List<FieldValidatorFailure> failingAttributes))
+            if (!FieldValidator.TryGetFailingValidatorAttributes(config, out List<FieldValidatorFailure> failingAttributes))
             {
                 // If there are no errors, then this test is a success
                 // The config might be failing in other ways
@@ -275,7 +275,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Config
             EOSConfig config = EOSConfig.Get<EOSConfig>();
             config.deploymentID = "notaguid";
 
-            if (!config.TryGetFailingValidatorAttributes(out List<FieldValidatorFailure> failingAttributes))
+            if (!FieldValidator.TryGetFailingValidatorAttributes(config, out List<FieldValidatorFailure> failingAttributes))
             {
                 Assert.Fail($"Config should have failing attributes.");
             }
@@ -293,7 +293,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Config
             EOSConfig config = EOSConfig.Get<EOSConfig>();
             config.deploymentID = Guid.NewGuid().ToString();
 
-            if (!config.TryGetFailingValidatorAttributes(out List<FieldValidatorFailure> failingAttributes))
+            if (!FieldValidator.TryGetFailingValidatorAttributes(config, out List<FieldValidatorFailure> failingAttributes))
             {
                 // If there are no errors, then this test is a success
                 // The config might be failing in other ways
@@ -313,7 +313,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Config
             EOSConfig config = EOSConfig.Get<EOSConfig>();
             config.platformOptionsFlags = new List<string>() { "invalidoptions " };
 
-            if (!config.TryGetFailingValidatorAttributes(out List<FieldValidatorFailure> failingAttributes))
+            if (!FieldValidator.TryGetFailingValidatorAttributes(config, out List<FieldValidatorFailure> failingAttributes))
             {
                 Assert.Fail($"Config should have failing attributes.");
             }
@@ -331,7 +331,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Config
             EOSConfig config = EOSConfig.Get<EOSConfig>();
             config.platformOptionsFlags = new List<string>() { PlatformFlags.DisableOverlay.ToString(), PlatformFlags.WindowsEnableOverlayD3D9.ToString()};
 
-            if (!config.TryGetFailingValidatorAttributes(out List<FieldValidatorFailure> failingAttributes))
+            if (!FieldValidator.TryGetFailingValidatorAttributes(config, out List<FieldValidatorFailure> failingAttributes))
             {
                 // If there are no errors, then this test is a success
                 // The config might be failing in other ways
@@ -351,7 +351,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Config
             EOSConfig config = EOSConfig.Get<EOSConfig>();
             config.authScopeOptionsFlags = new List<string>() { "invalidoptions " };
 
-            if (!config.TryGetFailingValidatorAttributes(out List<FieldValidatorFailure> failingAttributes))
+            if (!FieldValidator.TryGetFailingValidatorAttributes(config, out List<FieldValidatorFailure> failingAttributes))
             {
                 Assert.Fail($"Config should have failing attributes.");
             }
@@ -369,7 +369,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Config
             EOSConfig config = EOSConfig.Get<EOSConfig>();
             config.platformOptionsFlags = new List<string>() { PlatformFlags.DisableOverlay.ToString(), PlatformFlags.WindowsEnableOverlayD3D9.ToString() };
 
-            if (!config.TryGetFailingValidatorAttributes(out List<FieldValidatorFailure> failingAttributes))
+            if (!FieldValidator.TryGetFailingValidatorAttributes(config, out List<FieldValidatorFailure> failingAttributes))
             {
                 // If there are no errors, then this test is a success
                 // The config might be failing in other ways
@@ -394,7 +394,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Config
             config.ThreadAffinity_storageIO = "abc";
             config.ThreadAffinity_webSocketIO = "abc";
 
-            if (!config.TryGetFailingValidatorAttributes(out List<FieldValidatorFailure> failingAttributes))
+            if (!FieldValidator.TryGetFailingValidatorAttributes(config, out List<FieldValidatorFailure> failingAttributes))
             {
                 Assert.Fail($"Config should have failing attributes.");
             }
@@ -447,7 +447,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Config
             config.ThreadAffinity_storageIO = "12345678";
             config.ThreadAffinity_webSocketIO = "12345678";
 
-            if (!config.TryGetFailingValidatorAttributes(out List<FieldValidatorFailure> failingAttributes))
+            if (!FieldValidator.TryGetFailingValidatorAttributes(config, out List<FieldValidatorFailure> failingAttributes))
             {
                 // If there are no errors, then this test is a success
                 // The config might be failing in other ways

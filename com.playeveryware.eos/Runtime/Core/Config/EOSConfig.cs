@@ -40,6 +40,7 @@ namespace PlayEveryWare.EpicOnlineServices
     using PlayEveryWare.EpicOnlineServices.Utility;
 
 
+
     /// <summary>
     /// Represents the default deployment ID to use when a given sandbox ID is
     /// active.
@@ -497,54 +498,6 @@ namespace PlayEveryWare.EpicOnlineServices
         public bool IsEncryptionKeyValid()
         {
             return IsEncryptionKeyValid(encryptionKey);
-        }
-
-        public struct FieldValidatorFailure
-        {
-            public FieldInfo FieldInfo;
-            public FieldValidatorAttribute FailingAttribute;
-            public string FailingMessage;
-
-            public FieldValidatorFailure(FieldInfo failingField,
-                FieldValidatorAttribute failingAttribute,
-                string failingMessage)
-            {
-                FieldInfo = failingField;
-                FailingAttribute = failingAttribute;
-                FailingMessage = failingMessage;
-            }
-        }
-
-        public bool TryGetFailingValidatorAttributes(out List<FieldValidatorFailure> failingValidatorAttributes)
-        {
-            failingValidatorAttributes = new List<FieldValidatorFailure>();
-
-            foreach (FieldInfo curField in this.GetType().GetFields())
-            {
-                foreach (FieldValidatorAttribute validatorAttribute in curField.GetCustomAttributes(typeof(FieldValidatorAttribute)))
-                {
-                    if (!validatorAttribute.FieldValueIsValid(curField.GetValue(this), out string problemMessage))
-                    {
-                        failingValidatorAttributes.Add(new FieldValidatorFailure(curField, validatorAttribute, problemMessage));
-                    }
-                }
-            }
-
-            foreach (SandboxDeploymentOverride sandboxOverride in sandboxDeploymentOverrides)
-            {
-                foreach (FieldInfo curField in sandboxOverride.GetType().GetFields())
-                {
-                    foreach (FieldValidatorAttribute validatorAttribute in curField.GetCustomAttributes(typeof(FieldValidatorAttribute)))
-                    {
-                        if (!validatorAttribute.FieldValueIsValid(curField.GetValue(sandboxOverride), out string problemMessage))
-                        {
-                            failingValidatorAttributes.Add(new FieldValidatorFailure(curField, validatorAttribute, problemMessage));
-                        }
-                    }
-                }
-            }
-
-            return failingValidatorAttributes.Count > 0;
         }
     }
 }
