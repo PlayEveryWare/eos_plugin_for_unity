@@ -25,12 +25,39 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
     using UnityEngine;
     using Newtonsoft.Json;
     using System;
+    using Newtonsoft.Json.Converters;
+    using PlayEveryWare.EpicOnlineServices.JsonConverters;
 
     /// <summary>
     /// Contains functions to interact with various JSON data.
     /// </summary>
     public static class JsonUtility
     {
+        /// <summary>
+        /// Cached set of serializer settings.
+        /// </summary>
+        private static JsonSerializerSettings _cachedNewtonsoftSettings;
+
+        /// <summary>
+        /// Gets the serializer settings to use when performing serialization / 
+        /// deserialization tasks using the Newtonsoft library.
+        /// </summary>
+        private static JsonSerializerSettings NewtonsoftSettings
+        {
+            get
+            {
+                _cachedNewtonsoftSettings ??= new JsonSerializerSettings()
+                    {
+                        Converters = { 
+                            new Newtonsoft.Json.Converters.VersionConverter(),
+                            new ClientCredentialsConverter()
+                        },
+                    };
+
+                return _cachedNewtonsoftSettings;
+            }
+        }
+
         /// <summary>
         /// Tries to parse the given JSON into an object.
         /// </summary>
@@ -51,7 +78,11 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
             obj = default;
             try
             {
-                obj = JsonConvert.DeserializeObject<T>(json);
+                obj = JsonConvert.DeserializeObject<T>(
+                    json, 
+                    NewtonsoftSettings
+                    );
+
                 return true;
             }
             catch (Exception ex)
@@ -87,7 +118,10 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         /// </returns>
         public static string ToJson(object obj, bool pretty = false)
         {
-            return JsonConvert.SerializeObject(obj, pretty ? Formatting.Indented : Formatting.None);
+            return JsonConvert.SerializeObject(
+                obj, 
+                pretty ? Formatting.Indented : Formatting.None, 
+                NewtonsoftSettings);
         }
 
         /// <summary>
@@ -143,7 +177,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
             }
             try
             {
-                JsonConvert.PopulateObject(json, obj);
+                JsonConvert.PopulateObject(json, obj, NewtonsoftSettings);
             }
             catch (Exception ex)
             {

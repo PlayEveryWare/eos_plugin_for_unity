@@ -160,7 +160,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </summary>
         /// <typeparam name="T">The Config to retrieve.</typeparam>
         /// <returns>Task<typeparam name="T">Config type.</typeparam></returns>
-        public static async Task<T> GetAsync<T>() where T : Config
+        public static async Task<T> GetAsync<T>(bool empty = false) where T : Config
         {
             // NOTE: This block (and the corresponding one below) exists so that
             //       the config values are only cached when not in the editor.
@@ -179,8 +179,11 @@ namespace PlayEveryWare.EpicOnlineServices
             // Use the factory method to create the config.
             T instance = (T)factory();
 
-            // Asynchronously read config values from the corresponding file.
-            await instance.ReadAsync();
+            if (!empty)
+            {
+                // Asynchronously read config values from the corresponding file.
+                await instance.ReadAsync();
+            }
 
 #if !UNITY_EDITOR
             // Cache the newly created config with its values having been read.
@@ -196,9 +199,9 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </summary>
         /// <typeparam name="T">The Config to retrieve.</typeparam>
         /// <returns>Task<typeparam name="T">Config type.</typeparam></returns>
-        public static T Get<T>() where T : Config
+        public static T Get<T>(bool empty = false) where T : Config
         {
-            T config = Task.Run(GetAsync<T>).GetAwaiter().GetResult();
+            T config = GetAsync<T>(empty).GetAwaiter().GetResult();
             return config;
         }
 
