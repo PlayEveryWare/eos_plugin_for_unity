@@ -160,7 +160,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </summary>
         /// <typeparam name="T">The Config to retrieve.</typeparam>
         /// <returns>Task<typeparam name="T">Config type.</typeparam></returns>
-        public static async Task<T> GetAsync<T>() where T : Config
+        public static async Task<T> GetAsync<T>(bool defaultValues = false) where T : Config
         {
             // NOTE: This block (and the corresponding one below) exists so that
             //       the config values are only cached when not in the editor.
@@ -168,7 +168,7 @@ namespace PlayEveryWare.EpicOnlineServices
             //       not be cached.
 #if !UNITY_EDITOR
             // Return cached copy if it exists.
-            if (s_cachedConfigs.TryGetValue(typeof(T), out Config config))
+            if (false == defaultValues && s_cachedConfigs.TryGetValue(typeof(T), out Config config))
             {
                 return (T)config;
             }
@@ -179,8 +179,11 @@ namespace PlayEveryWare.EpicOnlineServices
             // Use the factory method to create the config.
             T instance = (T)factory();
 
-            // Asynchronously read config values from the corresponding file.
-            await instance.ReadAsync();
+            if (false == defaultValues)
+            {
+                // Asynchronously read config values from the corresponding file.
+                await instance.ReadAsync();
+            }
 
 #if !UNITY_EDITOR
             // Cache the newly created config with its values having been read.
@@ -196,9 +199,9 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </summary>
         /// <typeparam name="T">The Config to retrieve.</typeparam>
         /// <returns>Task<typeparam name="T">Config type.</typeparam></returns>
-        public static T Get<T>() where T : Config
+        public static T Get<T>(bool defaultValues = false) where T : Config
         {
-            T config = Task.Run(GetAsync<T>).GetAwaiter().GetResult();
+            T config = GetAsync<T>(false).GetAwaiter().GetResult();
             return config;
         }
 
