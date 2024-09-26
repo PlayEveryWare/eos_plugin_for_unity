@@ -33,7 +33,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Services.Achievements
     /// <summary>
     /// Integration tests for achievements.
     /// </summary>
-    public class AchievementsTests : EOSTestBase
+    public partial class AchievementsTests : EOSTestBase
     {
         /// <summary>
         /// Checks to see if we can get a count for the number of achievements for the product user.
