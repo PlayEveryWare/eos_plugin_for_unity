@@ -21,7 +21,6 @@
         "ThreadAffinity_RTCIO": "",
         "alwaysSendInputToOverlay": false,
         "initialButtonDelayForOverlay": "",
-        "repeatButtonDelayForOverlay": "",
-        "hackForceSendInputDirectlyToSDK": false
+        "repeatButtonDelayForOverlay": ""
     }
 }
