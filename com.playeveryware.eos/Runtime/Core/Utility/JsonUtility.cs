@@ -50,7 +50,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
                     {
                         Converters = { 
                             new Newtonsoft.Json.Converters.VersionConverter(),
-                            new ClientCredentialsConverter()
+                            new Utf8StringConverter()
                         },
                     };
 
