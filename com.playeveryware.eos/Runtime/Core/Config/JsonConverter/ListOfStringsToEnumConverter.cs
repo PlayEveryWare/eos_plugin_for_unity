@@ -22,6 +22,8 @@
 
 namespace PlayEveryWare.EpicOnlineServices
 {
+    // This compile conditional is here so that when EOS is disabled, nothing is
+    // referenced in the Epic namespace.
 #if !EOS_DISABLE
     using Epic.OnlineServices.Auth;
     using Epic.OnlineServices.IntegratedPlatform;
@@ -36,6 +38,8 @@ namespace PlayEveryWare.EpicOnlineServices
     using System.Collections.Generic;
     using Utility;
 
+    // This compile conditional is here so that when EOS is disabled, nothing is
+    // referenced in the Epic namespace.
 #if !EOS_DISABLE
     internal class
         ListOfStringsToIntegratedPlatformManagementFlags : ListOfStringsToEnumConverter<

@@ -70,21 +70,5 @@ namespace PlayEveryWare.EpicOnlineServices
         {
             Platform = platform;
         }
-
-        /// <summary>
-        /// Returns a single IntegratedPlatformManagementFlags enum value that
-        /// results from a bitwise OR operation of all the
-        /// integratedPlatformManagementFlags flags on this config.
-        /// </summary>
-        /// <returns>An IntegratedPlatformManagementFlags enum value.</returns>
-#if !EOS_DISABLE
-        //public IntegratedPlatformManagementFlags GetIntegratedPlatformManagementFlags()
-        //{
-        //    return StringsToEnum<IntegratedPlatformManagementFlags>(
-        //        flags,
-        //        IntegratedPlatformManagementFlagsExtensions.TryParse
-        //    );
-        //}
-#endif
     }
 }
