@@ -27,17 +27,37 @@ namespace PlayEveryWare.EpicOnlineServices
     using System;
     using System.ComponentModel;
 
+    /// <summary>
+    /// Used to allow the automatic conversion to an indicated type from either
+    /// that type's default method of serialization, or from a string
+    /// representation of that value.
+    /// </summary>
+    /// <typeparam name="T">
+    /// The type that is being converted to.
+    /// </typeparam>
     public class StringToTypeConverter<T> : JsonConverter
     {
-        private readonly Type _targetType;
-        private readonly Type _underlyingType;
+        /// <summary>
+        /// Proxy for typeof(T)
+        /// </summary>
+        private readonly Type _targetType = typeof(T);
 
-        public StringToTypeConverter()
-        {
-            _targetType = typeof(T);
-            _underlyingType = Nullable.GetUnderlyingType(_targetType) ?? _targetType;
-        }
+        /// <summary>
+        /// If the type parameter is a nullable, this allows inspection of what
+        /// the encapsulated type is.
+        /// </summary>
+        private readonly Type _underlyingType = Nullable.GetUnderlyingType(typeof(T)) ?? typeof(T);
 
+        /// <summary>
+        /// Indicates whether the value can be converted to by this
+        /// JsonConverter.
+        /// </summary>
+        /// <param name="objectType">
+        /// The type to convert to.
+        /// </param>
+        /// <returns>
+        /// True if the converter can produce the given type, false otherwise.
+        /// </returns>
         public override bool CanConvert(Type objectType)
         {
             return _targetType.IsAssignableFrom(objectType);
@@ -64,6 +84,19 @@ namespace PlayEveryWare.EpicOnlineServices
             }
         }
 
+        /// <summary>
+        /// Helper function to actually accomplish the conversion from a given
+        /// JSON token into the given type.
+        /// </summary>
+        /// <param name="token">The JSON data to convert from.</param>
+        /// <param name="targetType">The type to convert to.</param>
+        /// <returns>
+        /// An instance of the given type - with values determined by the
+        /// provided JSON data.
+        /// </returns>
+        /// <exception cref="JsonSerializationException">
+        /// Thrown if there is an error in the JSON serialization.
+        /// </exception>
         private static object ConvertToken(JToken token, Type targetType)
         {
             string stringValue = token.Value<string>();
@@ -92,7 +125,6 @@ namespace PlayEveryWare.EpicOnlineServices
                     }
                 case JTokenType.Integer:
                 case JTokenType.Float:
-                    
                     // Directly convert numeric types
                     return token.ToObject(targetType);
                 case JTokenType.Guid when targetType == typeof(Guid):
