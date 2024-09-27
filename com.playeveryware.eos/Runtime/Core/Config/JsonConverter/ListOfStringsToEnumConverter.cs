@@ -22,17 +22,21 @@
 
 namespace PlayEveryWare.EpicOnlineServices
 {
+#if !EOS_DISABLE
     using Epic.OnlineServices.Auth;
     using Epic.OnlineServices.IntegratedPlatform;
     using Epic.OnlineServices.Platform;
     using Epic.OnlineServices.UI;
     using Extensions;
+#endif
+
     using Newtonsoft.Json;
     using Newtonsoft.Json.Linq;
     using System;
     using System.Collections.Generic;
     using Utility;
 
+#if !EOS_DISABLE
     internal class
         ListOfStringsToIntegratedPlatformManagementFlags : ListOfStringsToEnumConverter<
             IntegratedPlatformManagementFlags>
@@ -92,7 +96,7 @@ namespace PlayEveryWare.EpicOnlineServices
             return (WrappedPlatformFlags)token.Value<int>();
         }
     }
-
+#endif
     internal abstract class ListOfStringsToEnumConverter<T> : JsonConverter where T : struct, Enum
     {
         private readonly Type _targetType = typeof(T);
