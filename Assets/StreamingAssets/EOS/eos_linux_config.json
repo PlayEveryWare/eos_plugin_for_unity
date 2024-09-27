@@ -1,1 +1,26 @@
-{"overrideValues":{"productName":"","productVersion":"","productID":"","sandboxID":"","deploymentID":"","sandboxDeploymentOverrides":null,"isServer":false,"clientSecret":"","clientID":"","encryptionKey":"","platformOptionsFlags":[""],"authScopeOptionsFlags":null,"tickBudgetInMilliseconds":0,"taskNetworkTimeoutSeconds":0.0,"ThreadAffinity_networkWork":0,"ThreadAffinity_storageIO":0,"ThreadAffinity_webSocketIO":0,"ThreadAffinity_P2PIO":0,"ThreadAffinity_HTTPRequestIO":0,"ThreadAffinity_RTCIO":0,"alwaysSendInputToOverlay":false,"initialButtonDelayForOverlay":0.0,"repeatButtonDelayForOverlay":0.0,"hackForceSendInputDirectlyToSDK":false,"toggleFriendsButtonCombination":["SpecialLeft","SpecialLeft","SpecialLeft"],"FilePath":"C:/Users/PaulPEW/dev/repos/eos_plugin_for_unity/Assets/StreamingAssets\\EOS\\EpicOnlineServicesConfig.json"},"flags":[],"Platform":6,"FilePath":"C:/Users/PaulPEW/dev/repos/eos_plugin_for_unity/Assets/StreamingAssets\\EOS\\eos_linux_config.json"}
+{
+    "flags": [],
+    "overrideValues": {
+        "productName": "",
+        "productVersion": "",
+        "productID": "",
+        "sandboxID": "",
+        "deploymentID": "",
+        "clientSecret": "",
+        "clientID": "",
+        "encryptionKey": "",
+        "platformOptionsFlags": [
+            ""
+        ],
+        "tickBudgetInMilliseconds": 0,
+        "ThreadAffinity_networkWork": "",
+        "ThreadAffinity_storageIO": "",
+        "ThreadAffinity_webSocketIO": "",
+        "ThreadAffinity_P2PIO": "",
+        "ThreadAffinity_HTTPRequestIO": "",
+        "ThreadAffinity_RTCIO": "",
+        "alwaysSendInputToOverlay": false,
+        "initialButtonDelayForOverlay": "",
+        "repeatButtonDelayForOverlay": ""
+    }
+}

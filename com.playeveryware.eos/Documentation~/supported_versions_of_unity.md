@@ -3,8 +3,6 @@
 # <div align="center">Supported Versions of Unity</div>
 ---
 
-Due to Unity's versioning there is a "current supported" version. Modestly newer or older versions may work without error, work with minor tweaks, or require a prohibitively large amount of work to function properly.
+The plugin is developed against [Unity 2021.3.16f1](https://dev.epicgames.com/docs/epic-online-services/release-notes#1163-cl32303053---2024-apr-09). Modestly newer or older versions may work without error or with minor tweaks.
 
-For that reason, this plugin specifically targets the following version of the Unity Editor: [Unity 2021.3.16f1](https://dev.epicgames.com/docs/epic-online-services/release-notes#1163-cl32303053---2024-apr-09).
-
-Versions of the Unity Editor that start with 2021 will _usually_ work without error, but other versions are not officially supported at this time.
+Our plugin team is available to help with any integration issues relating to other versions of Unity. If you encounter any difficulties, please feel free to create an issue in this repository with information about the version of Unity your project uses and the problems encountered. The team will address the issue as soon as possible to get your particular version of Unity up and running.
