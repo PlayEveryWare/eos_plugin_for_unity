@@ -22,13 +22,13 @@
 
 namespace PlayEveryWare.EpicOnlineServices
 {
+    // This compile conditional is here so that when EOS is disabled, nothing is
+    // referenced in the Epic namespace.
 #if !EOS_DISABLE
     using Epic.OnlineServices.IntegratedPlatform;
 #endif
-    using Extensions;
     using Newtonsoft.Json;
     using System;
-    using System.Collections.Generic;
 
     /// <summary>
     /// Represents a set of configuration data for use by the EOS Plugin for
@@ -53,11 +53,15 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </summary>
         public EOSConfig overrideValues;
 
+        // This compile conditional is here so that when EOS is disabled, nothing is
+        // referenced in the Epic namespace.
+#if !EOS_DISABLE
         /// <summary>
         /// Used to store integrated platform management flags.
         /// </summary>
         [JsonConverter(typeof(ListOfStringsToIntegratedPlatformManagementFlags))]
         public IntegratedPlatformManagementFlags flags;
+#endif
 
         /// <summary>
         /// Create a PlatformConfig by defining the platform it pertains to.
