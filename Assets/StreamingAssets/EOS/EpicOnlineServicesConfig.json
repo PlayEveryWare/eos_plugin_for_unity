@@ -1,1 +1,26 @@
-{"productName":"EOS Plugin for Unity","productVersion":"1.0","productID":"f7102b835ed14b5fb6b3a05d87b3d101","sandboxID":"ab139ee5b644412781cf99f48b993b45","deploymentID":"c529498f660a4a3d8a123fd04552cb47","sandboxDeploymentOverrides":[],"isServer":false,"clientSecret":"aXPlP1xDH0PXnp5U+i+M5pYHhaE1a8viV0l1GO422ms","clientID":"xyza7891wPzGRvRf4SkjlIF8YuqlRLbQ","encryptionKey":"1111111111111111111111111111111111111111111111111111111111111111","platformOptionsFlags":0,"authScopeOptionsFlags":0,"tickBudgetInMilliseconds":0,"taskNetworkTimeoutSeconds":0.0,"ThreadAffinity_networkWork":null,"ThreadAffinity_storageIO":null,"ThreadAffinity_webSocketIO":null,"ThreadAffinity_P2PIO":null,"ThreadAffinity_HTTPRequestIO":null,"ThreadAffinity_RTCIO":null,"alwaysSendInputToOverlay":true,"initialButtonDelayForOverlay":0.0,"repeatButtonDelayForOverlay":0.0,"toggleFriendsButtonCombination":0}
+{
+  "productName": "EOS Plugin for Unity",
+  "productVersion": "1.0",
+  "productID": "f7102b835ed14b5fb6b3a05d87b3d101",
+  "sandboxID": "ab139ee5b644412781cf99f48b993b45",
+  "deploymentID": "c529498f660a4a3d8a123fd04552cb47",
+  "sandboxDeploymentOverrides": [],
+  "isServer": false,
+  "clientSecret": "aXPlP1xDH0PXnp5U+i+M5pYHhaE1a8viV0l1GO422ms",
+  "clientID": "xyza7891wPzGRvRf4SkjlIF8YuqlRLbQ",
+  "encryptionKey": "1111111111111111111111111111111111111111111111111111111111111111",
+  "platformOptionsFlags": 0,
+  "authScopeOptionsFlags": 0,
+  "tickBudgetInMilliseconds": 0,
+  "taskNetworkTimeoutSeconds": 0.0,
+  "ThreadAffinity_networkWork": null,
+  "ThreadAffinity_storageIO": null,
+  "ThreadAffinity_webSocketIO": null,
+  "ThreadAffinity_P2PIO": null,
+  "ThreadAffinity_HTTPRequestIO": null,
+  "ThreadAffinity_RTCIO": null,
+  "alwaysSendInputToOverlay": true,
+  "initialButtonDelayForOverlay": 0.0,
+  "repeatButtonDelayForOverlay": 0.0,
+  "toggleFriendsButtonCombination": 4096
+}
