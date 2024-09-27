@@ -142,20 +142,20 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
             {
                 throw new ArgumentNullException(nameof(obj));
             }
-            try
-            {
+            //try
+            //{
                 JsonConvert.PopulateObject(json, obj);
-            }
-            catch (Exception ex)
-            {
-                Debug.LogError($"Unable to populate object of type " +
-                               $"\"{typeof(T).FullName}\" from " +
-                               $"JSON: \"{json}\". " +
-                               $"Exception: \"{ex.Message}\"");
-#if UNITY_EDITOR
-                throw;
-#endif
-            }
+//            }
+//            catch (Exception ex)
+//            {
+//                Debug.LogError($"Unable to populate object of type " +
+//                               $"\"{typeof(T).FullName}\" from " +
+//                               $"JSON: \"{json}\". " +
+//                               $"Exception: \"{ex.Message}\"");
+//#if UNITY_EDITOR
+//                throw;
+//#endif
+//            }
         }
     }
 }

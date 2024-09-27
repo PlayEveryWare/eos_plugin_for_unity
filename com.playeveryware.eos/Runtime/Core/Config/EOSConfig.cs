@@ -43,7 +43,6 @@ namespace PlayEveryWare.EpicOnlineServices
     /// Represents the default deployment ID to use when a given sandbox ID is
     /// active.
     /// </summary>
-    [Serializable]
     public class SandboxDeploymentOverride
     {
         public string sandboxID;
@@ -189,7 +188,8 @@ namespace PlayEveryWare.EpicOnlineServices
             ConfigFieldType.TextList,
             "Platform option flags",
             3)]
-        public List<string> platformOptionsFlags;
+        [JsonConverter(typeof(ListOfStringsToPlatformFlags))]
+        public WrappedPlatformFlags platformOptionsFlags;
 
         /// <summary>
         /// Flags; used to set user auth when logging in.
@@ -198,7 +198,8 @@ namespace PlayEveryWare.EpicOnlineServices
             ConfigFieldType.TextList,
             "Platform option flags",
             3)]
-        public List<string> authScopeOptionsFlags;
+        [JsonConverter(typeof(ListOfStringsToAuthScopeFlags))]
+        public AuthScopeFlags authScopeOptionsFlags;
 
         #endregion
 
@@ -340,11 +341,12 @@ namespace PlayEveryWare.EpicOnlineServices
         /// use that value if this configuration field is null, empty, or contains
         /// only <see cref="InputStateButtonFlags.None"/>.
         /// </summary>
-        public List<string> toggleFriendsButtonCombination = new List<string>() {
+        [JsonConverter(typeof(ListOfStringsToInputStateButtonFlags))]
+        public InputStateButtonFlags toggleFriendsButtonCombination
 #if !EOS_DISABLE
-            InputStateButtonFlags.SpecialLeft.ToString() 
+                = InputStateButtonFlags.SpecialLeft
 #endif
-        };
+            ;
 
         #endregion
 
@@ -425,45 +427,6 @@ namespace PlayEveryWare.EpicOnlineServices
         }
 
 #if !EOS_DISABLE
-
-        /// <summary>
-        /// Returns a single PlatformFlags enum value that results from a
-        /// bitwise OR operation of all the platformOptionsFlags flags on this
-        /// config.
-        /// </summary>
-        /// <returns>A PlatformFlags enum value.</returns>
-        public PlatformFlags GetPlatformFlags()
-        {
-            return StringsToEnum<PlatformFlags>(
-                platformOptionsFlags,
-                PlatformFlagsExtensions.TryParse);
-        }
-
-        /// <summary>
-        /// Returns a single AuthScopeFlags enum value that results from a
-        /// bitwise OR operation of all the authScopeOptionsFlags flags on this
-        /// config.
-        /// </summary>
-        /// <returns>An AuthScopeFlags enum value.</returns>
-        public AuthScopeFlags GetAuthScopeFlags()
-        {
-            return StringsToEnum<AuthScopeFlags>(
-                authScopeOptionsFlags,
-                AuthScopeFlagsExtensions.TryParse);
-        }
-
-        /// <summary>
-        /// Returns a single InputStateButtonFlags enum value that results from a
-        /// bitwise OR operation of all the <seealso cref="toggleFriendsButtonCombination"/> flags on this
-        /// config.
-        /// </summary>
-        /// <returns>An InputStateButtonFlags enum value.</returns>
-        public InputStateButtonFlags GetToggleFriendsButtonCombinationFlags()
-        {
-            return StringsToEnum<InputStateButtonFlags>(
-                toggleFriendsButtonCombination,
-                (IList<string> stringFlags, out InputStateButtonFlags result) => EnumUtility<InputStateButtonFlags>.TryParse(stringFlags, null, out result));
-        }
 
         /// <summary>
         /// Given a reference to an InitializeThreadAffinity struct, set the

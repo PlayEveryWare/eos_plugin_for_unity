@@ -90,6 +90,16 @@ namespace PlayEveryWare.EpicOnlineServices.Extensions
         {
             return EnumUtility<PlatformFlags>.TryParse(stringFlags, CustomMappings, out result);
         }
+
+        public static WrappedPlatformFlags Wrap(this PlatformFlags internalFlags)
+        {
+            return (WrappedPlatformFlags)(int)internalFlags;
+        }
+
+        public static PlatformFlags Unwrap(this WrappedPlatformFlags wrappedFlags)
+        {
+            return (PlatformFlags)(ulong)wrappedFlags;
+        }
     }
 }
 #endif

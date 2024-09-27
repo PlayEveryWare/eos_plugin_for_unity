@@ -26,6 +26,7 @@ namespace PlayEveryWare.EpicOnlineServices
     using Epic.OnlineServices.IntegratedPlatform;
 #endif
     using Extensions;
+    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
 
@@ -39,6 +40,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <summary>
         /// The platform that the set of configuration data is to be applied on.
         /// </summary>
+        [JsonIgnore]
         public PlatformManager.Platform Platform { get; }
 
         /// <summary>
@@ -54,7 +56,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <summary>
         /// Used to store integrated platform management flags.
         /// </summary>
-        public List<string> flags;
+        //public IntegratedPlatformManagementFlags flags;
 
         /// <summary>
         /// Create a PlatformConfig by defining the platform it pertains to.
@@ -75,13 +77,13 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </summary>
         /// <returns>An IntegratedPlatformManagementFlags enum value.</returns>
 #if !EOS_DISABLE
-        public IntegratedPlatformManagementFlags GetIntegratedPlatformManagementFlags()
-        {
-            return StringsToEnum<IntegratedPlatformManagementFlags>(
-                flags,
-                IntegratedPlatformManagementFlagsExtensions.TryParse
-            );
-        }
+        //public IntegratedPlatformManagementFlags GetIntegratedPlatformManagementFlags()
+        //{
+        //    return StringsToEnum<IntegratedPlatformManagementFlags>(
+        //        flags,
+        //        IntegratedPlatformManagementFlagsExtensions.TryParse
+        //    );
+        //}
 #endif
     }
 }

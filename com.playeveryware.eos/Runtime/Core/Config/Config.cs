@@ -22,6 +22,7 @@
 
 namespace PlayEveryWare.EpicOnlineServices
 {
+    using Newtonsoft.Json;
     using System;
     using System.Linq;
     using System.Threading.Tasks;
@@ -288,6 +289,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// Returns the fully-qualified path to the file that holds the
         /// configuration values.
         /// </summary>
+        [JsonIgnore]
         public string FilePath
         {
             get

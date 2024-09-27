@@ -54,9 +54,9 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
             GUILayout.Label($"{PlatformManager.GetFullName(config.Platform)} Override Configuration Values",
                 EditorStyles.boldLabel);
 
-            GUIEditorUtility.AssigningFlagTextField("Integrated Platform Management Flags (Separated by '|')", ref config.flags, 345);
+            //GUIEditorUtility.AssigningFlagTextField("Integrated Platform Management Flags (Separated by '|')", ref config.flags, 345);
 
-            GUIEditorUtility.AssigningFlagTextField("Override Platform Flags (Separated by '|')", ref config.overrideValues.platformOptionsFlags, 250);
+            GUIEditorUtility.AssigningEnumField("Override Platform Flags (Separated by '|')", ref config.overrideValues.platformOptionsFlags, 250);
 
             GUIEditorUtility.AssigningFloatToStringField("Override initial button delay for overlay", ref config.overrideValues.initialButtonDelayForOverlay, 250);
 
