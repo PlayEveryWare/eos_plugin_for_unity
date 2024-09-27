@@ -179,8 +179,9 @@ namespace PlayEveryWare.EpicOnlineServices
 
         #endregion
 
-        #region Flags
+#region Flags
 
+#if !EOS_DISABLE
         /// <summary>
         /// Flags; used to initialize the EOS platform.
         /// </summary>
@@ -200,8 +201,9 @@ namespace PlayEveryWare.EpicOnlineServices
             3)]
         [JsonConverter(typeof(ListOfStringsToAuthScopeFlags))]
         public AuthScopeFlags authScopeOptionsFlags;
+#endif
 
-        #endregion
+#endregion
 
         #region Thread Affinity & Various Time Budgets
 
@@ -334,6 +336,9 @@ namespace PlayEveryWare.EpicOnlineServices
         [JsonConverter(typeof(StringToTypeConverter<float>))]
         public float? repeatButtonDelayForOverlay;
 
+        // This compile conditional is here so that when EOS is disabled, in the
+        // Epic namespace is referenced.
+#if !EOS_DISABLE
         /// <summary>
         /// When this combination of buttons is pressed on a controller, the
         /// social overlay will toggle on.
@@ -342,11 +347,8 @@ namespace PlayEveryWare.EpicOnlineServices
         /// only <see cref="InputStateButtonFlags.None"/>.
         /// </summary>
         [JsonConverter(typeof(ListOfStringsToInputStateButtonFlags))]
-        public InputStateButtonFlags toggleFriendsButtonCombination
-#if !EOS_DISABLE
-                = InputStateButtonFlags.SpecialLeft
+        public InputStateButtonFlags toggleFriendsButtonCombination = InputStateButtonFlags.SpecialLeft;
 #endif
-            ;
 
         #endregion
 

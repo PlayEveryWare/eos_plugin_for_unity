@@ -54,9 +54,12 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
             GUILayout.Label($"{PlatformManager.GetFullName(config.Platform)} Override Configuration Values",
                 EditorStyles.boldLabel);
 
+            // This compile conditional is here so that when EOS is disabled, nothing is
+            // referenced in the Epic namespace.
+#if !EOS_DISABLE
             GUIEditorUtility.AssigningEnumField("Integrated Platform Management Flags", ref config.flags, 345);
-
             GUIEditorUtility.AssigningEnumField("Override Platform Flags", ref config.overrideValues.platformOptionsFlags, 250);
+#endif
 
             GUIEditorUtility.AssigningFloatToStringField("Override initial button delay for overlay", ref config.overrideValues.initialButtonDelayForOverlay, 250);
 
