@@ -25,6 +25,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
     using EpicOnlineServices.Utility;
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using UnityEditor;
     using UnityEngine;
 
@@ -96,7 +97,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             EditorGUIUtility.labelWidth = originalLabelWidth;
         }
 
-        public static void AssigningULongToStringField(string label, ref ulong value, float labelWidth = -1, string tooltip = null)
+        public static void AssigningULongToStringField(string label, ref ulong? value, float labelWidth = -1, string tooltip = null)
         {
             float originalLabelWidth = EditorGUIUtility.labelWidth;
             if (labelWidth >= 0)
@@ -105,19 +106,33 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             }
 
             EditorGUILayout.BeginHorizontal();
-            _ = SafeTranslatorUtility.TryConvert(value, out long tempLongValue);
-            tempLongValue = EditorGUILayout.LongField(CreateGUIContent(label, tooltip), tempLongValue, GUILayout.ExpandWidth(true));
 
-            if (GUILayout.Button("Clear", GUILayout.MaxWidth(50)))
+            var guiLabel = CreateGUIContent(label, tooltip);
+            string textToDisplay = string.Empty;
+            
+            if (value.HasValue)
             {
-                tempLongValue = 0L;
-            }
-
-            if (SafeTranslatorUtility.TryConvert(tempLongValue, out ulong newULongValue))
-            {
-                value = newULongValue;
+                textToDisplay = value.Value.ToString();
             }
             
+            string newTextValue = EditorGUILayout.TextField(guiLabel, textToDisplay, GUILayout.ExpandWidth(true));
+            
+            if (GUILayout.Button("Clear", GUILayout.MaxWidth(50)))
+            {
+                value = null;
+            }
+            else
+            {
+                if (string.IsNullOrEmpty(newTextValue))
+                {
+                    value = null;
+                } 
+                else if (ulong.TryParse(newTextValue, out ulong newLongValue))
+                {
+                    value = newLongValue;
+                }
+            }
+
             EditorGUILayout.EndHorizontal();
 
             EditorGUIUtility.labelWidth = originalLabelWidth;
@@ -137,7 +152,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             EditorGUIUtility.labelWidth = originalLabelWidth;
         }
 
-        public static void AssigningFloatToStringField(string label, ref float value, float labelWidth = -1, string tooltip = null)
+        public static void AssigningFloatToStringField(string label, ref float? value, float labelWidth = -1, string tooltip = null)
         {
             float originalLabelWidth = EditorGUIUtility.labelWidth;
             if (labelWidth >= 0)
@@ -146,9 +161,31 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             }
 
             EditorGUILayout.BeginHorizontal();
-            float newFloatValue = EditorGUILayout.FloatField(CreateGUIContent(label, tooltip), value, GUILayout.ExpandWidth(true));
+            var guiLabel = CreateGUIContent(label, tooltip);
+            string textToDisplay = string.Empty;
 
-            value = GUILayout.Button("Clear", GUILayout.MaxWidth(50)) ? 0F : newFloatValue;
+            if (value.HasValue)
+            {
+                textToDisplay = value.Value.ToString(CultureInfo.InvariantCulture);
+            }
+
+            string newTextValue = EditorGUILayout.TextField(guiLabel, textToDisplay, GUILayout.ExpandWidth(true));
+
+            if (GUILayout.Button("Clear", GUILayout.MaxWidth(50)))
+            {
+                value = null;
+            }
+            else
+            {
+                if (string.IsNullOrEmpty(newTextValue))
+                {
+                    value = null;
+                }
+                else if (float.TryParse(newTextValue, out float newFloatValue))
+                {
+                    value = newFloatValue;
+                }
+            }
 
             GUILayout.EndHorizontal();
         
