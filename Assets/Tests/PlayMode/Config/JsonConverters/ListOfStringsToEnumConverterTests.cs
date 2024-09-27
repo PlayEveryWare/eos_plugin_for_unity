@@ -39,7 +39,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Config
         };
 
         [Flags]
-        private enum TestOrderEnum
+        private enum TestOrderEnum : int
         {
             None = 0x00000,
             A = 0x00001,
@@ -52,6 +52,11 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Config
             protected override TestOrderEnum FromStringArray(JArray array)
             {
                 return FromStringArrayWithCustomMapping(array, CUSTOM_MAPPING);
+            }
+
+            protected override TestOrderEnum FromNumberValue(JToken token)
+            {
+                return (TestOrderEnum)token.Value<int>();
             }
         }
 

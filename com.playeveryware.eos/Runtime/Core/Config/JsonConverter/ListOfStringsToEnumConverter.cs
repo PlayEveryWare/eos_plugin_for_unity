@@ -38,6 +38,11 @@ namespace PlayEveryWare.EpicOnlineServices
         {
             return FromStringArrayWithCustomMapping(array, null);
         }
+
+        protected override InputStateButtonFlags FromNumberValue(JToken token)
+        {
+            return (InputStateButtonFlags)token.Value<int>();
+        }
     }
 
     internal class ListOfStringsToAuthScopeFlags : ListOfStringsToEnumConverter<AuthScopeFlags>
@@ -45,6 +50,11 @@ namespace PlayEveryWare.EpicOnlineServices
         protected override AuthScopeFlags FromStringArray(JArray array)
         {
             return FromStringArrayWithCustomMapping(array, AuthScopeFlagsExtensions.CustomMappings);
+        }
+
+        protected override AuthScopeFlags FromNumberValue(JToken token)
+        {
+            return (AuthScopeFlags)token.Value<int>();
         }
     }
 
@@ -59,6 +69,11 @@ namespace PlayEveryWare.EpicOnlineServices
             }
 
             return FromStringArrayWithCustomMapping(array, wrappedCustomMapping);
+        }
+
+        protected override WrappedPlatformFlags FromNumberValue(JToken token)
+        {
+            return (WrappedPlatformFlags)token.Value<int>();
         }
     }
 
@@ -83,6 +98,8 @@ namespace PlayEveryWare.EpicOnlineServices
                     _targetType,
                     token.Value<string>()),
 
+                JTokenType.Integer => FromNumberValue(token),
+
                 JTokenType.Null => default(T),
 
                 _ => throw new JsonSerializationException(
@@ -92,6 +109,8 @@ namespace PlayEveryWare.EpicOnlineServices
         }
 
         protected abstract T FromStringArray(JArray array);
+
+        protected abstract T FromNumberValue(JToken token);
 
         protected T FromStringArrayWithCustomMapping(JArray array, IDictionary<string, T> customMappings)
         {

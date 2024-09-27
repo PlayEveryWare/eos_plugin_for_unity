@@ -56,11 +56,11 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
 
             //GUIEditorUtility.AssigningFlagTextField("Integrated Platform Management Flags (Separated by '|')", ref config.flags, 345);
 
-            GUIEditorUtility.AssigningEnumField("Override Platform Flags (Separated by '|')", ref config.overrideValues.platformOptionsFlags, 250);
+            GUIEditorUtility.AssigningEnumField("Override Platform Flags", ref config.overrideValues.platformOptionsFlags, 250);
 
-            GUIEditorUtility.AssigningFloatToStringField("Override initial button delay for overlay", ref config.overrideValues.initialButtonDelayForOverlay, 250);
+            //GUIEditorUtility.AssigningFloatToStringField("Override initial button delay for overlay", ref config.overrideValues.initialButtonDelayForOverlay, 250);
 
-            GUIEditorUtility.AssigningFloatToStringField("Override repeat button delay for overlay", ref config.overrideValues.repeatButtonDelayForOverlay, 250);
+            //GUIEditorUtility.AssigningFloatToStringField("Override repeat button delay for overlay", ref config.overrideValues.repeatButtonDelayForOverlay, 250);
 
             // TODO: As far as can be determined, it appears that the following
             //       values are the only ones within "overrideValues" that are
