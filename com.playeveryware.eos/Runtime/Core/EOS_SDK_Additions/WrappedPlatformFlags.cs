@@ -25,6 +25,14 @@
 
 namespace PlayEveryWare.EpicOnlineServices
 {
+    /// <summary>
+    /// This enum is a 1:1 "duplicate" of the PlatformFlags enum provided by the
+    /// EOS SDK. The reason it is implemented here is due to the restricted
+    /// nature of Unity's support for the underlying data type for enum classes
+    /// in C#. Unity has some interesting edge cases in this regard, one of
+    /// which is that various editor utilities cannot be utilized for enums
+    /// whose underlying type is of an unsigned number type.
+    /// </summary>
     [System.Flags]
     public enum WrappedPlatformFlags : int
     {
