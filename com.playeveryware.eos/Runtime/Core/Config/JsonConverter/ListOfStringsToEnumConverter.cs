@@ -23,6 +23,7 @@
 namespace PlayEveryWare.EpicOnlineServices
 {
     using Epic.OnlineServices.Auth;
+    using Epic.OnlineServices.IntegratedPlatform;
     using Epic.OnlineServices.Platform;
     using Epic.OnlineServices.UI;
     using Extensions;
@@ -31,6 +32,21 @@ namespace PlayEveryWare.EpicOnlineServices
     using System;
     using System.Collections.Generic;
     using Utility;
+
+    internal class
+        ListOfStringsToIntegratedPlatformManagementFlags : ListOfStringsToEnumConverter<
+            IntegratedPlatformManagementFlags>
+    {
+        protected override IntegratedPlatformManagementFlags FromNumberValue(JToken token)
+        {
+            return (IntegratedPlatformManagementFlags)token.Value<int>();
+        }
+
+        protected override IntegratedPlatformManagementFlags FromStringArray(JArray array)
+        {
+            return FromStringArrayWithCustomMapping(array, IntegratedPlatformManagementFlagsExtensions.CustomMappings);
+        }
+    }
 
     internal class ListOfStringsToInputStateButtonFlags : ListOfStringsToEnumConverter<InputStateButtonFlags>
     {

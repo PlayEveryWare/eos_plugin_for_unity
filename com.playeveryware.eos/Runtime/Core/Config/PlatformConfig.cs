@@ -56,7 +56,8 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <summary>
         /// Used to store integrated platform management flags.
         /// </summary>
-        //public IntegratedPlatformManagementFlags flags;
+        [JsonConverter(typeof(ListOfStringsToIntegratedPlatformManagementFlags))]
+        public IntegratedPlatformManagementFlags flags;
 
         /// <summary>
         /// Create a PlatformConfig by defining the platform it pertains to.
