@@ -13,6 +13,5 @@
     "tickBudgetInMilliseconds": 0,
     "alwaysSendInputToOverlay": true,
     "initialButtonDelayForOverlay": "",
-    "repeatButtonDelayForOverlay": "",
-    "hackForceSendInputDirectlyToSDK": false
+    "repeatButtonDelayForOverlay": ""
 }
