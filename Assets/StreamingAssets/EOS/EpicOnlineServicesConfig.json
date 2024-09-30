@@ -9,8 +9,8 @@
   "clientSecret": "aXPlP1xDH0PXnp5U+i+M5pYHhaE1a8viV0l1GO422ms",
   "clientID": "xyza7891wPzGRvRf4SkjlIF8YuqlRLbQ",
   "encryptionKey": "1111111111111111111111111111111111111111111111111111111111111111",
-  "platformOptionsFlags": 0,
-  "authScopeOptionsFlags": 0,
+  "platformOptionsFlags": "LoadingInEditor, DisableSocialOverlay, Reserved1, WindowsEnableOverlayD3D9, WindowsEnableOverlayD3D10, WindowsEnableOverlayOpengl, ConsoleEnableOverlayAutomaticUnloading",
+  "authScopeOptionsFlags": "FriendsList, Presence, FriendsManagement",
   "tickBudgetInMilliseconds": 0,
   "taskNetworkTimeoutSeconds": 0.0,
   "ThreadAffinity_networkWork": null,
@@ -22,5 +22,5 @@
   "alwaysSendInputToOverlay": true,
   "initialButtonDelayForOverlay": 0.0,
   "repeatButtonDelayForOverlay": 0.0,
-  "toggleFriendsButtonCombination": 4096
+  "toggleFriendsButtonCombination": "SpecialLeft"
 }

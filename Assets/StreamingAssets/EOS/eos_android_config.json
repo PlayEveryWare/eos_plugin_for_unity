@@ -10,8 +10,8 @@
     "clientSecret": "",
     "clientID": "",
     "encryptionKey": "",
-    "platformOptionsFlags": 0,
-    "authScopeOptionsFlags": 0,
+    "platformOptionsFlags": "None",
+    "authScopeOptionsFlags": "NoFlags",
     "tickBudgetInMilliseconds": 0,
     "taskNetworkTimeoutSeconds": 0.0,
     "ThreadAffinity_networkWork": null,
@@ -23,7 +23,7 @@
     "alwaysSendInputToOverlay": false,
     "initialButtonDelayForOverlay": null,
     "repeatButtonDelayForOverlay": null,
-    "toggleFriendsButtonCombination": 4096
+    "toggleFriendsButtonCombination": "SpecialLeft"
   },
   "flags": 0
 }

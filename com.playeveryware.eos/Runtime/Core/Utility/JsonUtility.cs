@@ -24,6 +24,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
 {
     using UnityEngine;
     using Newtonsoft.Json;
+    using Newtonsoft.Json.Converters;
     using System;
 
     /// <summary>
@@ -31,6 +32,12 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
     /// </summary>
     public static class JsonUtility
     {
+        private static readonly JsonSerializerSettings s_serializerSettings =
+            new() { Converters = new JsonConverter[]
+            {
+                new StringEnumConverter(),
+            } };
+
         /// <summary>
         /// Tries to parse the given JSON into an object.
         /// </summary>
@@ -51,7 +58,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
             obj = default;
             try
             {
-                obj = JsonConvert.DeserializeObject<T>(json);
+                obj = JsonConvert.DeserializeObject<T>(json, s_serializerSettings);
                 return true;
             }
             catch (Exception ex)
@@ -88,7 +95,10 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         /// </returns>
         public static string ToJson(object obj, bool pretty = false)
         {
-            return JsonConvert.SerializeObject(obj, pretty ? Formatting.Indented : Formatting.None);
+            return JsonConvert.SerializeObject(
+                obj, 
+                pretty ? Formatting.Indented : Formatting.None,
+                s_serializerSettings);
         }
 
         /// <summary>
@@ -123,8 +133,8 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         }
 
         /// <summary>
-        /// Overwrites the given object's properties with values deserialized 
-        /// from the given JSON string. If JSON is invalid, errors will be 
+        /// Overwrites the given object's properties with values deserialized
+        /// from the given JSON string. If JSON is invalid, errors will be
         /// logged and no change will be made to the object.
         /// </summary>
         /// <typeparam name="T">
@@ -144,7 +154,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
             }
             try
             {
-                JsonConvert.PopulateObject(json, obj);
+                JsonConvert.PopulateObject(json, obj, s_serializerSettings);
             }
             catch (Exception ex)
             {
