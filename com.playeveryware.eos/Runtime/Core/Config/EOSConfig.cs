@@ -321,7 +321,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <summary>
         /// Initial Button Delay.
         /// </summary>
-        [ConfigField("Initial Button Delay", ConfigFieldType.Text,
+        [ConfigField("Initial Button Delay", ConfigFieldType.Float,
             "Initial Button Delay (if not set, whatever the default " +
             "is will be used).", 4)]
         [JsonConverter(typeof(StringToTypeConverter<float>))]

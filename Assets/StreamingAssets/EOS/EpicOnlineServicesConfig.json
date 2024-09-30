@@ -20,7 +20,7 @@
   "ThreadAffinity_HTTPRequestIO": null,
   "ThreadAffinity_RTCIO": null,
   "alwaysSendInputToOverlay": true,
-  "initialButtonDelayForOverlay": 0.0,
-  "repeatButtonDelayForOverlay": 0.0,
+  "initialButtonDelayForOverlay": null,
+  "repeatButtonDelayForOverlay": null,
   "toggleFriendsButtonCombination": "SpecialLeft"
 }
