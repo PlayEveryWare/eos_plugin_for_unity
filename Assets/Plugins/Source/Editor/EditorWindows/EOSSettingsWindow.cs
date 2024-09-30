@@ -353,7 +353,7 @@ _WIN32 || _WIN64
             GUIEditorUtility.AssigningEnumField(
                 "Auth Scope Flags",
                 ref mainEOSConfigFile.authScopeOptionsFlags,
-                210,
+                190,
                 "Flags used to specify Auth Scope during login. " +
                 "Available flags are defined in AuthScopeFlags.cs");
 
