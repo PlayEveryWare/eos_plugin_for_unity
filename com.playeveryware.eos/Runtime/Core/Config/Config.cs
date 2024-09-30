@@ -183,13 +183,10 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <typeparam name="T">
         /// The Config to retrieve.
         /// </typeparam>
-        /// <param name="defaultValues">
-        /// Whether the config should be returned with default values.
-        /// </param>
         /// <returns>
         /// Task<typeparam name="T">Config type.</typeparam>
         /// </returns>
-        public static async Task<T> GetAsync<T>(bool defaultValues = false) where T : Config
+        public static async Task<T> GetAsync<T>() where T : Config
         {
             // NOTE: This block (and the corresponding one below) exists so that
             //       the config values are only cached when not in the editor.
@@ -208,12 +205,9 @@ namespace PlayEveryWare.EpicOnlineServices
             // Use the factory method to create the config.
             T instance = (T)factory();
 
-            if (!defaultValues)
-            {
-                // Asynchronously read config values from the corresponding file.
-                await instance.ReadAsync();
-            }
-
+            // Asynchronously read config values from the corresponding file.
+            await instance.ReadAsync();
+            
 #if !UNITY_EDITOR
             // Cache the newly created config with its values having been read.
             s_cachedConfigs.Add(typeof(T), instance);
@@ -227,13 +221,10 @@ namespace PlayEveryWare.EpicOnlineServices
         /// Retrieves indicated Config object, reading its values into memory.
         /// </summary>
         /// <typeparam name="T">The Config to retrieve.</typeparam>
-        /// <param name="defaultValues">
-        /// Whether the config should be returned with default values.
-        /// </param>
         /// <returns>Task<typeparam name="T">Config type.</typeparam></returns>
-        public static T Get<T>(bool defaultValues = false) where T : Config
+        public static T Get<T>() where T : Config
         {
-            T config = GetAsync<T>(defaultValues).GetAwaiter().GetResult();
+            T config = Task.Run(GetAsync<T>).GetAwaiter().GetResult();
             return config;
         }
 
