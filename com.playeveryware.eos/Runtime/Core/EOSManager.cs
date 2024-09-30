@@ -469,13 +469,14 @@ namespace PlayEveryWare.EpicOnlineServices
 
                 EOSCreateOptions platformOptions = new EOSCreateOptions();
 
+                
                 platformOptions.options.CacheDirectory = platformSpecifics.GetTempDir();
                 platformOptions.options.IsServer = configData.isServer;
                 platformOptions.options.Flags =
 #if UNITY_EDITOR
                     PlatformFlags.LoadingInEditor;
 #else
-                configData.GetPlatformFlags();
+                    configData.platformOptionsFlags;
 #endif
                 if (configData.IsEncryptionKeyValid())
                 {
@@ -538,7 +539,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 // Sets the button for the bringing up the overlay
                 var friendToggle = new SetToggleFriendsButtonOptions
                 {
-                    ButtonCombination = configData.GetToggleFriendsButtonCombinationFlags()
+                    ButtonCombination = configData.toggleFriendsButtonCombination
                 };
                 UIInterface uiInterface = Instance.GetEOSPlatformInterface().GetUIInterface();
                 uiInterface.SetToggleFriendsButton(ref friendToggle);
@@ -832,15 +833,19 @@ namespace PlayEveryWare.EpicOnlineServices
                     Token = token
                 };
 
-                var defaultScopeFlags =
-                    AuthScopeFlags.BasicProfile | AuthScopeFlags.FriendsList | AuthScopeFlags.Presence;
-
+                AuthScopeFlags scopeFlags = (AuthScopeFlags.BasicProfile |
+                                             AuthScopeFlags.FriendsList |
+                                             AuthScopeFlags.Presence);
+                
+                if (Config.Get<EOSConfig>().authScopeOptionsFlags != AuthScopeFlags.NoFlags)
+                {
+                    scopeFlags = Config.Get<EOSConfig>().authScopeOptionsFlags;
+                }
+                
                 return new LoginOptions
                 {
                     Credentials = loginCredentials,
-                    ScopeFlags = Config.Get<EOSConfig>().authScopeOptionsFlags.Count > 0
-                        ? Config.Get<EOSConfig>().GetAuthScopeFlags()
-                        : defaultScopeFlags
+                    ScopeFlags = scopeFlags
                 };
             }
 

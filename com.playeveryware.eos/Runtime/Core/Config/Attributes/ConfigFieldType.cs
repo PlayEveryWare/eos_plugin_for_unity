@@ -61,6 +61,11 @@ namespace PlayEveryWare.EpicOnlineServices
         Ulong,
 
         /// <summary>
+        /// A plain float value.
+        /// </summary>
+        Float,
+
+        /// <summary>
         /// A plain double.
         /// </summary>
         Double,
