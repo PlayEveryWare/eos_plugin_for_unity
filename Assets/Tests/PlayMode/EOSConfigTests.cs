@@ -308,28 +308,10 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Config
         }
 
         [Test]
-        public void PlatformTags_MustParse()
-        {
-            EOSConfig config = EOSConfig.Get<EOSConfig>();
-            config.platformOptionsFlags = new List<string>() { "invalidoptions " };
-
-            if (!FieldValidator.TryGetFailingValidatorAttributes(config, out List<FieldValidatorFailure> failingAttributes))
-            {
-                Assert.Fail($"Config should have failing attributes.");
-            }
-
-            Assert.IsTrue(failuresIncludeExpectedFailure<ParsesToPlatformFlagFieldValidatorAttribute>(
-                nameof(EOSConfig.platformOptionsFlags),
-                failingAttributes,
-                ParsesToEnumFieldValidatorAttribute.FailedToParseTokensMessage),
-                "There should be a failure of the expected type and message.");
-        }
-
-        [Test]
         public void PlatformTags_SuccessfulParse()
         {
             EOSConfig config = EOSConfig.Get<EOSConfig>();
-            config.platformOptionsFlags = new List<string>() { PlatformFlags.DisableOverlay.ToString(), PlatformFlags.WindowsEnableOverlayD3D9.ToString()};
+            config.platformOptionsFlags = WrappedPlatformFlags.DisableOverlay | WrappedPlatformFlags.WindowsEnableOverlayD3D9;
 
             if (!FieldValidator.TryGetFailingValidatorAttributes(config, out List<FieldValidatorFailure> failingAttributes))
             {
@@ -346,28 +328,10 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Config
         }
 
         [Test]
-        public void AuthScopeFlags_MustParse()
-        {
-            EOSConfig config = EOSConfig.Get<EOSConfig>();
-            config.authScopeOptionsFlags = new List<string>() { "invalidoptions " };
-
-            if (!FieldValidator.TryGetFailingValidatorAttributes(config, out List<FieldValidatorFailure> failingAttributes))
-            {
-                Assert.Fail($"Config should have failing attributes.");
-            }
-
-            Assert.IsTrue(failuresIncludeExpectedFailure<ParsesToAuthScopeFieldValidatorAttribute>(
-                nameof(EOSConfig.authScopeOptionsFlags),
-                failingAttributes,
-                ParsesToEnumFieldValidatorAttribute.FailedToParseTokensMessage),
-                "There should be a failure of the expected type and message.");
-        }
-
-        [Test]
         public void AuthScope_SuccessfulParse()
         {
             EOSConfig config = EOSConfig.Get<EOSConfig>();
-            config.platformOptionsFlags = new List<string>() { PlatformFlags.DisableOverlay.ToString(), PlatformFlags.WindowsEnableOverlayD3D9.ToString() };
+            config.authScopeOptionsFlags = Epic.OnlineServices.Auth.AuthScopeFlags.Country | Epic.OnlineServices.Auth.AuthScopeFlags.FriendsManagement;
 
             if (!FieldValidator.TryGetFailingValidatorAttributes(config, out List<FieldValidatorFailure> failingAttributes))
             {
@@ -384,68 +348,15 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Config
         }
 
         [Test]
-        public void ThreadAffinity_MustParse()
-        {
-            EOSConfig config = EOSConfig.Get<EOSConfig>();
-            config.ThreadAffinity_HTTPRequestIO = "abc";
-            config.ThreadAffinity_networkWork = "abc";
-            config.ThreadAffinity_P2PIO = "abc";
-            config.ThreadAffinity_RTCIO = "abc";
-            config.ThreadAffinity_storageIO = "abc";
-            config.ThreadAffinity_webSocketIO = "abc";
-
-            if (!FieldValidator.TryGetFailingValidatorAttributes(config, out List<FieldValidatorFailure> failingAttributes))
-            {
-                Assert.Fail($"Config should have failing attributes.");
-            }
-
-            Assert.IsTrue(failuresIncludeExpectedFailure<ParsesToUlongFieldValidatorAttribute>(
-                nameof(EOSConfig.ThreadAffinity_HTTPRequestIO),
-                failingAttributes,
-                ParsesToUlongFieldValidatorAttribute.FailedToParseMessage),
-                "There should be a failure of the expected type and message for ThreadAffinity_HTTPRequestIO.");
-
-            Assert.IsTrue(failuresIncludeExpectedFailure<ParsesToUlongFieldValidatorAttribute>(
-                nameof(EOSConfig.ThreadAffinity_networkWork),
-                failingAttributes,
-                ParsesToUlongFieldValidatorAttribute.FailedToParseMessage),
-                "There should be a failure of the expected type and message for ThreadAffinity_networkWork.");
-
-            Assert.IsTrue(failuresIncludeExpectedFailure<ParsesToUlongFieldValidatorAttribute>(
-                nameof(EOSConfig.ThreadAffinity_P2PIO),
-                failingAttributes,
-                ParsesToUlongFieldValidatorAttribute.FailedToParseMessage),
-                "There should be a failure of the expected type and message for ThreadAffinity_P2PIO.");
-
-            Assert.IsTrue(failuresIncludeExpectedFailure<ParsesToUlongFieldValidatorAttribute>(
-                nameof(EOSConfig.ThreadAffinity_RTCIO),
-                failingAttributes,
-                ParsesToUlongFieldValidatorAttribute.FailedToParseMessage),
-                "There should be a failure of the expected type and message for ThreadAffinity_RTCIO.");
-
-            Assert.IsTrue(failuresIncludeExpectedFailure<ParsesToUlongFieldValidatorAttribute>(
-                nameof(EOSConfig.ThreadAffinity_storageIO),
-                failingAttributes,
-                ParsesToUlongFieldValidatorAttribute.FailedToParseMessage),
-                "There should be a failure of the expected type and message for ThreadAffinity_storageIO.");
-
-            Assert.IsTrue(failuresIncludeExpectedFailure<ParsesToUlongFieldValidatorAttribute>(
-                nameof(EOSConfig.ThreadAffinity_webSocketIO),
-                failingAttributes,
-                ParsesToUlongFieldValidatorAttribute.FailedToParseMessage),
-                "There should be a failure of the expected type and message for ThreadAffinity_webSocketIO.");
-        }
-
-        [Test]
         public void ThreadAffinity_SuccessfulParse()
         {
             EOSConfig config = EOSConfig.Get<EOSConfig>();
-            config.ThreadAffinity_HTTPRequestIO = "12345678";
-            config.ThreadAffinity_networkWork = "12345678";
-            config.ThreadAffinity_P2PIO = "12345678";
-            config.ThreadAffinity_RTCIO = "12345678";
-            config.ThreadAffinity_storageIO = "12345678";
-            config.ThreadAffinity_webSocketIO = "12345678";
+            config.ThreadAffinity_HTTPRequestIO = 12345678;
+            config.ThreadAffinity_networkWork = 12345678;
+            config.ThreadAffinity_P2PIO = 12345678;
+            config.ThreadAffinity_RTCIO = 12345678;
+            config.ThreadAffinity_storageIO = 12345678;
+            config.ThreadAffinity_webSocketIO = 12345678;
 
             if (!FieldValidator.TryGetFailingValidatorAttributes(config, out List<FieldValidatorFailure> failingAttributes))
             {
