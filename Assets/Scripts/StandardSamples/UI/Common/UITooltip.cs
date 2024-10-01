@@ -87,7 +87,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public void OnPointerEnter(PointerEventData eventData)
         {
-            if (UITooltipManager.Instance != null)
+            if (UITooltipManager.Instance != null && !string.IsNullOrEmpty(text))
             {
                 tooltipTimer = StartCoroutine(ShowTooltipWithDelay(UITooltipManager.Instance.HoverTime));
             }

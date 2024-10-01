@@ -44,7 +44,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public delegate SampleInteractableNewState GetSampleInteractable();
 
-        public static event Action UpdateSelectableStates;
+        private static event Action UpdateSelectableStates;
 
         private GetSampleInteractable sampleInteractableFunction { get; set; }
 
@@ -57,6 +57,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public void SetSampleInteractableAction(GetSampleInteractable inSampleInteractableFunction)
         {
             sampleInteractableFunction = inSampleInteractableFunction;
+            UpdateFromFunction();
         }
 
         private void OnEnable()
@@ -80,13 +81,28 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             if (!string.IsNullOrEmpty(newState.NewTooltipText) && attachedTooltip != null)
             {
-                attachedTooltip.Text = newState.NewTooltipText;
+                if (newState.Interactable)
+                {
+                    // TODO: Restore the original tooltip text if it is interactable
+                    // At the moment, none of the buttons that this was applied to
+                    // had any tooltips to begin with
+                    attachedTooltip.Text = string.Empty;
+                }
+                else
+                {
+                    attachedTooltip.Text = newState.NewTooltipText;
+                }
             }
 
             if (attachedSelectable != null)
             {
                 attachedSelectable.interactable = newState.Interactable;
             }
+        }
+
+        public static void RaiseSampleSelectableStateChange()
+        {
+            UpdateSelectableStates.Invoke();
         }
     }
 }
