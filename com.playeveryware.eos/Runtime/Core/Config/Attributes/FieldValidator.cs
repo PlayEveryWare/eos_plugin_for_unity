@@ -44,20 +44,89 @@ namespace PlayEveryWare.EpicOnlineServices
 
     public class FieldValidator
     {
+        /// <summary>
+        /// Call Field Validator on a single object value.
+        /// </summary>
+        /// <param name="fieldInfo">The FieldInfo that contains the attributes.</param>
+        /// <param name="singularValue">Value of a smallest unit of a class, such as one element of a list.</param>
+        /// <returns></returns>
+        public static List<FieldValidatorFailure> GetFailingValidatorAttributeOnObject(FieldInfo fieldInfo, object singularValue)
+        {
+            List<FieldValidatorFailure> failingValidatorAttributes = new();
+
+            if (fieldInfo.GetCustomAttribute(typeof(ExpandFieldAttribute)) != null)
+            {
+                failingValidatorAttributes.AddRange(GetFailingValidatorAttributeOnClass(singularValue));
+            }
+            else
+            {
+                foreach (FieldValidatorAttribute validatorAttribute in fieldInfo.GetCustomAttributes(typeof(FieldValidatorAttribute)))
+                {
+                    if (!validatorAttribute.FieldValueIsValid(singularValue, out string message))
+                    {
+                        failingValidatorAttributes.Add(new FieldValidatorFailure(fieldInfo, validatorAttribute, message));
+                    }
+                }
+            }
+
+            return failingValidatorAttributes;
+        }
+
+        /// <summary>
+        /// Call Field Validator on a field within a class.
+        /// If the field is a single variable, attempt validation.
+        /// If the field is a list, it will treat each element individually.
+        /// </summary>
+        /// <param name="fieldInfo">
+        /// The FieldInfo that contains the attributes. 
+        /// Field that is a class or a list of classes should be marked with attribute "Expand".
+        /// </param>
+        /// <param name="fieldValue">Value of a field within a class.</param>
+        /// <returns></returns>
+        public static List<FieldValidatorFailure> GetFailingValidatorAttributeOnField(FieldInfo fieldInfo, object fieldValue)
+        {
+            List<FieldValidatorFailure> failingValidatorAttributes = new();
+
+            if (fieldInfo.FieldType.IsGenericType && fieldInfo.FieldType.GetGenericTypeDefinition() == typeof(List<>))
+            {
+                List<object> collection = new List<object>((IEnumerable<object>)fieldValue);
+
+                foreach (var element in collection)
+                {
+                    failingValidatorAttributes.AddRange(GetFailingValidatorAttributeOnObject(fieldInfo, element));
+                }
+            }
+            else
+            {
+                failingValidatorAttributes.AddRange(GetFailingValidatorAttributeOnObject(fieldInfo, fieldValue));
+            }
+
+            return failingValidatorAttributes;
+        }
+
+        /// <summary>
+        /// Call Field Validator on a class.
+        /// Finds all fields within a class, validates each field.
+        /// </summary>
+        /// <param name="target">Target class to validate.</param>
+        /// <returns></returns>
+        public static List<FieldValidatorFailure> GetFailingValidatorAttributeOnClass(object target)
+        {
+            List<FieldValidatorFailure> failingValidatorAttributes = new();
+
+            foreach (FieldInfo curField in target.GetType().GetFields())
+            {
+                failingValidatorAttributes.AddRange(GetFailingValidatorAttributeOnField(curField, curField.GetValue(target)));
+            }
+
+            return failingValidatorAttributes;
+        }
+
         public static bool TryGetFailingValidatorAttributes(object target, out List<FieldValidatorFailure> failingValidatorAttributes)
         {
             failingValidatorAttributes = new List<FieldValidatorFailure>();
 
-            foreach (FieldInfo curField in target.GetType().GetFields())
-            {
-                foreach (FieldValidatorAttribute validatorAttribute in curField.GetCustomAttributes(typeof(FieldValidatorAttribute)))
-                {
-                    if (!validatorAttribute.FieldValueIsValid(curField.GetValue(target), out string problemMessage))
-                    {
-                        failingValidatorAttributes.Add(new FieldValidatorFailure(curField, validatorAttribute, problemMessage));
-                    }
-                }
-            }
+            failingValidatorAttributes.AddRange(GetFailingValidatorAttributeOnClass(target));
 
             return failingValidatorAttributes.Count > 0;
         }
