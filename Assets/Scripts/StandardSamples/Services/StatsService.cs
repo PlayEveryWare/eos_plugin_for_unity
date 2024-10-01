@@ -94,7 +94,7 @@ namespace PlayEveryWare.EpicOnlineServices
             UnityEngine.Debug.Log(toPrint);
         }
 
-        protected async override void OnLoggedIn()
+        protected async override void OnLoggedIn(AuthenticationListener.AuthenticationLevelChangeType changeType)
         {
             if (TryGetProductUserId(out ProductUserId userId))
             {

@@ -372,9 +372,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// <list type="bullet">
         ///     <item><description><c>QueryFileList()</c></description></item>
         /// </list>
-        protected override void OnLoggedIn()
+        protected override void OnLoggedIn(AuthenticationListener.AuthenticationLevelChangeType changeType)
         {
-            QueryFileList();
+            if (changeType == AuthenticationListener.AuthenticationLevelChangeType.Connect)
+            {
+                QueryFileList();
+            }
         }
 
         protected override Task InternalRefreshAsync()

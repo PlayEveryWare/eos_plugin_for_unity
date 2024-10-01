@@ -35,6 +35,15 @@ namespace PlayEveryWare.EpicOnlineServices
     public class AuthenticationListener: IAuthInterfaceEventListener, IConnectInterfaceEventListener, IDisposable
     {
         /// <summary>
+        /// Identifies the kind of authentication change.
+        /// </summary>
+        public enum AuthenticationLevelChangeType
+        {
+            Auth,
+            Connect
+        }
+
+        /// <summary>
         /// Used to describe functions that handle change in authentication
         /// state.
         /// </summary>
@@ -42,7 +51,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// True if the authentication state has changed to authenticated, False
         /// otherwise.
         /// </param>
-        public delegate void AuthenticationChangedEventHandler(bool authenticated);
+        public delegate void AuthenticationChangedEventHandler(bool authenticated, AuthenticationLevelChangeType changeType);
 
         /// <summary>
         /// Event that triggers when the state of authentication has changed.
@@ -104,7 +113,8 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </summary>
         /// <param name="attemptedState"></param>
         /// <param name="attemptResult"></param>
-        private void TriggerAuthenticationChangedEvent(bool attemptedState, Result attemptResult)
+        /// <param name="changeType">The type of authentication change.</param>
+        private void TriggerAuthenticationChangedEvent(bool attemptedState, Result attemptResult, AuthenticationLevelChangeType changeType)
         {
             // If the attempt to change the state of authentication did not 
             // succeed, then log a warning and stop.
@@ -119,7 +129,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
             // Trigger the event indicating that the state of authentication for 
             // the user has changed.
-            AuthenticationChanged?.Invoke(attemptedState);
+            AuthenticationChanged?.Invoke(attemptedState, changeType);
         }
 
         /// <summary>
@@ -130,7 +140,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </param>
         public void OnAuthLogin(LoginCallbackInfo loginCallbackInfo)
         {
-            TriggerAuthenticationChangedEvent(true, loginCallbackInfo.ResultCode);
+            TriggerAuthenticationChangedEvent(true, loginCallbackInfo.ResultCode, AuthenticationLevelChangeType.Auth);
         }
 
         /// <summary>
@@ -141,7 +151,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </param>
         public void OnAuthLogout(LogoutCallbackInfo logoutCallbackInfo)
         {
-            TriggerAuthenticationChangedEvent(false, logoutCallbackInfo.ResultCode);
+            TriggerAuthenticationChangedEvent(false, logoutCallbackInfo.ResultCode, AuthenticationLevelChangeType.Auth);
         }
 
         /// <summary>
@@ -152,7 +162,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </param>
         public void OnConnectLogin(Epic.OnlineServices.Connect.LoginCallbackInfo loginCallbackInfo)
         {
-            TriggerAuthenticationChangedEvent(true, loginCallbackInfo.ResultCode);
+            TriggerAuthenticationChangedEvent(true, loginCallbackInfo.ResultCode, AuthenticationLevelChangeType.Connect);
         }
 
         /// <summary>

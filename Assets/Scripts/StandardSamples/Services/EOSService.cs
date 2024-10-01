@@ -159,15 +159,15 @@ namespace PlayEveryWare.EpicOnlineServices
 
         }
 
-        private void OnAuthenticationChanged(bool authenticated)
+        private void OnAuthenticationChanged(bool authenticated, AuthenticationListener.AuthenticationLevelChangeType changeType)
         {
             if (authenticated)
             {
-                OnLoggedIn();
+                OnLoggedIn(changeType);
             }
             else
             {
-                OnLoggedOut();
+                OnLoggedOut(changeType);
             }
         }
 
@@ -175,14 +175,16 @@ namespace PlayEveryWare.EpicOnlineServices
         /// Implement this method to perform tasks when a user authenticates.
         /// By default, there is no action taken.
         /// </summary>
-        protected virtual void OnLoggedIn() { }
+        /// <param name="changeType">The type of authentication change.</param>
+        protected virtual void OnLoggedIn(AuthenticationListener.AuthenticationLevelChangeType changeType) { }
 
         /// <summary>
         /// If there are tasks that need to be done when logged out, consider
         /// overriding the Reset() function as that is where such things should
         /// be done.
         /// </summary>
-        protected void OnLoggedOut()
+        /// <param name="changeType">The type of authentication change.</param>
+        protected void OnLoggedOut(AuthenticationListener.AuthenticationLevelChangeType changeType)
         {
             Reset();
         }

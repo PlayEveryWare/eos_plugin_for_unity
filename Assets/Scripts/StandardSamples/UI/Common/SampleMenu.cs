@@ -162,7 +162,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// <param name="authenticated">
         /// True if the state has changed to authenticated, false otherwise.
         /// </param>
-        private void OnAuthenticationChanged(bool authenticated)
+        /// <param name="authenticationChangeType">
+        /// What kind of authentication change this is.</param>
+        private void OnAuthenticationChanged(bool authenticated, AuthenticationListener.AuthenticationLevelChangeType authenticationChangeType)
         {
             if (authenticated || !RequiresAuthentication)
             {
