@@ -1079,24 +1079,13 @@ namespace PlayEveryWare.EpicOnlineServices
                 {
                     print("Attempting to use refresh token to login with connect");
 
-                    // need to refresh the epicaccount id
-                    // LoginCredentialType.RefreshToken
-                    Instance.StartLoginWithLoginTypeAndToken(LoginCredentialType.RefreshToken, null,
-                        authToken.Value.RefreshToken, callbackInfo =>
-                        {
-                            var EOSAuthInterface = GetEOSPlatformInterface().GetAuthInterface();
-                            var copyUserTokenOptions = new CopyUserAuthTokenOptions();
-                            var result = EOSAuthInterface.CopyUserAuthToken(ref copyUserTokenOptions,
-                                callbackInfo.LocalUserId, out Token? userAuthToken);
+                    connectLoginOptions.Credentials = new Epic.OnlineServices.Connect.Credentials
+                    {
+                        Token = authToken.Value.RefreshToken,
+                        Type = ExternalCredentialType.Epic
+                    };
 
-                            connectLoginOptions.Credentials = new Epic.OnlineServices.Connect.Credentials
-                            {
-                                Token = userAuthToken.Value.AccessToken,
-                                Type = ExternalCredentialType.Epic
-                            };
-
-                            StartConnectLoginWithOptions(connectLoginOptions, onConnectLoginCallback);
-                        });
+                    StartConnectLoginWithOptions(connectLoginOptions, onConnectLoginCallback);
                 }
                 else if (authToken.Value.AccessToken != null)
                 {
