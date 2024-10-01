@@ -135,6 +135,7 @@ namespace PlayEveryWare.EpicOnlineServices
         [ConfigField("Sandbox Deployment Overrides",
             ConfigFieldType.TextList,
             "Deployment Id to use.", 1)]
+        [ExpandField]
         public List<SandboxDeploymentOverride> sandboxDeploymentOverrides;
 
         /// <summary>
