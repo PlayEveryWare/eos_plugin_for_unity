@@ -33,6 +33,7 @@ namespace PlayEveryWare.EpicOnlineServices
     public abstract class ParsesToEnumFieldValidatorAttribute : FieldValidatorAttribute
     {
         public const string FailedToParseTokensMessage = "Failed to parse all provided values into destination enum flags.";
+        public const string ValueUnparsableMessage = "Value is neither a string or a List<string>.";
 
         public sealed override bool FieldValueIsValid(object toValidate, out string configurationProblemMessage)
         {
@@ -48,7 +49,7 @@ namespace PlayEveryWare.EpicOnlineServices
             }
             else
             {
-                configurationProblemMessage = $"Value is neither a string or a List<string>.";
+                configurationProblemMessage = ValueUnparsableMessage;
                 return false;
             }
 

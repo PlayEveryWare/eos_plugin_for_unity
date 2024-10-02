@@ -25,8 +25,8 @@ namespace PlayEveryWare.EpicOnlineServices
     using System;
 
     /// <summary>
-    /// This attribute is used to decorate a field member within a config class
-    /// that represents a path to a file.
+    /// This attribute is used to decorate a field member that is a type with field members within.
+    /// Used when attempting to action on field members of a field member.
     /// </summary>
     [AttributeUsage(AttributeTargets.Field)]
     public class ExpandFieldAttribute : Attribute

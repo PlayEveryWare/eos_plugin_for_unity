@@ -47,7 +47,7 @@ namespace PlayEveryWare.EpicOnlineServices
     /// </summary>
     public class SandboxDeploymentOverride
     {
-        [DevelopmentEnvironmentFieldValidator]
+        [SandboxIDFieldValidator]
         public string sandboxID;
 
         [GUIDFieldValidator]
@@ -116,7 +116,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </summary>
         [ConfigField("Sandbox Id", ConfigFieldType.Text,
             "Sandbox Id to use.", 1)]
-        [DevelopmentEnvironmentFieldValidator]
+        [SandboxIDFieldValidator]
         public string sandboxID;
 
         /// <summary>

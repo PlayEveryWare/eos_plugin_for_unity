@@ -158,10 +158,10 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Config
                 Assert.Fail($"Config should have failing attributes.");
             }
 
-            Assert.IsTrue(failuresIncludeExpectedFailure<DevelopmentEnvironmentFieldValidatorAttribute>(
+            Assert.IsTrue(failuresIncludeExpectedFailure<SandboxIDFieldValidatorAttribute>(
                 nameof(EOSConfig.sandboxID),
                 failingAttributes,
-                DevelopmentEnvironmentFieldValidatorAttribute.FieldDidNotMatchMessage),
+                SandboxIDFieldValidatorAttribute.FieldDidNotMatchMessage),
                 "There should be a failure of the expected type and message.");
         }
 
@@ -178,10 +178,10 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Config
                 return;
             }
 
-            Assert.IsFalse(failuresIncludeExpectedFailure<DevelopmentEnvironmentFieldValidatorAttribute>(
+            Assert.IsFalse(failuresIncludeExpectedFailure<SandboxIDFieldValidatorAttribute>(
                 nameof(EOSConfig.sandboxID),
                 failingAttributes,
-                DevelopmentEnvironmentFieldValidatorAttribute.FieldDidNotMatchMessage),
+                SandboxIDFieldValidatorAttribute.FieldDidNotMatchMessage),
                 "Sandbox Id should not have errors relating to it failing to parse.");
         }
 
@@ -198,10 +198,10 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Config
                 return;
             }
 
-            Assert.IsFalse(failuresIncludeExpectedFailure<DevelopmentEnvironmentFieldValidatorAttribute>(
+            Assert.IsFalse(failuresIncludeExpectedFailure<SandboxIDFieldValidatorAttribute>(
                 nameof(EOSConfig.sandboxID),
                 failingAttributes,
-                DevelopmentEnvironmentFieldValidatorAttribute.FieldDidNotMatchMessage),
+                SandboxIDFieldValidatorAttribute.FieldDidNotMatchMessage),
                 "Sandbox Id should not have errors relating to it failing to parse.");
         }
 
@@ -229,10 +229,10 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Config
                 GUIDFieldValidatorAttribute.NotAGuidMessage),
                 "Deployment ID in sandbox override should have failure relating to it.");
 
-            Assert.IsTrue(failuresIncludeExpectedFailure<DevelopmentEnvironmentFieldValidatorAttribute>(
+            Assert.IsTrue(failuresIncludeExpectedFailure<SandboxIDFieldValidatorAttribute>(
                 nameof(SandboxDeploymentOverride.sandboxID),
                 failingAttributes,
-                DevelopmentEnvironmentFieldValidatorAttribute.FieldDidNotMatchMessage),
+                SandboxIDFieldValidatorAttribute.FieldDidNotMatchMessage),
                 "Sandbox ID in sandbox override should have failure relating to it.");
         }
 
@@ -262,10 +262,10 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Config
                 GUIDFieldValidatorAttribute.NotAGuidMessage),
                 "Deployment ID in sandbox override should not have error relating to GUID failing to parse.");
 
-            Assert.IsFalse(failuresIncludeExpectedFailure<DevelopmentEnvironmentFieldValidatorAttribute>(
+            Assert.IsFalse(failuresIncludeExpectedFailure<SandboxIDFieldValidatorAttribute>(
                 nameof(SandboxDeploymentOverride.sandboxID),
                 failingAttributes,
-                DevelopmentEnvironmentFieldValidatorAttribute.FieldDidNotMatchMessage),
+                SandboxIDFieldValidatorAttribute.FieldDidNotMatchMessage),
                 "Sandbox ID in sandbox override should not have error relating to it failing to parse.");
         }
 
@@ -308,7 +308,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Config
         }
 
         [Test]
-        public void PlatformTags_SuccessfulParse()
+        public void PlatformTags_ParseInvalidInput()
         {
             EOSConfig config = EOSConfig.Get<EOSConfig>();
             config.platformOptionsFlags = WrappedPlatformFlags.DisableOverlay | WrappedPlatformFlags.WindowsEnableOverlayD3D9;
@@ -320,15 +320,15 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Config
                 return;
             }
 
-            Assert.IsFalse(failuresIncludeExpectedFailure<ParsesToPlatformFlagFieldValidatorAttribute>(
+            Assert.IsTrue(failuresIncludeExpectedFailure<ParsesToPlatformFlagFieldValidatorAttribute>(
                 nameof(EOSConfig.platformOptionsFlags),
                 failingAttributes,
-                ParsesToEnumFieldValidatorAttribute.FailedToParseTokensMessage),
-                "There should not be a failure regarding failing to parse Platform Tags.");
+                ParsesToEnumFieldValidatorAttribute.ValueUnparsableMessage),
+               "There should be an failure parsing a non-string object.");
         }
 
         [Test]
-        public void AuthScope_SuccessfulParse()
+        public void AuthScope_ParseInvalidInput()
         {
             EOSConfig config = EOSConfig.Get<EOSConfig>();
             config.authScopeOptionsFlags = Epic.OnlineServices.Auth.AuthScopeFlags.Country | Epic.OnlineServices.Auth.AuthScopeFlags.FriendsManagement;
@@ -340,11 +340,11 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Config
                 return;
             }
 
-            Assert.IsFalse(failuresIncludeExpectedFailure<ParsesToAuthScopeFieldValidatorAttribute>(
+            Assert.IsTrue(failuresIncludeExpectedFailure<ParsesToAuthScopeFieldValidatorAttribute>(
                 nameof(EOSConfig.authScopeOptionsFlags),
                 failingAttributes,
-                ParsesToEnumFieldValidatorAttribute.FailedToParseTokensMessage),
-                "There should not be a failure regarding failing to parse Auth Scope.");
+                ParsesToEnumFieldValidatorAttribute.ValueUnparsableMessage),
+                "There should be an failure parsing a non-string object.");
         }
 
         [Test]

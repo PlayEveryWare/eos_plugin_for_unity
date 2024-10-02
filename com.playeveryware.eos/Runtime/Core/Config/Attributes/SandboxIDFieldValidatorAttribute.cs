@@ -30,7 +30,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
     [AttributeUsage(AttributeTargets.Field)]
 
-    public class DevelopmentEnvironmentFieldValidatorAttribute : FieldValidatorAttribute
+    public class SandboxIDFieldValidatorAttribute : FieldValidatorAttribute
     {
         const string PreProductionEnvironmentRegex = @"^p\-[a-zA-Z\d]{30}$";
         public const string FieldDidNotMatchMessage = "The field value is not a GUID, and did not match the regex used for Pre Production Environments: '" + PreProductionEnvironmentRegex + "'.";
@@ -41,12 +41,6 @@ namespace PlayEveryWare.EpicOnlineServices
             {
                 configurationProblemMessage = $"The field value is not of type string.";
                 return false;
-            }
-
-            if (string.IsNullOrEmpty(singleStringValue))
-            {
-                configurationProblemMessage = string.Empty;
-                return true;
             }
 
             if (Regex.IsMatch(singleStringValue, PreProductionEnvironmentRegex))
@@ -62,26 +56,6 @@ namespace PlayEveryWare.EpicOnlineServices
             }
 
             configurationProblemMessage = FieldDidNotMatchMessage;
-            return false;
-        }
-
-        bool isValidEntry(string toValidate)
-        {
-            if (string.IsNullOrEmpty(toValidate))
-            {
-                return true;
-            }
-
-            if (Regex.IsMatch(toValidate, PreProductionEnvironmentRegex))
-            {
-                return true;
-            }
-
-            if (Guid.TryParse(toValidate, out _))
-            {
-                return true;
-            }
-
             return false;
         }
     }
