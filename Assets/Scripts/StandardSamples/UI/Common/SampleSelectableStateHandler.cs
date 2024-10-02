@@ -102,7 +102,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public static void RaiseSampleSelectableStateChange()
         {
-            UpdateSelectableStates.Invoke();
+            UpdateSelectableStates?.Invoke();
         }
     }
 }

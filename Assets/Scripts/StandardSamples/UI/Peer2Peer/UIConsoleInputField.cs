@@ -25,11 +25,15 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     using UnityEngine;
     using UnityEngine.UI;
     using UnityEngine.EventSystems;
-    
+    using static PlayEveryWare.EpicOnlineServices.Samples.SampleSelectableStateHandler;
+
     public class UIConsoleInputField : MonoBehaviour
     {
         public Button InputFieldButton;
         public InputField InputField;
+
+        public SampleSelectableStateHandler StateHandlerForSubmit;
+        public string CannotBeEmptyMessage;
 
 #if UNITY_ANDROID
         private bool keepOldTextInField;
@@ -40,10 +44,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         private void Awake()
         {
             InputField.onEndEdit.AddListener(OnEndEdit);
-
-#if UNITY_ANDROID
             InputField.onValueChanged.AddListener(OnEdit);
-#endif
+
+            if (StateHandlerForSubmit != null)
+            {
+                StateHandlerForSubmit.SetSampleInteractableAction(FieldCannotBeEmptyValidator);
+            }
         }
 
 #if UNITY_ANDROID
@@ -61,13 +67,17 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
             prevKeyboardStatus = kbStatus;
         }
+#endif
 
         private void OnEdit(string currentText)
         {
+#if UNITY_ANDROID
             oldEditText = editText;
             editText = currentText;
-        }
 #endif
+
+            SampleSelectableStateHandler.RaiseSampleSelectableStateChange();
+        }
 
         public void OnEndEdit(string value)
         {
@@ -88,6 +98,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             keepOldTextInField = false;
         }
 #endif
+
+            if (StateHandlerForSubmit != null)
+            {
+                SampleSelectableStateHandler.RaiseSampleSelectableStateChange();
+            }
         }
 
         public void InputFieldOnClick()
@@ -116,6 +131,18 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             // Return focus to button
             InputField.onEndEdit.Invoke(result);
+        }
+
+        private SampleInteractableNewState FieldCannotBeEmptyValidator()
+        {
+            if (string.IsNullOrEmpty(InputField.text))
+            {
+                return new SampleInteractableNewState(false, CannotBeEmptyMessage);
+            }
+            else
+            {
+                return new SampleInteractableNewState(true);
+            }
         }
     }
 }
