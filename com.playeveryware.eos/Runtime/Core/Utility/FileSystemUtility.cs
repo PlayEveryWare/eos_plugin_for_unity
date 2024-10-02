@@ -20,7 +20,13 @@
  * SOFTWARE.
  */
 
+#if !UNITY_ANDROID && !UNITY_EDITOR
+#define IO_ASYNC_ALLOWED
+#endif
+
 using System.Runtime.CompilerServices;
+
+
 
 [assembly: InternalsVisibleTo("com.playeveryware.eos-Editor")]
 namespace PlayEveryWare.EpicOnlineServices.Utility
@@ -495,16 +501,6 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         }
 
         /// <summary>
-        /// Reads all text from the indicated file.
-        /// </summary>
-        /// <param name="path">Filepath to the file to read from.</param>
-        /// <returns>The contents of the file at the indicated path as a string.</returns>
-        public static string ReadAllText(string path)
-        {
-            return Task.Run(() => ReadAllTextAsync(path)).GetAwaiter().GetResult();
-        }
-
-        /// <summary>
         /// Asynchronously reads all text from the indicated file.
         /// </summary>
         /// <param name="path">The file to read from.</param>
@@ -513,7 +509,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         {
 #if UNITY_ANDROID && !UNITY_EDITOR
             // On Android, use a custom helper to read the file
-            return await AndroidFileIOHelper.ReadAllText(path);
+            return await AndroidFileIOHelper.ReadAllTextAsync(path);
 #else
             // On other platforms, read asynchronously or synchronously as
             // appropriate.
@@ -529,7 +525,24 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
 #endif
         }
 
-        #endregion
+        /// <summary>
+        /// Reads all text from the indicated file.
+        /// </summary>
+        /// <param name="path">Filepath to the file to read from.</param>
+        /// <returns>The contents of the file at the indicated path as a string.</returns>
+        public static string ReadAllText(string path)
+        {
+#if UNITY_ANDROID && !UNITY_EDITOR
+            return AndroidFileIOHelper.ReadAllText(path);
+#else
+            return Task.Run(() => ReadAllTextAsync(path)).GetAwaiter().GetResult();
+#endif
+
+        }
+
+
+
+#endregion
 
         #region Get File System Entries Functionality
 
@@ -557,7 +570,6 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         }
 
         #endregion
-
 
         #region Path Functionality
 
@@ -674,18 +686,49 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
 
         public static bool DirectoryExists(string path)
         {
-            return DirectoryExistsAsync(path).GetAwaiter().GetResult();
+            return ExistsInternal(path);
         }
+
+        public static bool FileExists(string path)
+        {
+            return ExistsInternal(path);
+        }
+
+        private static bool ExistsInternal(string path, bool isDirectory = false)
+        {
+            bool exists = false;
+
+#if UNITY_ANDROID && !UNITY_EDITOR
+            using UnityWebRequest request = UnityWebRequest.Head(path);
+            request.timeout = 2;
+            request.SendWebRequest();
+            while (!request.isDone)
+            {
+                // WARNING: This could freeze the game.
+            }
+
+            exists = (request.result == UnityWebRequest.Result.Success);
+#else
+            if (isDirectory)
+            {
+                exists = Directory.Exists(path);
+            }
+            else
+            {
+                exists = File.Exists(path);
+            }
+#endif
+
+            return exists;
+        }
+
+#if IO_ASYNC_ALLOWED
 
         public static async Task<bool> DirectoryExistsAsync(string path)
         {
             return await ExistsInternalAsync(path, isDirectory: true);
         }
 
-        public static bool FileExists(string path)
-        {
-            return FileExistsAsync(path).GetAwaiter().GetResult();
-        }
 
         public static async Task<bool> FileExistsAsync(string path)
         {
@@ -716,8 +759,9 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
 #endif
             return await Task.FromResult(exists);
         }
+#endif
 
-        #endregion
+#endregion
 
         public static void NormalizePath(ref string path)
         {
