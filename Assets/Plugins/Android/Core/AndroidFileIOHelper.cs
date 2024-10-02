@@ -29,6 +29,19 @@ namespace PlayEveryWare.EpicOnlineServices
 
     public class AndroidFileIOHelper
     {
+        public static string ReadAllText(string filePath)
+        {
+            using UnityWebRequest request = UnityWebRequest.Get(filePath);
+            request.timeout = 2; //seconds till timeout
+            UnityWebRequestAsyncOperation operation = request.SendWebRequest();
+
+            while (!operation.isDone)
+            {
+            }
+
+            return ProcessRequest(filePath, request);
+        }
+
         public static async Task<string> ReadAllTextAsync(string filePath)
         {
             using UnityWebRequest request = UnityWebRequest.Get(filePath);
@@ -40,6 +53,11 @@ namespace PlayEveryWare.EpicOnlineServices
                 await Task.Yield();
             }
 
+            return ProcessRequest(filePath, request);
+        }
+
+        private static string ProcessRequest(string filePath, UnityWebRequest request)
+        {
             string text = null;
 
             switch (request.result)
