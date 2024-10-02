@@ -51,6 +51,7 @@
 
 namespace PlayEveryWare.EpicOnlineServices
 {
+    using Extensions;
     using UnityEngine;
     using System;
     using System.Collections.Generic;
@@ -476,7 +477,7 @@ namespace PlayEveryWare.EpicOnlineServices
 #if UNITY_EDITOR
                     PlatformFlags.LoadingInEditor;
 #else
-                    configData.platformOptionsFlags;
+                    configData.platformOptionsFlags.Unwrap();
 #endif
                 if (configData.IsEncryptionKeyValid())
                 {
