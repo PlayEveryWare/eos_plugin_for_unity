@@ -482,7 +482,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
 
         public static async Task<(bool Success, string Result)> TryReadAllTextAsync(string filePath)
         {
-            bool fileExists = await ExistsInternal(filePath, false);
+            bool fileExists = await ExistsInternalAsync(filePath, false);
 
             if (!fileExists)
             {
@@ -679,7 +679,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
 
         public static async Task<bool> DirectoryExistsAsync(string path)
         {
-            return await ExistsInternal(path, isDirectory: true);
+            return await ExistsInternalAsync(path, isDirectory: true);
         }
 
         public static bool FileExists(string path)
@@ -689,10 +689,10 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
 
         public static async Task<bool> FileExistsAsync(string path)
         {
-            return await ExistsInternal(path, isDirectory: false);
+            return await ExistsInternalAsync(path, isDirectory: false);
         }
 
-        private static async Task<bool> ExistsInternal(string path, bool isDirectory)
+        private static async Task<bool> ExistsInternalAsync(string path, bool isDirectory)
         {
             bool exists = false;
 #if UNITY_ANDROID && !UNITY_EDITOR

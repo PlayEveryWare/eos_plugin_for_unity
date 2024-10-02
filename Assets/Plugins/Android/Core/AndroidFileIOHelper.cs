@@ -29,7 +29,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
     public class AndroidFileIOHelper
     {
-        public static async Task<string> ReadAllText(string filePath)
+        public static async Task<string> ReadAllTextAsync(string filePath)
         {
             using UnityWebRequest request = UnityWebRequest.Get(filePath);
             request.timeout = 2; //seconds till timeout
