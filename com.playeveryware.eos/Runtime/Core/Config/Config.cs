@@ -97,8 +97,15 @@ namespace PlayEveryWare.EpicOnlineServices
         /// config with default values.
         /// </param>
         protected Config(string filename, bool allowDefault = false) :
-            this(filename, FileSystemUtility.CombinePaths(
-                Application.streamingAssetsPath, "EOS"), allowDefault) { }
+            this(filename, 
+                FileSystemUtility.CombinePaths(
+                
+                    Application.streamingAssetsPath,
+#if UNITY_ANDROID && !UNITY_EDITOR
+                    "StreamingAssets",
+#endif
+                    "EOS"
+                    ), allowDefault) { }
 
         /// <summary>
         /// Instantiates a new config based on the file at the given file and
@@ -224,8 +231,33 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <returns>Task<typeparam name="T">Config type.</typeparam></returns>
         public static T Get<T>() where T : Config
         {
-            T config = Task.Run(GetAsync<T>).GetAwaiter().GetResult();
-            return config;
+            // NOTE: This block (and the corresponding one below) exists so that
+            //       the config values are only cached when not in the editor.
+            //       In the editor, config files can be changed, so they should
+            //       not be cached.
+#if !UNITY_EDITOR
+            // Return cached copy if it exists.
+            if (s_cachedConfigs.TryGetValue(typeof(T), out Config config))
+            {
+                return (T)config;
+            }
+#endif
+            // Try to get the factory method used to instantiate the config.
+            _ = TryGetFactory<T>(out Func<Config> factory);
+
+            // Use the factory method to create the config.
+            T instance = (T)factory();
+
+            // Asynchronously read config values from the corresponding file.
+            instance.Read();
+
+#if !UNITY_EDITOR
+            // Cache the newly created config with its values having been read.
+            s_cachedConfigs.Add(typeof(T), instance);
+#endif
+
+            // Return the config being retrieved.
+            return instance;
         }
 
         /// <summary>
@@ -311,8 +343,13 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </summary>
         protected virtual void Read()
         {
-            // Call ReadAsync() synchronously.
-            Task.Run(ReadAsync).GetAwaiter().GetResult();
+            if (!FileSystemUtility.FileExists(FilePath))
+            {
+                return;
+            }
+
+            _lastReadJsonString = FileSystemUtility.ReadAllText(FilePath);
+            JsonUtility.FromJsonOverwrite(_lastReadJsonString, this);
         }
 
         /// <summary>

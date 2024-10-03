@@ -752,6 +752,9 @@ namespace PlayEveryWare.EpicOnlineServices
             /// </summary>
             private void InitializeLogLevels()
             {
+                SetLogLevel(LogCategory.AllCategories, LogLevel.Info);
+                return;
+
                 var logLevelList = LogLevelUtility.LogLevelList;
 
                 if (logLevelList == null)
