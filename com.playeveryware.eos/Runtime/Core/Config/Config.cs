@@ -97,11 +97,8 @@ namespace PlayEveryWare.EpicOnlineServices
         /// config with default values.
         /// </param>
         protected Config(string filename, bool allowDefault = false) :
-            this(filename, 
-                FileSystemUtility.CombinePaths(
-                    Application.streamingAssetsPath,
-                    "EOS"
-                    ), allowDefault) { }
+            this(filename, FileSystemUtility.CombinePaths(
+                Application.streamingAssetsPath, "EOS"), allowDefault) { }
 
         /// <summary>
         /// Instantiates a new config based on the file at the given file and
