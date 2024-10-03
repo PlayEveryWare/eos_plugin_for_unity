@@ -99,11 +99,7 @@ namespace PlayEveryWare.EpicOnlineServices
         protected Config(string filename, bool allowDefault = false) :
             this(filename, 
                 FileSystemUtility.CombinePaths(
-                
                     Application.streamingAssetsPath,
-#if UNITY_ANDROID && !UNITY_EDITOR
-                    "StreamingAssets",
-#endif
                     "EOS"
                     ), allowDefault) { }
 
@@ -184,6 +180,9 @@ namespace PlayEveryWare.EpicOnlineServices
             return true;
         }
 
+        // NOTE: This compile conditional is here because in Unity, Async IO 
+        //       works poorly on Android devices.
+#if !UNITY_ANDROID || UNITY_EDITOR
         /// <summary>
         /// Retrieves indicated Config object, reading its values into memory.
         /// </summary>
@@ -223,6 +222,7 @@ namespace PlayEveryWare.EpicOnlineServices
             // Return the config being retrieved.
             return instance;
         }
+#endif
 
         /// <summary>
         /// Retrieves indicated Config object, reading its values into memory.
@@ -321,6 +321,9 @@ namespace PlayEveryWare.EpicOnlineServices
             }
         }
 
+        // NOTE: This compile conditional is here because Async IO does not work
+        //       well on Android.
+#if !UNITY_ANDROID || UNITY_EDITOR
         /// <summary>
         /// Asynchronously read the values from the JSON file associated with
         /// this Config
@@ -336,6 +339,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 JsonUtility.FromJsonOverwrite(_lastReadJsonString, this);
             }
         }
+#endif
 
         /// <summary>
         /// Synchronously reads the contents of a Config from the json file that

@@ -479,7 +479,9 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
 #endif
 
         #region File Read Functionality
-
+        // NOTE: This compile conditional is here because on Android devices
+        //       async IO doesn't work well.
+#if !UNITY_ANDROID || UNITY_EDITOR
         public static async Task<(bool Success, string Result)> TryReadAllTextAsync(string filePath)
         {
             bool fileExists = await ExistsInternalAsync(filePath, false);
@@ -494,6 +496,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
             return null == contents ? (false, null) : (true, contents);
         }
 
+
         /// <summary>
         /// Asynchronously reads all text from the indicated file.
         /// </summary>
@@ -501,12 +504,6 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         /// <returns>Task</returns>
         public static async Task<string> ReadAllTextAsync(string path)
         {
-#if UNITY_ANDROID && !UNITY_EDITOR
-            // On Android, use a custom helper to read the file
-            return await AndroidFileIOHelper.ReadAllTextAsync(path);
-#else
-            // On other platforms, read asynchronously or synchronously as
-            // appropriate.
             try
             {
                 return await File.ReadAllTextAsync(path);
@@ -516,8 +513,8 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
                 Debug.LogException(e);
                 throw;
             }
-#endif
         }
+#endif
 
         /// <summary>
         /// Reads all text from the indicated file.

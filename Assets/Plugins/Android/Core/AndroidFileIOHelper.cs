@@ -32,13 +32,10 @@ namespace PlayEveryWare.EpicOnlineServices
     {
         public static bool FileExists(string filePath)
         {
-            using UnityWebRequest request = UnityWebRequest.Head(filePath);
+            using UnityWebRequest request = UnityWebRequest.Get(filePath);
             request.timeout = 2;
             request.SendWebRequest();
-            while (!request.isDone)
-            {
-                // WARNING: This could freeze the game.
-            }
+            while (!request.isDone) { }
 
             bool exists = (request.result == UnityWebRequest.Result.Success);
 
@@ -52,35 +49,17 @@ namespace PlayEveryWare.EpicOnlineServices
             {
                 Debug.LogError(logMessage);
             }
-            
 
             return exists;
         }
-
 
         public static string ReadAllText(string filePath)
         {
             using UnityWebRequest request = UnityWebRequest.Get(filePath);
             request.timeout = 2; //seconds till timeout
-            UnityWebRequestAsyncOperation operation = request.SendWebRequest();
+            request.SendWebRequest();
 
-            while (!operation.isDone)
-            {
-            }
-
-            return ProcessRequest(filePath, request);
-        }
-
-        public static async Task<string> ReadAllTextAsync(string filePath)
-        {
-            using UnityWebRequest request = UnityWebRequest.Get(filePath);
-            request.timeout = 2; //seconds till timeout
-            UnityWebRequestAsyncOperation operation = request.SendWebRequest();
-
-            while (!operation.isDone)
-            {
-                await Task.Yield();
-            }
+            while (!request.isDone) { }
 
             return ProcessRequest(filePath, request);
         }
