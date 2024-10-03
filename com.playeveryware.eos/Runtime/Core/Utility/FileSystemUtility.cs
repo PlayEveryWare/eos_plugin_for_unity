@@ -20,13 +20,7 @@
  * SOFTWARE.
  */
 
-#if !UNITY_ANDROID && !UNITY_EDITOR
-#define IO_ASYNC_ALLOWED
-#endif
-
 using System.Runtime.CompilerServices;
-
-
 
 [assembly: InternalsVisibleTo("com.playeveryware.eos-Editor")]
 namespace PlayEveryWare.EpicOnlineServices.Utility
@@ -58,6 +52,12 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
     /// </summary>
     internal static class FileSystemUtility
     {
+        // This compile conditional exists because the following functions 
+        // make use of the System.Linq namespace which is undesirable to use
+        // during runtime. Since these functions are currently only ever 
+        // utilized in areas of the code that run in the editor, it is
+        // appropriate to use compile conditionals to include / exclude them.
+#if UNITY_EDITOR
         /// <summary>
         /// Interval with which to update progress, in milliseconds
         /// </summary>
@@ -192,12 +192,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
             return true;
         }
 
-        // This compile conditional exists because the following functions 
-        // make use of the System.Linq namespace which is undesirable to use
-        // during runtime. Since these functions are currently only ever 
-        // utilized in areas of the code that run in the editor, it is
-        // appropriate to use compile conditionals to include / exclude them.
-#if UNITY_EDITOR
+
         /// <summary>
         /// Get a list of the directories that are represented by the filepaths
         /// provided. The list is unique, and is ordered by smallest path first,
@@ -355,7 +350,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
 
             await Task.WhenAll(tasks);
         }
-#endif
+
         /// <summary>
         /// Copies a single file asynchronously.
         /// </summary>
@@ -419,7 +414,6 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
             }
         }
 
-#if UNITY_EDITOR
         /// <summary>
         /// Returns the root of the Unity project.
         /// </summary>
@@ -686,7 +680,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
 
         public static bool DirectoryExists(string path)
         {
-            return ExistsInternal(path);
+            return ExistsInternal(path, true);
         }
 
         public static bool FileExists(string path)
@@ -699,15 +693,12 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
             bool exists = false;
 
 #if UNITY_ANDROID && !UNITY_EDITOR
-            using UnityWebRequest request = UnityWebRequest.Head(path);
-            request.timeout = 2;
-            request.SendWebRequest();
-            while (!request.isDone)
+            if (isDirectory)
             {
-                // WARNING: This could freeze the game.
+                throw new Exception("Cannot determine if directory exists in Android.");
             }
 
-            exists = (request.result == UnityWebRequest.Result.Success);
+            return AndroidFileIOHelper.FileExists(path);
 #else
             if (isDirectory)
             {
@@ -721,8 +712,6 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
 
             return exists;
         }
-
-#if IO_ASYNC_ALLOWED
 
         public static async Task<bool> DirectoryExistsAsync(string path)
         {
@@ -759,7 +748,6 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
 #endif
             return await Task.FromResult(exists);
         }
-#endif
 
 #endregion
 

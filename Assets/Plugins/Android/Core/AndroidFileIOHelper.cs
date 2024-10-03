@@ -23,12 +23,41 @@
 namespace PlayEveryWare.EpicOnlineServices
 {
     using System;
+    using System.IO;
     using System.Threading.Tasks;
     using UnityEngine;
     using UnityEngine.Networking;
 
     public class AndroidFileIOHelper
     {
+        public static bool FileExists(string filePath)
+        {
+            using UnityWebRequest request = UnityWebRequest.Head(filePath);
+            request.timeout = 2;
+            request.SendWebRequest();
+            while (!request.isDone)
+            {
+                // WARNING: This could freeze the game.
+            }
+
+            bool exists = (request.result == UnityWebRequest.Result.Success);
+
+            string logMessage = $"AndroidFileIOHelper says that \"{filePath}\" {(exists ? "does" : "does not")} exist.";
+
+            if (exists)
+            {
+                Debug.Log(logMessage);
+            }
+            else
+            {
+                Debug.LogError(logMessage);
+            }
+            
+
+            return exists;
+        }
+
+
         public static string ReadAllText(string filePath)
         {
             using UnityWebRequest request = UnityWebRequest.Get(filePath);
