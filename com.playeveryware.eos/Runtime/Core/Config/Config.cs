@@ -245,7 +245,7 @@ namespace PlayEveryWare.EpicOnlineServices
             // Use the factory method to create the config.
             T instance = (T)factory();
 
-            // Asynchronously read config values from the corresponding file.
+            // Synchronously read config values from the corresponding file.
             instance.Read();
 
 #if !UNITY_EDITOR
