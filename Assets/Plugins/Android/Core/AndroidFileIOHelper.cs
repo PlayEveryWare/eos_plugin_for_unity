@@ -39,15 +39,9 @@ namespace PlayEveryWare.EpicOnlineServices
 
             bool exists = (request.result == UnityWebRequest.Result.Success);
 
-            string logMessage = $"AndroidFileIOHelper says that \"{filePath}\" {(exists ? "does" : "does not")} exist.";
-
-            if (exists)
+            if (!exists)
             {
-                Debug.Log(logMessage);
-            }
-            else
-            {
-                Debug.LogError(logMessage);
+                Debug.LogError($"AndroidFileIOHelper says that \"{filePath}\" does not exist.");
             }
 
             return exists;
