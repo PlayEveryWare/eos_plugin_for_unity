@@ -752,6 +752,10 @@ namespace PlayEveryWare.EpicOnlineServices
             /// </summary>
             private void InitializeLogLevels()
             {
+                // TODO: Restore original implementation for this function, but
+                //       fix it to work correctly in Android. There is some
+                //       oddness going on with the LogLevelUtility with respect
+                //       to IO specifically.
                 SetLogLevel(LogCategory.AllCategories, LogLevel.Info);
                 return;
 
