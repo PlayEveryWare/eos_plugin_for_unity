@@ -164,7 +164,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// </param>
         /// <param name="authenticationChangeType">
         /// What kind of authentication change this is.</param>
-        private void OnAuthenticationChanged(bool authenticated, AuthenticationListener.AuthenticationLevelChangeType authenticationChangeType)
+        private void OnAuthenticationChanged(bool authenticated, AuthenticationListener.LoginChangeKind authenticationChangeType)
         {
             if (authenticated || !RequiresAuthentication)
             {

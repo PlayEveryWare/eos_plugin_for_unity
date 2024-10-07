@@ -37,9 +37,22 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <summary>
         /// Identifies the kind of authentication change.
         /// </summary>
-        public enum AuthenticationLevelChangeType
+        public enum LoginChangeKind
         {
+            /// <summary>
+            /// Represents a login change relating to the Auth-login type with EOS.
+            /// A user logged in with the Auth Interface has access to Epic
+            /// Account Services (EAS) operations.
+            /// </summary>
             Auth,
+
+            /// <summary>
+            /// Represents a login change relating to the Connect-login type with EOS.
+            /// A user logged in with the Connect Interface has access to all
+            /// EOS Game Services.
+            /// Typically a user will be logged in to Auth and then afterwards
+            /// logged in to Connect.
+            /// </summary>
             Connect
         }
 
@@ -51,7 +64,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// True if the authentication state has changed to authenticated, False
         /// otherwise.
         /// </param>
-        public delegate void AuthenticationChangedEventHandler(bool authenticated, AuthenticationLevelChangeType changeType);
+        public delegate void AuthenticationChangedEventHandler(bool authenticated, LoginChangeKind changeType);
 
         /// <summary>
         /// Event that triggers when the state of authentication has changed.
@@ -114,7 +127,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <param name="attemptedState"></param>
         /// <param name="attemptResult"></param>
         /// <param name="changeType">The type of authentication change.</param>
-        private void TriggerAuthenticationChangedEvent(bool attemptedState, Result attemptResult, AuthenticationLevelChangeType changeType)
+        private void TriggerAuthenticationChangedEvent(bool attemptedState, Result attemptResult, LoginChangeKind changeType)
         {
             // If the attempt to change the state of authentication did not 
             // succeed, then log a warning and stop.
@@ -140,7 +153,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </param>
         public void OnAuthLogin(LoginCallbackInfo loginCallbackInfo)
         {
-            TriggerAuthenticationChangedEvent(true, loginCallbackInfo.ResultCode, AuthenticationLevelChangeType.Auth);
+            TriggerAuthenticationChangedEvent(true, loginCallbackInfo.ResultCode, LoginChangeKind.Auth);
         }
 
         /// <summary>
@@ -151,7 +164,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </param>
         public void OnAuthLogout(LogoutCallbackInfo logoutCallbackInfo)
         {
-            TriggerAuthenticationChangedEvent(false, logoutCallbackInfo.ResultCode, AuthenticationLevelChangeType.Auth);
+            TriggerAuthenticationChangedEvent(false, logoutCallbackInfo.ResultCode, LoginChangeKind.Auth);
         }
 
         /// <summary>
@@ -162,7 +175,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </param>
         public void OnConnectLogin(Epic.OnlineServices.Connect.LoginCallbackInfo loginCallbackInfo)
         {
-            TriggerAuthenticationChangedEvent(true, loginCallbackInfo.ResultCode, AuthenticationLevelChangeType.Connect);
+            TriggerAuthenticationChangedEvent(true, loginCallbackInfo.ResultCode, LoginChangeKind.Connect);
         }
 
         /// <summary>

@@ -159,7 +159,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
         }
 
-        private void OnAuthenticationChanged(bool authenticated, AuthenticationListener.AuthenticationLevelChangeType changeType)
+        private void OnAuthenticationChanged(bool authenticated, AuthenticationListener.LoginChangeKind changeType)
         {
             if (authenticated)
             {
@@ -176,7 +176,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// By default, there is no action taken.
         /// </summary>
         /// <param name="changeType">The type of authentication change.</param>
-        protected virtual void OnLoggedIn(AuthenticationListener.AuthenticationLevelChangeType changeType) { }
+        protected virtual void OnLoggedIn(AuthenticationListener.LoginChangeKind changeType) { }
 
         /// <summary>
         /// If there are tasks that need to be done when logged out, consider
@@ -184,7 +184,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// be done.
         /// </summary>
         /// <param name="changeType">The type of authentication change.</param>
-        protected void OnLoggedOut(AuthenticationListener.AuthenticationLevelChangeType changeType)
+        protected void OnLoggedOut(AuthenticationListener.LoginChangeKind changeType)
         {
             Reset();
         }
