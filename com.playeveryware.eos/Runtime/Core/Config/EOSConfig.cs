@@ -96,7 +96,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </summary>
         [ConfigField("Product Id", ConfigFieldType.Text,
             "Product Id defined in the Development Portal.", 0)]
-        public string productID;
+        public Guid productID;
 
         #endregion
 
@@ -179,7 +179,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
         #endregion
 
-#region Flags
+        #region Flags
 
 #if !EOS_DISABLE
         /// <summary>
@@ -203,7 +203,7 @@ namespace PlayEveryWare.EpicOnlineServices
         public AuthScopeFlags authScopeOptionsFlags;
 #endif
 
-#endregion
+        #endregion
 
         #region Thread Affinity & Various Time Budgets
 
