@@ -201,7 +201,6 @@ namespace PlayEveryWare.EpicOnlineServices
             "Platform option flags",
             3)]
         [JsonConverter(typeof(ListOfStringsToPlatformFlags))]
-        [ParsesToPlatformFlagFieldValidator]
         public WrappedPlatformFlags platformOptionsFlags;
 
         /// <summary>
@@ -212,7 +211,6 @@ namespace PlayEveryWare.EpicOnlineServices
             "Platform option flags",
             3)]
         [JsonConverter(typeof(ListOfStringsToAuthScopeFlags))]
-        [ParsesToAuthScopeFieldValidator]
         public AuthScopeFlags authScopeOptionsFlags;
 #endif
 
@@ -258,7 +256,6 @@ namespace PlayEveryWare.EpicOnlineServices
             "that are not IO related.",
             3)]
         [JsonConverter(typeof(StringToTypeConverter<ulong>))]
-        [ParsesToUlongFieldValidator]
         public ulong? ThreadAffinity_networkWork;
 
         /// <summary>
@@ -269,7 +266,6 @@ namespace PlayEveryWare.EpicOnlineServices
             "Specifies affinity for threads that generate storage IO.",
             3)]
         [JsonConverter(typeof(StringToTypeConverter<ulong>))]
-        [ParsesToUlongFieldValidator]
         public ulong? ThreadAffinity_storageIO;
 
         /// <summary>
@@ -280,7 +276,6 @@ namespace PlayEveryWare.EpicOnlineServices
             "Specifies affinity for threads that generate web socket " +
             "IO.", 3)]
         [JsonConverter(typeof(StringToTypeConverter<ulong>))]
-        [ParsesToUlongFieldValidator]
         public ulong? ThreadAffinity_webSocketIO;
 
         /// <summary>
@@ -292,7 +287,6 @@ namespace PlayEveryWare.EpicOnlineServices
             "related to P2P traffic and management.",
             3)]
         [JsonConverter(typeof(StringToTypeConverter<ulong>))]
-        [ParsesToUlongFieldValidator]
         public ulong? ThreadAffinity_P2PIO;
 
         /// <summary>
@@ -304,7 +298,6 @@ namespace PlayEveryWare.EpicOnlineServices
             "HTTP request IO.",
             3)]
         [JsonConverter(typeof(StringToTypeConverter<ulong>))]
-        [ParsesToUlongFieldValidator]
         public ulong? ThreadAffinity_HTTPRequestIO;
 
         /// <summary>
@@ -316,7 +309,6 @@ namespace PlayEveryWare.EpicOnlineServices
             "IO related to RTC traffic and management.",
             3)]
         [JsonConverter(typeof(StringToTypeConverter<ulong>))]
-        [ParsesToUlongFieldValidator]
         public ulong? ThreadAffinity_RTCIO;
 
         #endregion
