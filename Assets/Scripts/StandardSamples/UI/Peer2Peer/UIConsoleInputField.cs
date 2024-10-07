@@ -76,7 +76,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             editText = currentText;
 #endif
 
-            SampleSelectableStateHandler.RaiseSampleSelectableStateChange();
+            SampleSelectableStateHandler.NotifySampleSelectableUpdate();
         }
 
         public void OnEndEdit(string value)
@@ -101,7 +101,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             if (StateHandlerForSubmit != null)
             {
-                SampleSelectableStateHandler.RaiseSampleSelectableStateChange();
+                SampleSelectableStateHandler.NotifySampleSelectableUpdate();
             }
         }
 

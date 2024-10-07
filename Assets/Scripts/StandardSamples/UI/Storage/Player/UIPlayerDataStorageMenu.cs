@@ -242,7 +242,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             currentSelectedFile = string.Empty;
             CurrentFileNameText.text = "*No File Selected*";
 
-            SampleSelectableStateHandler.RaiseSampleSelectableStateChange();
+            SampleSelectableStateHandler.NotifySampleSelectableUpdate();
         }
 
         private void FileListOnClick(string fileName)
@@ -262,7 +262,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             currentInventory = null;
             LocalViewText.text = "*** Click Download button to create a local copy to modify ***";
 
-            SampleSelectableStateHandler.RaiseSampleSelectableStateChange();
+            SampleSelectableStateHandler.NotifySampleSelectableUpdate();
         }
 
         private void UpdateRemoteView(string fileName)

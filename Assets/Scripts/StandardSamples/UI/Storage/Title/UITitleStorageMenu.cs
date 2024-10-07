@@ -89,7 +89,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 GameObject.Destroy(child.gameObject);
             }
 
-            SampleSelectableStateHandler.RaiseSampleSelectableStateChange();
+            SampleSelectableStateHandler.NotifySampleSelectableUpdate();
         }
 
         public void AddPlatformTagOnClick()
@@ -145,7 +145,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 tagEntry.TagTxt.text = tag;
             }
 
-            SampleSelectableStateHandler.RaiseSampleSelectableStateChange();
+            SampleSelectableStateHandler.NotifySampleSelectableUpdate();
 
             return true;
         }
