@@ -563,6 +563,11 @@ namespace PlayEveryWare.EpicOnlineServices
             // those cases, this code will early out.
             public void Init(IEOSCoroutineOwner coroutineOwner)
             {
+                Init(coroutineOwner, EOSPackageInfo.ConfigFileName);
+            }
+
+            private void Init(IEOSCoroutineOwner coroutineOwner, string configFileName)
+            {
                 if (GetEOSPlatformInterface() != null)
                 {
                     print("Init completed with existing EOS PlatformInterface");
@@ -752,13 +757,12 @@ namespace PlayEveryWare.EpicOnlineServices
             /// </summary>
             private void InitializeLogLevels()
             {
-                // TODO: Restore original implementation for this function, but
-                //       fix it to work correctly in Android. There is some
-                //       oddness going on with the LogLevelUtility with respect
-                //       to IO specifically.
+                // This compile conditional is here to circumnavigate issues
+                // unique to android with respect to Config class functionality.
+#if UNITY_ANDROID && !UNITY_EDITOR
                 SetLogLevel(LogCategory.AllCategories, LogLevel.Info);
                 return;
-
+#else
                 var logLevelList = LogLevelUtility.LogLevelList;
 
                 if (logLevelList == null)
@@ -771,6 +775,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 {
                     SetLogLevel((LogCategory)logCategoryIndex, logLevelList[logCategoryIndex]);
                 }
+#endif
             }
 
             //-------------------------------------------------------------------------
@@ -1784,8 +1789,8 @@ namespace PlayEveryWare.EpicOnlineServices
         }
 #endif
 
-        /// <value>Private static instance of <c>EOSSingleton</c></value>
-        static EOSSingleton s_instance;
+                /// <value>Private static instance of <c>EOSSingleton</c></value>
+                static EOSSingleton s_instance;
 
         /// <value>Public static instance of <c>EOSSingleton</c></value>
         //-------------------------------------------------------------------------
