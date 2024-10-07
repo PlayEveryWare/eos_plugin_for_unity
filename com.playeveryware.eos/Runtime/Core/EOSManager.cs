@@ -563,6 +563,11 @@ namespace PlayEveryWare.EpicOnlineServices
             // those cases, this code will early out.
             public void Init(IEOSCoroutineOwner coroutineOwner)
             {
+                Init(coroutineOwner, EOSPackageInfo.ConfigFileName);
+            }
+
+            private void Init(IEOSCoroutineOwner coroutineOwner, string configFileName)
+            {
                 if (GetEOSPlatformInterface() != null)
                 {
                     print("Init completed with existing EOS PlatformInterface");

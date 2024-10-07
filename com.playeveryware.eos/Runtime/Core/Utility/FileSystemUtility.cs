@@ -526,7 +526,15 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
 #if UNITY_ANDROID && !UNITY_EDITOR
             return AndroidFileIOHelper.ReadAllText(path);
 #else
-            return Task.Run(() => ReadAllTextAsync(path)).GetAwaiter().GetResult();
+            try
+            {
+                return File.ReadAllText(path);
+            }
+            catch (Exception e)
+            {
+                Debug.LogException(e);
+                throw;
+            }
 #endif
 
         }
