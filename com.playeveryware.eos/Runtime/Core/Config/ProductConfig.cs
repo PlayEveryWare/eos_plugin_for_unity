@@ -29,6 +29,7 @@ namespace PlayEveryWare.EpicOnlineServices
     /// Contains information about the product entered by the user from the Epic
     /// Developer Portal.
     /// </summary>
+    [ConfigGroup("Product Information")]
     public class ProductConfig : Config
     {
         /// <summary>
@@ -37,6 +38,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// it is used as a label for user interface purposes - and is allowed
         /// to differ from the label given to it on the Developer Portal.
         /// </summary>
+        [ConfigField("Product Information", ConfigFieldType.NamedGuid)]
         public Named<Guid> ProductId;
 
         /// <summary>

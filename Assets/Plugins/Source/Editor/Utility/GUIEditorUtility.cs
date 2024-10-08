@@ -22,6 +22,7 @@
 
 namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
 {
+    using Common;
     using EpicOnlineServices.Utility;
     using System;
     using System.Collections.Generic;
@@ -210,6 +211,38 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
         #region New methods for rendering input fields
 
         private delegate T InputRenderDelegate<T>(string label, T value, float labelWidth, string tooltip);
+
+        public static Named<Guid> RenderInputField(ConfigFieldAttribute configFieldDetails, Named<Guid> value, float labelWidth,
+            string tooltip = null)
+        {
+            GUILayout.BeginHorizontal();
+
+            var newValue = InputRendererWrapper<Named<Guid>>(configFieldDetails.Label, value, labelWidth, tooltip,
+                (label, s, width, tooltip1) =>
+                {
+                    EditorGUILayout.LabelField(CreateGUIContent(configFieldDetails.Label, tooltip));
+
+                    if (null == value)
+                        value = new Named<Guid>();
+
+                    value.Name = EditorGUILayout.TextField(value.Name, GUILayout.ExpandWidth(true));
+
+                    string tempStringGuid = EditorGUILayout.TextField(value.Value.ToString(),GUILayout.ExpandWidth(true));
+
+                    if (Guid.TryParse(tempStringGuid, out Guid newGuid))
+                    {
+                        value.Value = newGuid;
+                    }
+
+                    
+
+                    return value;
+                });
+
+            GUILayout.EndHorizontal();
+
+            return newValue;
+        }
 
         public static List<string> RenderInputField(ConfigFieldAttribute configFieldDetails, List<string> value,
             float labelWidth, string tooltip = null)

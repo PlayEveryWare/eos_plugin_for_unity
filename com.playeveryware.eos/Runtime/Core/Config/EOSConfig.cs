@@ -96,7 +96,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </summary>
         [ConfigField("Product Id", ConfigFieldType.Text,
             "Product Id defined in the Development Portal.", 0)]
-        public Guid productID;
+        public string productID;
 
         #endregion
 

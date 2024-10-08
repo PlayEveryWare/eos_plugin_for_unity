@@ -75,6 +75,14 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </summary>
         TextList,
 
+        NamedGuid,
+
+        SortedSetOfNamedDeployments,
+
+        SortedSetOfNamedSandboxIds,
+
+        SortedSetOfNamedWrappedClientCredentials,
+
         /// <summary>
         /// Indicates that the config has a button that needs rendering. This is
         /// a ConfigFieldType because a Config can have a field member that is

@@ -22,6 +22,7 @@
 
 namespace PlayEveryWare.EpicOnlineServices.Editor
 {
+    using Common;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -260,6 +261,9 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
                             {
                                 onClick();
                             }
+                            break;
+                        case ConfigFieldType.NamedGuid:
+                            field.FieldInfo.SetValue(config, GUIEditorUtility.RenderInputField(field.FieldDetails, (Named<Guid>)field.FieldInfo.GetValue(config), labelWidth));
                             break;
                         default:
                             throw new ArgumentOutOfRangeException();
