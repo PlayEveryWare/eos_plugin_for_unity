@@ -1133,8 +1133,10 @@ static T collect_flags(const std::map<const char*, T>* strings_to_enum_values, T
     T flags_to_return = static_cast<T>(0);
     bool flag_set = false;
 
+    // Stores the string values that are within the JSON
     std::vector<std::string> string_values;
 
+    // If the string values are stored as a JSON array of strings
     if (iter->value->type == json_type_array)
     {
         // Do things if the type is an array
@@ -1144,16 +1146,18 @@ static T collect_flags(const std::map<const char*, T>* strings_to_enum_values, T
             string_values.emplace_back(json_value_as_string(e->value)->string);
         }
     }
+    // If the string values are comma delimited
     else if (iter->value->type == json_type_string)
     {
         const std::string flags = json_value_as_string(iter->value)->string;
         string_values = split_and_trim(flags);
     }
 
+    // Iterate through the string values
     for(const auto str : string_values)
     {
         // Skip if the string is not in the map
-        if (strings_to_enum_values->find(str.c_str()) != strings_to_enum_values->end())
+        if (strings_to_enum_values->find(str.c_str()) == strings_to_enum_values->end())
         {
             continue;
         }
