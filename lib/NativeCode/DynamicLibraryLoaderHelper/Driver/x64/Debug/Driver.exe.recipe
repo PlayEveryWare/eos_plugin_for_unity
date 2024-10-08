@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <ProjectOutputs>
+    <ProjectOutput>
+      <FullPath>C:\Users\PaulPEW\dev\repos\eos_plugin_for_unity\lib\NativeCode\DynamicLibraryLoaderHelper\x64\Debug\Driver.exe</FullPath>
+    </ProjectOutput>
+  </ProjectOutputs>
+  <ContentFiles />
+  <SatelliteDlls />
+  <NonRecipeFileRefs>
+    <NonRecipeFileRef>
+      <FullPath>C:\Users\PaulPEW\dev\repos\eos_plugin_for_unity\lib\NativeCode\DynamicLibraryLoaderHelper\NativeRender\NativeRender.vcxproj</FullPath>
+    </NonRecipeFileRef>
+  </NonRecipeFileRefs>
+</Project>
