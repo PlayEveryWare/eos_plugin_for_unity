@@ -24,7 +24,7 @@ namespace PlayEveryWare.EpicOnlineServices
 {
     using System;
 
-    public class Deployment : IEquatable<Deployment>
+    public struct Deployment : IEquatable<Deployment>
     {
         public readonly SandboxId SandboxId;
 
@@ -32,16 +32,6 @@ namespace PlayEveryWare.EpicOnlineServices
 
         public bool Equals(Deployment other)
         {
-            if (other is null)
-            {
-                return false;
-            }
-
-            if (ReferenceEquals(this, other))
-            {
-                return true;
-            }
-
             return SandboxId.Equals(other.SandboxId) && DeploymentId.Equals(other.DeploymentId);
         }
 

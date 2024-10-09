@@ -61,19 +61,8 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <summary>
         /// Backing field member for the Deployments property.
         /// </summary>
-        private SortedSetOfNamed<Deployment> _deployments;
-
-        /// <summary>
-        /// The set of Deployments as defined within the Epic Developer Portal.
-        /// Every Deployment must point to a Sandbox that 
-        /// </summary>
-        public SortedSetOfNamed<Deployment> Deployments
-        {
-            get
-            {
-                return _deployments;
-            }
-        }
+        [ConfigField("Deployments", ConfigFieldType.SortedSetOfNamedDeployments)]
+        public SortedSetOfNamed<Deployment> Deployments;
 
         public void AddDeployment(string name, Deployment deployment)
         {
@@ -82,7 +71,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 Sandboxes.Add(deployment.SandboxId);
             }
 
-            _deployments.Add(name, deployment);
+            Deployments.Add(name, deployment);
         }
 
         static ProductConfig()
@@ -94,7 +83,7 @@ namespace PlayEveryWare.EpicOnlineServices
         {
             Clients = new SortedSetOfNamed<WrappedClientCredentials>("Client");
             Sandboxes = new SortedSetOfNamed<SandboxId>("Sandbox");
-            _deployments = new SortedSetOfNamed<Deployment>("Deployment");
+            Deployments = new SortedSetOfNamed<Deployment>("Deployment");
         }
     }
 }

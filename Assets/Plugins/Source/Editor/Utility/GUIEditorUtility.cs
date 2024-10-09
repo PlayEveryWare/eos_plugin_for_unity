@@ -300,6 +300,34 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             EditorGUI.LabelField(fieldRect, hintText, HINT_STYLE);
         }
 
+        public static SortedSetOfNamed<Deployment> RenderInput(ConfigFieldAttribute configFieldDetails,
+            SortedSetOfNamed<Deployment> value, float labelWidth, string tooltip = null)
+        {
+            EditorGUILayout.LabelField(CreateGUIContent(configFieldDetails.Label, tooltip));
+
+            List<Named<Deployment>> toRemove = new();
+
+            foreach (Named<Deployment> deployment in value)
+            {
+                GUILayout.BeginHorizontal();
+
+                deployment.Name = RenderHintableField(deployment.Name, "Deployment Name");
+                deployment.Value.DeploymentId = GuidField(deployment.Value.DeploymentId, GUILayout.ExpandWidth(true));
+
+                GUILayout.EndHorizontal();
+            }
+
+            if (GUILayout.Button("Add"))
+            {
+                if (false == value.Add())
+                {
+                    // TODO: Tell user that a new value could not be added.
+                }
+            }
+
+            return value;
+        }
+
         public static SortedSetOfNamed<SandboxId> RenderInput(ConfigFieldAttribute configFieldDetails,
             SortedSetOfNamed<SandboxId> value, float labelWidth, string tooltip = null)
         {
