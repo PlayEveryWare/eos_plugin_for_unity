@@ -1,6 +1,22 @@
 {
-  "ProductId": null,
+  "ProductId": {
+    "Name": null,
+    "Value": "00000000-0000-0000-0000-000000000000"
+  },
   "Clients": [],
-  "Sandboxes": [],
+  "Sandboxes": [
+    {
+      "Name": "Sandbox 3 ",
+      "Value": {
+        "Value": "00000000-0000-0000-0000-000000000000"
+      }
+    },
+    {
+      "Name": "Sandbox 1",
+      "Value": {
+        "Value": null
+      }
+    }
+  ],
   "Deployments": []
 }

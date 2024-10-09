@@ -29,7 +29,7 @@ namespace PlayEveryWare.EpicOnlineServices
     /// Contains information about the product entered by the user from the Epic
     /// Developer Portal.
     /// </summary>
-    [ConfigGroup("Product Information")]
+    [ConfigGroup("Product Information", false)]
     public class ProductConfig : Config
     {
         /// <summary>
@@ -55,6 +55,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// For EOS to function, at least one of these must be set, and it must
         /// match the deployment indicated by the platform config.
         /// </summary>
+        [ConfigField("Sandboxes", ConfigFieldType.SortedSetOfNamedSandboxIds)]
         public SortedSetOfNamed<SandboxId> Sandboxes;
 
         /// <summary>

@@ -71,6 +71,17 @@ namespace PlayEveryWare.Common
             return string.Compare(Name, other.Name, StringComparison.Ordinal);
         }
 
+        /// <summary>
+        /// Compare the equality of one Named instance a value of the same type.
+        /// Only the value of the Named instance is considered when evaluating
+        /// equivalency.
+        /// </summary>
+        /// <param name="other">
+        /// The value to evaluate equality for.
+        /// </param>
+        /// <returns>
+        /// True if the given value is equivalent to the named value instance.
+        /// </returns>
         public bool Equals(T other)
         {
             if (Value == null && other == null)
@@ -104,7 +115,7 @@ namespace PlayEveryWare.Common
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(Name, Value);
+            return HashCode.Combine(Value);
         }
 
         public override string ToString()

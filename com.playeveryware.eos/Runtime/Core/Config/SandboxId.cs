@@ -25,47 +25,37 @@ namespace PlayEveryWare.EpicOnlineServices
     using System.Text.RegularExpressions;
     using System;
 
-    public class SandboxId : IEquatable<SandboxId>
+    public struct SandboxId : IEquatable<SandboxId>
     {
         private string _value;
         const string PreProductionEnvironmentRegex = @"^p\-[a-zA-Z\d]{30}$";
 
         public string Value
         {
-            get
+            readonly get
             {
                 return _value;
             }
             set
             {
-                if (!Guid.TryParse(value, out _))
-                {
-                    if (!Regex.IsMatch(value, PreProductionEnvironmentRegex))
-                    {
-                        throw new ArgumentException(
-                            "Value for SandboxId must either be " +
-                            "parseable to a Guid, or it must start with a " +
-                            "lowercase 'p', followed by a dash and thirty " +
-                            "letter characters.");
-                    }
-                }
+                //if (!Guid.TryParse(value, out _))
+                //{
+                //    if (!Regex.IsMatch(value, PreProductionEnvironmentRegex))
+                //    {
+                //        throw new ArgumentException(
+                //            "Value for SandboxId must either be " +
+                //            "parseable to a Guid, or it must start with a " +
+                //            "lowercase 'p', followed by a dash and thirty " +
+                //            "letter characters.");
+                //    }
+                //}
 
                 _value = value;
             }
         }
 
-        public bool Equals(SandboxId other)
+        public readonly bool Equals(SandboxId other)
         {
-            if (other is null)
-            {
-                return false;
-            }
-
-            if (ReferenceEquals(this, other))
-            {
-                return true;
-            }
-
             return _value == other._value;
         }
 
@@ -76,11 +66,6 @@ namespace PlayEveryWare.EpicOnlineServices
                 return false;
             }
 
-            if (ReferenceEquals(this, obj))
-            {
-                return true;
-            }
-
             if (obj.GetType() != this.GetType())
             {
                 return false;
@@ -89,7 +74,7 @@ namespace PlayEveryWare.EpicOnlineServices
             return Equals((SandboxId)obj);
         }
 
-        public override int GetHashCode()
+        public override readonly int GetHashCode()
         {
             return (_value?.GetHashCode()) ?? 0;
         }

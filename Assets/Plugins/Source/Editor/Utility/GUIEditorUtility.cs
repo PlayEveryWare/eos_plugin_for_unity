@@ -32,7 +32,21 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
 
     public static class GUIEditorUtility
     {
-        private const float MaximumButtonWidth = 100f;
+        /// <summary>
+        /// Maximum width allowed for a button.
+        /// </summary>
+        private const float MAXIMUM_BUTTON_WIDTH = 100f;
+
+        /// <summary>
+        /// Style utilized for hint label overlays.
+        /// </summary>
+        private static readonly GUIStyle HINT_STYLE = new GUIStyle(GUI.skin.label)
+        {
+            normal = new GUIStyleState() { textColor = Color.gray }, fontStyle = FontStyle.Italic
+        };
+
+        private const int HINT_RECT_ADJUST_X = 2;
+        private const int HINT_RECT_ADJUST_Y = 1;
 
         private static GUIContent CreateGUIContent(string label, string tooltip = null)
         {
@@ -64,21 +78,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             GUILayout.EndHorizontal();
             GUILayout.Space(10f);
             GUILayout.EndVertical();
-        }
-
-        public static void AssigningFlagTextField(string label, ref List<string> flags, float labelWidth = -1, string tooltip = null)
-        {
-            float originalLabelWidth = EditorGUIUtility.labelWidth;
-            if (labelWidth >= 0)
-            {
-                EditorGUIUtility.labelWidth = labelWidth;
-            }
-
-            var collectedEOSplatformFlags = String.Join("|", flags ?? new List<string>());
-            var platformFlags = EditorGUILayout.TextField(CreateGUIContent(label, tooltip), collectedEOSplatformFlags);
-            flags = new List<string>(platformFlags.Split('|'));
-
-            EditorGUIUtility.labelWidth = originalLabelWidth;
         }
 
         public static void AssigningTextField(string label, ref string value, float labelWidth = -1, string tooltip = null)
@@ -212,39 +211,167 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
 
         private delegate T InputRenderDelegate<T>(string label, T value, float labelWidth, string tooltip);
 
-        public static Named<Guid> RenderInputField(ConfigFieldAttribute configFieldDetails, Named<Guid> value, float labelWidth,
+        /// <summary>
+        /// Used to describe the function used to render a field of type T.
+        /// </summary>
+        /// <typeparam name="T">
+        /// The type being rendered.
+        /// </typeparam>
+        /// <param name="value">
+        /// The current value to display in the field.
+        /// </param>
+        /// <param name="options">
+        /// Optional parameters that describe the styling of the field to
+        /// render.
+        /// </param>
+        /// <returns>
+        /// The value entered.
+        /// </returns>
+        private delegate T RenderFieldDelegate<T>(T value, params GUILayoutOption[] options);
+
+        /// <summary>
+        /// Used to render a field with an overlay hint label when the field has
+        /// a value that is considered to be "default".
+        /// </summary>
+        /// <typeparam name="T">
+        /// The type of input the field is expecting and returns.
+        /// </typeparam>
+        /// <param name="renderFieldFn">
+        /// The function used to render the input field.
+        /// </param>
+        /// <param name="isDefaultFn">
+        /// The function used to determine if the value is default or not.
+        /// </param>
+        /// <param name="value">
+        /// The current value to display in the input field.
+        /// </param>
+        /// <param name="hintText">
+        /// The hint text to display over the input field if the value is
+        /// considered to be default.
+        /// </param>
+        /// <returns>
+        /// The value entered into the input field.
+        /// </returns>
+        private static T RenderHintableField<T>(
+            RenderFieldDelegate<T> renderFieldFn,
+            Func<T, bool> isDefaultFn,
+            T value,
+            string hintText)
+        {
+            // Generate a unique control name
+            string controlName = Guid.NewGuid().ToString();
+
+            // Set the name of the next field
+            GUI.SetNextControlName(controlName);
+
+            var lastId = GUIUtility.GetControlID(FocusType.Passive);
+
+            // Render the field
+            T newValue = renderFieldFn(value, GUILayout.ExpandWidth(true));
+
+            // Check if the field is default, and that the control is not
+            // focused
+            if (isDefaultFn(newValue) && GUI.GetNameOfFocusedControl() != controlName)
+            {
+                RenderHint(hintText);
+            }
+
+            return newValue;
+        }
+
+        private static string RenderHintableField(string value, string hintText)
+        {
+            return RenderHintableField(EditorGUILayout.TextField, string.IsNullOrEmpty, value, hintText);
+        }
+
+        /// <summary>
+        /// Used to render a label on top of the previously rendered control.
+        /// </summary>
+        /// <param name="hintText">
+        /// The text to display over the last rendered input field.
+        /// </param>
+        private static void RenderHint(string hintText)
+        {
+            // Get the rectangle of the last control rendered
+            Rect fieldRect = GUILayoutUtility.GetLastRect();
+            fieldRect.x += HINT_RECT_ADJUST_X;
+            fieldRect.y += HINT_RECT_ADJUST_Y;
+
+            EditorGUI.LabelField(fieldRect, hintText, HINT_STYLE);
+        }
+
+        public static SortedSetOfNamed<SandboxId> RenderInput(ConfigFieldAttribute configFieldDetails,
+            SortedSetOfNamed<SandboxId> value, float labelWidth, string tooltip = null)
+        {
+            EditorGUILayout.LabelField(CreateGUIContent(configFieldDetails.Label, tooltip));
+
+            // Used to store a list of sandbox ids that need to be removed.
+            List<Named<SandboxId>> toRemove = new();
+
+            foreach (Named<SandboxId> sandboxId in value)
+            {
+                GUILayout.BeginHorizontal();
+
+                sandboxId.Name = RenderHintableField(sandboxId.Name, "Sandbox Name");
+                sandboxId.Value.Value = RenderHintableField(sandboxId.Value.Value, "Sandbox Id");
+
+                if (GUILayout.Button("Delete"))
+                {
+                    toRemove.Add(sandboxId);
+                }
+                GUILayout.EndHorizontal();
+            }
+
+            foreach (Named<SandboxId> sandboxId in toRemove)
+            {
+                value.Remove(sandboxId);
+            }
+
+            if (GUILayout.Button("Add"))
+            {
+                if (false == value.Add())
+                {
+                    // TODO: Tell user that a new value could not be added.
+                }
+            }
+
+            return value;
+        }
+
+        private static Guid GuidField(Guid value, params GUILayoutOption[] options)
+        {
+            string tempStringName = EditorGUILayout.TextField(value.ToString(), options);
+
+            return Guid.TryParse(tempStringName, out Guid newValue) ? newValue : value;
+        }
+
+        public static Named<Guid> RenderInput(ConfigFieldAttribute configFieldDetails, Named<Guid> value, float labelWidth,
             string tooltip = null)
         {
-            GUILayout.BeginHorizontal();
-
             var newValue = InputRendererWrapper<Named<Guid>>(configFieldDetails.Label, value, labelWidth, tooltip,
                 (label, s, width, tooltip1) =>
                 {
                     EditorGUILayout.LabelField(CreateGUIContent(configFieldDetails.Label, tooltip));
 
+                    GUILayout.BeginHorizontal();
+
                     if (null == value)
                         value = new Named<Guid>();
 
-                    value.Name = EditorGUILayout.TextField(value.Name, GUILayout.ExpandWidth(true));
+                    value.Name = RenderHintableField(EditorGUILayout.TextField, string.IsNullOrEmpty, value.Name,
+                        "Product Name");
 
-                    string tempStringGuid = EditorGUILayout.TextField(value.Value.ToString(),GUILayout.ExpandWidth(true));
+                    value.Value = GuidField(value.Value, GUILayout.ExpandWidth(true));
 
-                    if (Guid.TryParse(tempStringGuid, out Guid newGuid))
-                    {
-                        value.Value = newGuid;
-                    }
-
-                    
+                    GUILayout.EndHorizontal();
 
                     return value;
                 });
 
-            GUILayout.EndHorizontal();
-
             return newValue;
         }
 
-        public static List<string> RenderInputField(ConfigFieldAttribute configFieldDetails, List<string> value,
+        public static List<string> RenderInput(ConfigFieldAttribute configFieldDetails, List<string> value,
             float labelWidth, string tooltip = null)
         {
             float currentLabelWidth = EditorGUIUtility.labelWidth;
@@ -264,7 +391,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             EditorGUILayout.BeginHorizontal();
             GUILayout.Label(CreateGUIContent(listLabel, configFieldDetails.ToolTip));
             GUILayout.FlexibleSpace();
-            if (GUILayout.Button("Add", GUILayout.MaxWidth(MaximumButtonWidth)))
+            if (GUILayout.Button("Add", GUILayout.MaxWidth(MAXIMUM_BUTTON_WIDTH)))
             {
                 newValue.Add(string.Empty);
             }
@@ -278,7 +405,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
 
                 newValue[i] = EditorGUILayout.TextField(newValue[i], GUILayout.ExpandWidth(true));
 
-                if (GUILayout.Button("Remove", GUILayout.MaxWidth(MaximumButtonWidth)))
+                if (GUILayout.Button("Remove", GUILayout.MaxWidth(MAXIMUM_BUTTON_WIDTH)))
                 {
                     newValue.RemoveAt(i);
                     itemRemoved = true;
@@ -293,7 +420,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             return newValue;
         }
 
-        public static string RenderInputField(DirectoryPathFieldAttribute configFieldAttributeDetails, string value, float labelWidth,
+        public static string RenderInput(DirectoryPathFieldAttribute configFieldAttributeDetails, string value, float labelWidth,
             string tooltip = null)
         {
             EditorGUILayout.BeginHorizontal();
@@ -305,7 +432,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
                         GUILayout.ExpandWidth(true));
                 });
 
-            if (GUILayout.Button("Select", GUILayout.MaxWidth(MaximumButtonWidth)))
+            if (GUILayout.Button("Select", GUILayout.MaxWidth(MAXIMUM_BUTTON_WIDTH)))
             {
                 string selectedPath = EditorUtility.OpenFolderPanel(configFieldAttributeDetails.Label, "", "");
 
@@ -320,7 +447,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             return filePath;
         }
 
-        public static string RenderInputField(FilePathFieldAttribute configFieldAttributeDetails, string value, float labelWidth, string tooltip = null)
+        public static string RenderInput(FilePathFieldAttribute configFieldAttributeDetails, string value, float labelWidth, string tooltip = null)
         {
             EditorGUILayout.BeginHorizontal();
 
@@ -331,7 +458,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
                         GUILayout.ExpandWidth(true));
                 });
 
-            if (GUILayout.Button("Select", GUILayout.MaxWidth(MaximumButtonWidth)))
+            if (GUILayout.Button("Select", GUILayout.MaxWidth(MAXIMUM_BUTTON_WIDTH)))
             {
                 string selectedPath =
                     EditorUtility.OpenFilePanel(configFieldAttributeDetails.Label, "", configFieldAttributeDetails.Extension);
@@ -347,7 +474,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             return filePath;
         }
 
-        public static double RenderInputField(ConfigFieldAttribute configFieldDetails, double value, float labelWidth, string tooltip = null)
+        public static double RenderInput(ConfigFieldAttribute configFieldDetails, double value, float labelWidth, string tooltip = null)
         {
             return InputRendererWrapper(configFieldDetails.Label, value, labelWidth, tooltip,
                 (label, value1, width, s) =>
@@ -359,7 +486,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
                 });
         }
 
-        public static string RenderInputField(ConfigFieldAttribute configFieldDetails, string value, float labelWidth,
+        public static string RenderInput(ConfigFieldAttribute configFieldDetails, string value, float labelWidth,
             string tooltip = null)
         {
             return InputRendererWrapper<string>(configFieldDetails.Label, value, labelWidth, tooltip,
@@ -370,7 +497,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
                 });
         }
 
-        public static ulong RenderInputField(ConfigFieldAttribute configFieldDetails, ulong value, float labelWidth,
+        public static ulong RenderInput(ConfigFieldAttribute configFieldDetails, ulong value, float labelWidth,
             string tooltip = null)
         {
             return InputRendererWrapper(configFieldDetails.Label, value, labelWidth, tooltip,
@@ -389,7 +516,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
                 });
         }
 
-        public static uint RenderInputField(ConfigFieldAttribute configFieldDetails, uint value, float labelWidth,
+        public static uint RenderInput(ConfigFieldAttribute configFieldDetails, uint value, float labelWidth,
             string tooltip = null)
         {
             return InputRendererWrapper(configFieldDetails.Label, value, labelWidth, tooltip,
@@ -408,7 +535,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
                 });
         }
 
-        public static bool RenderInputField(ConfigFieldAttribute configFieldDetails, bool value, float labelWidth, string tooltip = null)
+        public static bool RenderInput(ConfigFieldAttribute configFieldDetails, bool value, float labelWidth, string tooltip = null)
         {
             return InputRendererWrapper<bool>(configFieldDetails.Label, value, labelWidth, tooltip, (s, b, arg3, arg4) =>
             {
