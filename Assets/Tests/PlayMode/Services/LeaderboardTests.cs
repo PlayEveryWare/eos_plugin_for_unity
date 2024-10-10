@@ -35,7 +35,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Services.Leaderboard
     /// <summary>
     /// Integration tests for leaderboard related calls.
     /// </summary>
-    public class LeaderboardTests : EOSTestBase
+    public partial class LeaderboardTests : EOSTestBase
     {
         private LeaderboardsInterface _leaderboardsInterface;
         private StatsInterface statsInterface;

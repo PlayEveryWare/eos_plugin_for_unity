@@ -30,7 +30,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Connect
     using UnityEngine;
     using UnityEngine.TestTools;
 
-    public class ConnectTests
+    public partial class ConnectTests
     {
         GameObject eosObject;
         protected const float LoginTestTimeout = 30f;

@@ -25,6 +25,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
     using EpicOnlineServices.Utility;
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using UnityEditor;
     using UnityEngine;
 
@@ -96,7 +97,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             EditorGUIUtility.labelWidth = originalLabelWidth;
         }
 
-        public static void AssigningULongToStringField(string label, ref string value, float labelWidth = -1, string tooltip = null)
+        public static void AssigningULongToStringField(string label, ref ulong? value, float labelWidth = -1, string tooltip = null)
         {
             float originalLabelWidth = EditorGUIUtility.labelWidth;
             if (labelWidth >= 0)
@@ -104,38 +105,35 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
                 EditorGUIUtility.labelWidth = labelWidth;
             }
 
-            try
+            EditorGUILayout.BeginHorizontal();
+
+            var guiLabel = CreateGUIContent(label, tooltip);
+            string textToDisplay = string.Empty;
+            
+            if (value.HasValue)
             {
-                EditorGUILayout.BeginHorizontal();
-                var newValueAsString = EditorGUILayout.TextField(CreateGUIContent(label, tooltip), value == null ? "" : value, GUILayout.ExpandWidth(true));
-
-                if (GUILayout.Button("Clear", GUILayout.MaxWidth(50)))
-                {
-                    value = null;
-                }
-                else
-                {
-                    if (string.IsNullOrWhiteSpace(newValueAsString))
-                    {
-                        value = null;
-                        return;
-                    }
-
-                    var valueAsLong = ulong.Parse(newValueAsString);
-                    value = valueAsLong.ToString();
-                }
+                textToDisplay = value.Value.ToString();
             }
-            catch (FormatException)
+            
+            string newTextValue = EditorGUILayout.TextField(guiLabel, textToDisplay, GUILayout.ExpandWidth(true));
+            
+            if (GUILayout.Button("Clear", GUILayout.MaxWidth(50)))
             {
                 value = null;
             }
-            catch (OverflowException)
+            else
             {
+                if (string.IsNullOrEmpty(newTextValue))
+                {
+                    value = null;
+                } 
+                else if (ulong.TryParse(newTextValue, out ulong newLongValue))
+                {
+                    value = newLongValue;
+                }
             }
-            finally
-            {
-                EditorGUILayout.EndHorizontal();
-            }
+
+            EditorGUILayout.EndHorizontal();
 
             EditorGUIUtility.labelWidth = originalLabelWidth;
         }
@@ -154,7 +152,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             EditorGUIUtility.labelWidth = originalLabelWidth;
         }
 
-        public static void AssigningFloatToStringField(string label, ref string value, float labelWidth = -1, string tooltip = null)
+        public static void AssigningFloatToStringField(string label, ref float? value, float labelWidth = -1, string tooltip = null)
         {
             float originalLabelWidth = EditorGUIUtility.labelWidth;
             if (labelWidth >= 0)
@@ -162,38 +160,35 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
                 EditorGUIUtility.labelWidth = labelWidth;
             }
 
-            try
+            EditorGUILayout.BeginHorizontal();
+            var guiLabel = CreateGUIContent(label, tooltip);
+            string textToDisplay = string.Empty;
+
+            if (value.HasValue)
             {
-                EditorGUILayout.BeginHorizontal();
-                var newValueAsString = EditorGUILayout.TextField(CreateGUIContent(label, tooltip), value == null ? "" : value, GUILayout.ExpandWidth(true));
-
-                if (GUILayout.Button("Clear", GUILayout.MaxWidth(50)))
-                {
-                    value = null;
-                }
-                else
-                {
-                    if (string.IsNullOrWhiteSpace(newValueAsString))
-                    {
-                        value = null;
-                        return;
-                    }
-
-                    var valueAsFloat = float.Parse(newValueAsString);
-                    value = valueAsFloat.ToString();
-                }
+                textToDisplay = value.Value.ToString(CultureInfo.InvariantCulture);
             }
-            catch (FormatException)
+
+            string newTextValue = EditorGUILayout.TextField(guiLabel, textToDisplay, GUILayout.ExpandWidth(true));
+
+            if (GUILayout.Button("Clear", GUILayout.MaxWidth(50)))
             {
                 value = null;
             }
-            catch (OverflowException)
+            else
             {
+                if (string.IsNullOrEmpty(newTextValue))
+                {
+                    value = null;
+                }
+                else if (float.TryParse(newTextValue, out float newFloatValue))
+                {
+                    value = newFloatValue;
+                }
             }
-            finally
-            {
-                EditorGUILayout.EndHorizontal();
-            }
+
+            GUILayout.EndHorizontal();
+        
 
             EditorGUIUtility.labelWidth = originalLabelWidth;
         }

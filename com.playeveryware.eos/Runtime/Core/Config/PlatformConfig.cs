@@ -22,12 +22,13 @@
 
 namespace PlayEveryWare.EpicOnlineServices
 {
+    // This compile conditional is here so that when EOS is disabled, nothing is
+    // referenced in the Epic namespace.
 #if !EOS_DISABLE
     using Epic.OnlineServices.IntegratedPlatform;
 #endif
-    using Extensions;
+    using Newtonsoft.Json;
     using System;
-    using System.Collections.Generic;
 
     /// <summary>
     /// Represents a set of configuration data for use by the EOS Plugin for
@@ -39,6 +40,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <summary>
         /// The platform that the set of configuration data is to be applied on.
         /// </summary>
+        [JsonIgnore]
         public PlatformManager.Platform Platform { get; }
 
         /// <summary>
@@ -51,10 +53,15 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </summary>
         public EOSConfig overrideValues;
 
+        // This compile conditional is here so that when EOS is disabled, nothing is
+        // referenced in the Epic namespace.
+#if !EOS_DISABLE
         /// <summary>
         /// Used to store integrated platform management flags.
         /// </summary>
-        public List<string> flags;
+        [JsonConverter(typeof(ListOfStringsToIntegratedPlatformManagementFlags))]
+        public IntegratedPlatformManagementFlags flags;
+#endif
 
         /// <summary>
         /// Create a PlatformConfig by defining the platform it pertains to.
@@ -67,21 +74,5 @@ namespace PlayEveryWare.EpicOnlineServices
         {
             Platform = platform;
         }
-
-        /// <summary>
-        /// Returns a single IntegratedPlatformManagementFlags enum value that
-        /// results from a bitwise OR operation of all the
-        /// integratedPlatformManagementFlags flags on this config.
-        /// </summary>
-        /// <returns>An IntegratedPlatformManagementFlags enum value.</returns>
-#if !EOS_DISABLE
-        public IntegratedPlatformManagementFlags GetIntegratedPlatformManagementFlags()
-        {
-            return StringsToEnum<IntegratedPlatformManagementFlags>(
-                flags,
-                IntegratedPlatformManagementFlagsExtensions.TryParse
-            );
-        }
-#endif
     }
 }
