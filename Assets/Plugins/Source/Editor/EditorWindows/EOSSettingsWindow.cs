@@ -62,7 +62,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
         {
         }
 
-        [MenuItem("EOS Plugin/EOS Configuration")]
+        [MenuItem("EOS Plugin/EOS Configuration", priority = 1)]
         public static void ShowWindow()
         {
             var window = GetWindow<EOSSettingsWindow>();
