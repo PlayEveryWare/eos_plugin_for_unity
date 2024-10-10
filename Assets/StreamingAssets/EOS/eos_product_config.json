@@ -6,17 +6,36 @@
   "Clients": [],
   "Sandboxes": [
     {
-      "Name": "Sandbox 3 ",
+      "Name": "Sandbox",
       "Value": {
-        "Value": "00000000-0000-0000-0000-000000000000"
+        "Value": "00000000-0000-0000-0100-000000000001"
       }
     },
     {
-      "Name": "Sandbox 1",
+      "Name": "Sandbox 3 ",
       "Value": {
-        "Value": null
+        "Value": "00000000-0000-0000-0100-000000000000"
       }
     }
   ],
-  "Deployments": []
+  "Deployments": [
+    {
+      "Name": "Deployment",
+      "Value": {
+        "SandboxId": {
+          "Value": null
+        },
+        "DeploymentId": "00000000-0000-0000-0000-000000000001"
+      }
+    },
+    {
+      "Name": "Deployment (1)",
+      "Value": {
+        "SandboxId": {
+          "Value": null
+        },
+        "DeploymentId": "00000000-0000-0000-0000-000000000000"
+      }
+    }
+  ]
 }
