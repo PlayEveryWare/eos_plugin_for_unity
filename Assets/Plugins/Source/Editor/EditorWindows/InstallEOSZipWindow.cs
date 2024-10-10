@@ -66,7 +66,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
         private string pathToImportDescDirectory;
         private PlatformImportInfoList importInfoList;
 
-        [MenuItem("Tools/EOS Plugin/Install EOS zip")]
+        [MenuItem("EOS Plugin/Install EOS zip")]
         public static void ShowWindow()
         {
             GetWindow<InstallEOSZipWindow>();

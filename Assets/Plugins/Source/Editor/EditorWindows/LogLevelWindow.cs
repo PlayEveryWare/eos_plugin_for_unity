@@ -45,7 +45,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
         {
         }
 
-        [MenuItem("Tools/EOS Plugin/Log Level Configuration")]
+        [MenuItem("EOS Plugin/Log Level Configuration")]
         public static void ShowWindow()
         {
             GetWindow<LogLevelWindow>();

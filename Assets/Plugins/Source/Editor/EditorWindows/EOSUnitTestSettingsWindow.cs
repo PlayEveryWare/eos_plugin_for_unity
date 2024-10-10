@@ -37,7 +37,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Editor
 
         public EOSUnitTestSettingsWindow() : base("EOS Unit Test Configuration") { }
 
-        [MenuItem("Tools/EOS Plugin/Advanced/Unit Test Configuration")]
+        [MenuItem("EOS Plugin/Advanced/Unit Test Configuration")]
         public static void OpenUnitTestSettingsWindow()
         {
             GetWindow<EOSUnitTestSettingsWindow>();

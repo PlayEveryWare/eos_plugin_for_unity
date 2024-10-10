@@ -72,7 +72,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 
         #endregion
 
-        [MenuItem("Tools/EOS Plugin/Create Package")]
+        [MenuItem("EOS Plugin/Create Package")]
         public static void ShowWindow()
         {
             GetWindow<CreatePackageWindow>();
