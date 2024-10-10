@@ -25,7 +25,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
     using System.IO;
     using UnityEditor;
     using UnityEditor.Build.Reporting;
-    using Utility;
+    using EpicOnlineServices.Utility;
 
     // This conditional is here so that no compiler errors will happen if the
     // Unity Editor is not configured to build for iOS.
@@ -60,7 +60,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
 
             PBXProject proj = new();
 
-            proj.ReadFromString(FileUtility.ReadAllText(projPath));
+            proj.ReadFromString(FileSystemUtility.ReadAllText(projPath));
 
             string targetGUID = proj.GetUnityMainTargetGuid();
             string unityTargetGUID = proj.GetUnityFrameworkTargetGuid();
