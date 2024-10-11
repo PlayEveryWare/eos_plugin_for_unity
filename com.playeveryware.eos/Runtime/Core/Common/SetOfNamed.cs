@@ -24,6 +24,7 @@ namespace PlayEveryWare.Common
 {
     using System.Collections.Generic;
     using System;
+    using UnityEditor.PackageManager.Requests;
 
     /// <summary>
     /// Class that stores a unique set of values, where each value has a name
@@ -33,7 +34,7 @@ namespace PlayEveryWare.Common
     /// different values).
     /// </summary>
     /// <typeparam name="T">The type being wrapped with a name.</typeparam>
-    public class SortedSetOfNamed<T> : SortedSet<Named<T>> where T : IEquatable<T>
+    public class SetOfNamed<T> : HashSet<Named<T>> where T : IEquatable<T>
     {
         /// <summary>
         /// When items without a name are added to the SortedSet, this is the
@@ -50,7 +51,7 @@ namespace PlayEveryWare.Common
         /// <param name="defaultNamePattern">
         /// The default name pattern to apply to items being added to the set.
         /// </param>
-        public SortedSetOfNamed(string defaultNamePattern = "NamedItem")
+        public SetOfNamed(string defaultNamePattern = "NamedItem")
         {
             _defaultNamePattern = defaultNamePattern;
         }

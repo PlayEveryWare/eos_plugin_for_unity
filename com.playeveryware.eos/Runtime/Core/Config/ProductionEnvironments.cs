@@ -26,24 +26,9 @@ namespace PlayEveryWare.EpicOnlineServices
 
     public class ProductionEnvironments
     {
-        private SortedSetOfNamed<Deployment> _deployments = new("Deployment");
-        private SortedSetOfNamed<SandboxId> _sandboxes = new("Sandbox");
+        public SetOfNamed<Deployment> Deployments { get; } = new("Deployment");
 
-        public SortedSetOfNamed<Deployment> Deployments
-        {
-            get
-            {
-                return _deployments;
-            }
-        }
-
-        public SortedSetOfNamed<SandboxId> Sandboxes
-        {
-            get
-            {
-                return _sandboxes;
-            }
-        }
+        public SetOfNamed<SandboxId> Sandboxes { get; } = new("Sandbox");
 
         /// <summary>
         /// Adds a Sandbox to the Production Environment.
@@ -55,12 +40,12 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </returns>
         public bool AddSandbox(Named<SandboxId> sandbox = null)
         {
-            return _sandboxes.Add(sandbox);
+            return Sandboxes.Add(sandbox);
         }
 
         public bool AddNewSandbox()
         {
-            return _sandboxes.Add();
+            return Sandboxes.Add();
         }
 
         /// <summary>
@@ -76,7 +61,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </returns>
         public bool RemoveSandbox(Named<SandboxId> sandbox)
         {
-            foreach (Named<Deployment> deployment in _deployments)
+            foreach (Named<Deployment> deployment in Deployments)
             {
                 if (deployment.Value.SandboxId.Equals(sandbox.Value))
                 {
@@ -86,7 +71,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 }
             }
 
-            return _sandboxes.Remove(sandbox);
+            return Sandboxes.Remove(sandbox);
         }
 
         /// <summary>
@@ -101,33 +86,28 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </returns>
         public bool AddDeployment(Named<Deployment> deployment)
         {
-            if (_deployments.ContainsName(deployment.Name))
+            if (Deployments.ContainsName(deployment.Name))
             {
                 // TODO: Tell user deployment with same name already exists, so
                 //       this one cannot be added.
             }
 
-            if (_deployments.Contains(deployment.Value))
+            if (Deployments.Contains(deployment.Value))
             {
                 // TODO: Tell user deployment with same Id already exists, so 
                 //       this one cannot be added.
             }
 
-            // If the sandbox does not already exist, then add it to the list of
-            // sandboxes.
-            if (!_sandboxes.Contains(deployment.Value.SandboxId))
-            {
-                // Add the sandbox.
-                _sandboxes.Add(deployment.Value.SandboxId);
-            }
+            // Add the sandbox (will do nothing if the sandbox already exists).
+            Sandboxes.Add(deployment.Value.SandboxId);
 
             // Add the deployment to the list of deployments
-            return _deployments.Add(deployment);
+            return Deployments.Add(deployment);
         }
 
         public bool AddNewDeployment()
         {
-            return _deployments.Add();
+            return Deployments.Add();
         }
 
         /// <summary>
@@ -141,7 +121,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </returns>
         public bool RemoveDeployment(Named<Deployment> deployment)
         {
-            return _deployments.Remove(deployment);
+            return Deployments.Remove(deployment);
         }
     }
 }

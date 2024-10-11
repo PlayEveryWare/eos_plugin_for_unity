@@ -49,7 +49,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// explicitly indicated, and only one is defined, that one will be
         /// used).
         /// </summary>
-        public SortedSetOfNamed<WrappedClientCredentials> Clients = new("Client");
+        public SetOfNamed<WrappedClientCredentials> Clients = new("Client");
 
         /// <summary>
         /// The set of Sandboxes as defined within the Epic Developer Portal.

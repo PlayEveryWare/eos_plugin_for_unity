@@ -456,7 +456,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
 
         private static void RenderSortedSetOfNamed<T>(
             string label,
-            SortedSetOfNamed<T> value,
+            SetOfNamed<T> value,
             Action<Rect, Named<T>> renderItemFn,
             Action addNewItemFn,
             Action<Named<T>> removeItemFn
