@@ -38,17 +38,17 @@ namespace PlayEveryWare.EpicOnlineServices
             }
             set
             {
-                //if (!Guid.TryParse(value, out _))
-                //{
-                //    if (!Regex.IsMatch(value, PreProductionEnvironmentRegex))
-                //    {
-                //        throw new ArgumentException(
-                //            "Value for SandboxId must either be " +
-                //            "parseable to a Guid, or it must start with a " +
-                //            "lowercase 'p', followed by a dash and thirty " +
-                //            "letter characters.");
-                //    }
-                //}
+                if (!Guid.TryParse(value, out _))
+                {
+                    if (!Regex.IsMatch(value, PreProductionEnvironmentRegex))
+                    {
+                        throw new ArgumentException(
+                            "Value for SandboxId must either be " +
+                            "parseable to a Guid, or it must start with a " +
+                            "lowercase 'p', followed by a dash and thirty " +
+                            "letter characters.");
+                    }
+                }
 
                 _value = value;
             }

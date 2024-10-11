@@ -23,7 +23,6 @@
 namespace PlayEveryWare.EpicOnlineServices
 {
     using Common;
-    using Newtonsoft.Json;
     using System;
 
     /// <summary>

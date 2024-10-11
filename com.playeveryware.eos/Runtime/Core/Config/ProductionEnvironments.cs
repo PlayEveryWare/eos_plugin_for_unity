@@ -24,6 +24,11 @@ namespace PlayEveryWare.EpicOnlineServices
 {
     using Common;
 
+    /// <summary>
+    /// This class contains information about the set of deployments and
+    /// sandboxes that a single EOS plugin project can be configured to
+    /// deploy to.
+    /// </summary>
     public class ProductionEnvironments
     {
         public SetOfNamed<Deployment> Deployments { get; } = new("Deployment");
