@@ -31,8 +31,16 @@ namespace PlayEveryWare.EpicOnlineServices
     /// </summary>
     public class ProductionEnvironments
     {
+        /// <summary>
+        /// Deployments are different environments within defined Sandboxes.
+        /// One sandbox can have more than one Deployment.
+        /// </summary>
         public SetOfNamed<Deployment> Deployments { get; } = new("Deployment");
 
+        /// <summary>
+        /// Sandboxes are different siloed categories of production environment.
+        /// One sandbox can have more than one deployment.
+        /// </summary>
         public SetOfNamed<SandboxId> Sandboxes { get; } = new("Sandbox");
 
         /// <summary>

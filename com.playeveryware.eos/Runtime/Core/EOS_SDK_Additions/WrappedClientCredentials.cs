@@ -44,9 +44,14 @@ namespace PlayEveryWare.EpicOnlineServices
                    ClientSecret == other.ClientSecret;
         }
 
-        public bool Equals(object other)
+        public override bool Equals(object other)
         {
             return other is WrappedClientCredentials otherCreds && Equals(otherCreds);
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(ClientId, ClientSecret);
         }
     }
 }
