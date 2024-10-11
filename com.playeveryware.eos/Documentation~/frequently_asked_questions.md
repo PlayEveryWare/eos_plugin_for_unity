@@ -135,7 +135,7 @@ Overlay errors are most likely due to not having the overlay installed, this is 
 
 Some native functionality are required for platform specific needs.  
 
-To get these dependent libraries, use the platform library build tool in the plugin at `Tools > EOS Plugin > Build Library > [Target Platform]`
+To get these dependent libraries, use the platform library build tool in the plugin at `EOS Plugin > Advanced > Build Library > [Target Platform]`
 
 Or to install the libraries manually, go to the `lib/NativeCode` folder, find the target platform, and *build the `.sln`* or *`run the makefile`* in the folder.
 
