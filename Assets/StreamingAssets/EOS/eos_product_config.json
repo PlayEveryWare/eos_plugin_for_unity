@@ -12,7 +12,7 @@
           "SandboxId": {
             "Value": "ab139ee5b644412781cf99f48b993b45"
           },
-          "DeploymentId": "00000000-0000-0000-0000-000000000000"
+          "DeploymentId": "c529498f-660a-4a3d-8a12-3fd04552cb47"
         }
       }
     ],
@@ -21,12 +21,6 @@
         "Name": "Sandbox",
         "Value": {
           "Value": "ab139ee5b644412781cf99f48b993b45"
-        }
-      },
-      {
-        "Name": "Sandbox (1)",
-        "Value": {
-          "Value": null
         }
       }
     ]

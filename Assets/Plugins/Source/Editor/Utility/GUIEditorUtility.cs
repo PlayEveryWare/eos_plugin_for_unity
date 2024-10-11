@@ -601,6 +601,12 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             return Guid.TryParse(tempStringName, out Guid newValue) ? newValue : value;
         }
 
+        private static Version VersionField(Version value, params GUILayoutOption[] options)
+        {
+            string tempStringVersion = EditorGUILayout.TextField(value.ToString(), options);
+            return Version.TryParse(tempStringVersion, out Version newValue) ? newValue : value;
+        }
+
         public static ProductionEnvironments RenderInput(ConfigFieldAttribute configFieldAttribute,
             ProductionEnvironments value, float labelWidth, string tooltip = null)
         {
