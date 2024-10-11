@@ -25,30 +25,28 @@
 
 namespace PlayEveryWare.EpicOnlineServices
 {
-    using Common;
-    using Epic.OnlineServices.Platform;
     using System;
 
-    public class WrappedClientCredentials : WrappedStruct<ClientCredentials>, IEquatable<WrappedClientCredentials>
+    public class WrappedClientCredentials : IEquatable<WrappedClientCredentials>
     {
-        public WrappedClientCredentials(ClientCredentials credentials) : base(credentials) { }
+        public string ClientId;
+        public string ClientSecret;
+        public string EncryptionKey;
 
-        public override bool Equals(WrappedStruct<ClientCredentials> other)
+        public bool Equals(WrappedClientCredentials other)
         {
             if (other == null)
             {
                 return false;
             }
 
-            var temp = other.Unwrap();
-
-            return temp.ClientId == _value.ClientId &&
-                   temp.ClientSecret == _value.ClientSecret;
+            return ClientId == other.ClientId &&
+                   ClientSecret == other.ClientSecret;
         }
 
-        public bool Equals(WrappedClientCredentials other)
+        public bool Equals(object other)
         {
-            return Equals(other as WrappedStruct<ClientCredentials>);
+            return other is WrappedClientCredentials otherCreds && Equals(otherCreds);
         }
     }
 }

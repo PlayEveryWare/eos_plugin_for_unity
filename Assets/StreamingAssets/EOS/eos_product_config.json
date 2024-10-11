@@ -3,7 +3,16 @@
     "Name": "EOS Plugin for Unity",
     "Value": "f7102b83-5ed1-4b5f-b6b3-a05d87b3d101"
   },
-  "Clients": [],
+  "Clients": [
+    {
+      "Name": "Client",
+      "Value": {
+        "ClientId": "xyza7891wPzGRvRf4SkjlIF8YuqlRLbQ",
+        "ClientSecret": "aXPlP1xDH0PXnp5U+i+M5pYHhaE1a8viV0l1GO422ms",
+        "EncryptionKey": null
+      }
+    }
+  ],
   "Environments": {
     "Deployments": [
       {

@@ -23,6 +23,8 @@
 namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
 {
     using Common;
+    using Epic.OnlineServices;
+    using Epic.OnlineServices.Platform;
     using EpicOnlineServices.Utility;
     using System;
     using System.Collections.Generic;
@@ -328,11 +330,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             return newValue;
         }
 
-        private static string RenderFieldWithHint(string value, string hintText)
-        {
-            return RenderFieldWithHint(EditorGUILayout.TextField, string.IsNullOrEmpty, value, hintText);
-        }
-
         /// <summary>
         /// Used to render a label on top of the previously rendered control.
         /// </summary>
@@ -363,134 +360,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             EditorGUI.LabelField(rect, hintText, HINT_STYLE);
         }
 
-        private static void RenderDeploymentInputs(ref ProductionEnvironments value)
-        {
-            ProductionEnvironments productionEnvironmentsCopy = value;
-
-            List<Named<Deployment>> deployments = value.Deployments.ToList();
-            ReorderableList deploymentList = new(deployments, typeof(Named<Deployment>))
-            {
-                draggable = false,
-
-                drawHeaderCallback = (rect) =>
-                {
-                    Rect titleLabelArea = new(rect.x, rect.y, rect.width - 20f, rect.height);
-                    EditorGUI.LabelField(titleLabelArea, "Deployments");
-
-                    Rect helpIconArea = new(rect.x + titleLabelArea.width, rect.y, 20f, rect.height);
-                    RenderHelpIcon(helpIconArea, "https://dev.epicgames.com/docs/dev-portal/product-management#deployments");
-                },
-
-                drawElementCallback = (rect, index, _, _) =>
-                {
-                    // Add some padding to the rectangle
-                    rect.y += 2f;
-                    rect.height = EditorGUIUtility.singleLineHeight;
-
-                    float firstFieldWidth = (rect.width - 5f) * 0.25f;
-                    float middleFieldWidth = (rect.width - 5f) * 0.50f;
-                    float endFieldWidth = (rect.width - 5f) * 0.25f;
-
-                    float fieldWidth = (rect.width - 5f) / 3f;
-
-                    deployments[index].Name = RenderFieldWithHint(
-                        EditorGUI.TextField,
-                        new Rect(rect.x, rect.y, firstFieldWidth, rect.height),
-                        string.IsNullOrEmpty,
-                        deployments[index].Name,
-                        "Sandbox Name");
-
-                    deployments[index].Value.DeploymentId = GuidField(
-                        new Rect(rect.x + firstFieldWidth + 5f, rect.y, middleFieldWidth, rect.height),
-                        deployments[index].Value.DeploymentId);
-
-                    List<string> sandboxLabelList = new();
-                    int labelIndex = 0;
-                    int selectedIndex = 0;
-                    foreach (Named<SandboxId> sandbox in productionEnvironmentsCopy.Sandboxes)
-                    {
-                        sandboxLabelList.Add(sandbox.Name);
-                        if (sandbox.Value.Equals(deployments[index].Value.SandboxId))
-                        {
-                            selectedIndex = labelIndex;
-                        }
-
-                        labelIndex++;
-                    }
-
-                    int newSelectedIndex = EditorGUI.Popup(new Rect(rect.x + firstFieldWidth + 5f + middleFieldWidth + 5f, rect.y, endFieldWidth, rect.height),
-                        selectedIndex, sandboxLabelList.ToArray());
-                    string newSelectedSandboxLabel = sandboxLabelList[newSelectedIndex];
-                    foreach (Named<SandboxId> sandbox in productionEnvironmentsCopy.Sandboxes)
-                    {
-                        if (newSelectedSandboxLabel != sandbox.Name)
-                        {
-                            continue;
-                        }
-
-                        deployments[index].Value.SandboxId = sandbox.Value;
-                        break;
-                    }
-                },
-
-                onAddCallback = (_) => productionEnvironmentsCopy.AddNewDeployment(),
-
-                onRemoveCallback = (list) =>
-                {
-                    if (list.index < 0 || list.index >= deployments.Count)
-                    {
-                        return;
-                    }
-
-                    if (!productionEnvironmentsCopy.RemoveDeployment(deployments[list.index]))
-                    {
-                        // TODO: Tell user that sandbox could not be removed.
-                    }
-                }
-            };
-
-            deploymentList.DoLayoutList();
-
-            value = productionEnvironmentsCopy;
-        }
-
-        private static void RenderSortedSetOfNamed<T>(
-            string label,
-            SetOfNamed<T> value,
-            Action<Rect, Named<T>> renderItemFn,
-            Action addNewItemFn,
-            Action<Named<T>> removeItemFn
-            ) where T : IEquatable<T>
-        {
-            List<Named<T>> items = value.ToList();
-
-            ReorderableList list = new(items, typeof(Named<T>));
-            list.draggable = false;
-            list.drawHeaderCallback = (rect) => EditorGUI.LabelField(rect, label);
-
-            list.onAddCallback = (_) => addNewItemFn();
-
-            list.drawElementCallback = (rect, index, _, _) =>
-            {
-                rect.y += 2f;
-                rect.height = EditorGUIUtility.singleLineHeight;
-
-                renderItemFn(rect, items[index]);
-            };
-
-            list.onRemoveCallback = (list) =>
-            {
-                if (list.index < 0 || list.index >= items.Count)
-                {
-                    return;
-                }
-
-                removeItemFn(items[list.index]);
-            };
-
-            list.DoLayoutList();
-        }
-
         private static void RenderHelpIcon(Rect area, string url)
         {
             GUIContent helpIcon = EditorGUIUtility.IconContent("_Help");
@@ -516,76 +385,152 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             }
         }
 
+        private static void RenderSetOfNamed<T>(
+            string label,
+            string helpUrl,
+            SetOfNamed<T> value,
+            Action<Rect, Named<T>> renderItemFn,
+            Action addNewItemFn,
+            Action<Named<T>> removeItemFn
+        ) where T : IEquatable<T>
+        {
+            List<Named<T>> items = value.ToList();
+
+            ReorderableList list = new(items, typeof(Named<T>));
+            list.draggable = false;
+            list.drawHeaderCallback = (rect) =>
+            {
+                EditorGUI.LabelField(new(rect.x, rect.y, rect.width - 20f, rect.height), label);
+                if (!string.IsNullOrEmpty(helpUrl))
+                {
+                    RenderHelpIcon(new(rect.x + rect.width - 20f, rect.y, 20f, rect.height), helpUrl);
+                }
+            };
+
+            list.onAddCallback = (_) => addNewItemFn();
+
+            list.drawElementCallback = (rect, index, _, _) =>
+            {
+                rect.y += 2f;
+                rect.height = EditorGUIUtility.singleLineHeight;
+
+                renderItemFn(rect, items[index]);
+            };
+
+            list.onRemoveCallback = (list) =>
+            {
+                if (list.index < 0 || list.index >= items.Count)
+                {
+                    return;
+                }
+
+                removeItemFn(items[list.index]);
+            };
+
+            list.DoLayoutList();
+        }
+
+        private static void RenderDeploymentInputs(ref ProductionEnvironments value)
+        {
+            ProductionEnvironments productionEnvironmentsCopy = value;
+
+            RenderSetOfNamed(
+                "Deployments",
+                "https://dev.epicgames.com/docs/dev-portal/product-management#deployments",
+                productionEnvironmentsCopy.Deployments,
+                (rect, item) =>
+                {
+                    float firstFieldWidth = (rect.width - 5f) * 0.25f;
+                    float middleFieldWidth = (rect.width - 5f) * 0.50f;
+                    float endFieldWidth = (rect.width - 5f) * 0.25f;
+
+                    item.Name = RenderFieldWithHint(
+                        EditorGUI.TextField,
+                        new Rect(rect.x, rect.y, firstFieldWidth, rect.height),
+                        string.IsNullOrEmpty,
+                        item.Name,
+                        "Sandbox Name");
+
+                    item.Value.DeploymentId = GuidField(
+                        new Rect(rect.x + firstFieldWidth + 5f, rect.y, middleFieldWidth, rect.height),
+                        item.Value.DeploymentId);
+
+                    List<string> sandboxLabelList = new();
+                    int labelIndex = 0;
+                    int selectedIndex = 0;
+                    foreach (Named<SandboxId> sandbox in productionEnvironmentsCopy.Sandboxes)
+                    {
+                        sandboxLabelList.Add(sandbox.Name);
+                        if (sandbox.Value.Equals(item.Value.SandboxId))
+                        {
+                            selectedIndex = labelIndex;
+                        }
+
+                        labelIndex++;
+                    }
+
+                    int newSelectedIndex = EditorGUI.Popup(new Rect(rect.x + firstFieldWidth + 5f + middleFieldWidth + 5f, rect.y, endFieldWidth, rect.height),
+                        selectedIndex, sandboxLabelList.ToArray());
+                    string newSelectedSandboxLabel = sandboxLabelList[newSelectedIndex];
+                    foreach (Named<SandboxId> sandbox in productionEnvironmentsCopy.Sandboxes)
+                    {
+                        if (newSelectedSandboxLabel != sandbox.Name)
+                        {
+                            continue;
+                        }
+
+                        item.Value.SandboxId = sandbox.Value;
+                        break;
+                    }
+                },
+                () => productionEnvironmentsCopy.AddNewDeployment(),
+                (item) =>
+                {
+                    if (!productionEnvironmentsCopy.RemoveDeployment(item))
+                    {
+                        // TODO: Tell user why deployment could not be removed
+                        //       from the Production Environments.
+                    }
+                });
+        }
+
         private static void RenderSandboxInputs(ref ProductionEnvironments value)
         {
             ProductionEnvironments productionEnvironmentsCopy = value;
 
             GUILayout.Label("Enter one or more of the Sandbox Ids for your game from the Epic Dev Portal below.");
             
-            List<Named<SandboxId>> sandboxes = value.Sandboxes.ToList();
-            ReorderableList sandboxList = new(sandboxes, typeof(Named<SandboxId>))
-            {
-                // The sandboxes should be in sorted order, otherwise the order
-                // is meaningless.
-                draggable = false,
-
-                // Called to render the title / header of the list.
-                drawHeaderCallback = (rect) =>
+            RenderSetOfNamed(
+                "Sandboxes", 
+                "https://dev.epicgames.com/docs/dev-portal/product-management#sandboxes",
+                productionEnvironmentsCopy.Sandboxes,
+                (rect, item) =>
                 {
-                    Rect titleLabelArea = new(rect.x, rect.y, rect.width - 20f, rect.height);
-                    EditorGUI.LabelField(titleLabelArea, "Sandboxes");
-
-                    Rect helpIconArea = new(rect.x + titleLabelArea.width, rect.y, 20f, rect.height);
-                    RenderHelpIcon(helpIconArea, "https://dev.epicgames.com/docs/dev-portal/product-management#sandboxes");
-                },
-
-                // Called when the element is being rendered.
-                drawElementCallback = (rect, index, _, _) =>
-                {
-                    // Add some padding to the rectangle
-                    rect.y += 2f;
-                    rect.height = EditorGUIUtility.singleLineHeight;
-
                     float fieldWidth = (rect.width - 5f) / 2f;
 
-                    sandboxes[index].Name = RenderFieldWithHint(
+                    item.Name = RenderFieldWithHint(
                         EditorGUI.TextField,
                         new Rect(rect.x, rect.y, fieldWidth, rect.height),
                         string.IsNullOrEmpty,
-                        sandboxes[index].Name,
+                        item.Name,
                         "Sandbox Name");
-                    
-                    sandboxes[index].Value.Value = RenderFieldWithHint(
+
+                    item.Value.Value = RenderFieldWithHint(
                         EditorGUI.TextField,
                         new Rect(rect.x + fieldWidth + 5f, rect.y, fieldWidth, rect.height),
                         string.IsNullOrEmpty,
-                        sandboxes[index].Value.Value,
+                        item.Value.Value,
                         "Sandbox Id");
                 },
-
-                // Called when a new sandbox is added.
-                onAddCallback = (_) => productionEnvironmentsCopy.AddNewSandbox(),
-
-                // Called when a sandbox is removed.
-                onRemoveCallback = (list) =>
+                () => productionEnvironmentsCopy.AddNewSandbox(),
+                (item) =>
                 {
-                    // Don't do anything if there is nothing selected.
-                    if (list.index < 0 || list.index >= sandboxes.Count)
+                    if (!productionEnvironmentsCopy.RemoveSandbox(item))
                     {
-                        return;
-                    }
-
-                    // Try to remove the sandbox.
-                    if (!productionEnvironmentsCopy.RemoveSandbox(sandboxes[list.index]))
-                    {
-                        // TODO: Tell user that sandbox could not be removed.
+                        // TODO: Tell user why the sandbox could not be removed.
                     }
                 }
-            };
-
-            sandboxList.DoLayoutList();
-
-            value = productionEnvironmentsCopy;
+            );
         }
 
         private static Guid GuidField(Guid value, params GUILayoutOption[] options)
@@ -605,6 +550,58 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
         {
             string tempStringVersion = EditorGUILayout.TextField(value.ToString(), options);
             return Version.TryParse(tempStringVersion, out Version newValue) ? newValue : value;
+        }
+
+        public static SetOfNamed<WrappedClientCredentials> RenderInput(ConfigFieldAttribute configFieldAttribute,
+            SetOfNamed<WrappedClientCredentials> value, float labelWidth, string tooltip = null)
+        {
+            EditorGUILayout.Space();
+
+            RenderSetOfNamed(
+                "Clients",
+                "https://dev.epicgames.com/docs/dev-portal/product-management#clients",
+                value,
+                (rect, item) =>
+                {
+                    float firstFieldWidth = (rect.width - 5f) * 0.18f;
+                    float middleFieldWidth = (rect.width - 5f) * 0.34f;
+                    float endFieldWidth = (rect.width - 5f) * 0.48f;
+
+                    item.Name = RenderFieldWithHint(
+                        EditorGUI.TextField,
+                        new Rect(rect.x, rect.y, firstFieldWidth, rect.height),
+                        string.IsNullOrEmpty,
+                        item.Name,
+                        "Client Name");
+
+                    item.Value ??= new();
+
+                    item.Value.ClientId = RenderFieldWithHint(
+                        EditorGUI.TextField,
+                        new Rect(rect.x + firstFieldWidth + 5f, rect.y, middleFieldWidth, rect.height),
+                        string.IsNullOrEmpty,
+                        item.Value.ClientId,
+                        "Client ID"
+                    );
+
+                    item.Value.ClientSecret = RenderFieldWithHint(
+                        EditorGUI.TextField,
+                        new Rect(rect.x + firstFieldWidth + 5f + middleFieldWidth + 5f, rect.y, endFieldWidth, rect.height),
+                        string.IsNullOrEmpty,
+                        item.Value.ClientSecret,
+                        "Client Secret");
+
+                },
+                () => value.Add(),
+                (item) =>
+                {
+                    if (value.Remove(item))
+                    {
+                        // TODO: Tell user that credentials could not be removed.
+                    }
+                });
+
+            return value;
         }
 
         public static ProductionEnvironments RenderInput(ConfigFieldAttribute configFieldAttribute,

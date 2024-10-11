@@ -269,6 +269,9 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
                                 GUIEditorUtility.RenderInput(field.FieldDetails,
                                     (ProductionEnvironments)field.FieldInfo.GetValue(config), labelWidth));
                             break;
+                        case ConfigFieldType.ClientCredentials:
+                            field.FieldInfo.SetValue(config, GUIEditorUtility.RenderInput(field.FieldDetails, (SetOfNamed<WrappedClientCredentials>)field.FieldInfo.GetValue(config), labelWidth));
+                            break;
                         case ConfigFieldType.NamedGuid:
                             field.FieldInfo.SetValue(config, GUIEditorUtility.RenderInput(field.FieldDetails, (Named<Guid>)field.FieldInfo.GetValue(config), labelWidth));
                             break;

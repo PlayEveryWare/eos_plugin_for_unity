@@ -75,15 +75,17 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </summary>
         TextList,
 
+        /// <summary>
+        /// A Guid value that is named.
+        /// </summary>
         NamedGuid,
 
+        /// <summary>
+        /// The set of Sandbox and Deployment definitions for the project.
+        /// </summary>
         ProductionEnvironments,
 
-        SortedSetOfNamedDeployments,
-
-        SortedSetOfNamedSandboxIds,
-
-        SortedSetOfNamedWrappedClientCredentials,
+        ClientCredentials,
 
         /// <summary>
         /// Indicates that the config has a button that needs rendering. This is

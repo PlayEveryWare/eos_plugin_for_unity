@@ -49,6 +49,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// explicitly indicated, and only one is defined, that one will be
         /// used).
         /// </summary>
+        [ConfigField("Client Credentials", ConfigFieldType.ClientCredentials)]
         public SetOfNamed<WrappedClientCredentials> Clients = new("Client");
 
         /// <summary>
