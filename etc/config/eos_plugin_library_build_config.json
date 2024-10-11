@@ -1,5 +1,5 @@
 {
-  "msbuildPath": "",
-  "makePath": "",
-  "msbuildDebug": false
+    "msbuildPath": "",
+    "makePath": "",
+    "msbuildDebug": false
 }
