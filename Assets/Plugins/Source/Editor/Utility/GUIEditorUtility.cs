@@ -27,7 +27,9 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
     using System;
     using System.Collections.Generic;
     using System.Globalization;
+    using System.Linq;
     using UnityEditor;
+    using UnityEditorInternal;
     using UnityEngine;
 
     public static class GUIEditorUtility
@@ -40,13 +42,36 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
         /// <summary>
         /// Style utilized for hint label overlays.
         /// </summary>
-        private static readonly GUIStyle HINT_STYLE = new GUIStyle(GUI.skin.label)
+        private static readonly GUIStyle HINT_STYLE = new(GUI.skin.label)
         {
             normal = new GUIStyleState() { textColor = Color.gray }, fontStyle = FontStyle.Italic
         };
 
         private const int HINT_RECT_ADJUST_X = 2;
         private const int HINT_RECT_ADJUST_Y = 1;
+
+        private static readonly Texture2D BUTTON_HOVER_BACKGROUND_COLOR;
+
+        static GUIEditorUtility()
+        {
+            Color hoverColor = EditorGUIUtility.isProSkin ? new Color(0.2f, 0.2f, 0.2f) : new Color(0.8f, 0.8f, 0.8f);
+
+            Texture2D hoverTexture = new(1, 1);
+            hoverTexture.SetPixel(0, 0, hoverColor);
+            hoverTexture.Apply();
+
+            BUTTON_HOVER_BACKGROUND_COLOR = hoverTexture;
+        }
+
+        // Define a custom style with no background for default state
+        private static readonly GUIStyle ICON_BUTTON_STYLE = new(EditorStyles.label)
+        {
+            padding = new RectOffset(0, 0, 0, 0),
+            fixedWidth = 20,
+            fixedHeight = 20,
+            normal = { background = null }, // No background by default
+            hover = { background = BUTTON_HOVER_BACKGROUND_COLOR }, // Gray back
+        };
 
         private static GUIContent CreateGUIContent(string label, string tooltip = null)
         {
@@ -229,6 +254,29 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
         /// </returns>
         private delegate T RenderFieldDelegate<T>(T value, params GUILayoutOption[] options);
 
+        private delegate T RenderBasicFieldDelegate<T>(Rect rect, T value);
+
+        private static T RenderFieldWithHint<T>(
+            RenderBasicFieldDelegate<T> renderFieldFn,
+            Rect rect,
+            Func<T, bool> isDefaultFn,
+            T value,
+            string hintText)
+        {
+            string controlName = Guid.NewGuid().ToString();
+
+            GUI.SetNextControlName(controlName);
+
+            T newValue = renderFieldFn(rect, value);
+
+            if (isDefaultFn(newValue) && GUI.GetNameOfFocusedControl() != controlName)
+            {
+                RenderHint(hintText, rect);
+            }
+
+            return newValue;
+        }
+
         /// <summary>
         /// Used to render a field with an overlay hint label when the field has
         /// a value that is considered to be "default".
@@ -238,6 +286,9 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
         /// </typeparam>
         /// <param name="renderFieldFn">
         /// The function used to render the input field.
+        /// </param>
+        /// <param name="options">
+        /// Any options used to render the field.
         /// </param>
         /// <param name="isDefaultFn">
         /// The function used to determine if the value is default or not.
@@ -252,7 +303,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
         /// <returns>
         /// The value entered into the input field.
         /// </returns>
-        private static T RenderHintableField<T>(
+        private static T RenderFieldWithHint<T>(
             RenderFieldDelegate<T> renderFieldFn,
             Func<T, bool> isDefaultFn,
             T value,
@@ -263,8 +314,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
 
             // Set the name of the next field
             GUI.SetNextControlName(controlName);
-
-            var lastId = GUIUtility.GetControlID(FocusType.Passive);
 
             // Render the field
             T newValue = renderFieldFn(value, GUILayout.ExpandWidth(true));
@@ -279,9 +328,9 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             return newValue;
         }
 
-        private static string RenderHintableField(string value, string hintText)
+        private static string RenderFieldWithHint(string value, string hintText)
         {
-            return RenderHintableField(EditorGUILayout.TextField, string.IsNullOrEmpty, value, hintText);
+            return RenderFieldWithHint(EditorGUILayout.TextField, string.IsNullOrEmpty, value, hintText);
         }
 
         /// <summary>
@@ -300,70 +349,243 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             EditorGUI.LabelField(fieldRect, hintText, HINT_STYLE);
         }
 
-        public static SortedSetOfNamed<Deployment> RenderInput(ConfigFieldAttribute configFieldDetails,
-            SortedSetOfNamed<Deployment> value, float labelWidth, string tooltip = null)
+        /// <summary>
+        /// Used to render a label at the specified rect.
+        /// </summary>
+        /// <param name="hintText">
+        /// The text to display as a hint for input.
+        /// </param>
+        /// <param name="rect">
+        /// The location in which to draw the hint.
+        /// </param>
+        private static void RenderHint(string hintText, Rect rect)
         {
-            EditorGUILayout.LabelField(CreateGUIContent(configFieldDetails.Label, tooltip));
-
-            List<Named<Deployment>> toRemove = new();
-
-            foreach (Named<Deployment> deployment in value)
-            {
-                GUILayout.BeginHorizontal();
-
-                deployment.Name = RenderHintableField(deployment.Name, "Deployment Name");
-                deployment.Value.DeploymentId = GuidField(deployment.Value.DeploymentId, GUILayout.ExpandWidth(true));
-
-                GUILayout.EndHorizontal();
-            }
-
-            if (GUILayout.Button("Add"))
-            {
-                if (false == value.Add())
-                {
-                    // TODO: Tell user that a new value could not be added.
-                }
-            }
-
-            return value;
+            EditorGUI.LabelField(rect, hintText, HINT_STYLE);
         }
 
-        public static SortedSetOfNamed<SandboxId> RenderInput(ConfigFieldAttribute configFieldDetails,
-            SortedSetOfNamed<SandboxId> value, float labelWidth, string tooltip = null)
+        private static void RenderDeploymentInputs(ref ProductionEnvironments value)
         {
-            EditorGUILayout.LabelField(CreateGUIContent(configFieldDetails.Label, tooltip));
+            ProductionEnvironments productionEnvironmentsCopy = value;
 
-            // Used to store a list of sandbox ids that need to be removed.
-            List<Named<SandboxId>> toRemove = new();
-
-            foreach (Named<SandboxId> sandboxId in value)
+            List<Named<Deployment>> deployments = value.Deployments.ToList();
+            ReorderableList deploymentList = new(deployments, typeof(Named<Deployment>))
             {
-                GUILayout.BeginHorizontal();
+                draggable = false,
 
-                sandboxId.Name = RenderHintableField(sandboxId.Name, "Sandbox Name");
-                sandboxId.Value.Value = RenderHintableField(sandboxId.Value.Value, "Sandbox Id");
-
-                if (GUILayout.Button("Delete"))
+                drawHeaderCallback = (rect) =>
                 {
-                    toRemove.Add(sandboxId);
-                }
-                GUILayout.EndHorizontal();
-            }
+                    Rect titleLabelArea = new(rect.x, rect.y, rect.width - 20f, rect.height);
+                    EditorGUI.LabelField(titleLabelArea, "Deployments");
 
-            foreach (Named<SandboxId> sandboxId in toRemove)
-            {
-                value.Remove(sandboxId);
-            }
+                    Rect helpIconArea = new(rect.x + titleLabelArea.width, rect.y, 20f, rect.height);
+                    RenderHelpIcon(helpIconArea, "https://dev.epicgames.com/docs/dev-portal/product-management#deployments");
+                },
 
-            if (GUILayout.Button("Add"))
-            {
-                if (false == value.Add())
+                drawElementCallback = (rect, index, _, _) =>
                 {
-                    // TODO: Tell user that a new value could not be added.
-                }
-            }
+                    // Add some padding to the rectangle
+                    rect.y += 2f;
+                    rect.height = EditorGUIUtility.singleLineHeight;
 
-            return value;
+                    float firstFieldWidth = (rect.width - 5f) * 0.25f;
+                    float middleFieldWidth = (rect.width - 5f) * 0.50f;
+                    float endFieldWidth = (rect.width - 5f) * 0.25f;
+
+                    float fieldWidth = (rect.width - 5f) / 3f;
+
+                    deployments[index].Name = RenderFieldWithHint(
+                        EditorGUI.TextField,
+                        new Rect(rect.x, rect.y, firstFieldWidth, rect.height),
+                        string.IsNullOrEmpty,
+                        deployments[index].Name,
+                        "Sandbox Name");
+
+                    deployments[index].Value.DeploymentId = GuidField(
+                        new Rect(rect.x + firstFieldWidth + 5f, rect.y, middleFieldWidth, rect.height),
+                        deployments[index].Value.DeploymentId);
+
+                    List<string> sandboxLabelList = new();
+                    int labelIndex = 0;
+                    int selectedIndex = 0;
+                    foreach (Named<SandboxId> sandbox in productionEnvironmentsCopy.Sandboxes)
+                    {
+                        sandboxLabelList.Add(sandbox.Name);
+                        if (sandbox.Value.Equals(deployments[index].Value.SandboxId))
+                        {
+                            selectedIndex = labelIndex;
+                        }
+
+                        labelIndex++;
+                    }
+
+                    int newSelectedIndex = EditorGUI.Popup(new Rect(rect.x + firstFieldWidth + 5f + middleFieldWidth + 5f, rect.y, endFieldWidth, rect.height),
+                        selectedIndex, sandboxLabelList.ToArray());
+                    string newSelectedSandboxLabel = sandboxLabelList[newSelectedIndex];
+                    foreach (Named<SandboxId> sandbox in productionEnvironmentsCopy.Sandboxes)
+                    {
+                        if (newSelectedSandboxLabel != sandbox.Name)
+                        {
+                            continue;
+                        }
+
+                        deployments[index].Value.SandboxId = sandbox.Value;
+                        break;
+                    }
+                },
+
+                onAddCallback = (_) => productionEnvironmentsCopy.AddNewDeployment(),
+
+                onRemoveCallback = (list) =>
+                {
+                    if (list.index < 0 || list.index >= deployments.Count)
+                    {
+                        return;
+                    }
+
+                    if (!productionEnvironmentsCopy.RemoveDeployment(deployments[list.index]))
+                    {
+                        // TODO: Tell user that sandbox could not be removed.
+                    }
+                }
+            };
+
+            deploymentList.DoLayoutList();
+
+            value = productionEnvironmentsCopy;
+        }
+
+        private static void RenderSortedSetOfNamed<T>(
+            string label,
+            SortedSetOfNamed<T> value,
+            Action<Rect, Named<T>> renderItemFn,
+            Action addNewItemFn,
+            Action<Named<T>> removeItemFn
+            ) where T : IEquatable<T>
+        {
+            List<Named<T>> items = value.ToList();
+
+            ReorderableList list = new(items, typeof(Named<T>));
+            list.draggable = false;
+            list.drawHeaderCallback = (rect) => EditorGUI.LabelField(rect, label);
+
+            list.onAddCallback = (_) => addNewItemFn();
+
+            list.drawElementCallback = (rect, index, _, _) =>
+            {
+                rect.y += 2f;
+                rect.height = EditorGUIUtility.singleLineHeight;
+
+                renderItemFn(rect, items[index]);
+            };
+
+            list.onRemoveCallback = (list) =>
+            {
+                if (list.index < 0 || list.index >= items.Count)
+                {
+                    return;
+                }
+
+                removeItemFn(items[list.index]);
+            };
+
+            list.DoLayoutList();
+        }
+
+        private static void RenderHelpIcon(Rect area, string url)
+        {
+            GUIContent helpIcon = EditorGUIUtility.IconContent("_Help");
+
+            Color hoverColor = !EditorGUIUtility.isProSkin ? new Color(0.2f, 0.2f, 0.2f) : new Color(0.8f, 0.8f, 0.8f);
+
+            Texture2D hoverTexture = new(1, 1);
+            hoverTexture.SetPixel(0, 0, hoverColor);
+            hoverTexture.Apply();
+
+            GUIStyle helpButtonStyle = new(EditorStyles.label)
+            {
+                padding = new RectOffset(0, 0, 0, 0),
+                fixedWidth = 20,
+                fixedHeight = 20,
+                normal = { background = Texture2D.redTexture }, // No background by default
+                hover = { background = Texture2D.redTexture }, // Gray back
+            };
+
+            if (GUI.Button(area, helpIcon, helpButtonStyle))
+            {
+                Application.OpenURL(url);
+            }
+        }
+
+        private static void RenderSandboxInputs(ref ProductionEnvironments value)
+        {
+            ProductionEnvironments productionEnvironmentsCopy = value;
+
+            GUILayout.Label("Enter one or more of the Sandbox Ids for your game from the Epic Dev Portal below.");
+            
+            List<Named<SandboxId>> sandboxes = value.Sandboxes.ToList();
+            ReorderableList sandboxList = new(sandboxes, typeof(Named<SandboxId>))
+            {
+                // The sandboxes should be in sorted order, otherwise the order
+                // is meaningless.
+                draggable = false,
+
+                // Called to render the title / header of the list.
+                drawHeaderCallback = (rect) =>
+                {
+                    Rect titleLabelArea = new(rect.x, rect.y, rect.width - 20f, rect.height);
+                    EditorGUI.LabelField(titleLabelArea, "Sandboxes");
+
+                    Rect helpIconArea = new(rect.x + titleLabelArea.width, rect.y, 20f, rect.height);
+                    RenderHelpIcon(helpIconArea, "https://dev.epicgames.com/docs/dev-portal/product-management#sandboxes");
+                },
+
+                // Called when the element is being rendered.
+                drawElementCallback = (rect, index, _, _) =>
+                {
+                    // Add some padding to the rectangle
+                    rect.y += 2f;
+                    rect.height = EditorGUIUtility.singleLineHeight;
+
+                    float fieldWidth = (rect.width - 5f) / 2f;
+
+                    sandboxes[index].Name = RenderFieldWithHint(
+                        EditorGUI.TextField,
+                        new Rect(rect.x, rect.y, fieldWidth, rect.height),
+                        string.IsNullOrEmpty,
+                        sandboxes[index].Name,
+                        "Sandbox Name");
+                    
+                    sandboxes[index].Value.Value = RenderFieldWithHint(
+                        EditorGUI.TextField,
+                        new Rect(rect.x + fieldWidth + 5f, rect.y, fieldWidth, rect.height),
+                        string.IsNullOrEmpty,
+                        sandboxes[index].Value.Value,
+                        "Sandbox Id");
+                },
+
+                // Called when a new sandbox is added.
+                onAddCallback = (_) => productionEnvironmentsCopy.AddNewSandbox(),
+
+                // Called when a sandbox is removed.
+                onRemoveCallback = (list) =>
+                {
+                    // Don't do anything if there is nothing selected.
+                    if (list.index < 0 || list.index >= sandboxes.Count)
+                    {
+                        return;
+                    }
+
+                    // Try to remove the sandbox.
+                    if (!productionEnvironmentsCopy.RemoveSandbox(sandboxes[list.index]))
+                    {
+                        // TODO: Tell user that sandbox could not be removed.
+                    }
+                }
+            };
+
+            sandboxList.DoLayoutList();
+
+            value = productionEnvironmentsCopy;
         }
 
         private static Guid GuidField(Guid value, params GUILayoutOption[] options)
@@ -371,6 +593,40 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             string tempStringName = EditorGUILayout.TextField(value.ToString(), options);
 
             return Guid.TryParse(tempStringName, out Guid newValue) ? newValue : value;
+        }
+
+        private static Guid GuidField(Rect rect, Guid value)
+        {
+            string tempStringName = EditorGUI.TextField(rect, value.ToString());
+            return Guid.TryParse(tempStringName, out Guid newValue) ? newValue : value;
+        }
+
+        public static ProductionEnvironments RenderInput(ConfigFieldAttribute configFieldAttribute,
+            ProductionEnvironments value, float labelWidth, string tooltip = null)
+        {
+            value ??= new();
+
+            EditorGUILayout.Space();
+
+            // Render the list of sandboxes
+            RenderSandboxInputs(ref value);
+
+            EditorGUILayout.Space();
+
+            // Check to see if there are any sandboxes - if there aren't any
+            // then you cannot add a deployment.
+            if (value.Sandboxes.Count == 0)
+            {
+                GUI.enabled = false;
+            }
+
+            // Render the list of deployments
+            RenderDeploymentInputs(ref value);
+
+            // Ensure that the GUI is always enabled before leaving scope
+            GUI.enabled = true;
+
+            return value;
         }
 
         public static Named<Guid> RenderInput(ConfigFieldAttribute configFieldDetails, Named<Guid> value, float labelWidth,
@@ -383,13 +639,11 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
 
                     GUILayout.BeginHorizontal();
 
-                    if (null == value)
-                        value = new Named<Guid>();
+                    value ??= new Named<Guid>();
 
-                    value.Name = RenderHintableField(EditorGUILayout.TextField, string.IsNullOrEmpty, value.Name,
-                        "Product Name");
+                    value.Name = RenderFieldWithHint(EditorGUILayout.TextField, string.IsNullOrEmpty, value.Name, "Product Name");
 
-                    value.Value = GuidField(value.Value, GUILayout.ExpandWidth(true));
+                    value.Value = RenderFieldWithHint(GuidField, guid => guid.Equals(Guid.Empty), value.Value, "Product Id");
 
                     GUILayout.EndHorizontal();
 
@@ -400,7 +654,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
         }
 
         public static List<string> RenderInput(ConfigFieldAttribute configFieldDetails, List<string> value,
-            float labelWidth, string tooltip = null)
+            float labelWidth)
         {
             float currentLabelWidth = EditorGUIUtility.labelWidth;
 
@@ -517,7 +771,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
         public static string RenderInput(ConfigFieldAttribute configFieldDetails, string value, float labelWidth,
             string tooltip = null)
         {
-            return InputRendererWrapper<string>(configFieldDetails.Label, value, labelWidth, tooltip,
+            return InputRendererWrapper(configFieldDetails.Label, value, labelWidth, tooltip,
                 (label, s, width, tooltip1) =>
                 {
                     return EditorGUILayout.TextField(CreateGUIContent(configFieldDetails.Label, tooltip), value,
@@ -565,7 +819,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
 
         public static bool RenderInput(ConfigFieldAttribute configFieldDetails, bool value, float labelWidth, string tooltip = null)
         {
-            return InputRendererWrapper<bool>(configFieldDetails.Label, value, labelWidth, tooltip, (s, b, arg3, arg4) =>
+            return InputRendererWrapper(configFieldDetails.Label, value, labelWidth, tooltip, (s, b, arg3, arg4) =>
             {
                 return EditorGUILayout.Toggle(CreateGUIContent(configFieldDetails.Label, tooltip), value, GUILayout.ExpandWidth(true));
             });

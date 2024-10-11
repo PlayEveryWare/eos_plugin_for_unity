@@ -23,6 +23,7 @@
 namespace PlayEveryWare.EpicOnlineServices
 {
     using Common;
+    using Newtonsoft.Json;
     using System;
 
     /// <summary>
@@ -48,42 +49,21 @@ namespace PlayEveryWare.EpicOnlineServices
         /// explicitly indicated, and only one is defined, that one will be
         /// used).
         /// </summary>
-        public SortedSetOfNamed<WrappedClientCredentials> Clients;
+        public SortedSetOfNamed<WrappedClientCredentials> Clients = new("Client");
 
         /// <summary>
         /// The set of Sandboxes as defined within the Epic Developer Portal.
         /// For EOS to function, at least one of these must be set, and it must
         /// match the deployment indicated by the platform config.
         /// </summary>
-        [ConfigField("Sandboxes", ConfigFieldType.SortedSetOfNamedSandboxIds)]
-        public SortedSetOfNamed<SandboxId> Sandboxes;
-
-        /// <summary>
-        /// Backing field member for the Deployments property.
-        /// </summary>
-        [ConfigField("Deployments", ConfigFieldType.SortedSetOfNamedDeployments)]
-        public SortedSetOfNamed<Deployment> Deployments;
-
-        public void AddDeployment(string name, Deployment deployment)
-        {
-            if (!Sandboxes.Contains(deployment.SandboxId))
-            {
-                Sandboxes.Add(deployment.SandboxId);
-            }
-
-            Deployments.Add(name, deployment);
-        }
+        [ConfigField("Production Environments", ConfigFieldType.ProductionEnvironments)]
+        public ProductionEnvironments Environments;
 
         static ProductConfig()
         {
             RegisterFactory(() => new ProductConfig());
         }
 
-        protected ProductConfig() : base("eos_product_config.json")
-        {
-            Clients = new SortedSetOfNamed<WrappedClientCredentials>("Client");
-            Sandboxes = new SortedSetOfNamed<SandboxId>("Sandbox");
-            Deployments = new SortedSetOfNamed<Deployment>("Deployment");
-        }
+        protected ProductConfig() : base("eos_product_config.json") { }
     }
 }

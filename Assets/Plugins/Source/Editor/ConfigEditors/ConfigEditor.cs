@@ -264,16 +264,15 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
                                 onClick();
                             }
                             break;
+                        case ConfigFieldType.ProductionEnvironments:
+                            field.FieldInfo.SetValue(config,
+                                GUIEditorUtility.RenderInput(field.FieldDetails,
+                                    (ProductionEnvironments)field.FieldInfo.GetValue(config), labelWidth));
+                            break;
                         case ConfigFieldType.NamedGuid:
                             field.FieldInfo.SetValue(config, GUIEditorUtility.RenderInput(field.FieldDetails, (Named<Guid>)field.FieldInfo.GetValue(config), labelWidth));
                             break;
-                        case ConfigFieldType.SortedSetOfNamedSandboxIds:
-                            field.FieldInfo.SetValue(config, GUIEditorUtility.RenderInput(field.FieldDetails, (SortedSetOfNamed<SandboxId>)field.FieldInfo.GetValue(config), labelWidth));
-                            break;
-                        case ConfigFieldType.SortedSetOfNamedDeployments:
-                            field.FieldInfo.SetValue(config, GUIEditorUtility.RenderInput(field.FieldDetails, (SortedSetOfNamed<Deployment>)field.FieldInfo.GetValue(config), labelWidth));
-                            break;
-                        default:
+                       default:
                             throw new ArgumentOutOfRangeException();
                     }
                 }

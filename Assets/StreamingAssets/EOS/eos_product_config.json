@@ -1,41 +1,34 @@
 {
   "ProductId": {
-    "Name": null,
-    "Value": "00000000-0000-0000-0000-000000000000"
+    "Name": "EOS Plugin for Unity",
+    "Value": "f7102b83-5ed1-4b5f-b6b3-a05d87b3d101"
   },
   "Clients": [],
-  "Sandboxes": [
-    {
-      "Name": "Sandbox",
-      "Value": {
-        "Value": "00000000-0000-0000-0100-000000000001"
+  "Environments": {
+    "Deployments": [
+      {
+        "Name": "Deployment",
+        "Value": {
+          "SandboxId": {
+            "Value": "ab139ee5b644412781cf99f48b993b45"
+          },
+          "DeploymentId": "00000000-0000-0000-0000-000000000000"
+        }
       }
-    },
-    {
-      "Name": "Sandbox 3 ",
-      "Value": {
-        "Value": "00000000-0000-0000-0100-000000000000"
-      }
-    }
-  ],
-  "Deployments": [
-    {
-      "Name": "Deployment",
-      "Value": {
-        "SandboxId": {
+    ],
+    "Sandboxes": [
+      {
+        "Name": "Sandbox",
+        "Value": {
+          "Value": "ab139ee5b644412781cf99f48b993b45"
+        }
+      },
+      {
+        "Name": "Sandbox (1)",
+        "Value": {
           "Value": null
-        },
-        "DeploymentId": "00000000-0000-0000-0000-000000000001"
+        }
       }
-    },
-    {
-      "Name": "Deployment (1)",
-      "Value": {
-        "SandboxId": {
-          "Value": null
-        },
-        "DeploymentId": "00000000-0000-0000-0000-000000000000"
-      }
-    }
-  ]
+    ]
+  }
 }

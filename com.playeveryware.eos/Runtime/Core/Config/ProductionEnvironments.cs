@@ -24,10 +24,10 @@ namespace PlayEveryWare.EpicOnlineServices
 {
     using Common;
 
-    public class ProductionEnvironment
+    public class ProductionEnvironments
     {
-        private SortedSetOfNamed<Deployment> _deployments = new SortedSetOfNamed<Deployment>("Deployment");
-        private SortedSetOfNamed<SandboxId> _sandboxes = new SortedSetOfNamed<SandboxId>("Sandbox");
+        private SortedSetOfNamed<Deployment> _deployments = new("Deployment");
+        private SortedSetOfNamed<SandboxId> _sandboxes = new("Sandbox");
 
         public SortedSetOfNamed<Deployment> Deployments
         {
@@ -45,11 +45,35 @@ namespace PlayEveryWare.EpicOnlineServices
             }
         }
 
-        public bool AddSandbox(Named<SandboxId> sandbox)
+        /// <summary>
+        /// Adds a Sandbox to the Production Environment.
+        /// </summary>
+        /// <param name="sandbox">
+        /// The sandbox to add.</param>
+        /// <returns>
+        /// True if the sandbox was added successfully, false otherwise.
+        /// </returns>
+        public bool AddSandbox(Named<SandboxId> sandbox = null)
         {
             return _sandboxes.Add(sandbox);
         }
 
+        public bool AddNewSandbox()
+        {
+            return _sandboxes.Add();
+        }
+
+        /// <summary>
+        /// Removes a Sandbox from the Production Environment.
+        /// </summary>
+        /// <param name="sandbox">
+        /// The Sandbox to remove from the production environment.
+        /// </param>
+        /// <returns>
+        /// True if the Sandbox was removed, false otherwise. If there is a
+        /// defined deployment that references the Sandbox, then removing it is
+        /// disallowed.
+        /// </returns>
         public bool RemoveSandbox(Named<SandboxId> sandbox)
         {
             foreach (Named<Deployment> deployment in _deployments)
@@ -65,6 +89,16 @@ namespace PlayEveryWare.EpicOnlineServices
             return _sandboxes.Remove(sandbox);
         }
 
+        /// <summary>
+        /// Adds a Deployment to the Production Environment, adding the sandbox
+        /// if it does not already exist in the set of sandboxes.
+        /// </summary>
+        /// <param name="deployment">
+        /// The Deployment to add.
+        /// </param>
+        /// <returns>
+        /// True if the deployment was added, false otherwise.
+        /// </returns>
         public bool AddDeployment(Named<Deployment> deployment)
         {
             if (_deployments.ContainsName(deployment.Name))
@@ -91,6 +125,20 @@ namespace PlayEveryWare.EpicOnlineServices
             return _deployments.Add(deployment);
         }
 
+        public bool AddNewDeployment()
+        {
+            return _deployments.Add();
+        }
+
+        /// <summary>
+        /// Removes a Deployment from the Production Environment.
+        /// </summary>
+        /// <param name="deployment">
+        /// The Deployment to remove from the Production Environment.
+        /// </param>
+        /// <returns>
+        /// True if the Deployment was successfully removed, false otherwise.
+        /// </returns>
         public bool RemoveDeployment(Named<Deployment> deployment)
         {
             return _deployments.Remove(deployment);

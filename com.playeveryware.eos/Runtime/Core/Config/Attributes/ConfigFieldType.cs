@@ -77,6 +77,8 @@ namespace PlayEveryWare.EpicOnlineServices
 
         NamedGuid,
 
+        ProductionEnvironments,
+
         SortedSetOfNamedDeployments,
 
         SortedSetOfNamedSandboxIds,

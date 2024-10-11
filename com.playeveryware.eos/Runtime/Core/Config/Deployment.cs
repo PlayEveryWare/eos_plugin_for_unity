@@ -26,7 +26,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
     public struct Deployment : IEquatable<Deployment>
     {
-        public readonly SandboxId SandboxId;
+        public SandboxId SandboxId;
 
         public Guid DeploymentId;
 
