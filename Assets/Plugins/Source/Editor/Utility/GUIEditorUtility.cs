@@ -52,29 +52,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
         private const int HINT_RECT_ADJUST_X = 2;
         private const int HINT_RECT_ADJUST_Y = 1;
 
-        private static readonly Texture2D BUTTON_HOVER_BACKGROUND_COLOR;
-
-        static GUIEditorUtility()
-        {
-            Color hoverColor = EditorGUIUtility.isProSkin ? new Color(0.2f, 0.2f, 0.2f) : new Color(0.8f, 0.8f, 0.8f);
-
-            Texture2D hoverTexture = new(1, 1);
-            hoverTexture.SetPixel(0, 0, hoverColor);
-            hoverTexture.Apply();
-
-            BUTTON_HOVER_BACKGROUND_COLOR = hoverTexture;
-        }
-
-        // Define a custom style with no background for default state
-        private static readonly GUIStyle ICON_BUTTON_STYLE = new(EditorStyles.label)
-        {
-            padding = new RectOffset(0, 0, 0, 0),
-            fixedWidth = 20,
-            fixedHeight = 20,
-            normal = { background = null }, // No background by default
-            hover = { background = BUTTON_HOVER_BACKGROUND_COLOR }, // Gray back
-        };
-
         private static GUIContent CreateGUIContent(string label, string tooltip = null)
         {
             label ??= "";
@@ -256,8 +233,47 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
         /// </returns>
         private delegate T RenderFieldDelegate<T>(T value, params GUILayoutOption[] options);
 
+        /// <summary>
+        /// Used to describe the function used to render a basic field of type
+        /// T.
+        /// </summary>
+        /// <typeparam name="T">
+        /// The type of input being rendered.
+        /// </typeparam>
+        /// <param name="rect">
+        /// The area in which the field should be rendered.
+        /// </param>
+        /// <param name="value">The value to put in the field.</param>
+        /// <returns>The value entered in the field.</returns>
         private delegate T RenderBasicFieldDelegate<T>(Rect rect, T value);
 
+
+        /// <summary>
+        /// Used to render a field with an overlay hint label when the field has
+        /// a value that is considered to be "default".
+        /// </summary>
+        /// <typeparam name="T">
+        /// The type of input the field is expecting and returns.
+        /// </typeparam>
+        /// <param name="renderFieldFn">
+        /// The function used to render the input field.
+        /// </param>
+        /// <param name="rect">
+        /// The area in which to render the field.
+        /// </param>
+        /// <param name="isDefaultFn">
+        /// The function used to determine if the value is default or not.
+        /// </param>
+        /// <param name="value">
+        /// The current value to display in the input field.
+        /// </param>
+        /// <param name="hintText">
+        /// The hint text to display over the input field if the value is
+        /// considered to be default.
+        /// </param>
+        /// <returns>
+        /// The value entered into the input field.
+        /// </returns>
         private static T RenderFieldWithHint<T>(
             RenderBasicFieldDelegate<T> renderFieldFn,
             Rect rect,
@@ -288,9 +304,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
         /// </typeparam>
         /// <param name="renderFieldFn">
         /// The function used to render the input field.
-        /// </param>
-        /// <param name="options">
-        /// Any options used to render the field.
         /// </param>
         /// <param name="isDefaultFn">
         /// The function used to determine if the value is default or not.
@@ -360,6 +373,12 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             EditorGUI.LabelField(rect, hintText, HINT_STYLE);
         }
 
+        /// <summary>
+        /// Renders the built-in help icon, and opens a browser to the indicated
+        /// url when clicked on.
+        /// </summary>
+        /// <param name="area">The area in which to render the icon.</param>
+        /// <param name="url">The url to open when the icon is clicked on.</param>
         private static void RenderHelpIcon(Rect area, string url)
         {
             GUIContent helpIcon = EditorGUIUtility.IconContent("_Help");
@@ -396,25 +415,27 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
         {
             List<Named<T>> items = value.ToList();
 
-            ReorderableList list = new(items, typeof(Named<T>));
-            list.draggable = false;
-            list.drawHeaderCallback = (rect) =>
+            ReorderableList list = new(items, typeof(Named<T>))
             {
-                EditorGUI.LabelField(new(rect.x, rect.y, rect.width - 20f, rect.height), label);
-                if (!string.IsNullOrEmpty(helpUrl))
+                draggable = false,
+                drawHeaderCallback = (rect) =>
                 {
-                    RenderHelpIcon(new(rect.x + rect.width - 20f, rect.y, 20f, rect.height), helpUrl);
+                    EditorGUI.LabelField(new(rect.x, rect.y, rect.width - 20f, rect.height), label);
+                    if (!string.IsNullOrEmpty(helpUrl))
+                    {
+                        RenderHelpIcon(new(rect.x + rect.width - 20f, rect.y, 20f, rect.height), helpUrl);
+                    }
+                },
+
+                onAddCallback = (_) => addNewItemFn(),
+
+                drawElementCallback = (rect, index, _, _) =>
+                {
+                    rect.y += 2f;
+                    rect.height = EditorGUIUtility.singleLineHeight;
+
+                    renderItemFn(rect, items[index]);
                 }
-            };
-
-            list.onAddCallback = (_) => addNewItemFn();
-
-            list.drawElementCallback = (rect, index, _, _) =>
-            {
-                rect.y += 2f;
-                rect.height = EditorGUIUtility.singleLineHeight;
-
-                renderItemFn(rect, items[index]);
             };
 
             list.onRemoveCallback = (list) =>
@@ -498,10 +519,11 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
         {
             ProductionEnvironments productionEnvironmentsCopy = value;
 
-            GUILayout.Label("Enter one or more of the Sandbox Ids for your game from the Epic Dev Portal below.");
-            
+            GUILayout.Label("Enter one or more of the Sandbox Ids for your " +
+                            "game from the Epic Dev Portal below.");
+
             RenderSetOfNamed(
-                "Sandboxes", 
+                "Sandboxes",
                 "https://dev.epicgames.com/docs/dev-portal/product-management#sandboxes",
                 productionEnvironmentsCopy.Sandboxes,
                 (rect, item) =>
