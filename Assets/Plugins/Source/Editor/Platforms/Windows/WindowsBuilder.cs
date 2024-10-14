@@ -84,7 +84,11 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
 
         private static async void ConfigureAndInstallBootstrapper(BuildReport report)
         {
-#if !EOS_DISABLE
+#if EOS_DISABLE
+            // If EOS_DISABLE is defined, then the bootstrapper should never be included
+            await System.Threading.Tasks.Task.CompletedTask;
+            return;
+#else
             // Determine if 'DisableOverlay' is set in Platform Flags. If it is, then the EOSBootstrapper.exe is not included in the build,
             // because without needing the overlay, the EOSBootstrapper.exe is not useful to users of the plugin
             EOSConfig configuration = await Config.GetAsync<EOSConfig>();
@@ -94,7 +98,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
                 Debug.Log($"The '{nameof(PlatformFlags.DisableOverlay)}' flag has been configured, EOSBootstrapper.exe will not be included in this build.");
                 return;
             }
-#endif
+
             /*
              * NOTE:
              *
@@ -124,7 +128,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
              */
 
             // Determine whether to install EAC
-            
+
             ToolsConfig toolsConfig = await Config.GetAsync<ToolsConfig>();
 
             string bootstrapperName = null;
@@ -151,6 +155,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
 
             InstallBootStrapper(bootstrapperTarget, installDirectory, pathToEOSBootStrapperTool,
                 bootstrapperName);
+#endif
         }
 
         private static void InstallBootStrapper(string appFilenameExe, string installDirectory,
