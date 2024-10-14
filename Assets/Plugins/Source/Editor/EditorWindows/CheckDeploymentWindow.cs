@@ -47,7 +47,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 
         public CheckDeploymentWindow() : base("Deployment Checker") { }
 
-        [MenuItem("Tools/EOS Plugin/Check Deployment")]
+        [MenuItem("EOS Plugin/Advanced/Check Deployment")]
         public static void ShowWindow()
         {
             GetWindow<CheckDeploymentWindow>();
