@@ -11,7 +11,7 @@ namespace Epic.OnlineServices.AntiCheatCommon
 
 		public const int LoggameroundendApiLatest = 1;
 
-		public const int LoggameroundstartApiLatest = 1;
+		public const int LoggameroundstartApiLatest = 2;
 
 		public const int LogplayerdespawnApiLatest = 1;
 

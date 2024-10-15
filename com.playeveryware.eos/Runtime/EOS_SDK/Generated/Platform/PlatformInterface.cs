@@ -51,7 +51,7 @@ namespace Epic.OnlineServices.Platform
 		/// <summary>
 		/// The most recent version of the <see cref="InitializeThreadAffinity" /> API.
 		/// </summary>
-		public const int InitializeThreadaffinityApiLatest = 2;
+		public const int InitializeThreadaffinityApiLatest = 3;
 
 		/// <summary>
 		/// Max length of a product name, not including the terminating null.

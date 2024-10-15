@@ -51,6 +51,10 @@ namespace Epic.OnlineServices.P2P
 		/// <summary>
 		/// The connection was accepted, but there was an internal error occurred and the connection cannot be created or continue.
 		/// </summary>
-		UnexpectedError = 10
+		UnexpectedError = 10,
+		/// <summary>
+		/// The connection was ignored because no connection listeners were bound.
+		/// </summary>
+		ConnectionIgnored = 11
 	}
 }

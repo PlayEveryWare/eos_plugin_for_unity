@@ -24,6 +24,11 @@ namespace Epic.OnlineServices.AntiCheatCommon
 		/// Optional length of the game round to be played, in seconds. If none, use 0.
 		/// </summary>
 		public uint RoundTimeSeconds { get; set; }
+
+		/// <summary>
+		/// Type of competition for this game round
+		/// </summary>
+		public AntiCheatCommonGameRoundCompetitionType CompetitionType { get; set; }
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
@@ -34,6 +39,7 @@ namespace Epic.OnlineServices.AntiCheatCommon
 		private System.IntPtr m_LevelName;
 		private System.IntPtr m_ModeName;
 		private uint m_RoundTimeSeconds;
+		private AntiCheatCommonGameRoundCompetitionType m_CompetitionType;
 
 		public Utf8String SessionIdentifier
 		{
@@ -67,6 +73,14 @@ namespace Epic.OnlineServices.AntiCheatCommon
 			}
 		}
 
+		public AntiCheatCommonGameRoundCompetitionType CompetitionType
+		{
+			set
+			{
+				m_CompetitionType = value;
+			}
+		}
+
 		public void Set(ref LogGameRoundStartOptions other)
 		{
 			m_ApiVersion = AntiCheatCommonInterface.LoggameroundstartApiLatest;
@@ -74,6 +88,7 @@ namespace Epic.OnlineServices.AntiCheatCommon
 			LevelName = other.LevelName;
 			ModeName = other.ModeName;
 			RoundTimeSeconds = other.RoundTimeSeconds;
+			CompetitionType = other.CompetitionType;
 		}
 
 		public void Set(ref LogGameRoundStartOptions? other)
@@ -85,6 +100,7 @@ namespace Epic.OnlineServices.AntiCheatCommon
 				LevelName = other.Value.LevelName;
 				ModeName = other.Value.ModeName;
 				RoundTimeSeconds = other.Value.RoundTimeSeconds;
+				CompetitionType = other.Value.CompetitionType;
 			}
 		}
 
