@@ -24,7 +24,6 @@ namespace PlayEveryWare.Common
 {
     using System.Collections.Generic;
     using System;
-    using UnityEditor.PackageManager.Requests;
 
     /// <summary>
     /// Class that stores a unique set of values, where each value has a name

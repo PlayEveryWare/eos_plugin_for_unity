@@ -28,7 +28,7 @@ namespace PlayEveryWare.EpicOnlineServices
     public struct SandboxId : IEquatable<SandboxId>
     {
         private string _value;
-        const string PreProductionEnvironmentRegex = @"^p\-[a-zA-Z\d]{30}$";
+        private const string PreProductionEnvironmentRegex = @"^p\-[a-zA-Z\d]{30}$";
 
         public string Value
         {

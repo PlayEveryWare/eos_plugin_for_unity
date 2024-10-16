@@ -126,6 +126,16 @@ namespace PlayEveryWare.EpicOnlineServices
         }
 
         /// <summary>
+        /// Implement this function in deriving classes to do any additional
+        /// work on a Config after it has been retrieved and before it is
+        /// returned by the Get or GetAsync functions.
+        /// </summary>
+        protected virtual void PrepareConfig()
+        {
+            // Default implementation is to do nothing.
+        }
+
+        /// <summary>
         /// Allows deriving classes to register their constructor method in
         /// order to enforce the factory pattern. This requires that each class
         /// that derives from Config must implement a static method registering
@@ -216,6 +226,9 @@ namespace PlayEveryWare.EpicOnlineServices
             s_cachedConfigs.Add(typeof(T), instance);
 #endif
 
+            // Call prepare function.
+            instance.PrepareConfig();
+
             // Return the config being retrieved.
             return instance;
         }
@@ -252,6 +265,8 @@ namespace PlayEveryWare.EpicOnlineServices
             // Cache the newly created config with its values having been read.
             s_cachedConfigs.Add(typeof(T), instance);
 #endif
+            // Call prepare function.
+            instance.PrepareConfig();
 
             // Return the config being retrieved.
             return instance;

@@ -24,6 +24,9 @@ namespace PlayEveryWare.EpicOnlineServices
 {
     using Common;
     using System;
+    using System.Collections.Generic;
+    using Newtonsoft.Json;
+    using UnityEngine;
 
     /// <summary>
     /// Contains information about the product entered by the user from the Epic
@@ -32,6 +35,26 @@ namespace PlayEveryWare.EpicOnlineServices
     [ConfigGroup("Product Information", false)]
     public class ProductConfig : Config
     {
+        internal class PreviousEOSConfig : Config
+        {
+            public string productName;
+            public string productVersion;
+            public string productID;
+            public List<SandboxDeploymentOverride> sandboxDeploymentOverrides;
+            public string sandboxID;
+            public string deploymentID;
+            public string clientSecret;
+            public string clientID;
+            public string encryptionKey;
+
+            static PreviousEOSConfig()
+            {
+                RegisterFactory(() => new PreviousEOSConfig());
+            }
+
+            protected PreviousEOSConfig() : base("EpicOnlineServicesConfig.json") { }
+        }
+
         /// <summary>
         /// The product ID is a unique GUID labeled "Product ID" in the Epic
         /// Developer Portal. The name for this value can be set to anything -
@@ -59,11 +82,71 @@ namespace PlayEveryWare.EpicOnlineServices
         [ConfigField("Production Environments", ConfigFieldType.ProductionEnvironments)]
         public ProductionEnvironments Environments;
 
+        [JsonProperty]
+        private bool _oldConfigImported;
+
         static ProductConfig()
         {
             RegisterFactory(() => new ProductConfig());
         }
 
         protected ProductConfig() : base("eos_product_config.json") { }
+
+        protected override void PrepareConfig()
+        {
+            if (_oldConfigImported)
+            {
+                return;
+            }
+
+            PreviousEOSConfig oldConfig = Config.Get<PreviousEOSConfig>();
+
+            // Import the old config client stuff
+            Clients.Add(new EOSClientCredentials(oldConfig.clientID, oldConfig.clientSecret,
+                oldConfig.encryptionKey));
+
+            // Import product name and id
+            ProductId.Name = oldConfig.productName;
+            if (!Guid.TryParse(oldConfig.productID, out ProductId.Value))
+            {
+                Debug.LogWarning($"Could not parse product ID.");
+            }
+
+            // Import explicitly set sandbox and deployment
+            SandboxId sandboxId = new()
+            {
+                Value = oldConfig.sandboxID
+            };
+
+            Deployment oldDeployment = new()
+            {
+                DeploymentId = Guid.Parse(oldConfig.deploymentID),
+                SandboxId = sandboxId
+            };
+
+            if (!Environments.AddDeployment(oldDeployment))
+            {
+                Debug.LogWarning("Could not import deployment " +
+                                 "details from old config file. Please " +
+                                 "reach out for support if you need " +
+                                 "assistance.");
+            }
+
+            // Import each of the overrides
+            foreach (var overrideValues in oldConfig.sandboxDeploymentOverrides)
+            {
+                SandboxId overrideSandbox = new() { Value = overrideValues.sandboxID };
+                Deployment overrideDeployment = new()
+                {
+                    DeploymentId = Guid.Parse(overrideValues.deploymentID), SandboxId = overrideSandbox
+                };
+
+                Environments.Deployments.Add(overrideDeployment);
+            }
+
+            // Set to true and save so that old config import happens once
+            _oldConfigImported = true;
+            Write();
+        }
     }
 }

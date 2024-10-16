@@ -25,13 +25,37 @@
 
 namespace PlayEveryWare.EpicOnlineServices
 {
+    using Newtonsoft.Json;
     using System;
+    using System.Security.Cryptography;
 
     public class EOSClientCredentials : IEquatable<EOSClientCredentials>
     {
         public string ClientId;
         public string ClientSecret;
-        public string EncryptionKey;
+        public readonly string EncryptionKey;
+
+        public EOSClientCredentials()
+        {
+            // Randomly generate a 32 byte hex key
+            byte[] randomBytes = new byte[32];
+            using RandomNumberGenerator rng = RandomNumberGenerator.Create();
+            rng.GetBytes(randomBytes);
+
+            EncryptionKey = BitConverter.ToString(randomBytes).Replace(
+                "-", string.Empty);
+        }
+
+        [JsonConstructor]
+        public EOSClientCredentials(
+            string clientId,
+            string clientSecret,
+            string encryptionKey)
+        {
+            ClientId = clientId;
+            ClientSecret = clientSecret;
+            EncryptionKey = encryptionKey;
+        }
 
         public bool Equals(EOSClientCredentials other)
         {

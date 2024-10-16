@@ -97,22 +97,10 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <returns>
         /// True if the deployment was added, false otherwise.
         /// </returns>
-        public bool AddDeployment(Named<Deployment> deployment)
+        public bool AddDeployment(Deployment deployment)
         {
-            if (Deployments.ContainsName(deployment.Name))
-            {
-                // TODO: Tell user deployment with same name already exists, so
-                //       this one cannot be added.
-            }
-
-            if (Deployments.Contains(deployment.Value))
-            {
-                // TODO: Tell user deployment with same Id already exists, so 
-                //       this one cannot be added.
-            }
-
             // Add the sandbox (will do nothing if the sandbox already exists).
-            Sandboxes.Add(deployment.Value.SandboxId);
+            Sandboxes.Add(deployment.SandboxId);
 
             // Add the deployment to the list of deployments
             return Deployments.Add(deployment);
