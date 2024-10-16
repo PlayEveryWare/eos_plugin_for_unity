@@ -687,11 +687,15 @@ using UnityEngine.InputSystem;
             {
 
                 //case ExternalCredentialType.GogSessionTicket:
-                //case ExternalCredentialType.GoogleIdToken:
                 //case ExternalCredentialType.ItchioJwt:
                 //case ExternalCredentialType.ItchioKey:
                 //case ExternalCredentialType.AmazonAccessToken:
-
+#if !UNITY_ANDROID || UNITY_EDITOR
+                case ExternalCredentialType.GoogleIdToken:
+                    loginButton.interactable = false;
+                    loginButtonText.text = "Platform not supported.";
+                    break;
+#endif
 #if !(UNITY_STANDALONE)
                 case ExternalCredentialType.SteamSessionTicket:
                 case ExternalCredentialType.SteamAppTicket:
@@ -1093,6 +1097,10 @@ using UnityEngine.InputSystem;
         {
             switch (externalType)
             {
+                case ExternalCredentialType.GoogleIdToken:
+                    ConnectGoogleId();
+                    break;
+
                 case ExternalCredentialType.SteamSessionTicket:
                     ConnectSteamSessionTicket();
                     break;
@@ -1169,6 +1177,16 @@ using UnityEngine.InputSystem;
                 Debug.LogError("Connect Login failed: Failed to create Device Id");
                 ConfigureUIForLogin();
             }
+        }
+
+        private void ConnectGoogleId()
+        {
+            SignInWithGoogleManager signInWithGoogleManager = new();
+
+            signInWithGoogleManager.GetGoogleIdToken((string token, string username) => 
+            {
+                StartConnectLoginWithToken(ExternalCredentialType.GoogleIdToken, token, username);
+            });
         }
 
         private void ConnectAppleId()
