@@ -31,6 +31,9 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
     using Config;
     using System.Linq;
     using System.Threading.Tasks;
+    using UnityEditor.AnimatedValues;
+    using Utility;
+    using Config = EpicOnlineServices.Config;
 
     /// <summary>
     /// Creates the view for showing the eos plugin editor config values.
