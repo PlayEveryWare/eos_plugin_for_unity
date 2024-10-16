@@ -71,7 +71,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
         // NOTE: This is currently disabled as it is being investigated whether
         //       there is a more built-in manner in which to inspect unit test
         //       results.
-        // [MenuItem("Tools/EOS Plugin/Tests/Result Parser", priority = 11)]
+        // [MenuItem("EOS Plugin/Tests/Result Parser", priority = 11)]
         public static void OpenUnitTestResultsWindow()
         {
             var window = GetWindow<UnitTestResultsWindow>();

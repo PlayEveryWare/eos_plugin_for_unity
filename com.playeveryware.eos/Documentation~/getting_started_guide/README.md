@@ -140,7 +140,7 @@ In the EOS Plugin for Unity project, the provided code with the plugin will give
 The Samples come with scenes that demonstrate the usage of the EOS Plugin for Unity's Manager classes for each Sample's domain.
 
 Next, follow [our documentation regarding how to configure the plugin](/com.playeveryware.eos/Documentation~/configure_plugin.md).
-Inside of Unity (using the menu bar), navigate to `Tools` -> `EOS Plugin` -> `EOS Configuration`.
+Inside of Unity (using the menu bar), navigate to `EOS Plugin` -> `EOS Configuration`.
 
 <p align="center" width="100%"><img src="/com.playeveryware.eos/Documentation~/getting_started_guide/plugin_eosconfiguration.png" alt="The EOS Configuration popup can be filled out using information in the Product Settings page."/><br/>
 <em>The EOS Configuration popup can be filled out using information in the Product Settings page.</em></p>

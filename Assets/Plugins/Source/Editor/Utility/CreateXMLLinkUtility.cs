@@ -28,7 +28,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
 {
     public static class CreateXMLLinkUtility
     {
-        [MenuItem("Tools/EOS Plugin/Create link.xml")]
+        [MenuItem("EOS Plugin/Advanced/Create link.xml")]
         static void CreateLinkXml()
         {
             var linkSourceFilePath = Path.Combine("Packages", EOSPackageInfo.PackageName, "Editor", "link.xml");
@@ -55,7 +55,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
         }
 
         //disable menu item if not running within a UPM package
-        [MenuItem("Tools/EOS Plugin/Create link.xml", true)]
+        [MenuItem("EOS Plugin/Advanced/Create link.xml", true)]
         static bool ValidateCreateLinkXml()
         {
             return Directory.Exists(Path.Combine("Packages", EOSPackageInfo.PackageName, "Editor"));
