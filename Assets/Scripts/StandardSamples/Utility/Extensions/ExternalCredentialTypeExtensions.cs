@@ -31,6 +31,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             switch (externalCredentialType)
             {
                 // These credential types are demonstrated in the samples
+                case ExternalCredentialType.GoogleIdToken:
                 case ExternalCredentialType.SteamAppTicket:
                 case ExternalCredentialType.DiscordAccessToken:
                 case ExternalCredentialType.OpenidAccessToken:
@@ -40,7 +41,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 case ExternalCredentialType.OculusUseridNonce:
                     return true;
                 // These credential types are not demonstrated in the samples
-                case ExternalCredentialType.GoogleIdToken:
                 case ExternalCredentialType.ItchioJwt:
                 case ExternalCredentialType.ItchioKey:
                 case ExternalCredentialType.EpicIdToken:
