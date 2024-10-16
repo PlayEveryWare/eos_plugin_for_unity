@@ -38,7 +38,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
     [Serializable]
     public class EOSPluginSettingsWindow : EOSEditorWindow
     {
-        private List<IConfigEditor> _configEditors;
+        private List<IConfigEditor> configEditors;
 
         public EOSPluginSettingsWindow() : base("EOS Plugin Settings")
         {
@@ -88,7 +88,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 
         protected override async Task AsyncSetup()
         {
-            _configEditors ??= new List<IConfigEditor>
+            configEditors ??= new List<IConfigEditor>
                 {
                     SetupConfigEditor<PrebuildConfig>(),
                     SetupConfigEditor<ToolsConfig>(),
@@ -99,7 +99,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
                     SetupConfigEditor<SteamConfig>()
                 };
 
-            foreach (var editor in _configEditors)
+            foreach (var editor in configEditors)
             {
                 await editor.LoadAsync();
             }
@@ -111,7 +111,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
             newEditor.Expanded += (sender, args) =>
             {
                 // Close all the other config editors
-                foreach (var editor in _configEditors.Where(editor => editor != sender))
+                foreach (var editor in configEditors.Where(editor => editor != sender))
                 {
                     editor.Collapse();
                 }
@@ -122,9 +122,9 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 
         protected override void RenderWindow()
         {
-            if (_configEditors.Count > 0)
+            if (configEditors.Count > 0)
             {
-                foreach (var configurationSectionEditor in _configEditors)
+                foreach (var configurationSectionEditor in configEditors)
                 {
                     _ = configurationSectionEditor.RenderAsync();
                 }
@@ -142,17 +142,17 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
         {
             base.Teardown();
 
-            foreach (var editor in _configEditors)
+            foreach (var editor in configEditors)
                 editor.Dispose();
 
-            _configEditors.Clear();
+            configEditors.Clear();
 
             Save();
         }
 
         private void Save()
         {
-            foreach (var configurationSectionEditor in _configEditors)
+            foreach (var configurationSectionEditor in configEditors)
             {
                 configurationSectionEditor.Save();
             }
