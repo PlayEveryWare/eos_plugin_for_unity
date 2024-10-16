@@ -27,13 +27,13 @@ namespace PlayEveryWare.EpicOnlineServices
 {
     using System;
 
-    public class WrappedClientCredentials : IEquatable<WrappedClientCredentials>
+    public class EOSClientCredentials : IEquatable<EOSClientCredentials>
     {
         public string ClientId;
         public string ClientSecret;
         public string EncryptionKey;
 
-        public bool Equals(WrappedClientCredentials other)
+        public bool Equals(EOSClientCredentials other)
         {
             if (other == null)
             {
@@ -46,7 +46,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
         public override bool Equals(object other)
         {
-            return other is WrappedClientCredentials otherCreds && Equals(otherCreds);
+            return other is EOSClientCredentials otherCreds && Equals(otherCreds);
         }
 
         public override int GetHashCode()

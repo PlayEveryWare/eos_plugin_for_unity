@@ -49,7 +49,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// used).
         /// </summary>
         [ConfigField("Client Credentials", ConfigFieldType.ClientCredentials)]
-        public SetOfNamed<WrappedClientCredentials> Clients = new("Client");
+        public SetOfNamed<EOSClientCredentials> Clients = new("Client");
 
         /// <summary>
         /// The set of Sandboxes as defined within the Epic Developer Portal.

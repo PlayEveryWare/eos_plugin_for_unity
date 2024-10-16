@@ -23,8 +23,6 @@
 namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
 {
     using Common;
-    using Epic.OnlineServices;
-    using Epic.OnlineServices.Platform;
     using EpicOnlineServices.Utility;
     using System;
     using System.Collections.Generic;
@@ -574,8 +572,17 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             return Version.TryParse(tempStringVersion, out Version newValue) ? newValue : value;
         }
 
-        public static SetOfNamed<WrappedClientCredentials> RenderInput(ConfigFieldAttribute configFieldAttribute,
-            SetOfNamed<WrappedClientCredentials> value, float labelWidth, string tooltip = null)
+        public static Version RenderInput(ConfigFieldAttribute configFieldAttribute, Version value, float labelWidth,
+            string tooltip = null)
+        {
+            return InputRendererWrapper(configFieldAttribute.Label, value, labelWidth, tooltip, ((label, version, width, s) =>
+            {
+                return RenderFieldWithHint(VersionField, (v) => v == null, value, "Version");
+            }));
+        }
+
+        public static SetOfNamed<EOSClientCredentials> RenderInput(ConfigFieldAttribute configFieldAttribute,
+            SetOfNamed<EOSClientCredentials> value, float labelWidth, string tooltip = null)
         {
             EditorGUILayout.Space();
 

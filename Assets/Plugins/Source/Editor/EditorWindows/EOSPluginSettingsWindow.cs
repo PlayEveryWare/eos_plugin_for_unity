@@ -31,9 +31,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
     using Config;
     using System.Linq;
     using System.Threading.Tasks;
-    using UnityEditor.AnimatedValues;
-    using Utility;
-    using Config = EpicOnlineServices.Config;
 
     /// <summary>
     /// Creates the view for showing the eos plugin editor config values.
@@ -41,7 +38,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
     [Serializable]
     public class EOSPluginSettingsWindow : EOSEditorWindow
     {
-        private List<IConfigEditor> configEditors;
+        private List<IConfigEditor> _configEditors;
 
         public EOSPluginSettingsWindow() : base("EOS Plugin Settings")
         {
@@ -91,7 +88,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 
         protected override async Task AsyncSetup()
         {
-            configEditors ??= new List<IConfigEditor>
+            _configEditors ??= new List<IConfigEditor>
                 {
                     SetupConfigEditor<PrebuildConfig>(),
                     SetupConfigEditor<ToolsConfig>(),
@@ -99,11 +96,10 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
                     SetupConfigEditor<LibraryBuildConfig>(),
                     SetupConfigEditor<SigningConfig>(),
                     SetupConfigEditor<PackagingConfig>(),
-                    SetupConfigEditor<SteamConfig>(),
-                    SetupConfigEditor<ProductConfig>()
+                    SetupConfigEditor<SteamConfig>()
                 };
 
-            foreach (var editor in configEditors)
+            foreach (var editor in _configEditors)
             {
                 await editor.LoadAsync();
             }
@@ -115,7 +111,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
             newEditor.Expanded += (sender, args) =>
             {
                 // Close all the other config editors
-                foreach (var editor in configEditors.Where(editor => editor != sender))
+                foreach (var editor in _configEditors.Where(editor => editor != sender))
                 {
                     editor.Collapse();
                 }
@@ -126,9 +122,9 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 
         protected override void RenderWindow()
         {
-            if (configEditors.Count > 0)
+            if (_configEditors.Count > 0)
             {
-                foreach (var configurationSectionEditor in configEditors)
+                foreach (var configurationSectionEditor in _configEditors)
                 {
                     _ = configurationSectionEditor.RenderAsync();
                 }
@@ -146,17 +142,17 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
         {
             base.Teardown();
 
-            foreach (var editor in configEditors)
+            foreach (var editor in _configEditors)
                 editor.Dispose();
 
-            configEditors.Clear();
+            _configEditors.Clear();
 
             Save();
         }
 
         private void Save()
         {
-            foreach (var configurationSectionEditor in configEditors)
+            foreach (var configurationSectionEditor in _configEditors)
             {
                 configurationSectionEditor.Save();
             }

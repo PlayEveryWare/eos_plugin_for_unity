@@ -85,7 +85,15 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </summary>
         ProductionEnvironments,
 
+        /// <summary>
+        /// A set of named client credentials.
+        /// </summary>
         ClientCredentials,
+
+        /// <summary>
+        /// A version value.
+        /// </summary>
+        Version,
 
         /// <summary>
         /// Indicates that the config has a button that needs rendering. This is
