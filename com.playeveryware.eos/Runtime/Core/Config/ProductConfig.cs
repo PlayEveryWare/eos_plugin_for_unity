@@ -92,35 +92,34 @@ namespace PlayEveryWare.EpicOnlineServices
 
         protected ProductConfig() : base("eos_product_config.json") { }
 
-        protected override void PrepareConfig()
+        private void ImportProductNameAndId(PreviousEOSConfig config)
         {
-            if (_oldConfigImported)
+            ProductId ??= new Named<Guid>();
+            ProductId.Name = config.productName;
+            if (!Guid.TryParse(config.productID, out ProductId.Value))
             {
-                return;
+                Debug.LogWarning("Could not parse product ID.");
             }
+        }
 
-            PreviousEOSConfig oldConfig = Config.Get<PreviousEOSConfig>();
-
+        private void ImportClientCredentials(PreviousEOSConfig config)
+        {
             // Import the old config client stuff
-            Clients.Add(new EOSClientCredentials(oldConfig.clientID, oldConfig.clientSecret,
-                oldConfig.encryptionKey));
+            Clients.Add(new EOSClientCredentials(config.clientID, config.clientSecret,
+                config.encryptionKey));
+        }
 
-            // Import product name and id
-            ProductId.Name = oldConfig.productName;
-            if (!Guid.TryParse(oldConfig.productID, out ProductId.Value))
-            {
-                Debug.LogWarning($"Could not parse product ID.");
-            }
-
+        private void ImportSandboxAndDeployment(PreviousEOSConfig config)
+        {
             // Import explicitly set sandbox and deployment
             SandboxId sandboxId = new()
             {
-                Value = oldConfig.sandboxID
+                Value = config.sandboxID
             };
 
             Deployment oldDeployment = new()
             {
-                DeploymentId = Guid.Parse(oldConfig.deploymentID),
+                DeploymentId = Guid.Parse(config.deploymentID),
                 SandboxId = sandboxId
             };
 
@@ -131,19 +130,40 @@ namespace PlayEveryWare.EpicOnlineServices
                                  "reach out for support if you need " +
                                  "assistance.");
             }
+        }
 
+        private void ImportSandboxAndDeploymentOverrides(PreviousEOSConfig config)
+        {
             // Import each of the overrides
-            foreach (var overrideValues in oldConfig.sandboxDeploymentOverrides)
+            foreach (var overrideValues in config.sandboxDeploymentOverrides)
             {
                 SandboxId overrideSandbox = new() { Value = overrideValues.sandboxID };
                 Deployment overrideDeployment = new()
                 {
-                    DeploymentId = Guid.Parse(overrideValues.deploymentID), SandboxId = overrideSandbox
+                    DeploymentId = Guid.Parse(overrideValues.deploymentID),
+                    SandboxId = overrideSandbox
                 };
 
                 Environments.Deployments.Add(overrideDeployment);
             }
+        }
 
+        protected override void PrepareConfig()
+        {
+            if (_oldConfigImported)
+            {
+                return;
+            }
+
+            Environments ??= new();
+
+            PreviousEOSConfig oldConfig = Config.Get<PreviousEOSConfig>();
+
+            ImportProductNameAndId(oldConfig);
+            ImportClientCredentials(oldConfig);
+            ImportSandboxAndDeployment(oldConfig);
+            ImportSandboxAndDeploymentOverrides(oldConfig);
+            
             // Set to true and save so that old config import happens once
             _oldConfigImported = true;
             Write();

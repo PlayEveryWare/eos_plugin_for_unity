@@ -218,6 +218,11 @@ namespace PlayEveryWare.EpicOnlineServices
             // Use the factory method to create the config.
             T instance = (T)factory();
 
+            if (!await FileSystemUtility.FileExistsAsync(instance.FilePath) && instance._allowDefaultIfFileNotFound)
+            {
+                await instance.WriteAsync();
+            }
+
             // Asynchronously read config values from the corresponding file.
             await instance.ReadAsync();
             
@@ -257,6 +262,11 @@ namespace PlayEveryWare.EpicOnlineServices
 
             // Use the factory method to create the config.
             T instance = (T)factory();
+
+            if (!FileSystemUtility.FileExists(instance.FilePath) && instance._allowDefaultIfFileNotFound)
+            {
+                instance.Write();
+            }
 
             // Synchronously read config values from the corresponding file.
             instance.Read();

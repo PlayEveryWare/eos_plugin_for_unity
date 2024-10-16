@@ -20,6 +20,10 @@
  * SOFTWARE.
  */
 
+// Uncomment the following line to see the experimental new config window
+//#define ENABLE_NEW_CONFIG_WINDOW
+
+#if ENABLE_NEW_CONFIG_WINDOW
 namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 {
     using System;
@@ -42,7 +46,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 
         public NewConfigWindow() : base("EOS Configuration") { }
 
-        [MenuItem("EOS/EOS")]
+        [MenuItem("EOS Plugin/[Experimental] New Config")]
         public static void ShowWindow()
         {
             var window = GetWindow<NewConfigWindow>();
@@ -73,3 +77,4 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
         }
     }
 }
+#endif
