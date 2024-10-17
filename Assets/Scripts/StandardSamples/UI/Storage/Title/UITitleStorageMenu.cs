@@ -238,17 +238,17 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 
-        private SampleInteractableNewState MustHaveAtLeastOneTagValidator()
+        private InteractableState MustHaveAtLeastOneTagValidator()
         {
             const string MustHaveAtLeastOneTagMessage = "Please enter at least one tag and press 'Add tag'.";
 
             if (CurrentTags.Count == 0)
             {
-                return new SampleInteractableNewState(false, MustHaveAtLeastOneTagMessage);
+                return new InteractableState(false, MustHaveAtLeastOneTagMessage);
             }
             else
             {
-                return new SampleInteractableNewState(true);
+                return new InteractableState(true);
             }
         }
     }

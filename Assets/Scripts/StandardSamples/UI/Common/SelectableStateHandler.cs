@@ -30,19 +30,19 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
     public class SelectableStateHandler : MonoBehaviour
     {
-        public struct SampleInteractableNewState
+        public struct InteractableState
         {
             public bool Interactable;
             public string NewTooltipText;
 
-            public SampleInteractableNewState(bool shouldBeInteractable, string newTooltipText = "")
+            public InteractableState(bool shouldBeInteractable, string newTooltipText = "")
             {
                 Interactable = shouldBeInteractable;
                 NewTooltipText = newTooltipText;
             }
         }
 
-        public delegate SampleInteractableNewState GetSampleInteractable();
+        public delegate InteractableState GetSampleInteractable();
 
         private static event Action UpdateSelectableStates;
 
@@ -77,7 +77,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 return;
             }
 
-            SampleInteractableNewState newState = sampleInteractableFunction();
+            InteractableState newState = sampleInteractableFunction();
 
             if (!string.IsNullOrEmpty(newState.NewTooltipText) && attachedTooltip != null)
             {

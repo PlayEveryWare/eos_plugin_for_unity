@@ -133,15 +133,15 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             InputField.onEndEdit.Invoke(result);
         }
 
-        private SampleInteractableNewState FieldCannotBeEmptyValidator()
+        private InteractableState FieldCannotBeEmptyValidator()
         {
             if (string.IsNullOrEmpty(InputField.text))
             {
-                return new SampleInteractableNewState(false, CannotBeEmptyMessage);
+                return new InteractableState(false, CannotBeEmptyMessage);
             }
             else
             {
-                return new SampleInteractableNewState(true);
+                return new InteractableState(true);
             }
         }
     }
