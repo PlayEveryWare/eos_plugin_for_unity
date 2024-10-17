@@ -202,7 +202,7 @@ namespace Epic.OnlineServices.P2P
 		}
 
 		/// <summary>
-		/// Listen for when a previously opened connection is closed.
+		/// Listen for when a previously accepted connection that was either open or pending is closed.
 		/// <seealso cref="AddNotifyPeerConnectionEstablished" />
 		/// <seealso cref="AddNotifyPeerConnectionInterrupted" />
 		/// <seealso cref="RemoveNotifyPeerConnectionClosed" />
