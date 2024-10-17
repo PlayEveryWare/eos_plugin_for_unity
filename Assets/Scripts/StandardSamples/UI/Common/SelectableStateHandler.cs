@@ -28,7 +28,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     using UnityEngine.EventSystems;
     using System;
 
-    public class SampleSelectableStateHandler : MonoBehaviour
+    public class SelectableStateHandler : MonoBehaviour
     {
         public struct SampleInteractableNewState
         {

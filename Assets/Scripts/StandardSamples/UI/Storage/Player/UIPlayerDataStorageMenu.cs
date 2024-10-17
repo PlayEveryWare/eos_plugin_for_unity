@@ -26,7 +26,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     using System.Collections.Generic;
     using UnityEngine;
     using UnityEngine.UI;
-    using static PlayEveryWare.EpicOnlineServices.Samples.SampleSelectableStateHandler;
+    using static PlayEveryWare.EpicOnlineServices.Samples.SelectableStateHandler;
     using JsonUtility = Utility.JsonUtility;
 
     [Serializable]
@@ -69,15 +69,15 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         [Header("Selectable State Handlers")]
         [SerializeReference]
-        private SampleSelectableStateHandler addItemButton;
+        private SelectableStateHandler addItemButton;
         [SerializeReference]
-        private SampleSelectableStateHandler uploadButton;
+        private SelectableStateHandler uploadButton;
         [SerializeReference]
-        private SampleSelectableStateHandler downloadButton;
+        private SelectableStateHandler downloadButton;
         [SerializeReference]
-        private SampleSelectableStateHandler duplicateButton;
+        private SelectableStateHandler duplicateButton;
         [SerializeReference]
-        private SampleSelectableStateHandler deleteButton;
+        private SelectableStateHandler deleteButton;
 
         protected override void Awake()
         {
@@ -242,7 +242,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             currentSelectedFile = string.Empty;
             CurrentFileNameText.text = "*No File Selected*";
 
-            SampleSelectableStateHandler.NotifySampleSelectableUpdate();
+            SelectableStateHandler.NotifySampleSelectableUpdate();
         }
 
         private void FileListOnClick(string fileName)
@@ -262,7 +262,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             currentInventory = null;
             LocalViewText.text = "*** Click Download button to create a local copy to modify ***";
 
-            SampleSelectableStateHandler.NotifySampleSelectableUpdate();
+            SelectableStateHandler.NotifySampleSelectableUpdate();
         }
 
         private void UpdateRemoteView(string fileName)

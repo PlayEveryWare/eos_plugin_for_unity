@@ -25,14 +25,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     using UnityEngine;
     using UnityEngine.UI;
     using UnityEngine.EventSystems;
-    using static PlayEveryWare.EpicOnlineServices.Samples.SampleSelectableStateHandler;
+    using static PlayEveryWare.EpicOnlineServices.Samples.SelectableStateHandler;
 
     public class UIConsoleInputField : MonoBehaviour
     {
         public Button InputFieldButton;
         public InputField InputField;
 
-        public SampleSelectableStateHandler StateHandlerForSubmit;
+        public SelectableStateHandler StateHandlerForSubmit;
         public string CannotBeEmptyMessage;
 
 #if UNITY_ANDROID
@@ -76,7 +76,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             editText = currentText;
 #endif
 
-            SampleSelectableStateHandler.NotifySampleSelectableUpdate();
+            SelectableStateHandler.NotifySampleSelectableUpdate();
         }
 
         public void OnEndEdit(string value)
@@ -101,7 +101,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             if (StateHandlerForSubmit != null)
             {
-                SampleSelectableStateHandler.NotifySampleSelectableUpdate();
+                SelectableStateHandler.NotifySampleSelectableUpdate();
             }
         }
 

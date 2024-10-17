@@ -28,7 +28,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     using Epic.OnlineServices;
     using EpicOnlineServices;
     using Config = PlayEveryWare.EpicOnlineServices.Config;
-    using static PlayEveryWare.EpicOnlineServices.Samples.SampleSelectableStateHandler;
+    using static PlayEveryWare.EpicOnlineServices.Samples.SelectableStateHandler;
 
     /// <summary>
     /// Unity UI sample that uses <c>TitleStoragemanager</c> to demo features.  Can be used as a template or starting point for implementing Title Storage features.
@@ -50,7 +50,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         private List<string> CurrentTags = new List<string>();
 
         [SerializeReference]
-        private SampleSelectableStateHandler findFileWithTagsButton;
+        private SelectableStateHandler findFileWithTagsButton;
 
         protected override void Awake()
         {
@@ -89,7 +89,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 GameObject.Destroy(child.gameObject);
             }
 
-            SampleSelectableStateHandler.NotifySampleSelectableUpdate();
+            SelectableStateHandler.NotifySampleSelectableUpdate();
         }
 
         public void AddPlatformTagOnClick()
@@ -145,7 +145,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 tagEntry.TagTxt.text = tag;
             }
 
-            SampleSelectableStateHandler.NotifySampleSelectableUpdate();
+            SelectableStateHandler.NotifySampleSelectableUpdate();
 
             return true;
         }
