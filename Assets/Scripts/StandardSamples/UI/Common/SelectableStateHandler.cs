@@ -42,11 +42,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 
-        public delegate InteractableState GetSampleInteractable();
+        public delegate InteractableState Get();
 
-        private static event Action UpdateSelectableStates;
+        private static event Action StateUpdated;
 
-        private GetSampleInteractable sampleInteractableFunction { get; set; }
+        private Get interactableFunction { get; set; }
 
         [SerializeReference]
         private UITooltip attachedTooltip;
@@ -54,43 +54,50 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         [SerializeReference]
         private Selectable attachedSelectable;
 
-        public void SetSampleInteractableAction(GetSampleInteractable inSampleInteractableFunction)
+        public void SetInteractableAction(Get inInteractableFunction)
         {
-            sampleInteractableFunction = inSampleInteractableFunction;
+            interactableFunction = inInteractableFunction;
             UpdateFromFunction();
         }
 
         private void OnEnable()
         {
-            UpdateSelectableStates += UpdateFromFunction;
+            StateUpdated += UpdateFromFunction;
         }
 
         private void OnDisable()
         {
-            UpdateSelectableStates -= UpdateFromFunction;
+            StateUpdated -= UpdateFromFunction;
         }
 
         void UpdateFromFunction()
         {
-            if (sampleInteractableFunction == null)
+            if (interactableFunction == null)
             {
                 return;
             }
 
-            InteractableState newState = sampleInteractableFunction();
+            InteractableState newState = interactableFunction();
 
-            if (!string.IsNullOrEmpty(newState.NewTooltipText) && attachedTooltip != null)
+            if (attachedTooltip != null)
             {
-                if (newState.Interactable)
+                if (!string.IsNullOrEmpty(newState.NewTooltipText))
                 {
-                    // TODO: Restore the original tooltip text if it is interactable
-                    // At the moment, none of the buttons that this was applied to
-                    // had any tooltips to begin with
-                    attachedTooltip.Text = string.Empty;
+                    if (newState.Interactable)
+                    {
+                        // TODO: Restore the original tooltip text if it is interactable
+                        // At the moment, none of the buttons that this was applied to
+                        // had any tooltips to begin with
+                        attachedTooltip.Text = string.Empty;
+                    }
+                    else
+                    {
+                        attachedTooltip.Text = newState.NewTooltipText;
+                    }
                 }
                 else
                 {
-                    attachedTooltip.Text = newState.NewTooltipText;
+                    attachedTooltip.Text = string.Empty;
                 }
             }
 
@@ -100,9 +107,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 
-        public static void NotifySampleSelectableUpdate()
+        public static void NotifySelectableUpdate()
         {
-            UpdateSelectableStates?.Invoke();
+            StateUpdated?.Invoke();
         }
     }
 }

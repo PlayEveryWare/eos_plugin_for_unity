@@ -84,11 +84,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             base.Awake();
             fileNameUIEntries.AddRange(FilesContentParent.GetComponentsInChildren<UIFileNameEntry>(true));
 
-            addItemButton.SetSampleInteractableAction(NeedSelectedFileHandler);
-            uploadButton.SetSampleInteractableAction(NeedSelectedFileHandler);
-            downloadButton.SetSampleInteractableAction(NeedSelectedFileHandler);
-            duplicateButton.SetSampleInteractableAction(NeedSelectedFileHandler);
-            deleteButton.SetSampleInteractableAction(NeedSelectedFileHandler);
+            addItemButton.SetInteractableAction(NeedSelectedFileHandler);
+            uploadButton.SetInteractableAction(NeedSelectedFileHandler);
+            downloadButton.SetInteractableAction(NeedSelectedFileHandler);
+            duplicateButton.SetInteractableAction(NeedSelectedFileHandler);
+            deleteButton.SetInteractableAction(NeedSelectedFileHandler);
         }
 
         private void Start()
@@ -242,7 +242,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             currentSelectedFile = string.Empty;
             CurrentFileNameText.text = "*No File Selected*";
 
-            SelectableStateHandler.NotifySampleSelectableUpdate();
+            SelectableStateHandler.NotifySelectableUpdate();
         }
 
         private void FileListOnClick(string fileName)
@@ -262,7 +262,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             currentInventory = null;
             LocalViewText.text = "*** Click Download button to create a local copy to modify ***";
 
-            SelectableStateHandler.NotifySampleSelectableUpdate();
+            SelectableStateHandler.NotifySelectableUpdate();
         }
 
         private void UpdateRemoteView(string fileName)

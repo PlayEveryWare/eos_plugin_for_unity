@@ -48,7 +48,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             if (StateHandlerForSubmit != null)
             {
-                StateHandlerForSubmit.SetSampleInteractableAction(FieldCannotBeEmptyValidator);
+                StateHandlerForSubmit.SetInteractableAction(FieldCannotBeEmptyValidator);
             }
         }
 
@@ -76,7 +76,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             editText = currentText;
 #endif
 
-            SelectableStateHandler.NotifySampleSelectableUpdate();
+            SelectableStateHandler.NotifySelectableUpdate();
         }
 
         public void OnEndEdit(string value)
@@ -101,7 +101,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             if (StateHandlerForSubmit != null)
             {
-                SelectableStateHandler.NotifySampleSelectableUpdate();
+                SelectableStateHandler.NotifySelectableUpdate();
             }
         }
 

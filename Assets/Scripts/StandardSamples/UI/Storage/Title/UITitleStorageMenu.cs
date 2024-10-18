@@ -64,7 +64,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 FileContent.text = "Valid encryption key not set. Use the EOS Config Editor to add one.";
             }
 
-            findFileWithTagsButton.SetSampleInteractableAction(MustHaveAtLeastOneTagValidator);
+            findFileWithTagsButton.SetInteractableAction(MustHaveAtLeastOneTagValidator);
         }
 
         private void Start()
@@ -89,7 +89,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 GameObject.Destroy(child.gameObject);
             }
 
-            SelectableStateHandler.NotifySampleSelectableUpdate();
+            SelectableStateHandler.NotifySelectableUpdate();
         }
 
         public void AddPlatformTagOnClick()
@@ -145,7 +145,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 tagEntry.TagTxt.text = tag;
             }
 
-            SelectableStateHandler.NotifySampleSelectableUpdate();
+            SelectableStateHandler.NotifySelectableUpdate();
 
             return true;
         }
