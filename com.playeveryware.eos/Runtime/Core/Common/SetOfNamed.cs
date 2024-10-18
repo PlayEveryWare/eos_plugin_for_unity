@@ -165,6 +165,13 @@ namespace PlayEveryWare.Common
         {
             foreach (Named<T> namedItemInSet in this)
             {
+                // Skip if for some reason the value is null or the value is
+                // null.
+                if (namedItemInSet == null || namedItemInSet.Value == null)
+                {
+                    continue;
+                }
+
                 if (namedItemInSet.Value.Equals(item))
                 {
                     return true;
