@@ -61,7 +61,10 @@ namespace PlayEveryWare.EpicOnlineServices
         /// it is used as a label for user interface purposes - and is allowed
         /// to differ from the label given to it on the Developer Portal.
         /// </summary>
-        [ConfigField("Product Information", ConfigFieldType.NamedGuid)]
+        [ConfigField("Product Information",
+            ConfigFieldType.NamedGuid,
+            "Enter the name of your product as it appears in the Epic " +
+            "Dev Portal, as well as the Product Id defined there.")]
         public Named<Guid> ProductId;
 
         /// <summary>
@@ -71,7 +74,10 @@ namespace PlayEveryWare.EpicOnlineServices
         /// explicitly indicated, and only one is defined, that one will be
         /// used).
         /// </summary>
-        [ConfigField("Client Credentials", ConfigFieldType.ClientCredentials)]
+        [ConfigField("Client Credentials",
+            ConfigFieldType.ClientCredentials,
+            "Enter the client credentials you have defined in the " +
+            "Epic Dev Portal.")]
         public SetOfNamed<EOSClientCredentials> Clients = new("Client");
 
         /// <summary>
@@ -79,7 +85,10 @@ namespace PlayEveryWare.EpicOnlineServices
         /// For EOS to function, at least one of these must be set, and it must
         /// match the deployment indicated by the platform config.
         /// </summary>
-        [ConfigField("Production Environments", ConfigFieldType.ProductionEnvironments)]
+        [ConfigField("Production Environments",
+            ConfigFieldType.ProductionEnvironments, 
+            "Enter the details of your deployment and sandboxes as they " +
+            "exist within the Epic Dev Portal.")]
         public ProductionEnvironments Environments;
 
         [JsonProperty]
