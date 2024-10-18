@@ -37,22 +37,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
         public override bool Equals(object obj)
         {
-            if (obj is null)
-            {
-                return false;
-            }
-
-            if (ReferenceEquals(this, obj))
-            {
-                return true;
-            }
-
-            if (obj.GetType() != this.GetType())
-            {
-                return false;
-            }
-
-            return Equals((Deployment)obj);
+            return obj is Deployment deployment && Equals(deployment);
         }
 
         public override int GetHashCode()
