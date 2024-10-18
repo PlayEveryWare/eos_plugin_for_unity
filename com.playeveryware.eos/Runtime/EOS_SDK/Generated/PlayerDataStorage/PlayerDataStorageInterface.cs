@@ -103,7 +103,7 @@ namespace Epic.OnlineServices.PlayerDataStorage
 		/// <summary>
 		/// The most recent version of the <see cref="ReadFile" /> API.
 		/// </summary>
-		public const int ReadfileApiLatest = 1;
+		public const int ReadfileApiLatest = 2;
 
 		/// <summary>
 		/// DEPRECATED! Use <see cref="ReadfileApiLatest" /> instead.
@@ -118,7 +118,7 @@ namespace Epic.OnlineServices.PlayerDataStorage
 		/// <summary>
 		/// The most recent version of the <see cref="WriteFile" /> API.
 		/// </summary>
-		public const int WritefileApiLatest = 1;
+		public const int WritefileApiLatest = 2;
 
 		/// <summary>
 		/// DEPRECATED! Use <see cref="WritefileApiLatest" /> instead.

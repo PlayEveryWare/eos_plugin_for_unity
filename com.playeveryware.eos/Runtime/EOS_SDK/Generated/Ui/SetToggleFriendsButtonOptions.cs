@@ -9,8 +9,16 @@ namespace Epic.OnlineServices.UI
 	public struct SetToggleFriendsButtonOptions
 	{
 		/// <summary>
-		/// The new button which will be used to toggle the friends overlay.
-		/// It can be any combination of buttons.
+		/// The button combination to toggle the friends-list page.
+		/// It can be any combination of the following buttons (which can include the left or right shoulder buttons (<see cref="InputStateButtonFlags.LeftShoulder" /> or <see cref="InputStateButtonFlags.RightShoulder" />)):
+		/// 
+		/// - <see cref="InputStateButtonFlags.LeftTrigger" />
+		/// - <see cref="InputStateButtonFlags.RightTrigger" />
+		/// - <see cref="InputStateButtonFlags.SpecialLeft" />
+		/// - <see cref="InputStateButtonFlags.SpecialRight" />
+		/// - <see cref="InputStateButtonFlags.LeftThumbstick" />
+		/// - <see cref="InputStateButtonFlags.RightThumbstick" />
+		/// 
 		/// The default value is No Button. Set the value to <see cref="InputStateButtonFlags.None" /> to revert to the default.
 		/// </summary>
 		public InputStateButtonFlags ButtonCombination { get; set; }
