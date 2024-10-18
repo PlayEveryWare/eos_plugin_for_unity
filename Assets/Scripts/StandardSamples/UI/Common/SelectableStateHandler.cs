@@ -27,63 +27,114 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     using UnityEngine.UI;
     using UnityEngine.EventSystems;
     using System;
+    using UnityEngine.Events;
 
     public class SelectableStateHandler : MonoBehaviour
     {
+        /// <summary>
+        /// Represents a state for this component, indicating if it should be
+        /// interactable and what tooltip should be displayed when
+        /// moused over.
+        /// </summary>
         public struct InteractableState
         {
+            /// <summary>
+            /// Indication of whether the associated Selectable should be
+            /// interactable.
+            /// </summary>
             public bool Interactable;
-            public string NewTooltipText;
+
+            /// <summary>
+            /// The tooltip text that should be displayed on mouse over.
+            /// If empty, a tooltip will not be displayed.
+            /// </summary>
+            public string TooltipText;
 
             public InteractableState(bool shouldBeInteractable, string newTooltipText = "")
             {
                 Interactable = shouldBeInteractable;
-                NewTooltipText = newTooltipText;
+                TooltipText = newTooltipText;
             }
         }
 
-        public delegate InteractableState Get();
+        /// <summary>
+        /// The current state of the interactable this is attached to.
+        /// This should be updated in the events assigned to
+        /// <see cref="EventToUpdateState"/>.
+        /// 
+        /// It cannot be guaranteed that this is updated at the appropriate time.
+        /// </summary>
+        public InteractableState State = new InteractableState(false);
 
+        /// <summary>
+        /// Event raised in <see cref="NotifySelectableUpdate"/> that informs
+        /// all instances of this component to update their state through
+        /// <see cref="EventToUpdateState"/>.
+        /// </summary>
         private static event Action StateUpdated;
 
-        private Get interactableFunction { get; set; }
+        /// <summary>
+        /// When <see cref="StateUpdated"/> is raised, this event is called to 
+        /// allow manager code to update this component's <see cref="State"/>.
+        /// It is assumed manager code will update <see cref="State"/>
+        /// appropriately inside the function assigned to this in the inspector.
+        /// 
+        /// This design paradigm allows inspector time configuration of state
+        /// management.
+        /// </summary>
+        [SerializeField]
+        private UnityEvent<SelectableStateHandler> EventToUpdateState;
 
+        /// <summary>
+        /// The attached UITooltip component, which has its text set by
+        /// <see cref="State"/>'s <see cref="InteractableState.TooltipText"/>.
+        /// 
+        /// Optional. If not present, no tooltip will be updated.
+        /// </summary>
         [SerializeReference]
         private UITooltip attachedTooltip;
 
+        /// <summary>
+        /// The associated Unity Selectable UI element this is associated with.
+        /// <see cref="Selectable.interactable"/> is set by <see cref="State"/>'s
+        /// <see cref="InteractableState.Interactable"/> value.
+        /// 
+        /// While optional, the purpose of this component is to augment
+        /// Selectables.
+        /// </summary>
         [SerializeReference]
         private Selectable attachedSelectable;
 
-        public void SetInteractableAction(Get inInteractableFunction)
-        {
-            interactableFunction = inInteractableFunction;
-            UpdateFromFunction();
-        }
-
         private void OnEnable()
         {
-            StateUpdated += UpdateFromFunction;
+            StateUpdated += UpdateSelectableState;
+            UpdateSelectableState();
         }
 
         private void OnDisable()
         {
-            StateUpdated -= UpdateFromFunction;
+            StateUpdated -= UpdateSelectableState;
         }
 
-        void UpdateFromFunction()
+        /// <summary>
+        /// Updates this component's state through raising
+        /// <see cref="EventToUpdateState"/>, and then updating the UI.
+        /// This will set <see cref="attachedSelectable"/>'s interactable state
+        /// and optionally its tooltip.
+        /// 
+        /// This is raised by <see cref="UpdateSelectableState"/>. As a public
+        /// function, elements in the inspector could directly call this function
+        /// as part of some event in order to update specific components.
+        /// </summary>
+        public void UpdateSelectableState()
         {
-            if (interactableFunction == null)
-            {
-                return;
-            }
-
-            InteractableState newState = interactableFunction();
+            EventToUpdateState.Invoke(this);
 
             if (attachedTooltip != null)
             {
-                if (!string.IsNullOrEmpty(newState.NewTooltipText))
+                if (!string.IsNullOrEmpty(State.TooltipText))
                 {
-                    if (newState.Interactable)
+                    if (State.Interactable)
                     {
                         // TODO: Restore the original tooltip text if it is interactable
                         // At the moment, none of the buttons that this was applied to
@@ -92,7 +143,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     }
                     else
                     {
-                        attachedTooltip.Text = newState.NewTooltipText;
+                        attachedTooltip.Text = State.TooltipText;
                     }
                 }
                 else
@@ -103,10 +154,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             if (attachedSelectable != null)
             {
-                attachedSelectable.interactable = newState.Interactable;
+                attachedSelectable.interactable = State.Interactable;
             }
         }
 
+        /// <summary>
+        /// Notifies all instances of this component to update their state.
+        /// </summary>
         public static void NotifySelectableUpdate()
         {
             StateUpdated?.Invoke();

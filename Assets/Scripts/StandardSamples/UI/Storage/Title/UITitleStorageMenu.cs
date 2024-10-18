@@ -49,9 +49,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public Text FileContent;
         private List<string> CurrentTags = new List<string>();
 
-        [SerializeReference]
-        private SelectableStateHandler findFileWithTagsButton;
-
         protected override void Awake()
         {
             base.Awake();
@@ -63,8 +60,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             {
                 FileContent.text = "Valid encryption key not set. Use the EOS Config Editor to add one.";
             }
-
-            findFileWithTagsButton.SetInteractableAction(MustHaveAtLeastOneTagValidator);
         }
 
         private void Start()
@@ -238,17 +233,17 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 
-        private InteractableState MustHaveAtLeastOneTagValidator()
+        public void MustHaveAtLeastOneTagValidator(SelectableStateHandler toUpdate)
         {
             const string MustHaveAtLeastOneTagMessage = "Please enter at least one tag and press 'Add tag'.";
 
             if (CurrentTags.Count == 0)
             {
-                return new InteractableState(false, MustHaveAtLeastOneTagMessage);
+                toUpdate.State = new InteractableState(false, MustHaveAtLeastOneTagMessage);
             }
             else
             {
-                return new InteractableState(true);
+                toUpdate.State = new InteractableState(true);
             }
         }
     }

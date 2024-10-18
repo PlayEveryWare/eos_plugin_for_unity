@@ -29,11 +29,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
     public class UIConsoleInputField : MonoBehaviour
     {
+        public string CannotBeEmptyMessage = "Field cannot be empty.";
         public Button InputFieldButton;
         public InputField InputField;
-
-        public SelectableStateHandler StateHandlerForSubmit;
-        public string CannotBeEmptyMessage;
 
 #if UNITY_ANDROID
         private bool keepOldTextInField;
@@ -45,11 +43,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             InputField.onEndEdit.AddListener(OnEndEdit);
             InputField.onValueChanged.AddListener(OnEdit);
-
-            if (StateHandlerForSubmit != null)
-            {
-                StateHandlerForSubmit.SetInteractableAction(FieldCannotBeEmptyValidator);
-            }
         }
 
 #if UNITY_ANDROID
@@ -99,10 +92,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         }
 #endif
 
-            if (StateHandlerForSubmit != null)
-            {
-                SelectableStateHandler.NotifySelectableUpdate();
-            }
+            SelectableStateHandler.NotifySelectableUpdate();
         }
 
         public void InputFieldOnClick()
@@ -133,15 +123,15 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             InputField.onEndEdit.Invoke(result);
         }
 
-        private InteractableState FieldCannotBeEmptyValidator()
+        public void FieldCannotBeEmptyValidator(SelectableStateHandler toUpdate)
         {
             if (string.IsNullOrEmpty(InputField.text))
             {
-                return new InteractableState(false, CannotBeEmptyMessage);
+                toUpdate.State = new InteractableState(false, CannotBeEmptyMessage);
             }
             else
             {
-                return new InteractableState(true);
+                toUpdate.State = new InteractableState(true);
             }
         }
     }
