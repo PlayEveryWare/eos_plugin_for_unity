@@ -172,10 +172,15 @@ namespace PlayEveryWare.EpicOnlineServices
             ImportClientCredentials(oldConfig);
             ImportSandboxAndDeployment(oldConfig);
             ImportSandboxAndDeploymentOverrides(oldConfig);
-            
+
             // Set to true and save so that old config import happens once
             _oldConfigImported = true;
+
+            // This compile time conditional is here because writing a config
+            // can only take place in the Unity Editor.
+#if !UNITY_EDITOR
             Write();
+#endif
         }
     }
 }
