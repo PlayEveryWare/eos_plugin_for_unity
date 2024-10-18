@@ -30,7 +30,7 @@ namespace PlayEveryWare.EpicOnlineServices
     using Epic.OnlineServices.Platform;
     using Epic.OnlineServices.UI;
 #endif
-
+    using Common;
     using Newtonsoft.Json;
     using System;
     using UnityEngine;
@@ -62,6 +62,12 @@ namespace PlayEveryWare.EpicOnlineServices
         [JsonIgnore]   // Disallow serialization
         [Obsolete]
         public EOSConfig overrideValues;
+
+        #region Deployment
+
+        public Deployment deployment;
+
+        #endregion
 
         #region Flags
 
@@ -387,6 +393,13 @@ namespace PlayEveryWare.EpicOnlineServices
             if (_configValuesMigrated || null == overrideValues)
             {
                 return;
+            }
+
+            ProductConfig productConfig = Get<ProductConfig>();
+
+            foreach (Named<Deployment> dep in productConfig.Environments.Deployments)
+            {
+
             }
 
             // This config represents the set of values that previously were 
