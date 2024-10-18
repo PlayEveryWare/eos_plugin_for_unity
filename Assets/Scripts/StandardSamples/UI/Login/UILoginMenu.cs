@@ -1185,6 +1185,12 @@ using UnityEngine.InputSystem;
 
             signInWithGoogleManager.GetGoogleIdToken((string token, string username) => 
             {
+                if (token == null)
+                {
+                    Debug.LogError("Failed to retrieve Google Id Token");
+                    return;
+                }
+
                 StartConnectLoginWithToken(ExternalCredentialType.GoogleIdToken, token, username);
             });
         }

@@ -62,6 +62,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public void onError(AndroidJavaObject credentialException)
         {
             loginObject.Call("handleFailure", credentialException);
+            callback.Invoke(null, null);
         }
     }
 
@@ -94,6 +95,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             javaCallback.callback = callback;
 
             AndroidConfig config = AndroidConfig.Get<AndroidConfig>();
+
+            if (config.GoogleLoginClientID == null) 
+            {
+                Debug.LogError("Client ID is null, needs to be configured for Google ID connect login");
+                return;
+            }
             /// SignInWithGoogle(String clientID, String nonce, Context context, CredentialManagerCallback callback)
             loginObject.Call("SignInWithGoogle", config.GoogleLoginClientID, config.GoogleLoginNonce, activity, javaCallback);
         }
