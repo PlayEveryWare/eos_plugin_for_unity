@@ -28,6 +28,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     using Epic.OnlineServices;
     using EpicOnlineServices;
     using Config = PlayEveryWare.EpicOnlineServices.Config;
+    using static PlayEveryWare.EpicOnlineServices.Samples.SelectableStateHandler;
 
     /// <summary>
     /// Unity UI sample that uses <c>TitleStoragemanager</c> to demo features.  Can be used as a template or starting point for implementing Title Storage features.
@@ -82,6 +83,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             {
                 GameObject.Destroy(child.gameObject);
             }
+
+            SelectableStateHandler.NotifySelectableUpdate();
         }
 
         public void AddPlatformTagOnClick()
@@ -136,6 +139,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             {
                 tagEntry.TagTxt.text = tag;
             }
+
+            SelectableStateHandler.NotifySelectableUpdate();
 
             return true;
         }
@@ -225,6 +230,20 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             else
             {
                 Debug.LogErrorFormat("UITitleStorageMenu - '{0}' file content was not found in cached data storage.", FileNameTextBox.InputField.text);
+            }
+        }
+
+        public void MustHaveAtLeastOneTagValidator(SelectableStateHandler toUpdate)
+        {
+            const string MustHaveAtLeastOneTagMessage = "Please enter at least one tag and press 'Add tag'.";
+
+            if (CurrentTags.Count == 0)
+            {
+                toUpdate.State = new InteractableState(false, MustHaveAtLeastOneTagMessage);
+            }
+            else
+            {
+                toUpdate.State = new InteractableState(true);
             }
         }
     }
