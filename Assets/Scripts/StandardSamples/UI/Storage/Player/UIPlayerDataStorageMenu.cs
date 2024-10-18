@@ -307,6 +307,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             currentSelectedFile = string.Empty;
             currentInventory = null;
+            PlayerDataStorageService.Instance.OnFileListUpdated -= UpdateFileListUI;
+        }
+
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
+            PlayerDataStorageService.Instance.OnFileListUpdated -= UpdateFileListUI;
         }
 
         public void NeedSelectedFileHandler(SelectableStateHandler toUpdate)

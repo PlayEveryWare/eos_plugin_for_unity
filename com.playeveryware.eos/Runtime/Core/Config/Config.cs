@@ -116,7 +116,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// config with default values.
         /// </param>
         protected Config(
-            string filename, 
+            string filename,
             string directory,
             bool allowDefault = false)
         {
@@ -133,7 +133,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </summary>
         /// <typeparam name="T">The config type.</typeparam>
         /// <param name="factory">The function to create the config type</param>
-        protected static void RegisterFactory<T>(Func<T> factory) 
+        protected static void RegisterFactory<T>(Func<T> factory)
             where T : Config
         {
             s_factories[typeof(T)] = factory;
@@ -158,7 +158,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// how to properly implement the Config implementing class such that
         /// its constructor is properly registered.
         /// </exception>
-        private static bool TryGetFactory<T>(out Func<Config> factory) 
+        private static bool TryGetFactory<T>(out Func<Config> factory)
             where T : Config
         {
             // Ensure static constructor of template variable type is called
@@ -177,6 +177,9 @@ namespace PlayEveryWare.EpicOnlineServices
             return true;
         }
 
+        // NOTE: This compile conditional is here because in Unity, Async IO 
+        //       works poorly on Android devices.
+#if !UNITY_ANDROID || UNITY_EDITOR
         /// <summary>
         /// Retrieves indicated Config object, reading its values into memory.
         /// </summary>
@@ -216,6 +219,7 @@ namespace PlayEveryWare.EpicOnlineServices
             // Return the config being retrieved.
             return instance;
         }
+#endif
 
         /// <summary>
         /// Retrieves indicated Config object, reading its values into memory.
@@ -224,56 +228,33 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <returns>Task<typeparam name="T">Config type.</typeparam></returns>
         public static T Get<T>() where T : Config
         {
-            T config = Task.Run(GetAsync<T>).GetAwaiter().GetResult();
-            return config;
-        }
+            // NOTE: This block (and the corresponding one below) exists so that
+            //       the config values are only cached when not in the editor.
+            //       In the editor, config files can be changed, so they should
+            //       not be cached.
+#if !UNITY_EDITOR
+            // Return cached copy if it exists.
+            if (s_cachedConfigs.TryGetValue(typeof(T), out Config config))
+            {
+                return (T)config;
+            }
+#endif
+            // Try to get the factory method used to instantiate the config.
+            _ = TryGetFactory<T>(out Func<Config> factory);
 
-        /// <summary>
-        /// This delegate describes the signature of a function that can be used
-        /// to convert a list of strings into a single enum value.
-        /// </summary>
-        /// <typeparam name="TEnum">
-        /// The type of enum to convert the list of strings to a value of.
-        /// </typeparam>
-        /// <param name="stringFlags">
-        /// Strings to convert into an enum value.
-        /// </param>
-        /// <param name="result">
-        /// The enum value that results from performing a bitwise OR operation
-        /// on the list of enum values that result from converting each item in
-        /// the provided list of strings to an enum value of the indicated type.
-        /// </param>
-        /// <returns>
-        /// True if the parsing of flags was successful, false otherwise.
-        /// </returns>
-        protected delegate bool TryParseEnumDelegate<TEnum>(IList<string> 
-            stringFlags, out TEnum result) where TEnum : struct, Enum;
+            // Use the factory method to create the config.
+            T instance = (T)factory();
 
-        /// <summary>
-        /// Private static wrapper to handle converting a list of strings into
-        /// a single enum value.
-        /// </summary>
-        /// <typeparam name="TEnum">
-        /// The type of enum to convert the list of strings into.
-        /// </typeparam>
-        /// <param name="stringFlags">
-        /// The list of strings to convert into a single enum value.
-        /// </param>
-        /// <param name="parseEnumFn">
-        /// The function used to convert the list of strings into a single enum
-        /// value.
-        /// </param>
-        /// <returns>A single enum value that is the result of a bitwise OR
-        /// operation between the enum values that result from parsing each of
-        /// the items in a list into the indicated enum type value.
-        /// </returns>
-        protected static TEnum StringsToEnum<TEnum>(
-            IList<string> stringFlags, 
-            TryParseEnumDelegate<TEnum> parseEnumFn)
-            where TEnum : struct, Enum
-        {
-            _ = parseEnumFn(stringFlags, out TEnum result);
-            return result;
+            // Synchronously read config values from the corresponding file.
+            instance.Read();
+
+#if !UNITY_EDITOR
+            // Cache the newly created config with its values having been read.
+            s_cachedConfigs.Add(typeof(T), instance);
+#endif
+
+            // Return the config being retrieved.
+            return instance;
         }
 
         /// <summary>
@@ -289,6 +270,9 @@ namespace PlayEveryWare.EpicOnlineServices
             }
         }
 
+        // NOTE: This compile conditional is here because Async IO does not work
+        //       well on Android.
+#if !UNITY_ANDROID || UNITY_EDITOR
         /// <summary>
         /// Asynchronously read the values from the JSON file associated with
         /// this Config
@@ -304,6 +288,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 JsonUtility.FromJsonOverwrite(_lastReadJsonString, this);
             }
         }
+#endif
 
         /// <summary>
         /// Synchronously reads the contents of a Config from the json file that
@@ -311,8 +296,13 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </summary>
         protected virtual void Read()
         {
-            // Call ReadAsync() synchronously.
-            Task.Run(ReadAsync).GetAwaiter().GetResult();
+            if (!FileSystemUtility.FileExists(FilePath))
+            {
+                return;
+            }
+
+            _lastReadJsonString = FileSystemUtility.ReadAllText(FilePath);
+            JsonUtility.FromJsonOverwrite(_lastReadJsonString, this);
         }
 
         /// <summary>

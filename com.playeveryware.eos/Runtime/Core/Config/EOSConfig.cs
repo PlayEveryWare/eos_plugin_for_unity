@@ -39,13 +39,18 @@ namespace PlayEveryWare.EpicOnlineServices
     using Newtonsoft.Json;
     using PlayEveryWare.EpicOnlineServices.Utility;
 
+
+
     /// <summary>
     /// Represents the default deployment ID to use when a given sandbox ID is
     /// active.
     /// </summary>
     public class SandboxDeploymentOverride
     {
+        [SandboxIDFieldValidator]
         public string sandboxID;
+
+        [GUIDFieldValidator]
         public string deploymentID;
     }
 
@@ -81,6 +86,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </summary>
         [ConfigField("Product Name", ConfigFieldType.Text,
             "Product name defined in the Development Portal.", 0)]
+        [NonEmptyStringFieldValidator]
         public string productName;
 
         /// <summary>
@@ -88,6 +94,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </summary>
         [ConfigField("Product Version", ConfigFieldType.Text,
             "Version of the product.", 0)]
+        [NonEmptyStringFieldValidator]
         public string productVersion;
 
         /// <summary>
@@ -96,6 +103,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </summary>
         [ConfigField("Product Id", ConfigFieldType.Text,
             "Product Id defined in the Development Portal.", 0)]
+        [GUIDFieldValidator]
         public string productID;
 
         #endregion
@@ -108,6 +116,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </summary>
         [ConfigField("Sandbox Id", ConfigFieldType.Text,
             "Sandbox Id to use.", 1)]
+        [SandboxIDFieldValidator]
         public string sandboxID;
 
         /// <summary>
@@ -116,6 +125,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </summary>
         [ConfigField("Deployment Id", ConfigFieldType.Text,
             "Deployment Id to use.", 1)]
+        [GUIDFieldValidator]
         public string deploymentID;
 
         /// <summary>
@@ -125,6 +135,7 @@ namespace PlayEveryWare.EpicOnlineServices
         [ConfigField("Sandbox Deployment Overrides",
             ConfigFieldType.TextList,
             "Deployment Id to use.", 1)]
+        [ExpandField]
         public List<SandboxDeploymentOverride> sandboxDeploymentOverrides;
 
         /// <summary>

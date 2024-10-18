@@ -12,7 +12,7 @@ The EOS plugin provides a method of automating EAC installation as part of the b
 
 ## Steps
 1) Open your Unity project with the plugin installed.
-2) Open the editor preferences settings for the plugin, which is avaiable in `Tools -> EOS Plugin -> Configuration`. All EAC options are located under the Tools subheader.
+2) Open the editor preferences settings for the plugin, which is avaiable in `EOS Plugin -> Configuration`. All EAC options are located under the EOS Plugin subheader.
 3) Enable EAC build steps by checking the `Use EAC` toggle.
 4) Set `Path to EAC private key` and `Path to EAC Certificate` to the private and public keys you previously downloaded, respectively.
 5) (Recommended) Set `Path to EAC splash image` to a 800x450 PNG that will display in the EAC bootstrapper.

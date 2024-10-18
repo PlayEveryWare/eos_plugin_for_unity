@@ -8,7 +8,7 @@ This tool (while a bit rough around the edges) allows for the generation of cust
 
 ## Steps to generate a UPM package
 
-1. Go to `Tools -> EOS Plugin -> Create Package`.
+1. Go to `EOS Plugin -> Advanced -> Create Package`.
 
     <img src="images/create-package-menu.png" width="300" />
 

@@ -84,6 +84,8 @@ namespace Epic.OnlineServices
 		/// This is the common Nintendo account that users login with outside the Nintendo Switch device.
 		/// 
 		/// Supported with <see cref="Auth.AuthInterface.Login" />, <see cref="Connect.ConnectInterface.Login" />.
+		/// 
+		/// Note: <see cref="Auth.AuthInterface.Login" /> usage is restricted to Epic first party products only, attempting to use it will result in authentication failures.
 		/// </summary>
 		NintendoIdToken = 6,
 		/// <summary>
@@ -105,10 +107,14 @@ namespace Epic.OnlineServices
 		/// progression if it is only associated with this account type.
 		/// 
 		/// Supported with <see cref="Auth.AuthInterface.Login" />, <see cref="Connect.ConnectInterface.Login" />.
+		/// 
+		/// Note: <see cref="Auth.AuthInterface.Login" /> usage is restricted to Epic first party products only, attempting to use it will result in authentication failures.
 		/// </summary>
 		NintendoNsaIdToken = 7,
 		/// <summary>
 		/// Uplay Access Token
+		/// 
+		/// Supported with <see cref="Connect.ConnectInterface.Login" />.
 		/// </summary>
 		UplayAccessToken = 8,
 		/// <summary>

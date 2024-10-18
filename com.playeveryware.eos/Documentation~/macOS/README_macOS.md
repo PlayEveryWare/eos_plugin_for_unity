@@ -25,7 +25,7 @@ If you want to do that work manually, please refer to the following:
 
 ### Building Native Libraries
 
-* Run `Tools -> EOS Plugin -> Build Libraries -> Mac` to build the dylibs needed for the mac build.
+* Run `EOS Plugin -> Advanced -> Build Libraries -> Mac` to build the dylibs needed for the mac build.
     * Set the path of `make` at `Edit -> Preferences -> EOS Plugin -> Platform Library Build Settings -> Make path`  
     * By default the path is `/usr/bin/make` or `usr/local/bin/make`
 * Alternatively, manually use the makefile in `lib/NativeCode/DynamicLibraryLoaderHelper_macOS/` by opening the terminal at the folder and running the command: 

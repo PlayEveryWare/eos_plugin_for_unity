@@ -51,6 +51,7 @@
 
 namespace PlayEveryWare.EpicOnlineServices
 {
+    using Extensions;
     using UnityEngine;
     using System;
     using System.Collections.Generic;
@@ -476,7 +477,7 @@ namespace PlayEveryWare.EpicOnlineServices
 #if UNITY_EDITOR
                     PlatformFlags.LoadingInEditor;
 #else
-                    configData.platformOptionsFlags;
+                    configData.platformOptionsFlags.Unwrap();
 #endif
                 if (configData.IsEncryptionKeyValid())
                 {
@@ -565,8 +566,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 Init(coroutineOwner, EOSPackageInfo.ConfigFileName);
             }
 
-            //-------------------------------------------------------------------------
-            public void Init(IEOSCoroutineOwner coroutineOwner, string configFileName)
+            private void Init(IEOSCoroutineOwner coroutineOwner, string configFileName)
             {
                 if (GetEOSPlatformInterface() != null)
                 {
@@ -757,6 +757,12 @@ namespace PlayEveryWare.EpicOnlineServices
             /// </summary>
             private void InitializeLogLevels()
             {
+                // This compile conditional is here to circumnavigate issues
+                // unique to android with respect to Config class functionality.
+#if UNITY_ANDROID && !UNITY_EDITOR
+                SetLogLevel(LogCategory.AllCategories, LogLevel.Info);
+                return;
+#else
                 var logLevelList = LogLevelUtility.LogLevelList;
 
                 if (logLevelList == null)
@@ -769,6 +775,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 {
                     SetLogLevel((LogCategory)logCategoryIndex, logLevelList[logCategoryIndex]);
                 }
+#endif
             }
 
             //-------------------------------------------------------------------------
@@ -1782,8 +1789,8 @@ namespace PlayEveryWare.EpicOnlineServices
         }
 #endif
 
-        /// <value>Private static instance of <c>EOSSingleton</c></value>
-        static EOSSingleton s_instance;
+                /// <value>Private static instance of <c>EOSSingleton</c></value>
+                static EOSSingleton s_instance;
 
         /// <value>Public static instance of <c>EOSSingleton</c></value>
         //-------------------------------------------------------------------------

@@ -22,7 +22,15 @@
 
 namespace PlayEveryWare.EpicOnlineServices.Editor
 {
+    using Utility;
     public class AndroidConfigEditor : PlatformConfigEditor<AndroidConfig>
     {
+        public override void RenderOverrides() 
+        {
+            base.RenderOverrides();
+
+            GUIEditorUtility.AssigningTextField("Google Login ClientID", ref config.GoogleLoginClientID, 250);
+            GUIEditorUtility.AssigningTextField("Google Login Nonce", ref config.GoogleLoginNonce, 250);
+        }
     }
 }
