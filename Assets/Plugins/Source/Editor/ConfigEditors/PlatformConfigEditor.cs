@@ -57,7 +57,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
             // This compile conditional is here so that when EOS is disabled, nothing is
             // referenced in the Epic namespace.
 #if !EOS_DISABLE
-            GUIEditorUtility.AssigningEnumField("Integrated Platform Management Flags", ref config.flags, 345);
+            GUIEditorUtility.AssigningEnumField("Integrated Platform Management Flags", ref config.integratedPlatformManagementFlags, 345);
             GUIEditorUtility.AssigningEnumField("Override Platform Flags", ref config.overrideValues.platformOptionsFlags, 250);
 #endif
 

@@ -51,7 +51,8 @@ namespace PlayEveryWare.EpicOnlineServices
             PS4,
             PS5,
             Switch,
-            Steam
+            Steam,
+            Console = PS4 | PS5 | XboxOne | XboxSeriesX | Switch,
         }
 
         private struct PlatformInfo

@@ -26,9 +26,16 @@ namespace PlayEveryWare.EpicOnlineServices
     // referenced in the Epic namespace.
 #if !EOS_DISABLE
     using Epic.OnlineServices.IntegratedPlatform;
+    using Epic.OnlineServices.Auth;
+    using Epic.OnlineServices.Platform;
+    using Epic.OnlineServices.UI;
 #endif
+
     using Newtonsoft.Json;
     using System;
+    using UnityEngine;
+    using UnityEngine.Serialization;
+    using Utility;
 
     /// <summary>
     /// Represents a set of configuration data for use by the EOS Plugin for
@@ -51,17 +58,141 @@ namespace PlayEveryWare.EpicOnlineServices
         /// it's implementation, but the intent is documented here for the sake
         /// of clarity and context.
         /// </summary>
+        [JsonProperty] // Allow deserialization
+        [JsonIgnore]   // Disallow serialization
+        [Obsolete]
         public EOSConfig overrideValues;
+
+        #region Flags
+
+        // This conditional is here because if EOS_DISABLE is defined, then
+        // the field member types will not be available.
+#if !EOS_DISABLE
+        /// <summary>
+        /// Flags; used to initialize the EOS platform.
+        /// </summary>
+        [ConfigField("Platform Options",
+            ConfigFieldType.TextList,
+            "Platform option flags",
+            3)]
+        [JsonConverter(typeof(ListOfStringsToPlatformFlags))]
+        public WrappedPlatformFlags platformOptionsFlags;
+
+        /// <summary>
+        /// Flags; used to set user auth when logging in.
+        /// </summary>
+        [ConfigField("Auth Scope Options",
+            ConfigFieldType.TextList,
+            "Platform option flags",
+            3)]
+        [JsonConverter(typeof(ListOfStringsToAuthScopeFlags))]
+        public AuthScopeFlags authScopeOptionsFlags;
+
+        /// <summary>
+        /// Used to store integrated platform management flags.
+        /// </summary>
+        [FormerlySerializedAs("flags")]
+        [JsonConverter(typeof(ListOfStringsToIntegratedPlatformManagementFlags))]
+        [JsonProperty("flags")] // Allow deserialization from old field member.
+        public IntegratedPlatformManagementFlags integratedPlatformManagementFlags;
+#endif
+
+        #endregion
+
+        #region Thread Affinity & Various Time Budgets
+
+        /// <summary>
+        /// Tick Budget; used to define the maximum amount of execution time the
+        /// EOS SDK can use each frame.
+        /// </summary>
+        [ConfigField("Tick Budget (ms)",
+            ConfigFieldType.Uint,
+            "Used to define the maximum amount of execution time the " +
+            "EOS SDK can use each frame.",
+            3)]
+        public uint tickBudgetInMilliseconds;
+
+        /// <summary>
+        /// TaskNetworkTimeoutSeconds; used to define the maximum number of
+        /// seconds the EOS SDK will allow network calls to run before failing
+        /// with EOS_TimedOut. This plugin treats any value that is less than or
+        /// equal to zero as using the default value for the EOS SDK, which is
+        /// 30 seconds.
+        ///
+        /// This value is only used when the <see cref="NetworkStatus"/> is not
+        /// <see cref="NetworkStatus.Online"/>.
+        /// <seealso cref="PlatformInterface.GetNetworkStatus"/>
+        /// </summary>
+        [ConfigField("Network Timeout Seconds",
+            ConfigFieldType.Double,
+            "Indicates the maximum number of seconds that EOS SDK " +
+            "will allow network calls to run before failing with EOS_TimedOut.",
+            3)]
+        public double taskNetworkTimeoutSeconds;
 
         // This compile conditional is here so that when EOS is disabled, nothing is
         // referenced in the Epic namespace.
 #if !EOS_DISABLE
-        /// <summary>
-        /// Used to store integrated platform management flags.
-        /// </summary>
-        [JsonConverter(typeof(ListOfStringsToIntegratedPlatformManagementFlags))]
-        public IntegratedPlatformManagementFlags flags;
+        public InitializeThreadAffinity threadAffinity;
 #endif
+        #endregion
+
+        #region Overlay Options
+
+        /// <summary>
+        /// Always Send Input to Overlay &lt;/c&gt;If true, the plugin will
+        /// always send input to the overlay from the C# side to native, and
+        /// handle showing the overlay. This doesn't always mean input makes it
+        /// to the EOS SDK.
+        /// </summary>
+        [ConfigField("Always Send Input to Overlay",
+            ConfigFieldType.Flag,
+            "If true, the plugin will always send input to the " +
+            "overlay from the C# side to native, and handle showing the " +
+            "overlay. This doesn't always mean input makes it to the EOS SDK.",
+            4)]
+        public bool alwaysSendInputToOverlay;
+
+        /// <summary>
+        /// Initial Button Delay.
+        /// </summary>
+        [ConfigField("Initial Button Delay", ConfigFieldType.Float,
+            "Initial Button Delay (if not set, whatever the default " +
+            "is will be used).", 4)]
+        [JsonConverter(typeof(StringToTypeConverter<float>))]
+        public float? initialButtonDelayForOverlay;
+
+        /// <summary>
+        /// Repeat button delay for overlay.
+        /// </summary>
+        [ConfigField("Repeat Button Delay", ConfigFieldType.Text,
+            "Repeat button delay for the overlay. If not set, " +
+            "whatever the default is will be used.", 4)]
+        [JsonConverter(typeof(StringToTypeConverter<float>))]
+        public float? repeatButtonDelayForOverlay;
+
+        // This compile conditional is here so that when EOS is disabled, in the
+        // Epic namespace is referenced.
+#if !EOS_DISABLE
+        /// <summary>
+        /// When this combination of buttons is pressed on a controller, the
+        /// social overlay will toggle on.
+        /// Default to <see cref="InputStateButtonFlags.SpecialLeft"/>, and will
+        /// use that value if this configuration field is null, empty, or contains
+        /// only <see cref="InputStateButtonFlags.None"/>.
+        /// </summary>
+        [JsonConverter(typeof(ListOfStringsToInputStateButtonFlags))]
+        public InputStateButtonFlags toggleFriendsButtonCombination = InputStateButtonFlags.SpecialLeft;
+#endif
+
+        #endregion
+
+        /// <summary>
+        /// Used to keep track of whether values have been moved from the
+        /// deprecated overrideValues field member.
+        /// </summary>
+        [JsonProperty]
+        private bool _configValuesMigrated = false;
 
         /// <summary>
         /// Create a PlatformConfig by defining the platform it pertains to.
@@ -69,10 +200,222 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <param name="platform">
         /// The platform to apply the config values on.
         /// </param>
-        protected PlatformConfig(PlatformManager.Platform platform) : 
+        protected PlatformConfig(PlatformManager.Platform platform) :
             base(PlatformManager.GetConfigFileName(platform))
         {
             Platform = platform;
         }
+
+        #region Logic for Migrating Override Values from Previous Structure
+
+        protected sealed class NonOverrideableConfigValues : Config
+        {
+            public uint tickBudgetInMilliseconds;
+            public double taskNetworkTimeoutSeconds;
+            public WrappedPlatformFlags platformOptionsFlags;
+            public AuthScopeFlags authScopeOptionsFlags;
+            public bool alwaysSendInputToOverlay;
+
+            static NonOverrideableConfigValues()
+            {
+                RegisterFactory(() => new NonOverrideableConfigValues());
+            }
+
+            protected NonOverrideableConfigValues() : base("EpicOnlineServicesConfig.json") { }
+        }
+
+        internal sealed class OverrideableConfigValues : Config
+        {
+            [JsonConverter(typeof(ListOfStringsToPlatformFlags))]
+            public WrappedPlatformFlags platformOptionsFlags;
+
+            [JsonConverter(typeof(StringToTypeConverter<float>))]
+            public float? initialButtonDelayForOverlay;
+
+            [JsonConverter(typeof(StringToTypeConverter<float>))]
+            public float? repeatButtonDelayForOverlay;
+
+            [JsonConverter(typeof(StringToTypeConverter<ulong>))]
+            public ulong? ThreadAffinity_networkWork;
+
+            [JsonConverter(typeof(StringToTypeConverter<ulong>))]
+            public ulong? ThreadAffinity_storageIO;
+
+            [JsonConverter(typeof(StringToTypeConverter<ulong>))]
+            public ulong? ThreadAffinity_webSocketIO;
+
+            [JsonConverter(typeof(StringToTypeConverter<ulong>))]
+            public ulong? ThreadAffinity_P2PIO;
+
+            [JsonConverter(typeof(StringToTypeConverter<ulong>))]
+            public ulong? ThreadAffinity_HTTPRequestIO;
+
+            [JsonConverter(typeof(StringToTypeConverter<ulong>))]
+            public ulong? ThreadAffinity_RTCIO;
+
+            static OverrideableConfigValues()
+            {
+                RegisterFactory(() => new OverrideableConfigValues());
+            }
+
+            protected OverrideableConfigValues() : base("EpicOnlineServicesConfig.json") { }
+        }
+
+        private TK SelectValue<TK>(TK overrideValuesFromFieldMember, TK mainConfigValue)
+        {
+            // If the value in the overrides is not default, then it takes
+            // precedent
+            return !overrideValuesFromFieldMember.Equals(default) ? overrideValuesFromFieldMember : mainConfigValue;
+        }
+
+        private void MigrateButtonDelays(EOSConfig overrideValuesFromFieldMember, OverrideableConfigValues mainOverrideableConfig)
+        {
+            // Import the values for initial button delay and repeat button
+            // delay
+            initialButtonDelayForOverlay = SelectValue(
+                overrideValuesFromFieldMember.initialButtonDelayForOverlay,
+                mainOverrideableConfig.initialButtonDelayForOverlay);
+
+            repeatButtonDelayForOverlay = SelectValue(
+                overrideValuesFromFieldMember.repeatButtonDelayForOverlay,
+                mainOverrideableConfig.repeatButtonDelayForOverlay);
+        }
+
+        private void MigrateThreadAffinity(EOSConfig overrideValuesFromFieldMember, OverrideableConfigValues mainOverrideableConfig)
+        {
+            // Import the values for thread initialization
+            threadAffinity.NetworkWork = SelectValue(
+                overrideValuesFromFieldMember.ThreadAffinity_networkWork,
+                mainOverrideableConfig.ThreadAffinity_networkWork) ?? 0;
+
+            threadAffinity.StorageIo = SelectValue(
+                overrideValuesFromFieldMember.ThreadAffinity_storageIO,
+                mainOverrideableConfig.ThreadAffinity_storageIO) ?? 0;
+
+            threadAffinity.WebSocketIo = SelectValue(
+                overrideValuesFromFieldMember.ThreadAffinity_webSocketIO,
+                mainOverrideableConfig.ThreadAffinity_webSocketIO) ?? 0;
+
+            threadAffinity.P2PIo = SelectValue(
+                overrideValuesFromFieldMember.ThreadAffinity_P2PIO,
+                mainOverrideableConfig.ThreadAffinity_P2PIO) ?? 0;
+
+            threadAffinity.HttpRequestIo = SelectValue(
+                overrideValuesFromFieldMember.ThreadAffinity_HTTPRequestIO,
+                mainOverrideableConfig.ThreadAffinity_HTTPRequestIO) ?? 0;
+
+            threadAffinity.RTCIo = SelectValue(
+                overrideValuesFromFieldMember.ThreadAffinity_RTCIO,
+                mainOverrideableConfig.ThreadAffinity_RTCIO) ?? 0;
+        }
+
+        private void MigrateOverrideableConfigValues(EOSConfig overrideValuesFromFieldMember,
+            OverrideableConfigValues mainOverrideableConfig)
+        {
+            // Import the values for platform option flags.
+            platformOptionsFlags |= overrideValuesFromFieldMember.platformOptionsFlags;
+
+            MigrateButtonDelays(overrideValuesFromFieldMember, mainOverrideableConfig);
+            MigrateThreadAffinity(overrideValuesFromFieldMember, mainOverrideableConfig);
+        }
+
+        protected virtual void MigrateNonOverrideableConfigValues(NonOverrideableConfigValues mainNonOverrideableConfig)
+        {
+            authScopeOptionsFlags = mainNonOverrideableConfig.authScopeOptionsFlags;
+            tickBudgetInMilliseconds = mainNonOverrideableConfig.tickBudgetInMilliseconds;
+            taskNetworkTimeoutSeconds = mainNonOverrideableConfig.taskNetworkTimeoutSeconds;
+            alwaysSendInputToOverlay = mainNonOverrideableConfig.alwaysSendInputToOverlay;
+        }
+
+        protected virtual void MigratePlatformFlags(EOSConfig overrideValuesFromFieldMember,
+            NonOverrideableConfigValues mainNonOverrideableConfig)
+        {
+            // The best (perhaps only) way to meaningfully migrate values from
+            // the overrideValues field member and the main config is to combine
+            // them, then filter them to exclude any platform flags that are 
+            // incompatible with the platform for this Config. THIS is the 
+            // primary reason it is necessary to warn the user and ask them to 
+            // double check the values after migration.
+            WrappedPlatformFlags combinedPlatformFlags =
+                overrideValuesFromFieldMember.platformOptionsFlags | mainNonOverrideableConfig.platformOptionsFlags;
+
+            WrappedPlatformFlags migratedPlatformFlags = WrappedPlatformFlags.None;
+            foreach (WrappedPlatformFlags flag in EnumUtility<WrappedPlatformFlags>.GetEnumerator(combinedPlatformFlags))
+            {
+                switch (flag)
+                {
+                    case WrappedPlatformFlags.None:
+                    case WrappedPlatformFlags.LoadingInEditor:
+                    case WrappedPlatformFlags.DisableOverlay:
+                    case WrappedPlatformFlags.DisableSocialOverlay:
+                    case WrappedPlatformFlags.Reserved1:
+                        migratedPlatformFlags |= flag;
+                        break;
+                    case WrappedPlatformFlags.WindowsEnableOverlayD3D9:
+                    case WrappedPlatformFlags.WindowsEnableOverlayD3D10:
+                    case WrappedPlatformFlags.WindowsEnableOverlayOpengl:
+                        if (Platform == PlatformManager.Platform.Windows)
+                        {
+                            migratedPlatformFlags |= flag;
+                        }
+                        break;
+                    case WrappedPlatformFlags.ConsoleEnableOverlayAutomaticUnloading:
+                        if (Platform == PlatformManager.Platform.Console)
+                        {
+                            migratedPlatformFlags |= flag;
+                        }
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+            }
+
+            platformOptionsFlags = migratedPlatformFlags;
+        }
+
+
+        protected override void PrepareConfig()
+        {
+            // The following code takes any values that used to exist within the
+            // overrideValues field member, and places them into the
+            // appropriate new field members. It also takes values from the 
+            // main EOSConfig - if the values are not defined in the
+            // overrideValues.
+            
+            // Do nothing if the values have already been moved, or if
+            // overrideValues is null.
+            if (_configValuesMigrated || null == overrideValues)
+            {
+                return;
+            }
+
+            // This config represents the set of values that previously were 
+            // overrideable from the editor window. These values should take
+            // priority over the main config if they are not default values.
+            OverrideableConfigValues mainOverrideableConfigValues = Get<OverrideableConfigValues>();
+            MigrateOverrideableConfigValues(overrideValues, mainOverrideableConfigValues);
+
+            // This config represents the set of values that were not
+            // overrideable from the editor window. The migrated values should
+            // favor these set of values.
+            NonOverrideableConfigValues mainNonOverrideableConfigValuesThatCouldNotBeOverridden = Get<NonOverrideableConfigValues>();
+            MigrateNonOverrideableConfigValues(mainNonOverrideableConfigValuesThatCouldNotBeOverridden);
+
+            // Notify the user of the migration, encourage them to double check
+            // that migration was successful.
+            Debug.LogWarning("Configuration values have been " +
+                             "migrated. Please double check your " +
+                             "configuration in EOS Plugin -> EOS " +
+                             "Configuration to make sure that the migration " +
+                             "was successful.");
+
+            // Mark that the values have been imported
+            _configValuesMigrated = true;
+
+            // Write the imported values
+            Write();
+        }
+
+        #endregion
     }
 }

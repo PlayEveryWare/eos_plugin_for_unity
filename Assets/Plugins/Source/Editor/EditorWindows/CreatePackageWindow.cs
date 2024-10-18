@@ -269,7 +269,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
             if (jsonPackageFile != _packagingConfig.pathToJSONPackageDescription)
             {
                 _packagingConfig.pathToJSONPackageDescription = jsonPackageFile;
-                _packagingConfig.Write(true, false);
+                _packagingConfig.Write(true);
             }
 
             GUIEditorUtility.AssigningBoolField("Clean target directory", ref _cleanBeforeCreate, 150f,

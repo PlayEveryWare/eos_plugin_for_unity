@@ -88,7 +88,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
                 else
                 {
                     UnityEngine.Debug.Log($"BuildRunner: This project is using Steamworks, but has not yet configured the steamApiInterfaceVersionsArray. The builder has automatically configured this field and will now try to save the value.");
-                    config.Write(true, false);
+                    config.Write(true);
                 }
             }
 #endif

@@ -364,13 +364,8 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <param name="prettyPrint">
         /// Whether to output "pretty" JSON to the file.
         /// </param>
-        /// <param name="updateAssetDatabase">
-        /// Indicates whether to update the asset database after writing.
-        /// </param>
         /// <returns>Task</returns>
-        public virtual async Task WriteAsync(
-            bool prettyPrint = true, 
-            bool updateAssetDatabase = true)
+        public virtual async Task WriteAsync(bool prettyPrint = true)
         {
             var json = JsonUtility.ToJson(this, prettyPrint);
 
@@ -388,12 +383,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <param name="prettyPrint">
         /// Whether to output "pretty" JSON to the file.
         /// </param>
-        /// <param name="updateAssetDatabase">
-        /// Indicates whether to update the asset database after writing.
-        /// </param>
-        public virtual void Write(
-            bool prettyPrint = true, 
-            bool updateAssetDatabase = true)
+        public virtual void Write(bool prettyPrint = true)
         {
             var json = JsonUtility.ToJson(this, prettyPrint);
 
@@ -403,15 +393,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 return;
 
             FileSystemUtility.WriteFile(FilePath, json);
-
-            if (updateAssetDatabase)
-            {
-                AssetDatabase.SaveAssets();
-                AssetDatabase.Refresh();
-            }
         }
-
-
 
         /// <summary>
         /// Determines whether the values in the Config have their
