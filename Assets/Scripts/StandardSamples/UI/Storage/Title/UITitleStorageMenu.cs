@@ -28,6 +28,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     using Epic.OnlineServices;
     using EpicOnlineServices;
     using Config = PlayEveryWare.EpicOnlineServices.Config;
+    using static PlayEveryWare.EpicOnlineServices.Samples.SelectableStateHandler;
 
     /// <summary>
     /// Unity UI sample that uses <c>TitleStoragemanager</c> to demo features.  Can be used as a template or starting point for implementing Title Storage features.
@@ -48,6 +49,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public Text FileContent;
         private List<string> CurrentTags = new List<string>();
 
+        [SerializeReference]
+        private SelectableStateHandler findFileWithTagsButton;
+
         protected override void Awake()
         {
             base.Awake();
@@ -59,6 +63,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             {
                 FileContent.text = "Valid encryption key not set. Use the EOS Config Editor to add one.";
             }
+
+            findFileWithTagsButton.SetInteractableAction(MustHaveAtLeastOneTagValidator);
         }
 
         private void Start()
@@ -82,6 +88,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             {
                 GameObject.Destroy(child.gameObject);
             }
+
+            SelectableStateHandler.NotifySelectableUpdate();
         }
 
         public void AddPlatformTagOnClick()
@@ -136,6 +144,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             {
                 tagEntry.TagTxt.text = tag;
             }
+
+            SelectableStateHandler.NotifySelectableUpdate();
 
             return true;
         }
@@ -225,6 +235,20 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             else
             {
                 Debug.LogErrorFormat("UITitleStorageMenu - '{0}' file content was not found in cached data storage.", FileNameTextBox.InputField.text);
+            }
+        }
+
+        private InteractableState MustHaveAtLeastOneTagValidator()
+        {
+            const string MustHaveAtLeastOneTagMessage = "Please enter at least one tag and press 'Add tag'.";
+
+            if (CurrentTags.Count == 0)
+            {
+                return new InteractableState(false, MustHaveAtLeastOneTagMessage);
+            }
+            else
+            {
+                return new InteractableState(true);
             }
         }
     }

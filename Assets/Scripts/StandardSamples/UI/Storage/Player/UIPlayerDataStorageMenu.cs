@@ -26,6 +26,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     using System.Collections.Generic;
     using UnityEngine;
     using UnityEngine.UI;
+    using static PlayEveryWare.EpicOnlineServices.Samples.SelectableStateHandler;
     using JsonUtility = Utility.JsonUtility;
 
     [Serializable]
@@ -66,10 +67,28 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         private HashSet<string> fileNames = new();
         private List<UIFileNameEntry> fileNameUIEntries = new();
 
+        [Header("Selectable State Handlers")]
+        [SerializeReference]
+        private SelectableStateHandler addItemButton;
+        [SerializeReference]
+        private SelectableStateHandler uploadButton;
+        [SerializeReference]
+        private SelectableStateHandler downloadButton;
+        [SerializeReference]
+        private SelectableStateHandler duplicateButton;
+        [SerializeReference]
+        private SelectableStateHandler deleteButton;
+
         protected override void Awake()
         {
             base.Awake();
             fileNameUIEntries.AddRange(FilesContentParent.GetComponentsInChildren<UIFileNameEntry>(true));
+
+            addItemButton.SetInteractableAction(NeedSelectedFileHandler);
+            uploadButton.SetInteractableAction(NeedSelectedFileHandler);
+            downloadButton.SetInteractableAction(NeedSelectedFileHandler);
+            duplicateButton.SetInteractableAction(NeedSelectedFileHandler);
+            deleteButton.SetInteractableAction(NeedSelectedFileHandler);
         }
 
         private void Start()
@@ -222,6 +241,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             currentSelectedFile = string.Empty;
             CurrentFileNameText.text = "*No File Selected*";
+
+            SelectableStateHandler.NotifySelectableUpdate();
         }
 
         private void FileListOnClick(string fileName)
@@ -240,6 +261,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             UpdateRemoteView(fileName);
             currentInventory = null;
             LocalViewText.text = "*** Click Download button to create a local copy to modify ***";
+
+            SelectableStateHandler.NotifySelectableUpdate();
         }
 
         private void UpdateRemoteView(string fileName)
@@ -309,6 +332,18 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             base.OnDestroy();
             PlayerDataStorageService.Instance.OnFileListUpdated -= UpdateFileListUI;
+        }
+
+        InteractableState NeedSelectedFileHandler()
+        {
+            const string NeedToSelectAFileFirst = "Need to select a file first";
+
+            if (string.IsNullOrEmpty(currentSelectedFile))
+            {
+                return new InteractableState(false, NeedToSelectAFileFirst);
+            }
+
+            return new InteractableState(true);
         }
     }
 }
