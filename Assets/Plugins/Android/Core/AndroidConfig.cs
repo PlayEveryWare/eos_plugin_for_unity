@@ -25,6 +25,8 @@ namespace PlayEveryWare.EpicOnlineServices
     // Flags specifically for Android
     public class AndroidConfig : PlatformConfig
     {
+        public string GoogleLoginClientID;
+        public string GoogleLoginNonce;
         static AndroidConfig()
         {
             RegisterFactory(() => new AndroidConfig());
