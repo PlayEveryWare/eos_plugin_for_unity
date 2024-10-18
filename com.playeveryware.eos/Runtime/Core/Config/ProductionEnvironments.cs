@@ -52,7 +52,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <returns>
         /// True if the sandbox was added successfully, false otherwise.
         /// </returns>
-        public bool AddSandbox(Named<SandboxId> sandbox = null)
+        public bool AddSandbox(Named<SandboxId> sandbox)
         {
             return Sandboxes.Add(sandbox);
         }

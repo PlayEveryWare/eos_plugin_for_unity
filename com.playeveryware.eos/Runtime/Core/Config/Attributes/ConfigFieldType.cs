@@ -76,7 +76,7 @@ namespace PlayEveryWare.EpicOnlineServices
         TextList,
 
         /// <summary>
-        /// A Guid value that is named.
+        /// A Guid with a label.
         /// </summary>
         NamedGuid,
 

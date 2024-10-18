@@ -404,6 +404,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
 
         private static void RenderSetOfNamed<T>(
             string label,
+            string tooltip,
             string helpUrl,
             SetOfNamed<T> value,
             Action<Rect, Named<T>> renderItemFn,
@@ -418,7 +419,8 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
                 draggable = false,
                 drawHeaderCallback = (rect) =>
                 {
-                    EditorGUI.LabelField(new(rect.x, rect.y, rect.width - 20f, rect.height), label);
+                    EditorGUI.LabelField(new(rect.x, rect.y, rect.width - 20f, rect.height), 
+                        CreateGUIContent(label, tooltip));
                     if (!string.IsNullOrEmpty(helpUrl))
                     {
                         RenderHelpIcon(new(rect.x + rect.width - 20f, rect.y, 20f, rect.height), helpUrl);
@@ -455,6 +457,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
 
             RenderSetOfNamed(
                 "Deployments",
+                "Enter your deployments here as they appear in the Epic Dev Portal.",
                 "https://dev.epicgames.com/docs/dev-portal/product-management#deployments",
                 productionEnvironmentsCopy.Deployments,
                 (rect, item) =>
@@ -522,6 +525,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
 
             RenderSetOfNamed(
                 "Sandboxes",
+                "Enter your sandboxes here, as they appear in the Epic Dev Portal.",
                 "https://dev.epicgames.com/docs/dev-portal/product-management#sandboxes",
                 productionEnvironmentsCopy.Sandboxes,
                 (rect, item) =>
@@ -588,6 +592,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
 
             RenderSetOfNamed(
                 "Clients",
+                "Enter your client information here as it appears in the Epic Dev Portal.",
                 "https://dev.epicgames.com/docs/dev-portal/product-management#clients",
                 value,
                 (rect, item) =>

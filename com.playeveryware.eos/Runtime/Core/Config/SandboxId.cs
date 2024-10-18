@@ -61,17 +61,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
         public override bool Equals(object obj)
         {
-            if (obj is null)
-            {
-                return false;
-            }
-
-            if (obj.GetType() != this.GetType())
-            {
-                return false;
-            }
-
-            return Equals((SandboxId)obj);
+            return obj is SandboxId sandboxId && Equals(sandboxId);
         }
 
         public override readonly int GetHashCode()
