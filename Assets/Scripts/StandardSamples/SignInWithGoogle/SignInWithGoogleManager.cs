@@ -24,48 +24,6 @@ using UnityEngine;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
-    class EOSCredentialManagerCallback : AndroidJavaProxy
-    {
-        public AndroidJavaObject loginObject;
-        public System.Action<string, string> callback;
-        public string name;
-        public string idToken;
-        
-        /// <summary>
-        /// Proxy class to receive Android callbacks in C#
-        /// </summary>
-        public EOSCredentialManagerCallback() : base("androidx.credentials.CredentialManagerCallback") { }
-
-        /// <summary>
-        /// Succeeding Callback of GetCredentialAsync  
-        /// GetCredentialAsync is called in com.playeveryware.googlelogin.login.SignInWithGoogle)
-        /// </summary>
-        /// <param name="credentialResponseResult"></param>
-        public void onResult(AndroidJavaObject credentialResponseResult)
-        {
-            /// Parses the response resilt into google credentials
-            loginObject.Call("handleSignIn",credentialResponseResult);
-
-            /// Fetches neccesary data for logging into EOS
-            name = loginObject.Call<string>("getResultName");
-            idToken = loginObject.Call<string>("getResultIdToken");
-
-            /// Invoke Connect Login with fetched Google ID
-            callback.Invoke(idToken, name);
-        }
-
-        /// <summary>
-        /// Failing Callback of GetCredentialAsync  
-        /// GetCredentialAsync is called in com.playeveryware.googlelogin.login.SignInWithGoogle)
-        /// </summary>
-        /// <param name="credentialException"></param>
-        public void onError(AndroidJavaObject credentialException)
-        {
-            loginObject.Call("handleFailure", credentialException);
-            callback.Invoke(null, null);
-        }
-    }
-
     public class SignInWithGoogleManager : MonoBehaviour
     {
         AndroidJavaObject loginObject;
@@ -96,13 +54,50 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             AndroidConfig config = AndroidConfig.Get<AndroidConfig>();
 
-            if (config.GoogleLoginClientID == null) 
+            if (string.IsNullOrEmpty(config.GoogleLoginClientID))
             {
                 Debug.LogError("Client ID is null, needs to be configured for Google ID connect login");
                 return;
             }
+
             /// SignInWithGoogle(String clientID, String nonce, Context context, CredentialManagerCallback callback)
             loginObject.Call("SignInWithGoogle", config.GoogleLoginClientID, config.GoogleLoginNonce, activity, javaCallback);
+        }
+
+        class EOSCredentialManagerCallback : AndroidJavaProxy
+        {
+            public AndroidJavaObject loginObject;
+            public System.Action<string, string> callback;
+
+            /// <summary>
+            /// Proxy class to receive Android callbacks in C#
+            /// </summary>
+            public EOSCredentialManagerCallback() : base("androidx.credentials.CredentialManagerCallback") { }
+
+            /// <summary>
+            /// Succeeding Callback of GetCredentialAsync  
+            /// GetCredentialAsync is called in com.playeveryware.googlelogin.login.SignInWithGoogle)
+            /// </summary>
+            /// <param name="credentialResponseResult"></param>
+            public void onResult(AndroidJavaObject credentialResponseResult)
+            {
+                /// Parses the response resilt into google credentials
+                loginObject.Call("handleSignIn", credentialResponseResult);
+
+                /// Invoke Connect Login with fetched Google ID
+                callback.Invoke(loginObject.Call<string>("getResultIdToken"), loginObject.Call<string>("getResultName"));
+            }
+
+            /// <summary>
+            /// Failing Callback of GetCredentialAsync  
+            /// GetCredentialAsync is called in com.playeveryware.googlelogin.login.SignInWithGoogle)
+            /// </summary>
+            /// <param name="credentialException"></param>
+            public void onError(AndroidJavaObject credentialException)
+            {
+                loginObject.Call("handleFailure", credentialException);
+                callback.Invoke(null, null);
+            }
         }
     }
 }

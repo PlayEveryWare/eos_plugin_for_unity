@@ -1185,7 +1185,7 @@ using UnityEngine.InputSystem;
 
             signInWithGoogleManager.GetGoogleIdToken((string token, string username) => 
             {
-                if (token == null)
+                if (string.IsNullOrEmpty(token))
                 {
                     Debug.LogError("Failed to retrieve Google Id Token");
                     return;
