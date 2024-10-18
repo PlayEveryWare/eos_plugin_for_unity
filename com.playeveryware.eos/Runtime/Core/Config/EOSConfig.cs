@@ -190,7 +190,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
         #endregion
 
-#region Flags
+        #region Flags
 
 #if !EOS_DISABLE
         /// <summary>
@@ -214,7 +214,7 @@ namespace PlayEveryWare.EpicOnlineServices
         public AuthScopeFlags authScopeOptionsFlags;
 #endif
 
-#endregion
+        #endregion
 
         #region Thread Affinity & Various Time Budgets
 

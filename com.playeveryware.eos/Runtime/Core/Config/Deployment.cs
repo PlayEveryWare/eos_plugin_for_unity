@@ -24,41 +24,26 @@ namespace PlayEveryWare.EpicOnlineServices
 {
     using System;
 
-    [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
-    public class ConfigFieldAttribute : Attribute
-    {   
-        /// <summary>
-        /// The label for the config field.
-        /// </summary>
-        public string Label { get; }
+    public struct Deployment : IEquatable<Deployment>
+    {
+        public SandboxId SandboxId;
 
-        /// <summary>
-        /// The tooltip to display when the user hovers a mouse over the label.
-        /// </summary>
-        public string ToolTip { get; }
+        public Guid DeploymentId;
 
-        /// <summary>
-        /// The group that that config field belongs to (helps to cluster config
-        /// fields into meaningful groups).
-        /// </summary>
-        public int Group { get; }
-
-        /// <summary>
-        /// The type of the field - used to inform how to render input controls
-        /// and validation.
-        /// </summary>
-        public ConfigFieldType FieldType { get; }
-
-        public ConfigFieldAttribute(
-            string label, 
-            ConfigFieldType type, 
-            string tooltip = null, 
-            int group = -1)
+        public bool Equals(Deployment other)
         {
-            Label = label;
-            ToolTip = tooltip;
-            Group = group;
-            FieldType = type;
+            return SandboxId.Equals(other.SandboxId) && DeploymentId.Equals(other.DeploymentId);
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj is Deployment deployment && Equals(deployment);
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(SandboxId, DeploymentId);
         }
     }
+
 }
