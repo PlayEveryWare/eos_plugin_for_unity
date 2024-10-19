@@ -83,7 +83,8 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             GUILayout.EndVertical();
         }
 
-        public static void AssigningTextField(string label, ref string value, float labelWidth = -1, string tooltip = null)
+        public static void AssigningTextField(string label, ref string value, float labelWidth = -1,
+            string tooltip = null)
         {
             float originalLabelWidth = EditorGUIUtility.labelWidth;
             if (labelWidth >= 0)
@@ -91,7 +92,8 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
                 EditorGUIUtility.labelWidth = labelWidth;
             }
 
-            var newValue = EditorGUILayout.TextField(CreateGUIContent(label, tooltip), value ?? "", GUILayout.ExpandWidth(true));
+            var newValue = EditorGUILayout.TextField(CreateGUIContent(label, tooltip), value ?? "",
+                GUILayout.ExpandWidth(true));
             if (newValue != null)
             {
                 value = newValue;
@@ -100,7 +102,8 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             EditorGUIUtility.labelWidth = originalLabelWidth;
         }
 
-        public static void AssigningULongToStringField(string label, ref ulong? value, float labelWidth = -1, string tooltip = null)
+        public static void AssigningULongToStringField(string label, ref ulong? value, float labelWidth = -1,
+            string tooltip = null)
         {
             float originalLabelWidth = EditorGUIUtility.labelWidth;
             if (labelWidth >= 0)
@@ -112,14 +115,14 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
 
             var guiLabel = CreateGUIContent(label, tooltip);
             string textToDisplay = string.Empty;
-            
+
             if (value.HasValue)
             {
                 textToDisplay = value.Value.ToString();
             }
-            
+
             string newTextValue = EditorGUILayout.TextField(guiLabel, textToDisplay, GUILayout.ExpandWidth(true));
-            
+
             if (GUILayout.Button("Clear", GUILayout.MaxWidth(50)))
             {
                 value = null;
@@ -129,7 +132,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
                 if (string.IsNullOrEmpty(newTextValue))
                 {
                     value = null;
-                } 
+                }
                 else if (ulong.TryParse(newTextValue, out ulong newLongValue))
                 {
                     value = newLongValue;
@@ -140,8 +143,9 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
 
             EditorGUIUtility.labelWidth = originalLabelWidth;
         }
-        
-        public static void AssigningBoolField(string label, ref bool value, float labelWidth = -1, string tooltip = null)
+
+        public static void AssigningBoolField(string label, ref bool value, float labelWidth = -1,
+            string tooltip = null)
         {
             float originalLabelWidth = EditorGUIUtility.labelWidth;
             if (labelWidth >= 0)
@@ -155,7 +159,8 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             EditorGUIUtility.labelWidth = originalLabelWidth;
         }
 
-        public static void AssigningFloatToStringField(string label, ref float? value, float labelWidth = -1, string tooltip = null)
+        public static void AssigningFloatToStringField(string label, ref float? value, float labelWidth = -1,
+            string tooltip = null)
         {
             float originalLabelWidth = EditorGUIUtility.labelWidth;
             if (labelWidth >= 0)
@@ -191,12 +196,13 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             }
 
             GUILayout.EndHorizontal();
-        
+
 
             EditorGUIUtility.labelWidth = originalLabelWidth;
         }
 
-        public static void AssigningEnumField<T>(string label, ref T value, float labelWidth = -1, string tooltip = null) where T : Enum
+        public static void AssigningEnumField<T>(string label, ref T value, float labelWidth = -1,
+            string tooltip = null) where T : Enum
         {
             float originalLabelWidth = EditorGUIUtility.labelWidth;
             if (labelWidth >= 0)
@@ -204,15 +210,14 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
                 EditorGUIUtility.labelWidth = labelWidth;
             }
 
-            var newValue = (T)EditorGUILayout.EnumFlagsField(CreateGUIContent(label, tooltip), value, GUILayout.ExpandWidth(true));
+            var newValue =
+                (T)EditorGUILayout.EnumFlagsField(CreateGUIContent(label, tooltip), value, GUILayout.ExpandWidth(true));
             value = newValue;
 
             EditorGUIUtility.labelWidth = originalLabelWidth;
         }
 
         #region New methods for rendering input fields
-
-        private delegate T InputRenderDelegate<T>();//string label, T value, float labelWidth, string tooltip);
 
         /// <summary>
         /// Used to describe the function used to render a field of type T.
@@ -420,33 +425,30 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
                 draggable = false,
                 drawHeaderCallback = (rect) =>
                 {
-                    EditorGUI.LabelField(new(rect.x, rect.y, rect.width - 20f, rect.height), 
+                    EditorGUI.LabelField(new(rect.x, rect.y, rect.width - 20f, rect.height),
                         CreateGUIContent(label, tooltip));
                     if (!string.IsNullOrEmpty(helpUrl))
                     {
                         RenderHelpIcon(new(rect.x + rect.width - 20f, rect.y, 20f, rect.height), helpUrl);
                     }
                 },
-
                 onAddCallback = (_) => addNewItemFn(),
-
                 drawElementCallback = (rect, index, _, _) =>
                 {
                     rect.y += 2f;
                     rect.height = EditorGUIUtility.singleLineHeight;
 
                     renderItemFn(rect, items[index]);
-                }
-            };
-
-            list.onRemoveCallback = (list) =>
-            {
-                if (list.index < 0 || list.index >= items.Count)
+                },
+                onRemoveCallback = (list) =>
                 {
-                    return;
-                }
+                    if (list.index < 0 || list.index >= items.Count)
+                    {
+                        return;
+                    }
 
-                removeItemFn(items[list.index]);
+                    removeItemFn(items[list.index]);
+                }
             };
 
             list.DoLayoutList();
@@ -492,7 +494,9 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
                         labelIndex++;
                     }
 
-                    int newSelectedIndex = EditorGUI.Popup(new Rect(rect.x + firstFieldWidth + 5f + middleFieldWidth + 5f, rect.y, endFieldWidth, rect.height),
+                    int newSelectedIndex = EditorGUI.Popup(
+                        new Rect(rect.x + firstFieldWidth + 5f + middleFieldWidth + 5f, rect.y, endFieldWidth,
+                            rect.height),
                         selectedIndex, sandboxLabelList.ToArray());
                     string newSelectedSandboxLabel = sandboxLabelList[newSelectedIndex];
                     foreach (Named<SandboxId> sandbox in productionEnvironmentsCopy.Sandboxes)
@@ -571,6 +575,12 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             return Guid.TryParse(tempStringName, out Guid newValue) ? newValue : value;
         }
 
+        private static Version VersionField(GUIContent label, Version value, params GUILayoutOption[] options)
+        {
+            string tempStringVersion = EditorGUILayout.TextField(label, value.ToString(), options);
+            return Version.TryParse(tempStringVersion, out Version newValue) ? newValue : value;
+        }
+
         private static Version VersionField(Version value, params GUILayoutOption[] options)
         {
             string tempStringVersion = EditorGUILayout.TextField(value.ToString(), options);
@@ -579,80 +589,81 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
 
         public static EOSClientCredentials RenderInput(ConfigFieldAttribute configFieldAttribute,
             EOSClientCredentials value,
-            float labelWidth, string tooltip = null)
+            float labelWidth)
         {
-            return InputRendererWrapper(configFieldAttribute.Label, configFieldAttribute.ToolTip, labelWidth, value,
-                () =>
+            return InputRendererWithAlignedLabel(labelWidth, () =>
+            {
+                List<Named<EOSClientCredentials>> credentials = Config.Get<ProductConfig>().Clients.ToList();
+                List<string> credentialsLabels = new();
+                int selectedIndex = -1;
+                int currentIndex = 0;
+                foreach (Named<EOSClientCredentials> cred in credentials)
                 {
-                    List<Named<EOSClientCredentials>> credentials = Config.Get<ProductConfig>().Clients.ToList();
-                    List<string> credentialsLabels = new();
-                    int selectedIndex = -1;
-                    int currentIndex = 0;
-                    foreach (Named<EOSClientCredentials> cred in credentials)
+                    if (cred.Value.Equals(value))
                     {
-                        if (cred.Value.Equals(value))
-                        {
-                            selectedIndex = currentIndex;
-                        }
-
-                        credentialsLabels.Add($"{cred.Name} : {cred.Value.ClientId}");
-
-                        currentIndex++;
+                        selectedIndex = currentIndex;
                     }
 
-                    int newIndex = EditorGUILayout.Popup(
-                        CreateGUIContent(configFieldAttribute.Label, configFieldAttribute.ToolTip),
-                        selectedIndex,
-                        credentialsLabels.ToArray());
+                    credentialsLabels.Add($"{cred.Name} : {cred.Value.ClientId}");
 
-                    return (newIndex >= 0 && newIndex < credentials.Count) ? credentials[newIndex].Value : value;
-                });
+                    currentIndex++;
+                }
+
+                int newIndex = EditorGUILayout.Popup(
+                    CreateGUIContent(configFieldAttribute.Label, configFieldAttribute.ToolTip),
+                    selectedIndex,
+                    credentialsLabels.ToArray());
+
+                return (newIndex >= 0 && newIndex < credentials.Count) ? credentials[newIndex].Value : value;
+            });
         }
 
         public static Deployment RenderInput(ConfigFieldAttribute configFieldAttribute, Deployment value, float labelWidth)
         {
-            return InputRendererWrapper(configFieldAttribute.Label, configFieldAttribute.ToolTip,labelWidth, value,
-                () =>
+            return InputRendererWithAlignedLabel(labelWidth, () =>
+            {
+                List<Named<Deployment>> deployments = Config.Get<ProductConfig>().Environments.Deployments.ToList();
+                List<string> deploymentLabels = new();
+                int selectedIndex = -1;
+                int currentIndex = 0;
+                foreach (Named<Deployment> deployment in deployments)
                 {
-                    List<Named<Deployment>> deployments = Config.Get<ProductConfig>().Environments.Deployments.ToList();
-                    // Create the list of deployments
-                    List<string> deploymentLabels = new();
-                    int selectedIndex = -1;
-                    int currentIndex = 0;
-                    foreach (Named<Deployment> deployment in deployments)
-                    {
-                        if (value.DeploymentId == deployment.Value.DeploymentId)
-                            selectedIndex = currentIndex;
+                    if (value.DeploymentId == deployment.Value.DeploymentId)
+                        selectedIndex = currentIndex;
 
-                        deploymentLabels.Add($"{deployment.Name}: {deployment.Value.DeploymentId}");
+                    deploymentLabels.Add($"{deployment.Name}: {deployment.Value.DeploymentId}");
 
-                        currentIndex++;
-                    }
+                    currentIndex++;
+                }
 
-                    int newIndex = EditorGUILayout.Popup(
-                        CreateGUIContent(configFieldAttribute.Label, configFieldAttribute.ToolTip),
-                        selectedIndex,
-                        deploymentLabels.ToArray());
+                int newIndex = EditorGUILayout.Popup(
+                    CreateGUIContent(configFieldAttribute.Label, configFieldAttribute.ToolTip),
+                    selectedIndex,
+                    deploymentLabels.ToArray());
 
-                    return (newIndex >= 0 && newIndex < deployments.Count) ? deployments[newIndex].Value : value;
-                });
-            
+                return (newIndex >= 0 && newIndex < deployments.Count) ? deployments[newIndex].Value : value;
+            });
         }
 
         public static TEnum RenderEnumInput<TEnum>(ConfigFieldAttribute configFieldAttribute, TEnum value, float labelWidth) where TEnum : Enum
         {
             return InputRendererWrapper(configFieldAttribute.Label, configFieldAttribute.ToolTip, labelWidth, value,
-                () => (TEnum)EditorGUILayout.EnumFlagsField(
-                    CreateGUIContent(configFieldAttribute.Label, configFieldAttribute.ToolTip), value, GUILayout.ExpandWidth(true)));
+                EnumFlagsField);
+        }
+
+        private static TEnum EnumFlagsField<TEnum>(GUIContent label, TEnum value, params GUILayoutOption[] options) where TEnum : Enum
+        {
+            return (TEnum)EditorGUILayout.EnumFlagsField(label, value, options);
         }
 
         public static Version RenderInput(ConfigFieldAttribute configFieldAttribute, Version value, float labelWidth)
         {
-            return InputRendererWrapper(configFieldAttribute.Label, configFieldAttribute.ToolTip, labelWidth, value, () => RenderFieldWithHint(VersionField, (v) => v == null, value, "Version"));
+            return InputRendererWrapper(configFieldAttribute.Label, configFieldAttribute.ToolTip, labelWidth, value,
+                VersionField);
         }
 
         public static SetOfNamed<EOSClientCredentials> RenderInput(ConfigFieldAttribute configFieldAttribute,
-            SetOfNamed<EOSClientCredentials> value, float labelWidth, string tooltip = null)
+            SetOfNamed<EOSClientCredentials> value, float labelWidth)
         {
             EditorGUILayout.Space();
 
@@ -705,7 +716,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
         }
 
         public static ProductionEnvironments RenderInput(ConfigFieldAttribute configFieldAttribute,
-            ProductionEnvironments value, float labelWidth, string tooltip = null)
+            ProductionEnvironments value, float labelWidth)
         {
             value ??= new();
 
@@ -732,27 +743,23 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             return value;
         }
 
-        public static Named<Guid> RenderInput(ConfigFieldAttribute configFieldDetails, Named<Guid> value, float labelWidth)
+        public static Named<Guid> RenderInput(ConfigFieldAttribute configFieldDetails, Named<Guid> value,
+            float labelWidth)
         {
-            var newValue = InputRendererWrapper<Named<Guid>>(configFieldDetails.Label, configFieldDetails.ToolTip, labelWidth, value,
-                () =>
-                {
-                    EditorGUILayout.LabelField(CreateGUIContent(configFieldDetails.Label, configFieldDetails.ToolTip));
+            EditorGUILayout.LabelField(CreateGUIContent(configFieldDetails.Label, configFieldDetails.ToolTip));
 
-                    GUILayout.BeginHorizontal();
+            GUILayout.BeginHorizontal();
 
-                    value ??= new Named<Guid>();
+            value ??= new Named<Guid>();
 
-                    value.Name = RenderFieldWithHint(EditorGUILayout.TextField, string.IsNullOrEmpty, value.Name, "Product Name");
+            value.Name = RenderFieldWithHint(EditorGUILayout.TextField, string.IsNullOrEmpty, value.Name,
+                "Product Name");
 
-                    value.Value = RenderFieldWithHint(GuidField, guid => guid.Equals(Guid.Empty), value.Value, "Product Id");
+            value.Value = RenderFieldWithHint(GuidField, guid => guid.Equals(Guid.Empty), value.Value, "Product Id");
 
-                    GUILayout.EndHorizontal();
+            GUILayout.EndHorizontal();
 
-                    return value;
-                });
-
-            return newValue;
+            return value;
         }
 
         public static List<string> RenderInput(ConfigFieldAttribute configFieldDetails, List<string> value,
@@ -808,12 +815,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
         {
             EditorGUILayout.BeginHorizontal();
 
-            string filePath = InputRendererWrapper<string>(configFieldAttributeDetails.Label, value, labelWidth, tooltip,
-                () =>
-                {
-                    return EditorGUILayout.TextField(CreateGUIContent(configFieldAttributeDetails.Label, tooltip), value,
-                        GUILayout.ExpandWidth(true));
-                });
+            string filePath = InputRendererWrapper(configFieldAttributeDetails.Label, value, labelWidth, tooltip, EditorGUILayout.TextField);
 
             if (GUILayout.Button("Select", GUILayout.MaxWidth(MAXIMUM_BUTTON_WIDTH)))
             {
@@ -834,12 +836,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
         {
             EditorGUILayout.BeginHorizontal();
 
-            string filePath = InputRendererWrapper<string>(configFieldAttributeDetails.Label, value, labelWidth, tooltip,
-                () =>
-                {
-                    return EditorGUILayout.TextField(CreateGUIContent(configFieldAttributeDetails.Label, tooltip), value,
-                        GUILayout.ExpandWidth(true));
-                });
+            string filePath = InputRendererWrapper(configFieldAttributeDetails.Label, value, labelWidth, tooltip, EditorGUILayout.TextField);
 
             if (GUILayout.Button("Select", GUILayout.MaxWidth(MAXIMUM_BUTTON_WIDTH)))
             {
@@ -857,73 +854,51 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             return filePath;
         }
 
-        public static double RenderInput(ConfigFieldAttribute configFieldDetails, double value, float labelWidth, string tooltip = null)
+        public static double RenderInput(ConfigFieldAttribute configFieldDetails, double value, float labelWidth)
         {
-            return InputRendererWrapper(configFieldDetails.Label, configFieldDetails.ToolTip, labelWidth, value,
-                () => EditorGUILayout.DoubleField(
-                    CreateGUIContent(configFieldDetails.Label, tooltip),
-                    value,
-                    GUILayout.ExpandWidth(true)));
+                return InputRendererWrapper(configFieldDetails.Label, configFieldDetails.ToolTip, labelWidth, value, EditorGUILayout.DoubleField);
         }
 
-        public static float RenderInput(ConfigFieldAttribute configFieldDetails, float value, float labelWidth, string tooltip = null)
+        public static float RenderInput(ConfigFieldAttribute configFieldDetails, float value, float labelWidth)
         {
-            return InputRendererWrapper(configFieldDetails.Label, configFieldDetails.ToolTip, labelWidth, value, () => EditorGUILayout.FloatField(
-                CreateGUIContent(configFieldDetails.Label, configFieldDetails.ToolTip), value,
-                GUILayout.ExpandWidth(true)));
+            return InputRendererWrapper(configFieldDetails.Label, configFieldDetails.ToolTip, labelWidth, value, EditorGUILayout.FloatField);
         }
 
-        public static string RenderInput(ConfigFieldAttribute configFieldDetails, string value, float labelWidth, string tooltip = null)
+        public static string RenderInput(ConfigFieldAttribute configFieldDetails, string value, float labelWidth)
         {
-            return InputRendererWrapper(configFieldDetails.Label, configFieldDetails.ToolTip, labelWidth, value,
-                () => EditorGUILayout.TextField(CreateGUIContent(configFieldDetails.Label, tooltip), value,
-                    GUILayout.ExpandWidth(true)));
+            return InputRendererWrapper(configFieldDetails.Label, configFieldDetails.ToolTip, labelWidth, value, EditorGUILayout.TextField);
         }
 
-        public static ulong RenderInput(ConfigFieldAttribute configFieldDetails, ulong value, float labelWidth, string tooltip = null)
+        public static ulong RenderInput(ConfigFieldAttribute configFieldDetails, ulong value, float labelWidth)
         {
-            return InputRendererWrapper(configFieldDetails.Label, configFieldDetails.ToolTip, labelWidth, value,
-                () =>
-                {
-                    _ = SafeTranslatorUtility.TryConvert(value, out long temp);
+            _ = SafeTranslatorUtility.TryConvert(value, out long temp);
 
-                    long longValue = EditorGUILayout.LongField(
-                            CreateGUIContent(configFieldDetails.Label, tooltip),
-                            temp,
-                            GUILayout.ExpandWidth(true));
+            long longValue = InputRendererWrapper(configFieldDetails.Label, configFieldDetails.ToolTip, labelWidth,
+                temp, EditorGUILayout.LongField);
 
-                    _ = SafeTranslatorUtility.TryConvert(longValue, out ulong newValue);
-
-                    return newValue;
-                });
+            return SafeTranslatorUtility.TryConvert(longValue, out ulong newValue) ? newValue : value;
         }
 
-        public static uint RenderInput(ConfigFieldAttribute configFieldDetails, uint value, float labelWidth, string tooltip = null)
+        public static uint RenderInput(ConfigFieldAttribute configFieldDetails, uint value, float labelWidth)
         {
-            return InputRendererWrapper(configFieldDetails.Label, configFieldDetails.ToolTip, labelWidth, value,
-                () =>
-                {
-                    _ = SafeTranslatorUtility.TryConvert(value, out int temp);
+            _ = SafeTranslatorUtility.TryConvert(value, out int temp);
 
-                    int intValue = EditorGUILayout.IntField(
-                        CreateGUIContent(configFieldDetails.Label, tooltip),
-                        temp,
-                        GUILayout.ExpandWidth(true));
-
-                    _ = SafeTranslatorUtility.TryConvert(intValue, out uint newValue);
-
-                    return newValue;
-                });
+            int intValue = InputRendererWrapper(configFieldDetails.Label, configFieldDetails.ToolTip, labelWidth, temp,
+                EditorGUILayout.IntField);
+            
+            return SafeTranslatorUtility.TryConvert(intValue, out uint newValue) ? newValue : value;
         }
 
-        public static bool RenderInput(ConfigFieldAttribute configFieldDetails, bool value, float labelWidth, string tooltip = null)
+        public static bool RenderInput(ConfigFieldAttribute configFieldDetails, bool value, float labelWidth)
         {
-            return InputRendererWrapper(configFieldDetails.Label, configFieldDetails.ToolTip, labelWidth, value, () => EditorGUILayout.Toggle(CreateGUIContent(configFieldDetails.Label, tooltip), value, GUILayout.ExpandWidth(true)));
+            return InputRendererWrapper(
+                configFieldDetails.Label, configFieldDetails.ToolTip, labelWidth,
+                value, EditorGUILayout.Toggle);
         }
 
         public delegate T TestDelegate<T>(GUIContent label, T value, params GUILayoutOption[] options);
 
-        private static T InputRendererWrapper<T>(string label, string toolTip, float labelWidth, T value, InputRenderDelegate<T> renderFn)
+        private static T InputRendererWithAlignedLabel<T>(float labelWidth, Func<T> renderFn)
         {
             float currentLabelWidth = EditorGUIUtility.labelWidth;
 
@@ -934,6 +909,11 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             EditorGUIUtility.labelWidth = currentLabelWidth;
 
             return newValue;
+        }
+
+        private static T InputRendererWrapper<T>(string label, string toolTip, float labelWidth, T value, TestDelegate<T> renderFn)
+        {
+            return InputRendererWithAlignedLabel(labelWidth, () => renderFn(CreateGUIContent(label, toolTip), value, GUILayout.ExpandWidth(true)));
         }
 
         #endregion

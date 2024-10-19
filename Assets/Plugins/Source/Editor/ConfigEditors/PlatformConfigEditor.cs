@@ -90,12 +90,16 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
             return PlatformManager.GetAvailableBuildTargets().Contains(config.Platform);
         }
 
+        public Texture GetPlatformIconTexture()
+        {
+            return PlatformManager.GetPlatformIcon(config.Platform);
+        }
+
         public virtual void RenderPlatformSpecificOptions() { }
 
         public override sealed void RenderContents()
         {
-            RenderPlatformSpecificOptions();
-            RenderOverrides();
+            RenderConfigFields();
         }
     }
 }

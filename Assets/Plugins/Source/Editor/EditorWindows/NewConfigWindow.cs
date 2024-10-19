@@ -30,6 +30,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Reflection;
     using System.Threading.Tasks;
     using UnityEditor;
     using UnityEngine;
@@ -47,7 +48,13 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
         /// </summary>
         private ConfigEditor<ProductConfig> _productConfigEditor = new();
 
-        private ConfigEditor<AndroidConfig> _androidConfigEditor = new();
+        /// <summary>
+        /// Stores the config editors for each of the platforms.
+        /// </summary>
+        private readonly IList<IConfigEditor> _platformConfigEditors = new List<IConfigEditor>();
+
+        private GUIContent[] _platformTabs;
+        private int _selectedTab = 0;
 
         public NewConfigWindow() : base("EOS Configuration") { }
 
@@ -61,13 +68,41 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
         protected override async Task AsyncSetup()
         {
             await _productConfigEditor.LoadAsync();
-            await _androidConfigEditor.LoadAsync();
+            var configEditors = ReflectionUtility.CreateInstancesOfDerivedGenericClasses(typeof(PlatformConfigEditor<>));
+
+            foreach (IPlatformConfigEditor editor in configEditors.Cast<IPlatformConfigEditor>())
+            {
+                // If the platform for the editor is not available, then do not
+                // display the editor for it.
+                if (!editor.IsPlatformAvailable())
+                    continue;
+
+                _platformConfigEditors.Add(editor);
+            }
+
+            List<GUIContent> tabContents = new();
+            foreach (var configEditor in _platformConfigEditors)
+            {
+                if (configEditor is not IPlatformConfigEditor platformConfig)
+                {
+                    continue;
+                }
+
+                tabContents.Add(new GUIContent($" {platformConfig.GetLabelText()}", platformConfig.GetPlatformIconTexture()));
+            }
+
+            _platformTabs = tabContents.ToArray();
         }
 
         protected override void RenderWindow()
         {
-             _ = _productConfigEditor.RenderAsync();
-             _ = _androidConfigEditor.RenderAsync();
+            // Render the generic product configuration stuff.
+            _ = _productConfigEditor.RenderAsync();
+
+            _selectedTab = GUILayout.Toolbar(_selectedTab, _platformTabs);
+            GUILayout.Space(10);
+
+            _ = _platformConfigEditors[_selectedTab].RenderAsync();
 
             GUI.SetNextControlName("Save");
             if (GUILayout.Button("Save All Changes"))
@@ -79,7 +114,10 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 
         private async void Save()
         {
-            await _androidConfigEditor.Save(true);
+            foreach (IConfigEditor editor in _platformConfigEditors)
+            {
+                await editor.Save();
+            }
         }
     }
 }

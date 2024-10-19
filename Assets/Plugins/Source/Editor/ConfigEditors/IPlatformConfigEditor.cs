@@ -22,6 +22,8 @@
 
 namespace PlayEveryWare.EpicOnlineServices.Editor
 {
+    using UnityEngine;
+
     // Interface for allowing adding additional config files to the Config editor
     public interface IPlatformConfigEditor : IConfigEditor
     {
@@ -33,5 +35,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
         /// True if the platform can be targetted by the Unity Editor.
         /// </returns>
         bool IsPlatformAvailable();
+
+        Texture GetPlatformIconTexture();
     }
 }

@@ -1,29 +1,29 @@
 {
-  "overrideValues": {
-    "productName": "",
-    "productVersion": "",
-    "productID": "",
-    "sandboxID": "",
-    "deploymentID": "",
-    "sandboxDeploymentOverrides": null,
-    "isServer": false,
-    "clientSecret": "",
-    "clientID": "",
-    "encryptionKey": "",
-    "platformOptionsFlags": "None",
-    "authScopeOptionsFlags": "NoFlags",
-    "tickBudgetInMilliseconds": 0,
-    "taskNetworkTimeoutSeconds": 0.0,
-    "ThreadAffinity_networkWork": null,
-    "ThreadAffinity_storageIO": null,
-    "ThreadAffinity_webSocketIO": null,
-    "ThreadAffinity_P2PIO": null,
-    "ThreadAffinity_HTTPRequestIO": null,
-    "ThreadAffinity_RTCIO": null,
-    "alwaysSendInputToOverlay": false,
-    "initialButtonDelayForOverlay": null,
-    "repeatButtonDelayForOverlay": null,
-    "toggleFriendsButtonCombination": "SpecialLeft"
+  "deployment": {
+    "SandboxId": {
+      "Value": null
+    },
+    "DeploymentId": "00000000-0000-0000-0000-000000000000"
   },
-  "flags": 0
+  "clientCredentials": null,
+  "platformOptionsFlags": "None",
+  "authScopeOptionsFlags": "NoFlags",
+  "flags": 0,
+  "tickBudgetInMilliseconds": 0,
+  "taskNetworkTimeoutSeconds": 0.0,
+  "threadAffinity": {
+    "NetworkWork": 0,
+    "StorageIo": 0,
+    "WebSocketIo": 0,
+    "P2PIo": 0,
+    "HttpRequestIo": 0,
+    "RTCIo": 0,
+    "EmbeddedOverlayMainThread": 0,
+    "EmbeddedOverlayWorkerThreads": 0
+  },
+  "alwaysSendInputToOverlay": false,
+  "initialButtonDelayForOverlay": 0.0,
+  "repeatButtonDelayForOverlay": 0.0,
+  "toggleFriendsButtonCombination": "SpecialLeft",
+  "_configValuesMigrated": false
 }

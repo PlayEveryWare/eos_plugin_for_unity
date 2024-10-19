@@ -230,12 +230,12 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
                 foreach (var field in fieldGroup)
                 {
                     // Check if the config value should be disabled.
-                    if (config is PlatformConfig platformConfig && (field.FieldDetails.PlatformsEnabledOn & platformConfig.Platform) == 0)
+                    if ((config is PlatformConfig platformConfig && (field.FieldDetails.PlatformsEnabledOn & platformConfig.Platform) == 0))
                     {
                         GUI.enabled = false;
                         // TODO: Consider whether it makes more sense to simply
                         //       not display the input
-                        field.FieldDetails.ToolTip = $"These options are not available on ${PlatformManager.GetFullName(platformConfig.Platform)}.";
+                        field.FieldDetails.ToolTip = $"These options are not available on {PlatformManager.GetFullName(platformConfig.Platform)}.";
                     }
 
                     switch (field.FieldDetails.FieldType)
@@ -292,7 +292,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
                             Type enumType = field.FieldInfo.GetValue(config).GetType();
                             var method = typeof(GUIEditorUtility).GetMethod("RenderEnumInput", BindingFlags.Public | BindingFlags.Static);
                             var genericMethod = method.MakeGenericMethod(enumType);
-                            field.FieldInfo.SetValue(config, genericMethod.Invoke(this, new[] { field.FieldDetails, field.FieldInfo.GetValue(config), labelWidth, null }));
+                            field.FieldInfo.SetValue(config, genericMethod.Invoke(this, new[] { field.FieldDetails, field.FieldInfo.GetValue(config), labelWidth }));
                             break;
                         case ConfigFieldType.Float:
                             field.FieldInfo.SetValue(config, GUIEditorUtility.RenderInput(field.FieldDetails, (float)field.FieldInfo.GetValue(config), labelWidth));
@@ -304,7 +304,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
                             throw new ArgumentOutOfRangeException();
                     }
 
-                    // Re-enable the GUI
                     GUI.enabled = true;
                 }
             }

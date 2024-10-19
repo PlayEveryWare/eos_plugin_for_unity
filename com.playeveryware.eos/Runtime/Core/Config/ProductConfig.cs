@@ -32,7 +32,7 @@ namespace PlayEveryWare.EpicOnlineServices
     /// Contains information about the product entered by the user from the Epic
     /// Developer Portal.
     /// </summary>
-    [ConfigGroup("Product Information", false)]
+    [ConfigGroup("Product Information", true)]
     public class ProductConfig : Config
     {
         internal class PreviousEOSConfig : Config
