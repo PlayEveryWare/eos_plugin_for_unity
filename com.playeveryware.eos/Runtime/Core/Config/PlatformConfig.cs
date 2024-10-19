@@ -29,6 +29,7 @@ namespace PlayEveryWare.EpicOnlineServices
     using Epic.OnlineServices.Auth;
     using Epic.OnlineServices.Platform;
     using Epic.OnlineServices.UI;
+    using UnityEditor.VersionControl;
 #endif
     using Common;
     using Newtonsoft.Json;
@@ -42,8 +43,20 @@ namespace PlayEveryWare.EpicOnlineServices
     /// Unity on a specific platform.
     /// </summary>
     [Serializable]
+    [ConfigGroup("EOS Config", new[]
+    {
+        "Deployment",
+        "Flags",
+        "Thread Affinity & Tick Budgets",
+        "Overlay Options"
+    }, false)]
     public abstract class PlatformConfig : Config
     {
+        private const PlatformManager.Platform OVERLAY_COMPATIBLE_PLATFORMS = ~(PlatformManager.Platform.Android |
+                                                                   PlatformManager.Platform.iOS |
+                                                                   PlatformManager.Platform.macOS |
+                                                                   PlatformManager.Platform.Linux);
+
         /// <summary>
         /// The platform that the set of configuration data is to be applied on.
         /// </summary>
@@ -60,12 +73,18 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </summary>
         [JsonProperty] // Allow deserialization
         [JsonIgnore]   // Disallow serialization
-        [Obsolete]
+        [Obsolete]     // Mark as obsolete so that warnings are generated
+                       // whenever this is utilized (in the code that does the
+                       // migration those warnings will be suppressed).
         public EOSConfig overrideValues;
 
         #region Deployment
 
+        [ConfigField("Deployment", ConfigFieldType.Deployment, "Select the deployment to use.", 0)]
         public Deployment deployment;
+
+        [ConfigField("Client Credentials", ConfigFieldType.ClientCredentials, "Select client credentials to use.", 0)]
+        public EOSClientCredentials clientCredentials;
 
         #endregion
 
@@ -78,9 +97,9 @@ namespace PlayEveryWare.EpicOnlineServices
         /// Flags; used to initialize the EOS platform.
         /// </summary>
         [ConfigField("Platform Options",
-            ConfigFieldType.TextList,
+            ConfigFieldType.Enum,
             "Platform option flags",
-            3)]
+            1)]
         [JsonConverter(typeof(ListOfStringsToPlatformFlags))]
         public WrappedPlatformFlags platformOptionsFlags;
 
@@ -88,16 +107,19 @@ namespace PlayEveryWare.EpicOnlineServices
         /// Flags; used to set user auth when logging in.
         /// </summary>
         [ConfigField("Auth Scope Options",
-            ConfigFieldType.TextList,
+            ConfigFieldType.Enum,
             "Platform option flags",
-            3)]
+            1)]
         [JsonConverter(typeof(ListOfStringsToAuthScopeFlags))]
         public AuthScopeFlags authScopeOptionsFlags;
 
         /// <summary>
         /// Used to store integrated platform management flags.
         /// </summary>
-        [FormerlySerializedAs("flags")]
+        [ConfigField("Integrated Platform Management Flags", 
+            ConfigFieldType.Enum, "Integrated Platform Management " +
+                                  "Flags for platform specific options.",
+            1)]
         [JsonConverter(typeof(ListOfStringsToIntegratedPlatformManagementFlags))]
         [JsonProperty("flags")] // Allow deserialization from old field member.
         public IntegratedPlatformManagementFlags integratedPlatformManagementFlags;
@@ -115,7 +137,7 @@ namespace PlayEveryWare.EpicOnlineServices
             ConfigFieldType.Uint,
             "Used to define the maximum amount of execution time the " +
             "EOS SDK can use each frame.",
-            3)]
+            2)]
         public uint tickBudgetInMilliseconds;
 
         /// <summary>
@@ -133,12 +155,13 @@ namespace PlayEveryWare.EpicOnlineServices
             ConfigFieldType.Double,
             "Indicates the maximum number of seconds that EOS SDK " +
             "will allow network calls to run before failing with EOS_TimedOut.",
-            3)]
+            2)]
         public double taskNetworkTimeoutSeconds;
 
         // This compile conditional is here so that when EOS is disabled, nothing is
         // referenced in the Epic namespace.
 #if !EOS_DISABLE
+        //[ConfigField("Thread Affinity")]
         public InitializeThreadAffinity threadAffinity;
 #endif
         #endregion
@@ -151,31 +174,34 @@ namespace PlayEveryWare.EpicOnlineServices
         /// handle showing the overlay. This doesn't always mean input makes it
         /// to the EOS SDK.
         /// </summary>
-        [ConfigField("Always Send Input to Overlay",
+        [ConfigField(OVERLAY_COMPATIBLE_PLATFORMS,
+            "Always Send Input to Overlay",
             ConfigFieldType.Flag,
             "If true, the plugin will always send input to the " +
             "overlay from the C# side to native, and handle showing the " +
             "overlay. This doesn't always mean input makes it to the EOS SDK.",
-            4)]
+            3)]
         public bool alwaysSendInputToOverlay;
 
         /// <summary>
         /// Initial Button Delay.
         /// </summary>
-        [ConfigField("Initial Button Delay", ConfigFieldType.Float,
+        [ConfigField(OVERLAY_COMPATIBLE_PLATFORMS,
+            "Initial Button Delay", ConfigFieldType.Float,
             "Initial Button Delay (if not set, whatever the default " +
-            "is will be used).", 4)]
+            "is will be used).", 3)]
         [JsonConverter(typeof(StringToTypeConverter<float>))]
-        public float? initialButtonDelayForOverlay;
+        public float initialButtonDelayForOverlay;
 
         /// <summary>
         /// Repeat button delay for overlay.
         /// </summary>
-        [ConfigField("Repeat Button Delay", ConfigFieldType.Text,
+        [ConfigField(OVERLAY_COMPATIBLE_PLATFORMS,
+            "Repeat Button Delay", ConfigFieldType.Float,
             "Repeat button delay for the overlay. If not set, " +
-            "whatever the default is will be used.", 4)]
+            "whatever the default is will be used.", 3)]
         [JsonConverter(typeof(StringToTypeConverter<float>))]
-        public float? repeatButtonDelayForOverlay;
+        public float repeatButtonDelayForOverlay;
 
         // This compile conditional is here so that when EOS is disabled, in the
         // Epic namespace is referenced.
@@ -188,6 +214,14 @@ namespace PlayEveryWare.EpicOnlineServices
         /// only <see cref="InputStateButtonFlags.None"/>.
         /// </summary>
         [JsonConverter(typeof(ListOfStringsToInputStateButtonFlags))]
+        [ConfigField(
+            OVERLAY_COMPATIBLE_PLATFORMS,
+            "Default Activate Overlay Button",
+            ConfigFieldType.Enum,
+            "Users can press the button's associated with this value " +
+            "to activate the Epic Social Overlay. Not all combinations are " +
+            "valid; the SDK will log an error at the start of runtime if an " +
+            "invalid combination is selected.", 3)]
         public InputStateButtonFlags toggleFriendsButtonCombination = InputStateButtonFlags.SpecialLeft;
 #endif
 
@@ -227,7 +261,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 RegisterFactory(() => new NonOverrideableConfigValues());
             }
 
-            protected NonOverrideableConfigValues() : base("EpicOnlineServicesConfig.json") { }
+            internal NonOverrideableConfigValues() : base("EpicOnlineServicesConfig.json") { }
         }
 
         internal sealed class OverrideableConfigValues : Config
@@ -264,7 +298,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 RegisterFactory(() => new OverrideableConfigValues());
             }
 
-            protected OverrideableConfigValues() : base("EpicOnlineServicesConfig.json") { }
+            internal OverrideableConfigValues() : base("EpicOnlineServicesConfig.json") { }
         }
 
         private TK SelectValue<TK>(TK overrideValuesFromFieldMember, TK mainConfigValue)
@@ -279,12 +313,12 @@ namespace PlayEveryWare.EpicOnlineServices
             // Import the values for initial button delay and repeat button
             // delay
             initialButtonDelayForOverlay = SelectValue(
-                overrideValuesFromFieldMember.initialButtonDelayForOverlay,
-                mainOverrideableConfig.initialButtonDelayForOverlay);
+                overrideValuesFromFieldMember.initialButtonDelayForOverlay ?? 0,
+                mainOverrideableConfig.initialButtonDelayForOverlay ?? 0);
 
             repeatButtonDelayForOverlay = SelectValue(
-                overrideValuesFromFieldMember.repeatButtonDelayForOverlay,
-                mainOverrideableConfig.repeatButtonDelayForOverlay);
+                overrideValuesFromFieldMember.repeatButtonDelayForOverlay ?? 0,
+                mainOverrideableConfig.repeatButtonDelayForOverlay ?? 0);
         }
 
         private void MigrateThreadAffinity(EOSConfig overrideValuesFromFieldMember, OverrideableConfigValues mainOverrideableConfig)
@@ -380,20 +414,22 @@ namespace PlayEveryWare.EpicOnlineServices
         }
 
 
-        protected override void PrepareConfig()
+        protected override void MigrateConfig()
         {
             // The following code takes any values that used to exist within the
             // overrideValues field member, and places them into the
             // appropriate new field members. It also takes values from the 
             // main EOSConfig - if the values are not defined in the
             // overrideValues.
-            
+
             // Do nothing if the values have already been moved, or if
             // overrideValues is null.
+#pragma warning disable CS0612 // Type or member is obsolete
             if (_configValuesMigrated || null == overrideValues)
             {
                 return;
             }
+#pragma warning restore CS0612 // Type or member is obsolete
 
             ProductConfig productConfig = Get<ProductConfig>();
 
@@ -406,7 +442,9 @@ namespace PlayEveryWare.EpicOnlineServices
             // overrideable from the editor window. These values should take
             // priority over the main config if they are not default values.
             OverrideableConfigValues mainOverrideableConfigValues = Get<OverrideableConfigValues>();
+#pragma warning disable CS0612 // Type or member is obsolete
             MigrateOverrideableConfigValues(overrideValues, mainOverrideableConfigValues);
+#pragma warning restore CS0612 // Type or member is obsolete
 
             // This config represents the set of values that were not
             // overrideable from the editor window. The migrated values should

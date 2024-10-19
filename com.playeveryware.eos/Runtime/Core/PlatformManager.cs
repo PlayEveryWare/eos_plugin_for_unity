@@ -38,21 +38,23 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <summary>
         /// Enum that stores the possible platforms
         /// </summary>
+        [Flags]
         public enum Platform
         {
-            Unknown,
-            Windows,
-            Android,
-            XboxOne,
-            XboxSeriesX,
-            iOS,
-            Linux,
-            macOS,
-            PS4,
-            PS5,
-            Switch,
-            Steam,
+            Unknown = 0x0,
+            Windows = 0x1,
+            Android = 0x2,
+            XboxOne = 0x4,
+            XboxSeriesX = 0x8,
+            iOS = 0x10,
+            Linux = 0x20,
+            macOS = 0x40,
+            PS4 = 0x80,
+            PS5 = 0x100,
+            Switch = 0x200,
+            Steam = 0x400,
             Console = PS4 | PS5 | XboxOne | XboxSeriesX | Switch,
+            All = Unknown | Windows | Android | XboxOne | XboxSeriesX | iOS | Linux | macOS | PS4 | PS5 | Switch | Steam
         }
 
         private struct PlatformInfo

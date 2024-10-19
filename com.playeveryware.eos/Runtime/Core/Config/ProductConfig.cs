@@ -75,7 +75,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// used).
         /// </summary>
         [ConfigField("Client Credentials",
-            ConfigFieldType.ClientCredentials,
+            ConfigFieldType.SetOfClientCredentials,
             "Enter the client credentials you have defined in the " +
             "Epic Dev Portal.")]
         public SetOfNamed<EOSClientCredentials> Clients = new("Client");
@@ -157,7 +157,7 @@ namespace PlayEveryWare.EpicOnlineServices
             }
         }
 
-        protected override void PrepareConfig()
+        protected override void MigrateConfig()
         {
             if (_oldConfigImported)
             {
@@ -166,7 +166,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
             Environments ??= new();
 
-            PreviousEOSConfig oldConfig = Config.Get<PreviousEOSConfig>();
+            PreviousEOSConfig oldConfig = Get<PreviousEOSConfig>();
 
             ImportProductNameAndId(oldConfig);
             ImportClientCredentials(oldConfig);

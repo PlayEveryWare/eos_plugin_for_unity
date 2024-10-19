@@ -222,13 +222,22 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
                 float labelWidth = GetMaximumLabelWidth(fieldGroup);
 
                 // If there is a label for the field group, then display it.
-                if (0 >= fieldGroup.Key && _groupLabels?.Length > fieldGroup.Key)
+                if (0 <= fieldGroup.Key && _groupLabels?.Length > fieldGroup.Key)
                 {
                     GUILayout.Label(_groupLabels[fieldGroup.Key], EditorStyles.boldLabel);
                 }
 
                 foreach (var field in fieldGroup)
                 {
+                    // Check if the config value should be disabled.
+                    if (config is PlatformConfig platformConfig && (field.FieldDetails.PlatformsEnabledOn & platformConfig.Platform) == 0)
+                    {
+                        GUI.enabled = false;
+                        // TODO: Consider whether it makes more sense to simply
+                        //       not display the input
+                        field.FieldDetails.ToolTip = $"These options are not available on ${PlatformManager.GetFullName(platformConfig.Platform)}.";
+                    }
+
                     switch (field.FieldDetails.FieldType)
                     {
                         case ConfigFieldType.Text:
@@ -267,7 +276,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
                                 GUIEditorUtility.RenderInput(field.FieldDetails,
                                     (ProductionEnvironments)field.FieldInfo.GetValue(config), labelWidth));
                             break;
-                        case ConfigFieldType.ClientCredentials:
+                        case ConfigFieldType.SetOfClientCredentials:
                             field.FieldInfo.SetValue(config, GUIEditorUtility.RenderInput(field.FieldDetails, (SetOfNamed<EOSClientCredentials>)field.FieldInfo.GetValue(config), labelWidth));
                             break;
                         case ConfigFieldType.NamedGuid:
@@ -276,9 +285,27 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
                         case ConfigFieldType.Version:
                             field.FieldInfo.SetValue(config, GUIEditorUtility.RenderInput(field.FieldDetails, (Version)field.FieldInfo.GetValue(config), labelWidth));
                             break;
-                       default:
+                        case ConfigFieldType.Deployment:
+                            field.FieldInfo.SetValue(config, GUIEditorUtility.RenderInput(field.FieldDetails, (Deployment)field.FieldInfo.GetValue(config), labelWidth));
+                            break;
+                        case ConfigFieldType.Enum:
+                            Type enumType = field.FieldInfo.GetValue(config).GetType();
+                            var method = typeof(GUIEditorUtility).GetMethod("RenderEnumInput", BindingFlags.Public | BindingFlags.Static);
+                            var genericMethod = method.MakeGenericMethod(enumType);
+                            field.FieldInfo.SetValue(config, genericMethod.Invoke(this, new[] { field.FieldDetails, field.FieldInfo.GetValue(config), labelWidth, null }));
+                            break;
+                        case ConfigFieldType.Float:
+                            field.FieldInfo.SetValue(config, GUIEditorUtility.RenderInput(field.FieldDetails, (float)field.FieldInfo.GetValue(config), labelWidth));
+                            break;
+                        case ConfigFieldType.ClientCredentials:
+                            field.FieldInfo.SetValue(config, GUIEditorUtility.RenderInput(field.FieldDetails, (EOSClientCredentials)field.FieldInfo.GetValue(config), labelWidth));
+                            break;
+                        default:
                             throw new ArgumentOutOfRangeException();
                     }
+
+                    // Re-enable the GUI
+                    GUI.enabled = true;
                 }
             }
         }

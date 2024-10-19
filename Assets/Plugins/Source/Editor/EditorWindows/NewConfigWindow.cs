@@ -21,12 +21,15 @@
  */
 
 // Uncomment the following line to see the experimental new config window
-//#define ENABLE_NEW_CONFIG_WINDOW
+#define ENABLE_NEW_CONFIG_WINDOW
 
 #if ENABLE_NEW_CONFIG_WINDOW
 namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 {
+    using PlayEveryWare.EpicOnlineServices.Editor.Utility;
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
     using UnityEditor;
     using UnityEngine;
@@ -42,7 +45,9 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
         /// platforms (represents information that is common to all
         /// circumstances).
         /// </summary>
-        private ConfigEditor<ProductConfig> _productConfigEditor;
+        private ConfigEditor<ProductConfig> _productConfigEditor = new();
+
+        private ConfigEditor<AndroidConfig> _androidConfigEditor = new();
 
         public NewConfigWindow() : base("EOS Configuration") { }
 
@@ -55,13 +60,14 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 
         protected override async Task AsyncSetup()
         {
-            _productConfigEditor = new();
             await _productConfigEditor.LoadAsync();
+            await _androidConfigEditor.LoadAsync();
         }
 
         protected override void RenderWindow()
         {
-            _ = _productConfigEditor.RenderAsync();
+             _ = _productConfigEditor.RenderAsync();
+             _ = _androidConfigEditor.RenderAsync();
 
             GUI.SetNextControlName("Save");
             if (GUILayout.Button("Save All Changes"))
@@ -71,9 +77,9 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
             }
         }
 
-        private void Save()
+        private async void Save()
         {
-            _productConfigEditor.Save(true);
+            await _androidConfigEditor.Save(true);
         }
     }
 }

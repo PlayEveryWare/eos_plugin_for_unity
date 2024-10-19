@@ -24,8 +24,8 @@ namespace PlayEveryWare.EpicOnlineServices
 {
     using System;
 
-    [AttributeUsage(AttributeTargets.Field)]
-    public class ConfigFieldAttribute : Attribute
+    [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
+    public class PlatformDependentConfigFieldAttribute : Attribute
     {
         /// <summary>
         /// The label for the config field.
@@ -35,10 +35,10 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <summary>
         /// The tooltip to display when the user hovers a mouse over the label.
         /// </summary>
-        public string ToolTip { get; set; }
+        public string ToolTip { get; }
 
         /// <summary>
-        /// The group that config field belongs to (helps to cluster config
+        /// The group that that config field belongs to (helps to cluster config
         /// fields into meaningful groups).
         /// </summary>
         public int Group { get; }
@@ -49,28 +49,13 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </summary>
         public ConfigFieldType FieldType { get; }
 
-        /// <summary>
-        /// Indicates what platforms the config field is valid for.
-        /// </summary>
-        public PlatformManager.Platform PlatformsEnabledOn { get; }
-
-        public ConfigFieldAttribute(
-            PlatformManager.Platform enabledOn,
-            string label,
-            ConfigFieldType type,
-            string tooltip = null,
-            int group = -1) : this(label, type, tooltip, group)
-        {
-            PlatformsEnabledOn = enabledOn;
-        }
-
-        public ConfigFieldAttribute(
+        public PlatformDependentConfigFieldAttribute(
+            PlatformManager.Platform supportedPlatforms,
             string label,
             ConfigFieldType type,
             string tooltip = null,
             int group = -1)
         {
-            PlatformsEnabledOn = PlatformManager.Platform.All; 
             Label = label;
             ToolTip = tooltip;
             Group = group;

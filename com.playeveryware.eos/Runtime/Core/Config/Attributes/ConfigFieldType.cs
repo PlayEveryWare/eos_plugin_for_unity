@@ -88,12 +88,28 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <summary>
         /// A set of named client credentials.
         /// </summary>
+        SetOfClientCredentials,
+
+        /// <summary>
+        /// A single client credential pair.
+        /// </summary>
         ClientCredentials,
 
         /// <summary>
         /// A version value.
         /// </summary>
         Version,
+
+        /// <summary>
+        /// Used to render a dropdown whereby a user can select a deployment.
+        /// </summary>
+        Deployment,
+
+        /// <summary>
+        /// Represents a field that is used to select a value (or values) for an
+        /// enum.
+        /// </summary>
+        Enum,
 
         /// <summary>
         /// Indicates that the config has a button that needs rendering. This is

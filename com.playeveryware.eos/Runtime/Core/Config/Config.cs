@@ -130,7 +130,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// work on a Config after it has been retrieved and before it is
         /// returned by the Get or GetAsync functions.
         /// </summary>
-        protected virtual void PrepareConfig()
+        protected virtual void MigrateConfig()
         {
             // Default implementation is to do nothing.
         }
@@ -232,7 +232,7 @@ namespace PlayEveryWare.EpicOnlineServices
 #endif
 
             // Call prepare function.
-            instance.PrepareConfig();
+            instance.MigrateConfig();
 
             // Return the config being retrieved.
             return instance;
@@ -276,7 +276,7 @@ namespace PlayEveryWare.EpicOnlineServices
             s_cachedConfigs.Add(typeof(T), instance);
 #endif
             // Call prepare function.
-            instance.PrepareConfig();
+            instance.MigrateConfig();
 
             // Return the config being retrieved.
             return instance;

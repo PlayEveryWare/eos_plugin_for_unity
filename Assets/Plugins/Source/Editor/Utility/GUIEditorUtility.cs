@@ -31,6 +31,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
     using UnityEditor;
     using UnityEditorInternal;
     using UnityEngine;
+    using Config = EpicOnlineServices.Config;
 
     public static class GUIEditorUtility
     {
@@ -576,6 +577,77 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             return Version.TryParse(tempStringVersion, out Version newValue) ? newValue : value;
         }
 
+        public static EOSClientCredentials RenderInput(ConfigFieldAttribute configFieldAttribute,
+            EOSClientCredentials value,
+            float labelWidth, string tooltip = null)
+        {
+            return InputRendererWrapper(configFieldAttribute.Label, value, labelWidth, tooltip,
+                (label, credentials1, width, s) =>
+                {
+                    List<Named<EOSClientCredentials>> credentials = Config.Get<ProductConfig>().Clients.ToList();
+                    List<string> credentialsLabels = new();
+                    int selectedIndex = -1;
+                    int currentIndex = 0;
+                    foreach (Named<EOSClientCredentials> cred in credentials)
+                    {
+                        if (cred.Value.Equals(value))
+                        {
+                            selectedIndex = currentIndex;
+                        }
+
+                        credentialsLabels.Add($"{cred.Name} : {cred.Value.ClientId}");
+
+                        currentIndex++;
+                    }
+
+                    int newIndex = EditorGUILayout.Popup(
+                        CreateGUIContent(configFieldAttribute.Label, configFieldAttribute.ToolTip),
+                        selectedIndex,
+                        credentialsLabels.ToArray());
+
+                    return (newIndex >= 0 && newIndex < credentials.Count) ? credentials[newIndex].Value : value;
+                });
+        }
+
+        public static Deployment RenderInput(ConfigFieldAttribute configFieldAttribute, Deployment value,
+            float labelWidth, string tooltip = null)
+        {
+            return InputRendererWrapper(configFieldAttribute.Label, value, labelWidth, tooltip,
+                (label, value, width, s) =>
+                {
+                    List<Named<Deployment>> deployments = Config.Get<ProductConfig>().Environments.Deployments.ToList();
+                    // Create the list of deployments
+                    List<string> deploymentLabels = new();
+                    int selectedIndex = -1;
+                    int currentIndex = 0;
+                    foreach (Named<Deployment> deployment in deployments)
+                    {
+                        if (value.DeploymentId == deployment.Value.DeploymentId)
+                            selectedIndex = currentIndex;
+
+                        deploymentLabels.Add($"{deployment.Name}: {deployment.Value.DeploymentId}");
+
+                        currentIndex++;
+                    }
+
+                    int newIndex = EditorGUILayout.Popup(
+                        CreateGUIContent(configFieldAttribute.Label, configFieldAttribute.ToolTip),
+                        selectedIndex,
+                        deploymentLabels.ToArray());
+
+                    return (newIndex >= 0 && newIndex < deployments.Count) ? deployments[newIndex].Value : value;
+                });
+            
+        }
+
+        public static TEnum RenderEnumInput<TEnum>(ConfigFieldAttribute configFieldAttribute, TEnum value, float labelWidth,
+            string tooltip = null) where TEnum : Enum
+        {
+            return InputRendererWrapper(configFieldAttribute.Label, value, labelWidth, tooltip,
+                (label, @enum, width, s) => (TEnum)EditorGUILayout.EnumFlagsField(
+                    CreateGUIContent(label, configFieldAttribute.ToolTip), value, GUILayout.ExpandWidth(true)));
+        }
+
         public static Version RenderInput(ConfigFieldAttribute configFieldAttribute, Version value, float labelWidth,
             string tooltip = null)
         {
@@ -796,24 +868,26 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
         public static double RenderInput(ConfigFieldAttribute configFieldDetails, double value, float labelWidth, string tooltip = null)
         {
             return InputRendererWrapper(configFieldDetails.Label, value, labelWidth, tooltip,
-                (label, value1, width, s) =>
-                {
-                    return EditorGUILayout.DoubleField(
-                        CreateGUIContent(configFieldDetails.Label, tooltip),
-                        value,
-                        GUILayout.ExpandWidth(true));
-                });
+                (label, value1, width, s) => EditorGUILayout.DoubleField(
+                    CreateGUIContent(configFieldDetails.Label, tooltip),
+                    value,
+                    GUILayout.ExpandWidth(true)));
+        }
+
+        public static float RenderInput(ConfigFieldAttribute configFieldDetails, float value, float labelWidth,
+            string tooltip = null)
+        {
+            return InputRendererWrapper(configFieldDetails.Label, value, labelWidth, tooltip, (label, f, width, s) => EditorGUILayout.FloatField(
+                CreateGUIContent(configFieldDetails.Label, configFieldDetails.ToolTip), value,
+                GUILayout.ExpandWidth(true)));
         }
 
         public static string RenderInput(ConfigFieldAttribute configFieldDetails, string value, float labelWidth,
             string tooltip = null)
         {
             return InputRendererWrapper(configFieldDetails.Label, value, labelWidth, tooltip,
-                (label, s, width, tooltip1) =>
-                {
-                    return EditorGUILayout.TextField(CreateGUIContent(configFieldDetails.Label, tooltip), value,
-                        GUILayout.ExpandWidth(true));
-                });
+                (label, s, width, tooltip1) => EditorGUILayout.TextField(CreateGUIContent(configFieldDetails.Label, tooltip), value,
+                    GUILayout.ExpandWidth(true)));
         }
 
         public static ulong RenderInput(ConfigFieldAttribute configFieldDetails, ulong value, float labelWidth,
@@ -842,7 +916,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
                 (label, value1, width, s) =>
                 {
                     _ = SafeTranslatorUtility.TryConvert(value1, out int temp);
-                    
+
                     int intValue = EditorGUILayout.IntField(
                         CreateGUIContent(configFieldDetails.Label, tooltip),
                         temp,
