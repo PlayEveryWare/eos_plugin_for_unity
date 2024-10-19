@@ -738,8 +738,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             return value;
         }
 
-        public static Named<Guid> RenderInput(ConfigFieldAttribute configFieldDetails, Named<Guid> value, float labelWidth,
-            string tooltip = null)
+        public static Named<Guid> RenderInput(ConfigFieldAttribute configFieldDetails, Named<Guid> value, float labelWidth, string tooltip = null)
         {
             var newValue = InputRendererWrapper<Named<Guid>>(configFieldDetails.Label, value, labelWidth, tooltip,
                 (label, s, width, tooltip1) =>
@@ -811,8 +810,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             return newValue;
         }
 
-        public static string RenderInput(DirectoryPathFieldAttribute configFieldAttributeDetails, string value, float labelWidth,
-            string tooltip = null)
+        public static string RenderInput(DirectoryPathFieldAttribute configFieldAttributeDetails, string value, float labelWidth, string tooltip = null)
         {
             EditorGUILayout.BeginHorizontal();
 
@@ -874,24 +872,21 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
                     GUILayout.ExpandWidth(true)));
         }
 
-        public static float RenderInput(ConfigFieldAttribute configFieldDetails, float value, float labelWidth,
-            string tooltip = null)
+        public static float RenderInput(ConfigFieldAttribute configFieldDetails, float value, float labelWidth, string tooltip = null)
         {
             return InputRendererWrapper(configFieldDetails.Label, value, labelWidth, tooltip, (label, f, width, s) => EditorGUILayout.FloatField(
                 CreateGUIContent(configFieldDetails.Label, configFieldDetails.ToolTip), value,
                 GUILayout.ExpandWidth(true)));
         }
 
-        public static string RenderInput(ConfigFieldAttribute configFieldDetails, string value, float labelWidth,
-            string tooltip = null)
+        public static string RenderInput(ConfigFieldAttribute configFieldDetails, string value, float labelWidth, string tooltip = null)
         {
             return InputRendererWrapper(configFieldDetails.Label, value, labelWidth, tooltip,
                 (label, s, width, tooltip1) => EditorGUILayout.TextField(CreateGUIContent(configFieldDetails.Label, tooltip), value,
                     GUILayout.ExpandWidth(true)));
         }
 
-        public static ulong RenderInput(ConfigFieldAttribute configFieldDetails, ulong value, float labelWidth,
-            string tooltip = null)
+        public static ulong RenderInput(ConfigFieldAttribute configFieldDetails, ulong value, float labelWidth, string tooltip = null)
         {
             return InputRendererWrapper(configFieldDetails.Label, value, labelWidth, tooltip,
                 (label, value1, width, s) =>
@@ -909,8 +904,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
                 });
         }
 
-        public static uint RenderInput(ConfigFieldAttribute configFieldDetails, uint value, float labelWidth,
-            string tooltip = null)
+        public static uint RenderInput(ConfigFieldAttribute configFieldDetails, uint value, float labelWidth, string tooltip = null)
         {
             return InputRendererWrapper(configFieldDetails.Label, value, labelWidth, tooltip,
                 (label, value1, width, s) =>
@@ -936,18 +930,22 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             });
         }
 
-        private static T InputRendererWrapper<T>(string label, T value, float labelWidth, string toolTip, InputRenderDelegate<T> renderFn)
+        private static T InputRendererWithAlignedLabel<T>(float labelWidth, Func<T> renderFn)
         {
-            // Store the current label width so that it can be subsequently be restored.
             float currentLabelWidth = EditorGUIUtility.labelWidth;
 
             EditorGUIUtility.labelWidth = labelWidth;
 
-            T newValue = renderFn(label, value, labelWidth, toolTip);
+            T newValue = renderFn();
 
             EditorGUIUtility.labelWidth = currentLabelWidth;
 
             return newValue;
+        }
+
+        private static T InputRendererWrapper<T>(string label, T value, float labelWidth, string toolTip, InputRenderDelegate<T> renderFn)
+        {
+            return InputRendererWithAlignedLabel(labelWidth, () => renderFn(label, value, labelWidth, toolTip));
         }
 
         #endregion
