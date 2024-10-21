@@ -116,7 +116,7 @@ namespace PlayEveryWare.EpicOnlineServices
             //// relies on EpicOnlineServicesConfig.json, so for now this entry is different. What is commented below is what it *should* be to be consistent.
             //// AddPlatformInfo(Platform.Windows,     "Windows",         "eos_windows_config.json", typeof(EOSWindowsConfig), ".dll");
             //// For the time being, this is the entry for the Windows platform
-            AddPlatformInfo(Platform.Windows,     "Windows", "EpicOnlineServicesConfig.json", typeof(WindowsConfig), "Standalone");
+            AddPlatformInfo(Platform.Windows,     "Windows", "eos_windows_config.json", typeof(WindowsConfig), "Standalone");
         }
 
         public static void SetPlatformDetails(Platform platform, Type configType, string dynamicLibraryExtension)

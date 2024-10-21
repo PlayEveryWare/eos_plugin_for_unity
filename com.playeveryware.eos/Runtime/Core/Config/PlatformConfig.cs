@@ -250,6 +250,8 @@ namespace PlayEveryWare.EpicOnlineServices
 
         protected sealed class NonOverrideableConfigValues : Config
         {
+            public string deploymentID;
+            public string clientID;
             public uint tickBudgetInMilliseconds;
             public double taskNetworkTimeoutSeconds;
             public WrappedPlatformFlags platformOptionsFlags;
@@ -365,6 +367,31 @@ namespace PlayEveryWare.EpicOnlineServices
             tickBudgetInMilliseconds = mainNonOverrideableConfig.tickBudgetInMilliseconds;
             taskNetworkTimeoutSeconds = mainNonOverrideableConfig.taskNetworkTimeoutSeconds;
             alwaysSendInputToOverlay = mainNonOverrideableConfig.alwaysSendInputToOverlay;
+
+            ProductConfig productConfig = Get<ProductConfig>();
+            string compDeploymentString = mainNonOverrideableConfig.deploymentID.ToString().ToLower();
+
+            foreach(Named<Deployment> dep in productConfig.Environments.Deployments)
+            {
+                if (!compDeploymentString.Equals(dep.Value.DeploymentId.ToString().Replace("-", "").ToLower()))
+                {
+                    continue;
+                }
+
+                deployment = dep.Value;
+                break;
+            }
+
+            foreach (Named<EOSClientCredentials> creds in productConfig.Clients)
+            {
+                if (!creds.Value.ClientId.Equals(mainNonOverrideableConfig.clientID))
+                {
+                    continue;
+                }
+
+                clientCredentials = creds.Value;
+                break;
+            }
         }
 
         protected virtual void MigratePlatformFlags(EOSConfig overrideValuesFromFieldMember,
@@ -424,26 +451,20 @@ namespace PlayEveryWare.EpicOnlineServices
 
             // Do nothing if the values have already been moved, or if
             // overrideValues is null.
-#pragma warning disable CS0612 // Type or member is obsolete
-            if (_configValuesMigrated || null == overrideValues)
+
+            if (_configValuesMigrated)
             {
                 return;
             }
-#pragma warning restore CS0612 // Type or member is obsolete
-
-            ProductConfig productConfig = Get<ProductConfig>();
-
-            foreach (Named<Deployment> dep in productConfig.Environments.Deployments)
-            {
-
-            }
-
-            // This config represents the set of values that previously were 
-            // overrideable from the editor window. These values should take
-            // priority over the main config if they are not default values.
-            OverrideableConfigValues mainOverrideableConfigValues = Get<OverrideableConfigValues>();
 #pragma warning disable CS0612 // Type or member is obsolete
-            MigrateOverrideableConfigValues(overrideValues, mainOverrideableConfigValues);
+            if (null != overrideValues)
+            {
+                // This config represents the set of values that previously were 
+                // overrideable from the editor window. These values should take
+                // priority over the main config if they are not default values.
+                OverrideableConfigValues mainOverrideableConfigValues = Get<OverrideableConfigValues>();
+                MigrateOverrideableConfigValues(overrideValues, mainOverrideableConfigValues);
+            }
 #pragma warning restore CS0612 // Type or member is obsolete
 
             // This config represents the set of values that were not

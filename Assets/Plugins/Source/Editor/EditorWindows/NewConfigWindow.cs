@@ -117,6 +117,8 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 
         private async void Save()
         {
+            await _productConfigEditor.Save();
+
             foreach (IConfigEditor editor in _platformConfigEditors)
             {
                 await editor.Save();

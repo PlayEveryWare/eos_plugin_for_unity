@@ -26,6 +26,11 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
     using UnityEngine;
     using Utility;
 
+    public class WindowsConfigEditor : PlatformConfigEditor<WindowsConfig>
+    {
+    }
+
+
     /// <summary>
     /// Contains implementations of IConfigEditor that are common to all
     /// ConfigEditors that represent the configuration options for a specific
