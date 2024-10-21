@@ -99,10 +99,13 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
             // Render the generic product configuration stuff.
             _ = _productConfigEditor.RenderAsync();
 
-            _selectedTab = GUILayout.Toolbar(_selectedTab, _platformTabs);
-            GUILayout.Space(10);
+            if (_platformTabs != null && _platformConfigEditors.Count != 0)
+            {
+                _selectedTab = GUILayout.Toolbar(_selectedTab, _platformTabs);
+                GUILayout.Space(10);
 
-            _ = _platformConfigEditors[_selectedTab].RenderAsync();
+                _ = _platformConfigEditors[_selectedTab].RenderAsync();
+            }
 
             GUI.SetNextControlName("Save");
             if (GUILayout.Button("Save All Changes"))
