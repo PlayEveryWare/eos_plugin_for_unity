@@ -48,7 +48,16 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 
         private static readonly string ConfigDirectory = Path.Combine("Assets", "StreamingAssets", "EOS");
 
-        int toolbarInt;
+        /// <summary>
+        /// Stores the current selected configuration tab.
+        /// "Main" is hard wired to be 0. By default "Main" is the selected tab.
+        /// Everything else is based on its position inside the
+        /// <see cref="platformSpecificConfigEditors"/> list, offset by -1.
+        /// For example if Android is at index 0 of the list, then when 
+        /// toolbarInt is set to 1, the Android configuration should render.
+        /// </summary>
+        int toolbarInt { get; set; }
+
         string[] toolbarTitleStrings;
 
         EOSConfig mainEOSConfigFile;
@@ -376,7 +385,22 @@ _WIN32 || _WIN64
         protected override void RenderWindow()
         {
             int xCount = (int)(EditorGUIUtility.currentViewWidth / 200);
-            toolbarInt = GUILayout.SelectionGrid(toolbarInt, toolbarTitleStrings, xCount);
+
+            // Determine the new toolbarInt state, so that it can be compared
+            // against the current value, determining if this changed
+            int newToolbarInt = GUILayout.SelectionGrid(toolbarInt, toolbarTitleStrings, xCount);
+
+            // If the selection is now different, deselect all selected textboxes
+            // This is to address #EOS-2085: Fix Editor Phantom Fields,
+            // wherein selecting a text box, then navigating to another config
+            // tab, would result in a "phantom" value appearing
+            if (newToolbarInt != toolbarInt && EditorGUIUtility.keyboardControl > 0)
+            {
+                GUI.FocusControl(null);
+            }
+
+            toolbarInt = newToolbarInt;
+
             switch (toolbarInt)
             {
                 case 0:
