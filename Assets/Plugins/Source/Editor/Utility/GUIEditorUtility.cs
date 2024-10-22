@@ -257,6 +257,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
         {
             { typeof(Deployment), (attr, val, width) => RenderInput(attr, (Deployment)val, width) },
             { typeof(EOSClientCredentials), (attr, val, width) => RenderInput(attr, (EOSClientCredentials)val, width) },
+            { typeof(SetOfNamed<EOSClientCredentials>), (attr, val, width) => RenderInput(attr, (SetOfNamed<EOSClientCredentials>)val, width) },
             { typeof(string), (attr, val, width) => RenderInput(attr, (string)val, width) },
             { typeof(ulong), (attr, val, width) => RenderInput(attr, (ulong)val, width) },
             { typeof(uint), (attr, val, width) => RenderInput(attr, (uint)val, width) },

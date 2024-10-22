@@ -86,6 +86,9 @@ namespace PlayEveryWare.EpicOnlineServices
         [ConfigField("Client Credentials", ConfigFieldType.ClientCredentials, "Select client credentials to use.", 0)]
         public EOSClientCredentials clientCredentials;
 
+        [ConfigField("Is Server", ConfigFieldType.Flag, "Check this if your game is a dedicated game server.", 0)]
+        public bool isServer;
+
         #endregion
 
         #region Flags
