@@ -104,7 +104,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
 
         public override sealed void RenderContents()
         {
-            RenderConfigFields();
+            GUIEditorUtility.RenderInputs(ref config);
         }
     }
 }

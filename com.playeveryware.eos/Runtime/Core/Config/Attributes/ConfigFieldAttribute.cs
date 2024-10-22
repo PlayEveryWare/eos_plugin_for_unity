@@ -24,7 +24,7 @@ namespace PlayEveryWare.EpicOnlineServices
 {
     using System;
 
-    [AttributeUsage(AttributeTargets.Field)]
+    [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
     public class ConfigFieldAttribute : Attribute
     {
         /// <summary>
@@ -43,6 +43,8 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </summary>
         public int Group { get; }
 
+        public string HelpURL { get; }
+
         /// <summary>
         /// The type of the field - used to inform how to render input controls
         /// and validation.
@@ -59,7 +61,8 @@ namespace PlayEveryWare.EpicOnlineServices
             string label,
             ConfigFieldType type,
             string tooltip = null,
-            int group = -1) : this(label, type, tooltip, group)
+            int group = -1,
+            string helpUrl = null) : this(label, type, tooltip, group, helpUrl)
         {
             PlatformsEnabledOn = enabledOn;
         }
@@ -68,9 +71,11 @@ namespace PlayEveryWare.EpicOnlineServices
             string label,
             ConfigFieldType type,
             string tooltip = null,
-            int group = -1)
+            int group = -1,
+            string helpUrl = null)
         {
-            PlatformsEnabledOn = PlatformManager.Platform.All; 
+            PlatformsEnabledOn = PlatformManager.Platform.All;
+            HelpURL = helpUrl;
             Label = label;
             ToolTip = tooltip;
             Group = group;

@@ -119,6 +119,8 @@ namespace PlayEveryWare.EpicOnlineServices
         /// arbitrary functionality within a ConfigEditor.
         /// </summary>
         Button,
+
+        InitializeThreadAffinity,
     }
 
 }

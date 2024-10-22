@@ -8,8 +8,8 @@
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -47,7 +47,7 @@ namespace PlayEveryWare.EpicOnlineServices
     {
         "Deployment",
         "Flags",
-        "Thread Affinity & Tick Budgets",
+        "Tick Budgets",
         "Overlay Options"
     }, false)]
     public abstract class PlatformConfig : Config
@@ -96,20 +96,20 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <summary>
         /// Flags; used to initialize the EOS platform.
         /// </summary>
-        [ConfigField("Platform Options",
+        [ConfigField("Platform Flags",
             ConfigFieldType.Enum,
             "Platform option flags",
-            1)]
+            1, "https://dev.epicgames.com/docs/epic-online-services/eos-get-started/working-with-the-eos-sdk/eos-overlay-overview#eos-platform-flags-for-the-eos-overlay")]
         [JsonConverter(typeof(ListOfStringsToPlatformFlags))]
         public WrappedPlatformFlags platformOptionsFlags;
 
         /// <summary>
         /// Flags; used to set user auth when logging in.
         /// </summary>
-        [ConfigField("Auth Scope Options",
+        [ConfigField("Auth Scope Flags",
             ConfigFieldType.Enum,
             "Platform option flags",
-            1)]
+            1, "https://dev.epicgames.com/docs/api-ref/enums/eos-e-auth-scope-flags?lang=en-US")]
         [JsonConverter(typeof(ListOfStringsToAuthScopeFlags))]
         public AuthScopeFlags authScopeOptionsFlags;
 
@@ -119,7 +119,7 @@ namespace PlayEveryWare.EpicOnlineServices
         [ConfigField("Integrated Platform Management Flags", 
             ConfigFieldType.Enum, "Integrated Platform Management " +
                                   "Flags for platform specific options.",
-            1)]
+            1, "https://dev.epicgames.com/docs/api-ref/enums/eos-e-integrated-platform-management-flags")]
         [JsonConverter(typeof(ListOfStringsToIntegratedPlatformManagementFlags))]
         [JsonProperty("flags")] // Allow deserialization from old field member.
         public IntegratedPlatformManagementFlags integratedPlatformManagementFlags;
@@ -161,8 +161,12 @@ namespace PlayEveryWare.EpicOnlineServices
         // This compile conditional is here so that when EOS is disabled, nothing is
         // referenced in the Epic namespace.
 #if !EOS_DISABLE
-        //[ConfigField("Thread Affinity")]
-        public InitializeThreadAffinity threadAffinity;
+        [ConfigField("Thread Affinity Options", 
+            ConfigFieldType.InitializeThreadAffinity, 
+            "Defines the thread affinity for threads started by the " +
+            "EOS SDK. Leave values at zero to use default platform settings.",
+            2, "https://dev.epicgames.com/docs/api-ref/structs/eos-initialize-thread-affinity")]
+        public WrappedInitializeThreadAffinity threadAffinity;
 #endif
         #endregion
 

@@ -23,11 +23,13 @@
 namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
 {
     using Common;
+    using Epic.OnlineServices.Platform;
     using EpicOnlineServices.Utility;
     using System;
     using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
+    using System.Reflection;
     using UnityEditor;
     using UnityEditorInternal;
     using UnityEngine;
@@ -51,7 +53,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
         private const int HINT_RECT_ADJUST_X = 2;
         private const int HINT_RECT_ADJUST_Y = 1;
 
-        private static GUIContent CreateGUIContent(string label, string tooltip = null)
+        private static GUIContent CreateGUIContent(string label, string tooltip = null, bool bold = false)
         {
             label ??= "";
             return tooltip == null ? new GUIContent(label) : new GUIContent(label, tooltip);
@@ -64,23 +66,24 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
         /// <param name="hideLabel">Text to display when the foldout is shown.</param>
         /// <param name="showLabel">Text to display when the foldout is closed.</param>
         /// <param name="renderContents">Function to call when foldout is open.</param>
-        public static void RenderFoldout(ref bool isOpen, string hideLabel, string showLabel, Action renderContents)
+        public static bool RenderFoldout(bool isOpen, string hideLabel, string showLabel, Action renderContents, string tooltip = null)
         {
-            isOpen = EditorGUILayout.Foldout(isOpen, (isOpen) ? hideLabel : showLabel);
+            isOpen = EditorGUILayout.Foldout(isOpen, isOpen ? hideLabel : showLabel);
 
             if (!isOpen)
             {
-                return;
+                return false;
             }
 
             // This simulates the foldout being indented
-            GUILayout.BeginVertical();
-            GUILayout.BeginHorizontal();
-            GUILayout.Space(20f);
+            //GUILayout.BeginVertical();
+            //GUILayout.BeginHorizontal();
+            //GUILayout.Space(20f);
             renderContents();
-            GUILayout.EndHorizontal();
-            GUILayout.Space(10f);
-            GUILayout.EndVertical();
+            //GUILayout.EndHorizontal();
+            //GUILayout.Space(10f);
+            //GUILayout.EndVertical();
+            return true;
         }
 
         public static void AssigningTextField(string label, ref string value, float labelWidth = -1,
@@ -220,6 +223,265 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
         #region New methods for rendering input fields
 
         /// <summary>
+        /// Use reflection to retrieve a collection of fields that have been
+        /// assigned custom ConfigFieldAttribute attributes, grouping by group,
+        /// and sorting by group.
+        /// </summary>
+        /// <returns>A collection of config fields.</returns>
+        private static IOrderedEnumerable<IGrouping<int, (FieldInfo FieldInfo, ConfigFieldAttribute FieldDetails)>> GetFieldsByGroup<T>()
+        {
+            return typeof(T).GetFields(BindingFlags.Public | BindingFlags.Instance)
+                .Where(field => field.GetCustomAttribute<ConfigFieldAttribute>() != null)
+                .Select(info => (info, info.GetCustomAttribute<ConfigFieldAttribute>()))
+                .GroupBy(r => r.Item2.Group)
+                .OrderBy(group => group.Key);
+        }
+
+        private static IOrderedEnumerable<IGrouping<int, (MemberInfo MemberInfo, ConfigFieldAttribute FieldDetails)>> GetMembersByGroup<T>()
+        {
+            var fields = typeof(T).GetFields(BindingFlags.Public | BindingFlags.Instance);
+            var properties = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance);
+
+            var members = fields.Cast<MemberInfo>().Concat(properties.Cast<MemberInfo>());
+
+            return members
+                .Where(member => member.GetCustomAttribute<ConfigFieldAttribute>() != null)
+                .Select(member => (MemberInfo: member, FieldDetails: member.GetCustomAttribute<ConfigFieldAttribute>()))
+                .GroupBy(r => r.FieldDetails.Group)
+                .OrderBy(group => group.Key);
+        }
+
+        delegate object RenderInputDelegate(ConfigFieldAttribute attribute, object value, float labelWidth);
+
+        static readonly Dictionary<Type, RenderInputDelegate> RenderInputMethods = new()
+        {
+            { typeof(Deployment), (attr, val, width) => RenderInput(attr, (Deployment)val, width) },
+            { typeof(EOSClientCredentials), (attr, val, width) => RenderInput(attr, (EOSClientCredentials)val, width) },
+            { typeof(string), (attr, val, width) => RenderInput(attr, (string)val, width) },
+            { typeof(ulong), (attr, val, width) => RenderInput(attr, (ulong)val, width) },
+            { typeof(uint), (attr, val, width) => RenderInput(attr, (uint)val, width) },
+            { typeof(ProductionEnvironments), (attr, val, width) => RenderInput(attr, (ProductionEnvironments)val, width) },
+            { typeof(float), (attr, val, width) => RenderInput(attr, (float)val, width) },
+            { typeof(double), (attr, val, width) => RenderInput(attr, (double)val, width) },
+            { typeof(WrappedInitializeThreadAffinity), (attr, val, width) => RenderInput(attr, (WrappedInitializeThreadAffinity)val, width) },
+            { typeof(bool), (attr, val, width) => RenderInput(attr, (bool)val, width) },
+            // Add other specific types as needed
+        };
+
+        static readonly Dictionary<ConfigFieldType, FieldHandler> FieldHandlers = new()
+        {
+            { ConfigFieldType.Text, HandleField<string> },
+            { ConfigFieldType.FilePath, (target, fieldDetails, getValue, setValue, labelWidth) =>
+                HandleField<string>(target, (FilePathFieldAttribute)fieldDetails, getValue, setValue, labelWidth) },
+            { ConfigFieldType.Flag, HandleField<bool> },
+            { ConfigFieldType.DirectoryPath, (target, fieldDetails, getValue, setValue, labelWidth) =>
+                HandleField<string>(target, (DirectoryPathFieldAttribute)fieldDetails, getValue, setValue, labelWidth) },
+            { ConfigFieldType.Ulong, HandleField<ulong> },
+            { ConfigFieldType.Double, HandleField<double> },
+            { ConfigFieldType.TextList, HandleField<List<string>> },
+            { ConfigFieldType.Uint, HandleField<uint> },
+            { ConfigFieldType.Float, HandleField<float> },
+            { ConfigFieldType.ProductionEnvironments, HandleField<ProductionEnvironments> },
+            { ConfigFieldType.SetOfClientCredentials, HandleField<SetOfNamed<EOSClientCredentials>> },
+            { ConfigFieldType.NamedGuid, HandleField<Named<Guid>> },
+            { ConfigFieldType.Version, HandleField<Version> },
+            { ConfigFieldType.Deployment, HandleField<Deployment> },
+            { ConfigFieldType.ClientCredentials, HandleField<EOSClientCredentials> },
+            { ConfigFieldType.InitializeThreadAffinity, HandleField<WrappedInitializeThreadAffinity> },
+            { ConfigFieldType.Button, HandleButtonField },
+            { ConfigFieldType.Enum, HandleEnumField },
+            // Add other field types as needed
+        };
+
+        private static Dictionary<int, bool> _foldoutStates = new();
+
+        private static T RenderInput<T>(ConfigFieldAttribute attribute, T value, float labelWidth)
+        {
+            if (typeof(T) == typeof(WrappedInitializeThreadAffinity))
+            {
+                // Create a foldout label with a tooltip
+                GUIContent foldoutContent = new(attribute.Label, attribute.ToolTip);
+
+                if (!_foldoutStates.ContainsKey(attribute.GetHashCode()))
+                {
+                    _foldoutStates.Add(attribute.GetHashCode(), false);
+                }
+
+                GUIStyle boldFoldoutStyle = new(EditorStyles.foldout)
+                {
+                    fontStyle = FontStyle.Bold
+                };
+
+                if (!string.IsNullOrEmpty(attribute.HelpURL))
+                {
+                    EditorGUILayout.BeginHorizontal();
+                }
+
+                _foldoutStates[attribute.GetHashCode()] = EditorGUILayout.Foldout(_foldoutStates[attribute.GetHashCode()], foldoutContent, true, boldFoldoutStyle);
+
+                if (!string.IsNullOrEmpty(attribute.HelpURL))
+                {
+                    GUILayout.FlexibleSpace();
+                    RenderHelpIcon(attribute.HelpURL);
+                    EditorGUILayout.EndHorizontal();
+                }
+
+                if (_foldoutStates[attribute.GetHashCode()])
+                {
+                    RenderInputs(ref value);
+                }
+            }
+            return value;
+        }
+
+        static void HandleField<TField>(
+            object target,
+            ConfigFieldAttribute fieldDetails,
+            Func<object, object> getValue,
+            Action<object, object> setValue,
+            float labelWidth)
+        {
+            var currentValue = getValue(target);
+
+            object newValue;
+
+            if (RenderInputMethods.TryGetValue(typeof(TField), out var renderMethod))
+            {
+                newValue = renderMethod(fieldDetails, currentValue, labelWidth);
+            }
+            else
+            {
+                newValue = RenderInput(fieldDetails, (TField)currentValue, labelWidth);
+            }
+
+            setValue(target, newValue);
+        }
+
+
+        static void HandleButtonField(
+            object target,
+            ConfigFieldAttribute fieldDetails,
+            Func<object, object> getValue,
+            Action<object, object> setValue,
+            float labelWidth)
+        {
+            if (GUILayout.Button(fieldDetails.Label) && getValue(target) is Action onClick)
+            {
+                onClick();
+            }
+        }
+
+        static void HandleEnumField(
+            object target,
+            ConfigFieldAttribute fieldDetails,
+            Func<object, object> getValue,
+            Action<object, object> setValue,
+            float labelWidth)
+        {
+            var enumValue = getValue(target);
+            Type enumType = enumValue.GetType();
+            var method = typeof(GUIEditorUtility).GetMethod("RenderEnumInput", BindingFlags.Public | BindingFlags.Static);
+            var genericMethod = method.MakeGenericMethod(enumType);
+            var newValue = genericMethod.Invoke(null, new object[] { fieldDetails, enumValue, labelWidth });
+            setValue(target, newValue);
+        }
+
+
+
+        delegate void FieldHandler(
+            object target,
+            ConfigFieldAttribute fieldDetails,
+            Func<object, object> getValue,
+            Action<object, object> setValue,
+            float labelWidth);
+
+        /// <summary>
+        /// Render the config fields for the config that has been set to edit.
+        /// </summary>
+        /// <exception cref="NotImplementedException">
+        /// Thrown for types that are not yet implemented.
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown for types that are not yet implemented, and not accounted for
+        /// in the switch statement.
+        /// </exception>
+        public static void RenderInputs<T>(ref T value)
+        {
+            string[] groupLabels = typeof(T).GetCustomAttribute<ConfigGroupAttribute>()?.GroupLabels;
+
+            foreach (var fieldGroup in GetMembersByGroup<T>().ToList())
+            {
+                List<string> labelsInGroup = fieldGroup.Select(field => field.FieldDetails.Label).ToList();
+                float labelWidth = MeasureLongestLabelWidth(labelsInGroup);
+
+                // If there is a label for the field group, then display it.
+                if (0 <= fieldGroup.Key && groupLabels?.Length > fieldGroup.Key)
+                {
+                    GUILayout.Label(groupLabels[fieldGroup.Key], EditorStyles.boldLabel);
+                }
+
+                foreach (var member in fieldGroup)
+                {
+                    // Check if the config value should be disabled.
+                    if (value is PlatformConfig platformConfig &&
+                        (member.FieldDetails.PlatformsEnabledOn & platformConfig.Platform) == 0)
+                    {
+                        GUI.enabled = false;
+                        // TODO: Consider whether it makes more sense to simply not display the input
+                        member.FieldDetails.ToolTip = $"These options are not available on {PlatformManager.GetFullName(platformConfig.Platform)}.";
+                    }
+
+                    // Retrieve GetValue and SetValue functions
+                    Func<object, object> GetValueFn = null;
+                    Action<object, object> SetValueFn = null;
+
+                    if (member.MemberInfo is FieldInfo fieldInfo)
+                    {
+                        GetValueFn = fieldInfo.GetValue;
+                        SetValueFn = fieldInfo.SetValue;
+                    }
+                    else if (member.MemberInfo is PropertyInfo propertyInfo)
+                    {
+                        GetValueFn = propertyInfo.GetValue;
+                        SetValueFn = propertyInfo.SetValue;
+                    }
+                    else
+                    {
+                        continue; // Skip if MemberInfo is neither FieldInfo nor PropertyInfo
+                    }
+
+                    // Use the handler from the dictionary
+                    if (FieldHandlers.TryGetValue(member.FieldDetails.FieldType, out var handler))
+                    {
+                        handler(value, member.FieldDetails, GetValueFn, SetValueFn, labelWidth);
+                    }
+                    else
+                    {
+                        throw new ArgumentOutOfRangeException($"Unhandled field type: {member.FieldDetails.FieldType}");
+                    }
+
+                    GUI.enabled = true;
+                }
+            }
+        }
+
+        public static float MeasureLongestLabelWidth(List<string> labels)
+        {
+            GUIStyle labelStyle = new(GUI.skin.label);
+
+            string longestString = string.Empty;
+            foreach (string label in labels)
+            {
+                if (label.Length <= longestString.Length)
+                    continue;
+
+                longestString = label;
+            }
+
+            return labelStyle.CalcSize(new GUIContent(longestString)).x;
+        }
+
+        /// <summary>
         /// Used to describe the function used to render a field of type T.
         /// </summary>
         /// <typeparam name="T">
@@ -250,7 +512,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
         /// <param name="value">The value to put in the field.</param>
         /// <returns>The value entered in the field.</returns>
         private delegate T RenderBasicFieldDelegate<T>(Rect rect, T value);
-
 
         /// <summary>
         /// Used to render a field with an overlay hint label when the field has
@@ -385,6 +646,16 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
         /// <param name="url">The url to open when the icon is clicked on.</param>
         private static void RenderHelpIcon(Rect area, string url)
         {
+            RenderHelpIconInternal(url, (content, style) => GUI.Button(area, content, style));
+        }
+
+        private static void RenderHelpIcon(string url)
+        {
+            RenderHelpIconInternal(url, (content, style) => GUILayout.Button(content, style));
+        }
+
+        private static void RenderHelpIconInternal(string url, Func<GUIContent, GUIStyle, bool> renderButtonFn)
+        {
             GUIContent helpIcon = EditorGUIUtility.IconContent("_Help");
 
             Color hoverColor = !EditorGUIUtility.isProSkin ? new Color(0.2f, 0.2f, 0.2f) : new Color(0.8f, 0.8f, 0.8f);
@@ -396,13 +667,13 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             GUIStyle helpButtonStyle = new(EditorStyles.label)
             {
                 padding = new RectOffset(0, 0, 0, 0),
-                fixedWidth = 20,
-                fixedHeight = 20,
+                fixedWidth = EditorGUIUtility.singleLineHeight,
+                fixedHeight = EditorGUIUtility.singleLineHeight,
                 normal = { background = Texture2D.redTexture }, // No background by default
                 hover = { background = Texture2D.redTexture }, // Gray back
             };
 
-            if (GUI.Button(area, helpIcon, helpButtonStyle))
+            if (renderButtonFn(helpIcon, helpButtonStyle))
             {
                 Application.OpenURL(url);
             }
@@ -648,7 +919,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
         public static TEnum RenderEnumInput<TEnum>(ConfigFieldAttribute configFieldAttribute, TEnum value, float labelWidth) where TEnum : Enum
         {
             return InputRendererWrapper(configFieldAttribute.Label, configFieldAttribute.ToolTip, labelWidth, value,
-                EnumFlagsField);
+                EnumFlagsField, configFieldAttribute.HelpURL);
         }
 
         private static TEnum EnumFlagsField<TEnum>(GUIContent label, TEnum value, params GUILayoutOption[] options) where TEnum : Enum
@@ -712,6 +983,13 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
                     }
                 });
 
+            return value;
+        }
+
+        public static WrappedInitializeThreadAffinity RenderInput(ConfigFieldAttribute attribute, WrappedInitializeThreadAffinity value)
+        {
+            EditorGUILayout.LabelField(CreateGUIContent(attribute.Label, attribute.ToolTip), new GUIStyle() {fontStyle = FontStyle.Bold});
+            RenderInputs(ref value);
             return value;
         }
 
@@ -879,6 +1157,16 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             return SafeTranslatorUtility.TryConvert(longValue, out ulong newValue) ? newValue : value;
         }
 
+        private static ulong RenderInput(string label, string tooltip, ulong value, float labelWidth)
+        {
+            _ = SafeTranslatorUtility.TryConvert(value, out long temp);
+
+            long longValue = InputRendererWrapper(label, tooltip, labelWidth,
+                temp, EditorGUILayout.LongField);
+
+            return SafeTranslatorUtility.TryConvert(longValue, out ulong newValue) ? newValue : value;
+        }
+
         public static uint RenderInput(ConfigFieldAttribute configFieldDetails, uint value, float labelWidth)
         {
             _ = SafeTranslatorUtility.TryConvert(value, out int temp);
@@ -911,9 +1199,25 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             return newValue;
         }
 
-        private static T InputRendererWrapper<T>(string label, string toolTip, float labelWidth, T value, TestDelegate<T> renderFn)
+        private static T InputRendererWrapper<T>(string label, string toolTip, float labelWidth, T value, TestDelegate<T> renderFn, string helpURL = null)
         {
-            return InputRendererWithAlignedLabel(labelWidth, () => renderFn(CreateGUIContent(label, toolTip), value, GUILayout.ExpandWidth(true)));
+            return InputRendererWithAlignedLabel(labelWidth, () =>
+            {
+                if (!string.IsNullOrEmpty(helpURL))
+                {
+                    EditorGUILayout.BeginHorizontal();
+                }
+
+                T newValue = renderFn(CreateGUIContent(label, toolTip), value, GUILayout.ExpandWidth(true));
+
+                if (!string.IsNullOrEmpty(helpURL))
+                {
+                    RenderHelpIcon(helpURL);
+                    EditorGUILayout.EndHorizontal();
+                }
+
+                return newValue;
+            });
         }
 
         #endregion

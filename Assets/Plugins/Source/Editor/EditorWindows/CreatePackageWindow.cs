@@ -143,7 +143,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 
             GUILayout.Space(10f);
 
-            GUIEditorUtility.RenderFoldout(ref _showAdvanced, "Hide Advanced Options", "Show Advanced Options", RenderAdvanced);
+            _showAdvanced = GUIEditorUtility.RenderFoldout(_showAdvanced, "Hide Advanced Options", "Show Advanced Options", RenderAdvanced);
 
             GUILayout.Space(10f);
 
