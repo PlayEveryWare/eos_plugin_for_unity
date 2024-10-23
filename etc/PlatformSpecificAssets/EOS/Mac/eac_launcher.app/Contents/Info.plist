@@ -9,13 +9,18 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleVersion</key>
-	<string>1.6.5</string>
+	<string>1.9.0</string>
 	<key>CFBundleIconFile</key>
 	<string>AntiCheatIcon</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
 	<key>CFBundleExecutable</key>
 	<string>start_protected_game</string>
+	<key>LSArchitecturePriority</key>
+	<array>
+		<string>arm64</string>
+		<string>x86_64</string>
+	</array>
 	<key>NSHumanReadableCopyright</key>
 	<string>Copyright Epic Games, Inc. All Rights Reserved.</string>
 </dict>
