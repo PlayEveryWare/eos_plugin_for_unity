@@ -32,9 +32,9 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
     /// platform.
     /// </summary>
     /// <typeparam name="T">Intended to be a type accepted by the templated class ConfigHandler.</typeparam>
-    public abstract class PlatformConfigEditor<T> : ConfigEditor<T>, IPlatformConfigEditor where T : PlatformConfig
+    public class PlatformConfigEditor<T> : ConfigEditor<T>, IPlatformConfigEditor where T : PlatformConfig
     {
-        protected PlatformConfigEditor()
+        public PlatformConfigEditor()
         {
             Load();
 
@@ -42,60 +42,19 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
             _labelText = PlatformManager.GetFullName(config.Platform);
         }
 
-        /// <summary>
-        /// Given that most platform configurations allow for override values of a specific subset of the standard
-        /// options applied to all platforms, the rendering of these options is shared by all PlatformConfigEditor implementations.
-        ///
-        /// TODO: Consider the scenario where there are values that need to be overriden for one platform, but not for another. How would this work?
-        /// NOTE: Currently, all platforms override the same set of values, so this is not currently an issue.
-        /// </summary>
-        public virtual void RenderOverrides()
-        {
-            GUILayout.Label($"{PlatformManager.GetFullName(config.Platform)} Override Configuration Values",
-                EditorStyles.boldLabel);
-
-            // This compile conditional is here so that when EOS is disabled, nothing is
-            // referenced in the Epic namespace.
-#if !EOS_DISABLE
-            GUIEditorUtility.AssigningEnumField("Integrated Platform Management Flags", ref config.flags, 345);
-            GUIEditorUtility.AssigningEnumField("Override Platform Flags", ref config.overrideValues.platformOptionsFlags, 250);
-#endif
-
-            GUIEditorUtility.AssigningFloatToStringField("Override initial button delay for overlay", ref config.overrideValues.initialButtonDelayForOverlay, 250);
-
-            GUIEditorUtility.AssigningFloatToStringField("Override repeat button delay for overlay", ref config.overrideValues.repeatButtonDelayForOverlay, 250);
-
-            // TODO: As far as can be determined, it appears that the following
-            //       values are the only ones within "overrideValues" that are
-            //       actually being used to override the otherwise defined
-            //       values within EOSConfig. Changing the values in the fields
-            //       for which the input fields are rendered above does not 
-            //       seem to have any affect. 
-            // 
-            //       This is a bug, but is not relevant to the current task as 
-            //       of this writing, which is to simply add the field member
-            //       "integratedPlatformManagementFlags" to EOSConfig, and make
-            //       sure that field is editable within the editor.
-
-            GUIEditorUtility.AssigningULongToStringField("Thread Affinity: networkWork", ref config.overrideValues.ThreadAffinity_networkWork);
-            GUIEditorUtility.AssigningULongToStringField("Thread Affinity: storageIO", ref config.overrideValues.ThreadAffinity_storageIO);
-            GUIEditorUtility.AssigningULongToStringField("Thread Affinity: webSocketIO", ref config.overrideValues.ThreadAffinity_webSocketIO);
-            GUIEditorUtility.AssigningULongToStringField("Thread Affinity: P2PIO", ref config.overrideValues.ThreadAffinity_P2PIO);
-            GUIEditorUtility.AssigningULongToStringField("Thread Affinity: HTTPRequestIO", ref config.overrideValues.ThreadAffinity_HTTPRequestIO);
-            GUIEditorUtility.AssigningULongToStringField("Thread Affinity: RTCIO", ref config.overrideValues.ThreadAffinity_RTCIO);
-        }
-
         public bool IsPlatformAvailable()
         {
             return PlatformManager.GetAvailableBuildTargets().Contains(config.Platform);
         }
 
-        public virtual void RenderPlatformSpecificOptions() { }
+        public Texture GetPlatformIconTexture()
+        {
+            return PlatformManager.GetPlatformIcon(config.Platform);
+        }
 
         public override sealed void RenderContents()
         {
-            RenderPlatformSpecificOptions();
-            RenderOverrides();
+            GUIEditorUtility.RenderInputs(ref config);
         }
     }
 }

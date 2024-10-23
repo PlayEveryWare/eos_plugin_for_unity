@@ -25,6 +25,8 @@
 
 namespace PlayEveryWare.EpicOnlineServices
 {
+    using System;
+
     /// <summary>
     /// This enum is a 1:1 "duplicate" of the PlatformFlags enum provided by the
     /// EOS SDK. The reason it is implemented here is due to the restricted
@@ -77,6 +79,40 @@ namespace PlayEveryWare.EpicOnlineServices
         /// A bit that indicates your game would like to opt-in to automatic unloading of the overlay module when possible. This flag is only relevant on Consoles
         /// </summary>
         ConsoleEnableOverlayAutomaticUnloading = 0x00080
+    }
+
+    public static class WrappedPlatformFlagsExtensions
+    {
+        public static bool IsSupported(this WrappedPlatformFlags platformFlags, PlatformManager.Platform platform)
+        {
+            switch (platformFlags)
+            {
+                case WrappedPlatformFlags.None:
+                case WrappedPlatformFlags.LoadingInEditor:
+                case WrappedPlatformFlags.DisableOverlay:
+                case WrappedPlatformFlags.DisableSocialOverlay:
+                case WrappedPlatformFlags.Reserved1:
+                    return true;
+                case WrappedPlatformFlags.WindowsEnableOverlayD3D9:
+                case WrappedPlatformFlags.WindowsEnableOverlayD3D10:
+                case WrappedPlatformFlags.WindowsEnableOverlayOpengl:
+                    if (platform == PlatformManager.Platform.Windows)
+                    {
+                        return true;
+                    }
+                    break;
+                case WrappedPlatformFlags.ConsoleEnableOverlayAutomaticUnloading:
+                    if (platform == PlatformManager.Platform.Console)
+                    {
+                        return true;
+                    }
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(platformFlags), platformFlags, null);
+            }
+
+            return false;
+        }
     }
 }
 

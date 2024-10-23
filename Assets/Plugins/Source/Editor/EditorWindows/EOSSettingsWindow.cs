@@ -148,18 +148,40 @@ _WIN32 || _WIN64
             mainEOSConfigFile = await Config.GetAsync<EOSConfig>();
 
             platformSpecificConfigEditors ??= new List<IConfigEditor>();
-            var configEditors = ReflectionUtility.CreateInstancesOfDerivedGenericClasses(typeof(PlatformConfigEditor<>));
             List<string> toolbarStrings = new(new[] { "Main" });
-            foreach (IPlatformConfigEditor editor in configEditors.Cast<IPlatformConfigEditor>())
+            foreach (PlatformManager.Platform platform in Enum.GetValues(typeof(PlatformManager.Platform)))
             {
-                // If the platform for the editor is not available, then do not
-                // display the editor for it.
-                if (!editor.IsPlatformAvailable())
+                // Windows platform overrides are currently not displayed,
+                // because the values for Windows are read from the main
+                // EpicOnlineServicesConfig.json file.
+                if (platform == PlatformManager.Platform.Windows)
+                {
                     continue;
+                }
 
-                toolbarStrings.Add(editor.GetLabelText());
+                if (!PlatformManager.TryGetConfigType(platform, out Type configType) || null == configType)
+                {
+                    continue;
+                }
+
+                Type constructedType =
+                    typeof(PlatformConfigEditor<>).MakeGenericType(configType);
+
+                if (Activator.CreateInstance(constructedType) is not IPlatformConfigEditor editor)
+                {
+                    Debug.LogError($"Could not load config editor for platform \"{platform}\".");
+                    continue;
+                }
+
+                // Do not add the platform if it is not currently available.
+                if (!editor.IsPlatformAvailable())
+                {
+                    continue;
+                }
 
                 platformSpecificConfigEditors.Add(editor);
+                
+                toolbarStrings.Add(editor.GetLabelText());
             }
 
             toolbarTitleStrings = toolbarStrings.ToArray();

@@ -21,12 +21,13 @@
  */
 
 // Uncomment the following line to see the experimental new config window
-//#define ENABLE_NEW_CONFIG_WINDOW
+#define ENABLE_NEW_CONFIG_WINDOW
 
 #if ENABLE_NEW_CONFIG_WINDOW
 namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 {
     using System;
+    using System.Collections.Generic;
     using System.Threading.Tasks;
     using UnityEditor;
     using UnityEngine;
@@ -42,7 +43,15 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
         /// platforms (represents information that is common to all
         /// circumstances).
         /// </summary>
-        private ConfigEditor<ProductConfig> _productConfigEditor;
+        private ConfigEditor<ProductConfig> _productConfigEditor = new();
+
+        /// <summary>
+        /// Stores the config editors for each of the platforms.
+        /// </summary>
+        private readonly IList<IConfigEditor> _platformConfigEditors = new List<IConfigEditor>();
+
+        private GUIContent[] _platformTabs;
+        private int _selectedTab = 0;
 
         public NewConfigWindow() : base("EOS Configuration") { }
 
@@ -55,13 +64,51 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 
         protected override async Task AsyncSetup()
         {
-            _productConfigEditor = new();
             await _productConfigEditor.LoadAsync();
+
+            List<GUIContent> tabContents = new();
+            foreach (PlatformManager.Platform platform in Enum.GetValues(typeof(PlatformManager.Platform)))
+            {
+                if (!PlatformManager.TryGetConfigType(platform, out Type configType) || null == configType)
+                {
+                    continue;
+                }
+
+                Type constructedType =
+                    typeof(PlatformConfigEditor<>).MakeGenericType(configType);
+
+                if (Activator.CreateInstance(constructedType) is not IPlatformConfigEditor editor)
+                {
+                    Debug.LogError($"Could not load config editor for platform \"{platform}\".");
+                    continue;
+                }
+
+                // Do not add the platform if it is not currently available.
+                if (!editor.IsPlatformAvailable())
+                {
+                    continue;
+                }
+
+                _platformConfigEditors.Add(editor);
+
+                tabContents.Add(new GUIContent($" {editor.GetLabelText()}", editor.GetPlatformIconTexture()));
+            }
+
+            _platformTabs = tabContents.ToArray();
         }
 
         protected override void RenderWindow()
         {
+            // Render the generic product configuration stuff.
             _ = _productConfigEditor.RenderAsync();
+
+            if (_platformTabs != null && _platformConfigEditors.Count != 0)
+            {
+                _selectedTab = GUILayout.Toolbar(_selectedTab, _platformTabs);
+                GUILayout.Space(10);
+
+                _ = _platformConfigEditors[_selectedTab].RenderAsync();
+            }
 
             GUI.SetNextControlName("Save");
             if (GUILayout.Button("Save All Changes"))
@@ -71,9 +118,14 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
             }
         }
 
-        private void Save()
+        private async void Save()
         {
-            _productConfigEditor.Save(true);
+            await _productConfigEditor.Save();
+
+            foreach (IConfigEditor editor in _platformConfigEditors)
+            {
+                await editor.Save();
+            }
         }
     }
 }

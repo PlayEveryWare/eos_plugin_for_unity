@@ -38,6 +38,13 @@ namespace PlayEveryWare.EpicOnlineServices
             }
             set
             {
+                // allow null value
+                if (value == null)
+                {
+                    _value = value;
+                    return;
+                }
+
                 if (!Guid.TryParse(value, out _))
                 {
                     if (!Regex.IsMatch(value, PreProductionEnvironmentRegex))

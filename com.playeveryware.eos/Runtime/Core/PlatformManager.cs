@@ -27,7 +27,6 @@ namespace PlayEveryWare.EpicOnlineServices
 
 #if UNITY_EDITOR
     using UnityEditor;
-
 #endif
 
     using UnityEngine;
@@ -38,20 +37,23 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <summary>
         /// Enum that stores the possible platforms
         /// </summary>
+        [Flags]
         public enum Platform
         {
-            Unknown,
-            Windows,
-            Android,
-            XboxOne,
-            XboxSeriesX,
-            iOS,
-            Linux,
-            macOS,
-            PS4,
-            PS5,
-            Switch,
-            Steam
+            Unknown = 0x0,
+            Windows = 0x1,
+            Android = 0x2,
+            XboxOne = 0x4,
+            XboxSeriesX = 0x8,
+            iOS = 0x10,
+            Linux = 0x20,
+            macOS = 0x40,
+            PS4 = 0x80,
+            PS5 = 0x100,
+            Switch = 0x200,
+            Steam = 0x400,
+            Console = PS4 | PS5 | XboxOne | XboxSeriesX | Switch,
+            All = Unknown | Windows | Android | XboxOne | XboxSeriesX | iOS | Linux | macOS | PS4 | PS5 | Switch | Steam
         }
 
         private struct PlatformInfo
@@ -60,6 +62,7 @@ namespace PlayEveryWare.EpicOnlineServices
             public string ConfigFileName;
             public Type ConfigType;
             public string DynamicLibraryExtension;
+            public string PlatformIconLabel;
         }
 
         /// <summary>
@@ -99,21 +102,21 @@ namespace PlayEveryWare.EpicOnlineServices
 
         static PlatformManager()
         {
-            AddPlatformInfo(Platform.Android,     "Android",       "eos_android_config.json"    );
-            AddPlatformInfo(Platform.iOS,         "iOS",           "eos_ios_config.json"        );
-            AddPlatformInfo(Platform.Linux,       "Linux",         "eos_linux_config.json"      );
-            AddPlatformInfo(Platform.macOS,       "macOS",         "eos_macos_config.json"      );
-            AddPlatformInfo(Platform.Steam,       "Steam",         "eos_steam_config.json"      );
-            AddPlatformInfo(Platform.XboxOne,     "Xbox One",      "eos_xb1_config.json"        );
-            AddPlatformInfo(Platform.XboxSeriesX, "Xbox Series X", "eos_xsx_config.json"        );
-            AddPlatformInfo(Platform.PS4,         "PS4",           "eos_ps4_config.json"        );
-            AddPlatformInfo(Platform.PS5,         "PS5",           "eos_ps5_config.json"        );
-            AddPlatformInfo(Platform.Switch,      "Switch",        "eos_switch_config.json"     );
+            AddPlatformInfo(Platform.Android,     "Android",       "eos_android_config.json", typeof(AndroidConfig), "Android");
+            AddPlatformInfo(Platform.iOS,         "iOS",           "eos_ios_config.json",     typeof(IOSConfig),     "iPhone");
+            AddPlatformInfo(Platform.Linux,       "Linux",         "eos_linux_config.json",   typeof(LinuxConfig),   "Standalone");
+            AddPlatformInfo(Platform.macOS,       "macOS",         "eos_macos_config.json",   typeof(MacOSConfig),   "Standalone");
+            AddPlatformInfo(Platform.Steam,       "Steam",         "eos_steam_config.json",   null,         "Standalone");
+            AddPlatformInfo(Platform.XboxOne,     "Xbox One",      "eos_xb1_config.json",     null, "XboxOne");
+            AddPlatformInfo(Platform.XboxSeriesX, "Xbox Series X", "eos_xsx_config.json",     null, "XboxOne");
+            AddPlatformInfo(Platform.PS4,         "PS4",           "eos_ps4_config.json",     null, "PS4");
+            AddPlatformInfo(Platform.PS5,         "PS5",           "eos_ps5_config.json",     null, "PS5");
+            AddPlatformInfo(Platform.Switch,      "Switch",        "eos_switch_config.json",  null, "Switch");
             //// TODO: Currently, there is no special config that is utilized for Windows - instead current implementation simply
             //// relies on EpicOnlineServicesConfig.json, so for now this entry is different. What is commented below is what it *should* be to be consistent.
             //// AddPlatformInfo(Platform.Windows,     "Windows",         "eos_windows_config.json", typeof(EOSWindowsConfig), ".dll");
             //// For the time being, this is the entry for the Windows platform
-            AddPlatformInfo(Platform.Windows,     "Windows", "EpicOnlineServicesConfig.json"    );
+            AddPlatformInfo(Platform.Windows,     "Windows", "eos_windows_config.json", typeof(WindowsConfig), "Standalone");
         }
 
         public static void SetPlatformDetails(Platform platform, Type configType, string dynamicLibraryExtension)
@@ -126,13 +129,15 @@ namespace PlayEveryWare.EpicOnlineServices
             PlatformInformation.Add(new KeyValuePair<Platform, PlatformInfo>(platform, info));
         }
 
-        public static void AddPlatformInfo(Platform platform, string fullName, string configFileName)
+        public static void AddPlatformInfo(Platform platform, string fullName, string configFileName, Type configType, string iconLabel)
         {
             PlatformInformation.Add(new KeyValuePair<Platform, PlatformInfo>(platform,
                 new PlatformInfo()
                 {
                     FullName = fullName,
                     ConfigFileName = configFileName,
+                    PlatformIconLabel = iconLabel, 
+                    ConfigType = configType,
                 }));
         }
 
@@ -152,7 +157,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 { BuildTarget.PS5,                 Platform.PS5         },
                 { BuildTarget.Switch,              Platform.Switch      },
                 { BuildTarget.StandaloneWindows,   Platform.Windows     },
-                { BuildTarget.StandaloneWindows64, Platform.Windows     }
+                { BuildTarget.StandaloneWindows64, Platform.Windows     },
             };
 
         /// <summary>
@@ -209,28 +214,20 @@ namespace PlayEveryWare.EpicOnlineServices
             return PlatformInformation[platform].ConfigType;
         }
 
-#endif
-        /// <summary>
-        /// Return a string that represents the file extension used by the indicated platform for dynamic library files.
-        /// </summary>
-        /// <param name="platform">The platform to get the specific file extension for.</param>
-        /// <returns>File extension for the dynamic library used by the indicated platform.</returns>
-        public static string GetDynamicLibraryExtension(Platform platform)
+        public static bool TryGetConfigType(Platform platform, out Type configType)
         {
-            return PlatformInformation[platform].DynamicLibraryExtension;
+            configType = null;
+
+            bool typeFound = PlatformInformation.TryGetValue(platform, out PlatformInfo value);
+
+            if (typeFound)
+            {
+                configType = value.ConfigType;
+            }
+
+            return typeFound;
         }
 
-
-        /// <summary>
-        /// Get the file extension used by the current platform for dynamic library files.
-        /// </summary>
-        /// <returns>A string containing the file extension used for dynamic library files on the current platform.</returns>
-        public static string GetDynamicLibraryExtension()
-        {
-            return GetDynamicLibraryExtension(CurrentPlatform);
-        }
-
-#if UNITY_EDITOR
         /// <summary>
         /// Returns the type of the PlatformConfig that holds configuration values for the indicated BuildTarget
         /// </summary>
@@ -252,7 +249,50 @@ namespace PlayEveryWare.EpicOnlineServices
             var platform = TargetToPlatformsMap[target];
             return GetConfigFilePath(platform);
         }
+
+        /// <summary>
+        /// Try to retrieve the config file path for the indicated BuildTarget.
+        /// </summary>
+        /// <param name="target">The BuildTarget to get the configuration file for.</param>
+        /// <param name="configFilePath">The filepath to the configuration file.</param>
+        /// <returns>True if there is a config file path for the indicated BuildTarget.</returns>
+        public static bool TryGetConfigFilePath(BuildTarget target, out string configFilePath)
+        {
+            var platform = TargetToPlatformsMap[target];
+            return TryGetConfigFilePath(platform, out configFilePath);
+        }
+
+        /// <summary>
+        /// Return the built-in icon for the indicated platform.
+        /// </summary>
+        /// <param name="platform">The platform to get the icon for.</param>
+        /// <returns>An icon texture representing the platform.</returns>
+        public static Texture GetPlatformIcon(Platform platform)
+        {
+            return EditorGUIUtility.IconContent($"BuildSettings.{PlatformInformation[platform].PlatformIconLabel}.Small").image;
+        }
 #endif
+
+        /// <summary>
+        /// Return a string that represents the file extension used by the indicated platform for dynamic library files.
+        /// </summary>
+        /// <param name="platform">The platform to get the specific file extension for.</param>
+        /// <returns>File extension for the dynamic library used by the indicated platform.</returns>
+        public static string GetDynamicLibraryExtension(Platform platform)
+        {
+            return PlatformInformation[platform].DynamicLibraryExtension;
+        }
+
+
+        /// <summary>
+        /// Get the file extension used by the current platform for dynamic library files.
+        /// </summary>
+        /// <returns>A string containing the file extension used for dynamic library files on the current platform.</returns>
+        public static string GetDynamicLibraryExtension()
+        {
+            return GetDynamicLibraryExtension(CurrentPlatform);
+        }
+
         /// <summary>
         /// Return the fully qualified path to the configuration file for the current platform.
         /// </summary>
@@ -293,20 +333,6 @@ namespace PlayEveryWare.EpicOnlineServices
             configFilePath = "";
             return false;
         }
-
-#if UNITY_EDITOR
-        /// <summary>
-        /// Try to retrieve the config file path for the indicated BuildTarget.
-        /// </summary>
-        /// <param name="target">The BuildTarget to get the configuration file for.</param>
-        /// <param name="configFilePath">The filepath to the configuration file.</param>
-        /// <returns>True if there is a config file path for the indicated BuildTarget.</returns>
-        public static bool TryGetConfigFilePath(BuildTarget target, out string configFilePath)
-        {
-            var platform = TargetToPlatformsMap[target];
-            return TryGetConfigFilePath(platform, out configFilePath);
-        }
-#endif
 
         /// <summary>
         /// Returns the name of the JSON file that contains configuration values for the given platform.

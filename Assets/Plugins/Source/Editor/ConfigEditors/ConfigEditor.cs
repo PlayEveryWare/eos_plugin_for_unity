@@ -22,10 +22,7 @@
 
 namespace PlayEveryWare.EpicOnlineServices.Editor
 {
-    using Common;
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using System.Reflection;
     using UnityEditor;
     using UnityEditor.AnimatedValues;
@@ -159,130 +156,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
             handler?.Invoke(this, e);
         }
 
-        /// <summary>
-        /// Use reflection to retrieve a collection of fields that have been
-        /// assigned custom ConfigFieldAttribute attributes, grouping by group,
-        /// and sorting by group.
-        /// </summary>
-        /// <returns>A collection of config fields.</returns>
-        private static IOrderedEnumerable<IGrouping<int, (FieldInfo FieldInfo, ConfigFieldAttribute FieldDetails)>> GetFieldsByGroup()
-        {
-            return typeof(T).GetFields(BindingFlags.Public | BindingFlags.Instance)
-                .Where(field => field.GetCustomAttribute<ConfigFieldAttribute>() != null)
-                .Select(info => (info, info.GetCustomAttribute<ConfigFieldAttribute>()))
-                .GroupBy(r => r.Item2.Group)
-                .OrderBy(group => group.Key);
-        }
-
-        /// <summary>
-        /// Using a collection of FieldInfo and ConfigFieldAttribute classes,
-        /// representing the fields in a Config, determine which field in a
-        /// given group is the longest, and return that length.
-        /// </summary>
-        /// <param name="group">
-        /// A group of fields that have ConfigFieldAttribute and the same group
-        /// number.
-        /// </param>
-        /// <returns>
-        /// The length of the longest label to create 
-        /// </returns>
-        private static float GetMaximumLabelWidth(IEnumerable<(FieldInfo, ConfigFieldAttribute)> group)
-        {
-            GUIStyle labelStyle = new(GUI.skin.label);
-
-            float maxWidth = 0f;
-            foreach (var field in group)
-            {
-                string labelText = field.Item2.Label;
-
-                Vector2 labelSize = labelStyle.CalcSize(new GUIContent(labelText));
-                if (maxWidth < labelSize.x)
-                {
-                    maxWidth = labelSize.x;
-                }
-            }
-
-            return maxWidth;
-        }
-
-        /// <summary>
-        /// Render the config fields for the config that has been set to edit.
-        /// </summary>
-        /// <exception cref="NotImplementedException">
-        /// Thrown for types that are not yet implemented.
-        /// </exception>
-        /// <exception cref="ArgumentOutOfRangeException">
-        /// Thrown for types that are not yet implemented, and not accounted for
-        /// in the switch statement.
-        /// </exception>
-        protected void RenderConfigFields()
-        {
-            foreach (var fieldGroup in GetFieldsByGroup())
-            {
-                float labelWidth = GetMaximumLabelWidth(fieldGroup);
-
-                // If there is a label for the field group, then display it.
-                if (0 >= fieldGroup.Key && _groupLabels?.Length > fieldGroup.Key)
-                {
-                    GUILayout.Label(_groupLabels[fieldGroup.Key], EditorStyles.boldLabel);
-                }
-
-                foreach (var field in fieldGroup)
-                {
-                    switch (field.FieldDetails.FieldType)
-                    {
-                        case ConfigFieldType.Text:
-                            field.FieldInfo.SetValue(config, GUIEditorUtility.RenderInput(field.FieldDetails, (string)field.FieldInfo.GetValue(config), labelWidth));
-                            break;
-                        case ConfigFieldType.FilePath:
-                            field.FieldInfo.SetValue(config, GUIEditorUtility.RenderInput(field.FieldDetails as FilePathFieldAttribute, (string)field.FieldInfo.GetValue(config), labelWidth));
-                            break;
-                        case ConfigFieldType.Flag:
-                            field.FieldInfo.SetValue(config, GUIEditorUtility.RenderInput(field.FieldDetails, (bool)field.FieldInfo.GetValue(config), labelWidth));
-                            break;
-                        case ConfigFieldType.DirectoryPath:
-                            field.FieldInfo.SetValue(config, GUIEditorUtility.RenderInput(field.FieldDetails as DirectoryPathFieldAttribute, (string)field.FieldInfo.GetValue(config), labelWidth));
-                            break;
-                        case ConfigFieldType.Ulong:
-                            field.FieldInfo.SetValue(config, GUIEditorUtility.RenderInput(field.FieldDetails, (ulong)field.FieldInfo.GetValue(config), labelWidth));
-                            break;
-                        case ConfigFieldType.Double:
-                            field.FieldInfo.SetValue(config, GUIEditorUtility.RenderInput(field.FieldDetails, (double)field.FieldInfo.GetValue(config), labelWidth));
-                            break;
-                        case ConfigFieldType.TextList:
-                            field.FieldInfo.SetValue(config, GUIEditorUtility.RenderInput(field.FieldDetails, (List<string>)field.FieldInfo.GetValue(config), labelWidth));
-                            break;
-                        case ConfigFieldType.Uint:
-                            field.FieldInfo.SetValue(config, GUIEditorUtility.RenderInput(field.FieldDetails, (uint)field.FieldInfo.GetValue(config), labelWidth));
-                            break;
-                        case ConfigFieldType.Button:
-                            if (GUILayout.Button(field.FieldDetails.Label) && 
-                                field.FieldInfo.GetValue(config) is Action onClick)
-                            {
-                                onClick();
-                            }
-                            break;
-                        case ConfigFieldType.ProductionEnvironments:
-                            field.FieldInfo.SetValue(config,
-                                GUIEditorUtility.RenderInput(field.FieldDetails,
-                                    (ProductionEnvironments)field.FieldInfo.GetValue(config), labelWidth));
-                            break;
-                        case ConfigFieldType.ClientCredentials:
-                            field.FieldInfo.SetValue(config, GUIEditorUtility.RenderInput(field.FieldDetails, (SetOfNamed<EOSClientCredentials>)field.FieldInfo.GetValue(config), labelWidth));
-                            break;
-                        case ConfigFieldType.NamedGuid:
-                            field.FieldInfo.SetValue(config, GUIEditorUtility.RenderInput(field.FieldDetails, (Named<Guid>)field.FieldInfo.GetValue(config), labelWidth));
-                            break;
-                        case ConfigFieldType.Version:
-                            field.FieldInfo.SetValue(config, GUIEditorUtility.RenderInput(field.FieldDetails, (Version)field.FieldInfo.GetValue(config), labelWidth));
-                            break;
-                       default:
-                            throw new ArgumentOutOfRangeException();
-                    }
-                }
-            }
-        }
-
         public string GetLabelText()
         {
             return _labelText;
@@ -318,7 +191,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
             else
             {
                 GUILayout.Label(GetLabelText(), EditorStyles.boldLabel);
-                RenderConfigFields();
+                GUIEditorUtility.RenderInputs(ref config);
             }
         }
 
@@ -353,7 +226,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
                 if (EditorGUILayout.BeginFadeGroup(_animExpanded.faded))
                 {
                     EditorGUILayout.BeginVertical(GUI.skin.box);
-                    RenderConfigFields();
+                    GUIEditorUtility.RenderInputs(ref config);
                     EditorGUILayout.EndVertical();
                 }
                 EditorGUILayout.EndFadeGroup();

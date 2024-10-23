@@ -25,7 +25,7 @@ namespace PlayEveryWare.EpicOnlineServices
     using System;
 
     [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
-    public class ConfigFieldAttribute : Attribute
+    public class PlatformDependentConfigFieldAttribute : Attribute
     {
         /// <summary>
         /// The label for the config field.
@@ -35,15 +35,13 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <summary>
         /// The tooltip to display when the user hovers a mouse over the label.
         /// </summary>
-        public string ToolTip { get; set; }
+        public string ToolTip { get; }
 
         /// <summary>
-        /// The group that config field belongs to (helps to cluster config
+        /// The group that that config field belongs to (helps to cluster config
         /// fields into meaningful groups).
         /// </summary>
         public int Group { get; }
-
-        public string HelpURL { get; }
 
         /// <summary>
         /// The type of the field - used to inform how to render input controls
@@ -51,31 +49,13 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </summary>
         public ConfigFieldType FieldType { get; }
 
-        /// <summary>
-        /// Indicates what platforms the config field is valid for.
-        /// </summary>
-        public PlatformManager.Platform PlatformsEnabledOn { get; }
-
-        public ConfigFieldAttribute(
-            PlatformManager.Platform enabledOn,
+        public PlatformDependentConfigFieldAttribute(
+            PlatformManager.Platform supportedPlatforms,
             string label,
             ConfigFieldType type,
             string tooltip = null,
-            int group = -1,
-            string helpUrl = null) : this(label, type, tooltip, group, helpUrl)
+            int group = -1)
         {
-            PlatformsEnabledOn = enabledOn;
-        }
-
-        public ConfigFieldAttribute(
-            string label,
-            ConfigFieldType type,
-            string tooltip = null,
-            int group = -1,
-            string helpUrl = null)
-        {
-            PlatformsEnabledOn = PlatformManager.Platform.All;
-            HelpURL = helpUrl;
             Label = label;
             ToolTip = tooltip;
             Group = group;
