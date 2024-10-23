@@ -95,7 +95,7 @@ Once Unity is open:
 1. Go to File ➝ Build Settings
 2. Switch the platform to "Dedicated Server."
 3. Click on the button labeled "Player Settings..." at the bottom left.
-4. Go to Tools ➝ EOS Automated Test Settings
+4. Go to EOS Plugin ➝ Advanced ➝ EOS Automated Test Settings
 5. Select the previously created `Builds/Server` directory for the "Test Server Directory" field.
 
 ## Help! I ran out of disk space!

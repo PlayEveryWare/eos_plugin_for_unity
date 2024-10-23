@@ -22,6 +22,7 @@
 
 namespace PlayEveryWare.EpicOnlineServices.Editor
 {
+    using Common;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -41,7 +42,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
     /// The type of config that this editor is responsible for providing an
     /// interface to edit for.
     /// </typeparam>
-    public class ConfigEditor<T> : IConfigEditor where T : 
+    public class ConfigEditor<T> : IConfigEditor where T :
         EpicOnlineServices.Config
     {
         /// <summary>
@@ -94,7 +95,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
         /// collapsed.
         /// </param>
         public ConfigEditor(
-            UnityAction repaintFn = null, 
+            UnityAction repaintFn = null,
             bool startsExpanded = false)
         {
             _expanded = startsExpanded;
@@ -104,7 +105,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
 
             if (null != attribute)
             {
-                _collapsible = attribute.Collapsible;   
+                _collapsible = attribute.Collapsible;
                 _labelText = attribute.Label;
                 _groupLabels = attribute.GroupLabels;
             }
@@ -231,28 +232,28 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
                     switch (field.FieldDetails.FieldType)
                     {
                         case ConfigFieldType.Text:
-                            field.FieldInfo.SetValue(config, GUIEditorUtility.RenderInputField(field.FieldDetails, (string)field.FieldInfo.GetValue(config), labelWidth));
+                            field.FieldInfo.SetValue(config, GUIEditorUtility.RenderInput(field.FieldDetails, (string)field.FieldInfo.GetValue(config), labelWidth));
                             break;
                         case ConfigFieldType.FilePath:
-                            field.FieldInfo.SetValue(config, GUIEditorUtility.RenderInputField(field.FieldDetails as FilePathFieldAttribute, (string)field.FieldInfo.GetValue(config), labelWidth));
+                            field.FieldInfo.SetValue(config, GUIEditorUtility.RenderInput(field.FieldDetails as FilePathFieldAttribute, (string)field.FieldInfo.GetValue(config), labelWidth));
                             break;
                         case ConfigFieldType.Flag:
-                            field.FieldInfo.SetValue(config, GUIEditorUtility.RenderInputField(field.FieldDetails, (bool)field.FieldInfo.GetValue(config), labelWidth));
+                            field.FieldInfo.SetValue(config, GUIEditorUtility.RenderInput(field.FieldDetails, (bool)field.FieldInfo.GetValue(config), labelWidth));
                             break;
                         case ConfigFieldType.DirectoryPath:
-                            field.FieldInfo.SetValue(config, GUIEditorUtility.RenderInputField(field.FieldDetails as DirectoryPathFieldAttribute, (string)field.FieldInfo.GetValue(config), labelWidth));
+                            field.FieldInfo.SetValue(config, GUIEditorUtility.RenderInput(field.FieldDetails as DirectoryPathFieldAttribute, (string)field.FieldInfo.GetValue(config), labelWidth));
                             break;
                         case ConfigFieldType.Ulong:
-                            field.FieldInfo.SetValue(config, GUIEditorUtility.RenderInputField(field.FieldDetails, (ulong)field.FieldInfo.GetValue(config), labelWidth));
+                            field.FieldInfo.SetValue(config, GUIEditorUtility.RenderInput(field.FieldDetails, (ulong)field.FieldInfo.GetValue(config), labelWidth));
                             break;
                         case ConfigFieldType.Double:
-                            field.FieldInfo.SetValue(config, GUIEditorUtility.RenderInputField(field.FieldDetails, (double)field.FieldInfo.GetValue(config), labelWidth));
+                            field.FieldInfo.SetValue(config, GUIEditorUtility.RenderInput(field.FieldDetails, (double)field.FieldInfo.GetValue(config), labelWidth));
                             break;
                         case ConfigFieldType.TextList:
-                            field.FieldInfo.SetValue(config, GUIEditorUtility.RenderInputField(field.FieldDetails, (List<string>)field.FieldInfo.GetValue(config), labelWidth));
+                            field.FieldInfo.SetValue(config, GUIEditorUtility.RenderInput(field.FieldDetails, (List<string>)field.FieldInfo.GetValue(config), labelWidth));
                             break;
                         case ConfigFieldType.Uint:
-                            field.FieldInfo.SetValue(config, GUIEditorUtility.RenderInputField(field.FieldDetails, (uint)field.FieldInfo.GetValue(config), labelWidth));
+                            field.FieldInfo.SetValue(config, GUIEditorUtility.RenderInput(field.FieldDetails, (uint)field.FieldInfo.GetValue(config), labelWidth));
                             break;
                         case ConfigFieldType.Button:
                             if (GUILayout.Button(field.FieldDetails.Label) && 
@@ -261,7 +262,21 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
                                 onClick();
                             }
                             break;
-                        default:
+                        case ConfigFieldType.ProductionEnvironments:
+                            field.FieldInfo.SetValue(config,
+                                GUIEditorUtility.RenderInput(field.FieldDetails,
+                                    (ProductionEnvironments)field.FieldInfo.GetValue(config), labelWidth));
+                            break;
+                        case ConfigFieldType.ClientCredentials:
+                            field.FieldInfo.SetValue(config, GUIEditorUtility.RenderInput(field.FieldDetails, (SetOfNamed<EOSClientCredentials>)field.FieldInfo.GetValue(config), labelWidth));
+                            break;
+                        case ConfigFieldType.NamedGuid:
+                            field.FieldInfo.SetValue(config, GUIEditorUtility.RenderInput(field.FieldDetails, (Named<Guid>)field.FieldInfo.GetValue(config), labelWidth));
+                            break;
+                        case ConfigFieldType.Version:
+                            field.FieldInfo.SetValue(config, GUIEditorUtility.RenderInput(field.FieldDetails, (Version)field.FieldInfo.GetValue(config), labelWidth));
+                            break;
+                       default:
                             throw new ArgumentOutOfRangeException();
                     }
                 }
@@ -289,7 +304,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
             Task.Run(LoadAsync).GetAwaiter().GetResult();
         }
 
-        public async Task Save(bool prettyPrint)
+        public async Task Save(bool prettyPrint = true)
         {
             await config.WriteAsync(prettyPrint);
         }

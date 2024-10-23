@@ -7,7 +7,7 @@ This document outlines how to export the plugin from source using a command line
 
 ## BuildPackage
 
-The following command generates a new `com.playeveryware.eos-[VERSION].tgz` file at the indicated output directory, the same exact way it would if you created a package via Unity Editor `Tools -> EOS Plugin -> Create Package` (and subsequently pressed "Create UPM Package"):
+The following command generates a new `com.playeveryware.eos-[VERSION].tgz` file at the indicated output directory, the same exact way it would if you created a package via Unity Editor `EOS Plugin -> Advanced -> Create Package` (and subsequently pressed "Create UPM Package"):
 
 ```
 Unity.exe -batchMode \

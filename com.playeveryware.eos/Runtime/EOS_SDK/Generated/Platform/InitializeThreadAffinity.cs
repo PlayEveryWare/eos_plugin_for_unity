@@ -39,6 +39,16 @@ namespace Epic.OnlineServices.Platform
 		/// </summary>
 		public ulong RTCIo { get; set; }
 
+		/// <summary>
+		/// Main thread of the external overlay
+		/// </summary>
+		public ulong EmbeddedOverlayMainThread { get; set; }
+
+		/// <summary>
+		/// Worker threads of the external overlay
+		/// </summary>
+		public ulong EmbeddedOverlayWorkerThreads { get; set; }
+
 		internal void Set(ref InitializeThreadAffinityInternal other)
 		{
 			NetworkWork = other.NetworkWork;
@@ -47,6 +57,8 @@ namespace Epic.OnlineServices.Platform
 			P2PIo = other.P2PIo;
 			HttpRequestIo = other.HttpRequestIo;
 			RTCIo = other.RTCIo;
+			EmbeddedOverlayMainThread = other.EmbeddedOverlayMainThread;
+			EmbeddedOverlayWorkerThreads = other.EmbeddedOverlayWorkerThreads;
 		}
 	}
 
@@ -60,6 +72,8 @@ namespace Epic.OnlineServices.Platform
 		private ulong m_P2PIo;
 		private ulong m_HttpRequestIo;
 		private ulong m_RTCIo;
+		private ulong m_EmbeddedOverlayMainThread;
+		private ulong m_EmbeddedOverlayWorkerThreads;
 
 		public ulong NetworkWork
 		{
@@ -139,6 +153,32 @@ namespace Epic.OnlineServices.Platform
 			}
 		}
 
+		public ulong EmbeddedOverlayMainThread
+		{
+			get
+			{
+				return m_EmbeddedOverlayMainThread;
+			}
+
+			set
+			{
+				m_EmbeddedOverlayMainThread = value;
+			}
+		}
+
+		public ulong EmbeddedOverlayWorkerThreads
+		{
+			get
+			{
+				return m_EmbeddedOverlayWorkerThreads;
+			}
+
+			set
+			{
+				m_EmbeddedOverlayWorkerThreads = value;
+			}
+		}
+
 		public void Set(ref InitializeThreadAffinity other)
 		{
 			m_ApiVersion = PlatformInterface.InitializeThreadaffinityApiLatest;
@@ -148,6 +188,8 @@ namespace Epic.OnlineServices.Platform
 			P2PIo = other.P2PIo;
 			HttpRequestIo = other.HttpRequestIo;
 			RTCIo = other.RTCIo;
+			EmbeddedOverlayMainThread = other.EmbeddedOverlayMainThread;
+			EmbeddedOverlayWorkerThreads = other.EmbeddedOverlayWorkerThreads;
 		}
 
 		public void Set(ref InitializeThreadAffinity? other)
@@ -161,6 +203,8 @@ namespace Epic.OnlineServices.Platform
 				P2PIo = other.Value.P2PIo;
 				HttpRequestIo = other.Value.HttpRequestIo;
 				RTCIo = other.Value.RTCIo;
+				EmbeddedOverlayMainThread = other.Value.EmbeddedOverlayMainThread;
+				EmbeddedOverlayWorkerThreads = other.Value.EmbeddedOverlayWorkerThreads;
 			}
 		}
 

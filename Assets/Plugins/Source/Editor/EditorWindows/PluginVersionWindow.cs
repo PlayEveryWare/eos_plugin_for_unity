@@ -54,7 +54,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
             public string version;
         }
 
-        [MenuItem("Tools/EOS Plugin/Version", false, 100)]
+        [MenuItem("EOS Plugin/Version", false, 4)]
         public static void ShowWindow()
         {
             GetWindow<PluginVersionWindow>();

@@ -52,6 +52,12 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
     /// </summary>
     internal static class FileSystemUtility
     {
+        // This compile conditional exists because the following functions 
+        // make use of the System.Linq namespace which is undesirable to use
+        // during runtime. Since these functions are currently only ever 
+        // utilized in areas of the code that run in the editor, it is
+        // appropriate to use compile conditionals to include / exclude them.
+#if UNITY_EDITOR
         /// <summary>
         /// Interval with which to update progress, in milliseconds
         /// </summary>
@@ -186,12 +192,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
             return true;
         }
 
-        // This compile conditional exists because the following functions 
-        // make use of the System.Linq namespace which is undesirable to use
-        // during runtime. Since these functions are currently only ever 
-        // utilized in areas of the code that run in the editor, it is
-        // appropriate to use compile conditionals to include / exclude them.
-#if UNITY_EDITOR
+
         /// <summary>
         /// Get a list of the directories that are represented by the filepaths
         /// provided. The list is unique, and is ordered by smallest path first,
@@ -349,7 +350,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
 
             await Task.WhenAll(tasks);
         }
-#endif
+
         /// <summary>
         /// Copies a single file asynchronously.
         /// </summary>
@@ -413,7 +414,6 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
             }
         }
 
-#if UNITY_EDITOR
         /// <summary>
         /// Returns the root of the Unity project.
         /// </summary>
@@ -479,10 +479,12 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
 #endif
 
         #region File Read Functionality
-
+        // NOTE: This compile conditional is here because on Android devices
+        //       async IO doesn't work well.
+#if !UNITY_ANDROID || UNITY_EDITOR
         public static async Task<(bool Success, string Result)> TryReadAllTextAsync(string filePath)
         {
-            bool fileExists = await ExistsInternal(filePath, false);
+            bool fileExists = await ExistsInternalAsync(filePath, false);
 
             if (!fileExists)
             {
@@ -494,15 +496,6 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
             return null == contents ? (false, null) : (true, contents);
         }
 
-        /// <summary>
-        /// Reads all text from the indicated file.
-        /// </summary>
-        /// <param name="path">Filepath to the file to read from.</param>
-        /// <returns>The contents of the file at the indicated path as a string.</returns>
-        public static string ReadAllText(string path)
-        {
-            return Task.Run(() => ReadAllTextAsync(path)).GetAwaiter().GetResult();
-        }
 
         /// <summary>
         /// Asynchronously reads all text from the indicated file.
@@ -511,12 +504,6 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         /// <returns>Task</returns>
         public static async Task<string> ReadAllTextAsync(string path)
         {
-#if UNITY_ANDROID && !UNITY_EDITOR
-            // On Android, use a custom helper to read the file
-            return await AndroidFileIOHelper.ReadAllText(path);
-#else
-            // On other platforms, read asynchronously or synchronously as
-            // appropriate.
             try
             {
                 return await File.ReadAllTextAsync(path);
@@ -526,10 +513,35 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
                 Debug.LogException(e);
                 throw;
             }
+        }
 #endif
+
+        /// <summary>
+        /// Reads all text from the indicated file.
+        /// </summary>
+        /// <param name="path">Filepath to the file to read from.</param>
+        /// <returns>The contents of the file at the indicated path as a string.</returns>
+        public static string ReadAllText(string path)
+        {
+#if UNITY_ANDROID && !UNITY_EDITOR
+            return AndroidFileIOHelper.ReadAllText(path);
+#else
+            try
+            {
+                return File.ReadAllText(path);
+            }
+            catch (Exception e)
+            {
+                Debug.LogException(e);
+                throw;
+            }
+#endif
+
         }
 
-        #endregion
+
+
+#endregion
 
         #region Get File System Entries Functionality
 
@@ -557,7 +569,6 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         }
 
         #endregion
-
 
         #region Path Functionality
 
@@ -674,25 +685,51 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
 
         public static bool DirectoryExists(string path)
         {
-            return DirectoryExistsAsync(path).GetAwaiter().GetResult();
-        }
-
-        public static async Task<bool> DirectoryExistsAsync(string path)
-        {
-            return await ExistsInternal(path, isDirectory: true);
+            return ExistsInternal(path, true);
         }
 
         public static bool FileExists(string path)
         {
-            return FileExistsAsync(path).GetAwaiter().GetResult();
+            return ExistsInternal(path);
         }
+
+        private static bool ExistsInternal(string path, bool isDirectory = false)
+        {
+            bool exists = false;
+
+#if UNITY_ANDROID && !UNITY_EDITOR
+            if (isDirectory)
+            {
+                throw new Exception("Cannot determine if directory exists in Android.");
+            }
+
+            return AndroidFileIOHelper.FileExists(path);
+#else
+            if (isDirectory)
+            {
+                exists = Directory.Exists(path);
+            }
+            else
+            {
+                exists = File.Exists(path);
+            }
+#endif
+
+            return exists;
+        }
+
+        public static async Task<bool> DirectoryExistsAsync(string path)
+        {
+            return await ExistsInternalAsync(path, isDirectory: true);
+        }
+
 
         public static async Task<bool> FileExistsAsync(string path)
         {
-            return await ExistsInternal(path, isDirectory: false);
+            return await ExistsInternalAsync(path, isDirectory: false);
         }
 
-        private static async Task<bool> ExistsInternal(string path, bool isDirectory)
+        private static async Task<bool> ExistsInternalAsync(string path, bool isDirectory)
         {
             bool exists = false;
 #if UNITY_ANDROID && !UNITY_EDITOR
@@ -717,7 +754,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
             return await Task.FromResult(exists);
         }
 
-        #endregion
+#endregion
 
         public static void NormalizePath(ref string path)
         {

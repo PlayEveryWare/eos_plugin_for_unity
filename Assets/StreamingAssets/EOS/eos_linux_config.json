@@ -1,27 +1,29 @@
 {
-    "flags": [],
-    "overrideValues": {
-        "productName": "",
-        "productVersion": "",
-        "productID": "",
-        "sandboxID": "",
-        "deploymentID": "",
-        "clientSecret": "",
-        "clientID": "",
-        "encryptionKey": "",
-        "platformOptionsFlags": [
-            ""
-        ],
-        "tickBudgetInMilliseconds": 0,
-        "ThreadAffinity_networkWork": "",
-        "ThreadAffinity_storageIO": "",
-        "ThreadAffinity_webSocketIO": "",
-        "ThreadAffinity_P2PIO": "",
-        "ThreadAffinity_HTTPRequestIO": "",
-        "ThreadAffinity_RTCIO": "",
-        "alwaysSendInputToOverlay": false,
-        "initialButtonDelayForOverlay": "",
-        "repeatButtonDelayForOverlay": "",
-        "hackForceSendInputDirectlyToSDK": false
-    }
+  "overrideValues": {
+    "productName": "",
+    "productVersion": "",
+    "productID": "",
+    "sandboxID": "",
+    "deploymentID": "",
+    "sandboxDeploymentOverrides": null,
+    "isServer": false,
+    "clientSecret": "",
+    "clientID": "",
+    "encryptionKey": "",
+    "platformOptionsFlags": "None",
+    "authScopeOptionsFlags": "NoFlags",
+    "tickBudgetInMilliseconds": 0,
+    "taskNetworkTimeoutSeconds": 0.0,
+    "ThreadAffinity_networkWork": null,
+    "ThreadAffinity_storageIO": null,
+    "ThreadAffinity_webSocketIO": null,
+    "ThreadAffinity_P2PIO": null,
+    "ThreadAffinity_HTTPRequestIO": null,
+    "ThreadAffinity_RTCIO": null,
+    "alwaysSendInputToOverlay": false,
+    "initialButtonDelayForOverlay": null,
+    "repeatButtonDelayForOverlay": null,
+    "toggleFriendsButtonCombination": "SpecialLeft"
+  },
+  "flags": 0
 }

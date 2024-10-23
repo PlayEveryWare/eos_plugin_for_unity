@@ -34,7 +34,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Services.Lobby
     /// <summary>
     /// Lobby related tests.
     /// </summary>
-    public class LobbyTests : EOSTestBase
+    public partial class LobbyTests : EOSTestBase
     {
         private CreateLobbyCallbackInfo? createLobbyResult = null;
         private LobbySearchFindCallbackInfo? searchLobbyResult = null;

@@ -33,7 +33,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests
     /// <summary>
     /// Initial setup and shutdown procedure for all tests.
     /// </summary>
-    public class EOSTestBase
+    public partial class EOSTestBase
     {
         /// <summary>
         /// Common constants used in the tests.

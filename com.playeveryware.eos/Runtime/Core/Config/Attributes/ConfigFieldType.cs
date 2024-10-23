@@ -61,6 +61,11 @@ namespace PlayEveryWare.EpicOnlineServices
         Ulong,
 
         /// <summary>
+        /// A plain float value.
+        /// </summary>
+        Float,
+
+        /// <summary>
         /// A plain double.
         /// </summary>
         Double,
@@ -69,6 +74,26 @@ namespace PlayEveryWare.EpicOnlineServices
         /// A list of strings.
         /// </summary>
         TextList,
+
+        /// <summary>
+        /// A Guid with a label.
+        /// </summary>
+        NamedGuid,
+
+        /// <summary>
+        /// The set of Sandbox and Deployment definitions for the project.
+        /// </summary>
+        ProductionEnvironments,
+
+        /// <summary>
+        /// A set of named client credentials.
+        /// </summary>
+        ClientCredentials,
+
+        /// <summary>
+        /// A version value.
+        /// </summary>
+        Version,
 
         /// <summary>
         /// Indicates that the config has a button that needs rendering. This is

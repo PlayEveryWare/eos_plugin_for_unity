@@ -57,7 +57,7 @@ new plugin can be generated.
 These steps are for upgrading the EOS SDK as a maintainer of the repo.
 There is a tool that one can use install new versions of the SDK, located under
 
-`Tools -> EOS Plugin -> Install EOS Zip`
+`EOS Plugin -> Install EOS Zip`
 
 It requires a JSON description file to direct it where to put the files in the zip,
 and a zip file that contains the SDK. The latest version of the SDK can be downloaded from

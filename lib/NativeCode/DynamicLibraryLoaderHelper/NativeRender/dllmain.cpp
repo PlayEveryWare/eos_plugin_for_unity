@@ -48,6 +48,8 @@
 #include "processenv.h"
 #include <iterator>
 #endif
+#include <map>
+
 #include "eos_sdk.h"
 #include "eos_logging.h"
 
@@ -110,6 +112,50 @@ typedef EOS_EResult (*EOS_IntegratedPlatformOptionsContainer_Add_t)(EOS_HIntegra
 typedef EOS_EResult (*EOS_IntegratedPlatform_CreateIntegratedPlatformOptionsContainer_t)(const EOS_IntegratedPlatform_CreateIntegratedPlatformOptionsContainerOptions* Options, EOS_HIntegratedPlatformOptionsContainer* OutIntegratedPlatformOptionsContainerHandle);
 typedef void (*EOS_IntegratedPlatformOptionsContainer_Release_t)(EOS_HIntegratedPlatformOptionsContainer IntegratedPlatformOptionsContainerHandle);
 
+/**
+ * \brief Trims the whitespace from the beginning and end of a string.
+ *
+ * \param str The string to trim.
+ *
+ * \return A string with no whitespace at the beginning or end.
+ */
+static std::string trim(const std::string& str);
+
+/**
+ * \brief
+ * Takes a string, splits it by the indicated delimiter, trims the results of
+ * the split, and returns a collection of any non-empty values.
+ *
+ * \param input The string to split and trim.
+ *
+ * \param delimiter The character at which to split the string.
+ *
+ * \return A list of string values.
+ */
+static std::vector<std::string> split_and_trim(const std::string& input, char delimiter = ',');
+
+/**
+ * \brief
+ * Collects flag values from either a JSON array of strings, or a
+ * comma-delimited list of values (like how Newtonsoft outputs things).
+ *
+ * \tparam T The type parameter (the enum type).
+ *
+ * \param
+ * strings_to_enum_values A collection that maps string values to enum values.
+ *
+ * \param
+ * default_value The default value to assign the flags if no matching string is
+ * found.
+ *
+ * \param
+ * iter The iterator into the json object element.
+ *
+ * \return A single flag value.
+ */
+template<typename T>
+static T collect_flags(const std::map<std::string, T>* strings_to_enum_values, T default_value, json_object_element_s* iter);
+
 static EOS_Initialize_t EOS_Initialize_ptr;
 static EOS_Shutdown_t EOS_Shutdown_ptr;
 static EOS_Platform_Create_t EOS_Platform_Create_ptr;
@@ -125,6 +171,79 @@ static void *s_eos_sdk_overlay_lib_handle;
 static void *s_eos_sdk_lib_handle;
 static EOS_HPlatform eos_platform_handle;
 static GetConfigAsJSONString_t GetConfigAsJSONString;
+
+/**
+ * \brief
+ * Maps string values to values defined by the EOS SDK regarding platform
+ * creation.
+ */
+static const std::map<std::string, int> PLATFORM_CREATION_FLAGS_STRINGS_TO_ENUM = {
+    {"EOS_PF_LOADING_IN_EDITOR",                          EOS_PF_LOADING_IN_EDITOR},
+    {"LoadingInEditor",                                   EOS_PF_LOADING_IN_EDITOR},
+
+    {"EOS_PF_DISABLE_OVERLAY",                            EOS_PF_DISABLE_OVERLAY},
+    {"DisableOverlay",                                    EOS_PF_DISABLE_OVERLAY},
+
+    {"EOS_PF_DISABLE_SOCIAL_OVERLAY",                     EOS_PF_DISABLE_SOCIAL_OVERLAY},
+    {"DisableSocialOverlay",                              EOS_PF_DISABLE_SOCIAL_OVERLAY},
+
+    {"EOS_PF_WINDOWS_ENABLE_OVERLAY_D3D9",                EOS_PF_WINDOWS_ENABLE_OVERLAY_D3D9},
+    {"WindowsEnableOverlayD3D9",                          EOS_PF_WINDOWS_ENABLE_OVERLAY_D3D9},
+
+    {"EOS_PF_WINDOWS_ENABLE_OVERLAY_D3D10",               EOS_PF_WINDOWS_ENABLE_OVERLAY_D3D10},
+    {"WindowsEnableOverlayD3D10",                         EOS_PF_WINDOWS_ENABLE_OVERLAY_D3D10},
+
+    {"EOS_PF_WINDOWS_ENABLE_OVERLAY_OPENGL",              EOS_PF_WINDOWS_ENABLE_OVERLAY_OPENGL},
+    {"WindowsEnableOverlayOpengl",                        EOS_PF_WINDOWS_ENABLE_OVERLAY_OPENGL},
+
+    {"EOS_PF_CONSOLE_ENABLE_OVERLAY_AUTOMATIC_UNLOADING", EOS_PF_CONSOLE_ENABLE_OVERLAY_AUTOMATIC_UNLOADING},
+    {"ConsoleEnableOverlayAutomaticUnloading",            EOS_PF_CONSOLE_ENABLE_OVERLAY_AUTOMATIC_UNLOADING},
+
+    {"EOS_PF_RESERVED1",                                  EOS_PF_RESERVED1},
+    {"Reserved1",                                         EOS_PF_RESERVED1}
+};
+
+/**
+ * \brief Maps string values to values within the
+ * EOS_EIntegratedPlatformManagementFlags enum.
+ */
+static const std::map<std::string, EOS_EIntegratedPlatformManagementFlags> INTEGRATED_PLATFORM_MANAGEMENT_FLAGS_STRINGS_TO_ENUM = {
+    {"EOS_IPMF_Disabled",                        EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_Disabled },
+    {"Disabled",                                 EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_Disabled },
+
+    {"EOS_IPMF_LibraryManagedByApplication",     EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_LibraryManagedByApplication },
+    {"EOS_IPMF_ManagedByApplication",            EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_LibraryManagedByApplication},
+    {"ManagedByApplication",                     EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_LibraryManagedByApplication},
+    {"LibraryManagedByApplication",              EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_LibraryManagedByApplication},
+
+    {"ManagedBySDK",                             EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_LibraryManagedBySDK },
+    {"EOS_IPMF_ManagedBySDK",                    EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_LibraryManagedBySDK },
+    {"EOS_IPMF_LibraryManagedBySDK",             EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_LibraryManagedBySDK },
+    {"LibraryManagedBySDK",                      EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_LibraryManagedBySDK },
+
+    {"DisableSharedPresence",                    EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_DisablePresenceMirroring },
+    {"EOS_IPMF_DisableSharedPresence",           EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_DisablePresenceMirroring },
+    {"EOS_IPMF_DisablePresenceMirroring",        EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_DisablePresenceMirroring },
+    {"DisablePresenceMirroring",                 EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_DisablePresenceMirroring},
+
+    {"DisableSessions",                          EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_DisableSDKManagedSessions },
+    {"EOS_IPMF_DisableSessions",                 EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_DisableSDKManagedSessions },
+    {"EOS_IPMF_DisableSDKManagedSessions",       EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_DisableSDKManagedSessions },
+    {"DisableSDKManagedSessions",                EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_DisableSDKManagedSessions },
+
+    {"PreferEOS",                                EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_PreferEOSIdentity },
+    {"EOS_IPMF_PreferEOS",                       EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_PreferEOSIdentity },
+    {"EOS_IPMF_PreferEOSIdentity",               EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_PreferEOSIdentity },
+    {"PreferEOSIdentity",                        EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_PreferEOSIdentity},
+
+    {"PreferIntegrated",                         EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_PreferIntegratedIdentity },
+    {"EOS_IPMF_PreferIntegrated",                EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_PreferIntegratedIdentity },
+    {"EOS_IPMF_PreferIntegratedIdentity",        EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_PreferIntegratedIdentity },
+    {"PreferIntegratedIdentity",                 EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_PreferIntegratedIdentity},
+
+    {"EOS_IPMF_ApplicationManagedIdentityLogin", EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_ApplicationManagedIdentityLogin },
+    {"ApplicationManagedIdentityLogin",          EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_ApplicationManagedIdentityLogin}
+};
 
 struct SandboxDeploymentOverride
 {
@@ -887,49 +1006,7 @@ static EOSConfig eos_config_from_json_value(json_value_s* config_json)
         }
         else if (!strcmp("platformOptionsFlags", iter->name->string))
         {
-            uint64_t collected_flags = 0;
-            json_array_s* flags = json_value_as_array(iter->value);
-            for (auto e = flags->start; e != nullptr; e = e->next)
-            {
-                const char* flag_as_cstr = json_value_as_string(e->value)->string;
-
-                if (!strcmp("EOS_PF_LOADING_IN_EDITOR", flag_as_cstr) || !strcmp("LoadingInEditor", flag_as_cstr))
-                {
-                    collected_flags |= EOS_PF_LOADING_IN_EDITOR;
-                }
-
-                if (!strcmp("EOS_PF_DISABLE_OVERLAY", flag_as_cstr) || !strcmp("DisableOverlay", flag_as_cstr))
-                {
-                    collected_flags |= EOS_PF_DISABLE_OVERLAY;
-                }
-
-                if (!strcmp("EOS_PF_DISABLE_SOCIAL_OVERLAY", flag_as_cstr) || !strcmp("DisableSocialOverlay", flag_as_cstr))
-                {
-                    collected_flags |= EOS_PF_DISABLE_SOCIAL_OVERLAY;
-                }
-
-                if (!strcmp("EOS_PF_RESERVED1", flag_as_cstr) || !strcmp("Reserved1", flag_as_cstr))
-                {
-                    collected_flags |= EOS_PF_RESERVED1;
-                }
-
-                if (!strcmp("EOS_PF_WINDOWS_ENABLE_OVERLAY_D3D9", flag_as_cstr) || !strcmp("WindowsEnableOverlayD3D9", flag_as_cstr))
-                {
-                    collected_flags |= EOS_PF_WINDOWS_ENABLE_OVERLAY_D3D9;
-                }
-
-                if (!strcmp("EOS_PF_WINDOWS_ENABLE_OVERLAY_D3D10", flag_as_cstr) || !strcmp("WindowsEnableOverlayD3D10", flag_as_cstr))
-                {
-                    collected_flags |= EOS_PF_WINDOWS_ENABLE_OVERLAY_D3D10;
-                }
-
-                if (!strcmp("EOS_PF_WINDOWS_ENABLE_OVERLAY_OPENGL", flag_as_cstr) || !strcmp("WindowsEnableOverlayOpengl", flag_as_cstr))
-                {
-                    collected_flags |= EOS_PF_WINDOWS_ENABLE_OVERLAY_OPENGL;
-                }
-            }
-
-            eos_config.flags = collected_flags;
+            eos_config.flags = static_cast<uint64_t>(collect_flags(&PLATFORM_CREATION_FLAGS_STRINGS_TO_ENUM, 0, iter));
         }
         else if (!strcmp("tickBudgetInMilliseconds", iter->name->string))
         {
@@ -1017,103 +1094,89 @@ static LogLevelConfig log_config_from_json_value(json_value_s* config_json)
     return log_config;
 }
 
-//-------------------------------------------------------------------------
-static bool str_is_equal_to_any(const char* str, ...)
+static std::string trim(const std::string& str)
 {
-    bool to_return = false;
-    va_list arg_list;
-    va_start(arg_list, str);
+    const auto start = std::find_if_not(str.begin(), str.end(), ::isspace);
+    const auto end = std::find_if_not(str.rbegin(), str.rend(), ::isspace).base();
 
-    const char *value = va_arg(arg_list, const char*);
-
-    while (value != NULL)
+    if (start < end)
     {
-        if (!strcmp(str, value))
-        {
-            to_return = true;
-            break;
-        }
-        value = va_arg(arg_list, const char*);
+        return std::basic_string<char>(start, end);
     }
-
-    va_end(arg_list);
-
-    return to_return;
+    else
+    {
+        return "";
+    }
 }
 
-//-------------------------------------------------------------------------
-static bool str_is_equal_to_none(const char* str, ...)
+static std::vector<std::string> split_and_trim(const std::string& input, char delimiter)
 {
-    bool to_return = false;
-    va_list arg_list;
-    va_start(arg_list, str);
+    std::vector<std::string> result;
+    std::stringstream ss(input);
+    std::string item;
 
-    const char *value = va_arg(arg_list, const char*);
-
-    while (value != NULL)
+    while (std::getline(ss, item, delimiter))
     {
-        if (strcmp(str, value))
+        std::string trimmedItem = trim(item);
+        if (!trimmedItem.empty())
         {
-            to_return = true;
-            break;
+            result.push_back(trimmedItem);
         }
-        value = va_arg(arg_list, const char*);
     }
 
-    va_end(arg_list);
+    return result;
+}
 
-    return to_return;
+template<typename T>
+static T collect_flags(const std::map<std::string, T>* strings_to_enum_values, T default_value, json_object_element_s* iter)
+{
+    T flags_to_return = static_cast<T>(0);
+    bool flag_set = false;
+
+    // Stores the string values that are within the JSON
+    std::vector<std::string> string_values;
+
+    // If the string values are stored as a JSON array of strings
+    if (iter->value->type == json_type_array)
+    {
+        // Do things if the type is an array
+        json_array_s* flags = json_value_as_array(iter->value);
+        for (auto e = flags->start; e != nullptr; e = e->next)
+        {
+            string_values.emplace_back(json_value_as_string(e->value)->string);
+        }
+    }
+    // If the string values are comma delimited
+    else if (iter->value->type == json_type_string)
+    {
+        const std::string flags = json_value_as_string(iter->value)->string;
+        string_values = split_and_trim(flags);
+    }
+
+    // Iterate through the string values
+    for(const auto str : string_values)
+    {
+        // Skip if the string is not in the map
+        if (strings_to_enum_values->find(str.c_str()) == strings_to_enum_values->end())
+        {
+            continue;
+        }
+
+        // Otherwise, append the enum value
+        flags_to_return |= strings_to_enum_values->at(str.c_str());
+        flag_set = true;
+    }
+
+    return flag_set ? flags_to_return : default_value;
 }
 
 //-------------------------------------------------------------------------
 static EOS_EIntegratedPlatformManagementFlags eos_collect_integrated_platform_managment_flags(json_object_element_s* iter)
 {
-    EOS_EIntegratedPlatformManagementFlags collected_flags = static_cast<EOS_EIntegratedPlatformManagementFlags>(0);
-    json_array_s* flags = json_value_as_array(iter->value);
-    bool flag_set = false;
-    for (auto e = flags->start; e != nullptr; e = e->next)
-    {
-        const char* flag_as_cstr = json_value_as_string(e->value)->string;
-
-        if (str_is_equal_to_any(flag_as_cstr, "EOS_IPMF_Disabled", "Disabled", NULL))
-        {
-            collected_flags |= EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_Disabled;
-            flag_set = true;
-        }
-
-        else if (str_is_equal_to_any(flag_as_cstr, "EOS_IPMF_ManagedByApplication", "ManagedByApplication", "EOS_IPMF_LibraryManagedByApplication", "LibraryManagedByApplication", NULL))
-        {
-            collected_flags |= EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_LibraryManagedByApplication;
-            flag_set = true;
-        }
-        else if (str_is_equal_to_any(flag_as_cstr,"EOS_IPMF_ManagedBySDK", "ManagedBySDK", "EOS_IPMF_LibraryManagedBySDK", "LibraryManagedBySDK", NULL))
-        {
-            collected_flags |= EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_LibraryManagedBySDK;
-            flag_set = true;
-        }
-        else if (str_is_equal_to_any(flag_as_cstr, "EOS_IPMF_DisableSharedPresence", "DisableSharedPresence", "EOS_IPMF_DisablePresenceMirroring", "DisablePresenceMirroring", NULL))
-        {
-            collected_flags |= EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_DisablePresenceMirroring;
-            flag_set = true;
-        }
-        else if (str_is_equal_to_any(flag_as_cstr, "EOS_IPMF_DisableSessions", "DisableSessions", "EOS_IPMF_DisableSDKManagedSessions", "DisableSDKManagedSessions", NULL))
-        {
-            collected_flags |= EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_DisableSDKManagedSessions;
-            flag_set = true;
-        }
-        else if (str_is_equal_to_any(flag_as_cstr, "EOS_IPMF_PreferEOS", "PreferEOS", "EOS_IPMF_PreferEOSIdentity", "PreferEOSIdentity", NULL))
-        {
-            collected_flags |= EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_PreferEOSIdentity;
-            flag_set = true;
-        }
-        else if (str_is_equal_to_any(flag_as_cstr, "EOS_IPMF_PreferIntegrated", "PreferIntegrated", "EOS_IPMF_PreferIntegratedIdentity", "PreferIntegratedIdentity", NULL))
-        {
-            collected_flags |= EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_PreferIntegratedIdentity;
-            flag_set = true;
-        }
-    }
-
-    return flag_set ? collected_flags : EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_Disabled;
+    return collect_flags<EOS_EIntegratedPlatformManagementFlags>(
+        &INTEGRATED_PLATFORM_MANAGEMENT_FLAGS_STRINGS_TO_ENUM,
+        EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_Disabled, 
+        iter);
 }
 
 //-------------------------------------------------------------------------

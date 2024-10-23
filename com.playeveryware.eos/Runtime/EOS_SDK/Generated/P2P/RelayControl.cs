@@ -7,7 +7,8 @@ namespace Epic.OnlineServices.P2P
 	/// Setting for controlling whether relay servers are used.
 	/// 
 	/// Please see the following <see cref="RelayControl" /> value compatibility-chart to better understand how changing this value
-	/// can affect compatibility between clients with different settings.
+	/// can affect compatibility between clients with different settings. Connections between clients using
+	/// Incompatible settings may succeed in limited scenarios but should be treated as though they will consistently fail.
 	/// 
 	/// +------------------------------+---------------------+-------------------------------+---------------------+
 	/// </summary>
