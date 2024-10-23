@@ -122,6 +122,10 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             if (GUILayout.Button("Clear", GUILayout.MaxWidth(50)))
             {
                 value = null;
+
+                // Remove focus from the control so it doesn't display "phantom"
+                // values
+                GUI.FocusControl(null);
             }
             else
             {
@@ -176,6 +180,10 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             if (GUILayout.Button("Clear", GUILayout.MaxWidth(50)))
             {
                 value = null;
+
+                // Remove focus from the control so it doesn't display "phantom"
+                // values
+                GUI.FocusControl(null);
             }
             else
             {
