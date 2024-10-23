@@ -93,7 +93,6 @@ namespace PlayEveryWare.EpicOnlineServices
                 case WrappedPlatformFlags.DisableSocialOverlay:
                 case WrappedPlatformFlags.Reserved1:
                     return true;
-                    break;
                 case WrappedPlatformFlags.WindowsEnableOverlayD3D9:
                 case WrappedPlatformFlags.WindowsEnableOverlayD3D10:
                 case WrappedPlatformFlags.WindowsEnableOverlayOpengl:

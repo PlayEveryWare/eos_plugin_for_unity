@@ -25,12 +25,21 @@ namespace PlayEveryWare.EpicOnlineServices
     // Flags specifically for Android
     public class AndroidConfig : PlatformConfig
     {
-        // TODO: Add help url for this field.
-        [ConfigField("Google Login Client ID", ConfigFieldType.Text)]
+        [ConfigField("Google Login Client ID",
+            ConfigFieldType.Text,
+            "Get your project's Google Login Client ID from the " +
+            "Google Cloud dashboard",
+            -1,
+            "https://console.cloud.google.com/apis/dashboard")]
         public string GoogleLoginClientID;
 
-        [ConfigField("Google Login Nonce", ConfigFieldType.Text, "Use a nonce to improve sign-ing security on Android.", -1, "https://developer.android.com/google/play/integrity/classic#nonce")]
+        [ConfigField("Google Login Nonce",
+            ConfigFieldType.Text,
+            "Use a nonce to improve sign-ing security on Android.",
+            -1,
+            "https://developer.android.com/google/play/integrity/classic#nonce")]
         public string GoogleLoginNonce;
+
         static AndroidConfig()
         {
             RegisterFactory(() => new AndroidConfig());

@@ -66,7 +66,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
         {
             await _productConfigEditor.LoadAsync();
 
-
             List<GUIContent> tabContents = new();
             foreach (PlatformManager.Platform platform in Enum.GetValues(typeof(PlatformManager.Platform)))
             {
