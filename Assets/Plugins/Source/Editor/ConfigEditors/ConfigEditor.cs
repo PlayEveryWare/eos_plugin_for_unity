@@ -22,11 +22,7 @@
 
 namespace PlayEveryWare.EpicOnlineServices.Editor
 {
-    using Common;
-    using Epic.OnlineServices.Platform;
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using System.Reflection;
     using UnityEditor;
     using UnityEditor.AnimatedValues;
@@ -160,9 +156,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
             handler?.Invoke(this, e);
         }
 
-        
-
-        
         public string GetLabelText()
         {
             return _labelText;
