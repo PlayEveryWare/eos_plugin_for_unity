@@ -151,6 +151,14 @@ _WIN32 || _WIN64
             List<string> toolbarStrings = new(new[] { "Main" });
             foreach (PlatformManager.Platform platform in Enum.GetValues(typeof(PlatformManager.Platform)))
             {
+                // Windows platform overrides are currently not displayed,
+                // because the values for Windows are read from the main
+                // EpicOnlineServicesConfig.json file.
+                if (platform == PlatformManager.Platform.Windows)
+                {
+                    continue;
+                }
+
                 if (!PlatformManager.TryGetConfigType(platform, out Type configType) || null == configType)
                 {
                     continue;
