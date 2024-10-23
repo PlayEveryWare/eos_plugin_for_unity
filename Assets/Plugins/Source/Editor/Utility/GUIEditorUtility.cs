@@ -1094,7 +1094,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
         {
             EditorGUILayout.BeginHorizontal();
 
-            string filePath = InputRendererWrapper(configFieldAttributeDetails.Label, value, labelWidth, tooltip, EditorGUILayout.TextField);
+            string filePath = InputRendererWrapper(configFieldAttributeDetails.Label, value, labelWidth, tooltip, EditorGUILayout.TextField, configFieldAttributeDetails.HelpURL);
 
             if (GUILayout.Button("Select", GUILayout.MaxWidth(MAXIMUM_BUTTON_WIDTH)))
             {
@@ -1115,7 +1115,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
         {
             EditorGUILayout.BeginHorizontal();
 
-            string filePath = InputRendererWrapper(configFieldAttributeDetails.Label, value, labelWidth, tooltip, EditorGUILayout.TextField);
+            string filePath = InputRendererWrapper(configFieldAttributeDetails.Label, value, labelWidth, tooltip, EditorGUILayout.TextField, configFieldAttributeDetails.HelpURL);
 
             if (GUILayout.Button("Select", GUILayout.MaxWidth(MAXIMUM_BUTTON_WIDTH)))
             {
@@ -1135,17 +1135,17 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
 
         public static double RenderInput(ConfigFieldAttribute configFieldDetails, double value, float labelWidth)
         {
-                return InputRendererWrapper(configFieldDetails.Label, configFieldDetails.ToolTip, labelWidth, value, EditorGUILayout.DoubleField);
+            return InputRendererWrapper(configFieldDetails.Label, configFieldDetails.ToolTip, labelWidth, value, EditorGUILayout.DoubleField, configFieldDetails.HelpURL);
         }
 
         public static float RenderInput(ConfigFieldAttribute configFieldDetails, float value, float labelWidth)
         {
-            return InputRendererWrapper(configFieldDetails.Label, configFieldDetails.ToolTip, labelWidth, value, EditorGUILayout.FloatField);
+            return InputRendererWrapper(configFieldDetails.Label, configFieldDetails.ToolTip, labelWidth, value, EditorGUILayout.FloatField, configFieldDetails.HelpURL);
         }
 
         public static string RenderInput(ConfigFieldAttribute configFieldDetails, string value, float labelWidth)
         {
-            return InputRendererWrapper(configFieldDetails.Label, configFieldDetails.ToolTip, labelWidth, value, EditorGUILayout.TextField);
+            return InputRendererWrapper(configFieldDetails.Label, configFieldDetails.ToolTip, labelWidth, value, EditorGUILayout.TextField, configFieldDetails.HelpURL);
         }
 
         public static ulong RenderInput(ConfigFieldAttribute configFieldDetails, ulong value, float labelWidth)

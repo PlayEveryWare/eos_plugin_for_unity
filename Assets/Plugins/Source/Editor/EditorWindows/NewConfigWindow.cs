@@ -68,27 +68,34 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
         protected override async Task AsyncSetup()
         {
             await _productConfigEditor.LoadAsync();
-            var configEditors = ReflectionUtility.CreateInstancesOfDerivedGenericClasses(typeof(PlatformConfigEditor<>));
 
-            foreach (IPlatformConfigEditor editor in configEditors.Cast<IPlatformConfigEditor>())
-            {
-                // If the platform for the editor is not available, then do not
-                // display the editor for it.
-                if (!editor.IsPlatformAvailable())
-                    continue;
-
-                _platformConfigEditors.Add(editor);
-            }
 
             List<GUIContent> tabContents = new();
-            foreach (var configEditor in _platformConfigEditors)
+            foreach (PlatformManager.Platform platform in Enum.GetValues(typeof(PlatformManager.Platform)))
             {
-                if (configEditor is not IPlatformConfigEditor platformConfig)
+                if (!PlatformManager.TryGetConfigType(platform, out Type configType) || null == configType)
                 {
                     continue;
                 }
 
-                tabContents.Add(new GUIContent($" {platformConfig.GetLabelText()}", platformConfig.GetPlatformIconTexture()));
+                Type constructedType =
+                    typeof(PlatformConfigEditor<>).MakeGenericType(configType);
+
+                if (Activator.CreateInstance(constructedType) is not IPlatformConfigEditor editor)
+                {
+                    Debug.LogError($"Could not load config editor for platform \"{platform}\".");
+                    continue;
+                }
+
+                // Do not add the platform if it is not currently available.
+                if (!editor.IsPlatformAvailable())
+                {
+                    continue;
+                }
+
+                _platformConfigEditors.Add(editor);
+
+                tabContents.Add(new GUIContent($" {editor.GetLabelText()}", editor.GetPlatformIconTexture()));
             }
 
             _platformTabs = tabContents.ToArray();

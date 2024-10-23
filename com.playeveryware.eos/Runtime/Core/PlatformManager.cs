@@ -214,6 +214,20 @@ namespace PlayEveryWare.EpicOnlineServices
             return PlatformInformation[platform].ConfigType;
         }
 
+        public static bool TryGetConfigType(Platform platform, out Type configType)
+        {
+            configType = null;
+
+            bool typeFound = PlatformInformation.TryGetValue(platform, out PlatformInfo value);
+
+            if (typeFound)
+            {
+                configType = value.ConfigType;
+            }
+
+            return typeFound;
+        }
+
         /// <summary>
         /// Returns the type of the PlatformConfig that holds configuration values for the indicated BuildTarget
         /// </summary>
