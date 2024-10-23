@@ -26,11 +26,8 @@
 #if ENABLE_NEW_CONFIG_WINDOW
 namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 {
-    using PlayEveryWare.EpicOnlineServices.Editor.Utility;
     using System;
     using System.Collections.Generic;
-    using System.Linq;
-    using System.Reflection;
     using System.Threading.Tasks;
     using UnityEditor;
     using UnityEngine;

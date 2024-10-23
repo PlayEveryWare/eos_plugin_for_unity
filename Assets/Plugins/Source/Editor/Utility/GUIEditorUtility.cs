@@ -296,7 +296,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             { ConfigFieldType.Version, HandleField<Version> },
             { ConfigFieldType.Deployment, HandleField<Deployment> },
             { ConfigFieldType.ClientCredentials, HandleField<EOSClientCredentials> },
-            { ConfigFieldType.InitializeThreadAffinity, HandleField<WrappedInitializeThreadAffinity> },
+            { ConfigFieldType.WrappedInitializeThreadAffinity, HandleField<WrappedInitializeThreadAffinity> },
             { ConfigFieldType.Button, HandleButtonField },
             { ConfigFieldType.Enum, HandleEnumField },
             // Add other field types as needed

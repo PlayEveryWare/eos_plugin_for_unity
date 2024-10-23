@@ -165,7 +165,7 @@ namespace PlayEveryWare.EpicOnlineServices
         // referenced in the Epic namespace.
 #if !EOS_DISABLE
         [ConfigField("Thread Affinity Options", 
-            ConfigFieldType.InitializeThreadAffinity, 
+            ConfigFieldType.WrappedInitializeThreadAffinity, 
             "Defines the thread affinity for threads started by the " +
             "EOS SDK. Leave values at zero to use default platform settings.",
             2, "https://dev.epicgames.com/docs/api-ref/structs/eos-initialize-thread-affinity")]

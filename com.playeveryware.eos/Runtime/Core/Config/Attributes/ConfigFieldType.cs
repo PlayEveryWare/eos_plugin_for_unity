@@ -120,7 +120,11 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </summary>
         Button,
 
-        InitializeThreadAffinity,
+        /// <summary>
+        /// Used to render a set of inputs for the InitializeThreadAffinity
+        /// struct defined within the EOS SDK.
+        /// </summary>
+        WrappedInitializeThreadAffinity,
     }
 
 }
