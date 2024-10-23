@@ -64,7 +64,20 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// 
         /// It cannot be guaranteed that this is updated at the appropriate time.
         /// </summary>
-        public InteractableState State = new InteractableState(false);
+        public InteractableState State
+        {
+            get
+            {
+                return _state;
+            }
+            set
+            {
+                _state = value;
+                ApplySelectableStateChange();
+            }
+        }
+
+        private InteractableState _state = new InteractableState(false);
 
         /// <summary>
         /// Event raised in <see cref="NotifySelectableUpdate"/> that informs
@@ -118,9 +131,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         /// <summary>
         /// Updates this component's state through raising
-        /// <see cref="EventToUpdateState"/>, and then updating the UI.
-        /// This will set <see cref="attachedSelectable"/>'s interactable state
-        /// and optionally its tooltip.
+        /// <see cref="EventToUpdateState"/>, which is presumed to contain
+        /// functions that will update <see cref="State"/>. The setter in 
+        /// <see cref="State"/> will then update the visual UI.
         /// 
         /// This is raised by <see cref="UpdateSelectableState"/>. As a public
         /// function, elements in the inspector could directly call this function
@@ -129,22 +142,19 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public void UpdateSelectableState()
         {
             EventToUpdateState.Invoke(this);
+        }
 
+        /// <summary>
+        /// When <see cref="State"/> has its setter run, this handles applying
+        /// the state to the UI.
+        /// </summary>
+        private void ApplySelectableStateChange()
+        {
             if (attachedTooltip != null)
             {
                 if (!string.IsNullOrEmpty(State.TooltipText))
                 {
-                    if (State.Interactable)
-                    {
-                        // TODO: Restore the original tooltip text if it is interactable
-                        // At the moment, none of the buttons that this was applied to
-                        // had any tooltips to begin with
-                        attachedTooltip.Text = string.Empty;
-                    }
-                    else
-                    {
-                        attachedTooltip.Text = State.TooltipText;
-                    }
+                    attachedTooltip.Text = State.TooltipText;
                 }
                 else
                 {
