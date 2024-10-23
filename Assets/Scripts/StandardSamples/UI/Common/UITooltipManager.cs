@@ -303,8 +303,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             if (tooltipComp == currentTooltip)
             {
                 TooltipContainer.gameObject.SetActive(false);
+                currentTooltip = null;
             }
-            currentTooltip = null;
         }
     }
 }

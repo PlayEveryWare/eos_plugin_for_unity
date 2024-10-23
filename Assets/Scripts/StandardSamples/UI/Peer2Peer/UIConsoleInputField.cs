@@ -25,9 +25,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     using UnityEngine;
     using UnityEngine.UI;
     using UnityEngine.EventSystems;
-    
+    using static PlayEveryWare.EpicOnlineServices.Samples.SelectableStateHandler;
+
     public class UIConsoleInputField : MonoBehaviour
     {
+        public string CannotBeEmptyMessage = "Field cannot be empty.";
         public Button InputFieldButton;
         public InputField InputField;
 
@@ -40,10 +42,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         private void Awake()
         {
             InputField.onEndEdit.AddListener(OnEndEdit);
-
-#if UNITY_ANDROID
             InputField.onValueChanged.AddListener(OnEdit);
-#endif
         }
 
 #if UNITY_ANDROID
@@ -61,13 +60,17 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
             prevKeyboardStatus = kbStatus;
         }
+#endif
 
         private void OnEdit(string currentText)
         {
+#if UNITY_ANDROID
             oldEditText = editText;
             editText = currentText;
-        }
 #endif
+
+            SelectableStateHandler.NotifySelectableUpdate();
+        }
 
         public void OnEndEdit(string value)
         {
@@ -88,6 +91,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             keepOldTextInField = false;
         }
 #endif
+
+            SelectableStateHandler.NotifySelectableUpdate();
         }
 
         public void InputFieldOnClick()
@@ -116,6 +121,18 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             // Return focus to button
             InputField.onEndEdit.Invoke(result);
+        }
+
+        public void FieldCannotBeEmptyValidator(SelectableStateHandler toUpdate)
+        {
+            if (string.IsNullOrEmpty(InputField.text))
+            {
+                toUpdate.State = new InteractableState(false, CannotBeEmptyMessage);
+            }
+            else
+            {
+                toUpdate.State = new InteractableState(true);
+            }
         }
     }
 }
