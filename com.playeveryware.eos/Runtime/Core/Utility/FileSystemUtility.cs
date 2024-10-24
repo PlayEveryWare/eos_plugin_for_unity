@@ -52,6 +52,12 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
     /// </summary>
     internal static class FileSystemUtility
     {
+        // This compile conditional exists because the following functions 
+        // make use of the System.Linq namespace which is undesirable to use
+        // during runtime. Since these functions are currently only ever 
+        // utilized in areas of the code that run in the editor, it is
+        // appropriate to use compile conditionals to include / exclude them.
+#if UNITY_EDITOR
         /// <summary>
         /// Interval with which to update progress, in milliseconds
         /// </summary>
@@ -125,7 +131,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         public static bool TryGetTempDirectory(out string path)
         {
             path = default;
-            
+
             // Nested local function to reduce repetitive code.
             string GenerateTempPath()
             {
@@ -186,12 +192,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
             return true;
         }
 
-        // This compile conditional exists because the following functions 
-        // make use of the System.Linq namespace which is undesirable to use
-        // during runtime. Since these functions are currently only ever 
-        // utilized in areas of the code that run in the editor, it is
-        // appropriate to use compile conditionals to include / exclude them.
-#if UNITY_EDITOR
+
         /// <summary>
         /// Get a list of the directories that are represented by the filepaths
         /// provided. The list is unique, and is ordered by smallest path first,
@@ -207,7 +208,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         /// </param>
         /// <returns></returns>
         public static IEnumerable<string> GetDirectories(
-            IEnumerable<string> filepaths, 
+            IEnumerable<string> filepaths,
             bool creationOrder = true)
         {
             // For each filepath, determine the immediate parent directory of
@@ -219,9 +220,9 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
 
                 // skip if no parent
                 if (null == parent) continue;
-                
+
                 directoriesToCreate.Add(parent);
-                
+
             }
 
             // Return the list of directories to create in ascending order of
@@ -258,9 +259,9 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <returns>Task</returns>
         public static async Task CopyFilesAsync(
-            IList<CopyFileOperation> operations, 
-            CancellationToken cancellationToken = default, 
-            IProgress<CopyFileProgressInfo> progress = null, 
+            IList<CopyFileOperation> operations,
+            CancellationToken cancellationToken = default,
+            IProgress<CopyFileProgressInfo> progress = null,
             int updateIntervalMS = DefaultUpdateIntervalMS)
         {
             IEnumerable<string> directoriesToCreate = GetDirectories(
@@ -298,9 +299,9 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
                 // Copy the files asynchronously with the provided
                 // cancellation token, and progress stuff.
                 await CopyFilesAsyncInternal(
-                    operationsList, 
-                    cancellationToken, 
-                    progress, 
+                    operationsList,
+                    cancellationToken,
+                    progress,
                     progressInfo);
             }
             else
@@ -318,9 +319,9 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         /// <param name="progressInfo">Progress information.</param>
         /// <returns>Task</returns>
         private static async Task CopyFilesAsyncInternal(
-            IEnumerable<CopyFileOperation> operations, 
-            CancellationToken cancellationToken = default, 
-            IProgress<CopyFileProgressInfo> progress = null, 
+            IEnumerable<CopyFileOperation> operations,
+            CancellationToken cancellationToken = default,
+            IProgress<CopyFileProgressInfo> progress = null,
             CopyFileProgressInfo progressInfo = default)
         {
             var tasks = operations.Select(async copyOperation =>
@@ -349,7 +350,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
 
             await Task.WhenAll(tasks);
         }
-#endif
+
         /// <summary>
         /// Copies a single file asynchronously.
         /// </summary>
@@ -357,14 +358,14 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <returns>Task</returns>
         private static async Task CopyFileAsync(
-            CopyFileOperation op, 
+            CopyFileOperation op,
             CancellationToken cancellationToken)
         {
             // Maximum number of times the operation is retried if it fails.
             const int maxRetries = 3;
 
             // This is the initial delay before the operation is retried.
-            const int delayMilliseconds = 200; 
+            const int delayMilliseconds = 200;
 
             for (int attempt = 0; attempt < maxRetries; attempt++)
             {
@@ -397,7 +398,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
                     // exponentially increase the delay to maximize the chance
                     // it will succeed without waiting too long.
                     var delay = delayMilliseconds * (int)Math.Pow(2, attempt);
-                    
+
                     // Construct detailed message regarding the nature of the problem.
                     StringBuilder sb = new();
                     sb.AppendLine($"Exception occurred during the following copy operation:");
@@ -413,7 +414,6 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
             }
         }
 
-#if UNITY_EDITOR
         /// <summary>
         /// Returns the root of the Unity project.
         /// </summary>
@@ -479,10 +479,12 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
 #endif
 
         #region File Read Functionality
-
+        // NOTE: This compile conditional is here because on Android devices
+        //       async IO doesn't work well.
+#if !UNITY_ANDROID || UNITY_EDITOR
         public static async Task<(bool Success, string Result)> TryReadAllTextAsync(string filePath)
         {
-            bool fileExists = await ExistsInternal(filePath, false);
+            bool fileExists = await ExistsInternalAsync(filePath, false);
 
             if (!fileExists)
             {
@@ -494,15 +496,6 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
             return null == contents ? (false, null) : (true, contents);
         }
 
-        /// <summary>
-        /// Reads all text from the indicated file.
-        /// </summary>
-        /// <param name="path">Filepath to the file to read from.</param>
-        /// <returns>The contents of the file at the indicated path as a string.</returns>
-        public static string ReadAllText(string path)
-        {
-            return Task.Run(() => ReadAllTextAsync(path)).GetAwaiter().GetResult();
-        }
 
         /// <summary>
         /// Asynchronously reads all text from the indicated file.
@@ -511,12 +504,6 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         /// <returns>Task</returns>
         public static async Task<string> ReadAllTextAsync(string path)
         {
-#if UNITY_ANDROID && !UNITY_EDITOR
-            // On Android, use a custom helper to read the file
-            return await AndroidFileIOHelper.ReadAllText(path);
-#else
-            // On other platforms, read asynchronously or synchronously as
-            // appropriate.
             try
             {
                 return await File.ReadAllTextAsync(path);
@@ -526,8 +513,33 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
                 Debug.LogException(e);
                 throw;
             }
-#endif
         }
+#endif
+
+        /// <summary>
+        /// Reads all text from the indicated file.
+        /// </summary>
+        /// <param name="path">Filepath to the file to read from.</param>
+        /// <returns>The contents of the file at the indicated path as a string.</returns>
+        public static string ReadAllText(string path)
+        {
+#if UNITY_ANDROID && !UNITY_EDITOR
+            return AndroidFileIOHelper.ReadAllText(path);
+#else
+            try
+            {
+                return File.ReadAllText(path);
+            }
+            catch (Exception e)
+            {
+                Debug.LogException(e);
+                throw;
+            }
+#endif
+
+        }
+
+
 
         #endregion
 
@@ -557,7 +569,6 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         }
 
         #endregion
-
 
         #region Path Functionality
 
@@ -662,7 +673,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
             {
                 dInfo.Create();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Debug.LogException(ex);
             }
@@ -674,25 +685,51 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
 
         public static bool DirectoryExists(string path)
         {
-            return DirectoryExistsAsync(path).GetAwaiter().GetResult();
-        }
-
-        public static async Task<bool> DirectoryExistsAsync(string path)
-        {
-            return await ExistsInternal(path, isDirectory: true);
+            return ExistsInternal(path, true);
         }
 
         public static bool FileExists(string path)
         {
-            return FileExistsAsync(path).GetAwaiter().GetResult();
+            return ExistsInternal(path);
         }
+
+        private static bool ExistsInternal(string path, bool isDirectory = false)
+        {
+            bool exists = false;
+
+#if UNITY_ANDROID && !UNITY_EDITOR
+            if (isDirectory)
+            {
+                throw new Exception("Cannot determine if directory exists in Android.");
+            }
+
+            return AndroidFileIOHelper.FileExists(path);
+#else
+            if (isDirectory)
+            {
+                exists = Directory.Exists(path);
+            }
+            else
+            {
+                exists = File.Exists(path);
+            }
+#endif
+
+            return exists;
+        }
+
+        public static async Task<bool> DirectoryExistsAsync(string path)
+        {
+            return await ExistsInternalAsync(path, isDirectory: true);
+        }
+
 
         public static async Task<bool> FileExistsAsync(string path)
         {
-            return await ExistsInternal(path, isDirectory: false);
+            return await ExistsInternalAsync(path, isDirectory: false);
         }
 
-        private static async Task<bool> ExistsInternal(string path, bool isDirectory)
+        private static async Task<bool> ExistsInternalAsync(string path, bool isDirectory)
         {
             bool exists = false;
 #if UNITY_ANDROID && !UNITY_EDITOR
@@ -741,7 +778,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
                 {
                     // Skip .git directories 
                     if (ignoreGit && subDir.EndsWith(".git")) { continue; }
-                    
+
                     // TODO: This is a little bit dangerous as one developer has found out. If the output directory is not
                     //       empty, and contains directories and files unrelated to output, this will (without prompting)
                     //       delete them. So, if you're outputting to, say the "Desktop" directory, it will delete everything

@@ -51,6 +51,7 @@
 
 namespace PlayEveryWare.EpicOnlineServices
 {
+    using Extensions;
     using UnityEngine;
     using System;
     using System.Collections.Generic;
@@ -179,7 +180,7 @@ namespace PlayEveryWare.EpicOnlineServices
             static private NotifyEventHandle s_notifyLoginStatusChangedCallbackHandle;
             static private NotifyEventHandle s_notifyConnectLoginStatusChangedCallbackHandle;
             static private NotifyEventHandle s_notifyConnectAuthExpirationCallbackHandle;
-            
+
             // Setting it twice will cause an exception
             static bool hasSetLoggingCallback;
 
@@ -469,13 +470,14 @@ namespace PlayEveryWare.EpicOnlineServices
 
                 EOSCreateOptions platformOptions = new EOSCreateOptions();
 
+
                 platformOptions.options.CacheDirectory = platformSpecifics.GetTempDir();
                 platformOptions.options.IsServer = configData.isServer;
                 platformOptions.options.Flags =
 #if UNITY_EDITOR
                     PlatformFlags.LoadingInEditor;
 #else
-                configData.GetPlatformFlags();
+                    configData.platformOptionsFlags.Unwrap();
 #endif
                 if (configData.IsEncryptionKeyValid())
                 {
@@ -564,8 +566,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 Init(coroutineOwner, EOSPackageInfo.ConfigFileName);
             }
 
-            //-------------------------------------------------------------------------
-            public void Init(IEOSCoroutineOwner coroutineOwner, string configFileName)
+            private void Init(IEOSCoroutineOwner coroutineOwner, string configFileName)
             {
                 if (GetEOSPlatformInterface() != null)
                 {
@@ -756,6 +757,12 @@ namespace PlayEveryWare.EpicOnlineServices
             /// </summary>
             private void InitializeLogLevels()
             {
+                // This compile conditional is here to circumnavigate issues
+                // unique to android with respect to Config class functionality.
+#if UNITY_ANDROID && !UNITY_EDITOR
+                SetLogLevel(LogCategory.AllCategories, LogLevel.Info);
+                return;
+#else
                 var logLevelList = LogLevelUtility.LogLevelList;
 
                 if (logLevelList == null)
@@ -768,6 +775,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 {
                     SetLogLevel((LogCategory)logCategoryIndex, logLevelList[logCategoryIndex]);
                 }
+#endif
             }
 
             //-------------------------------------------------------------------------
@@ -832,15 +840,19 @@ namespace PlayEveryWare.EpicOnlineServices
                     Token = token
                 };
 
-                var defaultScopeFlags =
-                    AuthScopeFlags.BasicProfile | AuthScopeFlags.FriendsList | AuthScopeFlags.Presence;
+                AuthScopeFlags scopeFlags = (AuthScopeFlags.BasicProfile |
+                                             AuthScopeFlags.FriendsList |
+                                             AuthScopeFlags.Presence);
+
+                if (Config.Get<EOSConfig>().GetAuthScopeFlags() != AuthScopeFlags.NoFlags)
+                {
+                    scopeFlags = Config.Get<EOSConfig>().GetAuthScopeFlags();
+                }
 
                 return new LoginOptions
                 {
                     Credentials = loginCredentials,
-                    ScopeFlags = Config.Get<EOSConfig>().authScopeOptionsFlags.Count > 0
-                        ? Config.Get<EOSConfig>().GetAuthScopeFlags()
-                        : defaultScopeFlags
+                    ScopeFlags = scopeFlags
                 };
             }
 
@@ -1074,24 +1086,13 @@ namespace PlayEveryWare.EpicOnlineServices
                 {
                     print("Attempting to use refresh token to login with connect");
 
-                    // need to refresh the epicaccount id
-                    // LoginCredentialType.RefreshToken
-                    Instance.StartLoginWithLoginTypeAndToken(LoginCredentialType.RefreshToken, null,
-                        authToken.Value.RefreshToken, callbackInfo =>
-                        {
-                            var EOSAuthInterface = GetEOSPlatformInterface().GetAuthInterface();
-                            var copyUserTokenOptions = new CopyUserAuthTokenOptions();
-                            var result = EOSAuthInterface.CopyUserAuthToken(ref copyUserTokenOptions,
-                                callbackInfo.LocalUserId, out Token? userAuthToken);
+                    connectLoginOptions.Credentials = new Epic.OnlineServices.Connect.Credentials
+                    {
+                        Token = authToken.Value.RefreshToken,
+                        Type = ExternalCredentialType.Epic
+                    };
 
-                            connectLoginOptions.Credentials = new Epic.OnlineServices.Connect.Credentials
-                            {
-                                Token = userAuthToken.Value.AccessToken,
-                                Type = ExternalCredentialType.Epic
-                            };
-
-                            StartConnectLoginWithOptions(connectLoginOptions, onConnectLoginCallback);
-                        });
+                    StartConnectLoginWithOptions(connectLoginOptions, onConnectLoginCallback);
                 }
                 else if (authToken.Value.AccessToken != null)
                 {
@@ -1516,7 +1517,7 @@ namespace PlayEveryWare.EpicOnlineServices
                         if (deletePersistentAuthCallbackInfo.ResultCode != Result.Success)
                         {
                             print("Unable to delete persistent token, Result : " +
-                                           deletePersistentAuthCallbackInfo.ResultCode, 
+                                           deletePersistentAuthCallbackInfo.ResultCode,
                                            LogType.Error);
                         }
                         else

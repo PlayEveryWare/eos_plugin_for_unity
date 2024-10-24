@@ -440,7 +440,7 @@ namespace PlayEveryWare.EpicOnlineServices
         public PlatformFlags GetPlatformFlags()
         {
             return StringsToEnum<PlatformFlags>(
-                platformOptionsFlags, 
+                platformOptionsFlags,
                 PlatformFlagsExtensions.TryParse);
         }
 

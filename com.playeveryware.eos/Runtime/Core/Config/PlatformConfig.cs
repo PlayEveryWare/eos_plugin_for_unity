@@ -24,6 +24,7 @@ namespace PlayEveryWare.EpicOnlineServices
 {
 #if !EOS_DISABLE
     using Epic.OnlineServices.IntegratedPlatform;
+    using Utility;
 #endif
     using Extensions;
     using System;
@@ -77,10 +78,10 @@ namespace PlayEveryWare.EpicOnlineServices
 #if !EOS_DISABLE
         public IntegratedPlatformManagementFlags GetIntegratedPlatformManagementFlags()
         {
-            return StringsToEnum<IntegratedPlatformManagementFlags>(
-                flags,
-                IntegratedPlatformManagementFlagsExtensions.TryParse
-            );
+            _ = IntegratedPlatformManagementFlagsExtensions.TryParse(flags,
+                out IntegratedPlatformManagementFlags flagsEnum);
+
+            return flagsEnum;
         }
 #endif
     }
