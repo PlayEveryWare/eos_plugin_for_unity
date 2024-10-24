@@ -477,7 +477,7 @@ namespace PlayEveryWare.EpicOnlineServices
 #if UNITY_EDITOR
                     PlatformFlags.LoadingInEditor;
 #else
-                    configData.platformOptionsFlags.Unwrap();
+                    configData.GetPlatformFlags();
 #endif
                 if (configData.IsEncryptionKeyValid())
                 {

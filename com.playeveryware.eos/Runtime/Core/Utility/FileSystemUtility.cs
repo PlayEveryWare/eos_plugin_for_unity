@@ -713,9 +713,9 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
             {
                 exists = File.Exists(path);
             }
-#endif
 
             return exists;
+#endif
         }
 
         public static async Task<bool> DirectoryExistsAsync(string path)

@@ -330,6 +330,54 @@ namespace PlayEveryWare.EpicOnlineServices
             }
         }
 
+        /// <summary>
+        /// This delegate describes the signature of a function that can be used
+        /// to convert a list of strings into a single enum value.
+        /// </summary>
+        /// <typeparam name="TEnum">
+        /// The type of enum to convert the list of strings to a value of.
+        /// </typeparam>
+        /// <param name="stringFlags">
+        /// Strings to convert into an enum value.
+        /// </param>
+        /// <param name="result">
+        /// The enum value that results from performing a bitwise OR operation
+        /// on the list of enum values that result from converting each item in
+        /// the provided list of strings to an enum value of the indicated type.
+        /// </param>
+        /// <returns>
+        /// True if the parsing of flags was successful, false otherwise.
+        /// </returns>
+        protected delegate bool TryParseEnumDelegate<TEnum>(IList<string>
+            stringFlags, out TEnum result) where TEnum : struct, Enum;
+
+        /// <summary>
+        /// Private static wrapper to handle converting a list of strings into
+        /// a single enum value.
+        /// </summary>
+        /// <typeparam name="TEnum">
+        /// The type of enum to convert the list of strings into.
+        /// </typeparam>
+        /// <param name="stringFlags">
+        /// The list of strings to convert into a single enum value.
+        /// </param>
+        /// <param name="parseEnumFn">
+        /// The function used to convert the list of strings into a single enum
+        /// value.
+        /// </param>
+        /// <returns>A single enum value that is the result of a bitwise OR
+        /// operation between the enum values that result from parsing each of
+        /// the items in a list into the indicated enum type value.
+        /// </returns>
+        protected static TEnum StringsToEnum<TEnum>(
+            IList<string> stringFlags,
+            TryParseEnumDelegate<TEnum> parseEnumFn)
+            where TEnum : struct, Enum
+        {
+            _ = parseEnumFn(stringFlags, out TEnum result);
+            return result;
+        }
+
         // Functions declared below should only ever be utilized in the editor.
         // They are so divided to guarantee separation of concerns.
 #if UNITY_EDITOR
@@ -386,8 +434,6 @@ namespace PlayEveryWare.EpicOnlineServices
                 AssetDatabase.Refresh();
             }
         }
-
-
 
         /// <summary>
         /// Determines whether the values in the Config have their
@@ -594,54 +640,6 @@ namespace PlayEveryWare.EpicOnlineServices
                     memberInfo.MemberType,
                     memberInfo.MemberValue);
             }
-        }
-
-        /// <summary>
-        /// This delegate describes the signature of a function that can be used
-        /// to convert a list of strings into a single enum value.
-        /// </summary>
-        /// <typeparam name="TEnum">
-        /// The type of enum to convert the list of strings to a value of.
-        /// </typeparam>
-        /// <param name="stringFlags">
-        /// Strings to convert into an enum value.
-        /// </param>
-        /// <param name="result">
-        /// The enum value that results from performing a bitwise OR operation
-        /// on the list of enum values that result from converting each item in
-        /// the provided list of strings to an enum value of the indicated type.
-        /// </param>
-        /// <returns>
-        /// True if the parsing of flags was successful, false otherwise.
-        /// </returns>
-        protected delegate bool TryParseEnumDelegate<TEnum>(IList<string>
-            stringFlags, out TEnum result) where TEnum : struct, Enum;
-
-        /// <summary>
-        /// Private static wrapper to handle converting a list of strings into
-        /// a single enum value.
-        /// </summary>
-        /// <typeparam name="TEnum">
-        /// The type of enum to convert the list of strings into.
-        /// </typeparam>
-        /// <param name="stringFlags">
-        /// The list of strings to convert into a single enum value.
-        /// </param>
-        /// <param name="parseEnumFn">
-        /// The function used to convert the list of strings into a single enum
-        /// value.
-        /// </param>
-        /// <returns>A single enum value that is the result of a bitwise OR
-        /// operation between the enum values that result from parsing each of
-        /// the items in a list into the indicated enum type value.
-        /// </returns>
-        protected static TEnum StringsToEnum<TEnum>(
-            IList<string> stringFlags,
-            TryParseEnumDelegate<TEnum> parseEnumFn)
-            where TEnum : struct, Enum
-        {
-            _ = parseEnumFn(stringFlags, out TEnum result);
-            return result;
         }
 
         /// <summary>
