@@ -5,7 +5,7 @@
 
 #pragma pack(push, 8)
 
-EXTERN_C typedef struct EOS_SanctionsHandle* EOS_HSanctions;
+EOS_EXTERN_C typedef struct EOS_SanctionsHandle* EOS_HSanctions;
 
 /** The most recent version of the EOS_Sanctions_PlayerSanction struct. */
 #define EOS_SANCTIONS_PLAYERSANCTION_API_LATEST 2

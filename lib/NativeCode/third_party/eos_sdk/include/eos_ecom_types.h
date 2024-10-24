@@ -6,7 +6,7 @@
 
 #pragma pack(push, 8)
 
-EXTERN_C typedef struct EOS_EcomHandle* EOS_HEcom;
+EOS_EXTERN_C typedef struct EOS_EcomHandle* EOS_HEcom;
 
 /**
  * This handle is copied when EOS_Ecom_CopyTransactionById or EOS_Ecom_CopyTransactionByIndex is called.
@@ -18,14 +18,14 @@ EXTERN_C typedef struct EOS_EcomHandle* EOS_HEcom;
  * @see EOS_Ecom_CopyTransactionByIndex
  * @see EOS_Ecom_Transaction_Release
  */
-EXTERN_C typedef struct EOS_Ecom_TransactionHandle* EOS_Ecom_HTransaction;
+EOS_EXTERN_C typedef struct EOS_Ecom_TransactionHandle* EOS_Ecom_HTransaction;
 
 /**
  * A unique identifier for a catalog item defined and stored with the backend catalog service.
  * A catalog item represents a distinct object within the catalog.  When acquired by an account, an
  * entitlement is granted that references a specific catalog item.
  */
-EXTERN_C typedef const char* EOS_Ecom_CatalogItemId;
+EOS_EXTERN_C typedef const char* EOS_Ecom_CatalogItemId;
 
 /**
  * A unique identifier for a catalog offer defined and stored with the backend catalog service.
@@ -33,7 +33,7 @@ EXTERN_C typedef const char* EOS_Ecom_CatalogItemId;
  * could be 0).  When an offer is purchased an entitlement is granted for each of the items
  * referenced by the offer.
  */
-EXTERN_C typedef const char* EOS_Ecom_CatalogOfferId;
+EOS_EXTERN_C typedef const char* EOS_Ecom_CatalogOfferId;
 
 /**
  * An identifier which is defined on a catalog item and stored with the backend catalog service.
@@ -43,7 +43,7 @@ EXTERN_C typedef const char* EOS_Ecom_CatalogOfferId;
  *
  * @see EOS_Ecom_QueryEntitlements
  */
-EXTERN_C typedef const char* EOS_Ecom_EntitlementName;
+EOS_EXTERN_C typedef const char* EOS_Ecom_EntitlementName;
 
 /**
  * A unique identifier for an entitlement owned by an account.  An entitlement is always associated
@@ -53,14 +53,14 @@ EXTERN_C typedef const char* EOS_Ecom_EntitlementName;
  * @see EOS_Ecom_QueryEntitlements
  * @see EOS_Ecom_RedeemEntitlements
  */
-EXTERN_C typedef const char* EOS_Ecom_EntitlementId;
+EOS_EXTERN_C typedef const char* EOS_Ecom_EntitlementId;
 
 /**
  * A unique identifier for the Sandbox.
  * 
  * @see EOS_Ecom_QueryOwnershipBySandboxIds
  */
-EXTERN_C typedef const char* EOS_Ecom_SandboxId;
+EOS_EXTERN_C typedef const char* EOS_Ecom_SandboxId;
 
 /**
  * An enumeration of the different ownership statuses.

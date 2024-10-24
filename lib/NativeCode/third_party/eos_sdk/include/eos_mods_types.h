@@ -5,7 +5,7 @@
 
 #pragma pack(push, 8)
 
-EXTERN_C typedef struct EOS_ModsHandle* EOS_HMods;
+EOS_EXTERN_C typedef struct EOS_ModsHandle* EOS_HMods;
 
 /** The most recent version of the EOS_Mod_Identifier struct. */
 #define EOS_MOD_IDENTIFIER_API_LATEST 1

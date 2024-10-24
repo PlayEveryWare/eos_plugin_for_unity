@@ -6,7 +6,7 @@
 
 #pragma pack(push, 8)
 
-EXTERN_C typedef struct EOS_MetricsHandle* EOS_HMetrics;
+EOS_EXTERN_C typedef struct EOS_MetricsHandle* EOS_HMetrics;
 
 /** User game controller types. */
 EOS_ENUM(EOS_EUserControllerType,

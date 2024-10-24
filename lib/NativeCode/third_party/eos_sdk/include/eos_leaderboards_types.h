@@ -6,7 +6,7 @@
 
 #pragma pack(push, 8)
 
-EXTERN_C typedef struct EOS_LeaderboardsHandle* EOS_HLeaderboards;
+EOS_EXTERN_C typedef struct EOS_LeaderboardsHandle* EOS_HLeaderboards;
 
 /** Timestamp value representing an undefined time for EOS_HLeaderboards. */
 #define EOS_LEADERBOARDS_TIME_UNDEFINED -1

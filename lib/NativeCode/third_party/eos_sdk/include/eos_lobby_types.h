@@ -7,13 +7,13 @@
 #pragma pack(push, 8)
 
 /** Handle to the lobby interface */
-EXTERN_C typedef struct EOS_LobbyHandle* EOS_HLobby;
+EOS_EXTERN_C typedef struct EOS_LobbyHandle* EOS_HLobby;
 /** Handle to a lobby modification object */
-EXTERN_C typedef struct EOS_LobbyModificationHandle* EOS_HLobbyModification;
+EOS_EXTERN_C typedef struct EOS_LobbyModificationHandle* EOS_HLobbyModification;
 /** Handle to a single lobby */
-EXTERN_C typedef struct EOS_LobbyDetailsHandle* EOS_HLobbyDetails;
+EOS_EXTERN_C typedef struct EOS_LobbyDetailsHandle* EOS_HLobbyDetails;
 /** Handle to the calls responsible for creating a search object */
-EXTERN_C typedef struct EOS_LobbySearchHandle* EOS_HLobbySearch;
+EOS_EXTERN_C typedef struct EOS_LobbySearchHandle* EOS_HLobbySearch;
 
 EOS_DECLARE_FUNC(void) EOS_LobbyModification_Release(EOS_HLobbyModification LobbyModificationHandle);
 
@@ -36,7 +36,7 @@ EOS_DECLARE_FUNC(void) EOS_LobbyDetails_Release(EOS_HLobbyDetails LobbyHandle);
 EOS_DECLARE_FUNC(void) EOS_LobbySearch_Release(EOS_HLobbySearch LobbySearchHandle);
 
 /** All lobbies are referenced by a unique lobby ID */
-EXTERN_C typedef const char* EOS_LobbyId;
+EOS_EXTERN_C typedef const char* EOS_LobbyId;
 
 #define EOS_LOBBY_MAX_LOBBIES 16
 #define EOS_LOBBY_MAX_LOBBY_MEMBERS 64

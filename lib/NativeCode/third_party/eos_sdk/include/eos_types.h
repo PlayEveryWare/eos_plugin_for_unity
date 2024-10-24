@@ -6,7 +6,7 @@
 
 #pragma pack(push, 8)
 
-EXTERN_C typedef struct EOS_PlatformHandle* EOS_HPlatform;
+EOS_EXTERN_C typedef struct EOS_PlatformHandle* EOS_HPlatform;
 
 /** Max length of a client id, not including the terminating null. */
 #define EOS_PLATFORM_CLIENTCREDENTIALS_CLIENTID_MAX_LENGTH 64

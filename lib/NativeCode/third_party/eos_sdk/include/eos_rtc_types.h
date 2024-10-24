@@ -6,7 +6,7 @@
 
 #pragma pack(push, 8)
 
-EXTERN_C typedef struct EOS_RTCHandle* EOS_HRTC;
+EOS_EXTERN_C typedef struct EOS_RTCHandle* EOS_HRTC;
 
 /** Participant RTC's status change */
 EOS_ENUM(EOS_ERTCParticipantStatus,

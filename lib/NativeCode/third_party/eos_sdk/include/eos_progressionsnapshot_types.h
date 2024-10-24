@@ -7,7 +7,7 @@
 #pragma pack(push, 8)
 
 /** Handle to the ProgressionSnapshot interface */
-EXTERN_C typedef struct EOS_ProgressionSnapshotHandle* EOS_HProgressionSnapshot;
+EOS_EXTERN_C typedef struct EOS_ProgressionSnapshotHandle* EOS_HProgressionSnapshot;
 
 #define EOS_INVALID_PROGRESSIONSNAPSHOTID  0
 

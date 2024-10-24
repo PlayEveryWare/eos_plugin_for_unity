@@ -6,7 +6,7 @@
 
 #pragma pack(push, 8)
 
-EXTERN_C typedef struct EOS_AchievementsHandle* EOS_HAchievements;
+EOS_EXTERN_C typedef struct EOS_AchievementsHandle* EOS_HAchievements;
 
 /** The most recent version of the EOS_Achievements_QueryDefinitions struct. */
 #define EOS_ACHIEVEMENTS_QUERYDEFINITIONS_API_LATEST 3

@@ -117,7 +117,7 @@ EOS_STRUCT(EOS_LogMessage, (
  * @param Message A EOS_LogMessage containing the log category, log level, and message.
  * @see EOS_LogMessage
  */
-EXTERN_C typedef void (EOS_CALL * EOS_LogMessageFunc)(const EOS_LogMessage* Message);
+EOS_EXTERN_C typedef void (EOS_CALL * EOS_LogMessageFunc)(const EOS_LogMessage* Message);
 
 /**
  * Set the callback function to use for SDK log messages. Any previously set callback will no longer be called.

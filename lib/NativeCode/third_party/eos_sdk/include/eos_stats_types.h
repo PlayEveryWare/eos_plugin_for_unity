@@ -6,7 +6,7 @@
 
 #pragma pack(push, 8)
 
-EXTERN_C typedef struct EOS_StatsHandle* EOS_HStats;
+EOS_EXTERN_C typedef struct EOS_StatsHandle* EOS_HStats;
 
 /** The most recent version of the EOS_Stats_IngestData struct. */
 #define EOS_STATS_INGESTDATA_API_LATEST 1

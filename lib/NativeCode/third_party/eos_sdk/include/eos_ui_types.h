@@ -7,10 +7,10 @@
 #pragma pack(push, 8)
 
 /** Handle to the UI interface */
-EXTERN_C typedef struct EOS_UIHandle* EOS_HUI;
+EOS_EXTERN_C typedef struct EOS_UIHandle* EOS_HUI;
 
 /** ID representing a specific UI event. */
-EXTERN_C typedef uint64_t EOS_UI_EventId;
+EOS_EXTERN_C typedef uint64_t EOS_UI_EventId;
 #define EOS_UI_EVENTID_INVALID 0
 
 /** The most recent version of the EOS_UI_ShowFriends API. */
@@ -197,8 +197,16 @@ EOS_STRUCT(EOS_UI_SetToggleFriendsButtonOptions, (
 	/** API Version: Set this to EOS_UI_SETTOGGLEFRIENDSBUTTON_API_LATEST. */
 	int32_t ApiVersion;
 	/**
-	 * The new button which will be used to toggle the friends overlay.
-	 * It can be any combination of buttons.
+	 * The button combination to toggle the friends-list page. 
+	 * It can be any combination of the following buttons (which can include the left or right shoulder buttons (EOS_UISBF_LeftShoulder or EOS_UISBF_RightShoulder)):
+	 * 
+	 * - EOS_UI_EInputStateButtonFlags::EOS_UISBF_LeftTrigger
+	 * - EOS_UI_EInputStateButtonFlags::EOS_UISBF_RightTrigger
+	 * - EOS_UI_EInputStateButtonFlags::EOS_UISBF_Special_Left
+	 * - EOS_UI_EInputStateButtonFlags::EOS_UISBF_Special_Right
+	 * - EOS_UI_EInputStateButtonFlags::EOS_UISBF_LeftThumbstick
+	 * - EOS_UI_EInputStateButtonFlags::EOS_UISBF_RightThumbstick
+	 * 
 	 * The default value is No Button. Set the value to EOS_UISBF_None to revert to the default.
 	 */
 	EOS_UI_EInputStateButtonFlags ButtonCombination;

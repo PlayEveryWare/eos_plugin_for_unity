@@ -6,7 +6,7 @@
 
 #pragma pack(push, 8)
 
-EXTERN_C typedef struct EOS_RTCDataHandle* EOS_HRTCData;
+EOS_EXTERN_C typedef struct EOS_RTCDataHandle* EOS_HRTCData;
 
 /** The maximum length of data chunk in bytes that can be sent and received */
 #define EOS_RTCDATA_MAX_PACKET_SIZE 1170

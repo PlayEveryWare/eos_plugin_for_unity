@@ -9,7 +9,7 @@
 /** Maximum File Name Length in bytes */
 #define EOS_PLAYERDATASTORAGE_FILENAME_MAX_LENGTH_BYTES 64
 
-EXTERN_C typedef struct EOS_PlayerDataStorageHandle* EOS_HPlayerDataStorage;
+EOS_EXTERN_C typedef struct EOS_PlayerDataStorageHandle* EOS_HPlayerDataStorage;
 
 /** Timestamp value representing an undefined time for Player Data Storage. */
 #define EOS_PLAYERDATASTORAGE_TIME_UNDEFINED -1
@@ -230,7 +230,7 @@ EOS_DECLARE_CALLBACK(EOS_PlayerDataStorage_OnDeleteFileCompleteCallback, const E
 /**
  * Handle type to a File Request
  */
-EXTERN_C typedef struct EOS_PlayerDataStorageFileTransferRequestHandle* EOS_HPlayerDataStorageFileTransferRequest;
+EOS_EXTERN_C typedef struct EOS_PlayerDataStorageFileTransferRequestHandle* EOS_HPlayerDataStorageFileTransferRequest;
 
 /**
  * Free the memory used by a cloud-storage file request handle. This will not cancel a request in progress.
@@ -301,7 +301,7 @@ EOS_STRUCT(EOS_PlayerDataStorage_ReadFileDataCallbackInfo, (
 EOS_DECLARE_CALLBACK_RETVALUE(EOS_PlayerDataStorage_EReadResult, EOS_PlayerDataStorage_OnReadFileDataCallback, const EOS_PlayerDataStorage_ReadFileDataCallbackInfo* Data);
 
 /** The most recent version of the EOS_PlayerDataStorage_ReadFile API. */
-#define EOS_PLAYERDATASTORAGE_READFILE_API_LATEST 1
+#define EOS_PLAYERDATASTORAGE_READFILE_API_LATEST 2
 /** DEPRECATED! Use EOS_PLAYERDATASTORAGE_READFILE_API_LATEST instead. */
 #define EOS_PLAYERDATASTORAGE_READFILEOPTIONS_API_LATEST EOS_PLAYERDATASTORAGE_READFILE_API_LATEST
 
@@ -395,7 +395,7 @@ EOS_STRUCT(EOS_PlayerDataStorage_WriteFileDataCallbackInfo, (
 EOS_DECLARE_CALLBACK_RETVALUE(EOS_PlayerDataStorage_EWriteResult, EOS_PlayerDataStorage_OnWriteFileDataCallback, const EOS_PlayerDataStorage_WriteFileDataCallbackInfo* Data, void* OutDataBuffer, uint32_t* OutDataWritten);
 
 /** The most recent version of the EOS_PlayerDataStorage_WriteFile API. */
-#define EOS_PLAYERDATASTORAGE_WRITEFILE_API_LATEST 1
+#define EOS_PLAYERDATASTORAGE_WRITEFILE_API_LATEST 2
 /** DEPRECATED! Use EOS_PLAYERDATASTORAGE_WRITEFILE_API_LATEST instead. */
 #define EOS_PLAYERDATASTORAGE_WRITEFILEOPTIONS_API_LATEST EOS_PLAYERDATASTORAGE_WRITEFILE_API_LATEST
 

@@ -9,7 +9,7 @@
 /** Maximum File Name Length in bytes */
 #define EOS_TITLESTORAGE_FILENAME_MAX_LENGTH_BYTES 64
 
-EXTERN_C typedef struct EOS_TitleStorageHandle* EOS_HTitleStorage;
+EOS_EXTERN_C typedef struct EOS_TitleStorageHandle* EOS_HTitleStorage;
 
 /** The most recent version of the EOS_TitleStorage_FileMetadata API. */
 #define EOS_TITLESTORAGE_FILEMETADATA_API_LATEST 2
@@ -160,7 +160,7 @@ EOS_STRUCT(EOS_TitleStorage_CopyFileMetadataByFilenameOptions, (
 /**
  * Handle type to a File Request
  */
-EXTERN_C typedef struct EOS_TitleStorageFileTransferRequestHandle* EOS_HTitleStorageFileTransferRequest;
+EOS_EXTERN_C typedef struct EOS_TitleStorageFileTransferRequestHandle* EOS_HTitleStorageFileTransferRequest;
 
 /**
  * Free the memory used by a cloud-storage file request handle. This will not cancel a request in progress.
@@ -229,7 +229,7 @@ EOS_STRUCT(EOS_TitleStorage_ReadFileDataCallbackInfo, (
 EOS_DECLARE_CALLBACK_RETVALUE(EOS_TitleStorage_EReadResult, EOS_TitleStorage_OnReadFileDataCallback, const EOS_TitleStorage_ReadFileDataCallbackInfo* Data);
 
 /** The most recent version of the EOS_TitleStorage_ReadFile API. */
-#define EOS_TITLESTORAGE_READFILE_API_LATEST 1
+#define EOS_TITLESTORAGE_READFILE_API_LATEST 2
 /** DEPRECATED! Use EOS_TITLESTORAGE_READFILE_API_LATEST instead. */
 #define EOS_TITLESTORAGE_READFILEOPTIONS_API_LATEST EOS_TITLESTORAGE_READFILE_API_LATEST
 

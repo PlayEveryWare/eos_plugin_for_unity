@@ -125,7 +125,7 @@ EOS_DECLARE_FUNC(EOS_NotificationId) EOS_P2P_AddNotifyPeerConnectionInterrupted(
 EOS_DECLARE_FUNC(void) EOS_P2P_RemoveNotifyPeerConnectionInterrupted(EOS_HP2P Handle, EOS_NotificationId NotificationId);
 
 /**
- * Listen for when a previously opened connection is closed.
+ * Listen for when a previously accepted connection that was either open or pending is closed.
  *
  * @param Options Information about who would like notifications about closed connections, and for which socket
  * @param ClientData This value is returned to the caller when ConnectionClosedHandler is invoked

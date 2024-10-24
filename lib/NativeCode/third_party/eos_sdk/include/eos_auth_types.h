@@ -6,7 +6,7 @@
 
 #pragma pack(push, 8)
 
-EXTERN_C typedef struct EOS_AuthHandle* EOS_HAuth;
+EOS_EXTERN_C typedef struct EOS_AuthHandle* EOS_HAuth;
 
 /**
  * All possible types of login methods, availability depends on permissions granted to the client.

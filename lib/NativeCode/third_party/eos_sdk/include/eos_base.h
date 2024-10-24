@@ -105,17 +105,17 @@ typedef int32_t EOS_Bool;
 #endif
 
 #ifdef __cplusplus
-#define EXTERN_C extern "C"
+#define EOS_EXTERN_C extern "C"
 #else
-#define EXTERN_C
+#define EOS_EXTERN_C
 #endif
 
-#define EOS_DECLARE_FUNC(return_type) EXTERN_C EOS_API return_type EOS_CALL
-#define EOS_DECLARE_CALLBACK(CallbackName, ...) EXTERN_C typedef void (EOS_CALL * CallbackName)(__VA_ARGS__)
-#define EOS_DECLARE_CALLBACK_RETVALUE(ReturnType, CallbackName, ...) EXTERN_C typedef ReturnType (EOS_CALL * CallbackName)(__VA_ARGS__)
+#define EOS_DECLARE_FUNC(return_type) EOS_EXTERN_C EOS_API return_type EOS_CALL
+#define EOS_DECLARE_CALLBACK(CallbackName, ...) EOS_EXTERN_C typedef void (EOS_CALL * CallbackName)(__VA_ARGS__)
+#define EOS_DECLARE_CALLBACK_RETVALUE(ReturnType, CallbackName, ...) EOS_EXTERN_C typedef ReturnType (EOS_CALL * CallbackName)(__VA_ARGS__)
 #define EOS_PASTE(...) __VA_ARGS__
 #define EOS_STRUCT(struct_name, struct_def)           \
-	EXTERN_C typedef struct _tag ## struct_name {     \
+	EOS_EXTERN_C typedef struct _tag ## struct_name {     \
 		EOS_PASTE struct_def                          \
 	} struct_name
 

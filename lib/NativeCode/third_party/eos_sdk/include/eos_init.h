@@ -14,7 +14,7 @@
  * The SDK will always call the provided function with an Alignment that is a power of 2.
  * Allocation failures should return a null pointer.
  */
-EXTERN_C typedef void* (EOS_MEMORY_CALL * EOS_AllocateMemoryFunc)(size_t SizeInBytes, size_t Alignment);
+EOS_EXTERN_C typedef void* (EOS_MEMORY_CALL * EOS_AllocateMemoryFunc)(size_t SizeInBytes, size_t Alignment);
 
 /**
  * Function prototype type definition for functions that reallocate memory.
@@ -24,17 +24,17 @@ EXTERN_C typedef void* (EOS_MEMORY_CALL * EOS_AllocateMemoryFunc)(size_t SizeInB
  * The SDK will always call the provided function with an Alignment that is a power of 2.
  * Reallocation failures should return a null pointer.
  */
-EXTERN_C typedef void* (EOS_MEMORY_CALL * EOS_ReallocateMemoryFunc)(void* Pointer, size_t SizeInBytes, size_t Alignment);
+EOS_EXTERN_C typedef void* (EOS_MEMORY_CALL * EOS_ReallocateMemoryFunc)(void* Pointer, size_t SizeInBytes, size_t Alignment);
 
 /**
  * Function prototype type definition for functions that release memory.
  *
  * When the SDK is done with memory that has been allocated by a custom allocator passed to EOS_Initialize, it will call the corresponding memory release function.
  */
-EXTERN_C typedef void (EOS_MEMORY_CALL * EOS_ReleaseMemoryFunc)(void* Pointer);
+EOS_EXTERN_C typedef void (EOS_MEMORY_CALL * EOS_ReleaseMemoryFunc)(void* Pointer);
 
 /** The most recent version of the EOS_Initialize_ThreadAffinity API. */
-#define EOS_INITIALIZE_THREADAFFINITY_API_LATEST 2
+#define EOS_INITIALIZE_THREADAFFINITY_API_LATEST 3
 
 /**
  * Options for initializing defining thread affinity for use by Epic Online Services SDK.
@@ -55,6 +55,10 @@ EOS_STRUCT(EOS_Initialize_ThreadAffinity, (
 	uint64_t HttpRequestIo;
 	/** Any thread that will generate IO related to RTC traffic and management. */
 	uint64_t RTCIo;
+	/** Main thread of the external overlay */
+	uint64_t EmbeddedOverlayMainThread;
+	/** Worker threads of the external overlay */
+	uint64_t EmbeddedOverlayWorkerThreads;
 ));
 
 /** The most recent version of the EOS_Initialize API. */

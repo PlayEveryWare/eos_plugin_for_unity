@@ -5,7 +5,7 @@
 
 #pragma pack(push, 8)
 
-EXTERN_C typedef struct EOS_UserInfoHandle* EOS_HUserInfo;
+EOS_EXTERN_C typedef struct EOS_UserInfoHandle* EOS_HUserInfo;
 
 /**
  * EOS_UserInfo_QueryUserInfo is used to start an asynchronous query to retrieve information, such as display name, about another account.

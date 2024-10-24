@@ -6,7 +6,7 @@
 
 #pragma pack(push, 8)
 
-EXTERN_C typedef struct EOS_P2PHandle* EOS_HP2P;
+EOS_EXTERN_C typedef struct EOS_P2PHandle* EOS_HP2P;
 
 /**
  * A packet's maximum size in bytes
@@ -307,7 +307,9 @@ EOS_ENUM(EOS_EConnectionClosedReason,
 	/** The connection was locally accepted, but we failed to negotiate a connection with the remote user. This most commonly occurs if the local user goes offline or is logged-out during the connection process. */
 	EOS_CCR_NegotiationFailed = 9,
 	/** The connection was accepted, but there was an internal error occurred and the connection cannot be created or continue. */
-	EOS_CCR_UnexpectedError = 10
+	EOS_CCR_UnexpectedError = 10,
+	/** The connection was ignored because no connection listeners were bound. */
+	EOS_CCR_ConnectionIgnored = 11
 );
 
 /**
@@ -423,14 +425,15 @@ EOS_STRUCT(EOS_P2P_GetNATTypeOptions, (
  * Setting for controlling whether relay servers are used.
  *
  * Please see the following EOS_ERelayControl value compatibility-chart to better understand how changing this value
- * can affect compatibility between clients with different settings.
+ * can affect compatibility between clients with different settings. Connections between clients using
+ * Incompatible settings may succeed in limited scenarios but should be treated as though they will consistently fail.
  *
  * +------------------------------+---------------------+-------------------------------+---------------------+
  * |                              |   EOS_RC_NoRelays   |  EOS_RC_AllowRelays (Default) |  EOS_RC_ForceRelays |
  * +------------------------------+---------------------+-------------------------------+---------------------+
- * | EOS_RC_NoRelays              |  Compatible         |  Compatible                   |  Connection Failure |
+ * | EOS_RC_NoRelays              |  Compatible         |  Compatible                   |  Incompatible       |
  * | EOS_RC_AllowRelays (Default) |  Compatible         |  Compatible                   |  Compatible         |
- * | EOS_RC_ForceRelays           |  Connection Failure |  Compatible                   |  Compatible         |
+ * | EOS_RC_ForceRelays           |  Incompatible       |  Compatible                   |  Compatible         |
  * +------------------------------+---------------------+-------------------------------+---------------------+
  */
 EOS_ENUM(EOS_ERelayControl,

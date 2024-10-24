@@ -7,8 +7,8 @@
 
 #pragma pack(push, 8)
 
-EXTERN_C typedef struct EOS_PresenceHandle* EOS_HPresence;
-EXTERN_C typedef struct EOS_PresenceModificationHandle* EOS_HPresenceModification;
+EOS_EXTERN_C typedef struct EOS_PresenceHandle* EOS_HPresence;
+EOS_EXTERN_C typedef struct EOS_PresenceModificationHandle* EOS_HPresenceModification;
 
 /**
  * Presence Status states of a user

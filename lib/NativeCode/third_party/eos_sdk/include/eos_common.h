@@ -145,7 +145,7 @@ EOS_DECLARE_FUNC(EOS_ProductUserId) EOS_ProductUserId_FromString(const char* Pro
 #define EOS_PRODUCTUSERID_MAX_LENGTH 32
 
 /** Handle to an existing registered notification (0 is an invalid handle) */
-EXTERN_C typedef uint64_t EOS_NotificationId;
+EOS_EXTERN_C typedef uint64_t EOS_NotificationId;
 
 /** An invalid notification ID */
 #define EOS_INVALID_NOTIFICATIONID ((EOS_NotificationId)0)
@@ -409,6 +409,8 @@ EOS_ENUM(EOS_EExternalCredentialType,
 	 * This is the common Nintendo account that users login with outside the Nintendo Switch device.
 	 *
 	 * Supported with EOS_Auth_Login, EOS_Connect_Login.
+	 * 
+	 * Note: EOS_Auth_Login usage is restricted to Epic first party products only, attempting to use it will result in authentication failures.
 	 */
 	EOS_ECT_NINTENDO_ID_TOKEN = 6,
 	/**
@@ -430,10 +432,14 @@ EOS_ENUM(EOS_EExternalCredentialType,
 	 * progression if it is only associated with this account type.
 	 *
 	 * Supported with EOS_Auth_Login, EOS_Connect_Login.
+	 * 
+	 * Note: EOS_Auth_Login usage is restricted to Epic first party products only, attempting to use it will result in authentication failures.
 	 */
 	EOS_ECT_NINTENDO_NSA_ID_TOKEN = 7,
 	/**
 	 * Uplay Access Token
+	 * 
+	 * Supported with EOS_Connect_Login.
 	 */
 	EOS_ECT_UPLAY_ACCESS_TOKEN = 8,
 	/**
@@ -556,15 +562,18 @@ EOS_ENUM(EOS_EExternalCredentialType,
  * This type is used to distinguish between different supported integrated platforms.
  * Integrated platforms which are common across multiple host platforms will be defined here.
  */
-EXTERN_C typedef const char* EOS_IntegratedPlatformType;
+EOS_EXTERN_C typedef const char* EOS_IntegratedPlatformType;
 /** A macro to identify an unknown integrated platform. */
 #define EOS_IPT_Unknown (const char*)NULL
 
 /** This type is used to distinguish between different online platforms. */
-EXTERN_C typedef uint32_t EOS_OnlinePlatformType;
+EOS_EXTERN_C typedef uint32_t EOS_OnlinePlatformType;
 
 #define EOS_OPT_Unknown 0
 #define EOS_OPT_Epic 100
+#define EOS_OPT_PSN 1000
+#define EOS_OPT_Nintendo 2000
+#define EOS_OPT_XBL 3000
 #define EOS_OPT_Steam 4000
 
 #pragma pack(pop)

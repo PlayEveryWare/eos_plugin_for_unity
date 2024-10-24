@@ -5,7 +5,7 @@
 
 #pragma pack(push, 8)
 
-EXTERN_C typedef struct EOS_ConnectHandle* EOS_HConnect;
+EOS_EXTERN_C typedef struct EOS_ConnectHandle* EOS_HConnect;
 
 /** Max length of an external account ID in string form */
 #define EOS_CONNECT_EXTERNAL_ACCOUNT_ID_MAX_LENGTH 256

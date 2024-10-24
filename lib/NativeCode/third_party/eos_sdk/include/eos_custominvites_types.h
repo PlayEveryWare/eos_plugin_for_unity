@@ -7,7 +7,7 @@
 #pragma pack(push, 8)
 
 /** Handle to the custom invites interface */
-EXTERN_C typedef struct EOS_CustomInvitesHandle* EOS_HCustomInvites;
+EOS_EXTERN_C typedef struct EOS_CustomInvitesHandle* EOS_HCustomInvites;
 
 /** Maximum size of the custom invite payload string */
 #define EOS_CUSTOMINVITES_MAX_PAYLOAD_LENGTH 500

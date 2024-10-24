@@ -5,7 +5,7 @@
 
 #pragma pack(push, 8)
 
-EXTERN_C typedef struct EOS_KWSHandle* EOS_HKWS;
+EOS_EXTERN_C typedef struct EOS_KWSHandle* EOS_HKWS;
 
 /** Maximum number of permissions that may be requested */
 #define EOS_KWS_MAX_PERMISSIONS 16

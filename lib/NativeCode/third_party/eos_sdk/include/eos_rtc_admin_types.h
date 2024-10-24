@@ -6,7 +6,7 @@
 
 #pragma pack(push, 8)
 
-EXTERN_C typedef struct EOS_RTCAdminHandle* EOS_HRTCAdmin;
+EOS_EXTERN_C typedef struct EOS_RTCAdminHandle* EOS_HRTCAdmin;
 
 /** The most recent version of the EOS_RTCAdmin_QueryJoinRoomToken API */
 #define EOS_RTCADMIN_QUERYJOINROOMTOKEN_API_LATEST 2

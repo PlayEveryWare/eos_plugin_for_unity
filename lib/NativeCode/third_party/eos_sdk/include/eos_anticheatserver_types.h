@@ -7,7 +7,7 @@
 
 #pragma pack(push, 8)
 
-EXTERN_C typedef struct EOS_AntiCheatServerHandle* EOS_HAntiCheatServer;
+EOS_EXTERN_C typedef struct EOS_AntiCheatServerHandle* EOS_HAntiCheatServer;
 
 /**
  * Maximum size of an individual message provided through EOS_AntiCheatServer_OnMessageToClientCallback.

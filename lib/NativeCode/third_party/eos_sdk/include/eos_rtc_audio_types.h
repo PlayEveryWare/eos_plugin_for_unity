@@ -6,7 +6,7 @@
 
 #pragma pack(push, 8)
 
-EXTERN_C typedef struct EOS_RTCAudioHandle* EOS_HRTCAudio;
+EOS_EXTERN_C typedef struct EOS_RTCAudioHandle* EOS_HRTCAudio;
 
 /**
  * An enumeration of the different audio channel statuses.

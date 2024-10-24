@@ -7,7 +7,7 @@
 
 #pragma pack(push, 8)
 
-EXTERN_C typedef struct EOS_AntiCheatClientHandle* EOS_HAntiCheatClient;
+EOS_EXTERN_C typedef struct EOS_AntiCheatClientHandle* EOS_HAntiCheatClient;
 
 /** Operating modes */
 EOS_ENUM(EOS_EAntiCheatClientMode,

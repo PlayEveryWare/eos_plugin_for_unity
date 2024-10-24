@@ -5,7 +5,7 @@
 
 #pragma pack(push, 8)
 
-EXTERN_C typedef struct EOS_FriendsHandle* EOS_HFriends;
+EOS_EXTERN_C typedef struct EOS_FriendsHandle* EOS_HFriends;
 
 /**
  * EOS_Friends_QueryFriends is used to start an asynchronous query to retrieve friends, blocked users and pending outbound/inbound friends list invitations for a user account.
