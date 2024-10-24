@@ -381,24 +381,27 @@ namespace PlayEveryWare.EpicOnlineServices
         /// as a key to determine the corresponding deploymentId that has been
         /// set by the user in the configuration window.
         /// </summary>
-        /// <param name="sandboxId">The sandbox id to use.</param>
-        public void SetDeployment(string sandboxId)
+        /// <param name="launcherSandboxId">The sandbox id to use.</param>
+        public void SetDeployment(string launcherSandboxId)
         {
             // Confirm that the sandboxId is stored in the list of overrides
-            if (!TryGetDeployment(sandboxDeploymentOverrides, sandboxId,
+            if (TryGetDeployment(sandboxDeploymentOverrides, launcherSandboxId,
                     out SandboxDeploymentOverride overridePair))
             {
-                Debug.LogError($"The given sandboxId \"{sandboxId}\" could not be found in the configured list of deployment override values.");
-                return;
+                Debug.Log($"Sandbox ID overridden to: \"{overridePair.sandboxID}\".");
+                Debug.Log($"Deployment ID overridden to: \"{overridePair.deploymentID}\".");
+
+                // Override the sandbox and deployment Ids
+                sandboxID = overridePair.sandboxID;
+                deploymentID = overridePair.deploymentID;
             }
-
-            Debug.Log($"Sandbox ID overridden to: \"{overridePair.sandboxID}\".");
-            Debug.Log($"Deployment ID overridden to: \"{overridePair.deploymentID}\".");
-
-            // Override the sandbox and deployment Ids
-            sandboxID = overridePair.sandboxID;
-            deploymentID = overridePair.deploymentID;
-
+            else 
+            {
+                if (sandboxID != launcherSandboxId) 
+                {
+                    throw new Exception($"The launcher sandboxId \"{launcherSandboxId}\" does not have a corresponding deploymentId configured.");
+                }
+            }
             // TODO: This will trigger a need to re-validate the config values
         }
 
