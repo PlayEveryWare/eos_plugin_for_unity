@@ -22,6 +22,7 @@
 #if !EOS_DISABLE
 namespace PlayEveryWare.EpicOnlineServices.Editor.Build
 {
+    using EpicOnlineServices.Utility;
     using System.IO;
     using UnityEditor;
     using UnityEditor.Build.Reporting;
@@ -60,7 +61,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
 
             PBXProject proj = new();
 
-            proj.ReadFromString(FileUtility.ReadAllText(projPath));
+            proj.ReadFromString(FileSystemUtility.ReadAllText(projPath));
 
             string targetGUID = proj.GetUnityMainTargetGuid();
             string unityTargetGUID = proj.GetUnityFrameworkTargetGuid();
