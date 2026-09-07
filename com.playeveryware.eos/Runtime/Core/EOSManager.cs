@@ -35,12 +35,14 @@
 #define EOS_CAN_SHUTDOWN
 #endif
 
-// This define controls if the EOS SDK should be unloaded in the editor at shutdown to work around DLL unload errors.
-//#define EOS_DO_NOT_UNLOAD_SDK_ON_SHUTDOWN
 
-// On macOS and Linux, there isn't a known reliable way to unload shared libraries, therefore this is the default behavior.
-#if (UNITY_EDITOR_OSX || UNITY_EDITOR_LINUX)
-#define EOS_DO_NOT_UNLOAD_SDK_ON_SHUTDOWN
+// As per Epic's documentation they recommend not calling PlatformInterface.Release / PlatformInterface.Shutdown in editor
+// because Unity doesn't unload managed libraries until the Editor exits. Doing so will cause unintended side effects:
+// https://dev.epicgames.com/docs/epic-online-services/eos-get-started/get-started-guide/next-steps#shut-down-the-eos-sdk
+// This is also required on macOS/Linux always, because there isn't a known reliable way to unload shared libraries
+#if UNITY_EDITOR && (!UNITY_EDITOR_WIN || !EOS_UNLOAD_SDK_ON_SHUTDOWN_IN_WIN_EDITOR)
+// This define controls if the EOS SDK should be unloaded in the editor at shutdown to work around DLL unload errors.
+#define EOS_DO_NOT_UNLOAD_SDK_ON_SHUTDOWN_IN_EDITOR
 #endif
 
 #if !UNITY_EDITOR
@@ -220,7 +222,7 @@ namespace PlayEveryWare.EpicOnlineServices
             static private bool s_hasInitializedPlatform;
 
             private static readonly bool s_eosUnloadSDKOnShutdown =
-#if EOS_DO_NOT_UNLOAD_SDK_ON_SHUTDOWN
+#if EOS_DO_NOT_UNLOAD_SDK_ON_SHUTDOWN_IN_EDITOR && UNITY_EDITOR
                 false
 #else
                 true
@@ -1661,15 +1663,26 @@ namespace PlayEveryWare.EpicOnlineServices
                     Log("Waiting for pending finalizers.");
                     System.GC.WaitForPendingFinalizers();
 #endif
+                    Log("Disposing notification handles before platform release.");
+                    s_notifyLoginStatusChangedCallbackHandle?.Dispose();
+                    s_notifyLoginStatusChangedCallbackHandle = null;
+
+                    s_notifyConnectLoginStatusChangedCallbackHandle?.Dispose();
+                    s_notifyConnectLoginStatusChangedCallbackHandle = null;
+
+                    s_notifyConnectAuthExpirationCallbackHandle?.Dispose();
+                    s_notifyConnectAuthExpirationCallbackHandle = null;
+
                     Log("Releasing the EOS Platform Interface.");
                     GetEOSPlatformInterface()?.Release();
 
+#if UNITY_EDITOR
                     if (s_eosUnloadSDKOnShutdown)
+#endif
                     {
                         Log("Shutting down the platform interface.");
                         ShutdownPlatformInterface();
                     }
-
                     SetEOSPlatformInterface(null);
 
 

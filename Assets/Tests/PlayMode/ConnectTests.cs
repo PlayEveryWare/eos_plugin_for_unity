@@ -23,49 +23,35 @@
 namespace PlayEveryWare.EpicOnlineServices.Tests.Connect
 {
     using Epic.OnlineServices;
-    using Epic.OnlineServices.Achievements;
-    using Epic.OnlineServices.Stats;
     using NUnit.Framework;
     using System.Collections;
-    using UnityEngine;
     using UnityEngine.TestTools;
 
-    public partial class ConnectTests
+    /// <summary>
+    /// Tests Connect login behavior when EOS is already initialized.
+    /// EOS lifecycle is managed by EOSTestBase.
+    /// </summary>
+    public partial class ConnectTests : EOSTestBase
     {
-        GameObject eosObject;
-        protected const float LoginTestTimeout = 30f;
-
-        [TearDown]
-        public void ShutdownEOS()
-        {
-            EOSManager.Instance?.OnShutdown();
-            UnityEngine.Object.Destroy(eosObject);
-        }
-
         /// <summary>
-        /// This test creates a new EOSManager object, and uses it to auth-login.
-        /// Then it does a Connect login.
-        /// After a successful Connect login, it tries to perform another Connect login.
-        /// The result should be as expected.
+        /// Performs auth + connect login while already logged in to verify that
+        /// the result is successful (idempotent login behavior).
         /// </summary>
-        /// <returns></returns>
         [UnityTest]
+        [Category(TestCategories.SoloCategory)]
         public IEnumerator ConnectLogin_WhileAlreadyLoggedIn_ReturnsExpectedResult()
         {
-            eosObject = new GameObject();
-            var eosManager = eosObject.AddComponent<EOSManager>();
-
             UnitTestConfig config = EpicOnlineServices.Config.Get<UnitTestConfig>();
 
-            // Auth login
-            // This isn't what this test is testing, but we must first auth login before connect login
+            // SetupDevAuthLogin already did auth+connect; redo auth to get LocalUserId for a second connect login.
             Epic.OnlineServices.Auth.LoginCallbackInfo? loginResult = null;
-            EOSManager.Instance.StartLoginWithLoginTypeAndToken(Epic.OnlineServices.Auth.LoginCredentialType.Developer,
-                                                                $"{config.EOSDevAuthToolIP}:{config.EOSDevAuthToolPort}",
-                                                                config.EOSDevAuthToolUserName,
-                                                                data => { loginResult = data; });
+            EOSManager.Instance.StartLoginWithLoginTypeAndToken(
+                Epic.OnlineServices.Auth.LoginCredentialType.Developer,
+                $"{config.EOSDevAuthToolIP}:{config.EOSDevAuthToolPort}",
+                config.EOSDevAuthToolUserName,
+                data => { loginResult = data; });
 
-            yield return new EOSTestBase.WaitUntilDone(LoginTestTimeout, () => loginResult != null);
+            yield return new WaitUntilDone(LoginTestTimeout, () => loginResult != null);
 
             Assert.IsNotNull(loginResult,
                 "Could not log into EOS, loginResult was not set.");
@@ -73,32 +59,14 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Connect
             Assert.AreEqual(Result.Success, loginResult.Value.ResultCode,
                 $"Login result failed: {loginResult.Value.ResultCode}");
 
-            // Now that this is logged in, attempt connect login
+            // Attempt a second Connect login while already connected.
             Epic.OnlineServices.Connect.LoginCallbackInfo? callbackInfo = null;
             EOSManager.Instance.StartConnectLoginWithEpicAccount(loginResult.Value.LocalUserId, data =>
             {
                 callbackInfo = data;
             });
 
-            yield return new EOSTestBase.WaitUntilDone(LoginTestTimeout, () => callbackInfo != null);
-
-            Assert.IsNotNull(callbackInfo,
-                "Could not connect with Epic account, callbackInfo was not set.");
-
-            Assert.AreEqual(Result.Success, callbackInfo.Value.ResultCode,
-                $"Could not connect with Epic account: {callbackInfo.Value.ResultCode}");
-
-            Assert.That(EOSManager.Instance.GetProductUserId().IsValid(),
-                "Current player is invalid.");
-
-            // Subsequent connect login, check for expected results
-            callbackInfo = null;
-            EOSManager.Instance.StartConnectLoginWithEpicAccount(loginResult.Value.LocalUserId, data =>
-            {
-                callbackInfo = data;
-            });
-
-            yield return new EOSTestBase.WaitUntilDone(LoginTestTimeout, () => callbackInfo != null);
+            yield return new WaitUntilDone(LoginTestTimeout, () => callbackInfo != null);
 
             Assert.IsNotNull(callbackInfo,
                 "Could not connect with Epic account, callbackInfo was not set.");

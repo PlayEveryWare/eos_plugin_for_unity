@@ -74,54 +74,53 @@ namespace PlayEveryWare.EpicOnlineServices.Tests
 
         protected GameObject eosObject;
 
-        private bool _initialized;
-        private bool _successfulLogin;
+        // Static so EOS is initialized only once across all test classes in a session.
+        private static bool s_EOSSessionActive;
+        private static bool s_LoginAttempted;
+        private static bool s_LoginSucceeded;
+        private static GameObject s_EOSObject;
 
         /// <summary>
-        /// Initialize the EOSManager once before attempting to log in.
+        /// Initialize the EOSManager once for the entire test session.
+        /// Subsequent test classes reuse the same instance.
         /// </summary>
         [OneTimeSetUp]
         public void SetupScene()
         {
-            eosObject = new GameObject();
-            var eosManager = eosObject.AddComponent<EOSManager>();
-            EOSManager.Instance.Init(eosManager);
+            // Reinitialize if this is a fresh session (first run or after play mode was stopped in the editor).
+            if (!s_EOSSessionActive || s_EOSObject == null)
+            {
+                s_EOSObject = new GameObject("EOSManager");
+                UnityEngine.Object.DontDestroyOnLoad(s_EOSObject);
+                var eosManager = s_EOSObject.AddComponent<EOSManager>();
+                EOSManager.Instance.Init(eosManager);
+                s_EOSSessionActive = true;
+                s_LoginAttempted = false;
+                s_LoginSucceeded = false;
+            }
+            eosObject = s_EOSObject;
         }
 
         /// <summary>
-        /// Initial setup for logging into Epic before starting the tests as all
-        /// tests rely on connecting online. If this setup step fails, it will
-        /// immediately cancel the rest of the tests as there's no reason to
-        /// continue running without a connection online.
+        /// Logs into Epic once for the entire test session. All subsequent test
+        /// classes skip this step and reuse the existing session.
         /// </summary>
         [UnitySetUp]
         public IEnumerator SetupDevAuthLogin()
         {
-            // HACK: Only initialize the login once instead of constantly
-            // logging in for each test scenario, which can cause unintentional
-            // errors. Currently, Unity unit testing doesn't have a Unity
-            // version of OneTimeSetUp that allows coroutines, so this is a
-            // hacky way to make this work.
-            if (_initialized)
+            if (s_LoginAttempted)
             {
-                // If there was no successful login, the rest of the tests will
-                // fail, so fail immediately here to make it clear that there's
-                // a basic login problem that's causing everything else to fail.
-                if (!_successfulLogin)
+                if (!s_LoginSucceeded)
                 {
                     Assert.Fail("Initial login didn't work, so not continuing the rest of the tests.");
                 }
-
                 yield break;
             }
 
-            _initialized = true;
+            s_LoginAttempted = true;
 
             UnitTestConfig config = EpicOnlineServices.Config.Get<UnitTestConfig>();
 
-            // Using DevAuth for local testing.
-            // Need to make this use Password on a build machine to make it
-            // fully automated if possible.
             LoginCallbackInfo? loginResult = null;
             EOSManager.Instance.StartLoginWithLoginTypeAndToken(LoginCredentialType.Developer,
                                                                 $"{config.EOSDevAuthToolIP}:{config.EOSDevAuthToolPort}",
@@ -130,10 +129,10 @@ namespace PlayEveryWare.EpicOnlineServices.Tests
 
             yield return new WaitUntilDone(LoginTestTimeout, () => loginResult != null);
 
-            Assert.IsNotNull(loginResult, 
+            Assert.IsNotNull(loginResult,
                 "Could not log into EOS, loginResult was not set.");
 
-            Assert.AreEqual(Result.Success, loginResult.Value.ResultCode, 
+            Assert.AreEqual(Result.Success, loginResult.Value.ResultCode,
                 $"Login result failed: {loginResult.Value.ResultCode}");
 
             Epic.OnlineServices.Connect.LoginCallbackInfo? callbackInfo = null;
@@ -144,26 +143,25 @@ namespace PlayEveryWare.EpicOnlineServices.Tests
 
             yield return new WaitUntilDone(LoginTestTimeout, () => callbackInfo != null);
 
-            Assert.IsNotNull(callbackInfo, 
+            Assert.IsNotNull(callbackInfo,
                 "Could not connect with Epic account, callbackInfo was not set.");
 
-            Assert.AreEqual(Result.Success, callbackInfo.Value.ResultCode, 
+            Assert.AreEqual(Result.Success, callbackInfo.Value.ResultCode,
                 $"Could not connect with Epic account: {callbackInfo.Value.ResultCode}");
 
-            Assert.That(EOSManager.Instance.GetProductUserId().IsValid(), 
+            Assert.That(EOSManager.Instance.GetProductUserId().IsValid(),
                 "Current player is invalid.");
 
-            _successfulLogin = true;
+            s_LoginSucceeded = true;
         }
 
         /// <summary>
-        /// Destroys the EOS object which will shutdown the EOSManager.
+        /// EOS SDK cannot be reinitialized once shut down within the same process.
+        /// The static session state is intentionally kept alive for subsequent test
+        /// classes. Resources are released when the test process exits or when the
+        /// next play mode session detects a stale s_EOSObject.
         /// </summary>
         [OneTimeTearDown]
-        public void ShutdownEOS()
-        {
-            EOSManager.Instance?.OnShutdown();
-            UnityEngine.Object.Destroy(eosObject);
-        }
+        public void ShutdownEOS() { }
     }
 }

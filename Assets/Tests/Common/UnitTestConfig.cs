@@ -26,6 +26,8 @@ namespace PlayEveryWare.EpicOnlineServices.Tests
 {
     using Utility;
     using System;
+    using System.IO;
+    using UnityEngine;
     using Config = Config;
 
     [Serializable]
@@ -59,7 +61,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests
         protected UnitTestConfig() : base(
             "eos_automated_test_config.json",
             FileSystemUtility.CombinePaths(
-                FileSystemUtility.GetProjectPath(),
+                Path.GetFullPath(Path.Combine(Application.dataPath, "..")),
                 "etc/config/")) { }
 
         static UnitTestConfig()
