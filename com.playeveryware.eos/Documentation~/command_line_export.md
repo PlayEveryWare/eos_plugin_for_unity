@@ -39,4 +39,4 @@ On success or failure, quit.
 The path to the root of this repository.
 
 `-executeMethod` 
-Indicates which static class and which static function on that class should be executed. (In this case, the value passed to this argument should be `BuildPackaghe.ExportPlugin`).
+Indicates which static class and which static function on that class should be executed. (In this case, the value passed to this argument should be `BuildPackage.ExportPlugin`).
