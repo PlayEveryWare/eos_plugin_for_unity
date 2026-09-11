@@ -282,7 +282,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 { RuntimePlatform.GameCoreXboxOne,    Platform.XboxOne},
                 { RuntimePlatform.XboxOne,            Platform.XboxOne},
                 { RuntimePlatform.Switch,             Platform.Switch},
-#if UNITY_6000_0_OR_NEWER || UNITY_6000_3_OR_NEWER
+#if UNITY_6000_0_OR_NEWER
                 { RuntimePlatform.Switch2,            Platform.Switch2},
 #endif
                 { RuntimePlatform.GameCoreXboxSeries, Platform.XboxSeriesX},
@@ -326,7 +326,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 { BuildTarget.PS4,                 Platform.PS4         },
                 { BuildTarget.PS5,                 Platform.PS5         },
                 { BuildTarget.Switch,              Platform.Switch      },
-#if UNITY_6000_0_OR_NEWER || UNITY_6000_3_OR_NEWER
+#if UNITY_6000_0_OR_NEWER
                 { BuildTarget.Switch2,            Platform.Switch2},
 #endif
                 { BuildTarget.StandaloneOSX,       Platform.macOS       },
