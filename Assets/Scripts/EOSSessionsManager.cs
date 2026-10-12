@@ -1879,14 +1879,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 return;
             }
 
+            // Inform of the session being destroyed on login. When logging out OnLoggedOut already
             if (IsUserLoggedIn)
             {
                 InformOnDestroy(sessionData.SessionToDestroyName);
-            }
-            else
-            {
-                // OnLoggedOut already informed the owner/members and Reset() cleared the local state.
-                Log($"{nameof(EOSSessionsManager)} ({nameof(OnDestroySessionCompleteCallback)}): User logged out, skipping inform for Session {sessionData.SessionToDestroyName}.");
             }
 
             if (CurrentSessions.TryGetValue(sessionData.SessionToDestroyName, out Session Session))
