@@ -840,9 +840,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             // Notify session owner/members while the user is still logged in and sessions are still tracked.
             // The destroy callbacks fire after Reset() and skip their own inform, so this is the only notification.
-            foreach (KeyValuePair<string, Session> kvp in GetCurrentSessions())
+            foreach (KeyValuePair<string, Session> session in GetCurrentSessions())
             {
-                InformOnDestroy(kvp.Key);
+                InformOnDestroy(session.Key);
             }
 
             UnsubscribeFromGameInvites();
