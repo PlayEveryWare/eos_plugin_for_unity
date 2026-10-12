@@ -886,17 +886,31 @@ using UnityEngine.InputSystem;
             {
                 EOSManager.Instance.StartConnectLogout(EOSManager.Instance.GetProductUserId(), (Epic.OnlineServices.Connect.LogoutCallbackInfo data) =>
                 {
+                    if (!data.ResultCode.IsOperationComplete())
+                    { 
+                        return; 
+                    }
+
                     if (data.ResultCode == Result.Success)
                     {
                         print($"Logout Successful. ProductUserId : {data.LocalUserId.Redact()}");
                         EOSManager.Instance.ClearConnectId(data.LocalUserId);
                         ConfigureUIForLogin();
                     }
+                    else
+                    {
+                        print($"Logout Failure. Result : [{data.ResultCode}]");
+                    }
                 });
                 return;
             }
 
             EOSManager.Instance.StartAuthLogout(EOSManager.Instance.GetLocalUserId(), (ref LogoutCallbackInfo data) => {
+                if (!data.ResultCode.IsOperationComplete())
+                {
+                    return;
+                }
+
                 if (data.ResultCode == Result.Success)
                 {
 #if (UNITY_PS4 || UNITY_PS5) && !UNITY_EDITOR
@@ -913,11 +927,24 @@ using UnityEngine.InputSystem;
                     ConfigureUIForLogin();
                     EOSManager.Instance.StartConnectLogout(EOSManager.Instance.GetProductUserId(), (Epic.OnlineServices.Connect.LogoutCallbackInfo connectData) =>
                     {
+                        if (!connectData.ResultCode.IsOperationComplete())
+                        {
+                            return;
+                        }
+
                         if (connectData.ResultCode == Result.Success)
                         {
                             print($"Logout Successful. ProductUserId : {connectData.LocalUserId.Redact()}");
                         }
+                        else
+                        {
+                            print($"Logout Failure. Result : [{connectData.ResultCode}]");
+                        }
                     });
+                }
+                else
+                {
+                    print($"Logout Failure. Result : [{data.ResultCode}]");
                 }
             });
         }

@@ -400,6 +400,7 @@ namespace PlayEveryWare.EpicOnlineServices
             {
                 OnAuthLogin -= authLogin.OnAuthLogin;
             }
+
             public void RemoveConnectLogoutListener(IEOSOnConnectLogout connectLogout)
             {
                 OnConnectLogout -= connectLogout.OnConnectLogout;
@@ -1586,12 +1587,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 };
 
                 EOSConnectInterface.Logout(ref connectOptions, null, (ref Epic.OnlineServices.Connect.LogoutCallbackInfo data) =>
-                {
-                    if (!data.ResultCode.IsOperationComplete())
-                    {
-                        return;
-                    }
-                    
+                {                    
                     OnLogoutCallback?.Invoke(data);
 
                     OnConnectLogout?.Invoke(data);
