@@ -838,6 +838,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 return;
             }
 
+            // Notify session owner/members while the user is still logged in and sessions are still tracked.
+            // The destroy callbacks fire after Reset() and skip their own inform, so this is the only notification.
+            foreach (KeyValuePair<string, Session> kvp in GetCurrentSessions())
+            {
+                InformOnDestroy(kvp.Key);
+            }
+
             UnsubscribeFromGameInvites();
             UnsubscribeToSessionMessageConnectionRequests();
 
@@ -1871,8 +1878,16 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 sessionData.DestroyCallback?.Invoke(new(sessionData.SessionToDestroyName, data.ResultCode));
                 return;
             }
-            
-            InformOnDestroy(sessionData.SessionToDestroyName);
+
+            if (IsUserLoggedIn)
+            {
+                InformOnDestroy(sessionData.SessionToDestroyName);
+            }
+            else
+            {
+                // OnLoggedOut already informed the owner/members and Reset() cleared the local state.
+                Log($"{nameof(EOSSessionsManager)} ({nameof(OnDestroySessionCompleteCallback)}): User logged out, skipping inform for Session {sessionData.SessionToDestroyName}.");
+            }
 
             if (CurrentSessions.TryGetValue(sessionData.SessionToDestroyName, out Session Session))
             {
