@@ -1540,6 +1540,18 @@ namespace PlayEveryWare.EpicOnlineServices
 
             //-------------------------------------------------------------------------
             /// <summary>
+            /// [Deprecated] Starts a logout for Auth. Use <see cref="StartAuthLogout"/> instead.
+            /// </summary>
+            /// <param name="accountId"></param>
+            /// <param name="onLogoutCallback"></param>
+            [Obsolete("StartLogout is deprecated. Use StartAuthLogout instead.")]
+            public void StartLogout(EpicAccountId accountId, OnLogoutCallback onLogoutCallback)
+            {
+                StartAuthLogout(accountId, onLogoutCallback);
+            }
+
+            //-------------------------------------------------------------------------
+            /// <summary>
             /// Starts a logout for Auth
             /// </summary>
             /// <param name="accountId"></param>
