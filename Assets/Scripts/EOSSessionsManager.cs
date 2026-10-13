@@ -1880,6 +1880,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
 
             // Inform of the session being destroyed on login. When logging out OnLoggedOut already
+            // informed the owner/members and Reset() cleared the local state.
             if (IsUserLoggedIn)
             {
                 InformOnDestroy(sessionData.SessionToDestroyName);
