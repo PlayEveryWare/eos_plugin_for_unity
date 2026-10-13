@@ -893,13 +893,12 @@ using UnityEngine.InputSystem;
 
                     if (data.ResultCode == Result.Success)
                     {
-                        print($"Logout Successful. ProductUserId : {data.LocalUserId.Redact()}");
-                        EOSManager.Instance.ClearConnectId(data.LocalUserId);
+                        print($"Connect Logout Successful. ProductUserId : {data.LocalUserId.Redact()}");                        
                         ConfigureUIForLogin();
                     }
                     else
                     {
-                        print($"Logout Failure. Result : [{data.ResultCode}]");
+                        print($"Connect Logout Failure. Result : [{data.ResultCode}]");
                     }
                 });
                 return;
@@ -923,7 +922,7 @@ using UnityEngine.InputSystem;
                     ///TODO: Use activating controller index here
                     psnManager.StartLogoutWithPSN(0);
 #endif
-                    print("Logout Successful. [" + data.ResultCode + "]");
+                    print("Auth Logout Successful. [" + data.ResultCode + "]");
                     ConfigureUIForLogin();
                     EOSManager.Instance.StartConnectLogout(EOSManager.Instance.GetProductUserId(), (Epic.OnlineServices.Connect.LogoutCallbackInfo connectData) =>
                     {
@@ -934,17 +933,17 @@ using UnityEngine.InputSystem;
 
                         if (connectData.ResultCode == Result.Success)
                         {
-                            print($"Logout Successful. ProductUserId : {connectData.LocalUserId.Redact()}");
+                            print($"Connect Logout Successful. ProductUserId : {connectData.LocalUserId.Redact()}");
                         }
                         else
                         {
-                            print($"Logout Failure. Result : [{connectData.ResultCode}]");
+                            print($"Connect Logout Failure. Result : [{connectData.ResultCode}]");
                         }
                     });
                 }
                 else
                 {
-                    print($"Logout Failure. Result : [{data.ResultCode}]");
+                    print($"Auth Logout Failure. Result : [{data.ResultCode}]");
                 }
             });
         }
