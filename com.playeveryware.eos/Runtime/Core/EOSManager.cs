@@ -1576,14 +1576,6 @@ namespace PlayEveryWare.EpicOnlineServices
                 });
             }
 
-            public void ClearConnectId(ProductUserId userId)
-            {
-                if (GetProductUserId() == userId)
-                {
-                    SetLocalProductUserId(null);
-                }
-            }
-
             //-------------------------------------------------------------------------
             /// <summary>
             /// Starts a logout for Connect
