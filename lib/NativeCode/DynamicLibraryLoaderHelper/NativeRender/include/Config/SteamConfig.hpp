@@ -64,7 +64,29 @@ namespace pew::eos::config
             return false;
         }
 
-        
+        /**
+         * \brief The path that try_get_library_path checks for the Steam
+         * library: the override path if one was configured, otherwise the
+         * default path next to this module.
+         */
+        const std::filesystem::path& get_library_path() const
+        {
+            return _library_path;
+        }
+
+        /**
+         * \brief Whether the config shows an intent to use Steam (a Steam SDK
+         * version, management flags, Steam API interface versions, or an
+         * override library path was set).
+         */
+        bool is_steam_configured() const
+        {
+            return steam_sdk_major_version > 0 ||
+                integrated_platform_management_flags != EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_Disabled ||
+                !_steam_api_interface_versions_array.empty() ||
+                _has_override_library_path;
+        }
+
         std::string get_steam_api_interface_versions_array() const
         {
             // For each element in the array (each of which is a string of an api version information)
@@ -102,6 +124,7 @@ namespace pew::eos::config
         std::filesystem::path _library_path;
         std::filesystem::path _override_library_path;
         std::vector<std::string> _steam_api_interface_versions_array;
+        bool _has_override_library_path = false;
 
         explicit SteamConfig() : Config("eos_steam_config.json"),
             steam_sdk_major_version(0),
@@ -123,6 +146,7 @@ namespace pew::eos::config
                 if (!string_helpers::is_empty_or_whitespace(path))
                 {
                     _library_path = path;
+                    _has_override_library_path = true;
                 }
             }
             else if (name == "steamSDKMajorVersion")

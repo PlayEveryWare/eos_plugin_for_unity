@@ -312,11 +312,22 @@ namespace pew::eos
         const auto eos_steam_config = Config::get<SteamConfig>();
         std::filesystem::path steam_library_path;
 
-        // Without a Steam library the SDK rejects the Steam options (the
-        // major version would be 0), so don't add any.
+        // The Steam SDK version is only applied when the Steam library is
+        // found, so adding the options without it makes the SDK reject them.
+        // TODO: overrideLibraryPath is parsed into _library_path rather than
+        //       _override_library_path, so only one path is checked here: the
+        //       override if set, otherwise the default next to this module.
         if (!eos_steam_config->try_get_library_path(steam_library_path))
         {
-            logging::log_inform("No Steam library found. Skipping Steam integrated platform options.");
+            if (eos_steam_config->is_steam_configured())
+            {
+                logging::log_warn("Steam integration configured but library not found at: " +
+                    eos_steam_config->get_library_path().string() + ". Skipping Steam integrated platform options.");
+            }
+            else
+            {
+                logging::log_inform("Steam integration not configured. Skipping Steam integrated platform options.");
+            }
             return;
         }
 
