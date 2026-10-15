@@ -312,17 +312,22 @@ namespace pew::eos
         const auto eos_steam_config = Config::get<SteamConfig>();
         std::filesystem::path steam_library_path;
 
-        // Configure Steam platform options
-        if (eos_steam_config->try_get_library_path(steam_library_path)) 
+        // Without a Steam library the SDK rejects the Steam options (the
+        // major version would be 0), so don't add any.
+        if (!eos_steam_config->try_get_library_path(steam_library_path))
         {
-            steam_platform.SteamMajorVersion = eos_steam_config->steam_sdk_major_version;
-            steam_platform.SteamMinorVersion = eos_steam_config->steam_sdk_minor_version;
+            logging::log_inform("No Steam library found. Skipping Steam integrated platform options.");
+            return;
+        }
 
-            if (eos_steam_config->is_managed_by_application()) {
-                eos_call_steam_init(steam_library_path.string());
-                context.override_library_path = steam_library_path.filename().string();
-                steam_platform.OverrideLibraryPath = context.override_library_path.c_str();
-            }
+        // Configure Steam platform options
+        steam_platform.SteamMajorVersion = eos_steam_config->steam_sdk_major_version;
+        steam_platform.SteamMinorVersion = eos_steam_config->steam_sdk_minor_version;
+
+        if (eos_steam_config->is_managed_by_application()) {
+            eos_call_steam_init(steam_library_path.string());
+            context.override_library_path = steam_library_path.filename().string();
+            steam_platform.OverrideLibraryPath = context.override_library_path.c_str();
         }
 
         context.api_interface_versions = eos_steam_config->get_steam_api_interface_versions_array();
