@@ -1540,11 +1540,11 @@ namespace PlayEveryWare.EpicOnlineServices
 
             //-------------------------------------------------------------------------
             /// <summary>
-            /// [Deprecated] Starts a logout for Auth. Use <see cref="StartAuthLogout"/> instead.
+            /// [Deprecated] Starts a logout operation via the Auth interface. Use <see cref="StartAuthLogout"/> and/or <see cref="StartConnectLogout"/> instead.
             /// </summary>
             /// <param name="accountId"></param>
             /// <param name="onLogoutCallback"></param>
-            [Obsolete("StartLogout is deprecated. Use StartAuthLogout instead.")]
+            [Obsolete("StartLogout is deprecated and only logs out via the Auth interface. Use StartAuthLogout and/or StartConnectLogout instead.")]
             public void StartLogout(EpicAccountId accountId, OnLogoutCallback onLogoutCallback)
             {
                 StartAuthLogout(accountId, onLogoutCallback);
@@ -1552,7 +1552,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
             //-------------------------------------------------------------------------
             /// <summary>
-            /// Starts a logout for Auth
+            /// Starts a logout operation via the Auth interface
             /// </summary>
             /// <param name="accountId"></param>
             /// <param name="onLogoutCallback"></param>
@@ -1578,7 +1578,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
             //-------------------------------------------------------------------------
             /// <summary>
-            /// Starts a logout for Connect
+            /// Starts a logout operation via the Connect interface
             /// </summary>
             /// <param name="productUserId"></param>
             /// <param name="OnLogoutCallback"></param>
