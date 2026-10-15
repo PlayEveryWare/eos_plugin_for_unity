@@ -96,6 +96,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         private Dictionary<EpicAccountId, ulong> FriendNotifications = new Dictionary<EpicAccountId, ulong>();
         private Dictionary<EpicAccountId, ulong> PresenceNotifications = new Dictionary<EpicAccountId, ulong>();
 
+        // User id cached by OnLoggedIn and consumed by OnLoggedOut
+        private EpicAccountId LoggedUserId;
+
         public EOSFriendsManager()
         {
             CachedFriends = new Dictionary<EpicAccountId, FriendData>();
@@ -985,8 +988,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// </list>
         public void OnLoggedIn()
         {
+            LoggedUserId = EOSManager.Instance.GetLocalUserId();
+
             QueryFriends(null);
-            SubscribeToFriendUpdates(EOSManager.Instance.GetLocalUserId());
+            SubscribeToFriendUpdates(LoggedUserId);
         }
 
         /// <summary>User Logged Out actions</summary>
@@ -995,12 +1000,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// </list>
         public void OnLoggedOut()
         {
-            EpicAccountId localUser = EOSManager.Instance.GetLocalUserId();
-
-            if(localUser != null && localUser.IsValid())
+            if (LoggedUserId != null && LoggedUserId.IsValid())
             {
-                UnsubscribeFromFriendUpdates(localUser);
+                UnsubscribeFromFriendUpdates(LoggedUserId);
             }
+
+            LoggedUserId = null;
         }
     }
 }
