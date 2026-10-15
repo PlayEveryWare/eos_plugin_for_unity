@@ -979,7 +979,15 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             //    return;
             //}
 
-            QueryPresenceInfo(data.LocalUserId, data.PresenceUserId);
+            var authInterface = EOSManager.Instance.GetEOSAuthInterface();
+            if (authInterface != null && authInterface.GetLoginStatus(data.LocalUserId) == LoginStatus.LoggedIn)
+            {
+                QueryPresenceInfo(data.LocalUserId, data.PresenceUserId);
+            }
+            else
+            {
+                Debug.LogWarningFormat("Friends (OnPresenceChangedCallbackHandler): Skipped presence query, user is not logged in: {0}", data.LocalUserId.Redact());
+            }
         }
 
         /// <summary>User Logged In actions</summary>
