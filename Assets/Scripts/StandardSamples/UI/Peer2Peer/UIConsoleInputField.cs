@@ -33,10 +33,15 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public Button InputFieldButton;
         public InputField InputField;
 
+#if UNITY_6000_0_OR_NEWER || UNITY_ANDROID
+        //Unity 6 regression, UUM-131306: legacy InputField.onEndEdit is not raised when the platform keyboard closes
+        private bool releaseFocus = false;
+        private TouchScreenKeyboard.Status prevKeyboardStatus = TouchScreenKeyboard.Status.Done;
+#endif
+
 #if UNITY_ANDROID
         private bool keepOldTextInField;
         private string editText, oldEditText;
-        private TouchScreenKeyboard.Status prevKeyboardStatus = TouchScreenKeyboard.Status.Done;
 #endif
 
         private void Awake()
@@ -45,19 +50,36 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             InputField.onValueChanged.AddListener(OnEdit);
         }
 
-#if UNITY_ANDROID
+#if UNITY_6000_0_OR_NEWER || UNITY_ANDROID
         private void Update()
         {
-            if(InputField.touchScreenKeyboard == null)
+            if (releaseFocus)
+            {
+                releaseFocus = false;
+                OnEndEdit(InputField.text);
+            }
+
+            if (InputField.touchScreenKeyboard == null)
             {
                 return;
             }
 
             var kbStatus = InputField.touchScreenKeyboard.status;
+
+#if UNITY_6000_0_OR_NEWER
+            if (prevKeyboardStatus == TouchScreenKeyboard.Status.Visible && prevKeyboardStatus != kbStatus)
+            {
+                releaseFocus = true;
+            }
+#endif
+
+#if UNITY_ANDROID
             if (kbStatus != prevKeyboardStatus && kbStatus == TouchScreenKeyboard.Status.Canceled)
             {
                 keepOldTextInField = true;
             }
+#endif
+
             prevKeyboardStatus = kbStatus;
         }
 #endif
