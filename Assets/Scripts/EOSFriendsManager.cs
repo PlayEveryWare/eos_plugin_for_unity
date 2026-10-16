@@ -988,7 +988,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
             else
             {
-                Debug.LogWarningFormat("Friends (OnPresenceChangedCallbackHandler): Skipped presence query, user is not logged in: {0}", data.LocalUserId.Redact());
+                Debug.LogFormat("Friends (OnPresenceChangedCallbackHandler): Skipped presence query, user is not logged in: {0}", data.LocalUserId.Redact());
             }
         }
 
