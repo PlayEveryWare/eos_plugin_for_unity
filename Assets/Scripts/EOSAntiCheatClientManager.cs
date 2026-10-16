@@ -131,6 +131,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             VerifyIdToken(LocalUserIdToken);
         }
 
+        public void OnConnectLogout(LogoutCallbackInfo logoutCallbackInfo)
+        {
+            LocalUserIdToken = null;
+        }
+
         public void OnAuthLogout(Epic.OnlineServices.Auth.LogoutCallbackInfo logoutCallbackInfo)
         {
             LocalUserIdToken = null;
