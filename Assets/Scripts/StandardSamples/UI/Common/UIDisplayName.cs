@@ -38,6 +38,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         private void OnEnable()
         {
             EOSManager.Instance.AddConnectLoginListener(this);
+            EOSManager.Instance.AddConnectLogoutListener(this);
             EOSManager.Instance.AddAuthLoginListener(this);
             EOSManager.Instance.AddAuthLogoutListener(this);
 
@@ -57,6 +58,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         private void Clear()
         {
             EOSManager.Instance.RemoveConnectLoginListener(this);
+            EOSManager.Instance.RemoveConnectLogoutListener(this);
             EOSManager.Instance.RemoveAuthLoginListener(this);
             EOSManager.Instance.RemoveAuthLogoutListener(this);
 
@@ -97,6 +99,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public void OnAuthLogin(LoginCallbackInfo loginCallbackInfo)
         {
             OnLogin();
+        }
+
+        public void OnConnectLogout(Epic.OnlineServices.Connect.LogoutCallbackInfo loginCallbackInfo)
+        {
+            Clear();
         }
 
         public void OnConnectLogin(Epic.OnlineServices.Connect.LoginCallbackInfo loginCallbackInfo)

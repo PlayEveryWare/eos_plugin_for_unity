@@ -112,6 +112,7 @@ namespace PlayEveryWare.EpicOnlineServices
         public delegate void OnAuthLogoutCallback(LogoutCallbackInfo data);
 
         public delegate void OnConnectLoginCallback(Epic.OnlineServices.Connect.LoginCallbackInfo loginCallbackInfo);
+        public delegate void OnConnectLogoutCallback(Epic.OnlineServices.Connect.LogoutCallbackInfo logoutCallbackInfo);
         /// <summary>
         /// Raised whenever the EOS overlay’s visibility changes, or when the title
         /// loses/regains focus and we must indicate whether the overlay was open
@@ -125,6 +126,7 @@ namespace PlayEveryWare.EpicOnlineServices
         private static event OnAuthLoginCallback OnAuthLogin;
         private static event OnAuthLogoutCallback OnAuthLogout;
         private static event OnConnectLoginCallback OnConnectLogin;
+        private static event OnConnectLogoutCallback OnConnectLogout;
 
         /// <summary>
         /// Some platforms require additional user information while performing 
@@ -374,6 +376,11 @@ namespace PlayEveryWare.EpicOnlineServices
                 OnAuthLogin += authLogin.OnAuthLogin;
             }
 
+            public void AddConnectLogoutListener(IEOSOnConnectLogout connectLogout)
+            {
+                OnConnectLogout += connectLogout.OnConnectLogout;
+            }
+
             public void AddAuthLogoutListener(IEOSOnAuthLogout authLogout)
             {
                 OnAuthLogout += authLogout.OnAuthLogout;
@@ -392,6 +399,11 @@ namespace PlayEveryWare.EpicOnlineServices
             public void RemoveAuthLoginListener(IEOSOnAuthLogin authLogin)
             {
                 OnAuthLogin -= authLogin.OnAuthLogin;
+            }
+
+            public void RemoveConnectLogoutListener(IEOSOnConnectLogout connectLogout)
+            {
+                OnConnectLogout -= connectLogout.OnConnectLogout;
             }
 
             public void RemoveAuthLogoutListener(IEOSOnAuthLogout authLogout)
@@ -417,6 +429,11 @@ namespace PlayEveryWare.EpicOnlineServices
                     if (manager is IEOSOnAuthLogin authLogin)
                     {
                         OnAuthLogin += authLogin.OnAuthLogin;
+                    }
+
+                    if (manager is IEOSOnConnectLogout connectLogout)
+                    {
+                        OnConnectLogout += connectLogout.OnConnectLogout;
                     }
 
                     if (manager is IEOSOnAuthLogout authLogout)
@@ -446,6 +463,11 @@ namespace PlayEveryWare.EpicOnlineServices
                     if (manager is IEOSOnAuthLogin)
                     {
                         RemoveAuthLoginListener(manager as IEOSOnAuthLogin);
+                    }
+
+                    if (manager is IEOSOnConnectLogout)
+                    {
+                        RemoveConnectLogoutListener(manager as IEOSOnConnectLogout);
                     }
 
                     if (manager is IEOSOnAuthLogout)
@@ -1518,11 +1540,23 @@ namespace PlayEveryWare.EpicOnlineServices
 
             //-------------------------------------------------------------------------
             /// <summary>
-            /// Starts a logout for Auth
+            /// [Deprecated] Starts a logout operation via the Auth interface. Use <see cref="StartAuthLogout"/> and/or <see cref="StartConnectLogout"/> instead.
             /// </summary>
             /// <param name="accountId"></param>
             /// <param name="onLogoutCallback"></param>
+            [Obsolete("StartLogout is deprecated and only logs out via the Auth interface. Use StartAuthLogout and/or StartConnectLogout instead.")]
             public void StartLogout(EpicAccountId accountId, OnLogoutCallback onLogoutCallback)
+            {
+                StartAuthLogout(accountId, onLogoutCallback);
+            }
+
+            //-------------------------------------------------------------------------
+            /// <summary>
+            /// Starts a logout operation via the Auth interface
+            /// </summary>
+            /// <param name="accountId"></param>
+            /// <param name="onLogoutCallback"></param>
+            public void StartAuthLogout(EpicAccountId accountId, OnLogoutCallback onLogoutCallback)
             {
                 var EOSAuthInterface = GetEOSPlatformInterface().GetAuthInterface();
                 LogoutOptions options = new LogoutOptions { LocalUserId = accountId };
@@ -1542,13 +1576,26 @@ namespace PlayEveryWare.EpicOnlineServices
                 });
             }
 
-            //Clears a local ProductUserId since the Connect interface doesn't have a logout function
-            public void ClearConnectId(ProductUserId userId)
+            //-------------------------------------------------------------------------
+            /// <summary>
+            /// Starts a logout operation via the Connect interface
+            /// </summary>
+            /// <param name="productUserId"></param>
+            /// <param name="OnLogoutCallback"></param>
+            public void StartConnectLogout(ProductUserId productUserId, OnConnectLogoutCallback OnLogoutCallback)
             {
-                if (GetProductUserId() == userId)
+                var EOSConnectInterface = GetEOSPlatformInterface().GetConnectInterface();
+                Epic.OnlineServices.Connect.LogoutOptions connectOptions = new Epic.OnlineServices.Connect.LogoutOptions
                 {
-                    SetLocalProductUserId(null);
-                }
+                    LocalUserId = productUserId,
+                };
+
+                EOSConnectInterface.Logout(ref connectOptions, null, (ref Epic.OnlineServices.Connect.LogoutCallbackInfo data) =>
+                {                    
+                    OnLogoutCallback?.Invoke(data);
+
+                    OnConnectLogout?.Invoke(data);
+                });
             }
 
             //-------------------------------------------------------------------------

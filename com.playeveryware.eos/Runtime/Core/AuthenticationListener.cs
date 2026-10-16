@@ -98,6 +98,7 @@ namespace PlayEveryWare.EpicOnlineServices
             EOSManager.Instance.AddAuthLoginListener(this);
             EOSManager.Instance.AddAuthLogoutListener(this);
             EOSManager.Instance.AddConnectLoginListener(this);
+            EOSManager.Instance.AddConnectLogoutListener(this);
         }
         
         #endregion
@@ -179,6 +180,17 @@ namespace PlayEveryWare.EpicOnlineServices
         }
 
         /// <summary>
+        /// Called by EOSManager when connect logout has taken place.
+        /// </summary>
+        /// <param name="logoutCallbackInfo">
+        /// Callback parameters for the connect logout operation.
+        /// </param>
+        public void OnConnectLogout(Epic.OnlineServices.Connect.LogoutCallbackInfo logoutCallbackInfo)
+        {
+            TriggerAuthenticationChangedEvent(false, logoutCallbackInfo.ResultCode, LoginChangeKind.Connect);
+        }
+
+        /// <summary>
         /// Dispose of the AuthenticationListener, removing it as a listener
         /// from the various ways that EOSManager keeps track of it.
         /// </summary>
@@ -187,6 +199,7 @@ namespace PlayEveryWare.EpicOnlineServices
             EOSManager.Instance.RemoveAuthLoginListener(this);
             EOSManager.Instance.RemoveAuthLogoutListener(this);
             EOSManager.Instance.RemoveConnectLoginListener(this);
+            EOSManager.Instance.RemoveConnectLogoutListener(this);
         }
     }
 }

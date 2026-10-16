@@ -69,6 +69,15 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             UpdateLocalUserInfo();
         }
 
+        public void OnConnectLogout(Epic.OnlineServices.Connect.LogoutCallbackInfo logoutCallbackInfo)
+        {
+            LocalUserInfo = default;
+            foreach (var callback in LocalUserInfoChangedCallbacks)
+            {
+                callback?.Invoke(LocalUserInfo);
+            }
+        }
+
         public void OnAuthLogout(LogoutCallbackInfo logoutCallbackInfo)
         {
             LocalUserInfo = default;

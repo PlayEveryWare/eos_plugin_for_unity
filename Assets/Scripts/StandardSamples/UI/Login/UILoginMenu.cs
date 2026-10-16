@@ -44,6 +44,7 @@ using UnityEngine.InputSystem;
 #endif
 
     using PlayEveryWare.EpicOnlineServices;
+    using PlayEveryWare.EpicOnlineServices.Utility;
 
     public class UILoginMenu : MonoBehaviour
     {
@@ -883,12 +884,32 @@ using UnityEngine.InputSystem;
 
             if (EOSManager.Instance.GetLocalUserId() == null)
             {
-                EOSManager.Instance.ClearConnectId(EOSManager.Instance.GetProductUserId());
-                ConfigureUIForLogin();
+                EOSManager.Instance.StartConnectLogout(EOSManager.Instance.GetProductUserId(), (Epic.OnlineServices.Connect.LogoutCallbackInfo data) =>
+                {
+                    if (!data.ResultCode.IsOperationComplete())
+                    { 
+                        return; 
+                    }
+
+                    if (data.ResultCode == Result.Success)
+                    {
+                        print($"Connect Logout Successful. ProductUserId : {data.LocalUserId.Redact()}");                        
+                        ConfigureUIForLogin();
+                    }
+                    else
+                    {
+                        print($"Connect Logout Failure. Result : [{data.ResultCode}]");
+                    }
+                });
                 return;
             }
 
-            EOSManager.Instance.StartLogout(EOSManager.Instance.GetLocalUserId(), (ref LogoutCallbackInfo data) => {
+            EOSManager.Instance.StartAuthLogout(EOSManager.Instance.GetLocalUserId(), (ref LogoutCallbackInfo data) => {
+                if (!data.ResultCode.IsOperationComplete())
+                {
+                    return;
+                }
+
                 if (data.ResultCode == Result.Success)
                 {
 #if (UNITY_PS4 || UNITY_PS5) && !UNITY_EDITOR
@@ -901,10 +922,29 @@ using UnityEngine.InputSystem;
                     ///TODO: Use activating controller index here
                     psnManager.StartLogoutWithPSN(0);
 #endif
-                    print("Logout Successful. [" + data.ResultCode + "]");
+                    print("Auth Logout Successful. [" + data.ResultCode + "]");
                     ConfigureUIForLogin();
-                }
+                    EOSManager.Instance.StartConnectLogout(EOSManager.Instance.GetProductUserId(), (Epic.OnlineServices.Connect.LogoutCallbackInfo connectData) =>
+                    {
+                        if (!connectData.ResultCode.IsOperationComplete())
+                        {
+                            return;
+                        }
 
+                        if (connectData.ResultCode == Result.Success)
+                        {
+                            print($"Connect Logout Successful. ProductUserId : {connectData.LocalUserId.Redact()}");
+                        }
+                        else
+                        {
+                            print($"Connect Logout Failure. Result : [{connectData.ResultCode}]");
+                        }
+                    });
+                }
+                else
+                {
+                    print($"Auth Logout Failure. Result : [{data.ResultCode}]");
+                }
             });
         }
 

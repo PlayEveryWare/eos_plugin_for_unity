@@ -195,7 +195,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests
 
             if (EOSManager.Instance.HasLoggedInWithConnect())
             {
-                EOSManager.Instance.StartLogout(EOSManager.Instance.GetLocalUserId(),
+                EOSManager.Instance.StartAuthLogout(EOSManager.Instance.GetLocalUserId(),
                     (ref Epic.OnlineServices.Auth.LogoutCallbackInfo data) =>
                     {
                         afterLogout?.Invoke();
@@ -389,7 +389,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests
                 NextAction.text = $"Logging out";
                 waiting = true;
 
-                EOSManager.Instance.StartLogout(EOSManager.Instance.GetLocalUserId(),
+                EOSManager.Instance.StartAuthLogout(EOSManager.Instance.GetLocalUserId(),
                     (ref Epic.OnlineServices.Auth.LogoutCallbackInfo data) =>
                     {
                         waiting = false;

@@ -26,7 +26,7 @@ namespace PlayEveryWare.EpicOnlineServices
     /// Interface for classes that listen to events from the Connect Interface
     /// within the EOS SDK.
     /// </summary>
-    public interface IConnectInterfaceEventListener : IEOSOnConnectLogin
+    public interface IConnectInterfaceEventListener : IEOSOnConnectLogin, IEOSOnConnectLogout
     {
         /*
          * As all usages of IEOSOnConnectLogin have been removed and replaced
