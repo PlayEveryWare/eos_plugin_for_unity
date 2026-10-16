@@ -68,7 +68,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     /// <summary>
     /// Class <c>EOSFriendsManager</c> is a simplified wrapper for EOS [FriendsInterface](https://dev.epicgames.com/docs/services/en-US/Interfaces/Friends/index.html).
     /// </summary>
-    public class EOSFriendsManager : IEOSSubManager
+    public class EOSFriendsManager : IEOSSubManager, IEOSOnAuthLogin, IEOSOnAuthLogout
     {
         private Dictionary<EpicAccountId, FriendData> CachedFriends;
         private bool CachedFriendsDirty;
@@ -95,9 +95,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private Dictionary<EpicAccountId, ulong> FriendNotifications = new Dictionary<EpicAccountId, ulong>();
         private Dictionary<EpicAccountId, ulong> PresenceNotifications = new Dictionary<EpicAccountId, ulong>();
-
-        // User id cached by OnLoggedIn and consumed by OnLoggedOut
-        private EpicAccountId LoggedUserId;
 
         public EOSFriendsManager()
         {
@@ -499,7 +496,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private void QueryFriendsConnectMappings()
         {
-            if(CachedFriends.Count == 0)
+            if (EOSManager.Instance.GetProductUserId() == null || !EOSManager.Instance.GetProductUserId().IsValid())
+            {
+                return;
+            }
+
+            if (CachedFriends.Count == 0)
             {
                 Debug.LogError("Friends (QueryFriendsConnectMappings): No friend cache.");
                 return;
@@ -996,10 +998,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// </list>
         public void OnLoggedIn()
         {
-            LoggedUserId = EOSManager.Instance.GetLocalUserId();
-
             QueryFriends(null);
-            SubscribeToFriendUpdates(LoggedUserId);
+            SubscribeToFriendUpdates(EOSManager.Instance.GetLocalUserId());
         }
 
         /// <summary>User Logged Out actions</summary>
@@ -1008,12 +1008,23 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// </list>
         public void OnLoggedOut()
         {
-            if (LoggedUserId != null && LoggedUserId.IsValid())
-            {
-                UnsubscribeFromFriendUpdates(LoggedUserId);
-            }
+            EpicAccountId localUser = EOSManager.Instance.GetLocalUserId();
 
-            LoggedUserId = null;
+            if(localUser != null && localUser.IsValid())
+            {
+                UnsubscribeFromFriendUpdates(localUser);
+            }
+        }
+
+        public void OnAuthLogin(Epic.OnlineServices.Auth.LoginCallbackInfo loginCallbackInfo)
+        {
+            QueryFriends(null);
+            SubscribeToFriendUpdates(loginCallbackInfo.LocalUserId);
+        }
+
+        public void OnAuthLogout(Epic.OnlineServices.Auth.LogoutCallbackInfo logoutCallbackInfo)
+        {
+            UnsubscribeFromFriendUpdates(logoutCallbackInfo.LocalUserId);
         }
     }
 }
