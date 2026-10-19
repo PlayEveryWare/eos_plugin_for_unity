@@ -32,6 +32,9 @@ See [this](/com.playeveryware.eos/Documentation~/plugin_advantages.md) for a mor
 > [!NOTE]
 > Your system should also satisfy [Unity's system requirements](https://docs.unity3d.com/Manual/system-requirements.html) as well as the [EOS system requirements](https://dev.epicgames.com/docs/epic-online-services/eos-get-started/system-requirements)
 
+> [!IMPORTANT]
+> **Windows:** the EOS SDK requires the Microsoft Visual C++ runtime (`MSVCP140.dll`, `VCRUNTIME140.dll` and `VCRUNTIME140_1.dll`) on your players' machines, and the plugin does not include it. A plugin update that brings in a newer EOS SDK can require a newer runtime than your players have installed, and the game will fail to launch for them. Ship the runtime with your game as described in the [Epic Games Store prerequisites guide](https://dev.epicgames.com/docs/epic-games-store/services/game-prereqs-installer), and refresh it from the [latest Visual C++ Redistributable](https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist) whenever you update the plugin.
+
 # Supported EOS SDK Features
 
 Below is a table summarizing the features the EOS Plugin for Unity supports. Most features are demonstrated via sample scenes provided in the project, and links to the guide for each corresponding sample scene are listed below. In some cases (such as Anti-Cheat) the feature is not able to be demonstrated well with a scene. In those cases, a link to information about how the plugin utilizes the feature is provided. In some cases (such as logging and overlay) the features are not implemented in any one scene specifically, but in all of them.

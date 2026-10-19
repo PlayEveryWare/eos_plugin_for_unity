@@ -64,7 +64,7 @@ Checkout our [Sample Walkthroughs](/com.playeveryware.eos/Documentation~/Walkthr
 
   > [!NOTE] 
   > Check the [Prerequisites](http://github.com/EOS-Contrib/eos_plugin_for_unity/blob/development/com.playeveryware.eos/README.md#prerequisites) as there may be specific requirements for a player's computer.
-  > For instance, Windows requires the players to have `The latest Microsoft Visual C++ Redistributable` installed on their computer in order to play any distributed builds.
+  > For instance, on Windows the EOS SDK requires the Microsoft Visual C++ runtime, which the plugin does not include. Your build must ship it, or players without a recent enough runtime won't be able to launch it. See the Windows note in the Prerequisites for how to ship it.
 
   1. In the Unity editor menu bar, open `File -> Build Settings`.
     
