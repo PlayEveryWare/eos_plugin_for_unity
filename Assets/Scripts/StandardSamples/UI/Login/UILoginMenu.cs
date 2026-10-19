@@ -71,6 +71,9 @@ using UnityEngine.InputSystem;
         public Button logoutButton;
         public Button removePersistentTokenButton;
 
+        [SerializeField]
+        private GameObject ConnectLogoutRetryUI;
+
         public UnityEvent OnLogin;
         public UnityEvent OnLogout;
 
@@ -129,6 +132,8 @@ using UnityEngine.InputSystem;
             {
                 loginType = LastSuccessLoginType.Value;
             }
+
+            SetConnectLogoutRetryVisable(false);
         }
 
         private void CacheIdInputField(string value)
@@ -924,22 +929,7 @@ using UnityEngine.InputSystem;
 #endif
                     print("Auth Logout Successful. [" + data.ResultCode + "]");
                     ConfigureUIForLogin();
-                    EOSManager.Instance.StartConnectLogout(EOSManager.Instance.GetProductUserId(), (Epic.OnlineServices.Connect.LogoutCallbackInfo connectData) =>
-                    {
-                        if (!connectData.ResultCode.IsOperationComplete())
-                        {
-                            return;
-                        }
-
-                        if (connectData.ResultCode == Result.Success)
-                        {
-                            print($"Connect Logout Successful. ProductUserId : {connectData.LocalUserId.Redact()}");
-                        }
-                        else
-                        {
-                            print($"Connect Logout Failure. Result : [{connectData.ResultCode}]");
-                        }
-                    });
+                    StartConnectLogoutWithRetryUI();
                 }
                 else
                 {
@@ -1452,5 +1442,46 @@ using UnityEngine.InputSystem;
             EOSManager.Instance.RemovePersistentToken();
         }
 
+        private void SetConnectLogoutRetryVisable(bool visable)
+        {
+            if (ConnectLogoutRetryUI != null)
+            {
+                ConnectLogoutRetryUI.SetActive(visable);
+
+                if (visable)
+                {
+                    // Bring ConnectLogoutRetryUI to the front so it is drawn above the login menu
+                    ConnectLogoutRetryUI.transform.SetAsLastSibling();
+                }
+            }
+        }
+
+        public void OnConnectLogoutRetryClicked()
+        {
+            StartConnectLogoutWithRetryUI();
+        }
+
+        private void StartConnectLogoutWithRetryUI()
+        {
+            EOSManager.Instance.StartConnectLogout(EOSManager.Instance.GetProductUserId(), (Epic.OnlineServices.Connect.LogoutCallbackInfo connectData) =>
+            {
+                if (!connectData.ResultCode.IsOperationComplete())
+                {
+                    return;
+                }
+
+                bool success = connectData.ResultCode == Result.Success;
+                SetConnectLogoutRetryVisable(!success);
+
+                if (success)
+                {
+                    print($"Connect Logout Successful. ProductUserId : {connectData.LocalUserId.Redact()}");
+                }
+                else
+                {
+                    print($"Connect Logout Failure. Result : [{connectData.ResultCode}]");
+                }
+            });
+        }
     }
 }
