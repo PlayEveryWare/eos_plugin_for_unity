@@ -71,8 +71,9 @@ using UnityEngine.InputSystem;
         public Button logoutButton;
         public Button removePersistentTokenButton;
 
-        [SerializeField]
-        private GameObject ConnectLogoutRetryUI;
+        public GameObject ConnectLogoutRetryUI;
+        public Text ConnectLogoutResultCodeText;
+        public Button ConnectLogoutRetryButton;
 
         public UnityEvent OnLogin;
         public UnityEvent OnLogout;
@@ -133,7 +134,7 @@ using UnityEngine.InputSystem;
                 loginType = LastSuccessLoginType.Value;
             }
 
-            SetConnectLogoutRetryVisable(false);
+            SetConnectLogoutRetryVisible(false);
         }
 
         private void CacheIdInputField(string value)
@@ -1442,22 +1443,36 @@ using UnityEngine.InputSystem;
             EOSManager.Instance.RemovePersistentToken();
         }
 
-        private void SetConnectLogoutRetryVisable(bool visable)
+        private void SetConnectLogoutRetryVisible(bool visible, Result result = Result.Success)
         {
             if (ConnectLogoutRetryUI != null)
             {
-                ConnectLogoutRetryUI.SetActive(visable);
+                ConnectLogoutRetryUI.SetActive(visible);
 
-                if (visable)
+                if (visible)
                 {
                     // Bring ConnectLogoutRetryUI to the front so it is drawn above the login menu
                     ConnectLogoutRetryUI.transform.SetAsLastSibling();
+                    ConnectLogoutRetryButton.interactable = true;
+                    if(ConnectLogoutResultCodeText != null)
+                    {
+                        bool showResultCode = result != Result.Success;
+                        ConnectLogoutResultCodeText.gameObject.SetActive(showResultCode);
+                        if (showResultCode)
+                        {
+                            ConnectLogoutResultCodeText.text = $"Result Code : [{result}]";
+                        }
+                    }
                 }
             }
         }
 
-        public void OnConnectLogoutRetryClicked()
+        public void OnConnectLogoutRetryClicked(Button sender)
         {
+            if (sender != null)
+            {
+                sender.interactable = false;
+            }
             StartConnectLogoutWithRetryUI();
         }
 
@@ -1471,7 +1486,7 @@ using UnityEngine.InputSystem;
                 }
 
                 bool success = connectData.ResultCode == Result.Success;
-                SetConnectLogoutRetryVisable(!success);
+                SetConnectLogoutRetryVisible(!success, connectData.ResultCode);
 
                 if (success)
                 {
