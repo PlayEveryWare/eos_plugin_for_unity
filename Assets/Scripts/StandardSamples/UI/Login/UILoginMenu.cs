@@ -1443,18 +1443,18 @@ using UnityEngine.InputSystem;
             EOSManager.Instance.RemovePersistentToken();
         }
 
-        private IEnumerator SetConnectLogoutRetryVisibleRoutine(bool visible, Result result = Result.Success, float closeDelay = 0)
+        private IEnumerator SetConnectLogoutRetryVisibleRoutine(bool visible, Result result = Result.Success, float delay = 0)
         {
             if (ConnectLogoutRetryUI != null)
             {
+                if (ConnectLogoutRetryUI.activeSelf && delay > 0)
+                {
+                    yield return new WaitForSeconds(delay);
+                }
+
                 if (ConnectLogoutResultCodeText != null)
                 {
                     ConnectLogoutResultCodeText.text = $"Result Code : [{result}]";
-                }
-
-                if (closeDelay > 0)
-                {
-                    yield return new WaitForSeconds(closeDelay);
                 }
 
                 ConnectLogoutRetryUI.SetActive(visible);
@@ -1464,9 +1464,6 @@ using UnityEngine.InputSystem;
                     // Bring ConnectLogoutRetryUI to the front so it is drawn above the login menu
                     ConnectLogoutRetryUI.transform.SetAsLastSibling();
                 }
-
-                // Wait briefly before re-enabling the retry button
-                yield return new WaitForSeconds(0.5f);
 
                 if (ConnectLogoutRetryButton != null)
                 {
@@ -1481,6 +1478,12 @@ using UnityEngine.InputSystem;
             {
                 ConnectLogoutRetryButton.interactable = false;
             }
+
+            if (ConnectLogoutResultCodeText != null)
+            {
+                ConnectLogoutResultCodeText.text = "Retrying...";
+            }
+
             StartConnectLogoutWithRetryUI();
         }
 
@@ -1494,8 +1497,7 @@ using UnityEngine.InputSystem;
                 }
 
                 bool success = connectData.ResultCode == Result.Success;
-                float closePopupDelay = success ? 2f : 0f;
-                StartCoroutine(SetConnectLogoutRetryVisibleRoutine(!success, connectData.ResultCode, closePopupDelay));
+                StartCoroutine(SetConnectLogoutRetryVisibleRoutine(!success, connectData.ResultCode, 1f));
 
                 if (success)
                 {
