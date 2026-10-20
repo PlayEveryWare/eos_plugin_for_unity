@@ -47,7 +47,13 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Editor
         /// Indicates whether player tests are currently being run.
         /// </summary>
         private static bool s_RunningPlayerTests;
-        
+
+        /// <summary>
+        /// The output directory of the test player build, saved so the
+        /// post-build step can copy required files there.
+        /// </summary>
+        private static string s_TestBuildDirectory;
+
         public BuildPlayerOptions ModifyOptions(BuildPlayerOptions playerOptions)
         {
             // If the test going through run tests, then autorun will be active
@@ -65,6 +71,12 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Editor
 
                 playerOptions.locationPathName = testBuildLocation;
             }
+
+            // Resolve the output directory (locationPathName may be a .exe path or a folder).
+            string resolvedPath = Path.GetFullPath(playerOptions.locationPathName);
+            s_TestBuildDirectory = Path.HasExtension(resolvedPath)
+                ? Path.GetDirectoryName(resolvedPath)
+                : resolvedPath;
 
             // Do not launch the player after the build completes.
             playerOptions.options &= ~BuildOptions.AutoRunPlayer;
@@ -87,12 +99,36 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Editor
 
         public void Cleanup()
         {
+            if (!string.IsNullOrEmpty(s_TestBuildDirectory))
+            {
+                CopyTestConfigToPlayer(s_TestBuildDirectory);
+                s_TestBuildDirectory = null;
+            }
+
             if (s_RunningPlayerTests && IsRunningTestsFromCommandLine())
             {
                 // Exit the Editor on the next update, allowing for other
                 // PostBuildCleanup steps to run.
                 EditorApplication.update += () => { EditorApplication.Exit(0); };
             }
+        }
+
+        private static void CopyTestConfigToPlayer(string buildDirectory)
+        {
+            string sourceFile = Path.GetFullPath(
+                Path.Combine(Application.dataPath, "../etc/config/eos_automated_test_config.json"));
+
+            if (!File.Exists(sourceFile))
+            {
+                Debug.LogWarning($"[TestPlayerModeSetup] Test config not found, skipping copy: {sourceFile}");
+                return;
+            }
+
+            string destDir = Path.Combine(buildDirectory, "etc", "config");
+            Directory.CreateDirectory(destDir);
+            string destFile = Path.Combine(destDir, "eos_automated_test_config.json");
+            File.Copy(sourceFile, destFile, overwrite: true);
+            Debug.Log($"[TestPlayerModeSetup] Copied test config to: {destFile}");
         }
 
         private static bool IsRunningTestsFromCommandLine()

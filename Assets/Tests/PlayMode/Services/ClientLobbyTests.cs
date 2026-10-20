@@ -42,6 +42,10 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Services.Lobby
         [SetUp]
         public void Initialize()
         {
+            Assert.Ignore(
+                "This test requires a second machine running as a server. " +
+                "Run only the 'Client' category when a server player is available.");
+
             lobbyId = null;
             lobbyInviteNotification = null;
         }

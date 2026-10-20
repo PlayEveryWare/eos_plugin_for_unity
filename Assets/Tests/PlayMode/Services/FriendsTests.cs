@@ -71,7 +71,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Services.Friends
             QueryFriendsCallbackInfo? result = null;
             _friendsInterface.QueryFriends(ref options, null, (ref QueryFriendsCallbackInfo data) => { result = data; });
 
-            yield return new WaitUntil(() => result != null);
+            yield return new WaitUntilDone(GlobalTestTimeout, () => result != null);
             if (result != null)
 			{
 				Assert.AreEqual(Result.Success, result.Value.ResultCode, "Could not query the friends list.");
@@ -103,7 +103,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Services.Friends
             QueryUserInfoByDisplayNameCallbackInfo? queryResult = null;
             _userInfoInterface.QueryUserInfoByDisplayName(ref options, null, (ref QueryUserInfoByDisplayNameCallbackInfo data) => { queryResult = data; });
 
-            yield return new WaitUntil(() => queryResult != null);
+            yield return new WaitUntilDone(GlobalTestTimeout, () => queryResult != null);
             Assert.AreEqual(Result.NotFound, queryResult.Value.ResultCode);
 
             // TODO: Will need set test accounts to verify that the results are correct. For now,
@@ -146,7 +146,8 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Services.Friends
             QueryUserInfoCallbackInfo? queryResult = null;
             _userInfoInterface.QueryUserInfo(ref queryOptions, null, (ref QueryUserInfoCallbackInfo data) => { queryResult = data; });
 
-            yield return new WaitUntil(() => queryResult != null);
+            yield return new WaitUntilDone(GlobalTestTimeout, () => queryResult != null);
+
             if (queryResult != null)
 			{
 				Assert.AreEqual(Result.Success, queryResult.Value.ResultCode, "Could not query for self.");
@@ -188,7 +189,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Services.Friends
             SendPlayerBehaviorReportCompleteCallbackInfo? reportResult = null;
             reportsHandle.SendPlayerBehaviorReport(ref reportOptions, null, (ref SendPlayerBehaviorReportCompleteCallbackInfo data) => { reportResult = data; });
 
-            yield return new WaitUntil(() => reportResult != null);
+            yield return new WaitUntilDone(GlobalTestTimeout, () => reportResult != null);
 
             if (reportResult != null)
             {
@@ -212,7 +213,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Services.Friends
             QueryFriendsCallbackInfo? result = null;
             _friendsInterface.QueryFriends(ref options, null, (ref QueryFriendsCallbackInfo data) => { result = data; });
 
-            yield return new WaitUntil(() => result != null);
+            yield return new WaitUntilDone(GlobalTestTimeout, () => result != null);
             if (result != null)
 			{
 				Assert.AreEqual(Result.Success, result.Value.ResultCode, "Could not query the friends list.");
@@ -243,7 +244,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Services.Friends
             QueryExternalAccountMappingsCallbackInfo? externalData = null;
             connectHandle.QueryExternalAccountMappings(ref queryOptions, null, (ref QueryExternalAccountMappingsCallbackInfo data) => { externalData = data; });
 
-            yield return new WaitUntil(() => externalData != null);
+            yield return new WaitUntilDone(GlobalTestTimeout, () => externalData != null);
             if (externalData != null)
             {
                 Assert.AreEqual(Result.Success, externalData.Value.ResultCode,
@@ -273,7 +274,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Services.Friends
             SendPlayerBehaviorReportCompleteCallbackInfo? reportResult = null;
             reportsHandle.SendPlayerBehaviorReport(ref reportOptions, null, (ref SendPlayerBehaviorReportCompleteCallbackInfo data) => { reportResult = data; });
 
-            yield return new WaitUntil(() => reportResult != null);
+            yield return new WaitUntilDone(GlobalTestTimeout, () => reportResult != null);
 
             if (reportResult != null)
             {
@@ -299,7 +300,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Services.Friends
                 null,
                 (ref ShowFriendsCallbackInfo data) => { overlayResult = data; });
 
-            yield return new WaitUntil(() => overlayResult != null);
+            yield return new WaitUntilDone(GlobalTestTimeout, () => overlayResult != null);
             if (overlayResult != null)
 			{
 				Assert.AreEqual(Result.Success, overlayResult.Value.ResultCode, "Could not notify overlay to show friends");
@@ -315,7 +316,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Services.Friends
                 null,
                 (ref HideFriendsCallbackInfo data) => { hideResult = data; });
 
-            yield return new WaitUntil(() => hideResult != null);
+            yield return new WaitUntilDone(GlobalTestTimeout, () => hideResult != null);
             if (hideResult != null)
 			{
 				Assert.AreEqual(Result.Success, hideResult.Value.ResultCode, "Could not notify overlay to hide friends");

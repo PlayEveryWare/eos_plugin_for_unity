@@ -77,6 +77,11 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Services.Lobby
         [UnityTearDown]
         public IEnumerator CleanupLobby()
         {
+            if (createLobbyResult == null || string.IsNullOrEmpty(createLobbyResult.Value.LobbyId))
+            {
+                yield break;
+            }
+
             // Leave the newly created lobby room
             LeaveLobbyOptions options = new LeaveLobbyOptions
             {

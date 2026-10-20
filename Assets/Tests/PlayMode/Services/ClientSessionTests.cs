@@ -46,6 +46,10 @@ namespace PlayEveryWare.EpicOnlineServices.Tests.Services.Sessions
         [SetUp]
         public void SessionStartup()
         {
+            Assert.Ignore(
+                "This test requires a second machine running as a server. " +
+                "Run only the 'Client' category when a server player is available.");
+
             _sessionName = null;
             SessionInviteNotificationHandle = InvalidNotificationId;
 
