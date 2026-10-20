@@ -1443,13 +1443,13 @@ using UnityEngine.InputSystem;
             EOSManager.Instance.RemovePersistentToken();
         }
 
-        private IEnumerator SetConnectLogoutRetryVisibleRoutine(bool visible, Result result = Result.Success, float delay = 0)
+        private IEnumerator SetConnectLogoutRetryVisibleRoutine(bool visible, Result result = Result.Success, float delayHide = 0)
         {
             if (ConnectLogoutRetryUI != null)
             {
-                if (ConnectLogoutRetryUI.activeSelf && delay > 0)
+                if (ConnectLogoutRetryUI.activeSelf && delayHide > 0)
                 {
-                    yield return new WaitForSeconds(delay);
+                    yield return new WaitForSeconds(delayHide);
                 }
 
                 if (ConnectLogoutResultCodeText != null)
@@ -1463,11 +1463,11 @@ using UnityEngine.InputSystem;
                 {
                     // Bring ConnectLogoutRetryUI to the front so it is drawn above the login menu
                     ConnectLogoutRetryUI.transform.SetAsLastSibling();
-                }
 
-                if (ConnectLogoutRetryButton != null)
-                {
-                    ConnectLogoutRetryButton.interactable = true;
+                    if (ConnectLogoutRetryButton != null)
+                    {
+                        ConnectLogoutRetryButton.interactable = true;
+                    }
                 }
             }
         }
