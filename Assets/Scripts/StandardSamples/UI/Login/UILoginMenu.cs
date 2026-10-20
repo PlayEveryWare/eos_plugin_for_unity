@@ -134,7 +134,7 @@ using UnityEngine.InputSystem;
                 loginType = LastSuccessLoginType.Value;
             }
 
-            StartCoroutine(SetConnectLogoutRetryVisible(false));
+            StartCoroutine(SetConnectLogoutRetryVisibleRoutine(false));
         }
 
         private void CacheIdInputField(string value)
@@ -1443,7 +1443,7 @@ using UnityEngine.InputSystem;
             EOSManager.Instance.RemovePersistentToken();
         }
 
-        private IEnumerator SetConnectLogoutRetryVisible(bool visible, Result result = Result.Success, float closeDelay = 0)
+        private IEnumerator SetConnectLogoutRetryVisibleRoutine(bool visible, Result result = Result.Success, float closeDelay = 0)
         {
             if (ConnectLogoutRetryUI != null)
             {
@@ -1452,7 +1452,10 @@ using UnityEngine.InputSystem;
                     ConnectLogoutResultCodeText.text = $"Result Code : [{result}]";
                 }
 
-                yield return new WaitForSeconds(closeDelay);
+                if (closeDelay > 0)
+                {
+                    yield return new WaitForSeconds(closeDelay);
+                }
 
                 ConnectLogoutRetryUI.SetActive(visible);
 
@@ -1462,17 +1465,21 @@ using UnityEngine.InputSystem;
                     ConnectLogoutRetryUI.transform.SetAsLastSibling();
                 }
 
-                // always a small delay to enable the button again
+                // Wait briefly before re-enabling the retry button
                 yield return new WaitForSeconds(0.5f);
-                ConnectLogoutRetryButton.interactable = true;
+
+                if (ConnectLogoutRetryButton != null)
+                {
+                    ConnectLogoutRetryButton.interactable = true;
+                }
             }
         }
 
-        public void OnConnectLogoutRetryClicked(Button sender)
+        public void OnConnectLogoutRetryClicked()
         {
-            if (sender != null)
+            if (ConnectLogoutRetryButton != null)
             {
-                sender.interactable = false;
+                ConnectLogoutRetryButton.interactable = false;
             }
             StartConnectLogoutWithRetryUI();
         }
@@ -1488,7 +1495,7 @@ using UnityEngine.InputSystem;
 
                 bool success = connectData.ResultCode == Result.Success;
                 float closePopupDelay = success ? 2f : 0f;
-                StartCoroutine(SetConnectLogoutRetryVisible(!success, connectData.ResultCode, closePopupDelay));
+                StartCoroutine(SetConnectLogoutRetryVisibleRoutine(!success, connectData.ResultCode, closePopupDelay));
 
                 if (success)
                 {
