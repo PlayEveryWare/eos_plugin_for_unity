@@ -71,6 +71,10 @@ using UnityEngine.InputSystem;
         public Button logoutButton;
         public Button removePersistentTokenButton;
 
+        public GameObject ConnectLogoutRetryUI;
+        public Text ConnectLogoutResultCodeText;
+        public Button ConnectLogoutRetryButton;
+
         public UnityEvent OnLogin;
         public UnityEvent OnLogout;
 
@@ -129,6 +133,8 @@ using UnityEngine.InputSystem;
             {
                 loginType = LastSuccessLoginType.Value;
             }
+
+            StartCoroutine(SetConnectLogoutRetryVisibleRoutine(false));
         }
 
         private void CacheIdInputField(string value)
@@ -924,22 +930,7 @@ using UnityEngine.InputSystem;
 #endif
                     print("Auth Logout Successful. [" + data.ResultCode + "]");
                     ConfigureUIForLogin();
-                    EOSManager.Instance.StartConnectLogout(EOSManager.Instance.GetProductUserId(), (Epic.OnlineServices.Connect.LogoutCallbackInfo connectData) =>
-                    {
-                        if (!connectData.ResultCode.IsOperationComplete())
-                        {
-                            return;
-                        }
-
-                        if (connectData.ResultCode == Result.Success)
-                        {
-                            print($"Connect Logout Successful. ProductUserId : {connectData.LocalUserId.Redact()}");
-                        }
-                        else
-                        {
-                            print($"Connect Logout Failure. Result : [{connectData.ResultCode}]");
-                        }
-                    });
+                    StartConnectLogoutWithRetryUI();
                 }
                 else
                 {
@@ -1452,5 +1443,71 @@ using UnityEngine.InputSystem;
             EOSManager.Instance.RemovePersistentToken();
         }
 
+        private IEnumerator SetConnectLogoutRetryVisibleRoutine(bool visible, Result result = Result.Success, float delayHide = 0)
+        {
+            if (ConnectLogoutRetryUI != null)
+            {
+                if (ConnectLogoutRetryUI.activeSelf && delayHide > 0)
+                {
+                    yield return new WaitForSeconds(delayHide);
+                }
+
+                if (ConnectLogoutResultCodeText != null)
+                {
+                    ConnectLogoutResultCodeText.text = $"Result Code : [{result}]";
+                }
+
+                ConnectLogoutRetryUI.SetActive(visible);
+
+                if (visible)
+                {
+                    // Bring ConnectLogoutRetryUI to the front so it is drawn above the login menu
+                    ConnectLogoutRetryUI.transform.SetAsLastSibling();
+
+                    if (ConnectLogoutRetryButton != null)
+                    {
+                        ConnectLogoutRetryButton.interactable = true;
+                    }
+                }
+            }
+        }
+
+        public void OnConnectLogoutRetryClicked()
+        {
+            if (ConnectLogoutRetryButton != null)
+            {
+                ConnectLogoutRetryButton.interactable = false;
+            }
+
+            if (ConnectLogoutResultCodeText != null)
+            {
+                ConnectLogoutResultCodeText.text = "Retrying...";
+            }
+
+            StartConnectLogoutWithRetryUI();
+        }
+
+        private void StartConnectLogoutWithRetryUI()
+        {
+            EOSManager.Instance.StartConnectLogout(EOSManager.Instance.GetProductUserId(), (Epic.OnlineServices.Connect.LogoutCallbackInfo connectData) =>
+            {
+                if (!connectData.ResultCode.IsOperationComplete())
+                {
+                    return;
+                }
+
+                bool success = connectData.ResultCode == Result.Success;
+                StartCoroutine(SetConnectLogoutRetryVisibleRoutine(!success, connectData.ResultCode, 1f));
+
+                if (success)
+                {
+                    print($"Connect Logout Successful. ProductUserId : {connectData.LocalUserId.Redact()}");
+                }
+                else
+                {
+                    print($"Connect Logout Failure. Result : [{connectData.ResultCode}]");
+                }
+            });
+        }
     }
 }
