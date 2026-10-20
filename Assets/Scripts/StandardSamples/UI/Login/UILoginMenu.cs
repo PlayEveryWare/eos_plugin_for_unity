@@ -134,7 +134,7 @@ using UnityEngine.InputSystem;
                 loginType = LastSuccessLoginType.Value;
             }
 
-            SetConnectLogoutRetryVisible(false);
+            StartCoroutine(SetConnectLogoutRetryVisible(false));
         }
 
         private void CacheIdInputField(string value)
@@ -1443,27 +1443,28 @@ using UnityEngine.InputSystem;
             EOSManager.Instance.RemovePersistentToken();
         }
 
-        private void SetConnectLogoutRetryVisible(bool visible, Result result = Result.Success)
+        private IEnumerator SetConnectLogoutRetryVisible(bool visible, Result result = Result.Success, float closeDelay = 0)
         {
             if (ConnectLogoutRetryUI != null)
             {
+                if (ConnectLogoutResultCodeText != null)
+                {
+                    ConnectLogoutResultCodeText.text = $"Result Code : [{result}]";
+                }
+
+                yield return new WaitForSeconds(closeDelay);
+
                 ConnectLogoutRetryUI.SetActive(visible);
 
                 if (visible)
                 {
                     // Bring ConnectLogoutRetryUI to the front so it is drawn above the login menu
                     ConnectLogoutRetryUI.transform.SetAsLastSibling();
-                    ConnectLogoutRetryButton.interactable = true;
-                    if(ConnectLogoutResultCodeText != null)
-                    {
-                        bool showResultCode = result != Result.Success;
-                        ConnectLogoutResultCodeText.gameObject.SetActive(showResultCode);
-                        if (showResultCode)
-                        {
-                            ConnectLogoutResultCodeText.text = $"Result Code : [{result}]";
-                        }
-                    }
                 }
+
+                // always a small delay to enable the button again
+                yield return new WaitForSeconds(0.5f);
+                ConnectLogoutRetryButton.interactable = true;
             }
         }
 
@@ -1486,7 +1487,8 @@ using UnityEngine.InputSystem;
                 }
 
                 bool success = connectData.ResultCode == Result.Success;
-                SetConnectLogoutRetryVisible(!success, connectData.ResultCode);
+                float closePopupDelay = success ? 2f : 0f;
+                StartCoroutine(SetConnectLogoutRetryVisible(!success, connectData.ResultCode, closePopupDelay));
 
                 if (success)
                 {
