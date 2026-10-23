@@ -1471,11 +1471,7 @@ using UnityEngine.InputSystem;
                     if (ConnectLogoutRetryButton != null)
                     {
                         ConnectLogoutRetryButton.interactable = true;
-
-                        if (EventSystem.current != null)
-                        {
-                            EventSystem.current.SetSelectedGameObject(ConnectLogoutRetryButton.gameObject);
-                        }
+                        EventSystem.current.SetSelectedGameObject(ConnectLogoutRetryButton.gameObject);
                     }
                 }
                 else
