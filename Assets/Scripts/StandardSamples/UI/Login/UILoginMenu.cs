@@ -504,8 +504,12 @@ using UnityEngine.InputSystem;
         }
 
         public void Update()
-        { 
-            HandleInput(ref selectedGameObject, ref UIFirstSelected, ref UIFindSelectable);
+        {
+            bool lockNavigation = ConnectLogoutRetryUI != null && ConnectLogoutRetryUI.activeSelf;
+            if (!lockNavigation)
+            {
+                HandleInput(ref selectedGameObject, ref UIFirstSelected, ref UIFindSelectable);
+            }
 
             HandleEnterInput();
 
@@ -1467,6 +1471,14 @@ using UnityEngine.InputSystem;
                     if (ConnectLogoutRetryButton != null)
                     {
                         ConnectLogoutRetryButton.interactable = true;
+                        EventSystem.current.SetSelectedGameObject(ConnectLogoutRetryButton.gameObject);
+                    }
+                }
+                else
+                {
+                    if (EventSystem.current != null && UIFirstSelected != null)
+                    {
+                        EventSystem.current.SetSelectedGameObject(UIFirstSelected);
                     }
                 }
             }
@@ -1489,25 +1501,32 @@ using UnityEngine.InputSystem;
 
         private void StartConnectLogoutWithRetryUI()
         {
-            EOSManager.Instance.StartConnectLogout(EOSManager.Instance.GetProductUserId(), (Epic.OnlineServices.Connect.LogoutCallbackInfo connectData) =>
+            if (EOSManager.Instance.HasLoggedInWithConnect())
             {
-                if (!connectData.ResultCode.IsOperationComplete())
+                EOSManager.Instance.StartConnectLogout(EOSManager.Instance.GetProductUserId(), (Epic.OnlineServices.Connect.LogoutCallbackInfo connectData) =>
                 {
-                    return;
-                }
+                    if (!connectData.ResultCode.IsOperationComplete())
+                    {
+                        return;
+                    }
 
-                bool success = connectData.ResultCode == Result.Success;
-                StartCoroutine(SetConnectLogoutRetryVisibleRoutine(!success, connectData.ResultCode, 1f));
+                    bool success = connectData.ResultCode == Result.Success;
+                    StartCoroutine(SetConnectLogoutRetryVisibleRoutine(!success, connectData.ResultCode, 1f));
 
-                if (success)
-                {
-                    print($"Connect Logout Successful. ProductUserId : {connectData.LocalUserId.Redact()}");
-                }
-                else
-                {
-                    print($"Connect Logout Failure. Result : [{connectData.ResultCode}]");
-                }
-            });
+                    if (success)
+                    {
+                        print($"Connect Logout Successful. ProductUserId : {connectData.LocalUserId.Redact()}");
+                    }
+                    else
+                    {
+                        print($"Connect Logout Failure. Result : [{connectData.ResultCode}]");
+                    }
+                });
+            }
+            else
+            {
+                StartCoroutine(SetConnectLogoutRetryVisibleRoutine(false));
+            }
         }
     }
 }
